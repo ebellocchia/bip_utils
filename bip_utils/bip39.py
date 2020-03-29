@@ -146,11 +146,11 @@ class Bip39MnemonicGenerator:
             raise ValueError("Words number for mnemonic (%d) is not valid" % words_num)
 
         # Get entropy length in bit from words number
-        entropy_bit_len = self.__EntropyBitLenFromWordsNum(words_num)
+        entropy_bit_len = Bip39MnemonicGenerator.__EntropyBitLenFromWordsNum(words_num)
         # Generate entropy
         entropy_bytes = EntropyGenerator(entropy_bit_len).Generate()
 
-        return self.FromEntropy(entropy_bytes)
+        return Bip39MnemonicGenerator.FromEntropy(entropy_bytes)
 
     @staticmethod
     def FromEntropy(entropy_bytes):
