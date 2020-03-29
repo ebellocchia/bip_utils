@@ -1,0 +1,8 @@
+*~
+*.pyc
+*.pyo
+__pycache__
+.vs
+bip_utils.egg-info
+build
+dist
