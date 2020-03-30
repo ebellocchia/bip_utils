@@ -75,17 +75,17 @@ class Bip49(Bip44Base):
         """
         return self._AccountGeneric(self, acc_idx)
 
-    def Chain(self, chain_idx):
+    def Change(self, chain_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It calls the underlying _ChainGeneric method with the current object as parameter.
+        It calls the underlying _ChangeGeneric method with the current object as parameter.
 
         Args:
-            chain_idx (Bip44Chains) : chain index, must a Bip44Chains enum
+            chain_idx (Bip44Changes) : chain index, must a Bip44Changes enum
 
         Returns (Bip object):
             Bip object
         """
-        return self._ChainGeneric(self, chain_idx)
+        return self._ChangeGeneric(self, chain_idx)
 
     def AddressIndex(self, addr_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).

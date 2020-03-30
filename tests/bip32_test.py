@@ -146,27 +146,27 @@ PATH_TEST_VECTOR = \
         {
             "skip_master" : False,
             "path"       : "m",
-            "parsed"     : [0],
+            "parsed"     : ["m"],
         },
         {
             "skip_master" : False,
             "path"        : "m/",
-            "parsed"      : [0],
+            "parsed"      : ["m"],
         },
         {
             "skip_master" : False,
             "path"        : "m/  0/1",
-            "parsed"       : [0, 0, 1],
+            "parsed"       : ["m", 0, 1],
         },
         {
             "skip_master" : False,
             "path"        : "m/0  /1'",
-            "parsed"       : [0, 0, Bip32.HardenIndex(1)],
+            "parsed"       : ["m", 0, Bip32.HardenIndex(1)],
         },
         {
             "skip_master" : False,
             "path"        : "m/0'/1'/2/",
-            "parsed"       : [0, Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+            "parsed"       : ["m", Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
         },
         {
             "skip_master" : True,
@@ -234,7 +234,7 @@ PATH_TEST_VECTOR_ERR = \
 # Bip32 tests
 #
 class Bip32Tests(unittest.TestCase):
-    # Run all tests in test vector using ChildKey for derivation
+    # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_vector_child_key(self):
         for test in BIP32_TEST_VECTOR:
             # Create from seed
@@ -252,7 +252,7 @@ class Bip32Tests(unittest.TestCase):
                 self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
                 self.assertEqual(chain["ex_priv"], bip32_ctx.ExtendedPrivateKey())
 
-    # Run all tests in test vector using DerivePath for derivation
+    # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_vector_derive_path(self):
         for test in BIP32_TEST_VECTOR:
             # Create from seed
@@ -270,7 +270,7 @@ class Bip32Tests(unittest.TestCase):
                 self.assertEqual(chain["ex_pub"] , bip32_from_path.ExtendedPublicKey())
                 self.assertEqual(chain["ex_priv"], bip32_from_path.ExtendedPrivateKey())
 
-    # Run all tests in test vector using FromSeedAndPath
+    # Run all tests in test vector using FromSeedAndPath for construction
     def test_vector_from_path(self):
         for test in BIP32_TEST_VECTOR:
             # Create from seed
@@ -286,6 +286,33 @@ class Bip32Tests(unittest.TestCase):
                 bip32_from_path = Bip32.FromSeedAndPath(binascii.unhexlify(test["seed"]), chain["path"])
                 self.assertEqual(chain["ex_pub"] , bip32_from_path.ExtendedPublicKey())
                 self.assertEqual(chain["ex_priv"], bip32_from_path.ExtendedPrivateKey())
+
+    # Run all tests in test vector using FromExtendedKey for construction
+    def test_vector_from_exkey(self):
+        for test in BIP32_TEST_VECTOR:
+            # Create from private extended key
+            bip32_ctx = Bip32.FromExtendedKey(test["master"]["ex_priv"])
+            # Test master key
+            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
+
+            # Create from public extended key
+            bip32_ctx = Bip32.FromExtendedKey(test["master"]["ex_pub"])
+            # Test master key (private key cannot be tested if constructed from public)
+            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+
+            # Same test for chains
+            for chain in test["chains"]:
+                # Create from private extended key
+                bip32_ctx = Bip32.FromExtendedKey(chain["ex_priv"])
+                # Test keys
+                self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+                self.assertEqual(chain["ex_priv"], bip32_ctx.ExtendedPrivateKey())
+
+                # Create from public extended key
+                bip32_ctx = Bip32.FromExtendedKey(chain["ex_pub"])
+                # Test keys
+                self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
 
 #
 # PathParser tests

@@ -5,14 +5,14 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="bip_utils",
-    version="0.1.1",
+    version="0.2.0",
     author="Emanuele Bellocchia",
     author_email="ebellocchia@gmail.com",
     description="Implementation of BIP39, BIP32, BIP44, BIP49 and BIP84 for Bitcoin wallet seed, keys and address generation",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ebellocchia/bip_utils",
-    download_url="https://github.com/ebellocchia/bip_utils/archive/v0.1.1.tar.gz",
+    download_url="https://github.com/ebellocchia/bip_utils/archive/v0.2.0.tar.gz",
     license="MIT",
     test_suite="tests",
     install_requires = ["ecdsa"],

@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip44, Bip44Coins, Bip44Chains
+from bip_utils import Bip44, Bip44Coins, Bip44Changes
 
 
 # Some seeds randomly taken from Ian Coleman web page
@@ -128,8 +128,8 @@ TEST_VECTOR = \
 # Tests
 #
 class Bip44Tests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_vector(self):
+    # Run all tests in test vector using FromSeed for construction
+    def test_vector_from_seed(self):
         for test in TEST_VECTOR:
             is_testnet = test["coin"] == Bip44Coins.BITCOIN_TESTNET
 
@@ -145,7 +145,7 @@ class Bip44Tests(unittest.TestCase):
             self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey())
 
             # Derive external chain
-            bip_obj_ctx = bip_obj_ctx.Chain(Bip44Chains.CHAIN_EXT)
+            bip_obj_ctx = bip_obj_ctx.Change(Bip44Changes.CHAIN_EXT)
             # Test external chain keys
             self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
             self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey())
@@ -154,32 +154,56 @@ class Bip44Tests(unittest.TestCase):
             for i in range(len(test["addresses"])):
                 self.assertEqual(test["addresses"][i], bip_obj_ctx.AddressIndex(i).Address())
 
+    # Run all tests in test vector using FromExtendedKey for construction
+    def test_vector_from_exkey(self):
+        for test in TEST_VECTOR:
+            # Create from master key
+            bip_obj_ctx = Bip44.FromExtendedKey(test["ex_master"])
+            # Test master key
+            self.assertTrue(bip_obj_ctx.IsMasterLevel())
+            self.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey())
+
+            # Create from account key
+            bip_obj_ctx = Bip44.FromExtendedKey(test["account"]["ex_priv"])
+            # Test account keys
+            self.assertTrue(bip_obj_ctx.IsAccountLevel())
+            self.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey())
+            self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey())
+
+            # Create from change key
+            bip_obj_ctx = Bip44.FromExtendedKey(test["chain_ext"]["ex_priv"])
+            # Test external change keys
+            self.assertTrue(bip_obj_ctx.IsChangeLevel())
+            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
+            self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey())
+
+
     # Test wrong path derivations
     def test_wrong_derivations(self):
-        seed = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
+        seed_bytes = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
         # Create all the derivations
-        bip_obj_mst   = Bip44.FromSeed(binascii.unhexlify(seed))
-        bip_obj_prp   = bip_obj_mst.Purpose()
-        bip_obj_coin  = bip_obj_prp.Coin(Bip44Coins.BITCOIN)
-        bip_obj_acc   = bip_obj_coin.Account(0)
-        bip_obj_chain = bip_obj_acc.Chain(Bip44Chains.CHAIN_EXT)
-        bip_obj_addr  = bip_obj_chain.AddressIndex(0)
+        bip_obj_mst    = Bip44.FromSeed(binascii.unhexlify(seed_bytes))
+        bip_obj_prp    = bip_obj_mst.Purpose()
+        bip_obj_coin   = bip_obj_prp.Coin(Bip44Coins.BITCOIN)
+        bip_obj_acc    = bip_obj_coin.Account(0)
+        bip_obj_change = bip_obj_acc.Change(Bip44Changes.CHAIN_EXT)
+        bip_obj_addr   = bip_obj_change.AddressIndex(0)
 
         # Wrong derivation from master
         self.assertRaises(RuntimeError, bip_obj_mst.Coin        , Bip44Coins.BITCOIN)
         self.assertRaises(RuntimeError, bip_obj_mst.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_mst.Chain       , Bip44Chains.CHAIN_EXT)
+        self.assertRaises(RuntimeError, bip_obj_mst.Change      , Bip44Changes.CHAIN_EXT)
         self.assertRaises(RuntimeError, bip_obj_mst.AddressIndex, 0)
         # Wrong derivation from purpose
         self.assertRaises(RuntimeError, bip_obj_prp.Purpose)
         self.assertRaises(RuntimeError, bip_obj_prp.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_prp.Chain       , Bip44Chains.CHAIN_EXT)
+        self.assertRaises(RuntimeError, bip_obj_prp.Change      , Bip44Changes.CHAIN_EXT)
         self.assertRaises(RuntimeError, bip_obj_prp.AddressIndex, 0)
         # Wrong derivation from coin
         self.assertRaises(RuntimeError, bip_obj_coin.Purpose)
         self.assertRaises(RuntimeError, bip_obj_coin.Coin        , Bip44Coins.BITCOIN)
-        self.assertRaises(RuntimeError, bip_obj_coin.Chain       , Bip44Chains.CHAIN_EXT)
+        self.assertRaises(RuntimeError, bip_obj_coin.Change      , Bip44Changes.CHAIN_EXT)
         self.assertRaises(RuntimeError, bip_obj_coin.AddressIndex, 0)
         # Wrong derivation from account
         self.assertRaises(RuntimeError, bip_obj_acc.Purpose)
@@ -187,15 +211,15 @@ class Bip44Tests(unittest.TestCase):
         self.assertRaises(RuntimeError, bip_obj_acc.Account     , 0)
         self.assertRaises(RuntimeError, bip_obj_acc.AddressIndex, 0)
         # Wrong derivation from chain
-        self.assertRaises(RuntimeError, bip_obj_chain.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_chain.Coin        , Bip44Coins.BITCOIN)
-        self.assertRaises(RuntimeError, bip_obj_chain.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_chain.Chain       , Bip44Chains.CHAIN_EXT)
+        self.assertRaises(RuntimeError, bip_obj_change.Purpose)
+        self.assertRaises(RuntimeError, bip_obj_change.Coin   , Bip44Coins.BITCOIN)
+        self.assertRaises(RuntimeError, bip_obj_change.Account, 0)
+        self.assertRaises(RuntimeError, bip_obj_change.Change , Bip44Changes.CHAIN_EXT)
         # Wrong derivation from address index
         self.assertRaises(RuntimeError, bip_obj_addr.Purpose)
         self.assertRaises(RuntimeError, bip_obj_addr.Coin        , Bip44Coins.BITCOIN)
         self.assertRaises(RuntimeError, bip_obj_addr.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_addr.Chain       , Bip44Chains.CHAIN_EXT)
+        self.assertRaises(RuntimeError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
         self.assertRaises(RuntimeError, bip_obj_addr.AddressIndex, 0)
 
 

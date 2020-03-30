@@ -24,10 +24,11 @@
 # Imports
 import binascii
 import ecdsa
-from ecdsa.curves import SECP256k1
-from ecdsa.ecdsa  import generator_secp256k1, int_to_string, string_to_int
-from .base58      import Base58Encoder
-from .            import utils
+from ecdsa.curves       import SECP256k1
+from ecdsa.ecdsa        import generator_secp256k1, int_to_string, string_to_int
+from ecdsa.numbertheory import square_root_mod_prime as sqrt_mod
+from .base58            import Base58Decoder, Base58Encoder
+from .                  import utils
 
 
 class Bip32Const:
@@ -53,10 +54,12 @@ class Bip32Const:
     SEED_MIN_BIT_LEN     = 128
     # HMAC key for generating master key
     MASTER_KEY_HMAC_KEY  = b"Bitcoin seed"
+    # Extended key length
+    EXTENDED_KEY_LEN     = 78
 
 
 class PathParser:
-    """ Path parser class. It parses a BIP-0032 path. """
+    """ Path parser class. It parses a BIP-0032 path and return a list of its indexes. """
 
     @staticmethod
     def Parse(path, skip_master = False):
@@ -91,12 +94,14 @@ class PathParser:
             if i == 0 and not skip_master:
                 if path_elem[0] != "m":
                     return []
-                path_list.append(0)
+                path_list.append("m")
             else:
                 # Search for character '
                 ap_idx = path_elem.find("'")
+                # Get if hardened
+                is_hardened = ap_idx != -1
 
-                if ap_idx != -1:
+                if is_hardened:
                     # If the character ' is present, it shall be the last one
                     if ap_idx != len(path_elem) - 1:
                         return []
@@ -108,7 +113,7 @@ class PathParser:
                     return []
 
                 # Get path index
-                path_idx = int(path_elem) if ap_idx == -1 else Bip32.HardenIndex(int(path_elem))
+                path_idx = int(path_elem) if not is_hardened else Bip32.HardenIndex(int(path_elem))
                 # Add it to the list
                 path_list.append(path_idx)
 
@@ -178,6 +183,67 @@ class Bip32:
             bip32_ctx = bip32_ctx.ChildKey(path_idx[i])
 
         return bip32_ctx
+
+    @staticmethod
+    def FromExtendedKey(key_str, pub_net_ver = Bip32Const.PUB_NET_VER, priv_net_ver = Bip32Const.PRIV_NET_VER):
+        """ Create a Bip32 object from the specified extended key.
+        ValueError is raised if the key is not valid.
+        RuntimeError is raised if the key checksum is not valid.
+
+        Args:
+            key_str (str)        : extended key string
+            pub_net_ver (tuple)  : tuple containg main (index 0) and test (index 1) public net versions
+            priv_net_ver (tuple) : tuple containg main (index 0) and test (index 1) private net versions
+
+        Returns (Bip32 object):
+            Bip32 object
+        """
+
+        # Decode key
+        key_bytes = Base58Decoder.CheckDecode(key_str)
+
+        # Check length
+        if len(key_bytes) != Bip32Const.EXTENDED_KEY_LEN:
+            raise ValueError("Invalid extended key (wrong length)")
+
+        # Get net version
+        net_ver = key_bytes[:4]
+
+        # Get if key is public/private and if main/test net
+        if net_ver in pub_net_ver:
+            is_public  = True
+            is_testnet = net_ver == pub_net_ver[1]
+        elif net_ver in priv_net_ver:
+            is_public  = False
+            is_testnet = net_ver == priv_net_ver[1]
+        else:
+            raise ValueError("Invalid extended key (wrong net version)")
+
+        # De-serialize key
+        depth  = key_bytes[4]
+        fprint = key_bytes[5:9]
+        child  = int.from_bytes(key_bytes[9:13], "big")
+        chain  = key_bytes[13:45]
+        secret = key_bytes[45:78]
+
+        # If private key, remove the first byte
+        if not is_public:
+            if secret[0] != 0:
+                raise ValueError("Invalid extended key (wrong secret)")
+            secret = secret[1:]
+        # If public key, recover public curve point from compressed key
+        else:
+            lsb = secret[0] & 1
+            x = string_to_int(secret[1:])
+            # y^2 = (x^3 + 7) mod p
+            ys = (x**3 + 7) % Bip32Const.FIELD_ORDER
+            y = sqrt_mod(ys, Bip32Const.FIELD_ORDER)
+            if y & 1 != lsb:
+                y = Bip32Const.FIELD_ORDER - y
+            point  = ecdsa.ellipticcurve.Point(SECP256k1.curve, x, y)
+            secret = ecdsa.VerifyingKey.from_public_point(point, curve = SECP256k1)
+
+        return Bip32(secret = secret, chain = chain, depth = depth, index = child, fprint = fprint, is_public = is_public, is_testnet = is_testnet)
 
     def __init__(self, secret, chain, depth = 0, index = 0, fprint = b"\0\0\0\0", is_public = False, is_testnet = False):
         """ Construct class from secret and chain.
@@ -280,7 +346,7 @@ class Bip32:
         return pub_key
 
     def ExtendedPublicKey(self, net_ver = Bip32Const.PUB_NET_VER):
-        """Return extended public key encoded in Base58 format.
+        """ Return extended public key encoded in Base58 format.
         RuntimeError is raised if internal key is public.
 
         Args:
@@ -292,7 +358,7 @@ class Bip32:
         return self.__ExtendedKey(net_ver, self.PublicKeyBytes())
 
     def ExtendedPrivateKey(self, net_ver = Bip32Const.PRIV_NET_VER):
-        """Return extended private key encoded in Base58 format.
+        """ Return extended private key encoded in Base58 format.
 
         Args:
             net_ver (tuple) : tuple containg main (index 0) and test (index 1) net versions
