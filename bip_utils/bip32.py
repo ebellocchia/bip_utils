@@ -93,13 +93,14 @@ class PathParser:
                     return []
                 path_list.append(0)
             else:
-                # If the character ' is present, it shall be the last one
+                # Search for character '
                 ap_idx = path_elem.find("'")
 
                 if ap_idx != -1:
+                    # If the character ' is present, it shall be the last one
                     if ap_idx != len(path_elem) - 1:
                         return []
-                    # Remove it from the strin
+                    # Remove it from the string
                     path_elem = path_elem[:-1]
 
                 # The remaining string shall be numeric
@@ -164,17 +165,17 @@ class Bip32:
         """
 
         # Parse path
-        paths = PathParser.Parse(path)
+        path_idx = PathParser.Parse(path)
 
         # Check result
-        if len(paths) == 0:
+        if len(path_idx) == 0:
             raise ValueError("The specified path is not valid")
 
         # Create Bip32 object
         bip32_ctx = Bip32.FromSeed(seed_bytes, is_testnet)
         # Start from 1 because the master key is already derived
-        for i in range(1, len(paths)):
-            bip32_ctx = bip32_ctx.ChildKey(paths[i])
+        for i in range(1, len(path_idx)):
+            bip32_ctx = bip32_ctx.ChildKey(path_idx[i])
 
         return bip32_ctx
 
@@ -232,16 +233,16 @@ class Bip32:
         """
 
         # Parse path
-        paths = PathParser.Parse(path, True)
+        path_idx = PathParser.Parse(path, True)
 
         # Check result
-        if len(paths) == 0:
+        if len(path_idx) == 0:
             raise ValueError("The specified path is not valid")
 
         bip32_obj = self
         # Derive children keys
-        for i in range(len(paths)):
-            bip32_obj = bip32_obj.ChildKey(paths[i])
+        for idx in path_idx:
+            bip32_obj = bip32_obj.ChildKey(idx)
 
         return bip32_obj
 
@@ -352,9 +353,21 @@ class Bip32:
             index (int) : index
 
         Returns (int):
-            Hardened indew
+            Hardened index
         """
         return Bip32Const.HARDENED_IDX + index
+
+    @staticmethod
+    def IsIndexHardened(index):
+        """ Get if the specified index is hardened.
+
+        Args:
+            index (int) : index
+
+        Returns (bool):
+            True if hardened, false otherwise
+        """
+        return (index & Bip32Const.HARDENED_IDX) != 0
 
     def __CkdPriv(self, index):
         """ Create a child key of the specified index.

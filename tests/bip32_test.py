@@ -22,11 +22,11 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32
+from bip_utils import Bip32, PathParser
 
 
 # Tests from BIP32 page
-TEST_VECTOR = \
+BIP32_TEST_VECTOR = \
     [
         {
             "seed" : b"000102030405060708090a0b0c0d0e0f",
@@ -140,14 +140,103 @@ TEST_VECTOR = \
         },
     ]
 
+# Some paths for the path parser
+PATH_TEST_VECTOR = \
+    [
+        {
+            "skip_master" : False,
+            "path"       : "m",
+            "parsed"     : [0],
+        },
+        {
+            "skip_master" : False,
+            "path"        : "m/",
+            "parsed"      : [0],
+        },
+        {
+            "skip_master" : False,
+            "path"        : "m/  0/1",
+            "parsed"       : [0, 0, 1],
+        },
+        {
+            "skip_master" : False,
+            "path"        : "m/0  /1'",
+            "parsed"       : [0, 0, Bip32.HardenIndex(1)],
+        },
+        {
+            "skip_master" : False,
+            "path"        : "m/0'/1'/2/",
+            "parsed"       : [0, Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+        },
+        {
+            "skip_master" : True,
+            "path"        : "0",
+            "parsed"       : [0],
+        },
+        {
+            "skip_master" : True,
+            "path"        : "0/",
+            "parsed"       : [0],
+        },
+        {
+            "skip_master" : True,
+            "path"        : "0'/1'/2",
+            "parsed"       : [Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+        },
+    ]
+
+# Some invalid paths for the path parser (the result is always an empty list)
+PATH_TEST_VECTOR_ERR = \
+    [
+        {
+            "skip_master" : False,
+            "path"       : "",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "m//",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "n/",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "m/0''",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "m/0'0/1",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "m/a/1",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "m/0 1/1",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "m/0//1/1",
+        },
+        {
+            "skip_master" : True,
+            "path"       : "m/",
+        },
+        {
+            "skip_master" : True,
+            "path"       : "m/0/1/2",
+        },
+    ]
 
 #
-# Tests
+# Bip32 tests
 #
 class Bip32Tests(unittest.TestCase):
     # Run all tests in test vector using ChildKey for derivation
     def test_vector_child_key(self):
-        for test in TEST_VECTOR:
+        for test in BIP32_TEST_VECTOR:
             # Create from seed
             bip32_ctx = Bip32.FromSeed(binascii.unhexlify(test["seed"]))
 
@@ -165,7 +254,7 @@ class Bip32Tests(unittest.TestCase):
 
     # Run all tests in test vector using DerivePath for derivation
     def test_vector_derive_path(self):
-        for test in TEST_VECTOR:
+        for test in BIP32_TEST_VECTOR:
             # Create from seed
             bip32_ctx = Bip32.FromSeed(binascii.unhexlify(test["seed"]))
 
@@ -183,7 +272,7 @@ class Bip32Tests(unittest.TestCase):
 
     # Run all tests in test vector using FromSeedAndPath
     def test_vector_from_path(self):
-        for test in TEST_VECTOR:
+        for test in BIP32_TEST_VECTOR:
             # Create from seed
             bip32_ctx = Bip32.FromSeedAndPath(binascii.unhexlify(test["seed"]), "m")
 
@@ -197,6 +286,21 @@ class Bip32Tests(unittest.TestCase):
                 bip32_from_path = Bip32.FromSeedAndPath(binascii.unhexlify(test["seed"]), chain["path"])
                 self.assertEqual(chain["ex_pub"] , bip32_from_path.ExtendedPublicKey())
                 self.assertEqual(chain["ex_priv"], bip32_from_path.ExtendedPrivateKey())
+
+#
+# PathParser tests
+#
+class PathParserTests(unittest.TestCase):
+    # Run all tests in test vector
+    def test_vector(self):
+        for test in PATH_TEST_VECTOR:
+            self.assertEqual(test["parsed"], PathParser.Parse(test["path"], test["skip_master"]))
+
+    # Test invalid paths
+    def test_invalid_paths(self):
+        for test in PATH_TEST_VECTOR_ERR:
+            self.assertEqual([], PathParser.Parse(test["path"], test["skip_master"]))
+
 
 
 # Run test if executed

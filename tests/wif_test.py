@@ -91,7 +91,7 @@ TEST_VECTOR_ENC_ERR = \
 #
 # Tests
 #
-class Bech32Tests(unittest.TestCase):
+class WifTests(unittest.TestCase):
     # Test decoder
     def test_decoder(self):
         for test in TEST_VECTOR:
