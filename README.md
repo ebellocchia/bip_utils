@@ -151,17 +151,23 @@ The *Bip32.HardenIndex* method can be used to make an index hardened.
 
     # Path: m
     bip32_ctx = Bip32.FromSeed(seed_bytes)
-    # Derivation path: m/0'/1'/2
+    # Derivation path: m/0'/1'/2/3
     bip32_ctx = bip32_ctx.ChildKey(Bip32.HardenIndex(0)) \
                          .ChildKey(Bip32.HardenIndex(1)) \
-                         .ChildKey(2)
+                         .ChildKey(2)                    \
+                         .ChildKey(3)
     # Print keys in extended format
     print(bip32_ctx.ExtendedPrivateKey())
     print(bip32_ctx.ExtendedPublicKey())
 
     # Alternative: use DerivePath method
     bip32_ctx = Bip32.FromSeed(seed_bytes)
-    bip32_ctx = bip32_ctx.DerivePath("0'/1'/2")
+    bip32_ctx = bip32_ctx.DerivePath("0'/1'/2/3")
+
+    # DerivePath derives from the current depth, so it can be split
+    bip32_ctx = Bip32.FromSeed(seed_bytes)
+    bip32_ctx = bip32_ctx.DerivePath("0'/1'")   # Derivation path: m/0'/1'
+    bip32_ctx = bip32_ctx.DerivePath("2/3")     # Derivation path: m/0'/1'/2/3
 
 ### Parse path
 
