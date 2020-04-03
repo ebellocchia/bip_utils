@@ -34,6 +34,7 @@ class Bip44Coins(IntEnum):
 
     BITCOIN         = 0,
     BITCOIN_TESTNET = 1,
+    ETHEREUM        = 60,
 
 
 @unique
