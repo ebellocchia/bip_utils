@@ -356,9 +356,10 @@ Example from mnemonic generation to wallet addresses.
 
     # Generate the address pool (first 20 addresses): m/44'/0'/0'/0/i
     for i in range(20):
-        print("%d. Address public key (extended): %s" % (i, bip_obj_mst.PrivateKey()))
-        print("%d. Address private key (extended): %s" % (i, bip_obj_mst.PublicKey()))
-        print("%d. Address: %s" % (i, bip_obj_chain.AddressIndex(i).Address()))
+        bip_obj_addr = bip_obj_chain.AddressIndex(i)
+        print("%d. Address public key (extended): %s" % (i, bip_obj_addr.PrivateKey()))
+        print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PublicKey()))
+        print("%d. Address: %s" % (i, bip_obj_addr.Address()))
 
 # License
 
