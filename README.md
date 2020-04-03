@@ -48,6 +48,7 @@ Supported entropy bits: *128, 160, 192, 224, 256*
 
 **Code example**
 
+    import binascii
     from bip_utils import Bip39MnemonicGenerator
 
     # Generate a random mnemonic string of 15 words
@@ -95,6 +96,7 @@ The constructed class is the master path, so printing the private key will resul
 
 **Code example**
 
+    import binascii
     from bip_utils import Bip32
 
     # Seed bytes
@@ -108,8 +110,6 @@ In addition to a seed, it's also possible to specify a derivation path.
 
 **Code example**
 
-    # Seed bytes
-    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Derivation path returned: m/0'/1'/2
     bip32_ctx = Bip32.FromSeedAndPath(seed_bytes, "m/0'/1'/2")
     # Print private key for derivation path m/0'/1'/2 in extended format
@@ -147,8 +147,11 @@ The *Bip32.HardenIndex* method can be used to make an index hardened.
 
 **Code example**
 
+    import binascii
     from bip_utils import Bip32
 
+    # Seed bytes
+    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Path: m
     bip32_ctx = Bip32.FromSeed(seed_bytes)
     # Derivation path: m/0'/1'/2/3
@@ -196,6 +199,7 @@ A Bip class can be constructed from a seed, like Bip32. The seed can be specifie
 
 **Code example**
 
+    import binascii
     from bip_utils import Bip44
 
     # Seed bytes
@@ -232,8 +236,11 @@ The private and public extended keys can be printed at any level.
 
 **Code example**
 
+    import binascii
     from bip_utils import Bip44, Bip44Coins, Bip44Changes
 
+    # Seed bytes
+    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Create from seed
     bip44_mst = Bip44.FromSeed(seed_bytes)
     # Print master key in extended format (pass False as parameter to get the key bytes instead)
@@ -274,6 +281,7 @@ This library is used internally by the other libraries, but it's available also 
 
 **Code example**
 
+    import binascii
     from bip_utils import WifDecoder, WifEncoder
 
     key_bytes = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
@@ -290,6 +298,7 @@ It supports both normal encode/decode and check_encode/check_decode.
 
 **Code example**
 
+    import binascii
     from bip_utils import Base58Decoder, Base58Encoder
 
     data_bytes = binascii.unhexlify(b"636363")
@@ -310,6 +319,7 @@ This library is used internally by the other libraries, but it's available also 
 
 **Code example**
 
+    import binascii
     from bip_utils import Bech32Decoder, Bech32Encoder
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
@@ -323,6 +333,7 @@ This library is used internally by the other libraries, but it's available also 
 
 Example from mnemonic generation to wallet addresses.
 
+    import binascii
     from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes
 
     # Generate random mnemonic
