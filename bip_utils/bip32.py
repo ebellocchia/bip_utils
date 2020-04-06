@@ -41,10 +41,10 @@ class Bip32Const:
     # Infinity point
     INFINITY             = ecdsa.ellipticcurve.INFINITY
 
-    # Public net versions
-    PUB_NET_VER          = (binascii.unhexlify(b"0488b21e"), binascii.unhexlify(b"043587CF"))
-    # Private net versions
-    PRIV_NET_VER         = (binascii.unhexlify(b"0488ade4"), binascii.unhexlify(b"04358394"))
+    # Main net versions (xpub / xprv)
+    MAIN_NET_VER         = {"pub" : binascii.unhexlify(b"0488b21e"), "priv" : binascii.unhexlify(b"0488ade4")}
+    # Test net versions (tpub / tprv)
+    TEST_NET_VER         = {"pub" : binascii.unhexlify(b"043587CF"), "priv" : binascii.unhexlify(b"04358394")}
 
     # Hardened index
     HARDENED_IDX         = 0x80000000
@@ -185,15 +185,19 @@ class Bip32:
         return bip32_ctx
 
     @staticmethod
-    def FromExtendedKey(key_str, pub_net_ver = Bip32Const.PUB_NET_VER, priv_net_ver = Bip32Const.PRIV_NET_VER):
+    def FromExtendedKey(key_str,
+                        is_testnet   = False,
+                        main_net_ver = Bip32Const.MAIN_NET_VER,
+                        test_net_ver = Bip32Const.TEST_NET_VER):
         """ Create a Bip32 object from the specified extended key.
         ValueError is raised if the key is not valid.
         RuntimeError is raised if the key checksum is not valid.
 
         Args:
-            key_str (str)        : extended key string
-            pub_net_ver (tuple)  : tuple containg main (index 0) and test (index 1) public net versions
-            priv_net_ver (tuple) : tuple containg main (index 0) and test (index 1) private net versions
+            key_str (str)                 : extended key string
+            is_testnet (bool, optional)   : true if test net, false if main net (default value)
+            main_net_ver (dict, optional) : dictionary containg public (key "pub") and private (key "priv") main net versions
+            test_net_ver (dict, optional) : dictionary containg public (key "pub") and private (key "priv") test net versions
 
         Returns (Bip32 object):
             Bip32 object
@@ -209,15 +213,17 @@ class Bip32:
         # Get net version
         net_ver = key_bytes[:4]
 
-        # Get if key is public/private and if main/test net
-        if net_ver in pub_net_ver:
-            is_public  = True
-            is_testnet = net_ver == pub_net_ver[1]
-        elif net_ver in priv_net_ver:
-            is_public  = False
-            is_testnet = net_ver == priv_net_ver[1]
+        # Get if key is public/private depending on main/test net
+        if not is_testnet:
+            if net_ver in main_net_ver.values():
+                is_public = net_ver == main_net_ver["pub"]
+            else:
+                raise ValueError("Invalid extended key (wrong net version)")
         else:
-            raise ValueError("Invalid extended key (wrong net version)")
+            if net_ver in test_net_ver.values():
+                is_public = net_ver == test_net_ver["pub"]
+            else:
+                raise ValueError("Invalid extended key (wrong net version)")
 
         # De-serialize key
         depth  = key_bytes[4]
@@ -245,7 +251,14 @@ class Bip32:
 
         return Bip32(secret = secret, chain = chain, depth = depth, index = child, fprint = fprint, is_public = is_public, is_testnet = is_testnet)
 
-    def __init__(self, secret, chain, depth = 0, index = 0, fprint = b"\0\0\0\0", is_public = False, is_testnet = False):
+    def __init__(self,
+                 secret,
+                 chain,
+                 depth      = 0,
+                 index      = 0,
+                 fprint     = b"\0\0\0\0",
+                 is_public  = False,
+                 is_testnet = False):
         """ Construct class from secret and chain.
 
         Args:
@@ -345,23 +358,29 @@ class Bip32:
 
         return pub_key
 
-    def ExtendedPublicKey(self, net_ver = Bip32Const.PUB_NET_VER):
+    def ExtendedPublicKey(self,
+                          main_net_ver = Bip32Const.MAIN_NET_VER["pub"],
+                          test_net_ver = Bip32Const.TEST_NET_VER["pub"]):
         """ Return extended public key encoded in Base58 format.
         RuntimeError is raised if internal key is public.
 
         Args:
-            net_ver (tuple) : tuple containg main (index 0) and test (index 1) net versions
+            main_net_ver (bytes, optional) : main net version
+            test_net_ver (bytes, optional) : test net version
 
         Returns (str):
             Extended public key in Base58 format
         """
-        return self.__ExtendedKey(net_ver, self.PublicKeyBytes())
+        return self.__ExtendedKey(self.PublicKeyBytes(), main_net_ver, test_net_ver)
 
-    def ExtendedPrivateKey(self, net_ver = Bip32Const.PRIV_NET_VER):
+    def ExtendedPrivateKey(self,
+                           main_net_ver = Bip32Const.MAIN_NET_VER["priv"],
+                           test_net_ver = Bip32Const.TEST_NET_VER["priv"]):
         """ Return extended private key encoded in Base58 format.
 
         Args:
-            net_ver (tuple) : tuple containg main (index 0) and test (index 1) net versions
+            main_net_ver (bytes, optional) : main net version
+            test_net_ver (bytes, optional) : test net version
 
         Returns (str):
             Extended private key in Base58 format
@@ -369,7 +388,7 @@ class Bip32:
         if self.m_is_public:
             raise RuntimeError("Cannot export an extended private key from a public-only deterministic key")
 
-        return self.__ExtendedKey(net_ver, b"\x00" + self.PrivateKeyBytes())
+        return self.__ExtendedKey(b"\x00" + self.PrivateKeyBytes(), main_net_ver, test_net_ver)
 
     def IsTestNet(self):
         """ Get if test net.
@@ -523,21 +542,22 @@ class Bip32:
         hmac = utils.HmacSha512(self.m_chain, data_bytes)
         return (hmac[:32], hmac[32:])
 
-    def __ExtendedKey(self, net_ver, key):
+    def __ExtendedKey(self, key_bytes, main_net_ver, test_net_ver):
         """ Return the specified key in extended format
 
         Args:
-            net_ver (tuple) : tuple containg main (index 0) and test (index 1) net versions
-            key (bytes)     : key bytes
+            main_net_ver (bytes) : main net version bytes
+            test_net_ver (bytes) : test net version bytes
+            key_bytes (bytes)    : key bytes
 
         Returns (bytes):
             Key in extended format
         """
 
-        # Get version
-        version = net_ver[0] if not self.m_is_testnet else net_ver[1]
+        # Get net version
+        net_ver = main_net_ver if not self.m_is_testnet else test_net_ver
         # Serialize key
-        ser_key = self.__SerializeKey(version, key)
+        ser_key = self.__SerializeKey(net_ver, key_bytes)
         # Encode it
         return Base58Encoder.CheckEncode(ser_key)
 

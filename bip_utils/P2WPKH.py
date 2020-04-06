@@ -24,16 +24,14 @@
 
 # Imports
 import binascii
-from . import utils
-from .bech32 import Bech32Encoder
+from .              import utils
+from .bech32        import Bech32Encoder
+from .bip_coin_conf import BitcoinConf
+
 
 class P2WPKHConst:
     """ Class container for P2WPKH constants. """
 
-    # Main net address HRP
-    MAINNET_ADDR_HRP = "bc"
-    # Test net address HRP
-    TESTNET_ADDR_HRP = "tb"
     # Witness version
     WITNESS_VER      = 0
 
@@ -42,7 +40,7 @@ class P2WPKH:
     """ P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, is_testnet = False):
+    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2WPKH_NET_VER["main"]):
         """ Get address in P2WPKH format.
 
         Args:
@@ -52,11 +50,4 @@ class P2WPKH:
         Returns (str):
             Address string
         """
-
-        # Get address HRP
-        addr_hrp = P2WPKHConst.MAINNET_ADDR_HRP if not is_testnet else P2WPKHConst.TESTNET_ADDR_HRP
-        # Witness program is the Hash160 of the public key
-        wit_prog = utils.Hash160(pub_key_bytes)
-
-        # Combine it with witness version and HRP
-        return Bech32Encoder.EncodeAddr(addr_hrp, P2WPKHConst.WITNESS_VER, wit_prog)
+        return Bech32Encoder.EncodeAddr(net_addr_ver, P2WPKHConst.WITNESS_VER, utils.Hash160(pub_key_bytes))

@@ -23,24 +23,45 @@
 
 # Imports
 import binascii
-from .bip32      import Bip32
-from .bip44_base import Bip44Base
-from .P2WPKH     import P2WPKH
+from .bip32             import Bip32
+from .bip44_base        import Bip44Base, Bip44Coins
+from .bip84_coin_helper import *
 
 
 class Bip84Const:
     """ Class container for BIP44 constants. """
 
-    # Public net versions
-    PUB_NET_VER   = (binascii.unhexlify(b"04b24746"), binascii.unhexlify(b"045f1cf6"))
-    # Private net versions
-    PRIV_NET_VER  = (binascii.unhexlify(b"04b2430c"), binascii.unhexlify(b"045f18bc"))
     # Purpose
     PURPOSE       = Bip32.HardenIndex(84)
-
+    # Allowed coins
+    ALLOWED_COINS = \
+        [
+            Bip44Coins.BITCOIN , Bip44Coins.BITCOIN_TESTNET ,
+            Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET,
+        ]
+    # Map from Bip44Coins to helper classes
+    COIN_TO_HELPER = \
+        {
+            Bip44Coins.BITCOIN  : BitcoinHelper,
+            Bip44Coins.LITECOIN : LitecoinHelper,
+        }
 
 class Bip84(Bip44Base):
-    """ BIP44 class. """
+    """ BIP84 class. """
+
+    def __init__(self, bip32_obj, coin_idx):
+        """ Construct class from a Bip32 object and coin type.
+
+        Args:
+            bip32_obj (Bip32 object) : Bip32 object
+            coin_idx (Bip44Coins)    : coin index, must be a Bip44Coins enum
+        """
+
+        # Check if coin is allowed for BIP-0049
+        if not coin_idx in Bip84Const.ALLOWED_COINS:
+            raise ValueError("Only Bitcoin and Litecoin can derive BIP-0084")
+        # Construct parent
+        super().__init__(bip32_obj, coin_idx)
 
     def Purpose(self):
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
@@ -51,17 +72,14 @@ class Bip84(Bip44Base):
         """
         return self._PurposeGeneric(self)
 
-    def Coin(self, coin_idx):
-        """ Derive a child key from the specified coin type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+    def Coin(self):
+        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _CoinGeneric method with the current object as parameter.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must a Bip44Coins enum
 
         Returns (Bip object):
             Bip object
         """
-        return self._CoinGeneric(self, coin_idx)
+        return self._CoinGeneric(self)
 
     def Account(self, acc_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
@@ -109,30 +127,49 @@ class Bip84(Bip44Base):
         return Bip84Const.PURPOSE
 
     @staticmethod
-    def _GetPubNetVersions():
-        """ Get public net versions.
+    def _GetMainNetVersions(coin_idx):
+        """ Get main net versions.
 
-        Returns (tuple):
-            Private net versions (main net in index 0, test net in index 1)
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            Main net versions (public at key "pub", private at key "priv")
         """
-        return Bip84Const.PUB_NET_VER
+        return Bip84Const.COIN_TO_HELPER[coin_idx].GetMainNetVersions()
 
     @staticmethod
-    def _GetPrivNetVersions():
-        """ Get private net versions.
+    def _GetTestNetVersions(coin_idx):
+        """ Get test net versions.
 
-        Returns (tuple):
-            Private net versions (main net in index 0, test net in index 1)
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            Main net versions (public at key "pub", private at key "priv")
         """
-        return Bip84Const.PRIV_NET_VER
+        return Bip84Const.COIN_TO_HELPER[coin_idx].GetTestNetVersions()
 
     @staticmethod
-    def _GetAddressGenClass():
-        """ Get address generator calls.
-        The class shall define the following static method:
-            ToAddress(pub_key_bytes, is_testnet = False)
+    def _GetComputeAddressFct(coin_idx):
+        """ Compute compute address function.
 
-        Returns (object):
-            Address generator class
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (function):
+            Compute address function
         """
-        return P2WPKH
+        return Bip84Const.COIN_TO_HELPER[coin_idx].ComputeAddress
+
+    @staticmethod
+    def _GetWifNetVersions(coin_idx):
+        """ Get WIF net versions.
+
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            WIF net versions (public at key "pub", private at key "priv")
+        """
+        return Bip84Const.COIN_TO_HELPER[coin_idx].GetWifNetVersions()

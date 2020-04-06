@@ -200,13 +200,13 @@ A Bip class can be constructed from a seed, like Bip32. The seed can be specifie
 **Code example**
 
     import binascii
-    from bip_utils import Bip44
+    from bip_utils import Bip44, Bip44Coins
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Derivation path returned: m
     # In case it's a test net, pass True as second parameter
-    bip44_ctx = Bip44.FromSeed(seed_bytes)
+    bip44_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
 
 ### Construction from an extended key
 
@@ -215,12 +215,12 @@ The Bip object returned will be at the same depth of the specified key.
 
 **Code example**
 
-    from bip_utils import Bip44
+    from bip_utils import Bip44, Bip44Coins
 
     # Private extended key
     key_str = "xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi"
     # Construct from extended key
-    bip44_ctx = Bip44.FromExtendedKey(key_str)
+    bip44_ctx = Bip44.FromExtendedKey(key_str, Bip44Coins.BITCOIN)
 
 ### Keys derivation
 
@@ -232,7 +232,7 @@ The keys must be derived with the levels specified by BIP-0044:
 using the correspondent methods. If keys are derived in the wrong level, a *RuntimeError* will be raised.\
 The private and public extended keys can be printed at any level.
 
-**NOTE:** only Bitcoin and Bitcoin testnet are supported, but it can be extended with other coins.
+**NOTE:** currently only Bitcoin, Litecoin, Dogecoin (and related test nets) and Ethereum are supported, but it can be easily extended with other coins.
 
 **Code example**
 
@@ -242,7 +242,7 @@ The private and public extended keys can be printed at any level.
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Create from seed
-    bip44_mst = Bip44.FromSeed(seed_bytes)
+    bip44_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
     # Print master key in extended format (pass False as parameter to get the key bytes instead)
     print(bip44_mst.PrivateKey())
     # Print the master key in WIF
@@ -250,8 +250,8 @@ The private and public extended keys can be printed at any level.
     print(bip44_mst.WalletImportFormat())
 
     # Derive account 0 for Bitcoin: m/44'/0'/0'
-    bip44_acc = bip44_mst.Purpose()                \
-                         .Coin(Bip44Coins.BITCOIN) \
+    bip44_acc = bip44_mst.Purpose() \
+                         .Coin()    \
                          .Account(0)
     # Print keys in extended format
     print(bip44_acc.IsAccountLevel())
@@ -273,7 +273,7 @@ The private and public extended keys can be printed at any level.
         print(bip44_addr.PublicKey())
         print(bip44_addr.Address())
 
-In the example above, Bip44 can be substitued with Bip49 or Bip84 without changing the code.
+In the example above, Bip44 can be substituted with Bip49 or Bip84 without changing the code.
 
 ## WIF
 
@@ -343,22 +343,22 @@ Example from mnemonic generation to wallet addresses.
     seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
     # Generate BIP44 master keys
-    bip_obj_mst = Bip44.FromSeed(seed_bytes)
+    bip_obj_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
     # Print master key
     print("Master key (bytes): %s" % binascii.hexlify(bip_obj_mst.PrivateKey(False)))
     print("Master key (extended): %s" % bip_obj_mst.PrivateKey())
     print("Master key (WIF): %s" % bip_obj_mst.WalletImportFormat())
 
     # Generate BIP44 account keys: m/44'/0'/0'
-    bip_obj_acc = bip_obj_mst.Purpose().Coin(Bip44Coins.BITCOIN).Account(0)
+    bip_obj_acc = bip_obj_mst.Purpose().Coin().Account(0)
     # Generate BIP44 chain keys: m/44'/0'/0'/0
     bip_obj_chain = bip_obj_acc.Change(Bip44Changes.CHAIN_EXT)
 
     # Generate the address pool (first 20 addresses): m/44'/0'/0'/0/i
     for i in range(20):
         bip_obj_addr = bip_obj_chain.AddressIndex(i)
-        print("%d. Address public key (extended): %s" % (i, bip_obj_addr.PrivateKey()))
-        print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PublicKey()))
+        print("%d. Address public key (extended): %s" % (i, bip_obj_addr.PublicKey()))
+        print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PrivateKey()))
         print("%d. Address: %s" % (i, bip_obj_addr.Address()))
 
 # License

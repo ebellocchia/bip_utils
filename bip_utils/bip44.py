@@ -22,20 +22,25 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 
 # Imports
-from .bip32      import Bip32, Bip32Const
-from .bip44_base import Bip44Base
-from .P2PKH      import P2PKH
+from .bip32             import Bip32, Bip32Const
+from .bip44_base        import Bip44Base, Bip44Coins
+from .bip44_coin_helper import *
 
 
 class Bip44Const:
     """ Class container for BIP44 constants. """
 
-    # Public net versions (same of BIP32)
-    PUB_NET_VER   = Bip32Const.PUB_NET_VER
-    # Private net versions (same of BIP32)
-    PRIV_NET_VER  = Bip32Const.PRIV_NET_VER
     # Purpose
-    PURPOSE       = Bip32.HardenIndex(44)
+    PURPOSE = Bip32.HardenIndex(44)
+
+    # Map from Bip44Coins to helper classes
+    COIN_TO_HELPER = \
+        {
+            Bip44Coins.BITCOIN  : BitcoinHelper,
+            Bip44Coins.LITECOIN : LitecoinHelper,
+            Bip44Coins.DOGECOIN : DogecoinHelper,
+            Bip44Coins.ETHEREUM : EthereumHelper,
+        }
 
 
 class Bip44(Bip44Base):
@@ -50,17 +55,14 @@ class Bip44(Bip44Base):
         """
         return self._PurposeGeneric(self)
 
-    def Coin(self, coin_idx):
-        """ Derive a child key from the specified coin type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+    def Coin(self):
+        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _CoinGeneric method with the current object as parameter.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must a Bip44Coins enum
 
         Returns (Bip object):
             Bip object
         """
-        return self._CoinGeneric(self, coin_idx)
+        return self._CoinGeneric(self)
 
     def Account(self, acc_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
@@ -108,30 +110,49 @@ class Bip44(Bip44Base):
         return Bip44Const.PURPOSE
 
     @staticmethod
-    def _GetPubNetVersions():
-        """ Get public net versions.
+    def _GetMainNetVersions(coin_idx):
+        """ Get main net versions.
 
-        Returns (tuple):
-            Private net versions (main net in index 0, test net in index 1)
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            Main net versions (public at key "pub", private at key "priv")
         """
-        return Bip44Const.PUB_NET_VER
+        return Bip44Const.COIN_TO_HELPER[coin_idx].GetMainNetVersions()
 
     @staticmethod
-    def _GetPrivNetVersions():
-        """ Get private net versions.
+    def _GetTestNetVersions(coin_idx):
+        """ Get test net versions.
 
-        Returns (tuple):
-            Private net versions (main net in index 0, test net in index 1)
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            Test net versions (public at key "pub", private at key "priv")
         """
-        return Bip44Const.PRIV_NET_VER
+        return Bip44Const.COIN_TO_HELPER[coin_idx].GetTestNetVersions()
 
     @staticmethod
-    def _GetAddressGenClass():
-        """ Get address generator calls.
-        The class shall define the following static method:
-            ToAddress(pub_key_bytes, is_testnet = False)
+    def _GetComputeAddressFct(coin_idx):
+        """ Compute compute address function.
 
-        Returns (object):
-            Address generator class
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (function):
+            Compute address function
         """
-        return P2PKH
+        return Bip44Const.COIN_TO_HELPER[coin_idx].ComputeAddress
+
+    @staticmethod
+    def _GetWifNetVersions(coin_idx):
+        """ Get WIF net versions.
+
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            WIF net versions (public at key "pub", private at key "priv")
+        """
+        return Bip44Const.COIN_TO_HELPER[coin_idx].GetWifNetVersions()

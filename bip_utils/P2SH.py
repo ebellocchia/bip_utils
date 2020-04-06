@@ -21,17 +21,14 @@
 
 # Imports
 import binascii
-from . import utils
-from .base58 import Base58Encoder
+from .              import utils
+from .base58        import Base58Encoder
+from .bip_coin_conf import BitcoinConf
 
 
 class P2SHConst:
     """ Class container for P2SH constants. """
 
-    # Main net address version
-    MAINNET_ADDR_VER     = b"\x05"
-    # Test net address version
-    TESTNET_ADDR_VER     = b"\xc4"
     # Script bytes
     SCRIPT_BYTES         = b"0014"
 
@@ -40,7 +37,7 @@ class P2SH:
     """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, is_testnet = False):
+    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2SH_NET_VER["main"]):
         """ Get address in P2SH format.
 
         Args:
@@ -51,9 +48,6 @@ class P2SH:
             Address string
         """
 
-        # Get address version
-        addr_ver = P2SHConst.MAINNET_ADDR_VER if not is_testnet else P2SHConst.TESTNET_ADDR_VER
-
         # Key hash: Hash160(public_key)
         key_hash = utils.Hash160(pub_key_bytes)
         # Script signature: 0x0014 | Hash160(public_key)
@@ -62,5 +56,5 @@ class P2SH:
         addr_bytes = utils.Hash160(script_sig)
 
         # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(addr_ver + addr_bytes)
+        return Base58Encoder.CheckEncode(net_addr_ver + addr_bytes)
 

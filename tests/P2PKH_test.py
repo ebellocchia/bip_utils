@@ -23,6 +23,7 @@
 import binascii
 import unittest
 from bip_utils import P2PKH
+from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -30,44 +31,49 @@ from bip_utils import P2PKH
 TEST_VECTOR = \
     [
         {
-            "pub_key"    : b"03aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e",
-            "address"    :  "1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA",
-            "is_testnet" :  False,
+            "pub_key"      : b"03aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e",
+            "address"      :  "1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA",
+            "net_addr_ver" :  BitcoinConf.P2PKH_NET_VER["main"],
         },
         {
-            "pub_key"    : b"037fd6980d7627cf664236cec772ec78cf52cb357952e35e73e31afbe4b2810d80",
-            "address"    :  "146emAmGumhnsT9nPCALU2JWeS4koxfFRB",
-            "is_testnet" :  False,
+            "pub_key"      : b"02b5cbfe6ee73b7c5e968e1c515a964894f306a7c882dd18433ab4e16a66d36972",
+            "address"      :  "1BMZTqDtNogSEs1oZoGxRqfR6jS2tVxvHX",
+            "net_addr_ver" :  BitcoinConf.P2PKH_NET_VER["main"],
         },
         {
-            "pub_key"    : b"02e105442a111f898b3a03bb0ca7d8cffc72c3e307d06c22d0ec28b058e620ae39",
-            "address"    :  "18xPZpJUxJhuhTyysVEwJAAoYUwX5T3cFV",
-            "is_testnet" :  False,
+            "pub_key"      : b"02a233494d46445b70a7bc3c5b376f1233e6a3acdc866b1566473984518e275dbc",
+            "address"      :  "LX4YojYdeBk3TtUcryCcgAqYxjicKfK7AD",
+            "net_addr_ver" :  LitecoinConf.P2PKH_NET_VER["main"],
         },
         {
-            "pub_key"    : b"02a38046d4abdbfe4df3ef1188d0df28613041121c44fb5f61cff79574dbca40ab",
-            "address"    :  "19hp5PzFjsD6z1hwMucUbLHAYeYDWdvB1B",
-            "is_testnet" :  False,
+            "pub_key"      : b"02632b96b6e6b9fc242a5fa23a0015d447746c8a3d82fc412e2924a6c184457e3b",
+            "address"      :  "LVYs6bw81eLpkqGtsHWDNFbssZPPdNcL4G",
+            "net_addr_ver" :  LitecoinConf.P2PKH_NET_VER["main"],
         },
         {
-            "pub_key"    : b"02a7451395735369f2ecdfc829c0f774e88ef1303dfe5b2f04dbaab30a535dfdd6",
-            "address"    :  "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
-            "is_testnet" :  True,
+            "pub_key"      : b"025a8ad8881f6facdc949c4a4d03257414153faea67e96acf57344660080610788",
+            "address"      :  "DAcDAtJRztxBHyA6D6h8du1HguyTR43Mas",
+            "net_addr_ver" :  DogecoinConf.P2PKH_NET_VER["main"],
         },
         {
-            "pub_key"    : b"03e4d2ca5ec69260a80b5ee1a459522196afd38ed1e11476dee5fb08a6531a92b7",
-            "address"    :  "myHL2QuECVYkx9Y94gyC6RSweLNnteETsB",
-            "is_testnet" :  True,
+            "pub_key"      : b"03b4b21789f999f8c268d77ff0f6ed80884ec088ddd1b2d10055981d6bc393308a",
+            "address"      :  "DTdrvUHbk5oMyi62tM7LqrjAcXfqB7eaad",
+            "net_addr_ver" :  DogecoinConf.P2PKH_NET_VER["main"],
         },
         {
-            "pub_key"    : b"02d03accf6c5278d814e7cfa18edf548c5f8156713fc0c828db6abb44dea6483d3",
-            "address"    :  "mp8ML8bKSiheUJPompTj5GZEWJUPmr1eiH",
-            "is_testnet" :  True,
+            "pub_key"      : b"02a7451395735369f2ecdfc829c0f774e88ef1303dfe5b2f04dbaab30a535dfdd6",
+            "address"      :  "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
+            "net_addr_ver" :  BitcoinConf.P2PKH_NET_VER["test"],
         },
         {
-            "pub_key"    : b"03fb4c065bd39724eca1129ab1ccfce57ac58bcf8e7bdd037cfb28ddeabdd1702e",
-            "address"    :  "n3Zb38sLaM21q8dwDNZq7AsJda9omg6PuP",
-            "is_testnet" :  True,
+            "pub_key"      : b"03be3878cb32ea37037b6d906ca8dfadc8bf511305194e24093379e19ea8fce04e",
+            "address"      :  "mnTkxhNkgx7TsZrEdRcPti564yQTzynGJp",
+            "net_addr_ver" :  LitecoinConf.P2PKH_NET_VER["test"],
+        },
+        {
+            "pub_key"      : b"02b9988be7219be78b82e659155d02d3e1462f3febe7c87d33964b37831efd8884",
+            "address"      :  "n2BMo5arHDyAK2CM8c56eoEd18uEkKnRLC",
+            "net_addr_ver" :  DogecoinConf.P2PKH_NET_VER["test"],
         },
     ]
 
@@ -80,8 +86,8 @@ class P2PKHTests(unittest.TestCase):
     def test_vector(self):
         for test in TEST_VECTOR:
             # Test decoder
-            self.assertEqual(test["address"], P2PKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["is_testnet"]))
-            self.assertEqual(test["address"], P2PKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["is_testnet"]))
+            self.assertEqual(test["address"], P2PKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
+            self.assertEqual(test["address"], P2PKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
 
 
 # Run test if executed
