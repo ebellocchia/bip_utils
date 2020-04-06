@@ -23,11 +23,12 @@
 
 # Imports
 from abc    import ABC, abstractmethod
-from enum   import Enum, IntEnum, unique
+from enum   import IntEnum, unique
 from .bip32 import Bip32, Bip32Const
 from .wif   import WifEncoder
 
 
+@unique
 class Bip44Coins(IntEnum):
     """ Enumerative for BIP44 coins. Only some coins are present but it can be extended. """
 
@@ -39,6 +40,7 @@ class Bip44Coins(IntEnum):
     BITCOIN_TESTNET  = -1,
     LITECOIN_TESTNET = -2,
     DOGECOIN_TESTNET = -3,
+
 
 @unique
 class Bip44Changes(IntEnum):
