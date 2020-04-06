@@ -211,6 +211,11 @@ class Bip39MnemonicGenerator:
         return (words_num * Bip39Const.WORD_BITS) - (words_num // 3)
 
 
+class Bip39ChecksumError(Exception):
+    """ Exception in case of checksum error. """
+    pass
+
+
 class Bip39MnemonicValidator:
     """ BIP39 mnemonic validator class. It validates a mnemonic string or list. """
 
@@ -241,7 +246,7 @@ class Bip39MnemonicValidator:
     def GetEntropy(self):
         """Get entropy bytes from mnemonic.
         ValueError is raised if mnemonic is not valid.
-        RuntimeError is raised if checksum is not valid.
+        Bip39ChecksumError is raised if checksum is not valid.
 
         Returns (bytes):
             Entropy bytes corresponding to the mnemonic
@@ -250,15 +255,19 @@ class Bip39MnemonicValidator:
         # Get back mnemonic binary string
         mnemonic_bin = self.__GetMnemonicBinaryStr()
 
+        checksum      = self.__GetChecksum(mnemonic_bin)
+        comp_checksum = self.__ComputeChecksum(mnemonic_bin)
+
         # Verify checksum
-        if self.__ComputeChecksum(mnemonic_bin) != self.__GetChecksum(mnemonic_bin):
-            raise RuntimeError("Invalid checksum when getting entropy")
+        if checksum != comp_checksum:
+            raise Bip39ChecksumError("Invalid checksum when getting entropy (expected %s, got %s" % (comp_checksum, checksum))
 
         # Get entropy bytes from binary string
         return self.__GetEntropyBytes(mnemonic_bin)
 
     def __GetMnemonicBinaryStr(self):
         """ Get mnemonic binary string from mnemonic string or list.
+        ValueError is raised if mnemonic is not valid.
 
         Returns (str):
            Mnemonic binary string

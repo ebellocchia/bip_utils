@@ -120,14 +120,24 @@ class PathParser:
         return path_list
 
 
+class Bip32KeyError(Exception):
+    """ Exception in case of key error. """
+    pass
+
+
+class Bip32PathError(Exception):
+    """ Expcetion in case of path error. """
+    pass
+
+
 class Bip32:
     """ BIP32 class. It allows master key generation and children keys derivation in according to BIP32. """
 
     @staticmethod
     def FromSeed(seed_bytes, is_testnet = False):
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
-        ValueError is raised if the seed length is too short.
-        RuntimeError is raised if the seed is not suitable for master key generation.
+        ValueError is raised if the seed is too short.
+        Bip32KeyError is raised if the seed is not suitable for master key generation.
 
         Args:
             seed_bytes (bytes)          : seed bytes
@@ -149,7 +159,7 @@ class Bip32:
         # Check i_l
         i_l_int = utils.BytesToInteger(i_l)
         if i_l_int == 0 or i_l_int >= Bip32Const.CURVE_ORDER:
-            raise RuntimeError("Computed master key is not valid, very unlucky seed")
+            raise Bip32KeyError("Computed master key is not valid, very unlucky seed")
 
         # Create BIP32
         return Bip32(secret = i_l, chain = i_r, is_testnet = is_testnet)
@@ -157,8 +167,8 @@ class Bip32:
     @staticmethod
     def FromSeedAndPath(seed_bytes, path, is_testnet = False):
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
-        ValueError is raised if the seed length is too short or the path is not valid.
-        RuntimeError is raised if the seed is not suitable for master key generation.
+        Bip32PathError is raised if the seed length is too short or the path is not valid.
+        Bip32KeyError is raised if the seed is not suitable for master key generation.
 
         Args:
             seed_bytes (bytes)          : seed bytes
@@ -174,7 +184,7 @@ class Bip32:
 
         # Check result
         if len(path_idx) == 0:
-            raise ValueError("The specified path is not valid")
+            raise Bip32PathError("The specified path is not valid")
 
         # Create Bip32 object
         bip32_ctx = Bip32.FromSeed(seed_bytes, is_testnet)
@@ -190,7 +200,7 @@ class Bip32:
                         main_net_ver = Bip32Const.MAIN_NET_VER,
                         test_net_ver = Bip32Const.TEST_NET_VER):
         """ Create a Bip32 object from the specified extended key.
-        ValueError is raised if the key is not valid.
+        Bip32KeyError is raised if the key is not valid.
         RuntimeError is raised if the key checksum is not valid.
 
         Args:
@@ -208,7 +218,7 @@ class Bip32:
 
         # Check length
         if len(key_bytes) != Bip32Const.EXTENDED_KEY_LEN:
-            raise ValueError("Invalid extended key (wrong length)")
+            raise Bip32KeyError("Invalid extended key (wrong length)")
 
         # Get net version
         net_ver = key_bytes[:4]
@@ -218,12 +228,12 @@ class Bip32:
             if net_ver in main_net_ver.values():
                 is_public = net_ver == main_net_ver["pub"]
             else:
-                raise ValueError("Invalid extended key (wrong net version)")
+                raise Bip32KeyError("Invalid extended key (wrong net version)")
         else:
             if net_ver in test_net_ver.values():
                 is_public = net_ver == test_net_ver["pub"]
             else:
-                raise ValueError("Invalid extended key (wrong net version)")
+                raise Bip32KeyError("Invalid extended key (wrong net version)")
 
         # De-serialize key
         depth  = key_bytes[4]
@@ -235,19 +245,14 @@ class Bip32:
         # If private key, remove the first byte
         if not is_public:
             if secret[0] != 0:
-                raise ValueError("Invalid extended key (wrong secret)")
+                raise Bip32KeyError("Invalid extended key (wrong secret)")
             secret = secret[1:]
-        # If public key, recover public curve point from compressed key
+        # If public key, recover the complete key from the compressed one
         else:
-            lsb = secret[0] & 1
-            x = string_to_int(secret[1:])
-            # y^2 = (x^3 + 7) mod p
-            ys = (x**3 + 7) % Bip32Const.FIELD_ORDER
-            y = sqrt_mod(ys, Bip32Const.FIELD_ORDER)
-            if y & 1 != lsb:
-                y = Bip32Const.FIELD_ORDER - y
-            point  = ecdsa.ellipticcurve.Point(SECP256k1.curve, x, y)
-            secret = ecdsa.VerifyingKey.from_public_point(point, curve = SECP256k1)
+            try:
+                secret = ecdsa.VerifyingKey.from_string(secret, curve = SECP256k1)
+            except:
+                raise Bip32KeyError("Invalid extended public key")
 
         return Bip32(secret = secret, chain = chain, depth = depth, index = child, fprint = fprint, is_public = is_public, is_testnet = is_testnet)
 
@@ -302,7 +307,7 @@ class Bip32:
 
     def DerivePath(self, path):
         """ Derive children keys from the specified path.
-        ValueError is raised if the seed length is too short or the path is not valid.
+        Bip32PathError is raised if the seed length is too short or the path is not valid.
 
         Args:
             path (str) : path
@@ -316,7 +321,7 @@ class Bip32:
 
         # Check result
         if len(path_idx) == 0:
-            raise ValueError("The specified path is not valid")
+            raise Bip32PathError("The specified path is not valid")
 
         bip32_obj = self
         # Derive children keys
@@ -332,31 +337,34 @@ class Bip32:
 
     def PrivateKeyBytes(self):
         """ Return private key bytes.
-        RuntimeError is raised if internal key is public.
+        Bip32KeyError is raised if internal key is public.
 
         Returns (bytes):
             Private key bytes
         """
         if self.m_is_public:
-            raise RuntimeError("Public-only deterministic keys have no private half")
+            raise Bip32KeyError("Public-only deterministic keys have no private half")
         else:
             return self.m_key.to_string()
 
-    def PublicKeyBytes(self):
-        """ Return public key bytes in compressed SEC1 format.
+    def PublicKey(self):
+        """ Return the ECDSA public key object.
+
+        Return (ecdsa.VerifyingKey):
+            Public key object
+        """
+        return self.m_ver_key
+
+    def PublicKeyBytes(self, compressed = True):
+        """ Return public key bytes.
+
+        Args:
+            compressed (bool) : true for returning the key in compressed SEC1 format, false otherwise
 
         Returns (bytes):
             Public key bytes
         """
-
-        pub_key = ((b"\0"*32) + int_to_string(self.m_ver_key.pubkey.point.x()))[-32:]
-        # Add 0x02 or 0x03 depending on the parity
-        if self.m_ver_key.pubkey.point.y() & 1:
-            pub_key = b"\3" + pub_key
-        else:
-            pub_key = b"\2" + pub_key
-
-        return pub_key
+        return self.m_ver_key.to_string("compressed") if compressed else self.m_ver_key.to_string("uncompressed")[1:]
 
     def ExtendedPublicKey(self,
                           main_net_ver = Bip32Const.MAIN_NET_VER["pub"],
@@ -377,6 +385,7 @@ class Bip32:
                            main_net_ver = Bip32Const.MAIN_NET_VER["priv"],
                            test_net_ver = Bip32Const.TEST_NET_VER["priv"]):
         """ Return extended private key encoded in Base58 format.
+        Bip32KeyError is raised if the Bip32 object has a public-only key.
 
         Args:
             main_net_ver (bytes, optional) : main net version
@@ -386,7 +395,7 @@ class Bip32:
             Extended private key in Base58 format
         """
         if self.m_is_public:
-            raise RuntimeError("Cannot export an extended private key from a public-only deterministic key")
+            raise Bip32KeyError("Cannot export an extended private key from a public-only deterministic key")
 
         return self.__ExtendedKey(b"\x00" + self.PrivateKeyBytes(), main_net_ver, test_net_ver)
 
@@ -456,7 +465,7 @@ class Bip32:
 
     def __CkdPriv(self, index):
         """ Create a child key of the specified index.
-        RuntimeError is raised if the index results in an invalid key.
+        Bip32KeyError is raised if the index results in an invalid key.
 
         Args:
             index (int) : index
@@ -480,12 +489,12 @@ class Bip32:
         # Construct new key material from i_l and current private key
         i_l_int = string_to_int(i_l)
         if i_l_int >= Bip32Const.CURVE_ORDER:
-            raise RuntimeError("Computed private child key is not valid, very unlucky index")
+            raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
 
         pvt_int = string_to_int(self.m_key.to_string())
         k_int = (i_l_int + pvt_int) % Bip32Const.CURVE_ORDER
         if k_int == 0:
-            raise RuntimeError("Computed private child key is not valid, very unlucky index")
+            raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
 
         secret = (b"\0"*32 + int_to_string(k_int))[-32:]
 
@@ -494,7 +503,7 @@ class Bip32:
 
     def __CkdPub(self, index):
         """ Create a publicly derived child key of the specified index.
-        RuntimeError is raised if the index most significant bit is set or the index results in an invalid key.
+        Bip32KeyError is raised if the index most significant bit is set or the index results in an invalid key.
 
         Args:
             index (int) : index
@@ -505,7 +514,7 @@ class Bip32:
 
         # Check if index is hardened
         if index & Bip32Const.HARDENED_IDX:
-            raise RuntimeError("Public child derivation cannot be used to create a hardened child key")
+            raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         # Data to HMAC, same of CkdPriv() for public child key
         data = self.PublicKeyBytes() + index.to_bytes(4, "big")
@@ -516,11 +525,11 @@ class Bip32:
         # Construct curve point i_l*G+K
         i_l_int = string_to_int(i_l)
         if i_l_int >= Bip32Const.CURVE_ORDER:
-            raise RuntimeError("Computed public child key is not valid, very unlucky index")
+            raise Bip32KeyError("Computed public child key is not valid, very unlucky index")
 
         point = i_l_int * generator_secp256k1 + self.m_ver_key.pubkey.point
         if point == Bip32Const.INFINITY:
-            raise RuntimeError("Computed public child key is not valid, very unlucky index")
+            raise Bip32KeyError("Computed public child key is not valid, very unlucky index")
 
         # Retrieve public key based on curve point
         k_i = ecdsa.VerifyingKey.from_public_point(point, curve = SECP256k1)

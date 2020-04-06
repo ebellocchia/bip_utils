@@ -40,6 +40,7 @@ class Bip44Const:
             Bip44Coins.LITECOIN : LitecoinHelper,
             Bip44Coins.DOGECOIN : DogecoinHelper,
             Bip44Coins.ETHEREUM : EthereumHelper,
+            Bip44Coins.RIPPLE   : RippleHelper,
         }
 
 

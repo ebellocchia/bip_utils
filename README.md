@@ -232,19 +232,37 @@ The keys must be derived with the levels specified by BIP-0044:
 using the correspondent methods. If keys are derived in the wrong level, a *RuntimeError* will be raised.\
 The private and public extended keys can be printed at any level.
 
-**NOTE:** currently only Bitcoin, Litecoin, Dogecoin (and related test nets) and Ethereum are supported, but it can be easily extended with other coins.
+Currently supported coins:
+- Bitcoin (and related test net)
+- Litecoin (and related test net)
+- Dogecoin (and related test net)
+- Ethereum
+- Ripple
+
+The library can be easily extended with other coins anyway.
 
 **Code example**
 
     import binascii
-    from bip_utils import Bip44, Bip44Coins, Bip44Changes
+    from bip_utils import Bip44, Bip44Coins, Bip44Changes, Bip44PrivKeyTypes, Bip44PubKeyTypes
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Create from seed
     bip44_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
-    # Print master key in extended format (pass False as parameter to get the key bytes instead)
+
+    # Print master key in extended format (default: Bip44PrivKeyTypes.EXT_KEY)
     print(bip44_mst.PrivateKey())
+    # Print master key in raw format
+    print(bip44_mst.PrivateKey(Bip44PrivKeyTypes.RAW_KEY))
+
+    # Print public key in extended format (default: Bip44PubKeyTypes.EXT_KEY)
+    print(bip44_mst.PublicKey())
+    # Print public key in raw format
+    print(bip44_mst.PublicKey(Bip44PubKeyTypes.RAW_KEY))
+    # Print public key in raw compressed format
+    print(bip44_mst.PublicKey(Bip44PubKeyTypes.RAW_COMPR_KEY))
+
     # Print the master key in WIF
     print(bip44_mst.IsMasterLevel())
     print(bip44_mst.WalletImportFormat())

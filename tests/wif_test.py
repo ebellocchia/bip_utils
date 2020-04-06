@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import WifDecoder, WifEncoder
+from bip_utils import WifDecoder, WifEncoder, Base58ChecksumError
 
 
 # Some keys randomly generated from:
@@ -108,7 +108,7 @@ class WifTests(unittest.TestCase):
     def test_invalid_checksum(self):
         for test in TEST_VECTOR_CHK_ERR:
             # "with" is required because the exception is raised by Base58 module
-            with self.assertRaises(RuntimeError):
+            with self.assertRaises(Base58ChecksumError):
                 WifDecoder.Decode(test)
 
     # Test invalid encoding

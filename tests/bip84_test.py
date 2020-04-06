@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip84, Bip44Coins, Bip44Changes
+from bip_utils import Bip84, Bip44Coins, Bip44Changes, Bip44DepthError
 
 
 # Some seeds randomly taken from Ian Coleman web page
@@ -197,36 +197,36 @@ class Bip84Tests(unittest.TestCase):
         bip_obj_addr   = bip_obj_change.AddressIndex(0)
 
         # Wrong derivation from master
-        self.assertRaises(RuntimeError, bip_obj_mst.Coin)
-        self.assertRaises(RuntimeError, bip_obj_mst.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_mst.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_mst.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.AddressIndex, 0)
         # Wrong derivation from purpose
-        self.assertRaises(RuntimeError, bip_obj_prp.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_prp.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_prp.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_prp.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.AddressIndex, 0)
         # Wrong derivation from coin
-        self.assertRaises(RuntimeError, bip_obj_coin.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_coin.Coin)
-        self.assertRaises(RuntimeError, bip_obj_coin.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_coin.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.AddressIndex, 0)
         # Wrong derivation from account
-        self.assertRaises(RuntimeError, bip_obj_acc.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_acc.Coin)
-        self.assertRaises(RuntimeError, bip_obj_acc.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_acc.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.AddressIndex, 0)
         # Wrong derivation from chain
-        self.assertRaises(RuntimeError, bip_obj_change.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_change.Coin)
-        self.assertRaises(RuntimeError, bip_obj_change.Account, 0)
-        self.assertRaises(RuntimeError, bip_obj_change.Change , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Account, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Change , Bip44Changes.CHAIN_EXT)
         # Wrong derivation from address index
-        self.assertRaises(RuntimeError, bip_obj_addr.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_addr.Coin)
-        self.assertRaises(RuntimeError, bip_obj_addr.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_addr.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.AddressIndex, 0)
 
 
 # Run test if executed

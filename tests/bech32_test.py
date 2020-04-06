@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bech32Decoder, Bech32Encoder
+from bip_utils import Bech32Decoder, Bech32Encoder, Bech32ChecksumError, Bech32FormatError
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -112,8 +112,8 @@ class Bech32Tests(unittest.TestCase):
     # Test invalid
     def test_invalid_addr(self):
         for test in TEST_VECTOR_INVALID_ADDR:
-            self.assertRaises(RuntimeError,  Bech32Decoder.DecodeAddr, "bc", test)
-            self.assertRaises(RuntimeError,  Bech32Decoder.DecodeAddr, "tb", test)
+            self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "bc", test)
+            self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "tb", test)
 
 
 # Run test if executed

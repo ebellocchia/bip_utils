@@ -70,6 +70,11 @@ class DogecoinConf:
 
 class EthereumConf:
     """ Class container for Ethereum configuration. """
+    pass
 
-    # True for using checksum addresses, False otherwise
-    USE_CHECKSUM_ADDR = False
+
+class RippleConf:
+    """ Class container for Bitcoin configuration. """
+
+    # Versions for P2PKH address
+    P2PKH_NET_VER = b"\x00"

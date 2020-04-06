@@ -61,7 +61,7 @@ class Bech32Utils:
 
         for value in data:
             if value < 0 or (value >> from_bits):
-                raise RuntimeError("Invalid data, cannot perform base32 conversion")
+                raise Bech32FormatError("Invalid data, cannot perform base32 conversion")
             acc = ((acc << from_bits) | value) & max_acc
             bits += from_bits
             while bits >= to_bits:
@@ -71,7 +71,7 @@ class Bech32Utils:
             if bits:
                 ret.append((acc << (to_bits - bits)) & maxv)
         elif bits >= from_bits or ((acc << (to_bits - bits)) & maxv):
-            raise RuntimeError("Invalid data, cannot perform base32 conversion")
+            raise Bech32FormatError("Invalid data, cannot perform base32 conversion")
         return ret
 
     @staticmethod
@@ -104,6 +104,16 @@ class Bech32Utils:
             Expanded HRP
         """
         return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 31 for x in hrp]
+
+
+class Bech32ChecksumError(Exception):
+    """ Exception in case of checksum error. """
+    pass
+
+
+class Bech32FormatError(Exception):
+    """ Exception in case of format error. """
+    pass
 
 
 class Bech32Encoder:
@@ -159,7 +169,7 @@ class Bech32Decoder:
     @staticmethod
     def DecodeAddr(hrp, addr):
         """ Decode a segwit address.
-        RuntimeError is raised if the address is not valid.
+        Bech32FormatError is raised if the address is not valid.
 
         Args:
             hrp (str)  : human readable part
@@ -170,23 +180,24 @@ class Bech32Decoder:
         """
         hrpgot, data = Bech32Decoder.__Decode(addr)
         if hrpgot != hrp:
-            raise RuntimeError("Invalid segwit address")
+            raise Bech32FormatError("Invalid segwit address")
 
         decoded = Bech32Utils.ConvertToBits(data[1:], 5, 8, False)
 
         if len(decoded) < 2 or len(decoded) > 40:
-            raise RuntimeError("Invalid segwit address")
+            raise Bech32FormatError("Invalid segwit address")
         if data[0] > 16:
-            raise RuntimeError("Invalid segwit address")
+            raise Bech32FormatError("Invalid segwit address")
         if data[0] == 0 and len(decoded) != 20 and len(decoded) != 32:
-            raise RuntimeError("Invalid segwit address")
+            raise Bech32FormatError("Invalid segwit address")
 
         return (data[0], utils.ListToBytes(decoded))
 
     @staticmethod
     def __Decode(bech_str):
         """ Decode and validate a Bech32 string, determining its HRP and data.
-        RuntimeError is raised if the string is not valid.
+        Bech32FormatError is raised if the string is not valid.
+        Bech32ChecksumError is raised in case of checksum error.
 
         Args:
             bech_str (str) : Bech32 string
@@ -196,19 +207,19 @@ class Bech32Decoder:
         """
         if ((any(ord(x) < 33 or ord(x) > 126 for x in bech_str)) or
                 (bech_str.lower() != bech_str and bech_str.upper() != bech_str)):
-            raise RuntimeError("Invalid bech32 string")
+            raise Bech32FormatError("Invalid bech32 string")
 
         bech_str = bech_str.lower()
         pos = bech_str.rfind(Bech32Const.SEPARATOR)
         if pos < 1 or pos + 7 > len(bech_str) or len(bech_str) > 90:
-            raise RuntimeError("Invalid bech32 string")
+            raise Bech32FormatError("Invalid bech32 string")
         if not all(x in Bech32Const.CHARSET for x in bech_str[pos+1:]):
-            raise RuntimeError("Invalid bech32 string")
+            raise Bech32FormatError("Invalid bech32 string")
 
         hrp = bech_str[:pos]
         data = [Bech32Const.CHARSET.find(x) for x in bech_str[pos+1:]]
         if not Bech32Decoder.__VerifyChecksum(hrp, data):
-            raise RuntimeError("Invalid checksum")
+            raise Bech32ChecksumError("Invalid checksum")
 
         return (hrp, data[:-6])
 

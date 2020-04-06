@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Base58Decoder, Base58Encoder
+from bip_utils import Base58Decoder, Base58Encoder, Base58ChecksumError
 
 
 # Test vector from Bitcoin code tests
@@ -134,7 +134,7 @@ class Base58Tests(unittest.TestCase):
     # Test invalid checksum
     def test_invalid_checksum(self):
         for test in TEST_VECTOR_CHK_ERR:
-            self.assertRaises(RuntimeError, Base58Decoder.CheckDecode, test)
+            self.assertRaises(Base58ChecksumError, Base58Decoder.CheckDecode, test)
 
     # Test invalid encoding
     def test_invalid_encoding(self):

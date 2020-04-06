@@ -20,40 +20,36 @@
 
 
 # Imports
-import binascii
-from .              import utils
-from .base58        import Base58Encoder
-from .bip_coin_conf import BitcoinConf
+import sha3
+from .base58        import Base58Const
+from .bip_coin_conf import RippleConf
+from .P2PKH         import P2PKH
 
 
-class P2SHConst:
-    """ Class container for P2SH constants. """
+class XrpAddrConst:
+    """ Class container for Ripple address constants. """
 
-    # Script bytes
-    SCRIPT_BYTES         = b"0014"
+    # Prefix
+    ALPHABET = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz"
 
 
-class P2SH:
-    """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
+class XrpAddr:
+    """ Ripple address class. It allows the Ripple address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2SH_NET_VER["main"]):
-        """ Get address in P2SH format.
+    def ToAddress(pub_key_bytes):
+        """ Get address in Ripple format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key_bytes (bytes) : public key bytes
 
         Returns (str):
             Address string
         """
 
-        # Key hash: Hash160(public_key)
-        key_hash = utils.Hash160(pub_key_bytes)
-        # Script signature: 0x0014 | Hash160(public_key)
-        script_sig = binascii.unhexlify(P2SHConst.SCRIPT_BYTES) + key_hash
-        # Address bytes = Hash160(script_signature)
-        addr_bytes = utils.Hash160(script_sig)
+        # The Ripple address is just the P2PKH address with a different alphabet
+        addr = P2PKH.ToAddress(pub_key_bytes, RippleConf.P2PKH_NET_VER)
+        # Just substitute the characters with the new alphabet
+        xrp_addr = [XrpAddrConst.ALPHABET[Base58Const.ALPHABET.index(c)] for c in addr]
 
-        # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(net_addr_ver + addr_bytes)
+        return "".join(xrp_addr)

@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip44, Bip44Coins, Bip44Changes, LitecoinConf
+from bip_utils import Bip44, Bip44Coins, Bip44Changes, Bip44DepthError, LitecoinConf
 
 
 # Results generated with Ian Coleman web page:
@@ -121,6 +121,34 @@ TEST_VECTOR = \
                 },
             "addresses" :
                 [
+                    "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
+                    "0x6Fac4D18c912343BF86fa7049364Dd4E424Ab9C0",
+                    "0xb6716976A3ebe8D39aCEB04372f22Ff8e6802D7A",
+                    "0xF3f50213C1d2e255e4B2bAD430F8A38EEF8D718E",
+                    "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
+                ],
+        },
+        {
+            "coin"      : Bip44Coins.RIPPLE,
+            "seed"      : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master" :  "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "account" :
+                {
+                    "ex_pub"  : "xpub6CFKyZTfzj3cyeRLUDKwQQ5s1tqTTdVgywKMVkrB2i1taGFbhazkxDzWVsfBHZpv7rg6qpDBGYR5oA8iazEfa44CdQkkknPFHJ7YCzncCS9",
+                    "ex_priv" : "xprv9yFya3vnAMVKmALsNBnw3G98Trzy4AmqciPkhNSZUNUuhTvTA3gWQRg2ecJFS3PDLsfYFgwDW1UukaapjTDUENfiwg22ryd4mWiph8Faw3p",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "xpub6F119CdfnfeSVeXbJG7h88TG6SjjtvFYBup7HszDLmaCCDgbZ4n1tP6J6R8PikUqtiqgdJSXXB79V3SxVA4LkygGDkesJ4pW5bq3dQU7cbm",
+                    "ex_priv" : "xprvA21ejh6mxJ69HAT8CEagkzWXYQuFVTXgpgtWVVabnS3DKRMT1XTmLampF9DgbLwYuqZAZCHMokjt2rCCMnScQLZWmHdnS11XfySXtiA5ygo",
+                },
+            "addresses" :
+                [
+                    "rHsMGQEkVNJmpGWs8XUBoTBiAAbwxZN5v3",
+                    "r3AgF9mMBFtaLhKcg96weMhbbEFLZ3mx17",
+                    "r4Sh61HP7nxB6mQxXSSeN2DCkG3sTrzb2c",
+                    "rwT7dzQuZim2SdY1jGFGwpre4bh6xpr31a",
+                    "rPdQVkTzpZ7ToRqTRBRrUKPoCTty7n3UVj",
                 ],
         },
         {
@@ -260,36 +288,36 @@ class Bip44Tests(unittest.TestCase):
         bip_obj_addr   = bip_obj_change.AddressIndex(0)
 
         # Wrong derivation from master
-        self.assertRaises(RuntimeError, bip_obj_mst.Coin)
-        self.assertRaises(RuntimeError, bip_obj_mst.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_mst.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_mst.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_mst.AddressIndex, 0)
         # Wrong derivation from purpose
-        self.assertRaises(RuntimeError, bip_obj_prp.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_prp.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_prp.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_prp.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_prp.AddressIndex, 0)
         # Wrong derivation from coin
-        self.assertRaises(RuntimeError, bip_obj_coin.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_coin.Coin)
-        self.assertRaises(RuntimeError, bip_obj_coin.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_coin.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_coin.AddressIndex, 0)
         # Wrong derivation from account
-        self.assertRaises(RuntimeError, bip_obj_acc.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_acc.Coin)
-        self.assertRaises(RuntimeError, bip_obj_acc.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_acc.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_acc.AddressIndex, 0)
         # Wrong derivation from chain
-        self.assertRaises(RuntimeError, bip_obj_change.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_change.Coin)
-        self.assertRaises(RuntimeError, bip_obj_change.Account, 0)
-        self.assertRaises(RuntimeError, bip_obj_change.Change , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Account, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_change.Change , Bip44Changes.CHAIN_EXT)
         # Wrong derivation from address index
-        self.assertRaises(RuntimeError, bip_obj_addr.Purpose)
-        self.assertRaises(RuntimeError, bip_obj_addr.Coin)
-        self.assertRaises(RuntimeError, bip_obj_addr.Account     , 0)
-        self.assertRaises(RuntimeError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
-        self.assertRaises(RuntimeError, bip_obj_addr.AddressIndex, 0)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Purpose)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Coin)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Account     , 0)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
+        self.assertRaises(Bip44DepthError, bip_obj_addr.AddressIndex, 0)
 
 
 # Run test if executed

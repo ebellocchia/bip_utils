@@ -23,8 +23,6 @@
 
 # Imports
 import binascii
-import sha3
-from .bip32         import Bip32Const
 from .bip_coin_conf import *
 from .P2SH          import P2SH
 
@@ -65,18 +63,18 @@ class BitcoinHelper:
         return BitcoinConf.WIF_NET_VER
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2SH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = BitcoinConf.P2SH_NET_VER["main"] if not is_testnet else BitcoinConf.P2SH_NET_VER["test"]
-        return P2SH.ToAddress(pub_key_bytes, addr_ver)
+        return P2SH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 class LitecoinHelper:
     """ Litecoin class. It contains the constants some helper methods for BIP-0044 Litecoin. """
@@ -116,16 +114,16 @@ class LitecoinHelper:
         return LitecoinConf.WIF_NET_VER
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2SH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         p2sh_ver = LitecoinConf.P2SH_NET_VER if not LitecoinConf.P2SH_DEPR_ADDR else LitecoinConf.P2SH_DEPR_NET_VER
         addr_ver = p2sh_ver["main"] if not is_testnet else p2sh_ver["test"]
-        return P2SH.ToAddress(pub_key_bytes, addr_ver)
+        return P2SH.ToAddress(pub_key.to_string("compressed"), addr_ver)

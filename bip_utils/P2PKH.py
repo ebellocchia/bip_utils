@@ -21,12 +21,9 @@
 
 # Imports
 from .              import utils
-from .bip_coin_conf import BitcoinConf
 from .base58        import Base58Encoder
+from .bip_coin_conf import BitcoinConf
 
-
-class P2PKHConst:
-    """ Class container for P2PKH constants. """
 
 class P2PKH:
     """ P2PKH class. It allows the Pay-to-Public-Key-Hash address generation. """

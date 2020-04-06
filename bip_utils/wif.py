@@ -59,7 +59,7 @@ class WifDecoder:
     @staticmethod
     def Decode(wif_str):
         """ Decode key bytes from a WIF string.
-        RuntimeError is raised if checksum is not valid.
+        Base58ChecksumError is raised if checksum is not valid.
 
         Args:
             wif_str (str) : WIF string

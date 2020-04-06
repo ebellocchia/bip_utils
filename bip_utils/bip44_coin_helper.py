@@ -23,10 +23,12 @@
 
 # Imports
 import binascii
-import sha3
+from .              import utils
 from .bip32         import Bip32Const
 from .bip_coin_conf import *
 from .P2PKH         import P2PKH
+from .eth_addr      import EthAddr
+from .xrp_addr      import XrpAddr
 
 
 class BitcoinHelper():
@@ -65,18 +67,18 @@ class BitcoinHelper():
         return BitcoinConf.WIF_NET_VER
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2PKH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = BitcoinConf.P2PKH_NET_VER["main"] if not is_testnet else BitcoinConf.P2PKH_NET_VER["test"]
-        return P2PKH.ToAddress(pub_key_bytes, addr_ver)
+        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
 class LitecoinHelper():
@@ -117,18 +119,18 @@ class LitecoinHelper():
         return LitecoinConf.WIF_NET_VER
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2PKH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
+            pub_key (bytes)       : ECDSA public key bytes
             is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = LitecoinConf.P2PKH_NET_VER["main"] if not is_testnet else LitecoinConf.P2PKH_NET_VER["test"]
-        return P2PKH.ToAddress(pub_key_bytes, addr_ver)
+        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
 class DogecoinHelper():
@@ -167,18 +169,18 @@ class DogecoinHelper():
         return DogecoinConf.WIF_NET_VER
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2PKH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = DogecoinConf.P2PKH_NET_VER["main"] if not is_testnet else DogecoinConf.P2PKH_NET_VER["test"]
-        return P2PKH.ToAddress(pub_key_bytes, addr_ver)
+        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
 class EthereumHelper():
@@ -217,15 +219,64 @@ class EthereumHelper():
         raise RuntimeError("WIF format is not supported by Ethereum")
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2PKH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : not used
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
+            is_testnet (bool, optional)  : not used
 
         Returns (str):
             Address string
         """
-        # TODO: create a class for Ethereum address and add checksum addresses
-        return "0x" + sha3.keccak_256(pub_key_bytes).hexdigest()[24:]
+        # Ethereum uses the uncompressed key
+        return EthAddr.ToAddress(pub_key.to_string("uncompressed")[1:])
+
+
+class RippleHelper():
+    """ Ripple class. It contains the constants some helper methods for BIP-0044 Ripple. """
+
+    # Main net versions (same of BIP32 for Ripple)
+    MAIN_NET_VER = Bip32Const.MAIN_NET_VER
+    # Main net versions (same of BIP32 for Ripple)
+    TEST_NET_VER = Bip32Const.TEST_NET_VER
+
+    @staticmethod
+    def GetMainNetVersions():
+        """ Get main net versions.
+
+        Returns (dict):
+            Main net versions (public at key "pub", private at key "priv")
+        """
+        return RippleHelper.MAIN_NET_VER
+
+    @staticmethod
+    def GetTestNetVersions():
+        """ Get test net versions.
+
+        Returns (dict):
+            Test net versions (public at key "pub", private at key "priv")
+        """
+        return RippleHelper.TEST_NET_VER
+
+    @staticmethod
+    def GetWifNetVersions():
+        """ Get WIF net versions.
+
+        Returns (dict):
+            WIF net versions (public at key "pub", private at key "priv")
+        """
+        raise RuntimeError("WIF format is not supported by Ripple")
+
+    @staticmethod
+    def ComputeAddress(pub_key, is_testnet = False):
+        """ Get address in P2PKH format.
+
+        Args:
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key
+            is_testnet (bool, optional)  : not used
+
+        Returns (str):
+            Address string
+        """
+        return XrpAddr.ToAddress(pub_key.to_string("compressed"))

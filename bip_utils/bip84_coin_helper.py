@@ -23,8 +23,6 @@
 
 # Imports
 import binascii
-import sha3
-from .bip32         import Bip32Const
 from .bip_coin_conf import *
 from .P2WPKH        import P2WPKH
 
@@ -65,18 +63,18 @@ class BitcoinHelper:
         return BitcoinConf.WIF_NET_VER
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2WPKH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = BitcoinConf.P2WPKH_NET_VER["main"] if not is_testnet else BitcoinConf.P2WPKH_NET_VER["test"]
-        return P2WPKH.ToAddress(pub_key_bytes, addr_ver)
+        return P2WPKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
 class LitecoinHelper:
@@ -115,15 +113,15 @@ class LitecoinHelper:
         return LitecoinConf.WIF_NET_VER
 
     @staticmethod
-    def ComputeAddress(pub_key_bytes, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet = False):
         """ Get address in P2WPKH format.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = LitecoinConf.P2WPKH_NET_VER["main"] if not is_testnet else LitecoinConf.P2WPKH_NET_VER["test"]
-        return P2WPKH.ToAddress(pub_key_bytes, addr_ver)
+        return P2WPKH.ToAddress(pub_key.to_string("compressed"), addr_ver)

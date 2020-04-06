@@ -20,40 +20,54 @@
 
 
 # Imports
-import binascii
-from .              import utils
-from .base58        import Base58Encoder
-from .bip_coin_conf import BitcoinConf
+import sha3
 
 
-class P2SHConst:
-    """ Class container for P2SH constants. """
+class EthAddrConst:
+    """ Class container for Ethereum address constants. """
 
-    # Script bytes
-    SCRIPT_BYTES         = b"0014"
+    # Prefix
+    PREFIX     = "0x"
+    # Start byte
+    START_BYTE = 24
 
 
-class P2SH:
-    """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
+class EthAddrUtils:
+    """ Class container for Ethereum address utility functions. """
 
-    @staticmethod
-    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2SH_NET_VER["main"]):
-        """ Get address in P2SH format.
+    def ChecksumEncode(addr):
+        """ Checksum encode the specified address.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            addr (str) : address string
+
+        Returns (str):
+            Checksum encoded address
+        """
+
+        enc_addr = ""
+
+        # Compute address digest
+        addr_digest = sha3.keccak_256(addr.encode()).hexdigest()
+        # Encode it
+        for i, c in enumerate(addr):
+            enc_addr += c.upper() if (int(addr_digest[i], 16) >= 8) else c.lower()
+
+        return enc_addr
+
+
+class EthAddr:
+    """ Ethereum address class. It allows the Ethereum address generation. """
+
+    @staticmethod
+    def ToAddress(pub_key_bytes):
+        """ Get address in Ethereum format.
+
+        Args:
+            pub_key_bytes (bytes) : public key bytes
 
         Returns (str):
             Address string
         """
-
-        # Key hash: Hash160(public_key)
-        key_hash = utils.Hash160(pub_key_bytes)
-        # Script signature: 0x0014 | Hash160(public_key)
-        script_sig = binascii.unhexlify(P2SHConst.SCRIPT_BYTES) + key_hash
-        # Address bytes = Hash160(script_signature)
-        addr_bytes = utils.Hash160(script_sig)
-
-        # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(net_addr_ver + addr_bytes)
+        addr = sha3.keccak_256(pub_key_bytes).hexdigest()[EthAddrConst.START_BYTE:]
+        return EthAddrConst.PREFIX + EthAddrUtils.ChecksumEncode(addr)

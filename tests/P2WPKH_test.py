@@ -22,8 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import P2WPKH
-from bip_utils import BitcoinConf, LitecoinConf
+from bip_utils import BitcoinConf, LitecoinConf, P2WPKH
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -80,8 +79,6 @@ class P2WPKHTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECTOR:
-            # Test decoder
-            self.assertEqual(test["address"], P2WPKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
             self.assertEqual(test["address"], P2WPKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
 
 

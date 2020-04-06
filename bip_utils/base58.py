@@ -54,6 +54,12 @@ class Base58Utils:
         return utils.Sha256(utils.Sha256(data_bytes))[:Base58Const.CHECKSUM_BYTE_LEN]
 
 
+class Base58ChecksumError(Exception):
+    """ Exception in case of checksum error. """
+
+    pass
+
+
 class Base58Encoder:
     """ Base58 encoder class. It provides methods for encoding and checksum encoding to Base58 format. """
 
@@ -132,7 +138,7 @@ class Base58Decoder:
     def CheckDecode(data_str):
         """Decode bytes from a Base58 string with checksum.
         ValueError is raised if the string is not a valid Base58 format.
-        RuntimeError is raised if checksum is not valid.
+        Base58ChecksumError is raised if checksum is not valid.
 
         Args:
             data_str (str) : data string
@@ -146,8 +152,11 @@ class Base58Decoder:
         # Get data and checksum bytes
         data_bytes, checksum_bytes = dec_bytes[:-Base58Const.CHECKSUM_BYTE_LEN], dec_bytes[-Base58Const.CHECKSUM_BYTE_LEN:]
 
+        # Compute checksum
+        comp_checksum = Base58Utils.ComputeChecksum(data_bytes)
+
         # Verify checksum
-        if checksum_bytes != Base58Utils.ComputeChecksum(data_bytes):
-            raise RuntimeError("Invalid checksum")
+        if checksum_bytes != comp_checksum:
+            raise Base58ChecksumError("Invalid checksum (expected %s, got %s)" % (comp_checksum, checksum_bytes))
 
         return data_bytes
