@@ -352,7 +352,7 @@ This library is used internally by the other libraries, but it's available also 
 Example from mnemonic generation to wallet addresses.
 
     import binascii
-    from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes
+    from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes, Bip44PrivKeyTypes
 
     # Generate random mnemonic
     mnemonic = Bip39MnemonicGenerator.FromWordsNumber(12)
@@ -363,7 +363,7 @@ Example from mnemonic generation to wallet addresses.
     # Generate BIP44 master keys
     bip_obj_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
     # Print master key
-    print("Master key (bytes): %s" % binascii.hexlify(bip_obj_mst.PrivateKey(False)))
+    print("Master key (bytes): %s" % binascii.hexlify(bip_obj_mst.PrivateKey(Bip44PrivKeyTypes.RAW_KEY)))
     print("Master key (extended): %s" % bip_obj_mst.PrivateKey())
     print("Master key (WIF): %s" % bip_obj_mst.WalletImportFormat())
 
