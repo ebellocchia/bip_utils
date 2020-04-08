@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, P2PKH
+from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, P2PKH
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -60,6 +60,16 @@ TEST_VECTOR = \
             "net_addr_ver" :  DogecoinConf.P2PKH_NET_VER["main"],
         },
         {
+            "pub_key"      : b"03146d29e4a8b263f607f6ffae0a19f2e9be0bc063783e3658f50255c380b45070",
+            "address"      :  "XnLyZhQDr3JqFQi7UPC8LddHMgbAyQWiZo",
+            "net_addr_ver" :  DashConf.P2PKH_NET_VER["main"],
+        },
+        {
+            "pub_key"      : b"02b80e30b1cfbd4e172212110f914b66cdaa83967eade9c9884571906164a8cc44",
+            "address"      :  "XykvvzP3nK2KRLKkpCe6hHV6p2w5DNQD56",
+            "net_addr_ver" :  DashConf.P2PKH_NET_VER["main"],
+        },
+        {
             "pub_key"      : b"02a7451395735369f2ecdfc829c0f774e88ef1303dfe5b2f04dbaab30a535dfdd6",
             "address"      :  "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
             "net_addr_ver" :  BitcoinConf.P2PKH_NET_VER["test"],
@@ -74,6 +84,24 @@ TEST_VECTOR = \
             "address"      :  "n2BMo5arHDyAK2CM8c56eoEd18uEkKnRLC",
             "net_addr_ver" :  DogecoinConf.P2PKH_NET_VER["test"],
         },
+        {
+            "pub_key"      : b"03ee6c2e9fcb33d45966775d41990c68d6b4db14bb66044fbb591b3f313781d612",
+            "address"      :  "ygAN9888Yy9thRdvaFuGqHa3Qm4M3Cvrj9",
+            "net_addr_ver" :  DashConf.P2PKH_NET_VER["test"],
+        },
+    ]
+
+# Some invalid keys
+TEST_VECTOR_KEY_ERR = \
+    [
+        # Private key (not accepted by P2PKH)
+        b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
+        # Compressed public key with valid length but wrong version (0x01)
+        b"019efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
+        # Compressed public key with invalid length
+        b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c7000",
+        # Uncompressed public key (not accepted by P2PKH)
+        b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb52919824f"
     ]
 
 
@@ -85,6 +113,11 @@ class P2PKHTests(unittest.TestCase):
     def test_vector(self):
         for test in TEST_VECTOR:
             self.assertEqual(test["address"], P2PKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
+
+    # Test invalid keys
+    def test_invalid_keys(self):
+        for test in TEST_VECTOR_KEY_ERR:
+            self.assertRaises(ValueError, P2PKH.ToAddress, binascii.unhexlify(test))
 
 
 # Run test if executed

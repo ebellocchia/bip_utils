@@ -40,14 +40,14 @@ TEST_VECTOR = \
             "net_addr_ver" :  BitcoinConf.P2WPKH_NET_VER["main"],
         },
         {
-            "pub_key"      : b"031c34a6bce9676e0b011c93bcf8a2d1007add7ce07f9a502a537f0fee56325944",
-            "address"      :  "bc1q8txvqq8kr0nhkatkrmeg7zaj45zpsef2ylc9pq",
-            "net_addr_ver" :  BitcoinConf.P2WPKH_NET_VER["main"],
+            "pub_key"      : b"021c1750d4a5ad543967b30e9447e50da7a5873e8be133eb25f2ce0ea5638b9d17",
+            "address"      :  "ltc1qwlezpr3890hcp6vva9twqh27mr6edadreqvhnn",
+            "net_addr_ver" :  LitecoinConf.P2WPKH_NET_VER["main"],
         },
         {
-            "pub_key"      : b"0390d1feb19684674564df87854f3892d9e8a7d3551148c2f299a75d262c950ee0",
-            "address"      :  "bc1qrz46a4gt0sghvvyt4gy5kp2rswmhtufv6sdq9v",
-            "net_addr_ver" :  BitcoinConf.P2WPKH_NET_VER["main"],
+            "pub_key"      : b"0201084ea04fa9619a056281e7c87a97693f67e5baa4ec604e7e8245b84e31cc96",
+            "address"      :  "ltc1qdjtr2jc5uu6r0ss2fcey3djvkhlu7jux420fhr",
+            "net_addr_ver" :  LitecoinConf.P2WPKH_NET_VER["main"],
         },
         {
             "pub_key"      : b"02339193c34cd8ecb21ebd48af64ead71d78213470d61d7274f932489d6ba21bd3",
@@ -71,6 +71,19 @@ TEST_VECTOR = \
         },
     ]
 
+# Some invalid keys
+TEST_VECTOR_KEY_ERR = \
+    [
+        # Private key (not accepted by P2WPKH)
+        b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
+        # Compressed public key with valid length but wrong version (0x01)
+        b"019efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
+        # Compressed public key with invalid length
+        b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c7000",
+        # Uncompressed public key (not accepted by P2WPKH)
+        b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb52919824f"
+    ]
+
 
 #
 # Tests
@@ -80,6 +93,11 @@ class P2WPKHTests(unittest.TestCase):
     def test_vector(self):
         for test in TEST_VECTOR:
             self.assertEqual(test["address"], P2WPKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
+
+    # Test invalid keys
+    def test_invalid_keys(self):
+        for test in TEST_VECTOR_KEY_ERR:
+            self.assertRaises(ValueError, P2WPKH.ToAddress, binascii.unhexlify(test))
 
 
 # Run test if executed

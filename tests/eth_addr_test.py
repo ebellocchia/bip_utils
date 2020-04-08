@@ -52,6 +52,16 @@ TEST_VECTOR = \
         },
     ]
 
+# Some invalid keys
+TEST_VECTOR_KEY_ERR = \
+    [
+        # Private key (not accepted by Ethereum address)
+        b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
+        # Compressed public key (not accepted by Ethereum address)
+        b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
+        # Uncompressed public key with invalid length
+        b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb5291982"
+    ]
 
 #
 # Tests
@@ -65,6 +75,11 @@ class P2PKHTests(unittest.TestCase):
             uncompr_key = ver_key.to_string("uncompressed")[1:]
 
             self.assertEqual(test["address"], EthAddr.ToAddress(uncompr_key))
+
+    # Test invalid keys
+    def test_invalid_keys(self):
+        for test in TEST_VECTOR_KEY_ERR:
+            self.assertRaises(ValueError, EthAddr.ToAddress, binascii.unhexlify(test))
 
 
 # Run test if executed

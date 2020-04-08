@@ -22,52 +22,70 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import WifDecoder, WifEncoder, Base58ChecksumError
+from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, WifDecoder, WifEncoder, Base58ChecksumError
 
 
 # Some keys randomly generated from:
 # https://gobittest.appspot.com/PrivateKey
 TEST_VECTOR = \
     [
+        # Private keys
         {
-            "key_bytes" : b"5e9441950b3918772cc3da1fc6735b7c33f1bbe08a8f1e704be46cb664f7e457",
-            "encode"    :  "5JXwUhNu98kXkyhR8EpvpaTGRjj8JZEP7hWboB5xscgjbgK2zNk",
+            "key_bytes"    : b"5e9441950b3918772cc3da1fc6735b7c33f1bbe08a8f1e704be46cb664f7e457",
+            "encode"       :  "5JXwUhNu98kXkyhR8EpvpaTGRjj8JZEP7hWboB5xscgjbgK2zNk",
+            "net_addr_ver" :  BitcoinConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
-            "encode"    :  "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
+            "key_bytes"    : b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
+            "encode"       :  "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
+            "net_addr_ver" :  BitcoinConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"3358a5243588f0746c2124bfd88897b19740d350e9490c6bbf28a494ab4440b9",
-            "encode"    :  "5JCu9q9GHLHHFS1FqGtLfoGkztBx712cxk4ta6S1UizxLQS6eFp",
+            "key_bytes"    : b"4baa38b7623a40da63836cd9ee8c51d0b6273e766c88adde156fd5fec6e19008",
+            "encode"       :  "6uhLoqNczaCPTj3GmT7qfau4Qrp5qb7riHtYshudPgbiGSx3bVs",
+            "net_addr_ver" :  LitecoinConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"7f42c14e4260bd7c8418dae971a0d91aacf9ec4a59005afca9ae79a09240b10c",
-            "encode"    :  "5JnLHbJUuMcQNc9UC64SizxLYRw9Y2ecbiJW4f8U8htgYLDJVED",
+            "key_bytes"    : b"abd83a20f1161f5ddb561b64de3e60d2b6350e3b6bc35968e52edb097c73a2c3",
+            "encode"       :  "6vRhbAcRpmPZT4GKJzKs33tXGpxfHeBwzkxGYE8QY13QePS9TdM",
+            "net_addr_ver" :  LitecoinConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"c8925812285db4a007562576251334aac2f92d740ab1c18085090c47e885e975",
-            "encode"    :  "5KLcv3EqNcV4bjMHK3x9bxCd9brVhrDt5TbSk43HUfRij7NtZ9p",
+            "key_bytes"    : b"21f5e16d57b9b70a1625020b59a85fa9342de9c103af3dd9f7b94393a4ac2f46",
+            "encode"       :  "6JPaMAeJjouhb8xPzFzETYCHJAJ9wBoFsCyC1LXFSTcZDmHgy6L",
+            "net_addr_ver" :  DogecoinConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"4dd5c47953169db14da8f2cbff14e6de5e9e48a0daec38e4988300eaba8ddd0e",
-            "encode"    :  "5JQZmnApGh9pVQLBQXTk6CHoMrzVGcVRGR9NTZizLCQFm4AKa5t",
+            "key_bytes"    : b"7c5e3d057ec9d8cd61c8e59873fd3ff478cbe0808c444092986e34cc533fa5d7",
+            "encode"       :  "6K5Ph1CE23gtNGsxyAfiUMuXzNq7WRdDr9KANWoXGETz1SNNZYf",
+            "net_addr_ver" :  DogecoinConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"6e6613bde60831b8f7e8da5403d1f8ed0e4f3a9b3d43a335fb177102d9ab8622",
-            "encode"    :  "5JeuZxmhGsyweMdWMJpSbmdK24boSn7LX2rFNY5Kh4fnBJQByME",
+            "key_bytes"    : b"a215750fac2ad0382e40ad02d11aa1467f5ec844f0a7e995c1b3e979fbdc71d0",
+            "encode"       :  "7vfjZ9w8U2xEKZ7rxRBNW5GFVrqDQunqUHHXG5RLnk6YWnjMLGT",
+            "net_addr_ver" :  DashConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"2932d10751d709703a202a047fb07c98f86e434d97fa972c08133e6bf17516a1",
-            "encode"    :  "5J8RwayFGhJYqjGRzAYVeGj1vaykP1V2Zp6hWRM22PNFnyEdYSS",
+            "key_bytes"    : b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
+            "encode"       :  "7uanbQTW6cZTG12f4qjVa9wDYfLampZV2nX4PvUmYnWQ9nPmi93",
+            "net_addr_ver" :  DashConf.WIF_NET_VER["main"],
+        },
+        # Public compressed key
+        {
+            "key_bytes"    : b"0338994349b3a804c44bbec55c2824443ebb9e475dfdad14f4b1a01a97d42751b3",
+            "encode"       :  "2SanjgwXS8KTJb1Pv7YGCMCfRSWU8Qw4F1fG1PmAxrgZ9cCZosxosN",
+            "net_addr_ver" :  BitcoinConf.WIF_NET_VER["main"],
         },
         {
-            "key_bytes" : b"8d49f3cf2388f301b329a51c8c5f0451b2e84b95d7a0968ee73d072e6a804ce9",
-            "encode"    :  "5JtWchFNvKBT25gZWeTmnc2NhhJCG8Hhexbn6FBzPkKM9Ljzh6e",
+            "key_bytes"    : b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
+            "encode"       :  "2Sahb5hCJow8gvz5fq5Wh1dun8GUvTpcfr3Px4jDf1HhYD7D7Z8JCT",
+            "net_addr_ver" :  BitcoinConf.WIF_NET_VER["main"],
         },
+        # Public uncompressed key
         {
-            "key_bytes" : b"ce2c0f4ebc9e74ad0393e6dfbe1dc9b270c1978927d219317d0d195a1852720f",
-            "encode"    :  "5KP5yHk13cD5jcfqUCnCUTew9tPYANkwBHskM7TNsob5KMSXT4e",
+            "key_bytes"    : b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb52919824f",
+            "encode"       :  "2HJMDEE3pAbtM7ij1NDWgUXnoNBhM5WC8enF3X5BbFhtfCMy1ULFm1bpxKA4CzHmgPnMY2UNSsp5v5FeEmsySYcruiQzLHC",
+            "net_addr_ver" :  BitcoinConf.WIF_NET_VER["main"],
         },
     ]
 
@@ -87,6 +105,37 @@ TEST_VECTOR_ENC_ERR = \
         "5JQZOnApGO9pVQLBQXTk6CHoMrzVGcVRGR9NTZizLCQFm4AKa5t",
     ]
 
+# Some invalid keys for encoding
+TEST_VECTOR_ENC_KEY_ERR = \
+    [
+        # Private key with invalid length
+        b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e",
+        # Compressed public key with valid length but wrong version (0x01)
+        b"019efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
+        # Compressed public key with invalid length
+        b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c7000",
+        # Uncompressed public key with invalid length
+        b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb5291982"
+    ]
+
+# Some invalid keys for decoding
+# These wrong encodings were generated on purpose by slightly modifying the WifEncoder.Encode method
+TEST_VECTOR_DEC_KEY_ERR = \
+    [
+        # Valid private key with wrong net version prefix (0x79 instead of 0x80)
+        "54fKtD9rQfDYgbQ4XpQQPC5r3j6sTpFqEXxBfdveRtM7kJ4s4nK",
+        # Private key with invalid length
+        "ye3sXre57tZGpZheVLSm6AvcfAoaPMJaP8f9veXhvxANZxnVJ",
+        # Compressed public key with valid length but wrong version (0x01 instead of 0x02 or 0x03)
+        "2SaZ1T82wukymo1Zf4XSJ7qjge23iozCQ7sxKwAmJuoDnVpt1DKCHv",
+        # Compressed public key with invalid length
+        "7Muk9RiQuc9vwFGwcPCv3bouxB5LEyPASTTaJ3TLrkGhvkSQU1a4RMw",
+        # Compressed public key with invalid added suffix (0x02 instead of 0x01)
+        "2Sahb5hCJow8gvz5fq5Wh1dun8GUvTpcfr3Px4jDf1HhYD7DHXiKYy",
+        # Uncompressed public key with invalid length
+        "HsjZzgDFeJDh69NCV9YPatTWuY7zusKt5bwgvJu6U3FrA4MB87b6nQAXogEuvKvXf2Y8Dw1T5n4fjwiFqhHM1wHv2iyvG"
+    ]
+
 
 #
 # Tests
@@ -96,13 +145,13 @@ class WifTests(unittest.TestCase):
     def test_decoder(self):
         for test in TEST_VECTOR:
             # Test decoder
-            self.assertEqual(test["key_bytes"], binascii.hexlify(WifDecoder.Decode(test["encode"])))
+            self.assertEqual(test["key_bytes"], binascii.hexlify(WifDecoder.Decode(test["encode"], test["net_addr_ver"])))
 
     # Test encoder
     def test_encoder(self):
         for test in TEST_VECTOR:
             # Test encoder
-            self.assertEqual(test["encode"], WifEncoder.Encode(binascii.unhexlify(test["key_bytes"])))
+            self.assertEqual(test["encode"], WifEncoder.Encode(binascii.unhexlify(test["key_bytes"]), test["net_addr_ver"]))
 
     # Test invalid checksum
     def test_invalid_checksum(self):
@@ -117,6 +166,17 @@ class WifTests(unittest.TestCase):
             # "with" is required because the exception is raised by Base58 module
             with self.assertRaises(ValueError):
                 WifDecoder.Decode(test)
+
+    # Test invalid keys for encoding
+    def test_enc_invalid_keys(self):
+        for test in TEST_VECTOR_ENC_KEY_ERR:
+            self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))
+
+    # Test invalid keys for decoding
+    def test_dec_invalid_keys(self):
+        for test in TEST_VECTOR_DEC_KEY_ERR:
+            self.assertRaises(ValueError, WifDecoder.Decode, test)
+
 
 # Run test if executed
 if __name__ == "__main__":
