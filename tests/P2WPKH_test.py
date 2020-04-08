@@ -29,6 +29,9 @@ from bip_utils import BitcoinConf, LitecoinConf, P2WPKH
 # https://iancoleman.io/bip39/
 TEST_VECTOR = \
     [
+        #
+        # Main nets
+        #
         {
             "pub_key"      : b"03e775fd51f0dfb8cd865d9ff1cca2a158cf651fe997fdc9fee9c1d3b5e995ea77",
             "address"      :  "bc1qnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g",
@@ -49,25 +52,18 @@ TEST_VECTOR = \
             "address"      :  "ltc1qdjtr2jc5uu6r0ss2fcey3djvkhlu7jux420fhr",
             "net_addr_ver" :  LitecoinConf.P2WPKH_NET_VER["main"],
         },
+        #
+        # Test nets
+        #
         {
             "pub_key"      : b"02339193c34cd8ecb21ebd48af64ead71d78213470d61d7274f932489d6ba21bd3",
             "address"      :  "tb1qxdyjf6h5d6qxap4n2dap97q4j5ps6ua8sll0ct",
             "net_addr_ver" :  BitcoinConf.P2WPKH_NET_VER["test"],
         },
         {
-            "pub_key"      : b"03443a4f06e4182fe7f7020318cc394ffdb5517e3ad31991f57252b631ac9df33a",
-            "address"      :  "tb1qextge928njsn94qu5jhc80uyx3wpz0fjqneen4",
-            "net_addr_ver" :  BitcoinConf.P2WPKH_NET_VER["test"],
-        },
-        {
-            "pub_key"      : b"02b396686039259ba12198413122c86f5375932ca0be7e052e48107654eb8b097e",
-            "address"      :  "tb1qfvczjgwnc6l4tr4ee8vlffr6hznf7u28xnm2yh",
-            "net_addr_ver" :  BitcoinConf.P2WPKH_NET_VER["test"],
-        },
-        {
-            "pub_key"      : b"034f8b2f463fa3fe8e514baf6e2d98c3bc895a22f4d0e279bbb9bc846374939fb3",
-            "address"      :  "tb1q4kestxh2w7r7h5hxvn4pn2qv2dldvylgj6t2kr",
-            "net_addr_ver" :  BitcoinConf.P2WPKH_NET_VER["test"],
+            "pub_key"      : b"03bb5db212192d5b428c5db726aba21426d0a63b7a453b0104f2398326bca43fc2",
+            "address"      :  "tltc1q677973lw0w796gttpy52f296jqaaksz0duklcr",
+            "net_addr_ver" :  LitecoinConf.P2WPKH_NET_VER["test"],
         },
     ]
 
