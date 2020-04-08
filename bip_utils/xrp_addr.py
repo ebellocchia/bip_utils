@@ -39,6 +39,7 @@ class XrpAddr:
     @staticmethod
     def ToAddress(pub_key_bytes):
         """ Get address in Ripple format.
+        ValueError is raised (by P2PKH module) if key is not a public compressed key.
 
         Args:
             pub_key_bytes (bytes) : public key bytes

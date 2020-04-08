@@ -68,7 +68,7 @@ class WifDecoder:
     @staticmethod
     def Decode(wif_str, net_addr_ver = BitcoinConf.WIF_NET_VER["main"]):
         """ Decode key bytes from a WIF string.
-        Base58ChecksumError is raised (by Base58Decoder) if checksum is not valid.
+        Base58ChecksumError is raised (by Base58) if checksum is not valid.
         ValueError is raised if the resulting key is not valid.
 
         Args:
