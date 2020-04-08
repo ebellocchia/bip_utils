@@ -81,7 +81,7 @@ TEST_VECTOR = \
         },
         {
             "pub_key"      : b"02b9988be7219be78b82e659155d02d3e1462f3febe7c87d33964b37831efd8884",
-            "address"      :  "n2BMo5arHDyAK2CM8c56eoEd18uEkKnRLC",
+            "address"      :  "nprZmJBRhatuwtUXBSjjd3nCG9R8DDm3y3",
             "net_addr_ver" :  DogecoinConf.P2PKH_NET_VER["test"],
         },
         {

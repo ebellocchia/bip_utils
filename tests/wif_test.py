@@ -62,12 +62,12 @@ TEST_VECTOR = \
         },
         {
             "key_bytes"    : b"a215750fac2ad0382e40ad02d11aa1467f5ec844f0a7e995c1b3e979fbdc71d0",
-            "encode"       :  "7vfjZ9w8U2xEKZ7rxRBNW5GFVrqDQunqUHHXG5RLnk6YWnjMLGT",
+            "encode"       :  "7rnFCh34mBbn3uxT9FwNbS4hfdbn7W75u19Jmn3YoS5mXZjPoaX",
             "net_addr_ver" :  DashConf.WIF_NET_VER["main"],
         },
         {
             "key_bytes"    : b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
-            "encode"       :  "7uanbQTW6cZTG12f4qjVa9wDYfLampZV2nX4PvUmYnWQ9nPmi93",
+            "encode"       :  "7qhJEwZSPmCzzMsFFgVVfWjfiS79UQsjTWNqud6yZUVdASqwap5",
             "net_addr_ver" :  DashConf.WIF_NET_VER["main"],
         },
         # Public compressed key
