@@ -38,6 +38,7 @@ class Bip49Const:
         [
             Bip44Coins.BITCOIN , Bip44Coins.BITCOIN_TESTNET ,
             Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET,
+            Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET,
             Bip44Coins.DASH    , Bip44Coins.DASH_TESTNET,
         ]
     # Map from Bip44Coins to helper classes
@@ -45,6 +46,7 @@ class Bip49Const:
         {
             Bip44Coins.BITCOIN  : BitcoinHelper,
             Bip44Coins.LITECOIN : LitecoinHelper,
+            Bip44Coins.DOGECOIN : DogecoinHelper,
             Bip44Coins.DASH     : DashHelper,
         }
 
