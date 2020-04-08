@@ -121,7 +121,7 @@ class Base58Decoder:
 
         # Convert string to integer
         val = 0
-        for (i, c) in enumerate(data_str[::-1]):
+        for i, c in enumerate(data_str[::-1]):
             val += Base58Const.ALPHABET.index(c) * (Base58Const.RADIX ** i)
 
         dec = bytearray()
