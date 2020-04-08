@@ -73,13 +73,13 @@ class KeyHelper:
 
     @staticmethod
     def IsValid(key_bytes):
-        """ Get if the specified key is public compressed.
+        """ Get if the specified key is valid.
 
         Args:
             key_bytes (bytes) : key bytes
 
         Returns (bool):
-            True if public compressed, false otherwise
+            True if private or public compressed/decompressed, false otherwise
         """
         return KeyHelper.IsPrivate(key_bytes)            or \
                KeyHelper.IsPublicUncompressed(key_bytes) or \
