@@ -1,3 +1,6 @@
+# Version
+from ._version      import __version__
+# Libraries
 from .base58        import Base58Decoder, Base58Encoder, Base58ChecksumError
 from .bech32        import Bech32Decoder, Bech32Encoder, Bech32ChecksumError, Bech32FormatError
 from .wif           import WifDecoder, WifEncoder
