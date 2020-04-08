@@ -29,6 +29,9 @@ from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, P2PKH
 # https://iancoleman.io/bip39/
 TEST_VECTOR = \
     [
+        #
+        # Main nets
+        #
         {
             "pub_key"      : b"03aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e",
             "address"      :  "1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA",
@@ -69,6 +72,9 @@ TEST_VECTOR = \
             "address"      :  "XykvvzP3nK2KRLKkpCe6hHV6p2w5DNQD56",
             "net_addr_ver" :  DashConf.P2PKH_NET_VER["main"],
         },
+        #
+        # Test nets
+        #
         {
             "pub_key"      : b"02a7451395735369f2ecdfc829c0f774e88ef1303dfe5b2f04dbaab30a535dfdd6",
             "address"      :  "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
