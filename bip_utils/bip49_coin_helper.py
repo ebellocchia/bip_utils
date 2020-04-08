@@ -58,7 +58,7 @@ class BitcoinHelper:
         """ Get WIF net versions.
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         return BitcoinConf.WIF_NET_VER
 
@@ -109,7 +109,7 @@ class LitecoinHelper:
         """ Get WIF net versions.
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         return LitecoinConf.WIF_NET_VER
 

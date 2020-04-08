@@ -399,7 +399,7 @@ class Bip44Base(ABC):
             coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         pass
 

@@ -62,7 +62,7 @@ class BitcoinHelper():
         """ Get WIF net versions.
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         return BitcoinConf.WIF_NET_VER
 
@@ -114,7 +114,7 @@ class LitecoinHelper():
         """ Get WIF net versions.
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         return LitecoinConf.WIF_NET_VER
 
@@ -164,7 +164,7 @@ class DogecoinHelper():
         """ Get WIF net versions.
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         return DogecoinConf.WIF_NET_VER
 
@@ -214,7 +214,7 @@ class EthereumHelper():
         """ Get WIF net versions.
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         raise RuntimeError("WIF format is not supported by Ethereum")
 
@@ -264,7 +264,7 @@ class RippleHelper():
         """ Get WIF net versions.
 
         Returns (dict):
-            WIF net versions (public at key "pub", private at key "priv")
+            WIF net versions (main net at key "main", test net at key "test")
         """
         raise RuntimeError("WIF format is not supported by Ripple")
 
