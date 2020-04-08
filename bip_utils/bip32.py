@@ -24,11 +24,10 @@
 # Imports
 import binascii
 import ecdsa
-from ecdsa.curves       import SECP256k1
-from ecdsa.ecdsa        import generator_secp256k1, int_to_string, string_to_int
-from ecdsa.numbertheory import square_root_mod_prime as sqrt_mod
-from .base58            import Base58Decoder, Base58Encoder
-from .                  import utils
+from  ecdsa.curves       import SECP256k1
+from  ecdsa.ecdsa        import generator_secp256k1, int_to_string, string_to_int
+from .base58             import Base58Decoder, Base58Encoder
+from .                   import utils
 
 
 class Bip32Const:
@@ -201,7 +200,6 @@ class Bip32:
                         test_net_ver = Bip32Const.TEST_NET_VER):
         """ Create a Bip32 object from the specified extended key.
         Bip32KeyError is raised if the key is not valid.
-        RuntimeError is raised if the key checksum is not valid.
 
         Args:
             key_str (str)                 : extended key string
@@ -293,6 +291,7 @@ class Bip32:
     def ChildKey(self, index):
         """ Create and return a child key of the current one at the specified index.
         The index shall be hardened using HardenIndex method to use the private derivation algorithm.
+        Bip32KeyError is raised if the index results in an invalid key.
 
         Args:
             index (int) : index
@@ -337,7 +336,7 @@ class Bip32:
 
     def PrivateKeyBytes(self):
         """ Return private key bytes.
-        Bip32KeyError is raised if internal key is public.
+        Bip32KeyError is raised if internal key is public-only.
 
         Returns (bytes):
             Private key bytes
@@ -370,7 +369,6 @@ class Bip32:
                           main_net_ver = Bip32Const.MAIN_NET_VER["pub"],
                           test_net_ver = Bip32Const.TEST_NET_VER["pub"]):
         """ Return extended public key encoded in Base58 format.
-        RuntimeError is raised if internal key is public.
 
         Args:
             main_net_ver (bytes, optional) : main net version
@@ -385,7 +383,7 @@ class Bip32:
                            main_net_ver = Bip32Const.MAIN_NET_VER["priv"],
                            test_net_ver = Bip32Const.TEST_NET_VER["priv"]):
         """ Return extended private key encoded in Base58 format.
-        Bip32KeyError is raised if the Bip32 object has a public-only key.
+        Bip32KeyError is raised if internal key is public-only.
 
         Args:
             main_net_ver (bytes, optional) : main net version
