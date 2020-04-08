@@ -24,13 +24,14 @@ import binascii
 from .              import utils
 from .base58        import Base58Encoder
 from .bip_coin_conf import BitcoinConf
+from .key_helper    import KeyHelper
 
 
 class P2SHConst:
     """ Class container for P2SH constants. """
 
     # Script bytes
-    SCRIPT_BYTES         = b"0014"
+    SCRIPT_BYTES = b"0014"
 
 
 class P2SH:
@@ -39,14 +40,17 @@ class P2SH:
     @staticmethod
     def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2SH_NET_VER["main"]):
         """ Get address in P2SH format.
+        ValueError is raised if key is not a public compressed key.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key_bytes (bytes)          : public key bytes
+            net_addr_ver (bytes, optional) : net address version, default is Bitcoin main network
 
         Returns (str):
             Address string
         """
+        if not KeyHelper.IsPublicCompressed(pub_key_bytes):
+            raise ValueError("Public compressed key is required for P2SH")
 
         # Key hash: Hash160(public_key)
         key_hash = utils.Hash160(pub_key_bytes)

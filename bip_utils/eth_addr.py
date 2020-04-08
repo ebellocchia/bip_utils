@@ -21,6 +21,7 @@
 
 # Imports
 import sha3
+from .key_helper import KeyHelper
 
 
 class EthAddrConst:
@@ -45,15 +46,12 @@ class EthAddrUtils:
             Checksum encoded address
         """
 
-        enc_addr = ""
-
         # Compute address digest
         addr_digest = sha3.keccak_256(addr.encode()).hexdigest()
         # Encode it
-        for i, c in enumerate(addr):
-            enc_addr += c.upper() if (int(addr_digest[i], 16) >= 8) else c.lower()
+        enc_addr = [c.upper() if (int(addr_digest[i], 16) >= 8) else c.lower() for i, c in enumerate(addr)]
 
-        return enc_addr
+        return "".join(enc_addr)
 
 
 class EthAddr:
@@ -62,6 +60,7 @@ class EthAddr:
     @staticmethod
     def ToAddress(pub_key_bytes):
         """ Get address in Ethereum format.
+        ValueError is raised if key is not a public uncompressed key.
 
         Args:
             pub_key_bytes (bytes) : public key bytes
@@ -69,5 +68,8 @@ class EthAddr:
         Returns (str):
             Address string
         """
+        if not KeyHelper.IsPublicUncompressed(pub_key_bytes):
+            raise ValueError("Public uncompressed key is required for Ethereum address")
+
         addr = sha3.keccak_256(pub_key_bytes).hexdigest()[EthAddrConst.START_BYTE:]
         return EthAddrConst.PREFIX + EthAddrUtils.ChecksumEncode(addr)

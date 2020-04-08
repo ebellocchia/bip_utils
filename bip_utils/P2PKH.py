@@ -23,6 +23,7 @@
 from .              import utils
 from .base58        import Base58Encoder
 from .bip_coin_conf import BitcoinConf
+from .key_helper    import KeyHelper
 
 
 class P2PKH:
@@ -31,12 +32,16 @@ class P2PKH:
     @staticmethod
     def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2PKH_NET_VER["main"]):
         """ Get address in P2PKH format.
+        ValueError is raised if key is not a public compressed key.
 
         Args:
-            pub_key_bytes (bytes) : public key bytes
-            net_addr_ver (bytes)  : net address version
+            pub_key_bytes (bytes)          : public key bytes
+            net_addr_ver (bytes, optional) : net address version, default is Bitcoin main network
 
         Returns (str):
             Address string
         """
+        if not KeyHelper.IsPublicCompressed(pub_key_bytes):
+            raise ValueError("Public compressed key is required for P2PKH")
+
         return Base58Encoder.CheckEncode(net_addr_ver + utils.Hash160(pub_key_bytes))

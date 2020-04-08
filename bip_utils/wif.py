@@ -20,61 +20,85 @@
 
 
 # Imports
+import binascii
 from .base58        import Base58Decoder, Base58Encoder
 from .bip_coin_conf import BitcoinConf
+from .key_helper    import KeyHelper
 
 
 class WifConst:
     """ Class container for WIF constants. """
 
     # Public key suffix
-    PUB_KEY_SUFFIX  = b"\x01"
+    PUB_KEY_SUFFIX     = b"\x01"
+
 
 class WifEncoder:
     """ WIF encoder class. It provides methods for encoding to WIF format. """
 
     @staticmethod
-    def Encode(key_bytes, net_addr_ver = BitcoinConf.WIF_NET_VER["main"], is_public = False):
+    def Encode(key_bytes, net_addr_ver = BitcoinConf.WIF_NET_VER["main"]):
         """ Encode key bytes into a WIF string.
+        ValueError is raised if the key is not valid.
 
         Args:
-            key_bytes (bytes) : key bytes
-            is_testnet (bool) : true if test net, false otherwise
-            is_public (bool)  : true if public key, false otherwise
+            key_bytes (bytes)                : key bytes
+            net_addr_ver (bytes, optional)   : net address version, default is Bitcoin main network
 
         Returns (string):
             WIF encoded string
         """
 
+        if not KeyHelper.IsValid(key_bytes):
+            raise ValueError("Invalid key (%s)" % binascii.hexlify(key_bytes))
+
+        # Add suffix if compressed public key
+        if KeyHelper.IsPublicCompressed(key_bytes):
+            key_bytes += WifConst.PUB_KEY_SUFFIX
+
+        # Add net address version
         key_bytes = net_addr_ver + key_bytes
 
-        if is_public:
-            key_bytes = key_bytes + WifConst.PUB_KEY_SUFFIX
-
+        # Encode key
         return Base58Encoder.CheckEncode(key_bytes)
 
 class WifDecoder:
     """ WIF encoder class. It provides methods for encoding to WIF format."""
 
     @staticmethod
-    def Decode(wif_str):
+    def Decode(wif_str, net_addr_ver = BitcoinConf.WIF_NET_VER["main"]):
         """ Decode key bytes from a WIF string.
-        Base58ChecksumError is raised if checksum is not valid.
+        Base58ChecksumError is raised (by Base58Decoder) if checksum is not valid.
+        ValueError is raised if the resulting key is not valid.
 
         Args:
-            wif_str (str) : WIF string
+            wif_str (str)                  : WIF string
+            net_addr_ver (bytes, optional) : net address version, default is Bitcoin main network
 
         Returns (bytes):
             Key bytes
         """
 
-        # Check decode string
+        # Decode string
         key_bytes = Base58Decoder.CheckDecode(wif_str)
 
-        # Get if it's a public key from the first character of the string
-        is_public = wif_str[0] == 'K' or wif_str[0] == 'L' or wif_str[0] == 'c'
+        # Check net version
+        if key_bytes[0] != ord(net_addr_ver):
+            raise ValueError("Invalid net version (expected %x, got %x)" % (ord(net_addr_ver), key_bytes[0]))
 
-        if is_public:
-            return key_bytes[1:-1]
-        else:
-            return key_bytes[1:]
+        # Remove net version
+        key_bytes = key_bytes[1:]
+
+        # Remove suffix if compressed public key
+        if KeyHelper.IsPublicCompressed(key_bytes[:-1]):
+            # Check the compressed public key suffix
+            if key_bytes[-1] != ord(WifConst.PUB_KEY_SUFFIX):
+                raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" % (ord(WifConst.PUB_KEY_SUFFIX), key_bytes[-1]))
+            # Remove it
+            key_bytes = key_bytes[:-1]
+
+        # Check if valid
+        if not KeyHelper.IsValid(key_bytes):
+            raise ValueError("Invalid decoded key (%s)" % binascii.hexlify(key_bytes))
+
+        return key_bytes

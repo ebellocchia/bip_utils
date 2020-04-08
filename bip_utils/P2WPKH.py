@@ -27,13 +27,14 @@ import binascii
 from .              import utils
 from .bech32        import Bech32Encoder
 from .bip_coin_conf import BitcoinConf
+from .key_helper    import KeyHelper
 
 
 class P2WPKHConst:
     """ Class container for P2WPKH constants. """
 
     # Witness version
-    WITNESS_VER      = 0
+    WITNESS_VER = 0
 
 
 class P2WPKH:
@@ -42,12 +43,16 @@ class P2WPKH:
     @staticmethod
     def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2WPKH_NET_VER["main"]):
         """ Get address in P2WPKH format.
+        ValueError is raised if key is not a public compressed key.
 
         Args:
-            pub_key_bytes (bytes)       : public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key_bytes (bytes)          : public key bytes
+            net_addr_ver (bytes, optional) : net address version, default is Bitcoin main network
 
         Returns (str):
             Address string
         """
+        if not KeyHelper.IsPublicCompressed(pub_key_bytes):
+            raise ValueError("Public compressed key is required for P2WPKH")
+
         return Bech32Encoder.EncodeAddr(net_addr_ver, P2WPKHConst.WITNESS_VER, utils.Hash160(pub_key_bytes))
