@@ -136,8 +136,8 @@ class DogecoinHelper():
 
     # Main net versions (dgub / dgpv)
     MAIN_NET_VER = {"pub" : binascii.unhexlify(b"02facafd"), "priv" : binascii.unhexlify(b"02fac398")}
-    # Test net versions (same of BIP32 for BIP44)
-    TEST_NET_VER = Bip32Const.TEST_NET_VER
+    # Test net versions (tgub / tgpv)
+    TEST_NET_VER = {"pub" : binascii.unhexlify(b"0432a9a8"), "priv" : binascii.unhexlify(b"0432a243")}
 
     @staticmethod
     def GetMainNetVersions():
