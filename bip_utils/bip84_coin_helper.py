@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Reference:
-# https://github.com/libbitcoin/libbitcoin-system/wiki/Altcoin-Version-Mappings#bip44-altcoin-version-mapping-table
 
 # Imports
 import binascii
@@ -28,7 +26,7 @@ from .P2WPKH        import P2WPKH
 
 
 class BitcoinHelper:
-    """ Bitcoin class. It contains the constants some helper methods for BIP-0044 Bitcoin. """
+    """ Bitcoin class. It contains the constants some helper methods for BIP-0084 Bitcoin. """
 
     # Main net versions (zpub / zprv)
     MAIN_NET_VER = {"pub" : binascii.unhexlify(b"04b24746"), "priv" : binascii.unhexlify(b"04b2430c")}
@@ -57,8 +55,8 @@ class BitcoinHelper:
     def GetWifNetVersions():
         """ Get WIF net versions.
 
-        Returns (dict):
-            WIF net versions (main net at key "main", test net at key "test")
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
         return BitcoinConf.WIF_NET_VER
 
@@ -78,7 +76,7 @@ class BitcoinHelper:
 
 
 class LitecoinHelper:
-    """ Litecoin class. It contains the constants some helper methods for BIP-0044 Litecoin. """
+    """ Litecoin class. It contains the constants some helper methods for BIP-0084 Litecoin. """
 
     # Main net versions (same of Bitcoin)
     MAIN_NET_VER = BitcoinHelper.MAIN_NET_VER
@@ -107,8 +105,8 @@ class LitecoinHelper:
     def GetWifNetVersions():
         """ Get WIF net versions.
 
-        Returns (dict):
-            WIF net versions (main net at key "main", test net at key "test")
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
         return LitecoinConf.WIF_NET_VER
 

@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Reference:
-# https://github.com/libbitcoin/libbitcoin-system/wiki/Altcoin-Version-Mappings#bip44-altcoin-version-mapping-table
 
 # Imports
 import binascii
@@ -61,8 +59,8 @@ class BitcoinHelper():
     def GetWifNetVersions():
         """ Get WIF net versions.
 
-        Returns (dict):
-            WIF net versions (main net at key "main", test net at key "test")
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
         return BitcoinConf.WIF_NET_VER
 
@@ -113,8 +111,8 @@ class LitecoinHelper():
     def GetWifNetVersions():
         """ Get WIF net versions.
 
-        Returns (dict):
-            WIF net versions (main net at key "main", test net at key "test")
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
         return LitecoinConf.WIF_NET_VER
 
@@ -163,8 +161,8 @@ class DogecoinHelper():
     def GetWifNetVersions():
         """ Get WIF net versions.
 
-        Returns (dict):
-            WIF net versions (main net at key "main", test net at key "test")
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
         return DogecoinConf.WIF_NET_VER
 
@@ -180,6 +178,56 @@ class DogecoinHelper():
             Address string
         """
         addr_ver = DogecoinConf.P2PKH_NET_VER["main"] if not is_testnet else DogecoinConf.P2PKH_NET_VER["test"]
+        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+
+
+class DashHelper():
+    """ Dash class. It contains the constants some helper methods for BIP-0044 Dash. """
+
+    # Main net versions (same of BIP32 for BIP44)
+    MAIN_NET_VER = Bip32Const.MAIN_NET_VER
+    # Test net versions (same of BIP32 for BIP44)
+    TEST_NET_VER = Bip32Const.TEST_NET_VER
+
+    @staticmethod
+    def GetMainNetVersions():
+        """ Get main net versions.
+
+        Returns (dict):
+            Main net versions (public at key "pub", private at key "priv")
+        """
+        return DashHelper.MAIN_NET_VER
+
+    @staticmethod
+    def GetTestNetVersions():
+        """ Get test net versions.
+
+        Returns (dict):
+            Test net versions (public at key "pub", private at key "priv")
+        """
+        return DashHelper.TEST_NET_VER
+
+    @staticmethod
+    def GetWifNetVersions():
+        """ Get WIF net versions.
+
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
+        """
+        return DashConf.WIF_NET_VER
+
+    @staticmethod
+    def ComputeAddress(pub_key, is_testnet = False):
+        """ Get address in P2PKH format.
+
+        Args:
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+
+        Returns (str):
+            Address string
+        """
+        addr_ver = DashConf.P2PKH_NET_VER["main"] if not is_testnet else DashConf.P2PKH_NET_VER["test"]
         return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
@@ -213,10 +261,10 @@ class EthereumHelper():
     def GetWifNetVersions():
         """ Get WIF net versions.
 
-        Returns (dict):
-            WIF net versions (main net at key "main", test net at key "test")
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        raise RuntimeError("WIF format is not supported by Ethereum")
+        return EthereumConf.WIF_NET_VER
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
@@ -263,10 +311,10 @@ class RippleHelper():
     def GetWifNetVersions():
         """ Get WIF net versions.
 
-        Returns (dict):
-            WIF net versions (main net at key "main", test net at key "test")
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        raise RuntimeError("WIF format is not supported by Ripple")
+        return RippleConf.WIF_NET_VER
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
