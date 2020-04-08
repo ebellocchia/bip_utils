@@ -69,6 +69,7 @@ class LitecoinConf:
     # WIF net version
     WIF_NET_VER       = {"main" : b"\xb0", "test" : b"\xef"}
 
+
 class DogecoinConf:
     """ Class container for Dogecoin configuration. """
 
@@ -78,9 +79,9 @@ class DogecoinConf:
     SHORT_NAME     = "DOGE"
 
     # Versions for P2PKH address
-    P2PKH_NET_VER = {"main" : b"\x1e", "test" : b"\x6f"}
+    P2PKH_NET_VER = {"main" : b"\x1e", "test" : b"\x71"}
     # WIF net version
-    WIF_NET_VER   = {"main" : b"\x9e", "test" : b"\xef"}
+    WIF_NET_VER   = {"main" : b"\x9e", "test" : b"\xf1"}
 
 
 class DashConf:
@@ -96,7 +97,7 @@ class DashConf:
     # Versions for P2SH address
     P2SH_NET_VER  = {"main" : b"\x10", "test" : b"\x13"}
     # WIF net version
-    WIF_NET_VER   = {"main" : b"\xce", "test" : b"\xef"}
+    WIF_NET_VER   = {"main" : b"\xcc", "test" : b"\xef"}
 
 
 class EthereumConf:
