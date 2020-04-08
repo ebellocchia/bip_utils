@@ -240,17 +240,17 @@ TEST_VECTOR = \
         {
             "coin"       : Bip44Coins.DOGECOIN_TESTNET,
             "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-            "ex_master"  :  "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
+            "ex_master"  :  "tgpv1aRS3XcGkbKXDbWwtRDZFYqUaCsEVXgkHt9m5mEjaWGGA18gaU1qZatwWCmjT66o2CmSNJmXkAvG29sYFXrz11WEaLwVrckr5LMkUrVeQmp",
             "wif_master" :  "95f58LEtaFKPRnQCMwkSuhbedNDHpWUaAFpTtUbenXWc4oSGq5N",
             "account" :
                 {
-                    "ex_pub"  : "tpubDC5FSnBiZDMmhiuCmWAYsLwgLYrrT9rAqvTySfuCCrgsWz8wxMXUS9Tb9iVMvcRbvFcAHGkMD5Kx8koh4GquNGNTfohfk7pgjhaPCdXpoba",
-                    "ex_priv" : "tprv8fPDJN9UQqg6pFsQsrVxTwHZmXLvHpfGGcsCA9rtnatUgVtBKxhtFeqiyaYKSWydunKpjhvgJf6PwTwgirwuCbFq8YKgpQiaVJf3JCrNmkR",
+                    "ex_pub"  : "tgub5QziLPy2KFnZgdWALMfCBZcPpFQxtmu3sMDKvDdt1L7WAiAWXpAqf1S9FzNEEa7ipDM6kEy4o9mrVGshjxMKMoq383HELMHguMNGgRryJwt",
+                    "ex_priv" : "tgpv1g7gzi38m78EPmr1J83E4i4oMh3L4esLakS7m7EuDD4Vcf3p83d51i2VgkSAxnuh8eETh4QNCnbaBPmetmLqzKJLFCxy3uUZxrJUw2K7GUp",
                 },
             "chain_ext" :
                 {
-                    "ex_pub"  : "tpubDEQBfiy13hMZzGT4NWqNnaSWwVqYQ58kuu2pDYjkrf8F6DLKAprm8c65Pyh7PrzodXHtJuEXFu5yf6JbvYaL8rz7v28zapwbuzZzr7z4UvR",
-                    "ex_priv" : "tprv8hi9XJvkuKfu6oRGUsAnPAnQNUKcEjwrLbS2w2hTSPKrFj5YYS3Ax7UDDrZZHd4PSnPLW5whNxAXTW5bBrSNiSD1LUeg9n4j5sdGRJsZZwP",
+                    "ex_pub"  : "tgub5TKeZLkJojnMyB41wNL26o7ERCPeqhBdwKnAh6USf8YsjwMskHW8MU4dWFZyhpgvXV2pmsTEqyXt1cNccE5k8QShNFiZB4Qc5eMtKv6s9mt",
+                    "ex_priv" : "tgpv1iSdDepRFb82gKPru8i3ywZdxe221a9veizxXz5Ts1VsBtFBLWxMiAeyw2TQotzSfeHyTSRPH5fhhRuZMkqKWAFWT9HxPGpiZRGi3zY83Mf",
                 },
             "addresses" :
                 [
@@ -266,7 +266,7 @@ TEST_VECTOR = \
             "coin"       : Bip44Coins.DASH_TESTNET,
             "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
             "ex_master"  :  "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
-            "wif_master" : "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
+            "wif_master" :  "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
             "account" :
                 {
                     "ex_pub"  : "tpubDC5FSnBiZDMmhiuCmWAYsLwgLYrrT9rAqvTySfuCCrgsWz8wxMXUS9Tb9iVMvcRbvFcAHGkMD5Kx8koh4GquNGNTfohfk7pgjhaPCdXpoba",

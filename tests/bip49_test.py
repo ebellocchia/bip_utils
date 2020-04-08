@@ -202,16 +202,16 @@ TEST_VECTOR = \
         {
             "coin"      : Bip44Coins.DOGECOIN_TESTNET,
             "seed"      : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-            "ex_master" :  "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
+            "ex_master" :  "tgpv1aRS3XcGkbKXDbWwtRDZFYqUaCsEVXgkHt9m5mEjaWGGA18gaU1qZatwWCmjT66o2CmSNJmXkAvG29sYFXrz11WEaLwVrckr5LMkUrVeQmp",
             "account" :
                 {
-                    "ex_pub"  : "tpubDD7tXK8KeQ3YY83yWq755fHY2JW8Ha8Q765tknUM5rSvjPcGWfUppDFMpQ1ScziKfW3ZNtZvAD7M3u7bSs7HofjTD3KP3YxPK7X6hwV8Rk2",
-                    "ex_priv" : "tprv8gRrNu65W2Msef2BdBSUgFdRTGzC8EwVXnV7UGS3faeXtuMVtGfEdidVeGbThs4ELEoayCAzZQ4uUji9DUiAs7erdVskqju7hrBcDvDsdbY",
+                    "ex_pub"  : "tgub5S3MQvudQSULX2ew5gbiPsxFW14EjCBH8WqFELD2tKsZP7dq688C35DuvftJvxQSZTnVqrndkHZFQRBc8YchoDC2fGtwdnRPUmJzBnYBr3w",
+                    "ex_priv" : "tgpv1hAL5EyjrHp1EAzn3SykH2Qf3Sgbu59Zqv435Dp46CpYq4X8gMaRPmpGMSVKE8zHZ6iDvYegTXa5ifY7PP77eqhMkAX35Ef7BPq3refCiHE",
                 },
             "chain_ext" :
                 {
-                    "ex_pub"  : "tpubDDywUo1KAcTNnw6fCjVtXWG9KNW6vphMbDrqKezyy4uRfctPEGzTFuTtgijpPyrESmUnv8yYyvJwBZdLg5cQoLDg1NwxxCrjqBrbZmAJBrY",
-                    "ex_priv" : "tprv8hHuLNy52EmhuU4sK5qJ86c2kLzAmVWT1vG438xgYo72q8dcbtAs5Qr2WcMVahsmfMzz4rJeMdkpeJBx4eSzq6VZ4hes48VtD343zbmTrFA",
+                    "ex_pub"  : "tgub5SuQNQncvetAmqhcmazXqivro54DNSkEcecBoCjfmYL4KLuwojdpUmSSnzcghwYMLjDjP7CGZzkqY5hMMm7pnsgFTcXXYSKjzqeV3Y1ww2o",
+                    "ex_priv" : "tgpv1i2P2irjNWDqUz3TjMNZisPGLWgaYKiXL3pye6LgyRH3mHoFPy63qU2oDnFM6yoptDud2CnLFmFztE1vEYqwcpY4BNJ9HdFsgahVdMq7Rbv",
                 },
             "addresses" :
                 [
