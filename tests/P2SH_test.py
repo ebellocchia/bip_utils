@@ -22,13 +22,16 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import BitcoinConf, LitecoinConf, DashConf, P2SH
+from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, P2SH
 
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
 TEST_VECTOR = \
     [
+        #
+        # Main nets
+        #
         {
             "pub_key"      : b"039b3b694b8fc5b5e07fb069c783cac754f5d38c3e08bed1960e31fdb1dda35c24",
             "address"      :  "37VucYSaXLCAsxYyAPfbSi9eh4iEcbShgf",
@@ -50,6 +53,16 @@ TEST_VECTOR = \
             "net_addr_ver" :  LitecoinConf.P2SH_NET_VER["main"],
         },
         {
+            "pub_key"      : b"03f3b10f13fa36775245758f05d1cf650095091c0ef5f2a60c5903c9bee9be91bd",
+            "address"      :  "9xzLEaWbi3eVzRzv6YdGcXbXQMHydntSq7",
+            "net_addr_ver" :  DogecoinConf.P2SH_NET_VER["main"],
+        },
+        {
+            "pub_key"      : b"03f5a09bdf9a112f60c2da18d2df7470408ed16214fc3f4fb45cbb2a2539abfc1b",
+            "address"      :  "ABxNotFnVaS85dcyXY76d2Fbr12qph6UTy",
+            "net_addr_ver" :  DogecoinConf.P2SH_NET_VER["main"],
+        },
+        {
             "pub_key"      : b"024d8d027d63a5787b212f38bc76eca8e5e57415355f51de54e495ca1c66279f68",
             "address"      :  "7Y5u3566rd7s3dcyDXwDHgvK5VLVhzoeoy",
             "net_addr_ver" :  DashConf.P2SH_NET_VER["main"],
@@ -59,20 +72,13 @@ TEST_VECTOR = \
             "address"      :  "7obR8rAq66A24U7wwbBk35AFD5ThFjLcLH",
             "net_addr_ver" :  DashConf.P2SH_NET_VER["main"],
         },
+        #
+        # Test nets
+        #
         {
             "pub_key"      : b"03b22d357d64aa0c10caffcdaeb22fca282b31f011c8c2c8c6d5e56a676d52c803",
             "address"      :  "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
             "net_addr_ver" :  BitcoinConf.P2SH_NET_VER["test"],
-        },
-        {
-            "pub_key"      : b"030de4c268df782aa1543371c19988274686b6bb5acf5692b208715cb16ec44fff",
-            "address"      :  "2Mtrpqq7cQznHw9wYnsSKroTdZ6u3fsB4kZ",
-            "net_addr_ver" :  BitcoinConf.P2SH_NET_VER["test"],
-        },
-        {
-            "pub_key"      : b"02ffa169a294a03f1ba97a45760ab4af189633d4936ddaaef6e5dee11a968818e0",
-            "address"      :  "QaiSAY7iJUCNEwWPMc2z5XcTHpepob92op",
-            "net_addr_ver" :  LitecoinConf.P2SH_NET_VER["test"],
         },
         {
             "pub_key"      : b"0222319350a9618e5780c3906662e96033284d031be377ae0e9d209de6f4e3e1e3",
@@ -80,13 +86,13 @@ TEST_VECTOR = \
             "net_addr_ver" :  LitecoinConf.P2SH_NET_VER["test"],
         },
         {
-            "pub_key"      : b"03a1af804ac108a8a51782198c2d034b28bf90c8803f5a53f76276fa69a4eae77f",
-            "address"      :  "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
-            "net_addr_ver" :  DashConf.P2SH_NET_VER["test"],
+            "pub_key"      : b"03765505df9cc00d2cd578c961a494214402283b9f6e8f28684e8798862057a02b",
+            "address"      :  "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+            "net_addr_ver" :  DogecoinConf.P2SH_NET_VER["test"],
         },
         {
-            "pub_key"      : b"020fc068a25f777f505d6f677a1f865e50809112790693e0d246691d9876a7483f",
-            "address"      :  "8pBvEXHZk3fiQei4SnCRMxPA4KYmurpbkq",
+            "pub_key"      : b"03a1af804ac108a8a51782198c2d034b28bf90c8803f5a53f76276fa69a4eae77f",
+            "address"      :  "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
             "net_addr_ver" :  DashConf.P2SH_NET_VER["test"],
         },
     ]
