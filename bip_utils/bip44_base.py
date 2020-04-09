@@ -86,7 +86,7 @@ class Bip44BaseConst:
     # Address depth
     ADDRESS_INDEX_DEPTH = 5
 
-    # Test ent coin index
+    # Test net coin index
     TEST_NET_COIN_IDX   = 1
 
     # Map test net coins to main net coins
@@ -117,6 +117,9 @@ class Bip44Base(ABC):
             bip32_obj (Bip32 object) : Bip32 object
             coin_idx (Bip44Coins)    : coin index, must be a Bip44Coins enum
         """
+        if not isinstance(coin_idx, Bip44Coins):
+            raise TypeError("Coin index is not an enumerative of Bip44Coins")
+
         self.m_bip32    = bip32_obj
         self.m_coin_idx = coin_idx
 
@@ -136,9 +139,6 @@ class Bip44Base(ABC):
         Returns (Bip object):
             Bip object
         """
-
-        if not isinstance(coin_idx, Bip44Coins):
-            raise TypeError("Coin index is not an enumerative of Bip44Coins")
 
         # Check if test net
         if coin_idx in Bip44BaseConst.TESTNET_TO_MAINNET_COINS:
@@ -161,9 +161,6 @@ class Bip44Base(ABC):
         Returns (Bip object):
             Bip object
         """
-
-        if not isinstance(coin_idx, Bip44Coins):
-            raise TypeError("Coin index is not an enumerative of Bip44Coins")
 
         # Check if test net
         if coin_idx in Bip44BaseConst.TESTNET_TO_MAINNET_COINS:
@@ -246,6 +243,33 @@ class Bip44Base(ABC):
             return WifEncoder.Encode(self.m_bip32.PrivateKeyBytes(), wif_net_ver["main"] if not self.m_bip32.IsTestNet() else wif_net_ver["test"])
         else:
             return ""
+
+    def CoinNames(self):
+        """ Get coin names.
+
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return self._GetCoinNames(self.m_coin_idx)
+
+    def IsPublicOnly(self):
+        """ Get if it's public-only.
+
+        Returns (bool):
+            True if public-only, false otherwise
+        """
+        return self.m_bip32.IsPublicOnly()
+
+    def IsTestNet(self):
+        """ Return if it's a test net.
+
+        Returns (bool):
+            True if test net, false otherwise
+        """
+        return self.m_bip32.IsTestNet()
 
     def IsMasterLevel(self):
         """ Return if it's a master path.
@@ -335,7 +359,7 @@ class Bip44Base(ABC):
         pass
 
     @abstractmethod
-    def Change(self, chain_idx):
+    def Change(self, change_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It shall call the underlying _ChangeGeneric method with the current object as parameter.
         TypeError is raised if chain type is not a Bip44Changes enum.
@@ -343,7 +367,7 @@ class Bip44Base(ABC):
         Bip32KeyError is raised (by Bip32) if the change results in an invalid key.
 
         Args:
-            chain_idx (Bip44Changes) : chain index, must a Bip44Changes enum
+            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
 
         Returns (Bip object):
             Bip object
@@ -362,6 +386,19 @@ class Bip44Base(ABC):
 
         Returns (Bip object):
             Bip object
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def IsCoinAllowed(coin_idx):
+        """ Get if the specified coin is allowed.
+
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (bool):
+            True if allowed, false otherwise
         """
         pass
 
@@ -427,6 +464,19 @@ class Bip44Base(ABC):
         """
         pass
 
+    @staticmethod
+    @abstractmethod
+    def _GetCoinNames(coin_idx):
+        """ Get coin names.
+
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        pass
+
     @classmethod
     def _PurposeGeneric(cls, bip_obj):
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
@@ -486,7 +536,7 @@ class Bip44Base(ABC):
         return cls(bip_obj.m_bip32.ChildKey(Bip32.HardenIndex(acc_idx)), bip_obj.m_coin_idx)
 
     @classmethod
-    def _ChangeGeneric(cls, bip_obj, chain_idx):
+    def _ChangeGeneric(cls, bip_obj, change_idx):
         """ Derive a child key from the specified chain type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It shall be called from a child class.
         TypeError is raised if chain type is not a Bip44Changes enum.
@@ -494,19 +544,19 @@ class Bip44Base(ABC):
         Bip32KeyError is raised (by Bip32) if the change results in an invalid key.
 
         Args:
-            bip_obj (BIP object)    : Bip object (e.g. BIP44, BIP49, BIP84)
-            chain_idx (Bip44Changes) : chain index, must a Bip44Changes enum
+            bip_obj (BIP object)      : Bip object (e.g. BIP44, BIP49, BIP84)
+            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
 
         Returns (Bip object):
             Bip object
         """
-        if not isinstance(chain_idx, Bip44Changes):
-            raise TypeError("Chain index is not an enumerative of Bip44Changes")
+        if not isinstance(change_idx, Bip44Changes):
+            raise TypeError("Change index is not an enumerative of Bip44Changes")
 
         if not cls.IsAccountLevel(bip_obj):
             raise Bip44DepthError("Current depth (%d) is not suitable for deriving chain" % bip_obj.m_bip32.Depth())
 
-        return cls(bip_obj.m_bip32.ChildKey(chain_idx), bip_obj.m_coin_idx)
+        return cls(bip_obj.m_bip32.ChildKey(change_idx), bip_obj.m_coin_idx)
 
     @classmethod
     def _AddressIndexGeneric(cls, bip_obj, addr_idx):

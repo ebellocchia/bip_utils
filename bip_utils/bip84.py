@@ -57,9 +57,9 @@ class Bip84(Bip44Base):
             coin_idx (Bip44Coins)    : coin index, must be a Bip44Coins enum
         """
 
-        # Check if coin is allowed for BIP-0049
-        if not coin_idx in Bip84Const.ALLOWED_COINS:
-            raise ValueError("Only Bitcoin and Litecoin can derive BIP-0084")
+        # Check if coin is allowed for BIP-0084
+        if not self.IsCoinAllowed(coin_idx):
+            raise ValueError("Coin %s cannot derive BIP-0084" % coin_idx)
         # Construct parent
         super().__init__(bip32_obj, coin_idx)
 
@@ -99,7 +99,7 @@ class Bip84(Bip44Base):
         """
         return self._AccountGeneric(self, acc_idx)
 
-    def Change(self, chain_idx):
+    def Change(self, change_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _ChangeGeneric method with the current object as parameter.
         TypeError is raised if chain type is not a Bip44Changes enum.
@@ -107,12 +107,12 @@ class Bip84(Bip44Base):
         Bip32KeyError is raised (by Bip32) if the change results in an invalid key.
 
         Args:
-            chain_idx (Bip44Changes) : chain index, must a Bip44Changes enum
+            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
 
         Returns (Bip object):
             Bip object
         """
-        return self._ChangeGeneric(self, chain_idx)
+        return self._ChangeGeneric(self, change_idx)
 
     def AddressIndex(self, addr_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
@@ -127,6 +127,21 @@ class Bip84(Bip44Base):
             Bip object
         """
         return self._AddressIndexGeneric(self, addr_idx)
+
+    @staticmethod
+    def IsCoinAllowed(coin_idx):
+        """ Get if the specified coin is allowed.
+
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (bool):
+            True if allowed, false otherwise
+        """
+        if not isinstance(coin_idx, Bip44Coins):
+            raise TypeError("Coin index is not an enumerative of Bip44Coins")
+
+        return coin_idx in Bip84Const.ALLOWED_COINS
 
     @staticmethod
     def _GetPurpose():
@@ -183,4 +198,16 @@ class Bip84(Bip44Base):
         Returns (dict or None):
             WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return Bip84Const.COIN_TO_HELPER[coin_idx].GetWifNetVersions()
+        return Bip84Const.COIN_TO_HELPER[coin_idx].GetConfig().WIF_NET_VER
+
+    @staticmethod
+    def _GetCoinNames(coin_idx):
+        """ Get coin names.
+
+        Args:
+            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return Bip84Const.COIN_TO_HELPER[coin_idx].GetConfig().NAMES
