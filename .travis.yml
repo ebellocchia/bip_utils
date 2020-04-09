@@ -1,0 +1,11 @@
+language: python
+python:
+  - 3.6
+before_install:
+  - python --version
+  - pip install coverage
+install:
+  - pip install ".[test]" . # install package + test dependencies
+script: coverage run -m unittest discover
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
