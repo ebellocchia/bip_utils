@@ -343,35 +343,60 @@ class Bip49Tests(unittest.TestCase):
     # Run all tests in test vector using FromExtendedKey for construction
     def test_vector_from_exkey(self):
         for test in TEST_VECTOR:
-            # Create from master key
+            # Create from private master key
             bip_obj_ctx = Bip49.FromExtendedKey(test["ex_master"], test["coin"])
             # Test master key
             self.assertTrue(bip_obj_ctx.IsMasterLevel())
             self.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey())
 
-            # Create from account key
+            # Create from private account key
             bip_obj_ctx = Bip49.FromExtendedKey(test["account"]["ex_priv"], test["coin"])
             # Test account keys
             self.assertTrue(bip_obj_ctx.IsAccountLevel())
             self.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey())
             self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey())
 
-            # Create from change key
+            # It shall trigger an exception if created from account public key
+            self.assertRaises(Bip44DepthError, Bip49.FromExtendedKey, test["account"]["ex_pub"], test["coin"])
+
+            # Create from private change key
             bip_obj_ctx = Bip49.FromExtendedKey(test["chain_ext"]["ex_priv"], test["coin"])
-            # Test external change keys
+            # Test external chain keys
+            self.assertFalse(bip_obj_ctx.IsPublicOnly())
             self.assertTrue(bip_obj_ctx.IsChangeLevel())
             self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
             self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey())
 
-            # Create from public key
+            # Create from public change key is fine
             bip_obj_ctx = Bip49.FromExtendedKey(test["chain_ext"]["ex_pub"], test["coin"])
             self.assertTrue(bip_obj_ctx.IsPublicOnly())
             self.assertTrue(bip_obj_ctx.IsChangeLevel())
             self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
             self.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
 
-    # Test wrong coin derivations
-    def test_wrong_coins(self):
+    # Test construction with an extended key with invalid depth
+    def test_invalid_exkey_depth(self):
+        # Private key with depth 5 shall not raise exception
+        key = "yprvANXJmbMRf4r2NVPx9K5sDCnhND9fjZqWtBthvRJrN2XCU7H9KJmMLP2LnsgLbhdoaNcD89Fw7zktymVkW6eVcX9MKHpeAkEd94Hm9nWKWVw"
+        Bip49.FromExtendedKey(key, Bip44Coins.BITCOIN)
+        # Private key with depth 6 shall raise exception
+        key = "yprvAQyUkCuvz2wzk4dUqEyQFXe4sUeEkCSnmz13PAxrNQZrorMkkAw8yVaBcQU3MUp17y9NSYn1ugT6QdETtS85GCsxUi33EVk1EynV37De7V5"
+        self.assertRaises(Bip44DepthError, Bip49.FromExtendedKey, key, Bip44Coins.BITCOIN)
+
+        # Public key with depth 3 shall raise exception
+        key = "ypub6Ww3ibxVfGzLrAH1PNcjyAWenMTbbAosGNB6VvmSEgytSER9azLDWCxoJwW7Ke7icmizBMXrzBx9979FfaHxHcrArf3zbeJJJUZPf663zsP"
+        self.assertRaises(Bip44DepthError, Bip49.FromExtendedKey, key, Bip44Coins.BITCOIN)
+        # Public key with depth 4 or 5 shall not raise exception
+        key = "ypub6Ynvx7RLNYgWzFGM8aeU43hFNjTh7u5Grrup7Ryu2nKZ1Y8FWKaJZXiUrkJSnMmGVNBoVH1DNDtQ32tR4YFDRSpSUXjjvsiMnCvoPHVWXJP"
+        Bip49.FromExtendedKey(key, Bip44Coins.BITCOIN)
+        key = "ypub6bWfB6tKVSQKayURFLcsaLjRvEzA92ZNFQpJioiTvN4BLucHrr5btBLpeBDjuV2mGb2wXWL1taoBNWf9xNgjHrPWkhSxxfrDGiciopL6N6E"
+        Bip49.FromExtendedKey(key, Bip44Coins.BITCOIN)
+        # Public key with depth 6 shall raise exception
+        key = "ypub6dxq9iSppQWHxYhwwGWQcfaoRWUj9fAe9CveBZNTvk6qgeguHiFPXHtfTi5oPFEiVe7vH7mUdUrjeQpAbxPxZ1nXhDDvx4xQw5kREC9vNE1"
+        self.assertRaises(Bip44DepthError, Bip49.FromExtendedKey, key, Bip44Coins.BITCOIN)
+
+    # Test invalid coin derivations
+    def test_invalid_coins(self):
         seed_bytes = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
         self.assertRaises(ValueError, Bip49.FromSeed, binascii.unhexlify(seed_bytes), Bip44Coins.ETHEREUM)
@@ -388,8 +413,8 @@ class Bip49Tests(unittest.TestCase):
         self.assertFalse(Bip49.IsCoinAllowed(Bip44Coins.ETHEREUM))
         self.assertFalse(Bip49.IsCoinAllowed(Bip44Coins.RIPPLE))
 
-    # Test wrong path derivations
-    def test_wrong_derivations(self):
+    # Test invalid path derivations
+    def test_invalid_derivations(self):
         seed_bytes = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
         # Create all the derivations
