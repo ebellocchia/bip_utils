@@ -244,12 +244,12 @@ using the correspondent methods. If keys are derived in the wrong level, a *Runt
 The private and public extended keys can be printed at any level.
 
 Currently supported coins enumerative:
-- Bitcoin (and related test net) : Bip44Coins.BITCOIN, Bip44Coins.BITCOIN_TESTNET
-- Litecoin (and related test net) : Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET
-- Dogecoin (and related test net) : Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET
-- Dash (and related test net) : Bip44Coins.DASH, Bip44Coins.DASH_TESTNET
-- Ethereum : Bip44Coins.ETHEREUM
-- Ripple : Bip44Coins.RIPPLE
+- Bitcoin (and related test net) : *Bip44Coins.BITCOIN, Bip44Coins.BITCOIN_TESTNET*
+- Litecoin (and related test net) : *Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET*
+- Dogecoin (and related test net) : *Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET*
+- Dash (and related test net) : *Bip44Coins.DASH, Bip44Coins.DASH_TESTNET*
+- Ethereum : *Bip44Coins.ETHEREUM*
+- Ripple : *Bip44Coins.RIPPLE*
 
 The library can be easily extended with other coins anyway.
 
