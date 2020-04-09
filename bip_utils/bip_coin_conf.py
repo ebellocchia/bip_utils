@@ -30,10 +30,8 @@ from .bip32 import Bip32Const
 class BitcoinConf:
     """ Class container for Bitcoin configuration. """
 
-    # Name
-    NAME           = "Bitcoin"
-    # Short name
-    SHORT_NAME     = "BTC"
+    # Coin names
+    NAMES          = {"name" : "Bitcoin", "abbr" : "BTC" }
 
     # Versions for P2PKH address
     P2PKH_NET_VER  = {"main" : b"\x00", "test" : b"\x6f"}
@@ -48,10 +46,8 @@ class BitcoinConf:
 class LitecoinConf:
     """ Class container for Litecoin configuration. """
 
-    # Name
-    NAME           = "Litecoin"
-    # Short name
-    SHORT_NAME     = "LTC"
+    # Coin names
+    NAMES             = {"name" : "Litecoin", "abbr" : "LTC" }
 
     # False for using Bitcoin net versions for extended keys (xprv/xpub and similar), true for using the alternate ones (Ltpv/Ltub and similar)
     EX_KEY_ALT        = False
@@ -73,10 +69,8 @@ class LitecoinConf:
 class DogecoinConf:
     """ Class container for Dogecoin configuration. """
 
-    # Name
-    NAME           = "Dogecoin"
-    # Short name
-    SHORT_NAME     = "DOGE"
+    # Coin names
+    NAMES         = {"name" : "Dogecoin", "abbr" : "DOGE" }
 
     # Versions for P2PKH address
     P2PKH_NET_VER = {"main" : b"\x1e", "test" : b"\x71"}
@@ -89,10 +83,8 @@ class DogecoinConf:
 class DashConf:
     """ Class container for Dash configuration. """
 
-    # Name
-    NAME           = "Dash"
-    # Short name
-    SHORT_NAME     = "DASH"
+    # Coin names
+    NAMES         = {"name" : "Dash", "abbr" : "DASH" }
 
     # Versions for P2PKH address
     P2PKH_NET_VER = {"main" : b"\x4c", "test" : b"\x8c"}
@@ -105,10 +97,8 @@ class DashConf:
 class EthereumConf:
     """ Class container for Ethereum configuration. """
 
-    # Name
-    NAME           = "Ethereum"
-    # Short name
-    SHORT_NAME     = "ETH"
+    # Coin names
+    NAMES         = {"name" : "Ethereum", "abbr" : "ETH" }
 
     # WIF not supported
     WIF_NET_VER   = None
@@ -116,10 +106,8 @@ class EthereumConf:
 class RippleConf:
     """ Class container for Bitcoin configuration. """
 
-    # Name
-    NAME           = "Ripple"
-    # Short name
-    SHORT_NAME     = "XRP"
+    # Coin names
+    NAMES         = {"name" : "Ripple", "abbr" : "XRP" }
 
     # Versions for P2PKH address
     P2PKH_NET_VER = b"\x00"
