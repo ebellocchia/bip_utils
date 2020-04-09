@@ -3,6 +3,7 @@
 *.pyo
 __pycache__
 .vs
-bip_utils.egg-info
+.coverage
+*.egg-info
 build
 dist
