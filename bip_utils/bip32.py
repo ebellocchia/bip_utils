@@ -334,6 +334,14 @@ class Bip32:
         self.m_key       = None
         self.m_is_public = True
 
+    def IsPublicOnly(self):
+        """ Get if it's public-only.
+
+        Returns (bool):
+            True if public-only, false otherwise
+        """
+        return self.m_is_public
+
     def PrivateKeyBytes(self):
         """ Return private key bytes.
         Bip32KeyError is raised if internal key is public-only.
