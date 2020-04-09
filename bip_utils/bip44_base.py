@@ -81,8 +81,8 @@ class Bip44BaseConst:
     COIN_DEPTH          = 2
     # Account depth
     ACCOUNT_DEPTH       = 3
-    # Chain depth
-    CHAIN_DEPTH         = 4
+    # Change depth
+    CHANGE_DEPTH        = 4
     # Address depth
     ADDRESS_INDEX_DEPTH = 5
 
@@ -121,9 +121,17 @@ class Bip44Base(ABC):
         # Check coin index type
         if not isinstance(coin_idx, Bip44Coins):
             raise TypeError("Coin index is not an enumerative of Bip44Coins")
-        # Depth on the Bip32 object shall be valid
-        if bip32_obj.Depth() > Bip44BaseConst.ADDRESS_INDEX_DEPTH:
-            raise ValueError("Depth of the Bip32 object (%d) is beyond the address index level" % bip32_obj.Depth())
+
+        # If the Bip32 is public-only, the depth shall start from the change level because hardened derivation is
+        # used below it, which is not possible with public keys
+        if bip32_obj.IsPublicOnly():
+            if bip32_obj.Depth() < Bip44BaseConst.CHANGE_DEPTH or \
+               bip32_obj.Depth() > Bip44BaseConst.ADDRESS_INDEX_DEPTH:
+                raise Bip44DepthError("Depth of the public-only Bip32 object (%d) is below change level or beyond address index level" % bip32_obj.Depth())
+        # If the Bip32 object is not public-only, any depth is fine as long as it is not greater than address index level
+        else:
+            if bip32_obj.Depth() > Bip44BaseConst.ADDRESS_INDEX_DEPTH:
+                raise Bip44DepthError("Depth of the Bip32 object (%d) is beyond address index level" % bip32_obj.Depth())
 
         self.m_bip32    = bip32_obj
         self.m_coin_idx = coin_idx
@@ -198,7 +206,7 @@ class Bip44Base(ABC):
             # Get versions
             main_pub_net_ver = self._GetMainNetVersions(self.m_coin_idx)["pub"]
             test_pub_net_ver = self._GetTestNetVersions(self.m_coin_idx)["pub"]
-            # Get extendewd key
+            # Get extended key
             return self.m_bip32.ExtendedPublicKey(main_pub_net_ver, test_pub_net_ver)
         else:
             return self.m_bip32.PublicKeyBytes(key_type == Bip44PubKeyTypes.RAW_COMPR_KEY)
@@ -222,7 +230,7 @@ class Bip44Base(ABC):
             # Get versions
             main_pub_net_ver = self._GetMainNetVersions(self.m_coin_idx)["priv"]
             test_pub_net_ver = self._GetTestNetVersions(self.m_coin_idx)["priv"]
-            # Get extendewd key
+            # Get extended key
             return self.m_bip32.ExtendedPrivateKey(main_pub_net_ver, test_pub_net_ver)
         else:
             return self.m_bip32.PrivateKeyBytes()
@@ -314,7 +322,7 @@ class Bip44Base(ABC):
         Returns (bool):
             True if chain path, false otherwise
         """
-        return self.m_bip32.Depth() == Bip44BaseConst.CHAIN_DEPTH
+        return self.m_bip32.Depth() == Bip44BaseConst.CHANGE_DEPTH
 
     def IsAddressIndexLevel(self):
         """ Return if it's a address index path.
@@ -559,7 +567,7 @@ class Bip44Base(ABC):
             raise TypeError("Change index is not an enumerative of Bip44Changes")
 
         if not cls.IsAccountLevel(bip_obj):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving chain" % bip_obj.m_bip32.Depth())
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving change" % bip_obj.m_bip32.Depth())
 
         return cls(bip_obj.m_bip32.ChildKey(change_idx), bip_obj.m_coin_idx)
 
