@@ -314,7 +314,7 @@ TEST_VECTOR = \
 #
 class Bip44Tests(unittest.TestCase):
     # Run all tests in test vector using FromSeed for construction
-    def test_vector_from_seed(self):
+    def test_vector_from_seed1(self):
         for test in TEST_VECTOR:
             # Create from seed
             bip_obj_ctx = Bip44.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
@@ -367,7 +367,7 @@ class Bip44Tests(unittest.TestCase):
                 LitecoinConf.EX_KEY_ALT = False
 
     # Run all tests in test vector using FromExtendedKey for construction
-    def test_vector_from_exkey(self):
+    def test_vector_from_exkey1(self):
         for test in TEST_VECTOR:
             # Create from private master key
             bip_obj_ctx = Bip44.FromExtendedKey(test["ex_master"], test["coin"])
@@ -401,7 +401,7 @@ class Bip44Tests(unittest.TestCase):
             self.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
 
     # Test construction with an extended key with invalid depth
-    def test_invalid_exkey_depth(self):
+    def test_invalid_exkey_depth1(self):
         # Private key with depth 5 shall not raise exception
         key = "xprvA47LQAPDXEkr9wwtUHNta4qWqiobTGKppzVy5JZVCszLdGTTQbuRxRMCJGqSdBg91M13Z2RTP2BKU5yDD41WFwZ7yavhhbCEs7cTnyvkxJV"
         Bip44.FromExtendedKey(key, Bip44Coins.BITCOIN)
@@ -422,7 +422,7 @@ class Bip44Tests(unittest.TestCase):
         self.assertRaises(Bip44DepthError, Bip44.FromExtendedKey, key, Bip44Coins.BITCOIN)
 
     # Test invalid coin derivations
-    def test_invalid_coins(self):
+    def test_invalid_coins1(self):
         # BIP-0044 accepts all coins
         self.assertTrue(Bip44.IsCoinAllowed(Bip44Coins.BITCOIN))
         self.assertTrue(Bip44.IsCoinAllowed(Bip44Coins.LITECOIN))
@@ -436,7 +436,7 @@ class Bip44Tests(unittest.TestCase):
         self.assertTrue(Bip44.IsCoinAllowed(Bip44Coins.RIPPLE))
 
     # Test invalid path derivations
-    def test_invalid_derivations(self):
+    def test_invalid_derivations1(self):
         seed_bytes = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
         # Create all the derivations
@@ -478,8 +478,3 @@ class Bip44Tests(unittest.TestCase):
         self.assertRaises(Bip44DepthError, bip_obj_addr.Account     , 0)
         self.assertRaises(Bip44DepthError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
         self.assertRaises(Bip44DepthError, bip_obj_addr.AddressIndex, 0)
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

@@ -176,8 +176,3 @@ class WifTests(unittest.TestCase):
     def test_dec_invalid_keys(self):
         for test in TEST_VECTOR_DEC_KEY_ERR:
             self.assertRaises(ValueError, WifDecoder.Decode, test)
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

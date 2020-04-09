@@ -55,13 +55,8 @@ TEST_VECTOR = \
 #
 # Tests
 #
-class P2PKHTests(unittest.TestCase):
+class XrpAddrTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECTOR:
             self.assertEqual(test["address"], XrpAddr.ToAddress(binascii.unhexlify(test["pub_key"])))
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

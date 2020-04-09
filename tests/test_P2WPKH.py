@@ -94,8 +94,3 @@ class P2WPKHTests(unittest.TestCase):
     def test_invalid_keys(self):
         for test in TEST_VECTOR_KEY_ERR:
             self.assertRaises(ValueError, P2WPKH.ToAddress, binascii.unhexlify(test))
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

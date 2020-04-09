@@ -107,8 +107,3 @@ class Bip39Tests(unittest.TestCase):
             seed = Bip39SeedGenerator(mnemonic).Generate(TEST_PASSPHRASE)
 
             self.assertEqual(test["seed"], binascii.hexlify(seed))
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

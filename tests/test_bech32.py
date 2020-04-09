@@ -114,8 +114,3 @@ class Bech32Tests(unittest.TestCase):
         for test in TEST_VECTOR_INVALID_ADDR:
             self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "bc", test)
             self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "tb", test)
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

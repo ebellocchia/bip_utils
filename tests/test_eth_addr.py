@@ -66,7 +66,7 @@ TEST_VECTOR_KEY_ERR = \
 #
 # Tests
 #
-class P2PKHTests(unittest.TestCase):
+class EthAddrTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECTOR:
@@ -80,8 +80,3 @@ class P2PKHTests(unittest.TestCase):
     def test_invalid_keys(self):
         for test in TEST_VECTOR_KEY_ERR:
             self.assertRaises(ValueError, EthAddr.ToAddress, binascii.unhexlify(test))
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

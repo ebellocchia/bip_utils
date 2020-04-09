@@ -297,8 +297,3 @@ class Bip84Tests(unittest.TestCase):
         self.assertRaises(Bip44DepthError, bip_obj_addr.Account     , 0)
         self.assertRaises(Bip44DepthError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
         self.assertRaises(Bip44DepthError, bip_obj_addr.AddressIndex, 0)
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

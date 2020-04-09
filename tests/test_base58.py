@@ -140,8 +140,3 @@ class Base58Tests(unittest.TestCase):
     def test_invalid_encoding(self):
         for test in TEST_VECTOR_ENC_ERR:
             self.assertRaises(ValueError, Base58Decoder.Decode, test)
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()

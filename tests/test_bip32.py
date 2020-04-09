@@ -334,9 +334,3 @@ class PathParserTests(unittest.TestCase):
     def test_invalid_paths(self):
         for test in PATH_TEST_VECTOR_ERR:
             self.assertEqual([], PathParser.Parse(test["path"], test["skip_master"]))
-
-
-
-# Run test if executed
-if __name__ == "__main__":
-    unittest.main()
