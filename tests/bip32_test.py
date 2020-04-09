@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32, PathParser
+from bip_utils import Bip32, Bip32KeyError, PathParser
 
 
 # Tests from BIP32 page
@@ -293,26 +293,33 @@ class Bip32Tests(unittest.TestCase):
             # Create from private extended key
             bip32_ctx = Bip32.FromExtendedKey(test["master"]["ex_priv"])
             # Test master key
+            self.assertFalse(bip32_ctx.IsPublicOnly())
             self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
             self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
 
             # Create from public extended key
             bip32_ctx = Bip32.FromExtendedKey(test["master"]["ex_pub"])
             # Test master key (private key cannot be tested if constructed from public)
+            self.assertTrue(bip32_ctx.IsPublicOnly())
             self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+            self.assertRaises(Bip32KeyError, bip32_ctx.ExtendedPrivateKey)
 
             # Same test for chains
             for chain in test["chains"]:
                 # Create from private extended key
                 bip32_ctx = Bip32.FromExtendedKey(chain["ex_priv"])
                 # Test keys
+                self.assertFalse(bip32_ctx.IsPublicOnly())
                 self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
                 self.assertEqual(chain["ex_priv"], bip32_ctx.ExtendedPrivateKey())
 
                 # Create from public extended key
                 bip32_ctx = Bip32.FromExtendedKey(chain["ex_pub"])
                 # Test keys
+                self.assertTrue(bip32_ctx.IsPublicOnly())
                 self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+                self.assertRaises(Bip32KeyError, bip32_ctx.ExtendedPrivateKey)
+
 
 #
 # PathParser tests
