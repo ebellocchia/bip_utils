@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip84, Bip44Coins, Bip44Changes, Bip44DepthError
+from bip_utils import Bip84, Bip44Coins, Bip44Changes, Bip44DepthError, Bip32KeyError
 
 
 # Some seeds randomly taken from Ian Coleman web page
@@ -33,9 +33,12 @@ TEST_VECTOR = \
     [
         # Bitcoin
         {
-            "coin"      : Bip44Coins.BITCOIN,
-            "seed"      : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-            "ex_master" :  "zprvAWgYBBk7JR8Gjrh4UJQ2uJdG1r3WNRRfURiABBE3RvMXYSrRJL62XuezvGdPvG6GFBZduosCc1YP5wixPox7zhZLfiUm8aunE96BBa4Kei5",
+            "coin"       : Bip44Coins.BITCOIN,
+            "names"      : ("Bitcoin", "BTC"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "zprvAWgYBBk7JR8Gjrh4UJQ2uJdG1r3WNRRfURiABBE3RvMXYSrRJL62XuezvGdPvG6GFBZduosCc1YP5wixPox7zhZLfiUm8aunE96BBa4Kei5",
+            "wif_master" :  "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
             "account" :
                 {
                     "ex_pub"  : "zpub6rFR7y4Q2AijBEqTUquhVz398htDFrtymD9xYYfG1m4wAcvPhXNfE3EfH1r1ADqtfSdVCToUG868RvUUkgDKf31mGDtKsAYz2oz2AGutZYs",
@@ -57,9 +60,12 @@ TEST_VECTOR = \
         },
         # Litecoin
         {
-            "coin"      : Bip44Coins.LITECOIN,
-            "seed"      : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-            "ex_master" :  "zprvAWgYBBk7JR8Gjrh4UJQ2uJdG1r3WNRRfURiABBE3RvMXYSrRJL62XuezvGdPvG6GFBZduosCc1YP5wixPox7zhZLfiUm8aunE96BBa4Kei5",
+            "coin"       : Bip44Coins.LITECOIN,
+            "names"      : ("Litecoin", "LTC"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "zprvAWgYBBk7JR8Gjrh4UJQ2uJdG1r3WNRRfURiABBE3RvMXYSrRJL62XuezvGdPvG6GFBZduosCc1YP5wixPox7zhZLfiUm8aunE96BBa4Kei5",
+            "wif_master" :  "6uJgfG4pBbMffTdMSGQVurdK6xBcZjhf1iDU2jtPAw5PzRdhx9m",
             "account" :
                 {
                     "ex_pub"  : "zpub6rPo5mF47z5coVm5rvWv7fv181awb7Vckn5Cf3xQXBVKu18kuBHDhNi1Jrb4br6vVD3ZbrnXemEsWJoR18mZwkUdzwD8TQnHDUCGxqZ6swA",
@@ -81,9 +87,12 @@ TEST_VECTOR = \
         },
         # Bitcoin test net
         {
-            "coin"      : Bip44Coins.BITCOIN_TESTNET,
-            "seed"      : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-            "ex_master" :  "vprv9DMUxX4ShgxMLfvb8sFY4xFFKyTibwTfoydH3beVutr1L3bWHhRn3f2SqSo3vdUacd6QuuUxmN8BYoGhX2J4okpwCMh4nwdq9EqbdGgioRF",
+            "coin"       : Bip44Coins.BITCOIN_TESTNET,
+            "names"      : ("Bitcoin", "BTC"),
+            "is_testnet" : True,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "vprv9DMUxX4ShgxMLfvb8sFY4xFFKyTibwTfoydH3beVutr1L3bWHhRn3f2SqSo3vdUacd6QuuUxmN8BYoGhX2J4okpwCMh4nwdq9EqbdGgioRF",
+            "wif_master" :  "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
             "account" :
                 {
                     "ex_pub"  : "vpub5Y6cjg78GGuNLsaPhmYsiw4gYX3HoQiRBiSwDaBXKUafCt9bNwWQiitDk5VZ5BVxYnQdwoTyXSs2JHRPAgjAvtbBrf8ZhDYe2jWAqvZVnsc",
@@ -105,9 +114,12 @@ TEST_VECTOR = \
         },
         # Litecoin test net
         {
-            "coin"      : Bip44Coins.LITECOIN_TESTNET,
-            "seed"      : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-            "ex_master" :  "ttpv96BtqegdxXceQk8r9KuoG5yiMACLxANu9hh98NpMwpzcCa8XfrJ7uwnRBMzsE5n9y2exs7VQBBdHNiJ66BrDUWE28WoexgbFVRkRc2abBR9",
+            "coin"       : Bip44Coins.LITECOIN_TESTNET,
+            "names"      : ("Litecoin", "LTC"),
+            "is_testnet" : True,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "ttpv96BtqegdxXceQk8r9KuoG5yiMACLxANu9hh98NpMwpzcCa8XfrJ7uwnRBMzsE5n9y2exs7VQBBdHNiJ66BrDUWE28WoexgbFVRkRc2abBR9",
+            "wif_master" :  "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
             "account" :
                 {
                     "ex_pub"  : "ttub4d81p5cxvtYKpLR1rpAWdWgdTEdcpRUTEjhEAwi4jFysnyYYYU6w3pRyV6gPAKZbaHoVQdDSdDJrEngpFdPnoTQM8PBSDhD552ZSfeKDEKA",
@@ -139,8 +151,15 @@ class Bip84Tests(unittest.TestCase):
         for test in TEST_VECTOR:
             # Create from seed
             bip_obj_ctx = Bip84.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
+
+            # Test coin names and test net flag
+            coin_names = bip_obj_ctx.CoinNames()
+            self.assertEqual(test["names"], (coin_names["name"], coin_names["abbr"]))
+            self.assertEqual(test["is_testnet"], bip_obj_ctx.IsTestNet())
+
             # Test master key
             self.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey())
+            self.assertEqual(test["wif_master"], bip_obj_ctx.WalletImportFormat())
 
             # Derive account
             bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)
@@ -181,14 +200,34 @@ class Bip84Tests(unittest.TestCase):
             self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
             self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey())
 
+            # Create from public key
+            bip_obj_ctx = Bip84.FromExtendedKey(test["chain_ext"]["ex_pub"], test["coin"])
+            self.assertTrue(bip_obj_ctx.IsPublicOnly())
+            self.assertTrue(bip_obj_ctx.IsChangeLevel())
+            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
+            self.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
+
     # Test wrong coin derivations
     def test_wrong_coins(self):
         seed_bytes = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
         self.assertRaises(ValueError, Bip84.FromSeed, binascii.unhexlify(seed_bytes), Bip44Coins.DOGECOIN)
+        self.assertRaises(ValueError, Bip84.FromSeed, binascii.unhexlify(seed_bytes), Bip44Coins.DOGECOIN_TESTNET)
         self.assertRaises(ValueError, Bip84.FromSeed, binascii.unhexlify(seed_bytes), Bip44Coins.DASH)
+        self.assertRaises(ValueError, Bip84.FromSeed, binascii.unhexlify(seed_bytes), Bip44Coins.DASH_TESTNET)
         self.assertRaises(ValueError, Bip84.FromSeed, binascii.unhexlify(seed_bytes), Bip44Coins.ETHEREUM)
         self.assertRaises(ValueError, Bip84.FromSeed, binascii.unhexlify(seed_bytes), Bip44Coins.RIPPLE)
+
+        self.assertTrue(Bip84.IsCoinAllowed(Bip44Coins.BITCOIN))
+        self.assertTrue(Bip84.IsCoinAllowed(Bip44Coins.LITECOIN))
+        self.assertTrue(Bip84.IsCoinAllowed(Bip44Coins.BITCOIN_TESTNET))
+        self.assertTrue(Bip84.IsCoinAllowed(Bip44Coins.LITECOIN_TESTNET))
+        self.assertFalse(Bip84.IsCoinAllowed(Bip44Coins.DOGECOIN))
+        self.assertFalse(Bip84.IsCoinAllowed(Bip44Coins.DASH))
+        self.assertFalse(Bip84.IsCoinAllowed(Bip44Coins.DOGECOIN_TESTNET))
+        self.assertFalse(Bip84.IsCoinAllowed(Bip44Coins.DASH_TESTNET))
+        self.assertFalse(Bip84.IsCoinAllowed(Bip44Coins.ETHEREUM))
+        self.assertFalse(Bip84.IsCoinAllowed(Bip44Coins.RIPPLE))
 
     # Test wrong path derivations
     def test_wrong_derivations(self):
