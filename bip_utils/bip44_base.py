@@ -117,8 +117,13 @@ class Bip44Base(ABC):
             bip32_obj (Bip32 object) : Bip32 object
             coin_idx (Bip44Coins)    : coin index, must be a Bip44Coins enum
         """
+
+        # Check coin index type
         if not isinstance(coin_idx, Bip44Coins):
             raise TypeError("Coin index is not an enumerative of Bip44Coins")
+        # Depth on the Bip32 object shall be valid
+        if bip32_obj.Depth() > Bip44BaseConst.ADDRESS_INDEX_DEPTH:
+            raise ValueError("Depth of the Bip32 object (%d) is beyond the address index level" % bip32_obj.Depth())
 
         self.m_bip32    = bip32_obj
         self.m_coin_idx = coin_idx
