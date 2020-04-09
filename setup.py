@@ -1,11 +1,26 @@
 import setuptools
+import re
+
+VERSION_FILE = "bip_utils/_version.py"
 
 with open("README.md", "r") as f:
     long_description = f.read()
 
+def load_version():
+    version_line = open(VERSION_FILE).read().rstrip()
+    vre = re.compile(r'__version__ = "([^"]+)"')
+    matches = vre.findall(version_line)
+
+    if matches and len(matches) > 0:
+        return matches[0]
+    else:
+        raise RuntimeError("Cannot find version string in %s" % VERSION_FILE)
+
+version = load_version()
+
 setuptools.setup(
     name="bip_utils",
-    version="0.4.1",
+    version=version,
     author="Emanuele Bellocchia",
     author_email="ebellocchia@gmail.com",
     maintainer="Emanuele Bellocchia",
@@ -14,7 +29,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ebellocchia/bip_utils",
-    download_url="https://github.com/ebellocchia/bip_utils/archive/v0.4.1.tar.gz",
+    download_url="https://github.com/ebellocchia/bip_utils/archive/v%s.tar.gz" % version,
     license="MIT",
     test_suite="tests",
     install_requires = ["ecdsa","pysha3"],
