@@ -52,13 +52,13 @@ class BitcoinHelper:
         return BitcoinHelper.TEST_NET_VER
 
     @staticmethod
-    def GetWifNetVersions():
-        """ Get WIF net versions.
+    def GetConfig():
+        """ Get coin configuration.
 
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
+        Returns (BitcoinConf):
+            Coin configuration.
         """
-        return BitcoinConf.WIF_NET_VER
+        return BitcoinConf
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
@@ -102,13 +102,13 @@ class LitecoinHelper:
         return LitecoinHelper.TEST_NET_VER
 
     @staticmethod
-    def GetWifNetVersions():
-        """ Get WIF net versions.
+    def GetConfig():
+        """ Get coin configuration.
 
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
+        Returns (LitecoinConf):
+            Coin configuration.
         """
-        return LitecoinConf.WIF_NET_VER
+        return LitecoinConf
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):

@@ -52,13 +52,13 @@ class BitcoinHelper:
         return BitcoinHelper.TEST_NET_VER
 
     @staticmethod
-    def GetWifNetVersions():
-        """ Get WIF net versions.
+    def GetConfig():
+        """ Get coin configuration.
 
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
+        Returns (BitcoinConf):
+            Coin configuration.
         """
-        return BitcoinConf.WIF_NET_VER
+        return BitcoinConf
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
@@ -104,13 +104,13 @@ class LitecoinHelper:
         return LitecoinHelper.TEST_NET_VER
 
     @staticmethod
-    def GetWifNetVersions():
-        """ Get WIF net versions.
+    def GetConfig():
+        """ Get coin configuration.
 
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
+        Returns (LitecoinConf):
+            Coin configuration.
         """
-        return LitecoinConf.WIF_NET_VER
+        return LitecoinConf
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
@@ -155,13 +155,13 @@ class DogecoinHelper:
         return DogecoinHelper.TEST_NET_VER
 
     @staticmethod
-    def GetWifNetVersions():
-        """ Get WIF net versions.
+    def GetConfig():
+        """ Get coin configuration.
 
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
+        Returns (DogecoinConf):
+            Coin configuration.
         """
-        return DogecoinConf.WIF_NET_VER
+        return DogecoinConf
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
@@ -176,7 +176,6 @@ class DogecoinHelper:
         """
         addr_ver = DogecoinConf.P2SH_NET_VER["main"] if not is_testnet else DogecoinConf.P2SH_NET_VER["test"]
         return P2SH.ToAddress(pub_key.to_string("compressed"), addr_ver)
-
 
 
 class DashHelper:
@@ -206,13 +205,13 @@ class DashHelper:
         return DashHelper.TEST_NET_VER
 
     @staticmethod
-    def GetWifNetVersions():
-        """ Get WIF net versions.
+    def GetConfig():
+        """ Get coin configuration.
 
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
+        Returns (DashConf):
+            Coin configuration.
         """
-        return DashConf.WIF_NET_VER
+        return DashConf
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
