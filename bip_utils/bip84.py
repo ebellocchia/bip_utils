@@ -31,8 +31,10 @@ from .bip84_coin_helper import *
 class Bip84Const:
     """ Class container for BIP44 constants. """
 
+    # Specification name
+    SPEC_NAME = "BIP-0084"
     # Purpose
-    PURPOSE       = Bip32.HardenIndex(84)
+    PURPOSE   = Bip32.HardenIndex(84)
     # Allowed coins
     ALLOWED_COINS = \
         [
@@ -48,20 +50,6 @@ class Bip84Const:
 
 class Bip84(Bip44Base):
     """ BIP84 class. """
-
-    def __init__(self, bip32_obj, coin_idx):
-        """ Construct class from a Bip32 object and coin type.
-
-        Args:
-            bip32_obj (Bip32 object) : Bip32 object
-            coin_idx (Bip44Coins)    : coin index, must be a Bip44Coins enum
-        """
-
-        # Check if coin is allowed for BIP-0084
-        if not self.IsCoinAllowed(coin_idx):
-            raise ValueError("Coin %s cannot derive BIP-0084" % coin_idx)
-        # Construct parent
-        super().__init__(bip32_obj, coin_idx)
 
     def Purpose(self):
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
@@ -129,8 +117,18 @@ class Bip84(Bip44Base):
         return self._AddressIndexGeneric(self, addr_idx)
 
     @staticmethod
+    def SpecName():
+        """ Get specification name
+
+        Returns (str):
+            Specification name
+        """
+        return Bip84Const.SPEC_NAME
+
+    @staticmethod
     def IsCoinAllowed(coin_idx):
         """ Get if the specified coin is allowed.
+        TypeError is raised if coin_idx is not of Bip44Coins enum.
 
         Args:
             coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum

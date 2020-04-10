@@ -112,15 +112,17 @@ class Bip44Base(ABC):
 
     def __init__(self, bip32_obj, coin_idx):
         """ Construct class from a Bip32 object and coin type.
+        ValueError is raised if coin is not allowed to derive from current specification.
+        Bip44DepthError is raised if the Bip32 object depth is not valid.
 
         Args:
             bip32_obj (Bip32 object) : Bip32 object
             coin_idx (Bip44Coins)    : coin index, must be a Bip44Coins enum
         """
 
-        # Check coin index type
-        if not isinstance(coin_idx, Bip44Coins):
-            raise TypeError("Coin index is not an enumerative of Bip44Coins")
+        # Check if coin is allowed
+        if not self.IsCoinAllowed(coin_idx):
+            raise ValueError("Coin %s cannot derive from %s specification" % (coin_idx, self.SpecName()))
 
         # If the Bip32 is public-only, the depth shall start from the change level because hardened derivation is
         # used below it, which is not possible with public keys
@@ -133,6 +135,7 @@ class Bip44Base(ABC):
             if bip32_obj.Depth() > Bip44BaseConst.ADDRESS_INDEX_DEPTH:
                 raise Bip44DepthError("Depth of the Bip32 object (%d) is beyond address index level" % bip32_obj.Depth())
 
+        # Finally, initialize class
         self.m_bip32    = bip32_obj
         self.m_coin_idx = coin_idx
 
@@ -404,8 +407,19 @@ class Bip44Base(ABC):
 
     @staticmethod
     @abstractmethod
+    def SpecName():
+        """ Get specification name
+
+        Returns (str):
+            Specification name
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
     def IsCoinAllowed(coin_idx):
         """ Get if the specified coin is allowed.
+        TypeError is raised if coin_idx is not of Bip44Coins enum.
 
         Args:
             coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum

@@ -30,8 +30,10 @@ from .bip44_coin_helper import *
 class Bip44Const:
     """ Class container for BIP44 constants. """
 
+    # Specification name
+    SPEC_NAME = "BIP-0044"
     # Purpose
-    PURPOSE = Bip32.HardenIndex(44)
+    PURPOSE   = Bip32.HardenIndex(44)
     # Allowed coins
     ALLOWED_COINS = \
         [
@@ -123,8 +125,18 @@ class Bip44(Bip44Base):
         return self._AddressIndexGeneric(self, addr_idx)
 
     @staticmethod
+    def SpecName():
+        """ Get specification name
+
+        Returns (str):
+            Specification name
+        """
+        return Bip44Const.SPEC_NAME
+
+    @staticmethod
     def IsCoinAllowed(coin_idx):
         """ Get if the specified coin is allowed.
+        TypeError is raised if coin_idx is not of Bip44Coins enum.
 
         Args:
             coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
