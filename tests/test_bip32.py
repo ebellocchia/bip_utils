@@ -210,7 +210,17 @@ TEST_VECTOR_PATH = \
         },
         {
             "skip_master" : False,
+            "path"        : "m/0  /1p",
+            "parsed"       : ["m", 0, Bip32.HardenIndex(1)],
+        },
+        {
+            "skip_master" : False,
             "path"        : "m/0'/1'/2/",
+            "parsed"       : ["m", Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+        },
+        {
+            "skip_master" : False,
+            "path"        : "m/0p/1p/2/",
             "parsed"       : ["m", Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
         },
         {
@@ -228,6 +238,11 @@ TEST_VECTOR_PATH = \
             "path"        : "0'/1'/2",
             "parsed"       : [Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
         },
+        {
+            "skip_master" : True,
+            "path"        : "0p/1p/2",
+            "parsed"       : [Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+        },
     ]
 
 # Some invalid paths for the path parser (the result is always an empty list)
@@ -239,6 +254,10 @@ TEST_VECTOR_PATH_ERR = \
         },
         {
             "skip_master" : False,
+            "path"       : "mm",
+        },
+        {
+            "skip_master" : False,
             "path"       : "m//",
         },
         {
@@ -247,11 +266,23 @@ TEST_VECTOR_PATH_ERR = \
         },
         {
             "skip_master" : False,
+            "path"       : "mm/0",
+        },
+        {
+            "skip_master" : False,
             "path"       : "m/0''",
         },
         {
             "skip_master" : False,
+            "path"       : "m/0pp",
+        },
+        {
+            "skip_master" : False,
             "path"       : "m/0'0/1",
+        },
+        {
+            "skip_master" : False,
+            "path"       : "m/0p0/1",
         },
         {
             "skip_master" : False,
