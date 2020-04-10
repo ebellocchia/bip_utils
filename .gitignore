@@ -4,6 +4,7 @@
 __pycache__
 .vs
 .coverage
+htmlcov
 *.egg-info
 build
 dist
