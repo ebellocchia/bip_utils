@@ -57,10 +57,14 @@ class EntropyGenerator:
 
     def __init__(self, bits_len):
         """ Construct class by specifying the bits length.
+        ValueError is raised if the bit length is not valid
 
         Args:
             bits_len (int) : entropy length in bits
         """
+        if bits_len % 8 != 0:
+            raise ValueError("Bit length not multiple of 8")
+
         self.m_bits_len = bits_len
 
     def Generate(self):
@@ -85,12 +89,9 @@ class MnemonicFileReader:
         """
 
         # Read file
-        try:
-            file_path = os.path.join(os.path.dirname(__file__), self.FILE_NAME)
-            with open(file_path, "r", encoding = "utf-8") as fin:
-                self.m_words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
-        except:
-            raise FileNotFoundError("Unable to read file %s" % self.FILE_NAME)
+        file_path = os.path.join(os.path.dirname(__file__), self.FILE_NAME)
+        with open(file_path, "r", encoding = "utf-8") as fin:
+            self.m_words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
 
         # Check words list number
         if len(self.m_words_list) != Bip39Const.WORDS_LIST_NUM:
@@ -110,7 +111,7 @@ class MnemonicFileReader:
 
     def GetWordAtIdx(self, word_idx):
         """ Get the word at the specified index.
-        ValueError is raised if index is outside boundaries.
+        IndexError is raised if index is outside boundaries.
 
         Args:
             word_idx (int) : word index
@@ -118,9 +119,6 @@ class MnemonicFileReader:
         Returns (str)
             Word at the specified index
         """
-        if word_idx < 0 or word_idx > len(self.m_words_list):
-            raise ValueError("Word index (%d) is not valid" % word_idx)
-
         return self.m_words_list[word_idx]
 
 
