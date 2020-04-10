@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32, Bip32KeyError, PathParser
+from bip_utils import Bip32, Bip32KeyError, Bip32PathError, PathParser
 
 
 # Tests from BIP32 page
@@ -35,7 +35,7 @@ BIP32_TEST_VECTOR = \
                     "ex_pub"  : "xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8",
                     "ex_priv" : "xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi",
                 },
-            "chains" :
+            "der_paths" :
                 [
                         # m/0'
                         {
@@ -81,7 +81,7 @@ BIP32_TEST_VECTOR = \
                     "ex_pub"  : "xpub661MyMwAqRbcFW31YEwpkMuc5THy2PSt5bDMsktWQcFF8syAmRUapSCGu8ED9W6oDMSgv6Zz8idoc4a6mr8BDzTJY47LJhkJ8UB7WEGuduB",
                     "ex_priv" : "xprv9s21ZrQH143K31xYSDQpPDxsXRTUcvj2iNHm5NUtrGiGG5e2DtALGdso3pGz6ssrdK4PFmM8NSpSBHNqPqm55Qn3LqFtT2emdEXVYsCzC2U",
                 },
-            "chains" :
+            "der_paths" :
                 [
                         # m/0
                         {
@@ -127,7 +127,7 @@ BIP32_TEST_VECTOR = \
                     "ex_pub"  : "xpub661MyMwAqRbcEZVB4dScxMAdx6d4nFc9nvyvH3v4gJL378CSRZiYmhRoP7mBy6gSPSCYk6SzXPTf3ND1cZAceL7SfJ1Z3GC8vBgp2epUt13",
                     "ex_priv" : "xprv9s21ZrQH143K25QhxbucbDDuQ4naNntJRi4KUfWT7xo4EKsHt2QJDu7KXp1A3u7Bi1j8ph3EGsZ9Xvz9dGuVrtHHs7pXeTzjuxBrCmmhgC6",
                 },
-            "chains" :
+            "der_paths" :
                 [
                         # m/0'
                         {
@@ -140,8 +140,53 @@ BIP32_TEST_VECTOR = \
         },
     ]
 
+# Tests for public derivation
+TEST_VECTOR_PUBLIC_DER = \
+    {
+        "ex_priv" : "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "ex_pub"  : "xpub661MyMwAqRbcFkPHucMnrGNzDwb6teAX1RbKQmqtEF8kK3Z7LZ59qafCjB9eCRLiTVG3uxBxgKvRgbubRhqSKXnGGb1aoaqLrpMBDrVxga8",
+        "der_paths" :
+            [
+                # m/0
+                {
+                    "index"  : 0,
+                    "ex_pub" : "xpub68jrRzQfUmwSaf5Y37Yd5uwfnMRxiR14M3HBonDr91GB7GKEh7R9Mvu2UeCtbASfXZ9FdNo9FwFx6a37HNXUDiXVQFXuadXmevRBa3y7rL8",
+                },
+                # m/0/0
+                {
+                    "index"  : 0,
+                    "ex_pub" : "xpub6APw4JtXQKMKHbqzD7pxeiGcArZVSNuUcbcKvcoQ3JxPjdCYaap6BuVW4HRSmV4gwSv4CzC5Cjsp9kesdHUFHtpz42Bg4UoiJ1KsJQx9AuH",
+                },
+                # m/0/0/0' : shall trigger an exception
+                {
+                    "index"  : Bip32.HardenIndex(0),
+                },
+            ],
+    }
+
+# Tests for invalid seed
+TEST_VECTOR_INVALID_SEED = \
+    [
+        b"000102030405060708090a0b0c0d0e",
+        b"000102030405060708090a0b0c0d",
+    ]
+
+# Tests for invalid extended key
+TEST_VECTOR_INVALID_EXKEY = \
+    [
+        # Invalid lengths (generated on purpose to have a correct checksum)
+        "DeaWiRvhTUWHmRFa63ZawWQy57DX4NvP62TfD46boXurKLAgyUEp5Xz59LLRSa4sse2nscJCmFC4DvmScVSuJSxfQAzFhxDc4RV85PtjgAwLMX",
+        "5FQFKc7mTW13jdERCczZfzcHum9pTkjqVdP6HZCVtfC2YAjAT8RnDG6Lmo583qUQx2toUpuxyEJFVgAp725tEfbUJqXEA1WCgm8Qm4BPft8otyZpr",
+        # Invalid net version
+        "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+        # Private key with invalid secret (0x01 instead of 0x00, generated on purpose)
+        "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnListey6gETHL1FYgFnbGTHGh6bsXjp3w31igA2CuxhgLyGu6pvL45",
+        # Invalid public key (it's a private key with public net version, generated on purpose)
+        "xpub661MyMwAqRbcFkPHucMnrGNzDwb6teAX1RbKQmqtEF8kK3Z7LZ59qafCj3rW1cw1qdn2KJo1MSajvp3cr5ceA5nJT3QHp65rcYr8AUbzLPh",
+    ]
+
 # Some paths for the path parser
-PATH_TEST_VECTOR = \
+TEST_VECTOR_PATH = \
     [
         {
             "skip_master" : False,
@@ -186,7 +231,7 @@ PATH_TEST_VECTOR = \
     ]
 
 # Some invalid paths for the path parser (the result is always an empty list)
-PATH_TEST_VECTOR_ERR = \
+TEST_VECTOR_PATH_ERR = \
     [
         {
             "skip_master" : False,
@@ -222,6 +267,14 @@ PATH_TEST_VECTOR_ERR = \
         },
         {
             "skip_master" : True,
+            "path"       : "0/a/1",
+        },
+        {
+            "skip_master" : True,
+            "path"       : "0//1/1",
+        },
+        {
+            "skip_master" : True,
             "path"       : "m/",
         },
         {
@@ -229,6 +282,7 @@ PATH_TEST_VECTOR_ERR = \
             "path"       : "m/0/1/2",
         },
     ]
+
 
 #
 # Bip32 tests
@@ -244,8 +298,8 @@ class Bip32Tests(unittest.TestCase):
             self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
             self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
 
-            # Test chains
-            for chain in test["chains"]:
+            # Test derivation paths
+            for chain in test["der_paths"]:
                 # Update context
                 bip32_ctx = bip32_ctx.ChildKey(chain["index"])
                 # Test keys
@@ -262,8 +316,8 @@ class Bip32Tests(unittest.TestCase):
             self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
             self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
 
-            # Test chains
-            for chain in test["chains"]:
+            # Test derivation paths
+            for chain in test["der_paths"]:
                 # Update context
                 bip32_from_path = bip32_ctx.DerivePath(chain["path"][2:])
                 # Test keys
@@ -280,8 +334,8 @@ class Bip32Tests(unittest.TestCase):
             self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
             self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
 
-            # Test chains
-            for chain in test["chains"]:
+            # Test derivation paths
+            for chain in test["der_paths"]:
                 # Try to build from path and test again
                 bip32_from_path = Bip32.FromSeedAndPath(binascii.unhexlify(test["seed"]), chain["path"])
                 self.assertEqual(chain["ex_pub"] , bip32_from_path.ExtendedPublicKey())
@@ -304,22 +358,55 @@ class Bip32Tests(unittest.TestCase):
             self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
             self.assertRaises(Bip32KeyError, bip32_ctx.ExtendedPrivateKey)
 
-            # Same test for chains
-            for chain in test["chains"]:
+            # Same test for derivation paths
+            for chain in test["der_paths"]:
                 # Create from private extended key
                 bip32_ctx = Bip32.FromExtendedKey(chain["ex_priv"])
                 # Test keys
-                self.assertFalse(bip32_ctx.IsPublicOnly())
                 self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
                 self.assertEqual(chain["ex_priv"], bip32_ctx.ExtendedPrivateKey())
 
                 # Create from public extended key
                 bip32_ctx = Bip32.FromExtendedKey(chain["ex_pub"])
                 # Test keys
-                self.assertTrue(bip32_ctx.IsPublicOnly())
                 self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-                self.assertRaises(Bip32KeyError, bip32_ctx.ExtendedPrivateKey)
 
+    # Test public derivationcoverage report
+    def test_public_derivation(self):
+        # Construct from extended private key
+        bip32_ctx = Bip32.FromExtendedKey(TEST_VECTOR_PUBLIC_DER["ex_priv"])
+        # Shall not be public
+        self.assertFalse(bip32_ctx.IsPublicOnly())
+
+        # Set public
+        bip32_ctx.SetPublic()
+        # Shall be public and the public key shall be correct
+        self.assertTrue(bip32_ctx.IsPublicOnly())
+        self.assertEqual(TEST_VECTOR_PUBLIC_DER["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+        # Getting the private key shall raise an exception
+        self.assertRaises(Bip32KeyError, bip32_ctx.PrivateKeyBytes)
+        self.assertRaises(Bip32KeyError, bip32_ctx.ExtendedPrivateKey)
+
+        # Test derivation paths
+        for test in TEST_VECTOR_PUBLIC_DER["der_paths"]:
+            # Public derivation does not support hardened indexes
+            if Bip32.IsHardenedIndex(test["index"]):
+                self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
+            else:
+                bip32_ctx = bip32_ctx.ChildKey(test["index"])
+                self.assertEqual(test["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+
+    # Test invalid seed
+    def test_invalid_seed(self):
+        for test in TEST_VECTOR_INVALID_SEED:
+            self.assertRaises(ValueError, Bip32.FromSeed, binascii.unhexlify(test))
+
+    # Test invalid extended key
+    def test_invalid_exkey(self):
+        for test in TEST_VECTOR_INVALID_EXKEY:
+            # Test both main and test nets
+            self.assertRaises(Bip32KeyError, Bip32.FromExtendedKey, test, True)
+            self.assertRaises(Bip32KeyError, Bip32.FromExtendedKey, test, False)
 
 #
 # PathParser tests
@@ -327,10 +414,22 @@ class Bip32Tests(unittest.TestCase):
 class PathParserTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
-        for test in PATH_TEST_VECTOR:
+        for test in TEST_VECTOR_PATH:
             self.assertEqual(test["parsed"], PathParser.Parse(test["path"], test["skip_master"]))
+            # Bip32.FromSeedAndPath shall raise an exception if path is not a master one
+            if test["skip_master"]:
+                self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, b"", test["path"])
 
     # Test invalid paths
     def test_invalid_paths(self):
-        for test in PATH_TEST_VECTOR_ERR:
+        seed = binascii.unhexlify(b"000102030405060708090a0b0c0d0e0f")
+
+        for test in TEST_VECTOR_PATH_ERR:
             self.assertEqual([], PathParser.Parse(test["path"], test["skip_master"]))
+
+            # Try to derive an invalid path
+            bip32 = Bip32.FromSeed(seed)
+            self.assertRaises(Bip32PathError, bip32.DerivePath, test["path"])
+            # Try to construct from an invalid path (Bip32.FromSeedAndPath does not skip master)
+            if not test["skip_master"]:
+                self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, b"", test["path"])
