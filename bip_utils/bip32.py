@@ -62,13 +62,31 @@ class Bip32Const:
 class PathParser:
     """ Path parser class. It parses a BIP-0032 path and return a list of its indexes. """
 
+    # Hardened characters
+    HARDENED_CHARS = ("'", "p")
+    # Master character
+    MASTER_CHAR    = "m"
+
     @staticmethod
     def Parse(path, skip_master = False):
         """ Validate a path.
 
         Args:
-            path (str)         : path
-            skip_master (bool) : true to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
+            path (str)                   : path
+            skip_master (bool, optional) : true to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
+
+        Returns (list):
+            List with path indexes
+        """
+        return PathParser.__ParseElems(path.split("/"), skip_master)
+
+    @staticmethod
+    def __ParseElems(path_elems, skip_master):
+        """ Parse path elements.
+
+        Args:
+            path_elems (list)            : path element list
+            skip_master (bool, optional) : true to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
 
         Returns (list):
             List with path indexes
@@ -76,11 +94,8 @@ class PathParser:
 
         path_list = []
 
-        # Split path
-        path_elems = path.split("/")
-
         # Check each element
-        for i in range(0, len(path_elems)):
+        for i in range(len(path_elems)):
             path_elem = path_elems[i].strip()
 
             # Skip last empty element if any
@@ -89,32 +104,43 @@ class PathParser:
 
             # If path starts from master, the first element shall be "m"
             if i == 0 and not skip_master:
-                if path_elem[0] != "m":
+                if path_elem != PathParser.MASTER_CHAR:
                     return []
-                path_list.append("m")
+                path_list.append(PathParser.MASTER_CHAR)
             else:
-                # Search for character '
-                ap_idx = path_elem.find("'")
-                # Get if hardened
-                is_hardened = ap_idx != -1
-
-                if is_hardened:
-                    # If the character ' is present, it shall be the last one
-                    if ap_idx != len(path_elem) - 1:
-                        return []
-                    # Remove it from the string
-                    path_elem = path_elem[:-1]
-
-                # The remaining string shall be numeric
-                if not path_elem.isnumeric():
+                # Get index
+                path_idx = PathParser.__GetElemIndex(path_elem)
+                # Check it
+                if path_idx is None:
                     return []
-
-                # Get path index
-                path_idx = int(path_elem) if not is_hardened else Bip32.HardenIndex(int(path_elem))
                 # Add it to the list
                 path_list.append(path_idx)
 
         return path_list
+
+    @staticmethod
+    def __GetElemIndex(path_elem):
+        """ Get index of a path element.
+
+        Args:
+            path_elem (str) : path element
+
+        Returns (int or None):
+            Index of the element, None if the element is not valid.
+        """
+
+        # Get if hardened
+        is_hardened = len(path_elem) > 0  and path_elem[-1] in PathParser.HARDENED_CHARS
+
+        # If hardened, remove the last character from the string
+        if is_hardened:
+            path_elem = path_elem[:-1]
+
+        # The remaining string shall be numeric
+        if not path_elem.isnumeric():
+            return None
+
+        return int(path_elem) if not is_hardened else Bip32.HardenIndex(int(path_elem))
 
 
 class Bip32KeyError(Exception):
