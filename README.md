@@ -208,6 +208,8 @@ In case of error, an empty list is returned.
     print(PathParser.Parse("m/0'/1'/2"))
     # Same but skipping the master. Print: [2147483648, 2147483649, 2]
     print(PathParser.Parse("0'/1'/2", True))
+    # 'p' can be used as an alternative character instead of '
+    print(PathParser.Parse("m/0p/1p/2"))
     # Error path: empty list returned. Print: []
     print(PathParser.Parse("m/0'/abc/2"))
 
