@@ -49,7 +49,15 @@ To install it:
 
 To run the unit tests:
 
-    python setup.py test
+- Without code coverage
+
+        python setup.py test
+
+- With code coverage and report:
+
+        pip install coverage
+        coverage run -m unittest discover
+        coverage report
 
 ## BIP-0039 library
 
