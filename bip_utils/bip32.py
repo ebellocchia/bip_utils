@@ -49,6 +49,8 @@ class Bip32Const:
     HARDENED_IDX         = 0x80000000
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN = 4
+    # Fingerprint of master key
+    MASTER_FINGERPRINT   = b"\0\0\0\0"
     # Minimum length in bits for seed
     SEED_MIN_BIT_LEN     = 128
     # HMAC key for generating master key
@@ -76,10 +78,6 @@ class PathParser:
 
         # Split path
         path_elems = path.split("/")
-
-        # There should be at least one element
-        if len(path_elems) == 0:
-            return []
 
         # Check each element
         for i in range(0, len(path_elems)):
@@ -252,14 +250,21 @@ class Bip32:
             except:
                 raise Bip32KeyError("Invalid extended public key")
 
-        return Bip32(secret = secret, chain = chain, depth = depth, index = child, fprint = fprint, is_public = is_public, is_testnet = is_testnet)
+        return Bip32(
+            secret     = secret,
+            chain      = chain,
+            depth      = depth,
+            index      = child,
+            fprint     = fprint,
+            is_public  = is_public,
+            is_testnet = is_testnet)
 
     def __init__(self,
                  secret,
                  chain,
                  depth      = 0,
                  index      = 0,
-                 fprint     = b"\0\0\0\0",
+                 fprint     = Bip32Const.MASTER_FINGERPRINT,
                  is_public  = False,
                  is_testnet = False):
         """ Construct class from secret and chain.
@@ -413,14 +418,6 @@ class Bip32:
         """
         return self.m_is_testnet
 
-    def SetTestNet(self, testnet_flag):
-        """ Set test net flag.
-
-        Args:
-            testnet_flag (bool) : true if test net, false otherwise
-        """
-        self.m_is_testnet = testnet_flag
-
     def Depth(self):
         """ Get current depth.
 
@@ -458,7 +455,7 @@ class Bip32:
         return Bip32Const.HARDENED_IDX + index
 
     @staticmethod
-    def IsIndexHardened(index):
+    def IsHardenedIndex(index):
         """ Get if the specified index is hardened.
 
         Args:
@@ -484,7 +481,7 @@ class Bip32:
         index_bytes = index.to_bytes(4, "big")
 
         # Data to HMAC
-        if index & Bip32Const.HARDENED_IDX:
+        if self.IsHardenedIndex(index):
             data = b"\0" + self.m_key.to_string() + index_bytes
         else:
             data = self.PublicKeyBytes() + index_bytes
@@ -519,7 +516,7 @@ class Bip32:
         """
 
         # Check if index is hardened
-        if index & Bip32Const.HARDENED_IDX:
+        if self.IsHardenedIndex(index):
             raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         # Data to HMAC, same of CkdPriv() for public child key
