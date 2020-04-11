@@ -329,10 +329,10 @@ TEST_EXKEY_DEPTHS = \
         "ex_priv_5" : "xprvA47LQAPDXEkr9wwtUHNta4qWqiobTGKppzVy5JZVCszLdGTTQbuRxRMCJGqSdBg91M13Z2RTP2BKU5yDD41WFwZ7yavhhbCEs7cTnyvkxJV",
         # Private key with depth 6 shall raise an exception
         "ex_priv_6" : "xprvA69uJSR3uVgvYFM5AFabGnMuAvtdLrbm84CwEieMBbk5Kjk9ZGeYPF4AWuJ9EPBzC8pLn117Y6TFqgNKZ6EVKmoDxT4EjT1BaG3RhWL6wdF",
+        # Public key with depth 2 shall raise an exception
+        "ex_pub_2"  : "xpub6AmukNpN4yyLgyzSysjU6JqqoYA1mVUvtinHYdBGPDppatJXHxT8CcDsmBo9n3yLBgrcw9z62ygt1siT9xai4UaJ2w4FPmY6kPCF96YN2cF",
         # Public key with depth 3 shall raise an exception
         "ex_pub_3"  : "xpub6BosfCnifzxcFwrSzQiqu2DBVTshkCXacvNsWGYJVVhhawA7d4R5WSWGFNbi8Aw6ZRc1brxMyWMzG3DSSSSoekkudhUd9yLb6qx39T9nMdj",
-        # Public key with depth 4 is fine
-        "ex_pub_4"  : "xpub6ELHKXNimKbxMCytPh7EdC2QXx46T9qLDJWGnTraz1H9kMMFdcduoU69wh9cxP12wDxqAAfbaESWGYt5rREsX1J8iR2TEunvzvddduAPYcY",
         # Public key with depth 5 is fine
         "ex_pub_5"  : "xpub6Fbrwk4KhC8qnFVXTcR3wRsqiTGkedcSSZKyTqKaxXjFN6rZv3UJYZ4mQtjNYY3gCa181iCHSBWyWst2PFiXBKgLpFVSdcyLbHyAahin8pd",
         # Public key with depth 6 shall raise an exception
@@ -422,9 +422,6 @@ class Bip44Tests(unittest.TestCase):
             self.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey())
             self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey())
 
-            # It shall trigger an exception if created from account public key
-            self.assertRaises(Bip44DepthError, Bip44.FromExtendedKey, test["account"]["ex_pub"], test["coin"])
-
             # Create from private change key
             bip_obj_ctx = Bip44.FromExtendedKey(test["chain_ext"]["ex_priv"], test["coin"])
             # Test external chain keys
@@ -433,7 +430,7 @@ class Bip44Tests(unittest.TestCase):
             self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
             self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey())
 
-            # Create from public change key is fine
+            # Create from public change key
             bip_obj_ctx = Bip44.FromExtendedKey(test["chain_ext"]["ex_pub"], test["coin"])
             self.assertTrue(bip_obj_ctx.IsPublicOnly())
             self.assertTrue(bip_obj_ctx.IsChangeLevel())
@@ -467,9 +464,9 @@ class Bip44Tests(unittest.TestCase):
         self.assertRaises(Bip44DepthError, Bip44.FromExtendedKey, test_data["ex_priv_6"], Bip44Coins.BITCOIN)
 
         # Public key with depth 3 shall raise exception
-        self.assertRaises(Bip44DepthError, Bip44.FromExtendedKey, test_data["ex_pub_3"], Bip44Coins.BITCOIN)
+        self.assertRaises(Bip44DepthError, Bip44.FromExtendedKey, test_data["ex_pub_2"], Bip44Coins.BITCOIN)
         # Public key with depth 4 or 5 shall not raise exception
-        Bip44.FromExtendedKey(test_data["ex_pub_4"], Bip44Coins.BITCOIN)
+        Bip44.FromExtendedKey(test_data["ex_pub_3"], Bip44Coins.BITCOIN)
         Bip44.FromExtendedKey(test_data["ex_pub_5"], Bip44Coins.BITCOIN)
         # Public key with depth 6 shall raise exception
         self.assertRaises(Bip44DepthError, Bip44.FromExtendedKey, test_data["ex_pub_6"], Bip44Coins.BITCOIN)
