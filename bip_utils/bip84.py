@@ -22,7 +22,7 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
 
 # Imports
-from .bip32             import Bip32
+from .bip32_utils       import Bip32Utils
 from .bip44_base        import Bip44Base, Bip44Coins
 from .bip84_coin_helper import *
 
@@ -33,7 +33,7 @@ class Bip84Const:
     # Specification name
     SPEC_NAME = "BIP-0084"
     # Purpose
-    PURPOSE   = Bip32.HardenIndex(84)
+    PURPOSE   = Bip32Utils.HardenIndex(84)
     # Allowed coins
     ALLOWED_COINS = \
         [

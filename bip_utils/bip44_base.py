@@ -22,10 +22,11 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 
 # Imports
-from abc    import ABC, abstractmethod
-from enum   import IntEnum, unique
-from .bip32 import Bip32
-from .wif   import WifEncoder
+from abc          import ABC, abstractmethod
+from enum         import IntEnum, unique
+from .bip32_utils import Bip32Utils
+from .bip32       import Bip32
+from .wif         import WifEncoder
 
 
 @unique
@@ -538,7 +539,7 @@ class Bip44Base(ABC):
 
         coin_idx = Bip44BaseConst.TEST_NET_COIN_IDX if bip_obj.m_bip32.IsTestNet() else bip_obj.m_coin_idx
 
-        return cls(bip_obj.m_bip32.ChildKey(Bip32.HardenIndex(coin_idx)), bip_obj.m_coin_idx)
+        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(coin_idx)), bip_obj.m_coin_idx)
 
     @classmethod
     def _AccountGeneric(cls, bip_obj, acc_idx):
@@ -557,7 +558,7 @@ class Bip44Base(ABC):
         if not cls.IsCoinLevel(bip_obj):
             raise Bip44DepthError("Current depth (%d) is not suitable for deriving account" % bip_obj.m_bip32.Depth())
 
-        return cls(bip_obj.m_bip32.ChildKey(Bip32.HardenIndex(acc_idx)), bip_obj.m_coin_idx)
+        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(acc_idx)), bip_obj.m_coin_idx)
 
     @classmethod
     def _ChangeGeneric(cls, bip_obj, change_idx):

@@ -22,7 +22,7 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
 
 # Imports
-from .bip32             import Bip32
+from .bip32_utils       import Bip32Utils
 from .bip44_base        import Bip44Base, Bip44Coins
 from .bip49_coin_helper import *
 
@@ -33,7 +33,7 @@ class Bip49Const:
     # Specification name
     SPEC_NAME = "BIP-0049"
     # Purpose
-    PURPOSE   = Bip32.HardenIndex(49)
+    PURPOSE   = Bip32Utils.HardenIndex(49)
     # Allowed coins
     ALLOWED_COINS = \
         [
