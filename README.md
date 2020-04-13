@@ -47,7 +47,7 @@ To install it:
 
         pip install bip_utils
 
-To run the unit tests:
+To run the tests:
 
 - Without code coverage
 
@@ -166,21 +166,21 @@ The object returned will be at the same depth of the specified key.
 ### Keys derivation
 
 Each time a key is derived, a new instance of the Bip32 class is returned. This allows to chain the methods call or save a specific key pair for future derivation.\
-The *Bip32.HardenIndex* method can be used to make an index hardened.
+The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
 
 **Code example**
 
     import binascii
-    from bip_utils import Bip32
+    from bip_utils import Bip32, Bip32Utils
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Path: m
     bip32_ctx = Bip32.FromSeed(seed_bytes)
     # Derivation path: m/0'/1'/2/3
-    bip32_ctx = bip32_ctx.ChildKey(Bip32.HardenIndex(0)) \
-                         .ChildKey(Bip32.HardenIndex(1)) \
-                         .ChildKey(2)                    \
+    bip32_ctx = bip32_ctx.ChildKey(Bip32Utils.HardenIndex(0)) \
+                         .ChildKey(Bip32Utils.HardenIndex(1)) \
+                         .ChildKey(2)                         \
                          .ChildKey(3)
     # Print keys in extended format
     print(bip32_ctx.ExtendedPrivateKey())
@@ -202,16 +202,16 @@ In case of error, an empty list is returned.
 
 **Code example**
 
-    from bip_utils import PathParser
+    from bip_utils import Bip32PathParser
 
     # Print: ["m", 2147483648, 2147483649, 2]
-    print(PathParser.Parse("m/0'/1'/2"))
+    print(Bip32PathParser.Parse("m/0'/1'/2"))
     # Same but skipping the master. Print: [2147483648, 2147483649, 2]
-    print(PathParser.Parse("0'/1'/2", True))
+    print(Bip32PathParser.Parse("0'/1'/2", True))
     # 'p' can be used as an alternative character instead of '
-    print(PathParser.Parse("m/0p/1p/2"))
+    print(Bip32PathParser.Parse("m/0p/1p/2"))
     # Error path: empty list returned. Print: []
-    print(PathParser.Parse("m/0'/abc/2"))
+    print(Bip32PathParser.Parse("m/0'/abc/2"))
 
 ## Bip-0044, BIP-0049, BIP-0084 libraries
 
