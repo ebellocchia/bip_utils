@@ -24,10 +24,10 @@
 # Imports
 import binascii
 import ecdsa
-from  ecdsa.curves       import SECP256k1
-from  ecdsa.ecdsa        import generator_secp256k1, int_to_string, string_to_int
-from .base58             import Base58Decoder, Base58Encoder
-from .                   import utils
+from  ecdsa.curves import SECP256k1
+from  ecdsa.ecdsa  import generator_secp256k1, int_to_string, string_to_int
+from .base58       import Base58Decoder, Base58Encoder
+from .             import utils
 
 
 class Bip32Const:
@@ -528,11 +528,17 @@ class Bip32:
         secret = (b"\0"*32 + int_to_string(k_int))[-32:]
 
         # Construct and return a new Bip32 object
-        return Bip32(secret = secret, chain = i_r, depth = self.m_depth + 1, index = index, fprint = self.Fingerprint(), is_public = False, is_testnet = self.m_is_testnet)
+        return Bip32(secret     = secret,
+                     chain      = i_r,
+                     depth      = self.m_depth + 1,
+                     index      = index,
+                     fprint     = self.Fingerprint(),
+                     is_public  = False,
+                     is_testnet = self.m_is_testnet)
 
     def __CkdPub(self, index):
         """ Create a publicly derived child key of the specified index.
-        Bip32KeyError is raised if the index most significant bit is set or the index results in an invalid key.
+        Bip32KeyError is raised if the index is hardened or results in an invalid key.
 
         Args:
             index (int) : index
@@ -564,7 +570,13 @@ class Bip32:
         k_i = ecdsa.VerifyingKey.from_public_point(point, curve = SECP256k1)
 
         # Construct and return a new Bip32 object
-        return Bip32(secret = k_i, chain = i_r, depth = self.m_depth + 1, index = index, fprint = self.Fingerprint(), is_public = True, is_testnet = self.m_is_testnet)
+        return Bip32(secret     = k_i,
+                     chain      = i_r,
+                     depth      = self.m_depth + 1,
+                     index      = index,
+                     fprint     = self.Fingerprint(),
+                     is_public  = True,
+                     is_testnet = self.m_is_testnet)
 
     def __HmacHalves(self, data_bytes):
         """ Calculate the HMAC-SHA512 of input data using the chain code as key and returns a tuple of the left and right halves of the HMAC.

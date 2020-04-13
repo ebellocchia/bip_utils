@@ -28,6 +28,7 @@
 # Imports
 from . import utils
 
+
 class Bech32Const:
     """ Class container for Bech32 constants. """
 

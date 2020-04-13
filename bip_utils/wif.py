@@ -20,7 +20,7 @@
 
 
 # Imports
-import binascii
+from .              import utils
 from .base58        import Base58Decoder, Base58Encoder
 from .bip_coin_conf import BitcoinConf
 from .key_helper    import KeyHelper
@@ -50,7 +50,7 @@ class WifEncoder:
         """
 
         if not KeyHelper.IsValid(key_bytes):
-            raise ValueError("Invalid key (%s)" % binascii.hexlify(key_bytes))
+            raise ValueError("Invalid key (%s)" % utils.BytesToString(key_bytes))
 
         # Add suffix if compressed public key
         if KeyHelper.IsPublicCompressed(key_bytes):
@@ -99,6 +99,6 @@ class WifDecoder:
 
         # Check if valid
         if not KeyHelper.IsValid(key_bytes):
-            raise ValueError("Invalid decoded key (%s)" % binascii.hexlify(key_bytes))
+            raise ValueError("Invalid decoded key (%s)" % utils.BytesToString(key_bytes))
 
         return key_bytes

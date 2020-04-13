@@ -20,7 +20,6 @@
 
 
 # Imports
-import binascii
 from . import utils
 
 
