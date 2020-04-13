@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32, Bip32KeyError, Bip32PathError, PathParser
+from bip_utils import Bip32, Bip32KeyError, Bip32PathError, Bip32PathParser, Bip32Utils
 
 
 # Tests from BIP32 page
@@ -40,7 +40,7 @@ BIP32_TEST_VECTOR = \
                         # m/0'
                         {
                             "path"    : "m/0'",
-                            "index"   : Bip32.HardenIndex(0),
+                            "index"   : Bip32Utils.HardenIndex(0),
                             "ex_pub"  : "xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw",
                             "ex_priv" : "xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7",
                         },
@@ -54,7 +54,7 @@ BIP32_TEST_VECTOR = \
                         # m/0'/1/2'
                         {
                             "path"    : "m/0'/1/2'",
-                            "index"   : Bip32.HardenIndex(2),
+                            "index"   : Bip32Utils.HardenIndex(2),
                             "ex_pub"  : "xpub6D4BDPcP2GT577Vvch3R8wDkScZWzQzMMUm3PWbmWvVJrZwQY4VUNgqFJPMM3No2dFDFGTsxxpG5uJh7n7epu4trkrX7x7DogT5Uv6fcLW5",
                             "ex_priv" : "xprv9z4pot5VBttmtdRTWfWQmoH1taj2axGVzFqSb8C9xaxKymcFzXBDptWmT7FwuEzG3ryjH4ktypQSAewRiNMjANTtpgP4mLTj34bhnZX7UiM",
                         },
@@ -93,7 +93,7 @@ BIP32_TEST_VECTOR = \
                         # m/0/2147483647'
                         {
                             "path"    : "m/0/2147483647'",
-                            "index"   : Bip32.HardenIndex(2147483647),
+                            "index"   : Bip32Utils.HardenIndex(2147483647),
                             "ex_pub"  : "xpub6ASAVgeehLbnwdqV6UKMHVzgqAG8Gr6riv3Fxxpj8ksbH9ebxaEyBLZ85ySDhKiLDBrQSARLq1uNRts8RuJiHjaDMBU4Zn9h8LZNnBC5y4a",
                             "ex_priv" : "xprv9wSp6B7kry3Vj9m1zSnLvN3xH8RdsPP1Mh7fAaR7aRLcQMKTR2vidYEeEg2mUCTAwCd6vnxVrcjfy2kRgVsFawNzmjuHc2YmYRmagcEPdU9",
                         },
@@ -107,7 +107,7 @@ BIP32_TEST_VECTOR = \
                         # m/0/2147483647'/1/2147483646'
                         {
                             "path"    : "m/0/2147483647'/1/2147483646'",
-                            "index"   : Bip32.HardenIndex(2147483646),
+                            "index"   : Bip32Utils.HardenIndex(2147483646),
                             "ex_pub"  : "xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL",
                             "ex_priv" : "xprvA1RpRA33e1JQ7ifknakTFpgNXPmW2YvmhqLQYMmrj4xJXXWYpDPS3xz7iAxn8L39njGVyuoseXzU6rcxFLJ8HFsTjSyQbLYnMpCqE2VbFWc",
                         },
@@ -132,7 +132,7 @@ BIP32_TEST_VECTOR = \
                         # m/0'
                         {
                             "path"    : "m/0'",
-                            "index"   : Bip32.HardenIndex(0),
+                            "index"   : Bip32Utils.HardenIndex(0),
                             "ex_pub"  : "xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y",
                             "ex_priv" : "xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L",
                         },
@@ -159,7 +159,7 @@ TEST_VECTOR_PUBLIC_DER = \
                 },
                 # m/0/0/0' : shall trigger an exception
                 {
-                    "index"  : Bip32.HardenIndex(0),
+                    "index"  : Bip32Utils.HardenIndex(0),
                 },
             ],
     }
@@ -206,22 +206,22 @@ TEST_VECTOR_PATH = \
         {
             "skip_master" : False,
             "path"        : "m/0  /1'",
-            "parsed"       : ["m", 0, Bip32.HardenIndex(1)],
+            "parsed"       : ["m", 0, Bip32Utils.HardenIndex(1)],
         },
         {
             "skip_master" : False,
             "path"        : "m/0  /1p",
-            "parsed"       : ["m", 0, Bip32.HardenIndex(1)],
+            "parsed"       : ["m", 0, Bip32Utils.HardenIndex(1)],
         },
         {
             "skip_master" : False,
             "path"        : "m/0'/1'/2/",
-            "parsed"       : ["m", Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+            "parsed"       : ["m", Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
         },
         {
             "skip_master" : False,
             "path"        : "m/0p/1p/2/",
-            "parsed"       : ["m", Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+            "parsed"       : ["m", Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
         },
         {
             "skip_master" : True,
@@ -236,12 +236,12 @@ TEST_VECTOR_PATH = \
         {
             "skip_master" : True,
             "path"        : "0'/1'/2",
-            "parsed"       : [Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+            "parsed"       : [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
         },
         {
             "skip_master" : True,
             "path"        : "0p/1p/2",
-            "parsed"       : [Bip32.HardenIndex(0), Bip32.HardenIndex(1), 2],
+            "parsed"       : [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
         },
     ]
 
@@ -409,8 +409,8 @@ class Bip32Tests(unittest.TestCase):
         # Shall not be public
         self.assertFalse(bip32_ctx.IsPublicOnly())
 
-        # Set public
-        bip32_ctx.SetPublic()
+        # Convert to public
+        bip32_ctx.ConvertToPublic()
         # Shall be public and the public key shall be correct
         self.assertTrue(bip32_ctx.IsPublicOnly())
         self.assertEqual(TEST_VECTOR_PUBLIC_DER["ex_pub"] , bip32_ctx.ExtendedPublicKey())
@@ -421,7 +421,7 @@ class Bip32Tests(unittest.TestCase):
         # Test derivation paths
         for test in TEST_VECTOR_PUBLIC_DER["der_paths"]:
             # Public derivation does not support hardened indexes
-            if Bip32.IsHardenedIndex(test["index"]):
+            if Bip32Utils.IsHardenedIndex(test["index"]):
                 self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
             else:
                 bip32_ctx = bip32_ctx.ChildKey(test["index"])
@@ -440,13 +440,13 @@ class Bip32Tests(unittest.TestCase):
             self.assertRaises(Bip32KeyError, Bip32.FromExtendedKey, test, False)
 
 #
-# PathParser tests
+# Path parser tests
 #
-class PathParserTests(unittest.TestCase):
+class Bip32PathParserTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECTOR_PATH:
-            self.assertEqual(test["parsed"], PathParser.Parse(test["path"], test["skip_master"]))
+            self.assertEqual(test["parsed"], Bip32PathParser.Parse(test["path"], test["skip_master"]))
             # Bip32.FromSeedAndPath shall raise an exception if path is not a master one
             if test["skip_master"]:
                 self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, b"", test["path"])
@@ -456,7 +456,7 @@ class PathParserTests(unittest.TestCase):
         seed = binascii.unhexlify(b"000102030405060708090a0b0c0d0e0f")
 
         for test in TEST_VECTOR_PATH_ERR:
-            self.assertEqual([], PathParser.Parse(test["path"], test["skip_master"]))
+            self.assertEqual([], Bip32PathParser.Parse(test["path"], test["skip_master"]))
 
             # Try to derive an invalid path
             bip32 = Bip32.FromSeed(seed)
