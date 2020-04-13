@@ -324,53 +324,51 @@ class Bip32Tests(unittest.TestCase):
         for test in BIP32_TEST_VECTOR:
             # Create from seed
             bip32_ctx = Bip32.FromSeed(binascii.unhexlify(test["seed"]))
-
             # Test master key
-            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
+            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
             # Test derivation paths
             for chain in test["der_paths"]:
                 # Update context
                 bip32_ctx = bip32_ctx.ChildKey(chain["index"])
                 # Test keys
-                self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-                self.assertEqual(chain["ex_priv"], bip32_ctx.ExtendedPrivateKey())
+                self.assertEqual(chain["ex_pub"] , bip32_ctx.PublicKey().ToExtended())
+                self.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_vector_derive_path(self):
         for test in BIP32_TEST_VECTOR:
             # Create from seed
             bip32_ctx = Bip32.FromSeed(binascii.unhexlify(test["seed"]))
-
             # Test master key
-            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
+            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
             # Test derivation paths
             for chain in test["der_paths"]:
                 # Update context
                 bip32_from_path = bip32_ctx.DerivePath(chain["path"][2:])
                 # Test keys
-                self.assertEqual(chain["ex_pub"] , bip32_from_path.ExtendedPublicKey())
-                self.assertEqual(chain["ex_priv"], bip32_from_path.ExtendedPrivateKey())
+                self.assertEqual(chain["ex_pub"] , bip32_from_path.PublicKey().ToExtended())
+                self.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromSeedAndPath for construction
     def test_vector_from_path(self):
         for test in BIP32_TEST_VECTOR:
             # Create from seed
             bip32_ctx = Bip32.FromSeedAndPath(binascii.unhexlify(test["seed"]), "m")
-
             # Test master key
-            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
+            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
             # Test derivation paths
             for chain in test["der_paths"]:
                 # Try to build from path and test again
                 bip32_from_path = Bip32.FromSeedAndPath(binascii.unhexlify(test["seed"]), chain["path"])
-                self.assertEqual(chain["ex_pub"] , bip32_from_path.ExtendedPublicKey())
-                self.assertEqual(chain["ex_priv"], bip32_from_path.ExtendedPrivateKey())
+                # Test keys
+                self.assertEqual(chain["ex_pub"] , bip32_from_path.PublicKey().ToExtended())
+                self.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_vector_from_exkey(self):
@@ -378,29 +376,16 @@ class Bip32Tests(unittest.TestCase):
             # Create from private extended key
             bip32_ctx = Bip32.FromExtendedKey(test["master"]["ex_priv"])
             # Test master key
-            self.assertFalse(bip32_ctx.IsPublicOnly())
-            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.ExtendedPrivateKey())
-
-            # Create from public extended key
-            bip32_ctx = Bip32.FromExtendedKey(test["master"]["ex_pub"])
-            # Test master key (private key cannot be tested if constructed from public)
-            self.assertTrue(bip32_ctx.IsPublicOnly())
-            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-            self.assertRaises(Bip32KeyError, bip32_ctx.ExtendedPrivateKey)
+            self.assertEqual(test["master"]["ex_pub"] , bip32_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
             # Same test for derivation paths
             for chain in test["der_paths"]:
                 # Create from private extended key
                 bip32_ctx = Bip32.FromExtendedKey(chain["ex_priv"])
                 # Test keys
-                self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
-                self.assertEqual(chain["ex_priv"], bip32_ctx.ExtendedPrivateKey())
-
-                # Create from public extended key
-                bip32_ctx = Bip32.FromExtendedKey(chain["ex_pub"])
-                # Test keys
-                self.assertEqual(chain["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+                self.assertEqual(chain["ex_pub"] , bip32_ctx.PublicKey().ToExtended())
+                self.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
     # Test public derivationcoverage report
     def test_public_derivation(self):
@@ -413,10 +398,10 @@ class Bip32Tests(unittest.TestCase):
         bip32_ctx.ConvertToPublic()
         # Shall be public and the public key shall be correct
         self.assertTrue(bip32_ctx.IsPublicOnly())
-        self.assertEqual(TEST_VECTOR_PUBLIC_DER["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+        self.assertEqual(TEST_VECTOR_PUBLIC_DER["ex_pub"], bip32_ctx.PublicKey().ToExtended())
         # Getting the private key shall raise an exception
-        self.assertRaises(Bip32KeyError, bip32_ctx.PrivateKeyBytes)
-        self.assertRaises(Bip32KeyError, bip32_ctx.ExtendedPrivateKey)
+        self.assertRaises(Bip32KeyError, bip32_ctx.PrivateKey)
+        self.assertRaises(Bip32KeyError, bip32_ctx.EcdsaPrivateKey)
 
         # Test derivation paths
         for test in TEST_VECTOR_PUBLIC_DER["der_paths"]:
@@ -425,7 +410,7 @@ class Bip32Tests(unittest.TestCase):
                 self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
             else:
                 bip32_ctx = bip32_ctx.ChildKey(test["index"])
-                self.assertEqual(test["ex_pub"] , bip32_ctx.ExtendedPublicKey())
+                self.assertEqual(test["ex_pub"] , bip32_ctx.PublicKey().ToExtended())
 
     # Test invalid seed
     def test_invalid_seed(self):

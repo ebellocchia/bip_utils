@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    Bip84, Bip44Coins, Bip44Changes, Bip44PrivKeyTypes, Bip44PubKeyTypes, Bip44DepthError, Bip32KeyError
+    Bip84, Bip44Coins, Bip44Changes, Bip44DepthError, Bip32KeyError
 )
 
 # Some seeds randomly taken from Ian Coleman web page
@@ -146,12 +146,12 @@ TEST_VECTOR = \
 TEST_KEY_FORMATS = \
     {
         "coin"            : Bip44Coins.BITCOIN,
-        "seed"            : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_priv"         :  "zprvAWgYBBk7JR8Gjrh4UJQ2uJdG1r3WNRRfURiABBE3RvMXYSrRJL62XuezvGdPvG6GFBZduosCc1YP5wixPox7zhZLfiUm8aunE96BBa4Kei5",
-        "raw_priv"        : b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
-        "ex_pub"          :  "zpub6jftahH18ngZxLmXaKw3GSZzZsszmt9WqedkyZdezFtWRFBZqsQH5hyUmb4pCEeZGmVfQuP5bedXTB8is6fTv19U1GQRyQUKQGUTzyHACMF",
-        "raw_compr_pub"   : b"03d902f35f560e0470c63313c7369168d9d7df2d49bf295fd9fb7cb109ccee0494",
-        "raw_uncompr_pub" : b"d902f35f560e0470c63313c7369168d9d7df2d49bf295fd9fb7cb109ccee04947d000a1345d3845dd83b4c5814f876c918305b598f066c958fad972bf59f2ec7",
+        "seed"            : "5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_priv"         : "zprvAWgYBBk7JR8Gjrh4UJQ2uJdG1r3WNRRfURiABBE3RvMXYSrRJL62XuezvGdPvG6GFBZduosCc1YP5wixPox7zhZLfiUm8aunE96BBa4Kei5",
+        "raw_priv"        : "1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
+        "ex_pub"          : "zpub6jftahH18ngZxLmXaKw3GSZzZsszmt9WqedkyZdezFtWRFBZqsQH5hyUmb4pCEeZGmVfQuP5bedXTB8is6fTv19U1GQRyQUKQGUTzyHACMF",
+        "raw_compr_pub"   : "03d902f35f560e0470c63313c7369168d9d7df2d49bf295fd9fb7cb109ccee0494",
+        "raw_uncompr_pub" : "d902f35f560e0470c63313c7369168d9d7df2d49bf295fd9fb7cb109ccee04947d000a1345d3845dd83b4c5814f876c918305b598f066c958fad972bf59f2ec7",
     }
 
 # Tests for extended keys with valid and invalid depths
@@ -192,28 +192,28 @@ class Bip84Tests(unittest.TestCase):
             self.assertEqual(test["is_testnet"], bip_obj_ctx.IsTestNet())
 
             # Test master key
-            self.assertEqual(test["ex_master"] , bip_obj_ctx.PrivateKey())
-            self.assertEqual(test["wif_master"], bip_obj_ctx.WalletImportFormat())
+            self.assertEqual(test["ex_master"] , bip_obj_ctx.PrivateKey().ToExtended())
+            self.assertEqual(test["wif_master"], bip_obj_ctx.PrivateKey().ToWif())
             self.assertTrue(bip_obj_ctx.IsMasterLevel())
 
             # Derive account
             bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)
             # Test account keys
-            self.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey())
-            self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey())
+            self.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
             self.assertTrue(bip_obj_ctx.IsAccountLevel())
 
             # Derive external chain
             bip_obj_ctx = bip_obj_ctx.Change(Bip44Changes.CHAIN_EXT)
             # Test external chain keys
-            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
-            self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey())
+            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
             self.assertTrue(bip_obj_ctx.IsChangeLevel())
 
             # Test external chain addresses
             for i in range(len(test["addresses"])):
                 bip_obj_addr_ctx = bip_obj_ctx.AddressIndex(i)
-                self.assertEqual(test["addresses"][i], bip_obj_addr_ctx.Address())
+                self.assertEqual(test["addresses"][i], bip_obj_addr_ctx.PublicKey().ToAddress())
                 self.assertTrue(bip_obj_addr_ctx.IsAddressIndexLevel())
 
     # Run all tests in test vector using FromExtendedKey for construction
@@ -223,28 +223,28 @@ class Bip84Tests(unittest.TestCase):
             bip_obj_ctx = Bip84.FromExtendedKey(test["ex_master"], test["coin"])
             # Test master key
             self.assertTrue(bip_obj_ctx.IsMasterLevel())
-            self.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey())
+            self.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Create from private account key
             bip_obj_ctx = Bip84.FromExtendedKey(test["account"]["ex_priv"], test["coin"])
             # Test account keys
             self.assertTrue(bip_obj_ctx.IsAccountLevel())
-            self.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey())
-            self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey())
+            self.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Create from private change key
             bip_obj_ctx = Bip84.FromExtendedKey(test["chain_ext"]["ex_priv"], test["coin"])
             # Test external chain keys
             self.assertFalse(bip_obj_ctx.IsPublicOnly())
             self.assertTrue(bip_obj_ctx.IsChangeLevel())
-            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
-            self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey())
+            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            self.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Create from public change key
             bip_obj_ctx = Bip84.FromExtendedKey(test["chain_ext"]["ex_pub"], test["coin"])
             self.assertTrue(bip_obj_ctx.IsPublicOnly())
             self.assertTrue(bip_obj_ctx.IsChangeLevel())
-            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey())
+            self.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
             self.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
 
     # Test different key formats
@@ -254,12 +254,12 @@ class Bip84Tests(unittest.TestCase):
         # Create from seed
         bip_obj_ctx = Bip84.FromSeed(binascii.unhexlify(test_data["seed"]), test_data["coin"])
         # Check private key formats
-        self.assertEqual(test_data["ex_priv"] , bip_obj_ctx.PrivateKey(Bip44PrivKeyTypes.EXT_KEY))
-        self.assertEqual(test_data["raw_priv"], binascii.hexlify(bip_obj_ctx.PrivateKey(Bip44PrivKeyTypes.RAW_KEY)))
+        self.assertEqual(test_data["ex_priv"] , bip_obj_ctx.PrivateKey().ToExtended())
+        self.assertEqual(test_data["raw_priv"], bip_obj_ctx.PrivateKey().Raw().ToHex())
         # Check public key formats
-        self.assertEqual(test_data["ex_pub"] , bip_obj_ctx.PublicKey(Bip44PubKeyTypes.EXT_KEY))
-        self.assertEqual(test_data["raw_compr_pub"], binascii.hexlify(bip_obj_ctx.PublicKey(Bip44PubKeyTypes.RAW_COMPR_KEY)))
-        self.assertEqual(test_data["raw_uncompr_pub"], binascii.hexlify(bip_obj_ctx.PublicKey(Bip44PubKeyTypes.RAW_UNCOMPR_KEY)))
+        self.assertEqual(test_data["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+        self.assertEqual(test_data["raw_compr_pub"], bip_obj_ctx.PublicKey().RawCompressed().ToHex())
+        self.assertEqual(test_data["raw_uncompr_pub"], bip_obj_ctx.PublicKey().RawUncompressed().ToHex())
         # Invalid parameters
         self.assertRaises(TypeError, bip_obj_ctx.PrivateKey, 0)
         self.assertRaises(TypeError, bip_obj_ctx.PublicKey , 0)

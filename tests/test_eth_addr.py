@@ -72,9 +72,8 @@ class EthAddrTests(unittest.TestCase):
         for test in TEST_VECTOR:
             # Decompress key
             ver_key = ecdsa.VerifyingKey.from_string(binascii.unhexlify(test["pub_key"]), curve = SECP256k1)
-            uncompr_key = ver_key.to_string("uncompressed")[1:]
 
-            self.assertEqual(test["address"], EthAddr.ToAddress(uncompr_key))
+            self.assertEqual(test["address"], EthAddr.ToAddress(ver_key.to_string("uncompressed")[1:]))
 
     # Test invalid keys
     def test_invalid_keys(self):
