@@ -20,17 +20,17 @@
 
 
 # Imports
-from .              import utils
 from .base58        import Base58Decoder, Base58Encoder
 from .bip_coin_conf import BitcoinConf
 from .key_helper    import KeyHelper
+from .              import utils
 
 
 class WifConst:
     """ Class container for WIF constants. """
 
     # Public key suffix
-    PUB_KEY_SUFFIX     = b"\x01"
+    PUB_KEY_SUFFIX = b"\x01"
 
 
 class WifEncoder:
