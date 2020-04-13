@@ -24,7 +24,7 @@
 # Imports
 from abc    import ABC, abstractmethod
 from enum   import IntEnum, unique
-from .bip32 import Bip32, Bip32Const
+from .bip32 import Bip32
 from .wif   import WifEncoder
 
 
@@ -124,7 +124,7 @@ class Bip44Base(ABC):
         if not self.IsCoinAllowed(coin_idx):
             raise ValueError("Coin %s cannot derive from %s specification" % (coin_idx, self.SpecName()))
 
-        # If the Bip32 is public-only, the depth shall start from the change level because hardened derivation is
+        # If the Bip32 is public-only, the depth shall start from the account level because hardened derivation is
         # used below it, which is not possible with public keys
         if bip32_obj.IsPublicOnly():
             if bip32_obj.Depth() < Bip44BaseConst.ACCOUNT_DEPTH or \
@@ -262,9 +262,6 @@ class Bip44Base(ABC):
 
     def CoinNames(self):
         """ Get coin names.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
 
         Returns (dict):
             Coin names (name at key "name", abbreviation at key "abbr")

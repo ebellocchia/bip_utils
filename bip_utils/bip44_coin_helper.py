@@ -20,53 +20,55 @@
 
 
 # Imports
-import binascii
-from .              import utils
-from .bip32         import Bip32Const
-from .bip_coin_conf import *
-from .P2PKH         import P2PKH
-from .eth_addr      import EthAddr
-from .xrp_addr      import XrpAddr
+from .bip_coin_helper_base import CoinHelperBase
+from .bip_coin_conf        import *
+from .P2PKH                import P2PKH
+from .eth_addr             import EthAddr
+from .xrp_addr             import XrpAddr
 
 
-class BitcoinHelper():
-    """ Bitcoin class. It contains the constants some helper methods for BIP-0044 Bitcoin. """
-
-    # Main net versions (same of BIP32 for BIP44)
-    MAIN_NET_VER = Bip32Const.MAIN_NET_VER
-    # Test net versions (same of BIP32 for BIP44)
-    TEST_NET_VER = Bip32Const.TEST_NET_VER
+class BitcoinHelper(CoinHelperBase):
+    """ Bitcoin helper class. It contains the constants some helper methods for BIP-0044 Bitcoin. """
 
     @staticmethod
-    def GetMainNetVersions():
+    def MainNetVersions():
         """ Get main net versions.
 
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
-        return BitcoinHelper.MAIN_NET_VER
+        return BitcoinConf.BIP44_MAIN_NET_VER
 
     @staticmethod
-    def GetTestNetVersions():
+    def TestNetVersions():
         """ Get test net versions.
 
         Returns (dict):
             Test net versions (public at key "pub", private at key "priv")
         """
-        return BitcoinHelper.TEST_NET_VER
+        return BitcoinConf.BIP44_TEST_NET_VER
 
     @staticmethod
-    def GetConfig():
-        """ Get coin configuration.
+    def WifNetVersions():
+        """ Get WIF net versions.
 
-        Returns (BitcoinConf):
-            Coin configuration.
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return BitcoinConf
+        return BitcoinConf.WIF_NET_VER
+
+    @staticmethod
+    def CoinNames():
+        """ Get coin names.
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return BitcoinConf.NAMES
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
-        """ Get address in P2PKH format.
+        """ Compute address from public key.
 
         Args:
             pub_key (ecdsa.VerifyingKey) : ECDSA public key
@@ -79,50 +81,52 @@ class BitcoinHelper():
         return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
-class LitecoinHelper():
+class LitecoinHelper(CoinHelperBase):
     """ Litecoin class. It contains the constants some helper methods for BIP-0044 Litecoin. """
 
-    # Main net versions (same of BIP32)
-    MAIN_NET_VER     = Bip32Const.MAIN_NET_VER
-    # Alternate main net versions (Ltpv / Ltub)
-    ALT_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"019da462"), "priv" : binascii.unhexlify(b"019d9cfe")}
-    # Test net versions (ttub / ttpv)
-    TEST_NET_VER     = {"pub" : binascii.unhexlify(b"0436f6e1"), "priv" : binascii.unhexlify(b"0436ef7d")}
-
     @staticmethod
-    def GetMainNetVersions():
+    def MainNetVersions():
         """ Get main net versions.
 
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
-        return LitecoinHelper.MAIN_NET_VER if not LitecoinConf.EX_KEY_ALT else LitecoinHelper.ALT_MAIN_NET_VER
+        return LitecoinConf.BIP44_MAIN_NET_VER if not LitecoinConf.EX_KEY_ALT else LitecoinConf.BIP44_ALT_MAIN_NET_VER
 
     @staticmethod
-    def GetTestNetVersions():
+    def TestNetVersions():
         """ Get test net versions.
 
         Returns (dict):
             Test net versions (public at key "pub", private at key "priv")
         """
-        return LitecoinHelper.TEST_NET_VER
+        return LitecoinConf.BIP44_TEST_NET_VER
 
     @staticmethod
-    def GetConfig():
-        """ Get coin configuration.
+    def WifNetVersions():
+        """ Get WIF net versions.
 
-        Returns (LitecoinConf):
-            Coin configuration.
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return LitecoinConf
+        return LitecoinConf.WIF_NET_VER
+
+    @staticmethod
+    def CoinNames():
+        """ Get coin names.
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return LitecoinConf.NAMES
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
-        """ Get address in P2PKH format.
+        """ Compute address from public key.
 
         Args:
-            pub_key (bytes)       : ECDSA public key bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
@@ -131,47 +135,51 @@ class LitecoinHelper():
         return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
-class DogecoinHelper():
+class DogecoinHelper(CoinHelperBase):
     """ Dogecoin class. It contains the constants some helper methods for BIP-0044 Dogecoin. """
 
-    # Main net versions (dgub / dgpv)
-    MAIN_NET_VER = {"pub" : binascii.unhexlify(b"02facafd"), "priv" : binascii.unhexlify(b"02fac398")}
-    # Test net versions (tgub / tgpv)
-    TEST_NET_VER = {"pub" : binascii.unhexlify(b"0432a9a8"), "priv" : binascii.unhexlify(b"0432a243")}
-
     @staticmethod
-    def GetMainNetVersions():
+    def MainNetVersions():
         """ Get main net versions.
 
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
-        return DogecoinHelper.MAIN_NET_VER
+        return DogecoinConf.BIP44_MAIN_NET_VER
 
     @staticmethod
-    def GetTestNetVersions():
+    def TestNetVersions():
         """ Get test net versions.
 
         Returns (dict):
             Test net versions (public at key "pub", private at key "priv")
         """
-        return DogecoinHelper.TEST_NET_VER
+        return DogecoinConf.BIP44_TEST_NET_VER
 
     @staticmethod
-    def GetConfig():
-        """ Get coin configuration.
+    def WifNetVersions():
+        """ Get WIF net versions.
 
-        Returns (DogecoinConf):
-            Coin configuration.
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return DogecoinConf
+        return DogecoinConf.WIF_NET_VER
+
+    @staticmethod
+    def CoinNames():
+        """ Get coin names.
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return DogecoinConf.NAMES
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
-        """ Get address in P2PKH format.
+        """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key
             is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
@@ -181,44 +189,48 @@ class DogecoinHelper():
         return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
-class DashHelper():
+class DashHelper(CoinHelperBase):
     """ Dash class. It contains the constants some helper methods for BIP-0044 Dash. """
 
-    # Main net versions (same of BIP32 for BIP44)
-    MAIN_NET_VER = Bip32Const.MAIN_NET_VER
-    # Test net versions (same of BIP32 for BIP44)
-    TEST_NET_VER = Bip32Const.TEST_NET_VER
-
     @staticmethod
-    def GetMainNetVersions():
+    def MainNetVersions():
         """ Get main net versions.
 
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
-        return DashHelper.MAIN_NET_VER
+        return DashConf.BIP44_MAIN_NET_VER
 
     @staticmethod
-    def GetTestNetVersions():
+    def TestNetVersions():
         """ Get test net versions.
 
         Returns (dict):
             Test net versions (public at key "pub", private at key "priv")
         """
-        return DashHelper.TEST_NET_VER
+        return DashConf.BIP44_TEST_NET_VER
 
     @staticmethod
-    def GetConfig():
-        """ Get coin configuration.
+    def WifNetVersions():
+        """ Get WIF net versions.
 
-        Returns (DashConf):
-            Coin configuration.
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return DashConf
+        return DashConf.WIF_NET_VER
+
+    @staticmethod
+    def CoinNames():
+        """ Get coin names.
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return DashConf.NAMES
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
-        """ Get address in P2PKH format.
+        """ Compute address from public key.
 
         Args:
             pub_key (ecdsa.VerifyingKey) : ECDSA public key
@@ -231,48 +243,52 @@ class DashHelper():
         return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
 
 
-class EthereumHelper():
+class EthereumHelper(CoinHelperBase):
     """ Ethereum class. It contains the constants some helper methods for BIP-0044 Ethereum. """
 
-    # Main net versions (same of BIP32 for Ethereum)
-    MAIN_NET_VER = Bip32Const.MAIN_NET_VER
-    # Main net versions (same of BIP32 for Ethereum)
-    TEST_NET_VER = Bip32Const.TEST_NET_VER
-
     @staticmethod
-    def GetMainNetVersions():
+    def MainNetVersions():
         """ Get main net versions.
 
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
-        return EthereumHelper.MAIN_NET_VER
+        return EthereumConf.BIP44_MAIN_NET_VER
 
     @staticmethod
-    def GetTestNetVersions():
+    def TestNetVersions():
         """ Get test net versions.
 
         Returns (dict):
             Test net versions (public at key "pub", private at key "priv")
         """
-        return EthereumHelper.TEST_NET_VER
+        return EthereumConf.BIP44_TEST_NET_VER
 
     @staticmethod
-    def GetConfig():
-        """ Get coin configuration.
+    def WifNetVersions():
+        """ Get WIF net versions.
 
-        Returns (EthereumConf):
-            Coin configuration.
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return EthereumConf
+        return EthereumConf.WIF_NET_VER
+
+    @staticmethod
+    def CoinNames():
+        """ Get coin names.
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return EthereumConf.NAMES
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
-        """ Get address in P2PKH format.
+        """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key bytes
-            is_testnet (bool, optional)  : not used
+            pub_key (ecdsa.VerifyingKey) : ECDSA public key
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
@@ -281,48 +297,52 @@ class EthereumHelper():
         return EthAddr.ToAddress(pub_key.to_string("uncompressed")[1:])
 
 
-class RippleHelper():
+class RippleHelper(CoinHelperBase):
     """ Ripple class. It contains the constants some helper methods for BIP-0044 Ripple. """
 
-    # Main net versions (same of BIP32 for Ripple)
-    MAIN_NET_VER = Bip32Const.MAIN_NET_VER
-    # Main net versions (same of BIP32 for Ripple)
-    TEST_NET_VER = Bip32Const.TEST_NET_VER
-
     @staticmethod
-    def GetMainNetVersions():
+    def MainNetVersions():
         """ Get main net versions.
 
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
-        return RippleHelper.MAIN_NET_VER
+        return RippleConf.BIP44_MAIN_NET_VER
 
     @staticmethod
-    def GetTestNetVersions():
+    def TestNetVersions():
         """ Get test net versions.
 
         Returns (dict):
             Test net versions (public at key "pub", private at key "priv")
         """
-        return RippleHelper.TEST_NET_VER
+        return RippleConf.BIP44_TEST_NET_VER
 
     @staticmethod
-    def GetConfig():
-        """ Get coin configuration.
+    def WifNetVersions():
+        """ Get WIF net versions.
 
-        Returns (RippleConf):
-            Coin configuration.
+        Returns (dict or None):
+            WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return RippleConf
+        return RippleConf.WIF_NET_VER
+
+    @staticmethod
+    def CoinNames():
+        """ Get coin names.
+
+        Returns (dict):
+            Coin names (name at key "name", abbreviation at key "abbr")
+        """
+        return RippleConf.NAMES
 
     @staticmethod
     def ComputeAddress(pub_key, is_testnet = False):
-        """ Get address in P2PKH format.
+        """ Compute address from public key.
 
         Args:
             pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : not used
+            is_testnet (bool, optional)  : true if test net, false if main net (default value)
 
         Returns (str):
             Address string

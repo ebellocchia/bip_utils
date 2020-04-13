@@ -22,7 +22,6 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
 
 # Imports
-import binascii
 from .bip32             import Bip32
 from .bip44_base        import Bip44Base, Bip44Coins
 from .bip49_coin_helper import *
@@ -165,7 +164,7 @@ class Bip49(Bip44Base):
         Returns (dict):
             Main net versions (main net at key "main", test net at key "test")
         """
-        return Bip49Const.COIN_TO_HELPER[coin_idx].GetMainNetVersions()
+        return Bip49Const.COIN_TO_HELPER[coin_idx].MainNetVersions()
 
     @staticmethod
     def _GetTestNetVersions(coin_idx):
@@ -177,7 +176,7 @@ class Bip49(Bip44Base):
         Returns (dict):
             Main net versions (main net at key "main", test net at key "test")
         """
-        return Bip49Const.COIN_TO_HELPER[coin_idx].GetTestNetVersions()
+        return Bip49Const.COIN_TO_HELPER[coin_idx].TestNetVersions()
 
     @staticmethod
     def _GetComputeAddressFct(coin_idx):
@@ -201,7 +200,7 @@ class Bip49(Bip44Base):
         Returns (dict or None):
             WIF net versions (main net at key "main", test net at key "test"), None if not supported
         """
-        return Bip49Const.COIN_TO_HELPER[coin_idx].GetConfig().WIF_NET_VER
+        return Bip49Const.COIN_TO_HELPER[coin_idx].WifNetVersions()
 
     @staticmethod
     def _GetCoinNames(coin_idx):
@@ -213,4 +212,4 @@ class Bip49(Bip44Base):
         Returns (dict):
             Coin names (name at key "name", abbreviation at key "abbr")
         """
-        return Bip49Const.COIN_TO_HELPER[coin_idx].GetConfig().NAMES
+        return Bip49Const.COIN_TO_HELPER[coin_idx].CoinNames()
