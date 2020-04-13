@@ -22,9 +22,6 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
-import binascii
-import hashlib
-import math
 import os
 from . import utils
 
@@ -44,8 +41,6 @@ class Bip39Const:
 
     # Salt modifier for seed generation
     SEED_SALT_MOD      = "mnemonic"
-    # PBKDF2 pseudo random function for seed generation
-    SEED_PBKDF2_PRF    = "sha512"
     # PBKDF2 round for seed generation
     SEED_PBKDF2_ROUNDS = 2048
     # Seed length
@@ -379,6 +374,6 @@ class Bip39SeedGenerator:
         # Get salt
         salt = Bip39Const.SEED_SALT_MOD + passphrase
         # Compute key
-        key = hashlib.pbkdf2_hmac(Bip39Const.SEED_PBKDF2_PRF, self.m_mnemonic.encode("utf-8"), salt.encode("utf-8"), Bip39Const.SEED_PBKDF2_ROUNDS)
+        key = utils.Pbkdf2HmacSha512(utils.StringToBytes(self.m_mnemonic), utils.StringToBytes(salt), Bip39Const.SEED_PBKDF2_ROUNDS)
 
         return key[:Bip39Const.SEED_LEN]
