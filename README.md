@@ -127,7 +127,7 @@ The constructed class is the master path, so printing the private key will resul
     # Construct from seed. In case it's a test net, pass True as second parameter. Derivation path returned: m
     bip32_ctx = Bip32.FromSeed(seed_bytes)
     # Print master key in extended format
-    print(bip32_ctx.ExtendedPrivateKey())
+    print(bip32_ctx.PrivateKey().ToExtended())
 
 In addition to a seed, it's also possible to specify a derivation path.
 
@@ -136,7 +136,7 @@ In addition to a seed, it's also possible to specify a derivation path.
     # Derivation path returned: m/0'/1'/2
     bip32_ctx = Bip32.FromSeedAndPath(seed_bytes, "m/0'/1'/2")
     # Print private key for derivation path m/0'/1'/2 in extended format
-    print(bip32_ctx.ExtendedPrivateKey())
+    print(bip32_ctx.PrivateKey().ToExtended())
 
 ### Construction from an extended key
 
@@ -152,16 +152,16 @@ The object returned will be at the same depth of the specified key.
     # Construct from key (return object has depth 2)
     bip32_ctx = Bip32.FromExtendedKey(key_str)
     # Print keys
-    print(bip32_ctx.ExtendedPrivateKey())
-    print(bip32_ctx.ExtendedPublicKey())
+    print(bip32_ctx.PrivateKey().ToExtended())
+    print(bip32_ctx.PublicKey().ToExtended())
 
     # Public extended key from derivation path m/0'/1 (depth 2)
     key_str = "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"
     # Construct from key (return object has depth 2)
     bip32_ctx = Bip32.FromExtendedKey(key_str)
     # Print key
-    print(bip32_ctx.ExtendedPublicKey())
-    # Private key cannot be printed, since the object has been constructed from a public one
+    print(bip32_ctx.PublicKey().ToExtended())
+    # Getting private key from a public-only object triggers a Bip32KeyError exception
 
 ### Keys derivation
 
@@ -183,8 +183,16 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
                          .ChildKey(2)                         \
                          .ChildKey(3)
     # Print keys in extended format
-    print(bip32_ctx.ExtendedPrivateKey())
-    print(bip32_ctx.ExtendedPublicKey())
+    print(bip32_ctx.PrivateKey().ToExtended())
+    print(bip32_ctx.PublicKey().ToExtended())
+    # Print keys in hex format
+    print(bip32_ctx.PrivateKey().Raw().ToHex())
+    print(bip32_ctx.PublicKey().RawCompressed().ToHex())
+    print(bip32_ctx.PublicKey().RawUncompressed().ToHex())
+    # Print private key in WIF format
+    print(bip32_ctx.PrivateKey().ToWif())
+    # Print public key converted to address
+    print(bip32_ctx.PublicKey().ToAddress())
 
     # Alternative: use DerivePath method
     bip32_ctx = Bip32.FromSeed(seed_bytes)
@@ -270,28 +278,28 @@ The library can be easily extended with other coins anyway.
 **Code example**
 
     import binascii
-    from bip_utils import Bip44, Bip44Coins, Bip44Changes, Bip44PrivKeyTypes, Bip44PubKeyTypes
+    from bip_utils import Bip44, Bip44Coins, Bip44Changes
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Create from seed
     bip44_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
 
-    # Print master key in extended format (default: Bip44PrivKeyTypes.EXT_KEY)
-    print(bip44_mst.PrivateKey())
-    # Print master key in raw format
-    print(binascii.hexlify(bip44_mst.PrivateKey(Bip44PrivKeyTypes.RAW_KEY)))
+    # Print master key in extended format
+    print(bip44_mst.PrivateKey().ToExtended())
+    # Print master key in hex format
+    print(bip44_mst.PrivateKey().Raw().ToHex())
 
     # Print public key in extended format (default: Bip44PubKeyTypes.EXT_KEY)
     print(bip44_mst.PublicKey())
     # Print public key in raw uncompressed format
-    print(binascii.hexlify(bip44_mst.PublicKey(Bip44PubKeyTypes.RAW_UNCOMPR_KEY)))
+    print(bip44_mst.PublicKey().RawUncompressed().ToHex())
     # Print public key in raw compressed format
-    print(binascii.hexlify(bip44_mst.PublicKey(Bip44PubKeyTypes.RAW_COMPR_KEY)))
+    print(bip44_mst.PublicKey().RawCompressed().ToHex())
 
     # Print the master key in WIF
     print(bip44_mst.IsMasterLevel())
-    print(bip44_mst.WalletImportFormat())
+    print(bip44_mst.PrivateKey().ToWif())
 
     # Derive account 0 for Bitcoin: m/44'/0'/0'
     bip44_acc = bip44_mst.Purpose() \
@@ -299,23 +307,23 @@ The library can be easily extended with other coins anyway.
                          .Account(0)
     # Print keys in extended format
     print(bip44_acc.IsAccountLevel())
-    print(bip44_acc.PrivateKey())
-    print(bip44_acc.PublicKey())
+    print(bip44_acc.PrivateKey().ToExtended())
+    print(bip44_acc.PublicKey().ToExtended())
 
     # Derive the external chain: m/44'/0'/0'/0
     bip44_change = bip44_acc.Change(Bip44Changes.CHAIN_EXT)
     # Print again keys in extended format
     print(bip44_change.IsChangeLevel())
-    print(bip44_change.PrivateKey())
-    print(bip44_change.PublicKey())
+    print(bip44_change.PrivateKey().ToExtended())
+    print(bip44_change.PublicKey().ToExtended())
 
     # Derive the first 20 addresses of the external chain: m/44'/0'/0'/0/i
     for i in range(20):
         bip44_addr = bip44_change.AddressIndex(i)
         # Print extended keys and address
-        print(bip44_addr.PrivateKey())
-        print(bip44_addr.PublicKey())
-        print(bip44_addr.Address())
+        print(bip44_addr.PrivateKey().ToExtended())
+        print(bip44_addr.PublicKey().ToExtended())
+        print(bip44_addr.PublicKey().ToAddress())
 
 In the example above, Bip44 can be substituted with Bip49 or Bip84 without changing the code.
 
@@ -405,8 +413,7 @@ This library is used internally by the other libraries, but it's available also 
 
 Example from mnemonic generation to wallet addresses.
 
-    import binascii
-    from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes, Bip44PrivKeyTypes
+    from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44Changes
 
     # Generate random mnemonic
     mnemonic = Bip39MnemonicGenerator.FromWordsNumber(12)
@@ -417,9 +424,9 @@ Example from mnemonic generation to wallet addresses.
     # Generate BIP44 master keys
     bip_obj_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
     # Print master key
-    print("Master key (bytes): %s" % binascii.hexlify(bip_obj_mst.PrivateKey(Bip44PrivKeyTypes.RAW_KEY)))
-    print("Master key (extended): %s" % bip_obj_mst.PrivateKey())
-    print("Master key (WIF): %s" % bip_obj_mst.WalletImportFormat())
+    print("Master key (bytes): %s" % bip_obj_mst.PrivateKey().Raw().ToHex())
+    print("Master key (extended): %s" % bip_obj_mst.PrivateKey().ToExtended())
+    print("Master key (WIF): %s" % bip_obj_mst.PrivateKey().ToWif())
 
     # Generate BIP44 account keys: m/44'/0'/0'
     bip_obj_acc = bip_obj_mst.Purpose().Coin().Account(0)
@@ -429,9 +436,9 @@ Example from mnemonic generation to wallet addresses.
     # Generate the address pool (first 20 addresses): m/44'/0'/0'/0/i
     for i in range(20):
         bip_obj_addr = bip_obj_chain.AddressIndex(i)
-        print("%d. Address public key (extended): %s" % (i, bip_obj_addr.PublicKey()))
-        print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PrivateKey()))
-        print("%d. Address: %s" % (i, bip_obj_addr.Address()))
+        print("%d. Address public key (extended): %s" % (i, bip_obj_addr.PublicKey().ToExtended()))
+        print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PrivateKey().ToExtended()))
+        print("%d. Address: %s" % (i, bip_obj_addr.PublicKey().ToAddress()))
 
 # License
 
