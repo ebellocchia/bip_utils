@@ -22,15 +22,15 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 
 # Imports
-import binascii
 import ecdsa
 from  ecdsa.curves  import SECP256k1
 from  ecdsa.ecdsa   import generator_secp256k1, int_to_string, string_to_int
-from .base58        import Base58Decoder, Base58Encoder
 from .bip32_ex      import Bip32KeyError, Bip32PathError
 from .bip32_utils   import Bip32Utils
 from .bip32_path    import Bip32PathParser
-from .bip32_key_ser import Bip32KeyDeserializer, Bip32KeySerializer
+from .bip32_key_ser import Bip32KeyDeserializer
+from .bip_keys      import BipPrivateKey, BipPublicKey
+from .bip_coin_conf import Bip32Conf
 from .              import utils
 
 
@@ -43,11 +43,6 @@ class Bip32Const:
     FIELD_ORDER          = SECP256k1.curve.p()
     # Infinity point
     INFINITY             = ecdsa.ellipticcurve.INFINITY
-
-    # Main net versions (xpub / xprv)
-    MAIN_NET_VER         = {"pub" : binascii.unhexlify(b"0488b21e"), "priv" : binascii.unhexlify(b"0488ade4")}
-    # Test net versions (tpub / tprv)
-    TEST_NET_VER         = {"pub" : binascii.unhexlify(b"043587CF"), "priv" : binascii.unhexlify(b"04358394")}
 
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN = 4
@@ -126,8 +121,8 @@ class Bip32:
     @staticmethod
     def FromExtendedKey(key_str,
                         is_testnet   = False,
-                        main_net_ver = Bip32Const.MAIN_NET_VER,
-                        test_net_ver = Bip32Const.TEST_NET_VER):
+                        main_net_ver = Bip32Conf.MAIN_NET_VER,
+                        test_net_ver = Bip32Conf.TEST_NET_VER):
         """ Create a Bip32 object from the specified extended key.
         Bip32KeyError is raised if the key is not valid.
 
@@ -257,7 +252,25 @@ class Bip32:
         """
         return self.m_is_public
 
-    def PrivateKeyBytes(self):
+    def EcdsaPrivateKey(self):
+        """ Return the ECDSA private key object.
+
+        Return (ecdsa.SigningKey):
+            Private key object
+        """
+        if self.m_is_public:
+            raise Bip32KeyError("Public-only deterministic keys have no private half")
+        return self.m_key
+
+    def EcdsaPublicKey(self):
+        """ Return the ECDSA public key object.
+
+        Return (ecdsa.VerifyingKey):
+            Public key object
+        """
+        return self.m_ver_key
+
+    def PrivateKey(self):
         """ Return private key bytes.
         Bip32KeyError is raised if internal key is public-only.
 
@@ -266,18 +279,9 @@ class Bip32:
         """
         if self.m_is_public:
             raise Bip32KeyError("Public-only deterministic keys have no private half")
-        else:
-            return self.m_key.to_string()
+        return BipPrivateKey(self)
 
-    def PublicKey(self):
-        """ Return the ECDSA public key object.
-
-        Return (ecdsa.VerifyingKey):
-            Public key object
-        """
-        return self.m_ver_key
-
-    def PublicKeyBytes(self, compressed = True):
+    def PublicKey(self, compressed = True):
         """ Return public key bytes.
 
         Args:
@@ -286,39 +290,7 @@ class Bip32:
         Returns (bytes):
             Public key bytes
         """
-        return self.m_ver_key.to_string("compressed") if compressed else self.m_ver_key.to_string("uncompressed")[1:]
-
-    def ExtendedPublicKey(self,
-                          main_net_ver = Bip32Const.MAIN_NET_VER["pub"],
-                          test_net_ver = Bip32Const.TEST_NET_VER["pub"]):
-        """ Return extended public key encoded in Base58 format.
-
-        Args:
-            main_net_ver (bytes, optional) : main net version
-            test_net_ver (bytes, optional) : test net version
-
-        Returns (str):
-            Extended public key in Base58 format
-        """
-        return Bip32KeySerializer(self).SerializePublicKey(main_net_ver, test_net_ver)
-
-    def ExtendedPrivateKey(self,
-                           main_net_ver = Bip32Const.MAIN_NET_VER["priv"],
-                           test_net_ver = Bip32Const.TEST_NET_VER["priv"]):
-        """ Return extended private key encoded in Base58 format.
-        Bip32KeyError is raised if internal key is public-only.
-
-        Args:
-            main_net_ver (bytes, optional) : main net version
-            test_net_ver (bytes, optional) : test net version
-
-        Returns (str):
-            Extended private key in Base58 format
-        """
-        if self.m_is_public:
-            raise Bip32KeyError("Cannot export an extended private key from a public-only deterministic key")
-
-        return Bip32KeySerializer(self).SerializePrivateKey(main_net_ver, test_net_ver)
+        return BipPublicKey(self)
 
     def IsTestNet(self):
         """ Get if test net.
@@ -358,7 +330,7 @@ class Bip32:
         Returns (bytes):
             Key identifier bytes
         """
-        return utils.Hash160(self.PublicKeyBytes())
+        return utils.Hash160(self.PublicKey().RawCompressed().ToBytes())
 
     def FingerPrint(self):
         """ Get key fingerprint.
@@ -394,7 +366,7 @@ class Bip32:
         if Bip32Utils.IsHardenedIndex(index):
             data = b"\0" + self.m_key.to_string() + index_bytes
         else:
-            data = self.PublicKeyBytes() + index_bytes
+            data = self.PublicKey().RawCompressed().ToBytes() + index_bytes
 
         # Compute HMAC halves
         i_l, i_r = self.__HmacHalves(data)
@@ -436,7 +408,7 @@ class Bip32:
             raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         # Data to HMAC, same of CkdPriv() for public child key
-        data = self.PublicKeyBytes() + index.to_bytes(4, "big")
+        data = self.PublicKey().RawCompressed().ToBytes() + index.to_bytes(4, "big")
 
         # Get HMAC of data
         i_l, i_r = self.__HmacHalves(data)

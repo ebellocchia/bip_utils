@@ -47,12 +47,12 @@ class Bip44Const:
     # Map from Bip44Coins to helper classes
     COIN_TO_HELPER = \
         {
-            Bip44Coins.BITCOIN  : BitcoinHelper,
-            Bip44Coins.LITECOIN : LitecoinHelper,
-            Bip44Coins.DOGECOIN : DogecoinHelper,
-            Bip44Coins.DASH     : DashHelper,
-            Bip44Coins.ETHEREUM : EthereumHelper,
-            Bip44Coins.RIPPLE   : RippleHelper,
+            Bip44Coins.BITCOIN  : Bip44BitcoinHelper,
+            Bip44Coins.LITECOIN : Bip44LitecoinHelper,
+            Bip44Coins.DOGECOIN : Bip44DogecoinHelper,
+            Bip44Coins.DASH     : Bip44DashHelper,
+            Bip44Coins.ETHEREUM : Bip44EthereumHelper,
+            Bip44Coins.RIPPLE   : Bip44RippleHelper,
         }
 
 
@@ -159,61 +159,13 @@ class Bip44(Bip44Base):
         return Bip44Const.PURPOSE
 
     @staticmethod
-    def _GetMainNetVersions(coin_idx):
-        """ Get main net versions.
+    def _GetCoinHelper(coin_idx):
+        """ Get coin helper.
 
         Args:
             coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
 
-        Returns (dict):
-            Main net versions (public at key "pub", private at key "priv")
+        Returns (CoinHelperBase object):
+            CoinHelperBase object
         """
-        return Bip44Const.COIN_TO_HELPER[coin_idx].MainNetVersions()
-
-    @staticmethod
-    def _GetTestNetVersions(coin_idx):
-        """ Get test net versions.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (dict):
-            Test net versions (public at key "pub", private at key "priv")
-        """
-        return Bip44Const.COIN_TO_HELPER[coin_idx].TestNetVersions()
-
-    @staticmethod
-    def _GetComputeAddressFct(coin_idx):
-        """ Compute compute address function.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (function):
-            Compute address function
-        """
-        return Bip44Const.COIN_TO_HELPER[coin_idx].ComputeAddress
-
-    @staticmethod
-    def _GetWifNetVersions(coin_idx):
-        """ Get WIF net versions.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
-        """
-        return Bip44Const.COIN_TO_HELPER[coin_idx].WifNetVersions()
-
-    @staticmethod
-    def _GetCoinNames(coin_idx):
-        """ Get coin names.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (dict):
-            Coin names (name at key "name", abbreviation at key "abbr")
-        """
-        return Bip44Const.COIN_TO_HELPER[coin_idx].CoinNames()
+        return Bip44Const.COIN_TO_HELPER[coin_idx]

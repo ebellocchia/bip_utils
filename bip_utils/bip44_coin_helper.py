@@ -27,7 +27,7 @@ from .eth_addr             import EthAddr
 from .xrp_addr             import XrpAddr
 
 
-class BitcoinHelper(CoinHelperBase):
+class Bip44BitcoinHelper(CoinHelperBase):
     """ Bitcoin helper class. It contains the constants some helper methods for BIP-0044 Bitcoin. """
 
     @staticmethod
@@ -71,17 +71,17 @@ class BitcoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = BitcoinConf.P2PKH_NET_VER["main"] if not is_testnet else BitcoinConf.P2PKH_NET_VER["test"]
-        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2PKH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class LitecoinHelper(CoinHelperBase):
+class Bip44LitecoinHelper(CoinHelperBase):
     """ Litecoin class. It contains the constants some helper methods for BIP-0044 Litecoin. """
 
     @staticmethod
@@ -91,6 +91,8 @@ class LitecoinHelper(CoinHelperBase):
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
+
+        # Get standard or alternate version depending on the flag
         return LitecoinConf.BIP44_MAIN_NET_VER if not LitecoinConf.EX_KEY_ALT else LitecoinConf.BIP44_ALT_MAIN_NET_VER
 
     @staticmethod
@@ -125,17 +127,17 @@ class LitecoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = LitecoinConf.P2PKH_NET_VER["main"] if not is_testnet else LitecoinConf.P2PKH_NET_VER["test"]
-        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2PKH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class DogecoinHelper(CoinHelperBase):
+class Bip44DogecoinHelper(CoinHelperBase):
     """ Dogecoin class. It contains the constants some helper methods for BIP-0044 Dogecoin. """
 
     @staticmethod
@@ -179,17 +181,17 @@ class DogecoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = DogecoinConf.P2PKH_NET_VER["main"] if not is_testnet else DogecoinConf.P2PKH_NET_VER["test"]
-        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2PKH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class DashHelper(CoinHelperBase):
+class Bip44DashHelper(CoinHelperBase):
     """ Dash class. It contains the constants some helper methods for BIP-0044 Dash. """
 
     @staticmethod
@@ -233,17 +235,17 @@ class DashHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = DashConf.P2PKH_NET_VER["main"] if not is_testnet else DashConf.P2PKH_NET_VER["test"]
-        return P2PKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2PKH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class EthereumHelper(CoinHelperBase):
+class Bip44EthereumHelper(CoinHelperBase):
     """ Ethereum class. It contains the constants some helper methods for BIP-0044 Ethereum. """
 
     @staticmethod
@@ -287,17 +289,16 @@ class EthereumHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
-        # Ethereum uses the uncompressed key
-        return EthAddr.ToAddress(pub_key.to_string("uncompressed")[1:])
+        return EthAddr.ToAddress(pub_key.RawUncompressed().ToBytes())
 
 
-class RippleHelper(CoinHelperBase):
+class Bip44RippleHelper(CoinHelperBase):
     """ Ripple class. It contains the constants some helper methods for BIP-0044 Ripple. """
 
     @staticmethod
@@ -341,10 +342,10 @@ class RippleHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
-        return XrpAddr.ToAddress(pub_key.to_string("compressed"))
+        return XrpAddr.ToAddress(pub_key.RawCompressed().ToBytes())

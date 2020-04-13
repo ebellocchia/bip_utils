@@ -17,7 +17,7 @@ from .bip32_utils   import Bip32Utils
 from .bip32_path    import Bip32PathParser
 from .bip32         import Bip32
 # BIP44/49/84
-from .bip44_base    import Bip44Changes, Bip44Coins, Bip44PrivKeyTypes, Bip44PubKeyTypes, Bip44DepthError
+from .bip44_base    import Bip44Changes, Bip44Coins, Bip44DepthError
 from .bip44         import Bip44
 from .bip49         import Bip49
 from .bip84         import Bip84

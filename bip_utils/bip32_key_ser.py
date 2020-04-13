@@ -124,7 +124,7 @@ class Bip32KeySerializer:
         Returns (bytes):
             Serialized public key
         """
-        return self.__SerializeKey(self.m_bip32_obj.PublicKeyBytes(), main_net_ver, test_net_ver)
+        return self.__SerializeKey(self.m_bip32_obj.PublicKey().RawCompressed().ToBytes(), main_net_ver, test_net_ver)
 
     def SerializePrivateKey(self, main_net_ver, test_net_ver):
         """ Serialize the Bip32 object private key.
@@ -136,7 +136,7 @@ class Bip32KeySerializer:
         Returns (str):
             Serialized private key
         """
-        return self.__SerializeKey(b"\x00" + self.m_bip32_obj.PrivateKeyBytes(), main_net_ver, test_net_ver)
+        return self.__SerializeKey(b"\x00" + self.m_bip32_obj.PrivateKey().Raw().ToBytes(), main_net_ver, test_net_ver)
 
     def __SerializeKey(self, key_bytes, main_net_ver, test_net_ver):
         """ Serialize the specified key bytes.

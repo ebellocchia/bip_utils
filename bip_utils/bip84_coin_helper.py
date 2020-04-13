@@ -25,7 +25,7 @@ from .bip_coin_conf        import *
 from .P2WPKH               import P2WPKH
 
 
-class BitcoinHelper(CoinHelperBase):
+class Bip84BitcoinHelper(CoinHelperBase):
     """ Bitcoin class. It contains the constants some helper methods for BIP-0084 Bitcoin. """
 
     @staticmethod
@@ -69,17 +69,17 @@ class BitcoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = BitcoinConf.P2WPKH_NET_VER["main"] if not is_testnet else BitcoinConf.P2WPKH_NET_VER["test"]
-        return P2WPKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2WPKH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class LitecoinHelper(CoinHelperBase):
+class Bip84LitecoinHelper(CoinHelperBase):
     """ Litecoin class. It contains the constants some helper methods for BIP-0084 Litecoin. """
 
     @staticmethod
@@ -123,11 +123,11 @@ class LitecoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = LitecoinConf.P2WPKH_NET_VER["main"] if not is_testnet else LitecoinConf.P2WPKH_NET_VER["test"]
-        return P2WPKH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2WPKH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)

@@ -24,7 +24,15 @@
 
 # Imports
 import binascii
-from .bip32 import Bip32Const
+
+
+class Bip32Conf:
+    """ Class container for Bip32 configuration. """
+
+    # Main net versions (xpub / xprv)
+    MAIN_NET_VER = {"pub" : binascii.unhexlify(b"0488b21e"), "priv" : binascii.unhexlify(b"0488ade4")}
+    # Test net versions (tpub / tprv)
+    TEST_NET_VER = {"pub" : binascii.unhexlify(b"043587CF"), "priv" : binascii.unhexlify(b"04358394")}
 
 
 class BitcoinConf:
@@ -34,9 +42,9 @@ class BitcoinConf:
     NAMES              = {"name" : "Bitcoin", "abbr" : "BTC" }
 
     # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Const.MAIN_NET_VER
+    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
     # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Const.TEST_NET_VER
+    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
 
     # BIP49 Main net versions (ypub / yprv)
     BIP49_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"049d7cb2"), "priv" : binascii.unhexlify(b"049d7878")}
@@ -70,7 +78,7 @@ class LitecoinConf:
     P2SH_DEPR_ADDR         = False
 
     # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER     = Bip32Const.MAIN_NET_VER
+    BIP44_MAIN_NET_VER     = Bip32Conf.MAIN_NET_VER
     # BIP44 Alternate main net versions (Ltpv / Ltub)
     BIP44_ALT_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"019da462"), "priv" : binascii.unhexlify(b"019d9cfe")}
     # BIP44 Test net versions (ttub / ttpv)
@@ -131,9 +139,9 @@ class DashConf:
     NAMES              = {"name" : "Dash", "abbr" : "DASH" }
 
     # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Const.MAIN_NET_VER
+    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
     # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Const.TEST_NET_VER
+    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
 
     # BIP49 Main net versions (same of Bitcoin)
     BIP49_MAIN_NET_VER = BitcoinConf.BIP49_MAIN_NET_VER
@@ -155,9 +163,9 @@ class EthereumConf:
     NAMES              = {"name" : "Ethereum", "abbr" : "ETH" }
 
     # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Const.MAIN_NET_VER
+    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
     # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Const.TEST_NET_VER
+    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
 
     # WIF not supported
     WIF_NET_VER        = None
@@ -170,9 +178,9 @@ class RippleConf:
     NAMES              = {"name" : "Ripple", "abbr" : "XRP" }
 
     # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Const.MAIN_NET_VER
+    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
     # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Const.TEST_NET_VER
+    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
 
     # Versions for P2PKH address
     P2PKH_NET_VER      = b"\x00"

@@ -26,7 +26,7 @@ from abc          import ABC, abstractmethod
 from enum         import IntEnum, unique
 from .bip32_utils import Bip32Utils
 from .bip32       import Bip32
-from .wif         import WifEncoder
+from .bip_keys    import BipPrivateKey, BipPublicKey
 
 
 @unique
@@ -52,23 +52,6 @@ class Bip44Changes(IntEnum):
 
     CHAIN_EXT = 0,
     CHAIN_INT = 1,
-
-
-@unique
-class Bip44PrivKeyTypes(IntEnum):
-    """ Enumerative for private key types. """
-
-    EXT_KEY = 0,
-    RAW_KEY = 1,
-
-
-@unique
-class Bip44PubKeyTypes(IntEnum):
-    """ Enumerative for public key types. """
-
-    EXT_KEY         = 0,
-    RAW_UNCOMPR_KEY = 1,
-    RAW_COMPR_KEY   = 2,
 
 
 class Bip44BaseConst:
@@ -137,8 +120,9 @@ class Bip44Base(ABC):
                 raise Bip44DepthError("Depth of the Bip32 object (%d) is beyond address index level" % bip32_obj.Depth())
 
         # Finally, initialize class
-        self.m_bip32    = bip32_obj
-        self.m_coin_idx = coin_idx
+        self.m_bip32       = bip32_obj
+        self.m_coin_idx    = coin_idx
+        self.m_coin_helper = self._GetCoinHelper(coin_idx)
 
     @classmethod
     def FromSeed(cls, seed_bytes, coin_idx):
@@ -187,12 +171,12 @@ class Bip44Base(ABC):
             is_testnet = False
 
         # Get net versions
-        main_net_ver = cls._GetMainNetVersions(coin_idx)
-        test_net_ver = cls._GetTestNetVersions(coin_idx)
+        main_net_ver = cls._GetCoinHelper(coin_idx).MainNetVersions()
+        test_net_ver = cls._GetCoinHelper(coin_idx).TestNetVersions()
 
         return cls(Bip32.FromExtendedKey(key_str, is_testnet, main_net_ver, test_net_ver), coin_idx)
 
-    def PublicKey(self, key_type = Bip44PubKeyTypes.EXT_KEY):
+    def PublicKey(self):
         """ Return the public key.
         TypeError is raised if key_type is not of a Bip44PubKeyTypes enum.
 
@@ -202,20 +186,9 @@ class Bip44Base(ABC):
         Returns (str):
             Public key
         """
+        return BipPublicKey(self.m_bip32, self.m_coin_helper)
 
-        if not isinstance(key_type, Bip44PubKeyTypes):
-            raise TypeError("Key type is not an enumerative of Bip44PubKeyTypes")
-
-        if key_type == Bip44PubKeyTypes.EXT_KEY:
-            # Get versions
-            main_pub_net_ver = self._GetMainNetVersions(self.m_coin_idx)["pub"]
-            test_pub_net_ver = self._GetTestNetVersions(self.m_coin_idx)["pub"]
-            # Get extended key
-            return self.m_bip32.ExtendedPublicKey(main_pub_net_ver, test_pub_net_ver)
-        else:
-            return self.m_bip32.PublicKeyBytes(key_type == Bip44PubKeyTypes.RAW_COMPR_KEY)
-
-    def PrivateKey(self, key_type = Bip44PrivKeyTypes.EXT_KEY):
+    def PrivateKey(self):
         """ Return the private key.
         TypeError is raised if key_type is not of a Bip44PrivKeyTypes enum.
         Bip32KeyError is raised (by Bip32) if internal key is public-only.
@@ -226,40 +199,7 @@ class Bip44Base(ABC):
         Returns (str):
             Private key
         """
-
-        if not isinstance(key_type, Bip44PrivKeyTypes):
-            raise TypeError("Key type is not an enumerative of Bip44PrivKeyTypes")
-
-        if key_type == Bip44PrivKeyTypes.EXT_KEY:
-            # Get versions
-            main_pub_net_ver = self._GetMainNetVersions(self.m_coin_idx)["priv"]
-            test_pub_net_ver = self._GetTestNetVersions(self.m_coin_idx)["priv"]
-            # Get extended key
-            return self.m_bip32.ExtendedPrivateKey(main_pub_net_ver, test_pub_net_ver)
-        else:
-            return self.m_bip32.PrivateKeyBytes()
-
-    def Address(self):
-        """ Return address related to the current public key.
-
-        Returns (str):
-            Address string
-        """
-        addr_fct = self._GetComputeAddressFct(self.m_coin_idx)
-        return addr_fct(self.m_bip32.PublicKey(), self.m_bip32.IsTestNet())
-
-    def WalletImportFormat(self):
-        """ Return the current private key encoded in WIF.
-
-        Returns (str):
-            Address string, empty if the coin does not support WIF
-        """
-        wif_net_ver = self._GetWifNetVersions(self.m_coin_idx)
-
-        if not wif_net_ver is None:
-            return WifEncoder.Encode(self.m_bip32.PrivateKeyBytes(), wif_net_ver["main"] if not self.m_bip32.IsTestNet() else wif_net_ver["test"])
-        else:
-            return ""
+        return BipPrivateKey(self.m_bip32, self.m_coin_helper)
 
     def CoinNames(self):
         """ Get coin names.
@@ -267,7 +207,7 @@ class Bip44Base(ABC):
         Returns (dict):
             Coin names (name at key "name", abbreviation at key "abbr")
         """
-        return self._GetCoinNames(self.m_coin_idx)
+        return self.m_coin_helper.CoinNames()
 
     def IsPublicOnly(self):
         """ Get if it's public-only.
@@ -332,6 +272,114 @@ class Bip44Base(ABC):
             True if address index path, false otherwise
         """
         return self.m_bip32.Depth() == Bip44BaseConst.ADDRESS_INDEX_DEPTH
+
+    #
+    # Class methods
+    #
+
+    @classmethod
+    def _PurposeGeneric(cls, bip_obj):
+        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It shall be called from a child class.
+        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
+        Bip32KeyError is raised (by Bip32) if the purpose results in an invalid key.
+
+        Args:
+            bip_obj (BIP object) : Bip object (e.g. BIP44, BIP49, BIP84)
+            addr_idx (int)       : address index
+
+        Returns (Bip object):
+            Bip object
+        """
+        if not cls.IsMasterLevel(bip_obj):
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving purpose" % bip_obj.m_bip32.Depth())
+
+        return cls(bip_obj.m_bip32.ChildKey(cls._GetPurpose()), bip_obj.m_coin_idx)
+
+    @classmethod
+    def _CoinGeneric(cls, bip_obj):
+        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It shall be called from a child class.
+        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
+        Bip32KeyError is raised (by Bip32) if the coin results in an invalid key.
+
+        Args:
+            bip_obj (BIP object)  : Bip object (e.g. BIP44, BIP49, BIP84)
+
+        Returns (Bip object):
+            Bip object
+        """
+        if not cls.IsPurposeLevel(bip_obj):
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving coin" % bip_obj.m_bip32.Depth())
+
+        coin_idx = Bip44BaseConst.TEST_NET_COIN_IDX if bip_obj.m_bip32.IsTestNet() else bip_obj.m_coin_idx
+
+        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(coin_idx)), bip_obj.m_coin_idx)
+
+    @classmethod
+    def _AccountGeneric(cls, bip_obj, acc_idx):
+        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It shall be called from a child class.
+        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
+        Bip32KeyError is raised (by Bip32) if the account results in an invalid key.
+
+        Args:
+            bip_obj (BIP object) : Bip object (e.g. BIP44, BIP49, BIP84)
+            acc_idx (int)        : account index
+
+        Returns (Bip object):
+            Bip object
+        """
+        if not cls.IsCoinLevel(bip_obj):
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving account" % bip_obj.m_bip32.Depth())
+
+        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(acc_idx)), bip_obj.m_coin_idx)
+
+    @classmethod
+    def _ChangeGeneric(cls, bip_obj, change_idx):
+        """ Derive a child key from the specified chain type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It shall be called from a child class.
+        TypeError is raised if chain type is not a Bip44Changes enum.
+        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
+        Bip32KeyError is raised (by Bip32) if the change results in an invalid key.
+
+        Args:
+            bip_obj (BIP object)      : Bip object (e.g. BIP44, BIP49, BIP84)
+            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
+
+        Returns (Bip object):
+            Bip object
+        """
+        if not isinstance(change_idx, Bip44Changes):
+            raise TypeError("Change index is not an enumerative of Bip44Changes")
+
+        if not cls.IsAccountLevel(bip_obj):
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving change" % bip_obj.m_bip32.Depth())
+
+        return cls(bip_obj.m_bip32.ChildKey(change_idx), bip_obj.m_coin_idx)
+
+    @classmethod
+    def _AddressIndexGeneric(cls, bip_obj, addr_idx):
+        """ Derive a child key from the specified address index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It shall be called from a child class.
+        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
+        Bip32KeyError is raised (by Bip32) if the address index results in an invalid key.
+
+        Args:
+            bip_obj (BIP object) : Bip object (e.g. BIP44, BIP49, BIP84)
+            addr_idx (int)       : address index
+
+        Returns (Bip object):
+            Bip object
+        """
+        if not cls.IsChangeLevel(bip_obj):
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving address" % bip_obj.m_bip32.Depth())
+
+        return cls(bip_obj.m_bip32.ChildKey(addr_idx), bip_obj.m_coin_idx)
+
+    #
+    # Abstract methods
+    #
 
     @abstractmethod
     def Purpose(self):
@@ -439,165 +487,13 @@ class Bip44Base(ABC):
 
     @staticmethod
     @abstractmethod
-    def _GetMainNetVersions(coin_idx):
-        """ Get main net versions.
+    def _GetCoinHelper(coin_idx):
+        """ Get coin helper.
 
         Args:
             coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
 
-        Returns (dict):
-            Main net versions (public at key "pub", private at key "priv")
+        Returns (CoinHelperBase object):
+            CoinHelperBase object
         """
         pass
-
-    @staticmethod
-    @abstractmethod
-    def _GetTestNetVersions(coin_idx):
-        """ Get test net versions.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (dict):
-            Test net versions (public at key "pub", private at key "priv")
-        """
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def _GetComputeAddressFct(coin_idx):
-        """ Compute compute address function.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (function):
-            Compute address function
-        """
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def _GetWifNetVersions(coin_idx):
-        """ Get WIF net versions.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (dict or None):
-            WIF net versions (main net at key "main", test net at key "test"), None if not supported
-        """
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def _GetCoinNames(coin_idx):
-        """ Get coin names.
-
-        Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
-
-        Returns (dict):
-            Coin names (name at key "name", abbreviation at key "abbr")
-        """
-        pass
-
-    @classmethod
-    def _PurposeGeneric(cls, bip_obj):
-        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It shall be called from a child class.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the purpose results in an invalid key.
-
-        Args:
-            bip_obj (BIP object) : Bip object (e.g. BIP44, BIP49, BIP84)
-            addr_idx (int)       : address index
-
-        Returns (Bip object):
-            Bip object
-        """
-        if not cls.IsMasterLevel(bip_obj):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving purpose" % bip_obj.m_bip32.Depth())
-
-        return cls(bip_obj.m_bip32.ChildKey(cls._GetPurpose()), bip_obj.m_coin_idx)
-
-    @classmethod
-    def _CoinGeneric(cls, bip_obj):
-        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It shall be called from a child class.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the coin results in an invalid key.
-
-        Args:
-            bip_obj (BIP object)  : Bip object (e.g. BIP44, BIP49, BIP84)
-
-        Returns (Bip object):
-            Bip object
-        """
-        if not cls.IsPurposeLevel(bip_obj):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving coin" % bip_obj.m_bip32.Depth())
-
-        coin_idx = Bip44BaseConst.TEST_NET_COIN_IDX if bip_obj.m_bip32.IsTestNet() else bip_obj.m_coin_idx
-
-        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(coin_idx)), bip_obj.m_coin_idx)
-
-    @classmethod
-    def _AccountGeneric(cls, bip_obj, acc_idx):
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It shall be called from a child class.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the account results in an invalid key.
-
-        Args:
-            bip_obj (BIP object) : Bip object (e.g. BIP44, BIP49, BIP84)
-            acc_idx (int)        : account index
-
-        Returns (Bip object):
-            Bip object
-        """
-        if not cls.IsCoinLevel(bip_obj):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving account" % bip_obj.m_bip32.Depth())
-
-        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(acc_idx)), bip_obj.m_coin_idx)
-
-    @classmethod
-    def _ChangeGeneric(cls, bip_obj, change_idx):
-        """ Derive a child key from the specified chain type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It shall be called from a child class.
-        TypeError is raised if chain type is not a Bip44Changes enum.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the change results in an invalid key.
-
-        Args:
-            bip_obj (BIP object)      : Bip object (e.g. BIP44, BIP49, BIP84)
-            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
-
-        Returns (Bip object):
-            Bip object
-        """
-        if not isinstance(change_idx, Bip44Changes):
-            raise TypeError("Change index is not an enumerative of Bip44Changes")
-
-        if not cls.IsAccountLevel(bip_obj):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving change" % bip_obj.m_bip32.Depth())
-
-        return cls(bip_obj.m_bip32.ChildKey(change_idx), bip_obj.m_coin_idx)
-
-    @classmethod
-    def _AddressIndexGeneric(cls, bip_obj, addr_idx):
-        """ Derive a child key from the specified address index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
-        It shall be called from a child class.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the address index results in an invalid key.
-
-        Args:
-            bip_obj (BIP object) : Bip object (e.g. BIP44, BIP49, BIP84)
-            addr_idx (int)       : address index
-
-        Returns (Bip object):
-            Bip object
-        """
-        if not cls.IsChangeLevel(bip_obj):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving address" % bip_obj.m_bip32.Depth())
-
-        return cls(bip_obj.m_bip32.ChildKey(addr_idx), bip_obj.m_coin_idx)

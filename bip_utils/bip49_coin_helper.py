@@ -25,7 +25,7 @@ from .bip_coin_conf        import *
 from .P2SH                 import P2SH
 
 
-class BitcoinHelper(CoinHelperBase):
+class Bip49BitcoinHelper(CoinHelperBase):
     """ Bitcoin class. It contains the constants some helper methods for BIP-0049 Bitcoin. """
 
     @staticmethod
@@ -69,17 +69,17 @@ class BitcoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = BitcoinConf.P2SH_NET_VER["main"] if not is_testnet else BitcoinConf.P2SH_NET_VER["test"]
-        return P2SH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2SH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class LitecoinHelper(CoinHelperBase):
+class Bip49LitecoinHelper(CoinHelperBase):
     """ Litecoin class. It contains the constants some helper methods for BIP-0049 Litecoin. """
 
     @staticmethod
@@ -89,6 +89,8 @@ class LitecoinHelper(CoinHelperBase):
         Returns (dict):
             Main net versions (public at key "pub", private at key "priv")
         """
+
+        # Get standard or alternate version depending on the flag
         return LitecoinConf.BIP49_MAIN_NET_VER if not LitecoinConf.EX_KEY_ALT else LitecoinConf.BIP49_ALT_MAIN_NET_VER
 
     @staticmethod
@@ -123,18 +125,18 @@ class LitecoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         p2sh_ver = LitecoinConf.P2SH_NET_VER if not LitecoinConf.P2SH_DEPR_ADDR else LitecoinConf.P2SH_DEPR_NET_VER
         addr_ver = p2sh_ver["main"] if not is_testnet else p2sh_ver["test"]
-        return P2SH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2SH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class DogecoinHelper(CoinHelperBase):
+class Bip49DogecoinHelper(CoinHelperBase):
     """ Bitcoin class. It contains the constants some helper methods for BIP-0049 Bitcoin. """
 
     @staticmethod
@@ -178,17 +180,17 @@ class DogecoinHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = DogecoinConf.P2SH_NET_VER["main"] if not is_testnet else DogecoinConf.P2SH_NET_VER["test"]
-        return P2SH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2SH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
-class DashHelper(CoinHelperBase):
+class Bip49DashHelper(CoinHelperBase):
     """ Dash class. It contains the constants some helper methods for BIP-0049 Dash. """
 
     @staticmethod
@@ -232,11 +234,11 @@ class DashHelper(CoinHelperBase):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey)      : BipPublicKey object
+            is_testnet (bool, optional) : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
         """
         addr_ver = DashConf.P2SH_NET_VER["main"] if not is_testnet else DashConf.P2SH_NET_VER["test"]
-        return P2SH.ToAddress(pub_key.to_string("compressed"), addr_ver)
+        return P2SH.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)

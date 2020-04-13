@@ -69,12 +69,12 @@ class CoinHelperBase(ABC):
 
     @staticmethod
     @abstractmethod
-    def ComputeAddress(pub_key, is_testnet = False):
+    def ComputeAddress(pub_key, is_testnet):
         """ Compute address from public key.
 
         Args:
-            pub_key (ecdsa.VerifyingKey) : ECDSA public key
-            is_testnet (bool, optional)  : true if test net, false if main net (default value)
+            pub_key (BipPublicKey) : BipPublicKey object
+            is_testnet (bool)      : true if test net, false if main net (default value)
 
         Returns (str):
             Address string
