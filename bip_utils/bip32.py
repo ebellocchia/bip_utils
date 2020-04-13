@@ -24,10 +24,14 @@
 # Imports
 import binascii
 import ecdsa
-from  ecdsa.curves import SECP256k1
-from  ecdsa.ecdsa  import generator_secp256k1, int_to_string, string_to_int
-from .base58       import Base58Decoder, Base58Encoder
-from .             import utils
+from  ecdsa.curves  import SECP256k1
+from  ecdsa.ecdsa   import generator_secp256k1, int_to_string, string_to_int
+from .base58        import Base58Decoder, Base58Encoder
+from .bip32_ex      import Bip32KeyError, Bip32PathError
+from .bip32_utils   import Bip32Utils
+from .bip32_path    import Bip32PathParser
+from .bip32_key_ser import Bip32KeyDeserializer, Bip32KeySerializer
+from .              import utils
 
 
 class Bip32Const:
@@ -45,8 +49,6 @@ class Bip32Const:
     # Test net versions (tpub / tprv)
     TEST_NET_VER         = {"pub" : binascii.unhexlify(b"043587CF"), "priv" : binascii.unhexlify(b"04358394")}
 
-    # Hardened index
-    HARDENED_IDX         = 0x80000000
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN = 4
     # Fingerprint of master key
@@ -55,102 +57,6 @@ class Bip32Const:
     SEED_MIN_BIT_LEN     = 128
     # HMAC key for generating master key
     MASTER_KEY_HMAC_KEY  = b"Bitcoin seed"
-    # Extended key length
-    EXTENDED_KEY_LEN     = 78
-
-
-class PathParser:
-    """ Path parser class. It parses a BIP-0032 path and return a list of its indexes. """
-
-    # Hardened characters
-    HARDENED_CHARS = ("'", "p")
-    # Master character
-    MASTER_CHAR    = "m"
-
-    @staticmethod
-    def Parse(path, skip_master = False):
-        """ Validate a path.
-
-        Args:
-            path (str)                   : path
-            skip_master (bool, optional) : true to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
-
-        Returns (list):
-            List with path indexes
-        """
-        return PathParser.__ParseElems(path.split("/"), skip_master)
-
-    @staticmethod
-    def __ParseElems(path_elems, skip_master):
-        """ Parse path elements.
-
-        Args:
-            path_elems (list)            : path element list
-            skip_master (bool, optional) : true to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
-
-        Returns (list):
-            List with path indexes
-        """
-
-        path_list = []
-
-        # Check each element
-        for i in range(len(path_elems)):
-            path_elem = path_elems[i].strip()
-
-            # Skip last empty element if any
-            if len(path_elem) == 0 and i == len(path_elems) - 1:
-                continue
-
-            # If path starts from master, the first element shall be "m"
-            if i == 0 and not skip_master:
-                if path_elem != PathParser.MASTER_CHAR:
-                    return []
-                path_list.append(PathParser.MASTER_CHAR)
-            else:
-                # Get index
-                path_idx = PathParser.__GetElemIndex(path_elem)
-                # Check it
-                if path_idx is None:
-                    return []
-                # Add it to the list
-                path_list.append(path_idx)
-
-        return path_list
-
-    @staticmethod
-    def __GetElemIndex(path_elem):
-        """ Get index of a path element.
-
-        Args:
-            path_elem (str) : path element
-
-        Returns (int or None):
-            Index of the element, None if the element is not valid.
-        """
-
-        # Get if hardened
-        is_hardened = len(path_elem) > 0  and path_elem[-1] in PathParser.HARDENED_CHARS
-
-        # If hardened, remove the last character from the string
-        if is_hardened:
-            path_elem = path_elem[:-1]
-
-        # The remaining string shall be numeric
-        if not path_elem.isnumeric():
-            return None
-
-        return int(path_elem) if not is_hardened else Bip32.HardenIndex(int(path_elem))
-
-
-class Bip32KeyError(Exception):
-    """ Exception in case of key error. """
-    pass
-
-
-class Bip32PathError(Exception):
-    """ Expcetion in case of path error. """
-    pass
 
 
 class Bip32:
@@ -171,7 +77,7 @@ class Bip32:
         """
 
         # Check seed length
-        if (len(seed_bytes) * 8) < Bip32Const.SEED_MIN_BIT_LEN:
+        if len(seed_bytes) * 8 < Bip32Const.SEED_MIN_BIT_LEN:
             raise ValueError("Seed length is too small, it shall be at least %d bit" % Bip32Const.SEED_MIN_BIT_LEN)
 
         # Compute HMAC
@@ -203,7 +109,7 @@ class Bip32:
         """
 
         # Parse path
-        path_idx = PathParser.Parse(path)
+        path_idx = Bip32PathParser.Parse(path)
 
         # Check result
         if len(path_idx) == 0:
@@ -235,34 +141,12 @@ class Bip32:
             Bip32 object
         """
 
-        # Decode key
-        key_bytes = Base58Decoder.CheckDecode(key_str)
-
-        # Check length
-        if len(key_bytes) != Bip32Const.EXTENDED_KEY_LEN:
-            raise Bip32KeyError("Invalid extended key (wrong length)")
-
-        # Get net version
-        net_ver = key_bytes[:4]
-
-        # Get if key is public/private depending on main/test net
-        if not is_testnet:
-            if net_ver in main_net_ver.values():
-                is_public = net_ver == main_net_ver["pub"]
-            else:
-                raise Bip32KeyError("Invalid extended key (wrong net version)")
-        else:
-            if net_ver in test_net_ver.values():
-                is_public = net_ver == test_net_ver["pub"]
-            else:
-                raise Bip32KeyError("Invalid extended key (wrong net version)")
-
         # De-serialize key
-        depth  = key_bytes[4]
-        fprint = key_bytes[5:9]
-        child  = int.from_bytes(key_bytes[9:13], "big")
-        chain  = key_bytes[13:45]
-        secret = key_bytes[45:78]
+        key_deser = Bip32KeyDeserializer(key_str)
+        key_deser.DeserializeKey(is_testnet, main_net_ver, test_net_ver)
+        # Get key parts
+        depth, fprint, child, chain, secret = key_deser.GetKeyParts()
+        is_public = key_deser.IsPublic()
 
         # If private key, remove the first byte
         if not is_public:
@@ -347,7 +231,7 @@ class Bip32:
         """
 
         # Parse path
-        path_idx = PathParser.Parse(path, True)
+        path_idx = Bip32PathParser.Parse(path, True)
 
         # Check result
         if len(path_idx) == 0:
@@ -360,8 +244,8 @@ class Bip32:
 
         return bip32_obj
 
-    def SetPublic(self):
-        """ Convert a private BIP32Key into a public one. """
+    def ConvertToPublic(self):
+        """ Convert a private Bip32 object into a public one. """
         self.m_key       = None
         self.m_is_public = True
 
@@ -416,7 +300,7 @@ class Bip32:
         Returns (str):
             Extended public key in Base58 format
         """
-        return self.__ExtendedKey(self.PublicKeyBytes(), main_net_ver, test_net_ver)
+        return Bip32KeySerializer(self).SerializePublicKey(main_net_ver, test_net_ver)
 
     def ExtendedPrivateKey(self,
                            main_net_ver = Bip32Const.MAIN_NET_VER["priv"],
@@ -434,7 +318,7 @@ class Bip32:
         if self.m_is_public:
             raise Bip32KeyError("Cannot export an extended private key from a public-only deterministic key")
 
-        return self.__ExtendedKey(b"\x00" + self.PrivateKeyBytes(), main_net_ver, test_net_ver)
+        return Bip32KeySerializer(self).SerializePrivateKey(main_net_ver, test_net_ver)
 
     def IsTestNet(self):
         """ Get if test net.
@@ -452,6 +336,22 @@ class Bip32:
         """
         return self.m_depth
 
+    def Index(self):
+        """ Get current index.
+
+        Returns (int):
+            Current index
+        """
+        return self.m_index
+
+    def Chain(self):
+        """ Get current chain.
+
+        Returns (bytes):
+            Current chain
+        """
+        return self.m_chain
+
     def KeyIdentifier(self):
         """ Get key identifier.
 
@@ -460,7 +360,7 @@ class Bip32:
         """
         return utils.Hash160(self.PublicKeyBytes())
 
-    def Fingerprint(self):
+    def FingerPrint(self):
         """ Get key fingerprint.
 
         Returns (bytes):
@@ -468,29 +368,13 @@ class Bip32:
         """
         return self.KeyIdentifier()[:Bip32Const.FINGERPRINT_BYTE_LEN]
 
-    @staticmethod
-    def HardenIndex(index):
-        """ Harden the specified index and return it.
+    def ParentFingerPrint(self):
+        """ Get parent fingerprint.
 
-        Args:
-            index (int) : index
-
-        Returns (int):
-            Hardened index
+        Returns (bytes):
+            Parent fingerprint bytes
         """
-        return Bip32Const.HARDENED_IDX + index
-
-    @staticmethod
-    def IsHardenedIndex(index):
-        """ Get if the specified index is hardened.
-
-        Args:
-            index (int) : index
-
-        Returns (bool):
-            True if hardened, false otherwise
-        """
-        return (index & Bip32Const.HARDENED_IDX) != 0
+        return self.m_parent_fprint
 
     def __CkdPriv(self, index):
         """ Create a child key of the specified index.
@@ -503,11 +387,11 @@ class Bip32:
             Bip32 object constructed with the child parameters
         """
 
-        # Index as bytes, BE
+        # Index as bytes
         index_bytes = index.to_bytes(4, "big")
 
         # Data to HMAC
-        if self.IsHardenedIndex(index):
+        if Bip32Utils.IsHardenedIndex(index):
             data = b"\0" + self.m_key.to_string() + index_bytes
         else:
             data = self.PublicKeyBytes() + index_bytes
@@ -532,7 +416,7 @@ class Bip32:
                      chain      = i_r,
                      depth      = self.m_depth + 1,
                      index      = index,
-                     fprint     = self.Fingerprint(),
+                     fprint     = self.FingerPrint(),
                      is_public  = False,
                      is_testnet = self.m_is_testnet)
 
@@ -548,7 +432,7 @@ class Bip32:
         """
 
         # Check if index is hardened
-        if self.IsHardenedIndex(index):
+        if Bip32Utils.IsHardenedIndex(index):
             raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         # Data to HMAC, same of CkdPriv() for public child key
@@ -574,7 +458,7 @@ class Bip32:
                      chain      = i_r,
                      depth      = self.m_depth + 1,
                      index      = index,
-                     fprint     = self.Fingerprint(),
+                     fprint     = self.FingerPrint(),
                      is_public  = True,
                      is_testnet = self.m_is_testnet)
 
@@ -591,39 +475,3 @@ class Bip32:
         # Use chain as HMAC key
         hmac = utils.HmacSha512(self.m_chain, data_bytes)
         return (hmac[:32], hmac[32:])
-
-    def __ExtendedKey(self, key_bytes, main_net_ver, test_net_ver):
-        """ Return the specified key in extended format
-
-        Args:
-            main_net_ver (bytes) : main net version bytes
-            test_net_ver (bytes) : test net version bytes
-            key_bytes (bytes)    : key bytes
-
-        Returns (bytes):
-            Key in extended format
-        """
-
-        # Get net version
-        net_ver = main_net_ver if not self.m_is_testnet else test_net_ver
-        # Serialize key
-        ser_key = self.__SerializeKey(net_ver, key_bytes)
-        # Encode it
-        return Base58Encoder.CheckEncode(ser_key)
-
-    def __SerializeKey(self, version, key):
-        """ Serialize the specified key.
-
-        Args:
-            version (bytes) : version bytes
-            key (bytes)     : key bytes
-
-        Returns (bytes):
-            Serialized key
-        """
-        depth  = self.m_depth.to_bytes(1, "big")
-        fprint = self.m_parent_fprint
-        child  = self.m_index.to_bytes(4, "big")
-        chain  = self.m_chain
-
-        return version + depth + fprint + child + chain + key
