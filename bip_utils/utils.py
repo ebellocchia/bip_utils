@@ -59,6 +59,20 @@ def HmacSha512(key_bytes, data_bytes):
     return hmac.new(key_bytes, data_bytes, hashlib.sha512).digest()
 
 
+def Pbkdf2HmacSha512(password_bytes, salt_bytes, itr_num):
+    """ Compute the PBKDF2 HMAC-SHA512 of the specified password, using the specified keys and iteration number.
+
+    Args:
+        password_bytes (bytes) : password bytes
+        salt_bytes (bytes)     : salt bytes
+        itr_num (int)          : iteration number
+
+    Returns (int):
+        Computed PBKDF2 HMAC-SHA512
+    """
+    return hashlib.pbkdf2_hmac("sha512", password_bytes, salt_bytes, itr_num)
+
+
 def Hash160(data_bytes):
     """ Compute the Bitcoin Hash-160 of the specified bytes.
 
@@ -132,3 +146,29 @@ def ListToBytes(data_list):
         Correspondent bytes representation
     """
     return bytes(bytearray(data_list))
+
+
+def BytesToString(data_bytes, encoding = "utf-8"):
+    """ Convert bytes to string.
+
+    Args:
+        data_bytes (str) : data bytes
+        encoding (str)   : encoding type
+
+    Return (str)
+        Bytes converted to string
+    """
+    return binascii.hexlify(data_bytes).decode(encoding)
+
+
+def StringToBytes(data_str, encoding = "utf-8"):
+    """ Convert string to bytes.
+
+    Args:
+        data_str (str) : data string
+        encoding (str) : encoding type
+
+    Return (bytes)
+        String converted to bytes
+    """
+    return data_str.encode(encoding)
