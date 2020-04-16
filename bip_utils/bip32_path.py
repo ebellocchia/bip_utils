@@ -40,12 +40,13 @@ class Bip32PathParser:
         """ Validate a path.
 
         Args:
-            path (str)                   : path
-            skip_master (bool, optional) : true to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
+            path (str)                  : Path
+            skip_master (bool, optional): True to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
 
-        Returns (list):
-            List with path indexes
+        Returns:
+            list: List with path indexes
         """
+
         return Bip32PathParser.__ParseElems(path.split("/"), skip_master)
 
     @staticmethod
@@ -53,11 +54,11 @@ class Bip32PathParser:
         """ Parse path elements.
 
         Args:
-            path_elems (list)            : path element list
-            skip_master (bool, optional) : true to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
+            path_elems (list)           : Path element list
+            skip_master (bool, optional): True to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
 
-        Returns (list):
-            List with path indexes
+        Returns:
+            list: List with path indexes
         """
 
         path_list = []
@@ -91,10 +92,11 @@ class Bip32PathParser:
         """ Get index of a path element.
 
         Args:
-            path_elem (str) : path element
+            path_elem (str): Path element
 
-        Returns (int or None):
-            Index of the element, None if the element is not valid.
+        Returns:
+            int: Index of the element
+            None: If the element is not a valid index
         """
 
         # Get if hardened

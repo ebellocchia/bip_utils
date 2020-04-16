@@ -18,8 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0032 specifications:
-# https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
 
 # Imports
 import ecdsa
@@ -55,20 +53,28 @@ class Bip32Const:
 
 
 class Bip32:
-    """ BIP32 class. It allows master key generation and children keys derivation in according to BIP32. """
+    """ BIP32 class. It allows master key generation and children keys derivation in according to BIP-0032.
+    BIP-0032 specifications: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+    """
+
+    #
+    # Static methods
+    #
 
     @staticmethod
-    def FromSeed(seed_bytes, is_testnet = False):
+    def FromSeed(seed_bytes, key_net_ver = Bip32Conf.KEY_NET_VER.Main()):
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
-        ValueError is raised if the seed is too short.
-        Bip32KeyError is raised if the seed is not suitable for master key generation.
 
         Args:
-            seed_bytes (bytes)          : seed bytes
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            seed_bytes (bytes)                           : Seed bytes
+            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
 
-        Returns (Bip32 object):
-            Bip32 object
+        Returns:
+            Bip32 object: Bip32 object
+
+        Raises:
+            ValueError: If the seed is too short
+            Bip32KeyError: If the seed is not suitable for master key generation
         """
 
         # Check seed length
@@ -86,21 +92,23 @@ class Bip32:
             raise Bip32KeyError("Computed master key is not valid, very unlucky seed")
 
         # Create BIP32
-        return Bip32(secret = i_l, chain = i_r, is_testnet = is_testnet)
+        return Bip32(secret = i_l, chain = i_r, key_net_ver = key_net_ver)
 
     @staticmethod
-    def FromSeedAndPath(seed_bytes, path, is_testnet = False):
+    def FromSeedAndPath(seed_bytes, path, key_net_ver = Bip32Conf.KEY_NET_VER.Main()):
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
-        Bip32PathError is raised if the seed length is too short or the path is not valid.
-        Bip32KeyError is raised if the seed is not suitable for master key generation.
 
         Args:
-            seed_bytes (bytes)          : seed bytes
-            path (str)                  : path
-            is_testnet (bool, optional) : true if test net, false if main net (default value)
+            seed_bytes (bytes)                           : Seed bytes
+            path (str)                                   : Path
+            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
 
-        Returns (Bip32 object):
-            Bip32 object
+        Returns:
+            Bip32 object: Bip32 object
+
+        Raises:
+            Bip32PathError: If the seed length is too short or the path is not valid
+            Bip32KeyError: If the seed is not suitable for master key generation
         """
 
         # Parse path
@@ -111,7 +119,7 @@ class Bip32:
             raise Bip32PathError("The specified path is not valid")
 
         # Create Bip32 object
-        bip32_ctx = Bip32.FromSeed(seed_bytes, is_testnet)
+        bip32_ctx = Bip32.FromSeed(seed_bytes, key_net_ver)
         # Start from 1 because the master key is already derived
         for i in range(1, len(path_idx)):
             bip32_ctx = bip32_ctx.ChildKey(path_idx[i])
@@ -119,26 +127,23 @@ class Bip32:
         return bip32_ctx
 
     @staticmethod
-    def FromExtendedKey(key_str,
-                        is_testnet   = False,
-                        main_net_ver = Bip32Conf.MAIN_NET_VER,
-                        test_net_ver = Bip32Conf.TEST_NET_VER):
+    def FromExtendedKey(key_str, key_net_ver = Bip32Conf.KEY_NET_VER.Main()):
         """ Create a Bip32 object from the specified extended key.
-        Bip32KeyError is raised if the key is not valid.
 
         Args:
-            key_str (str)                 : extended key string
-            is_testnet (bool, optional)   : true if test net, false if main net (default value)
-            main_net_ver (dict, optional) : dictionary containg public (key "pub") and private (key "priv") main net versions
-            test_net_ver (dict, optional) : dictionary containg public (key "pub") and private (key "priv") test net versions
+            key_str (str)                                : Extended key string
+            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
 
-        Returns (Bip32 object):
-            Bip32 object
+        Returns:
+            Bip32 object: Bip32 object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
         """
 
         # De-serialize key
         key_deser = Bip32KeyDeserializer(key_str)
-        key_deser.DeserializeKey(is_testnet, main_net_ver, test_net_ver)
+        key_deser.DeserializeKey(key_net_ver)
         # Get key parts
         depth, fprint, child, chain, secret = key_deser.GetKeyParts()
         is_public = key_deser.IsPublic()
@@ -156,32 +161,36 @@ class Bip32:
                 raise Bip32KeyError("Invalid extended public key")
 
         return Bip32(
-            secret     = secret,
-            chain      = chain,
-            depth      = depth,
-            index      = child,
-            fprint     = fprint,
-            is_public  = is_public,
-            is_testnet = is_testnet)
+            secret      = secret,
+            chain       = chain,
+            depth       = depth,
+            index       = child,
+            fprint      = fprint,
+            is_public   = is_public,
+            key_net_ver = key_net_ver)
+
+    #
+    # Public methods
+    #
 
     def __init__(self,
                  secret,
                  chain,
-                 depth      = 0,
-                 index      = 0,
-                 fprint     = Bip32Const.MASTER_FINGERPRINT,
-                 is_public  = False,
-                 is_testnet = False):
+                 depth       = 0,
+                 index       = 0,
+                 fprint      = Bip32Const.MASTER_FINGERPRINT,
+                 is_public   = False,
+                 key_net_ver = Bip32Conf.KEY_NET_VER.Main()):
         """ Construct class from secret and chain.
 
         Args:
-            secret (bytes)              : source bytes to generate the keypair
-            chain (bytes)               : 32-byte representation of the chain code
-            depth (int, optional)       : child depth, parent increments its own by one when assigning this (default: 0)
-            index (int, optional)       : child index (default: 0)
-            fprint (bytes, optional)    : parent fingerprint (default: 0)
-            is_public (bool, optional)  : if true, this keypair will only contain a public key and can only create a public key chain  (default: false)
-            is_testnet (bool, optional) : true if test net, lfase if main net  (default: false)
+            secret (bytes)                               : Source bytes to generate the keypair
+            chain (bytes)                                : 32-byte representation of the chain code
+            depth (int, optional)                        : Child depth, parent increments its own by one when assigning this (default: 0)
+            index (int, optional)                        : Child index (default: 0)
+            fprint (bytes, optional)                     : Parent fingerprint (default: 0)
+            is_public (bool, optional)                   : If true, this keypair will only contain a public key and can only create a public key chain  (default: false)
+            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
         """
 
         if not is_public:
@@ -196,33 +205,34 @@ class Bip32:
         self.m_depth         = depth
         self.m_index         = index
         self.m_parent_fprint = fprint
-        self.m_is_testnet    = is_testnet
+        self.m_key_net_ver   = key_net_ver
 
     def ChildKey(self, index):
         """ Create and return a child key of the current one at the specified index.
         The index shall be hardened using HardenIndex method to use the private derivation algorithm.
-        Bip32KeyError is raised if the index results in an invalid key.
 
         Args:
-            index (int) : index
+            index (int): Index
 
-        Returns (Bip32 object):
-            Child key as a new Bip32 object
+        Returns:
+            Bip32 object: Child key as a new Bip32 object
+
+        Raises:
+            Bip32KeyError: If the index results in an invalid key
         """
-        if not self.m_is_public:
-            return self.__CkdPriv(index)
-        else:
-            return self.__CkdPub(index)
+        return self.__CkdPriv(index) if not self.m_is_public else self.__CkdPub(index)
 
     def DerivePath(self, path):
         """ Derive children keys from the specified path.
-        Bip32PathError is raised if the seed length is too short or the path is not valid.
 
         Args:
-            path (str) : path
+            path (str): Path
 
-        Returns (Bip32 object):
-            Bip32 object
+        Returns:
+            Bip32 object: Bip32 object
+
+        Raises:
+            Bip32PathError: If the seed length is too short or the path is not valid
         """
 
         # Parse path
@@ -247,16 +257,16 @@ class Bip32:
     def IsPublicOnly(self):
         """ Get if it's public-only.
 
-        Returns (bool):
-            True if public-only, false otherwise
+        Returns:
+            bool: True if public-only, false otherwise
         """
         return self.m_is_public
 
     def EcdsaPrivateKey(self):
         """ Return the ECDSA private key object.
 
-        Return (ecdsa.SigningKey):
-            Private key object
+        Return:
+            ecdsa.SigningKey object: ecdsa.SigningKey object
         """
         if self.m_is_public:
             raise Bip32KeyError("Public-only deterministic keys have no private half")
@@ -265,98 +275,103 @@ class Bip32:
     def EcdsaPublicKey(self):
         """ Return the ECDSA public key object.
 
-        Return (ecdsa.VerifyingKey):
-            Public key object
+        Return:
+            ecdsa.VerifyingKey object: ecdsa.VerifyingKey object
         """
         return self.m_ver_key
 
     def PrivateKey(self):
         """ Return private key bytes.
-        Bip32KeyError is raised if internal key is public-only.
 
-        Returns (bytes):
-            Private key bytes
+        Returns:
+            BipPrivateKey object: BipPrivateKey object
+
+        Raises:
+            Bip32KeyError: If internal key is public-only
         """
         if self.m_is_public:
             raise Bip32KeyError("Public-only deterministic keys have no private half")
         return BipPrivateKey(self)
 
-    def PublicKey(self, compressed = True):
+    def PublicKey(self):
         """ Return public key bytes.
 
-        Args:
-            compressed (bool) : true for returning the key in compressed SEC1 format, false otherwise
-
-        Returns (bytes):
-            Public key bytes
+        Returns:
+            BipPublicKey object: BipPublicKey object
         """
         return BipPublicKey(self)
 
-    def IsTestNet(self):
-        """ Get if test net.
+    def KeyNetVersions(self):
+        """ Get key net versions.
 
-        Returns (bool):
-            True if test net, false otherwise
+        Returns:
+            KeyKeyNetVersions object: KeyKeyNetVersions object
         """
-        return self.m_is_testnet
+        return self.m_key_net_ver
 
     def Depth(self):
         """ Get current depth.
 
-        Returns (int):
-            Current depth
+        Returns:
+            int: Current depth
         """
         return self.m_depth
 
     def Index(self):
         """ Get current index.
 
-        Returns (int):
-            Current index
+        Returns:
+            int: Current index
         """
         return self.m_index
 
     def Chain(self):
         """ Get current chain.
 
-        Returns (bytes):
-            Current chain
+        Returns:
+            bytes: Current chain
         """
         return self.m_chain
 
     def KeyIdentifier(self):
         """ Get key identifier.
 
-        Returns (bytes):
-            Key identifier bytes
+        Returns:
+            bytes: Key identifier bytes
         """
         return utils.Hash160(self.PublicKey().RawCompressed().ToBytes())
 
     def FingerPrint(self):
         """ Get key fingerprint.
 
-        Returns (bytes):
-            Key fingerprint bytes
+        Returns:
+            bytes: Key fingerprint bytes
         """
         return self.KeyIdentifier()[:Bip32Const.FINGERPRINT_BYTE_LEN]
 
     def ParentFingerPrint(self):
         """ Get parent fingerprint.
 
-        Returns (bytes):
-            Parent fingerprint bytes
+        Returns:
+            bytes: Parent fingerprint bytes
         """
         return self.m_parent_fprint
 
+    #
+    # Private methods
+    #
+
     def __CkdPriv(self, index):
         """ Create a child key of the specified index.
-        Bip32KeyError is raised if the index results in an invalid key.
 
         Args:
-            index (int) : index
+            index (int): Index
 
         Returns:
-            Bip32 object constructed with the child parameters
+            Bip32 object: Bip32 object constructed with the child parameters
+
+        Raises:
+            Bip32KeyError: If the index results in an invalid key
         """
 
         # Index as bytes
@@ -384,23 +399,25 @@ class Bip32:
         secret = (b"\0"*32 + int_to_string(k_int))[-32:]
 
         # Construct and return a new Bip32 object
-        return Bip32(secret     = secret,
-                     chain      = i_r,
-                     depth      = self.m_depth + 1,
-                     index      = index,
-                     fprint     = self.FingerPrint(),
-                     is_public  = False,
-                     is_testnet = self.m_is_testnet)
+        return Bip32(secret      = secret,
+                     chain       = i_r,
+                     depth       = self.m_depth + 1,
+                     index       = index,
+                     fprint      = self.FingerPrint(),
+                     is_public   = False,
+                     key_net_ver = self.m_key_net_ver)
 
     def __CkdPub(self, index):
         """ Create a publicly derived child key of the specified index.
-        Bip32KeyError is raised if the index is hardened or results in an invalid key.
 
         Args:
-            index (int) : index
+            index (int): Index
 
         Returns:
-            Bip32 object constructed with the child parameters
+            Bip32 object: Bip32 object constructed with the child parameters
+
+        Raises:
+            Bip32KeyError: If the index is hardened or results in an invalid key
         """
 
         # Check if index is hardened
@@ -426,22 +443,22 @@ class Bip32:
         k_i = ecdsa.VerifyingKey.from_public_point(point, curve = SECP256k1)
 
         # Construct and return a new Bip32 object
-        return Bip32(secret     = k_i,
-                     chain      = i_r,
-                     depth      = self.m_depth + 1,
-                     index      = index,
-                     fprint     = self.FingerPrint(),
-                     is_public  = True,
-                     is_testnet = self.m_is_testnet)
+        return Bip32(secret      = k_i,
+                     chain       = i_r,
+                     depth       = self.m_depth + 1,
+                     index       = index,
+                     fprint      = self.FingerPrint(),
+                     is_public   = True,
+                     key_net_ver = self.m_key_net_ver)
 
     def __HmacHalves(self, data_bytes):
         """ Calculate the HMAC-SHA512 of input data using the chain code as key and returns a tuple of the left and right halves of the HMAC.
 
         Args:
-            data_bytes (bytes) : data bytes
+            data_bytes (bytes): Data bytes
 
-        Returns (tuple):
-            Left and right halves of the HMAC
+        Returns:
+            tuple: Left and right halves of the HMAC
         """
 
         # Use chain as HMAC key

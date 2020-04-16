@@ -20,11 +20,11 @@
 
 
 # Imports
-from .bip32_ex          import Bip32KeyError
-from .bip32_key_ser     import Bip32KeySerializer
-from .bip44_coin_helper import Bip44BitcoinHelper
-from .wif               import WifEncoder
-from .                  import utils
+from .bip32_ex      import Bip32KeyError
+from .bip32_key_ser import Bip32KeySerializer
+from .bip44_coins   import Bip44BitcoinMainNet
+from .wif           import WifEncoder
+from .              import utils
 
 
 class BipKeyBytes:
@@ -34,117 +34,119 @@ class BipKeyBytes:
         """ Construct class.
 
         Args:
-            key_bytes (bytes) : key bytes
+            key_bytes (bytes): Key bytes
         """
         self.m_key_bytes = key_bytes
 
     def ToBytes(self):
         """ Get key bytes.
 
-        Returns (bytes):
-            Key bytes
+        Returns:
+            bytes: Key bytes
         """
         return self.m_key_bytes
 
     def ToHex(self):
         """ Get key bytes in hex format.
 
-        Returns (str):
-            Key bytes in hex format
+        Returns:
+            str: Key bytes in hex format
         """
-        return utils.BytesToString(self.m_key_bytes)
+        return utils.BytesToHexString(self.m_key_bytes)
 
 
 class BipPublicKey:
     """ BIP public key class. It allows to get a public key in different formats. """
 
-    def __init__(self, bip32_obj, coin_helper = Bip44BitcoinHelper):
+    def __init__(self, bip32_obj, coin_class = Bip44BitcoinMainNet):
         """ Construct class.
 
         Args:
-            bip32_obj (Bip32 object)                      : Bip32 object
-            coin_helper (CoinHelperBase object, optional) : CoinHelperBase object, Bip44BitcoinHelper by default
+            bip32_obj (Bip32 object)                       : Bip32 object
+            coin_class (BipCoinBase child object, optional): BipCoinBase child object, Bip44BitcoinMainNet by default
         """
-        self.m_bip32_obj   = bip32_obj
-        self.m_coin_helper = coin_helper
+        self.m_bip32_obj  = bip32_obj
+        self.m_coin_class = coin_class
 
     def RawCompressed(self):
         """ Return raw compressed public key.
 
-        Returns (BipKeyBytes object):
-            BipKeyBytes object
+        Returns:
+            BipKeyBytes object: BipKeyBytes object
         """
         return BipKeyBytes(self.m_bip32_obj.EcdsaPublicKey().to_string("compressed"))
 
     def RawUncompressed(self):
         """ Return raw uncompressed public key.
 
-        Returns (BipKeyBytes object):
-            BipKeyBytes object
+        Returns:
+            BipKeyBytes object: BipKeyBytes object
         """
 
-        # The first byte is the version (0x04), it's not needed
+        # The first byte is the version (0x04) and it's not needed
         return BipKeyBytes(self.m_bip32_obj.EcdsaPublicKey().to_string("uncompressed")[1:])
 
     def ToExtended(self):
         """ Return key in serialized extended format.
 
-        Returns (str):
-            Key in serialized extended format
+        Returns:
+            str: Key in serialized extended format
         """
-        return Bip32KeySerializer(self.m_bip32_obj).SerializePublicKey(self.m_coin_helper.MainNetVersions()["pub"], self.m_coin_helper.TestNetVersions()["pub"])
+        return Bip32KeySerializer(self.m_bip32_obj).SerializePublicKey()
 
     def ToAddress(self):
         """ Return address correspondent tot he public key.
 
-        Returns (str):
-            Address
+        Returns:
+            str: Address
         """
-        return self.m_coin_helper.ComputeAddress(self, self.m_bip32_obj.IsTestNet())
+        return self.m_coin_class.ComputeAddress(self)
 
 
 class BipPrivateKey:
     """ BIP privte key class. It allows to get a privte key in different formats. """
 
-    def __init__(self, bip32_obj, coin_helper = Bip44BitcoinHelper):
+    def __init__(self, bip32_obj, coin_class = Bip44BitcoinMainNet):
         """ Construct class.
 
         Args:
-            bip32_obj (Bip32 object)                      : Bip32 object
-            coin_helper (CoinHelperBase object, optional) : CoinHelperBase object, Bip44BitcoinHelper by default
+            bip32_obj (Bip32 object)                       : Bip32 object
+            coin_class (BipCoinBase child object, optional): BipCoinBase child object, Bip44BitcoinMainNet by default
+
+        Raises:
+            Bip32KeyError: If the Bip32 object is public-only
         """
         if bip32_obj.IsPublicOnly():
             raise Bip32KeyError("Cannot create a private key form a public-only Bip32 object")
 
         self.m_bip32_obj   = bip32_obj
-        self.m_coin_helper = coin_helper
+        self.m_coin_class = coin_class
 
     def Raw(self):
         """ Return raw private key.
 
-        Returns (BipKeyBytes object):
-            BipKeyBytes object
+        Returns:
+            BipKeyBytes object: BipKeyBytes object
         """
         return BipKeyBytes(self.m_bip32_obj.EcdsaPrivateKey().to_string())
 
     def ToExtended(self):
         """ Return key in serialized extended format.
 
-        Returns (str):
-            Key in serialized extended format
+        Returns:
+            str: Key in serialized extended format
         """
-        return Bip32KeySerializer(self.m_bip32_obj).SerializePrivateKey(self.m_coin_helper.MainNetVersions()["priv"], self.m_coin_helper.TestNetVersions()["priv"])
+        return Bip32KeySerializer(self.m_bip32_obj).SerializePrivateKey()
 
     def ToWif(self):
         """ Return key in WIF format.
 
-        Returns (str):
-            Key in WIF format
+        Returns:
+            str: Key in WIF format
         """
-        wif_net_vers = self.m_coin_helper.WifNetVersions()
+        wif_net_ver = self.m_coin_class.WifNetVersion()
 
-        if not wif_net_vers is None:
-            wif_net_ver = wif_net_vers["main"] if not self.m_bip32_obj.IsTestNet() else wif_net_vers["test"]
+        if not wif_net_ver is None:
             return WifEncoder.Encode(self.Raw().ToBytes(), wif_net_ver)
         else:
             return ""

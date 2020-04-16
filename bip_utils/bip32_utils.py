@@ -26,16 +26,6 @@ class Bip32UtilsConst:
     HARDENED_IDX = 0x80000000
 
 
-class Bip32KeyError(Exception):
-    """ Exception in case of key error. """
-    pass
-
-
-class Bip32PathError(Exception):
-    """ Expcetion in case of path error. """
-    pass
-
-
 class Bip32Utils:
     """ BIP32 utility class. It contains some helper method for Bip32 class. """
 
@@ -44,10 +34,10 @@ class Bip32Utils:
         """ Harden the specified index and return it.
 
         Args:
-            index (int) : index
+            index (int): Index
 
-        Returns (int):
-            Hardened index
+        Returns:
+            int: Hardened index
         """
         return Bip32UtilsConst.HARDENED_IDX + index
 
@@ -56,9 +46,9 @@ class Bip32Utils:
         """ Get if the specified index is hardened.
 
         Args:
-            index (int) : index
+            index (int): Index
 
-        Returns (bool):
-            True if hardened, false otherwise
+        Returns:
+            bool: True if hardened, false otherwise
         """
         return (index & Bip32UtilsConst.HARDENED_IDX) != 0
