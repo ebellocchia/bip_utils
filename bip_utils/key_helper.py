@@ -40,10 +40,10 @@ class KeyHelper:
         """ Get if the specified key is private.
 
         Args:
-            key_bytes (bytes) : key bytes
+            key_bytes (bytes): Key bytes
 
-        Returns (bool):
-            True if private, false otherwise
+        Returns:
+            bool: True if private, false otherwise
         """
         return len(key_bytes) == KeyHelperConst.PRIV_KEY_LEN
 
@@ -52,10 +52,10 @@ class KeyHelper:
         """ Get if the specified key is public uncompressed.
 
         Args:
-            key_bytes (bytes) : key bytes
+            key_bytes (bytes): Key bytes
 
-        Returns (bool):
-            True if public uncompressed, false otherwise
+        Returns:
+            bool: True if public uncompressed, false otherwise
         """
         return len(key_bytes) == KeyHelperConst.PUB_KEY_UNCOMPR_LEN
 
@@ -64,10 +64,10 @@ class KeyHelper:
         """ Get if the specified key is public compressed.
 
         Args:
-            key_bytes (bytes) : key bytes
+            key_bytes (bytes): Key bytes
 
-        Returns (bool):
-            True if public compressed, false otherwise
+        Returns:
+            bool: True if public compressed, false otherwise
         """
         return len(key_bytes) == KeyHelperConst.PUB_KEY_COMPR_LEN and key_bytes[0] in KeyHelperConst.PUB_KEY_COMPR_PREFIX
 
@@ -76,10 +76,10 @@ class KeyHelper:
         """ Get if the specified key is valid.
 
         Args:
-            key_bytes (bytes) : key bytes
+            key_bytes (bytes): Key bytes
 
-        Returns (bool):
-            True if private or public compressed/decompressed, false otherwise
+        Returns:
+            bool: True if private or public compressed/decompressed, false otherwise
         """
         return KeyHelper.IsPrivate(key_bytes)            or \
                KeyHelper.IsPublicUncompressed(key_bytes) or \

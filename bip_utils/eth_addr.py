@@ -40,10 +40,10 @@ class EthAddrUtils:
         """ Checksum encode the specified address.
 
         Args:
-            addr (str) : address string
+            addr (str): Address string
 
-        Returns (str):
-            Checksum encoded address
+        Returns:
+            str: Checksum encoded address
         """
 
         # Compute address digest
@@ -60,13 +60,15 @@ class EthAddr:
     @staticmethod
     def ToAddress(pub_key_bytes):
         """ Get address in Ethereum format.
-        ValueError is raised if key is not a public uncompressed key.
 
         Args:
-            pub_key_bytes (bytes) : public key bytes
+            pub_key_bytes (bytes): Public key bytes
 
-        Returns (str):
-            Address string
+        Returns:
+            str: Address string
+
+        Raised:
+            ValueError: If the key is not a public uncompressed key
         """
         if not KeyHelper.IsPublicUncompressed(pub_key_bytes):
             raise ValueError("Public uncompressed key is required for Ethereum address")

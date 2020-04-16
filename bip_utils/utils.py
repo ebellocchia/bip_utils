@@ -29,10 +29,10 @@ def Sha256(data_bytes):
     """ Compute the SHA256 of the specified bytes.
 
     Args:
-        data_bytes (bytes) : data bytes
+        data_bytes (bytes): Data bytes
 
-    Returns (bytes):
-        Computed SHA256
+    Returns:
+        bytes: Computed SHA256
     """
     return hashlib.sha256(data_bytes).digest()
 
@@ -40,8 +40,8 @@ def Sha256(data_bytes):
 def Sha256DigestSize():
     """ Get the SHA256 digest size in bytes.
 
-    Returns (int):
-        SHA256 digest size in bytes
+    Returns:
+        int: SHA256 digest size in bytes
     """
     return hashlib.sha256().digest_size
 
@@ -50,11 +50,11 @@ def HmacSha512(key_bytes, data_bytes):
     """ Compute the HMAC-SHA512 of the specified bytes with the specified key.
 
     Args:
-        key_bytes (bytes) : key bytes
-        data_bytes (bytes) : data bytes
+        key_bytes (bytes) : Key bytes
+        data_bytes (bytes): Data bytes
 
-    Returns (int):
-        Computed HMAC-SHA512
+    Returns:
+        bytes: Computed HMAC-SHA512
     """
     return hmac.new(key_bytes, data_bytes, hashlib.sha512).digest()
 
@@ -63,12 +63,12 @@ def Pbkdf2HmacSha512(password_bytes, salt_bytes, itr_num):
     """ Compute the PBKDF2 HMAC-SHA512 of the specified password, using the specified keys and iteration number.
 
     Args:
-        password_bytes (bytes) : password bytes
-        salt_bytes (bytes)     : salt bytes
-        itr_num (int)          : iteration number
+        password_bytes (bytes): Password bytes
+        salt_bytes (bytes)    : Salt bytes
+        itr_num (int)         : Iteration number
 
-    Returns (int):
-        Computed PBKDF2 HMAC-SHA512
+    Returns:
+        bytes: Computed PBKDF2 HMAC-SHA512
     """
     return hashlib.pbkdf2_hmac("sha512", password_bytes, salt_bytes, itr_num)
 
@@ -77,10 +77,10 @@ def Hash160(data_bytes):
     """ Compute the Bitcoin Hash-160 of the specified bytes.
 
     Args:
-        data_bytes (bytes) : data bytes
+        data_bytes (bytes): Data bytes
 
-    Returns (int):
-        Computed Hash-160
+    Returns:
+        bytes: Computed Hash-160
     """
     return hashlib.new("ripemd160", hashlib.sha256(data_bytes).digest()).digest()
 
@@ -89,10 +89,10 @@ def BytesToInteger(data_bytes):
     """ Convert the specified bytes to integer.
 
     Args:
-        data_bytes (bytes) : data bytes
+        data_bytes (bytes): Data bytes
 
-    Returns (int):
-        Integer representation
+    Returns:
+        int: Integer representation
     """
     return int(binascii.hexlify(data_bytes), 16)
 
@@ -101,11 +101,11 @@ def BytesToBinaryStr(data_bytes, zero_pad = 0):
     """ Convert the specified bytes to a binary string.
 
     Args:
-        data_bytes (bytes) : data bytes
-        zero_pad (int, optional) : zero padding, 0 if not specified
+        data_bytes (bytes)      : Data bytes
+        zero_pad (int, optional): Zero padding, 0 if not specified
 
-    Returns (str):
-        Binary string
+    Returns:
+        str: Binary string
     """
     return IntToBinaryStr(BytesToInteger(data_bytes), zero_pad)
 
@@ -114,11 +114,11 @@ def IntToBinaryStr(data_int, zero_pad = 0):
     """ Convert the specified integer to a binary string.
 
     Args:
-        data_int (int) : data integer
-        zero_pad (int, optional) : zero padding, 0 if not specified
+        data_int (int)          : Data integer
+        zero_pad (int, optional): Zero padding, 0 if not specified
 
-    Returns (str):
-        Binary string
+    Returns:
+        str: Binary string
     """
     return bin(data_int)[2:].zfill(zero_pad)
 
@@ -127,11 +127,11 @@ def BytesFromBinaryStr(data_str, zero_pad = 0):
     """ Convert the specified binary string to bytes.
 
     Args:
-        data_str (str) : data string
-        zero_pad (int, optional) : zero padding, 0 if not specified
+        data_str (str)          : Data string
+        zero_pad (int, optional): Zero padding, 0 if not specified
 
-    Returns (bytes):
-        Bytes representation
+    Returns:
+        bytes: Bytes representation
     """
     return binascii.unhexlify(hex(int(data_str, 2))[2:].zfill(zero_pad))
 
@@ -140,35 +140,47 @@ def ListToBytes(data_list):
     """ Convert the specified list to bytes
 
     Args:
-        data_list (list) : data bytes
+        data_list (list): Data list
 
-    Returns (bytes):
-        Correspondent bytes representation
+    Returns:
+        bytes: Correspondent bytes representation
     """
     return bytes(bytearray(data_list))
 
 
-def BytesToString(data_bytes, encoding = "utf-8"):
-    """ Convert bytes to string.
+def BytesToHexString(data_bytes, encoding = "utf-8"):
+    """ Convert bytes to hex string.
 
     Args:
-        data_bytes (str) : data bytes
-        encoding (str)   : encoding type
+        data_bytes (str): Data bytes
+        encoding (str)  : Encoding type
 
-    Return (str)
-        Bytes converted to string
+    Returns:
+        str: Bytes converted to hex string
     """
     return binascii.hexlify(data_bytes).decode(encoding)
 
 
-def StringToBytes(data_str, encoding = "utf-8"):
-    """ Convert string to bytes.
+def HexStringToBytes(data_str):
+    """ Convert hex string to bytes.
 
     Args:
-        data_str (str) : data string
-        encoding (str) : encoding type
+        data_str (str): Data bytes
 
-    Return (bytes)
-        String converted to bytes
+    Returns
+        bytes: Hex string converted to bytes
+    """
+    return binascii.unhexlify(data_str)
+
+
+def StringEncode(data_str, encoding = "utf-8"):
+    """ Encode string to bytes.
+
+    Args:
+        data_str (str): Data string
+        encoding (str): Encoding type
+
+    Returns:
+        bytes: String encoded to bytes
     """
     return data_str.encode(encoding)
