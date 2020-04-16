@@ -22,167 +22,150 @@
 # https://github.com/libbitcoin/libbitcoin-system/wiki/Altcoin-Version-Mappings#bip44-altcoin-version-mapping-table
 # https://github.com/satoshilabs/slips/blob/master/slip-0132.md
 
+
 # Imports
-import binascii
+from .bip_coin_conf_helper import *
 
 
 class Bip32Conf:
     """ Class container for Bip32 configuration. """
 
-    # Main net versions (xpub / xprv)
-    MAIN_NET_VER = {"pub" : binascii.unhexlify(b"0488b21e"), "priv" : binascii.unhexlify(b"0488ade4")}
-    # Test net versions (tpub / tprv)
-    TEST_NET_VER = {"pub" : binascii.unhexlify(b"043587CF"), "priv" : binascii.unhexlify(b"04358394")}
+    # Key net versions (xpub / xprv) - (tpub / tprv)
+    KEY_NET_VER = NetVersions(KeyNetVersions(b"0488b21e", b"0488ade4"),
+                              KeyNetVersions(b"043587cf", b"04358394"))
 
 
 class BitcoinConf:
     """ Class container for Bitcoin configuration. """
 
-    # Coin names
-    NAMES              = {"name" : "Bitcoin", "abbr" : "BTC" }
+    # Names
+    NAMES             = CoinNames("Bitcoin"        , "BTC")
+    # Test names
+    TEST_NAMES        = CoinNames("Bitcoin TestNet", "BTC")
 
-    # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
-    # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
-
-    # BIP49 Main net versions (ypub / yprv)
-    BIP49_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"049d7cb2"), "priv" : binascii.unhexlify(b"049d7878")}
-    # BIP49 Test net versions (upub / uprv)
-    BIP49_TEST_NET_VER = {"pub" : binascii.unhexlify(b"044a5262"), "priv" : binascii.unhexlify(b"044a4e28")}
-
-    # BIP84 Main net versions (zpub / zprv)
-    BIP84_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"04b24746"), "priv" : binascii.unhexlify(b"04b2430c")}
-    # BIP84 Test net versions (vpub / vprv)
-    BIP84_TEST_NET_VER = {"pub" : binascii.unhexlify(b"045f1cf6"), "priv" : binascii.unhexlify(b"045f18bc")}
+    # BIP44 net versions (same of BIP32)
+    BIP44_KEY_NET_VER = Bip32Conf.KEY_NET_VER
+    # BIP49 net versions (ypub / yprv) - (upub / uprv)
+    BIP49_KEY_NET_VER = NetVersions(KeyNetVersions(b"049d7cb2", b"049d7878"),
+                                    KeyNetVersions(b"044a5262", b"044a4e28"))
+    # BIP84 net versions (zpub / zprv) -  (vpub / vprv)
+    BIP84_KEY_NET_VER = NetVersions(KeyNetVersions(b"04b24746", b"04b2430c"),
+                                    KeyNetVersions(b"045f1cf6", b"045f18bc"))
 
     # Versions for P2PKH address
-    P2PKH_NET_VER      = {"main" : b"\x00", "test" : b"\x6f"}
+    P2PKH_NET_VER     = NetVersions(b"\x00", b"\x6f")
     # Versions for P2SH address
-    P2SH_NET_VER       = {"main" : b"\x05", "test" : b"\xc4"}
+    P2SH_NET_VER      = NetVersions(b"\x05", b"\xc4")
     # Versions for P2WPKH address
-    P2WPKH_NET_VER     = {"main" : "bc", "test" : "tb"}
+    P2WPKH_NET_VER    = NetVersions("bc", "tb")
     # WIF net version
-    WIF_NET_VER        = {"main" : b"\x80", "test" : b"\xef"}
+    WIF_NET_VER       = NetVersions(b"\x80", b"\xef")
 
 
 class LitecoinConf:
     """ Class container for Litecoin configuration. """
 
-    # Coin names
-    NAMES                  = {"name" : "Litecoin", "abbr" : "LTC" }
+    # Names
+    NAMES              = CoinNames("Litecoin"        , "LTC")
+    # Test names
+    TEST_NAMES         = CoinNames("Litecoin TestNet", "LTC")
 
     # False for using Bitcoin net versions for extended keys (xprv/xpub and similar), true for using the alternate ones (Ltpv/Ltub and similar)
-    EX_KEY_ALT             = False
+    EX_KEY_ALT         = False
     # False for using P2SH deprecated addresses, true for the new addresses
-    P2SH_DEPR_ADDR         = False
+    P2SH_DEPR_ADDR     = False
 
-    # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER     = Bip32Conf.MAIN_NET_VER
-    # BIP44 Alternate main net versions (Ltpv / Ltub)
-    BIP44_ALT_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"019da462"), "priv" : binascii.unhexlify(b"019d9cfe")}
-    # BIP44 Test net versions (ttub / ttpv)
-    BIP44_TEST_NET_VER     = {"pub" : binascii.unhexlify(b"0436f6e1"), "priv" : binascii.unhexlify(b"0436ef7d")}
-
-    # BIP49 Main net versions (same of Bitcoin)
-    BIP49_MAIN_NET_VER     = BitcoinConf.BIP49_MAIN_NET_VER
-    # BIP49 Alternate main net versions (Mtpv / Mtub)
-    BIP49_ALT_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"01b26ef6"), "priv" : binascii.unhexlify(b"01b26792")}
-    # BIP49 Test net versions (ttub / ttpv)
-    BIP49_TEST_NET_VER     = {"pub" : binascii.unhexlify(b"0436f6e1"), "priv" : binascii.unhexlify(b"0436ef7d")}
-
-    # BIP84 Main net versions (same of Bitcoin)
-    BIP84_MAIN_NET_VER     = BitcoinConf.BIP84_MAIN_NET_VER
-    # BIP84 Test net versions (ttub / ttpv)
-    BIP84_TEST_NET_VER     = {"pub" : binascii.unhexlify(b"0436f6e1"), "priv" : binascii.unhexlify(b"0436ef7d")}
+    # BIP44 net versions
+    # Litecoin can have 2 different main version: same of Bitcoin or (Ltpv / Ltub), test net version is (ttub / ttpv)
+    BIP44_KEY_NET_VER  = NetVersions((BitcoinConf.BIP44_KEY_NET_VER.Main(), KeyNetVersions(b"019da462", b"019d9cfe")),
+                                     KeyNetVersions(b"0436f6e1", b"0436ef7d"))
+    # BIP49 net versions
+    # Litecoin can have 2 different main version: same of Bitcoin or (Mtpv / Mtub), test net version is (ttub / ttpv)
+    BIP49_KEY_NET_VER  = NetVersions((BitcoinConf.BIP49_KEY_NET_VER.Main(), KeyNetVersions(b"01b26ef6", b"01b26792")),
+                                     KeyNetVersions(b"0436f6e1", b"0436ef7d"))
+    # BIP84 net versions (zpub / zprv) - (ttub / ttpv)
+    BIP84_KEY_NET_VER  = NetVersions(BitcoinConf.BIP84_KEY_NET_VER.Main(),
+                                     KeyNetVersions(b"0436f6e1", b"0436ef7d"))
 
     # Versions for P2PKH address
-    P2PKH_NET_VER          = {"main" : b"\x30", "test" : b"\x6f"}
+    P2PKH_NET_VER      = NetVersions(b"\x30", b"\x6f")
     # Deprecated versions for P2SH address (same of Bitcoin)
-    P2SH_DEPR_NET_VER      = BitcoinConf.P2SH_NET_VER
+    P2SH_DEPR_NET_VER  = BitcoinConf.P2SH_NET_VER
     # Versions for P2SH address
-    P2SH_NET_VER           = {"main" : b"\x32", "test" : b"\x3a"}
+    P2SH_NET_VER       = NetVersions(b"\x32", b"\x3a")
     # Versions for P2WPKH address
-    P2WPKH_NET_VER         = {"main" : "ltc", "test" : "tltc"}
+    P2WPKH_NET_VER     = NetVersions("ltc", "tltc")
     # WIF net version
-    WIF_NET_VER            = {"main" : b"\xb0", "test" : b"\xef"}
+    WIF_NET_VER        = NetVersions(b"\xb0", b"\xef")
 
 
 class DogecoinConf:
     """ Class container for Dogecoin configuration. """
 
-    # Coin names
-    NAMES              = {"name" : "Dogecoin", "abbr" : "DOGE" }
+    # Names
+    NAMES             = CoinNames("Dogecoin"        , "DOGE")
+    # Test names
+    TEST_NAMES        = CoinNames("Dogecoin TestNet", "DOGE")
 
-    # BIP44 Main net versions (dgub / dgpv)
-    BIP44_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"02facafd"), "priv" : binascii.unhexlify(b"02fac398")}
-    # BIP44 Test net versions (tgub / tgpv)
-    BIP44_TEST_NET_VER = {"pub" : binascii.unhexlify(b"0432a9a8"), "priv" : binascii.unhexlify(b"0432a243")}
-
-    # BIP49 Main net versions (dgub / dgpv)
-    BIP49_MAIN_NET_VER = {"pub" : binascii.unhexlify(b"02facafd"), "priv" : binascii.unhexlify(b"02fac398")}
-    # BIP49 Test net versions (tgub / tgpv)
-    BIP49_TEST_NET_VER = {"pub" : binascii.unhexlify(b"0432a9a8"), "priv" : binascii.unhexlify(b"0432a243")}
+    # BIP44 net versions (dgub / dgpv) - (tgub / tgpv)
+    BIP44_KEY_NET_VER = NetVersions(KeyNetVersions(b"02facafd", b"02fac398"),
+                                    KeyNetVersions(b"0432a9a8", b"0432a243"))
+    # BIP49 net versions (dgub / dgpv) - (tgub / tgpv)
+    BIP49_KEY_NET_VER = NetVersions(KeyNetVersions(b"02facafd", b"02fac398"),
+                                    KeyNetVersions(b"0432a9a8", b"0432a243"))
 
     # Versions for P2PKH address
-    P2PKH_NET_VER      = {"main" : b"\x1e", "test" : b"\x71"}
+    P2PKH_NET_VER     = NetVersions(b"\x1e", b"\x71")
     # Versions for P2SH address
-    P2SH_NET_VER       = {"main" : b"\x16", "test" : b"\xc4"}
+    P2SH_NET_VER      = NetVersions(b"\x16", b"\xc4")
     # WIF net version
-    WIF_NET_VER        = {"main" : b"\x9e", "test" : b"\xf1"}
+    WIF_NET_VER       = NetVersions(b"\x9e", b"\xf1")
 
 
 class DashConf:
     """ Class container for Dash configuration. """
 
-    # Coin names
-    NAMES              = {"name" : "Dash", "abbr" : "DASH" }
+    # Names
+    NAMES             = CoinNames("Dash"        , "DASH")
+    # Test names
+    TEST_NAMES        = CoinNames("Dash TestNet", "DASH")
 
-    # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
-    # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
-
-    # BIP49 Main net versions (same of Bitcoin)
-    BIP49_MAIN_NET_VER = BitcoinConf.BIP49_MAIN_NET_VER
-    # BIP49 Test net versions (same of Bitcoin)
-    BIP49_TEST_NET_VER = BitcoinConf.BIP49_TEST_NET_VER
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+    # BIP49 net versions (same of Bitcoin)
+    BIP49_KEY_NET_VER = BitcoinConf.BIP49_KEY_NET_VER
 
     # Versions for P2PKH address
-    P2PKH_NET_VER      = {"main" : b"\x4c", "test" : b"\x8c"}
+    P2PKH_NET_VER     = NetVersions(b"\x4c", b"\x8c")
     # Versions for P2SH address
-    P2SH_NET_VER       = {"main" : b"\x10", "test" : b"\x13"}
+    P2SH_NET_VER      = NetVersions(b"\x10", b"\x13")
     # WIF net version
-    WIF_NET_VER        = {"main" : b"\xcc", "test" : b"\xef"}
+    WIF_NET_VER       = NetVersions(b"\xcc", b"\xef")
 
 
 class EthereumConf:
     """ Class container for Ethereum configuration. """
 
-    # Coin names
-    NAMES              = {"name" : "Ethereum", "abbr" : "ETH" }
+    # Names
+    NAMES             = CoinNames("Ethereum", "ETH")
 
-    # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
-    # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
     # WIF not supported
-    WIF_NET_VER        = None
+    WIF_NET_VER       = NetVersions()
 
 
 class RippleConf:
     """ Class container for Bitcoin configuration. """
 
-    # Coin names
-    NAMES              = {"name" : "Ripple", "abbr" : "XRP" }
+    # Names
+    NAMES             = CoinNames("Ripple", "XRP")
 
-    # BIP44 Main net versions (same of BIP32)
-    BIP44_MAIN_NET_VER = Bip32Conf.MAIN_NET_VER
-    # BIP44 Test net versions (same of BIP32)
-    BIP44_TEST_NET_VER = Bip32Conf.TEST_NET_VER
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
-    # Versions for P2PKH address
-    P2PKH_NET_VER      = b"\x00"
+    # Versions for P2PKH address, test net not supported
+    P2PKH_NET_VER     = NetVersions(b"\x00")
     # WIF not supported
-    WIF_NET_VER        = None
+    WIF_NET_VER       = NetVersions()
