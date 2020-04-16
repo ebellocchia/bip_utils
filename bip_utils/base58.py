@@ -20,7 +20,8 @@
 
 
 # Imports
-from . import utils
+from .base58_ex import Base58ChecksumError
+from .          import utils
 
 
 class Base58Const:
@@ -44,19 +45,12 @@ class Base58Utils:
         """ Compute Base58 checksum.
 
         Args:
-            data_bytes (bytes) : data bytes
+            data_bytes (bytes): Data bytes
 
-        Returns (bytes):
-            Computed checksum
+        Returns:
+            bytes: Computed checksum
         """
-
         return utils.Sha256(utils.Sha256(data_bytes))[:Base58Const.CHECKSUM_BYTE_LEN]
-
-
-class Base58ChecksumError(Exception):
-    """ Exception in case of checksum error. """
-
-    pass
 
 
 class Base58Encoder:
@@ -67,10 +61,10 @@ class Base58Encoder:
         """ Encode bytes into a Base58 string.
 
         Args:
-            data_bytes (bytes) : data bytes
+            data_bytes (bytes): Data bytes
 
-        Returns (string):
-            Base58 encoded string
+        Returns:
+            str: Base58 encoded string
         """
 
         enc = ""
@@ -90,13 +84,13 @@ class Base58Encoder:
 
     @staticmethod
     def CheckEncode(data_bytes):
-        """Encode bytes into Base58 string with checksum.
+        """ Encode bytes into Base58 string with checksum.
 
         Args:
-            data_bytes (bytes) : data bytes
+            data_bytes (bytes): Data bytes
 
-        Returns (string):
-            Base58 encoded string with checksum
+        Returns:
+            str: Base58 encoded string with checksum
         """
 
         # Append checksum and encode all together
@@ -109,13 +103,15 @@ class Base58Decoder:
     @staticmethod
     def Decode(data_str):
         """ Decode bytes from a Base58 string.
-        ValueError is raised if the string is not a valid Base58 format.
 
         Args:
-            data_str (str) : data string
+            data_str (str): Data string
 
-        Returns (bytes):
-            Base58 decoded bytes
+        Returns:
+            bytes: Base58 decoded bytes
+
+        Raises:
+            ValueError: if the string is not a valid Base58 format
         """
 
         # Convert string to integer
@@ -135,15 +131,17 @@ class Base58Decoder:
 
     @staticmethod
     def CheckDecode(data_str):
-        """Decode bytes from a Base58 string with checksum.
-        ValueError is raised if the string is not a valid Base58 format.
-        Base58ChecksumError is raised if checksum is not valid.
+        """ Decode bytes from a Base58 string with checksum.
 
         Args:
-            data_str (str) : data string
+            data_str (str): Data string
 
-        Returns (bytes):
-            Base58 decoded bytes (checksum removed)
+        Returns:
+            bytes: Base58 decoded bytes (checksum removed)
+
+        Raises:
+            ValueError: if the string is not a valid Base58 format
+            Base58ChecksumError: if checksum is not valid
         """
 
         # Decode string
