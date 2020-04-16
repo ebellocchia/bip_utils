@@ -18,13 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0044 specifications:
-# https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 
 # Imports
-from .bip32_utils       import Bip32Utils
-from .bip44_base        import Bip44Base, Bip44Coins
-from .bip44_coin_helper import *
+from .bip32_utils import Bip32Utils
+from .bip44_base  import Bip44Base, Bip44Coins
+from .bip44_coins import *
 
 
 class Bip44Const:
@@ -44,105 +42,127 @@ class Bip44Const:
             Bip44Coins.ETHEREUM,
             Bip44Coins.RIPPLE,
         ]
-    # Map from Bip44Coins to helper classes
-    COIN_TO_HELPER = \
+    # Map from Bip44Coins to coin classes
+    COIN_TO_CLASS = \
         {
-            Bip44Coins.BITCOIN  : Bip44BitcoinHelper,
-            Bip44Coins.LITECOIN : Bip44LitecoinHelper,
-            Bip44Coins.DOGECOIN : Bip44DogecoinHelper,
-            Bip44Coins.DASH     : Bip44DashHelper,
-            Bip44Coins.ETHEREUM : Bip44EthereumHelper,
-            Bip44Coins.RIPPLE   : Bip44RippleHelper,
+            Bip44Coins.BITCOIN          : Bip44BitcoinMainNet,
+            Bip44Coins.BITCOIN_TESTNET  : Bip44BitcoinTestNet,
+            Bip44Coins.LITECOIN         : Bip44LitecoinMainNet,
+            Bip44Coins.LITECOIN_TESTNET : Bip44LitecoinTestNet,
+            Bip44Coins.DOGECOIN         : Bip44DogecoinMainNet,
+            Bip44Coins.DOGECOIN_TESTNET : Bip44DogecoinTestNet,
+            Bip44Coins.DASH             : Bip44DashMainNet,
+            Bip44Coins.DASH_TESTNET     : Bip44DashTestNet,
+            Bip44Coins.ETHEREUM         : Bip44Ethereum,
+            Bip44Coins.RIPPLE           : Bip44Ripple,
         }
 
 
 class Bip44(Bip44Base):
-    """ BIP44 class. """
+    """ BIP44 class. It allows master key generation and children keys derivation in according to BIP-0044.
+    BIP-0044 specifications: https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
+    """
+
+    #
+    # Override methods
+    #
 
     def Purpose(self):
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _PurposeGeneric method with the current object as parameter.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the purpose results in an invalid key.
 
-        Returns (Bip object):
-            Bip object
+        Returns:
+            Bip44 object: Bip44 object
+
+        Raises:
+            Bip44DepthError: If current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
         """
         return self._PurposeGeneric(self)
 
     def Coin(self):
         """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _CoinGeneric method with the current object as parameter.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the purpose results in an invalid key.
 
-        Returns (Bip object):
-            Bip object
+        Returns:
+            Bip44 object: Bip44 object
+
+        Raises:
+            Bip44DepthError: If current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
         """
         return self._CoinGeneric(self)
 
     def Account(self, acc_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AccountGeneric method with the current object as parameter.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the purpose results in an invalid key.
 
         Args:
-            acc_idx (int) : account index
+            acc_idx (int): Account index
 
-        Returns (Bip object):
-            Bip object
+        Returns:
+            Bip44 object: Bip44 object
+
+        Raises:
+            Bip44DepthError: If current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
         """
         return self._AccountGeneric(self, acc_idx)
 
     def Change(self, change_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _ChangeGeneric method with the current object as parameter.
-        TypeError is raised if chain type is not a Bip44Changes enum.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the change results in an invalid key.
 
         Args:
-            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
+            change_idx (Bip44Changes): Change index, must a Bip44Changes enum
 
-        Returns (Bip object):
-            Bip object
+        Returns:
+            Bip44 object: Bip44 object
+
+        Raises:
+            TypeError: If chain index is not a Bip44Changes enum
+            Bip44DepthError: If current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
         """
         return self._ChangeGeneric(self, change_idx)
 
     def AddressIndex(self, addr_idx):
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AddressIndexGeneric method with the current object as parameter.
-        Bip44DepthError is raised is chain depth is not suitable for deriving keys.
-        Bip32KeyError is raised (by Bip32) if the purpose results in an invalid key.
 
         Args:
-            addr_idx (int) : address index
+            addr_idx (int): Address index
 
-        Returns (Bip object):
-            Bip object
+        Returns:
+            Bip44 object: Bip44 object
+
+        Raises:
+            Bip44DepthError: If current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
         """
         return self._AddressIndexGeneric(self, addr_idx)
 
     @staticmethod
     def SpecName():
-        """ Get specification name
+        """ Get specification name.
 
-        Returns (str):
-            Specification name
+        Returns:
+            str: Specification name
         """
         return Bip44Const.SPEC_NAME
 
     @staticmethod
     def IsCoinAllowed(coin_idx):
         """ Get if the specified coin is allowed.
-        TypeError is raised if coin_idx is not of Bip44Coins enum.
 
         Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+            coin_idx (Bip44Coins): Coin index, must be a Bip44Coins enum
 
-        Returns (bool):
-            True if allowed, false otherwise
+        Returns :
+            bool: True if allowed, false otherwise
+
+        Raises:
+            TypeError: If coin_idx is not of Bip44Coins enum
         """
         if not isinstance(coin_idx, Bip44Coins):
             raise TypeError("Coin index is not an enumerative of Bip44Coins")
@@ -153,19 +173,19 @@ class Bip44(Bip44Base):
     def _GetPurpose():
         """ Get purpose.
 
-        Returns (int):
-            Purpose
+        Returns:
+            int: Purpose index
         """
         return Bip44Const.PURPOSE
 
     @staticmethod
-    def _GetCoinHelper(coin_idx):
-        """ Get coin helper.
+    def _GetCoinClass(coin_idx):
+        """ Get coin class.
 
         Args:
-            coin_idx (Bip44Coins) : coin index, must be a Bip44Coins enum
+            coin_idx (Bip44Coins): Coin index, must be a Bip44Coins enum
 
-        Returns (CoinHelperBase object):
-            CoinHelperBase object
+        Returns:
+            BipCoinBase child object: BipCoinBase child object
         """
-        return Bip44Const.COIN_TO_HELPER[coin_idx]
+        return Bip44Const.COIN_TO_CLASS[coin_idx]
