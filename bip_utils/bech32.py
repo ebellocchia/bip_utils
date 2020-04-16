@@ -26,7 +26,8 @@
 
 
 # Imports
-from . import utils
+from .bech32_ex import Bech32ChecksumError, Bech32FormatError
+from .          import utils
 
 
 class Bech32Const:
@@ -46,12 +47,13 @@ class Bech32Utils:
         """ Perform generic bits conversion.
 
         Args:
-            data    (list or bytes) : data to be converted
-            from_bits (int)         : number of bits to start from
-            to_bits (int)           : number of bits at the end
-            pad    (bool)           : true if data must be padded, false otherwise
-        Returns (list):
-            List of converted bits.
+            data    (list or bytes): Data to be converted
+            from_bits (int)        : Number of bits to start from
+            to_bits (int)          : Number of bits at the end
+            pad    (bool)          : True if data must be padded, false otherwise
+
+        Returns:
+            list: List of converted bits
         """
 
         acc = 0
@@ -80,11 +82,12 @@ class Bech32Utils:
         """ Computes the Bech32 checksum.
 
         Args:
-            values (list) : values for checksum computation
+            values (list): Values for checksum computation
 
-        Returns (int):
-            Computed checksum
+        Returns:
+            int: Computed checksum
         """
+
         generator = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3]
         chk = 1
         for value in values:
@@ -99,22 +102,12 @@ class Bech32Utils:
         """ Expand the HRP into values for checksum computation.
 
         Args:
-            hrp (str) : HRP
+            hrp (str): HRP
 
-        Returns (list):
-            Expanded HRP
+        Returns:
+            list: Expanded HRP
         """
         return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 31 for x in hrp]
-
-
-class Bech32ChecksumError(Exception):
-    """ Exception in case of checksum error. """
-    pass
-
-
-class Bech32FormatError(Exception):
-    """ Exception in case of format error. """
-    pass
 
 
 class Bech32Encoder:
@@ -125,12 +118,12 @@ class Bech32Encoder:
         """ Encode a segwit address.
 
         Args:
-            hrp (str)        : HRP
-            wit_ver (int)    : witness version
-            wit_prog (bytes) : witness program
+            hrp (str)       : HRP
+            wit_ver (int)   : Witness version
+            wit_prog (bytes): Witness program
 
-        Returns (str):
-            Encoded address
+        Returns:
+            str: Encoded address
         """
         return Bech32Encoder.__Encode(hrp, [wit_ver] + Bech32Utils.ConvertToBits(wit_prog, 8, 5))
 
@@ -139,12 +132,13 @@ class Bech32Encoder:
         """ Encode a Bech32 string from the specified HRP and data.
 
         Args:
-            hrp (str)   : HRP
-            data (list) : data part
+            hrp (str)  : HRP
+            data (list): Data part
 
-        Returns (str):
-            Encoded data
+        Returns:
+            str: Encoded data
         """
+
         combined = data + Bech32Encoder.__CreateChecksum(hrp, data)
         return hrp + Bech32Const.SEPARATOR + "".join([Bech32Const.CHARSET[d] for d in combined])
 
@@ -153,12 +147,13 @@ class Bech32Encoder:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
-            hrp (str)   : HRP
-            data (list) : data part
+            hrp (str)  : HRP
+            data (list): Data part
 
-        Returns (str):
-            Computed checksum
+        Returns:
+            str: Computed checksum
         """
+
         values = Bech32Utils.HrpExpand(hrp) + data
         polymod = Bech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
         return [(polymod >> 5 * (5 - i)) & 31 for i in range(6)]
@@ -173,12 +168,13 @@ class Bech32Decoder:
         Bech32FormatError is raised if the address is not valid.
 
         Args:
-            hrp (str)  : human readable part
-            addr (str) : address
+            hrp (str) : Human readable part
+            addr (str): Address
 
-        Returns (tuple):
-            Witness version (index 0) and witness program (index 1)
+        Returns:
+            tuple: Witness version (index 0) and witness program (index 1)
         """
+
         hrpgot, data = Bech32Decoder.__Decode(addr)
         if hrpgot != hrp:
             raise Bech32FormatError("Invalid segwit address")
@@ -197,15 +193,18 @@ class Bech32Decoder:
     @staticmethod
     def __Decode(bech_str):
         """ Decode and validate a Bech32 string, determining its HRP and data.
-        Bech32FormatError is raised if the string is not valid.
-        Bech32ChecksumError is raised in case of checksum error.
 
         Args:
-            bech_str (str) : Bech32 string
+            bech_str (str): Bech32 string
 
-        Returns (tuple):
-            HRP (index 0) and data part (index 1)
+        Returns:
+            tuple: HRP (index 0) and data part (index 1)
+
+        Raises:
+            Bech32FormatError: If the string is not valid
+            Bech32ChecksumError: If the checksum is not valid
         """
+
         if ((any(ord(x) < 33 or ord(x) > 126 for x in bech_str)) or
                 (bech_str.lower() != bech_str and bech_str.upper() != bech_str)):
             raise Bech32FormatError("Invalid bech32 string")
@@ -229,10 +228,10 @@ class Bech32Decoder:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str) : HRP
-            data (str) : data part
+            hrp  (str): HRP
+            data (str): Data part
 
-        Returns (bool):
-            True if valid, false otherwise
+        Returns:
+            bool: True if valid, false otherwise
         """
         return Bech32Utils.PolyMod(Bech32Utils.HrpExpand(hrp) + data) == 1
