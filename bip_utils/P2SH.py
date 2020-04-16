@@ -38,16 +38,18 @@ class P2SH:
     """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2SH_NET_VER["main"]):
+    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2SH_NET_VER.Main()):
         """ Get address in P2SH format.
-        ValueError is raised if key is not a public compressed key.
 
         Args:
-            pub_key_bytes (bytes)          : public key bytes
-            net_addr_ver (bytes, optional) : net address version, default is Bitcoin main network
+            pub_key_bytes (bytes)         : Public key bytes
+            net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
 
-        Returns (str):
-            Address string
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If the key is not a public compressed key
         """
         if not KeyHelper.IsPublicCompressed(pub_key_bytes):
             raise ValueError("Public compressed key is required for P2SH")

@@ -20,7 +20,6 @@
 
 
 # Imports
-import sha3
 from .base58        import Base58Const
 from .bip_coin_conf import RippleConf
 from .P2PKH         import P2PKH
@@ -39,17 +38,19 @@ class XrpAddr:
     @staticmethod
     def ToAddress(pub_key_bytes):
         """ Get address in Ripple format.
-        ValueError is raised (by P2PKH module) if key is not a public compressed key.
 
         Args:
-            pub_key_bytes (bytes) : public key bytes
+            pub_key_bytes (bytes): Public key bytes
 
-        Returns (str):
-            Address string
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If key is not a public compressed key
         """
 
         # The Ripple address is just the P2PKH address with a different alphabet
-        addr = P2PKH.ToAddress(pub_key_bytes, RippleConf.P2PKH_NET_VER)
+        addr = P2PKH.ToAddress(pub_key_bytes, RippleConf.P2PKH_NET_VER.Main())
         # Just substitute the characters with the new alphabet
         xrp_addr = [XrpAddrConst.ALPHABET[Base58Const.ALPHABET.index(c)] for c in addr]
 

@@ -37,20 +37,23 @@ class WifEncoder:
     """ WIF encoder class. It provides methods for encoding to WIF format. """
 
     @staticmethod
-    def Encode(key_bytes, net_addr_ver = BitcoinConf.WIF_NET_VER["main"]):
+    def Encode(key_bytes, net_addr_ver = BitcoinConf.WIF_NET_VER.Main()):
         """ Encode key bytes into a WIF string.
-        ValueError is raised if the key is not valid.
 
         Args:
-            key_bytes (bytes)                : key bytes
-            net_addr_ver (bytes, optional)   : net address version, default is Bitcoin main network
+            key_bytes (bytes)             : Key bytes
+            net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
 
-        Returns (string):
-            WIF encoded string
+        Returns:
+            str: WIF encoded string
+
+        Raises:
+            ValueError: If the key is not valid
         """
 
+        # Check key
         if not KeyHelper.IsValid(key_bytes):
-            raise ValueError("Invalid key (%s)" % utils.BytesToString(key_bytes))
+            raise ValueError("Invalid key (%s)" % utils.BytesToHexString(key_bytes))
 
         # Add suffix if compressed public key
         if KeyHelper.IsPublicCompressed(key_bytes):
@@ -66,17 +69,19 @@ class WifDecoder:
     """ WIF encoder class. It provides methods for encoding to WIF format."""
 
     @staticmethod
-    def Decode(wif_str, net_addr_ver = BitcoinConf.WIF_NET_VER["main"]):
+    def Decode(wif_str, net_addr_ver = BitcoinConf.WIF_NET_VER.Main()):
         """ Decode key bytes from a WIF string.
-        Base58ChecksumError is raised (by Base58) if checksum is not valid.
-        ValueError is raised if the resulting key is not valid.
 
         Args:
-            wif_str (str)                  : WIF string
-            net_addr_ver (bytes, optional) : net address version, default is Bitcoin main network
+            wif_str (str)                 : WIF string
+            net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
 
-        Returns (bytes):
-            Key bytes
+        Returns:
+            bytes: Key bytes
+
+        Raises:
+            Base58ChecksumError: If the base58 checksum is not valid
+            ValueError: If the resulting key is not valid
         """
 
         # Decode string
@@ -99,6 +104,6 @@ class WifDecoder:
 
         # Check if valid
         if not KeyHelper.IsValid(key_bytes):
-            raise ValueError("Invalid decoded key (%s)" % utils.BytesToString(key_bytes))
+            raise ValueError("Invalid decoded key (%s)" % utils.BytesToHexString(key_bytes))
 
         return key_bytes

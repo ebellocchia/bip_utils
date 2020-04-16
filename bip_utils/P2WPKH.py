@@ -18,9 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Refer to:
-# https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
-# https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
 import binascii
@@ -38,19 +35,25 @@ class P2WPKHConst:
 
 
 class P2WPKH:
-    """ P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation. """
+    """ P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation.
+    Refer to:
+    https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
+    https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
+    """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2WPKH_NET_VER["main"]):
+    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2WPKH_NET_VER.Main()):
         """ Get address in P2WPKH format.
-        ValueError is raised if key is not a public compressed key.
 
         Args:
-            pub_key_bytes (bytes)          : public key bytes
-            net_addr_ver (bytes, optional) : net address version, default is Bitcoin main network
+            pub_key_bytes (bytes)         : Public key bytes
+            net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
 
-        Returns (str):
-            Address string
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If key is not a public compressed key
         """
         if not KeyHelper.IsPublicCompressed(pub_key_bytes):
             raise ValueError("Public compressed key is required for P2WPKH")
