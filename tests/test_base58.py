@@ -27,7 +27,7 @@ from bip_utils import Base58Decoder, Base58Encoder, Base58ChecksumError
 
 # Test vector from Bitcoin code tests
 # https://github.com/bitcoin/bitcoin/blob/master/src/test/data/base58_encode_decode.json
-TEST_VECTOR = \
+TEST_MAIN = \
     [
         {
             "raw"          : b"61",
@@ -97,7 +97,7 @@ TEST_VECTOR = \
     ]
 
 # Some base58 encoded strings with invalid checksum
-TEST_VECTOR_CHK_ERR = \
+TEST_CHKSUM_INVALID = \
     [
         "237LSrY9NUUar",
         "GwDDDeduj1jpykc27a",
@@ -105,7 +105,7 @@ TEST_VECTOR_CHK_ERR = \
     ]
 
 # Some base58 encoded strings with invalid encoding
-TEST_VECTOR_ENC_ERR = \
+TEST_ENC_INVALID = \
     [
         "237LSrYONUUar",
         "GwDDDeduj1jpykc27I",
@@ -119,24 +119,24 @@ TEST_VECTOR_ENC_ERR = \
 class Base58Tests(unittest.TestCase):
     # Test decoder
     def test_decoder(self):
-        for test in TEST_VECTOR:
+        for test in TEST_MAIN:
             # Test decoder
             self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.Decode(test["encode"])))
             self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.CheckDecode(test["check_encode"])))
 
     # Test encoder
     def test_encoder(self):
-        for test in TEST_VECTOR:
+        for test in TEST_MAIN:
             # Test encoder
             self.assertEqual(test["encode"]      , Base58Encoder.Encode(binascii.unhexlify(test["raw"])))
             self.assertEqual(test["check_encode"], Base58Encoder.CheckEncode(binascii.unhexlify(test["raw"])))
 
     # Test invalid checksum
     def test_invalid_checksum(self):
-        for test in TEST_VECTOR_CHK_ERR:
+        for test in TEST_CHKSUM_INVALID:
             self.assertRaises(Base58ChecksumError, Base58Decoder.CheckDecode, test)
 
     # Test invalid encoding
     def test_invalid_encoding(self):
-        for test in TEST_VECTOR_ENC_ERR:
+        for test in TEST_ENC_INVALID:
             self.assertRaises(ValueError, Base58Decoder.Decode, test)

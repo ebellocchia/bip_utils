@@ -28,7 +28,7 @@ from bip_utils    import EthAddr
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
-TEST_VECTOR = \
+TEST_MAIN = \
     [
         {
             "pub_key"      : b"03c41826497a000dd077b3becc10bea5765651c30c37e7bd63ed8562f919720126",
@@ -53,7 +53,7 @@ TEST_VECTOR = \
     ]
 
 # Some invalid keys
-TEST_VECTOR_KEY_ERR = \
+TEST_KEY_INVALID = \
     [
         # Private key (not accepted by Ethereum address)
         b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
@@ -68,14 +68,13 @@ TEST_VECTOR_KEY_ERR = \
 #
 class EthAddrTests(unittest.TestCase):
     # Run all tests in test vector
-    def test_vector(self):
-        for test in TEST_VECTOR:
+    def test_to_addr(self):
+        for test in TEST_MAIN:
             # Decompress key
             ver_key = ecdsa.VerifyingKey.from_string(binascii.unhexlify(test["pub_key"]), curve = SECP256k1)
-
             self.assertEqual(test["address"], EthAddr.ToAddress(ver_key.to_string("uncompressed")[1:]))
 
     # Test invalid keys
     def test_invalid_keys(self):
-        for test in TEST_VECTOR_KEY_ERR:
+        for test in TEST_KEY_INVALID:
             self.assertRaises(ValueError, EthAddr.ToAddress, binascii.unhexlify(test))

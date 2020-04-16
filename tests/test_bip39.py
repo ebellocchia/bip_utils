@@ -27,7 +27,7 @@ from bip_utils import EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicVal
 
 # Tests from BIP39 page
 # https://github.com/trezor/python-mnemonic/blob/master/vectors.json
-TEST_VECTOR = \
+TEST_MAIN = \
     [
         {
             "entropy"  : b"00000000000000000000000000000000",
@@ -84,8 +84,37 @@ TEST_VECTOR = \
 # Tests passphrase
 TEST_PASSPHRASE = "TREZOR"
 
+# Bit lengths for entropy tests
+TEST_ENTROPY_BITS_MAIN = \
+    [
+        { "bit_len" : 128, "is_valid": True},
+        { "bit_len" : 160, "is_valid": True},
+        { "bit_len" : 192, "is_valid": True},
+        { "bit_len" : 224, "is_valid": True},
+        { "bit_len" : 256, "is_valid": True},
+        { "bit_len" : 119, "is_valid": False},
+        { "bit_len" : 158, "is_valid": False},
+        { "bit_len" : 191, "is_valid": False},
+        { "bit_len" : 234, "is_valid": False},
+        { "bit_len" : 266, "is_valid": False},
+    ]
+
+# Words number for word tests
+TEST_WORDS_NUM_MAIN = \
+    [
+        { "words_num" : 12, "is_valid" : True},
+        { "words_num" : 15, "is_valid" : True},
+        { "words_num" : 18, "is_valid" : True},
+        { "words_num" : 21, "is_valid" : True},
+        { "words_num" : 24, "is_valid" : True},
+        { "words_num" : 11, "is_valid" : False},
+        { "words_num" : 16, "is_valid" : False},
+        { "words_num" : 19, "is_valid" : False},
+        { "words_num" : 25, "is_valid" : False},
+    ]
+
 # Tests for invalid mnemonics
-TEST_VECTOR_INVALID_MNEMONIC = \
+TEST_MNEMONIC_INVALID = \
     [
         # Wrong length
         {
@@ -104,34 +133,6 @@ TEST_VECTOR_INVALID_MNEMONIC = \
         },
     ]
 
-# Bit lengths for entropy tests
-TEST_VECTOR_ENTROPY_BITS = \
-    [
-        { "bit_len" : 128, "is_valid": True},
-        { "bit_len" : 160, "is_valid": True},
-        { "bit_len" : 192, "is_valid": True},
-        { "bit_len" : 224, "is_valid": True},
-        { "bit_len" : 256, "is_valid": True},
-        { "bit_len" : 119, "is_valid": False},
-        { "bit_len" : 158, "is_valid": False},
-        { "bit_len" : 191, "is_valid": False},
-        { "bit_len" : 234, "is_valid": False},
-        { "bit_len" : 266, "is_valid": False},
-    ]
-
-# Words number for word tests
-TEST_VECTOR_WORDS_NUM = \
-    [
-        { "words_num" : 12, "is_valid" : True},
-        { "words_num" : 15, "is_valid" : True},
-        { "words_num" : 18, "is_valid" : True},
-        { "words_num" : 21, "is_valid" : True},
-        { "words_num" : 24, "is_valid" : True},
-        { "words_num" : 11, "is_valid" : False},
-        { "words_num" : 16, "is_valid" : False},
-        { "words_num" : 19, "is_valid" : False},
-        { "words_num" : 25, "is_valid" : False},
-    ]
 
 #
 # Tests
@@ -139,7 +140,7 @@ TEST_VECTOR_WORDS_NUM = \
 class Bip39Tests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
-        for test in TEST_VECTOR:
+        for test in TEST_MAIN:
             # Test mnemonic generator
             mnemonic = Bip39MnemonicGenerator.FromEntropy(binascii.unhexlify(test["entropy"]))
 
@@ -166,7 +167,7 @@ class Bip39Tests(unittest.TestCase):
 
     # Test entropy generator and construction from entropy
     def test_entropy(self):
-        for test in TEST_VECTOR_ENTROPY_BITS:
+        for test in TEST_ENTROPY_BITS_MAIN:
             if test["is_valid"]:
                 # Test generator
                 entropy = EntropyGenerator(test["bit_len"]).Generate()
@@ -186,7 +187,7 @@ class Bip39Tests(unittest.TestCase):
 
     # Test construction from words number
     def test_from_words_num(self):
-        for test in TEST_VECTOR_WORDS_NUM:
+        for test in TEST_WORDS_NUM_MAIN:
             if test["is_valid"]:
                 mnemonic = Bip39MnemonicGenerator.FromWordsNumber(test["words_num"])
                 self.assertEqual(len(mnemonic.split(" ")), test["words_num"])
@@ -195,7 +196,7 @@ class Bip39Tests(unittest.TestCase):
 
     # Tests invalid mnemonic
     def test_invalid_mnemonic(self):
-        for test in TEST_VECTOR_INVALID_MNEMONIC:
+        for test in TEST_MNEMONIC_INVALID:
             self.assertFalse(Bip39MnemonicValidator(test["mnemonic"]).Validate())
             self.assertRaises(test["exception"], Bip39MnemonicValidator(test["mnemonic"]).GetEntropy)
             self.assertRaises(ValueError, Bip39SeedGenerator, test["mnemonic"])

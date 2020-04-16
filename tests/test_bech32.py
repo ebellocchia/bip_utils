@@ -27,7 +27,7 @@ from bip_utils import Bech32Decoder, Bech32Encoder, Bech32ChecksumError, Bech32F
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
-TEST_VECTOR = \
+TEST_MAIN = \
     [
         {
             "raw"    : b"751e76e8199196d454941c45d1b3a323f1433bd6",
@@ -72,7 +72,7 @@ TEST_VECTOR = \
     ]
 
 # Bech32 encoded addresses that are not valid from BIP-0173 page, plus a couple for better code coverage
-TEST_VECTOR_INVALID_ADDR = \
+TEST_ADDR_INVALID = \
     [
         # From page
         "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
@@ -97,7 +97,7 @@ TEST_VECTOR_INVALID_ADDR = \
 class Bech32Tests(unittest.TestCase):
     # Test decoder
     def test_decoder(self):
-        for test in TEST_VECTOR:
+        for test in TEST_MAIN:
             # Test decoder
             hrp = test["encode"][:2]
             dec = Bech32Decoder.DecodeAddr(hrp, test["encode"])
@@ -107,14 +107,14 @@ class Bech32Tests(unittest.TestCase):
 
     # Test encoder
     def test_encoder(self):
-        for test in TEST_VECTOR:
+        for test in TEST_MAIN:
             # Test encoder
             hrp = test["encode"][:2]
             enc = Bech32Encoder.EncodeAddr(hrp, 0, binascii.unhexlify(test["raw"]))
             self.assertEqual(test["encode"], enc)
 
-    # Test invalid
+    # Test invalid address
     def test_invalid_addr(self):
-        for test in TEST_VECTOR_INVALID_ADDR:
+        for test in TEST_ADDR_INVALID:
             self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "bc", test)
             self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "tb", test)
