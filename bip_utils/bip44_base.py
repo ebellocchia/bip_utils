@@ -97,7 +97,8 @@ class Bip44Base(ABC):
 
         Raises:
             TypeError: If coin index is not a Bip44Coins enum
-            ValueError: If the seed is too short or the coin is not allowed
+            ValueError: If the seed is too short
+            Bip44CoinNotAllowedError: If the coin is not allowed to derive from the BIP specification
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         if not cls.IsCoinAllowed(coin_idx):
@@ -117,7 +118,7 @@ class Bip44Base(ABC):
 
         Raises:
             TypeError: If coin index is not a Bip44Coins enum
-            ValueError: If the seed is too short or the coin is not allowed
+            Bip44CoinNotAllowedError: If the coin is not allowed to derive from the BIP specification
             Bip32KeyError: If the extended key is not valid
         """
         if not cls.IsCoinAllowed(coin_idx):
