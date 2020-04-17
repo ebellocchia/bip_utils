@@ -47,7 +47,7 @@ Bip84BitcoinMainNet = Bip84Coin(coin_conf  = BitcoinConf,
 Bip84BitcoinTestNet = Bip84Coin(coin_conf  = BitcoinConf,
                                 is_testnet = True,
                                 addr_fct   = P2WPKH)
-# Configuration for Bitcoin main net
+# Configuration for Litecoin main net
 Bip84LitecoinMainNet = Bip84Coin(coin_conf  = LitecoinConf,
                                  is_testnet = False,
                                  addr_fct   = P2WPKH)
