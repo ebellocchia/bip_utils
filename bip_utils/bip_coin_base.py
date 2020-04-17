@@ -28,7 +28,9 @@ from .xrp_addr import XrpAddr
 
 
 class BipCoinBase:
-    """ Bip coin base class. It's the base class for BipCoin classes. """
+    """ Bip coin base class. It's the base class for BipCoin classes (e.g. Bip44Coin, Bip49Coin).
+    It basically wraps the coin configuration allowing to get through methods.
+    """
 
     def __init__(self, coin_conf, key_net_ver, is_testnet, addr_fct):
         """ Construct class.
@@ -108,3 +110,5 @@ class BipCoinBase:
         # XrpAddr
         elif self.m_addr_fct is XrpAddr:
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes())
+        else:
+            raise RuntimeError("Invalid address class")
