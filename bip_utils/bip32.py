@@ -45,7 +45,7 @@ class Bip32Const:
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN = 4
     # Fingerprint of master key
-    MASTER_FINGERPRINT   = b"\0\0\0\0"
+    MASTER_FINGERPRINT   = b"\x00\x00\x00\x00"
     # Minimum length in bits for seed
     SEED_MIN_BIT_LEN     = 128
     # HMAC key for generating master key
@@ -83,16 +83,8 @@ class Bip32:
 
         # Compute HMAC
         hmac = utils.HmacSha512(Bip32Const.MASTER_KEY_HMAC_KEY, seed_bytes)
-        # Split it into two 32-byte sequences
-        i_l, i_r = hmac[:32], hmac[32:]
-
-        # Check i_l
-        i_l_int = utils.BytesToInteger(i_l)
-        if i_l_int == 0 or i_l_int >= Bip32Const.CURVE_ORDER:
-            raise Bip32KeyError("Computed master key is not valid, very unlucky seed")
-
-        # Create BIP32
-        return Bip32(secret = i_l, chain = i_r, key_net_ver = key_net_ver)
+        # Create BIP32 by splitting the HMAC into two 32-byte sequences
+        return Bip32(secret = hmac[:32], chain = hmac[32:], key_net_ver = key_net_ver)
 
     @staticmethod
     def FromSeedAndPath(seed_bytes, path, key_net_ver = Bip32Conf.KEY_NET_VER.Main()):
@@ -145,8 +137,15 @@ class Bip32:
         key_deser = Bip32KeyDeserializer(key_str)
         key_deser.DeserializeKey(key_net_ver)
         # Get key parts
-        depth, fprint, child, chain, secret = key_deser.GetKeyParts()
+        depth, fprint, index, chain, secret = key_deser.GetKeyParts()
         is_public = key_deser.IsPublic()
+
+        # If depth is zero, fingerprint shall be the master one and child index shall be zero
+        if depth == 0:
+            if fprint != Bip32Const.MASTER_FINGERPRINT:
+                raise Bip32KeyError("Invalid extended master key (wrong fingerprint)")
+            if index != 0:
+                raise Bip32KeyError("Invalid extended master key (wrong child index)")
 
         # If private key, remove the first byte
         if not is_public:
@@ -157,14 +156,14 @@ class Bip32:
         else:
             try:
                 secret = ecdsa.VerifyingKey.from_string(secret, curve = SECP256k1)
-            except:
-                raise Bip32KeyError("Invalid extended public key")
+            except ecdsa.keys.MalformedPointError:
+                raise Bip32KeyError("Invalid extended public key (malformed point)")
 
         return Bip32(
             secret      = secret,
             chain       = chain,
             depth       = depth,
-            index       = child,
+            index       = index,
             fprint      = fprint,
             is_public   = is_public,
             key_net_ver = key_net_ver)
@@ -191,10 +190,18 @@ class Bip32:
             fprint (bytes, optional)                     : Parent fingerprint (default: 0)
             is_public (bool, optional)                   : If true, this keypair will only contain a public key and can only create a public key chain  (default: false)
             key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
+
+        Raises:
+            Bip32KeyError: If the private key constructed from the secret is not valid
         """
 
         if not is_public:
-            self.m_key     = ecdsa.SigningKey.from_string(secret, curve = SECP256k1)
+            # Check private key validity
+            try:
+                self.m_key = ecdsa.SigningKey.from_string(secret, curve = SECP256k1)
+            except ecdsa.keys.MalformedPointError:
+                raise Bip32KeyError("Invalid private key (malformed point)")
+            # Get verifying key
             self.m_ver_key = self.m_key.get_verifying_key()
         else:
             self.m_key     = None
@@ -267,6 +274,9 @@ class Bip32:
 
         Return:
             ecdsa.SigningKey object: ecdsa.SigningKey object
+
+        Raises:
+            Bip32KeyError: If internal key is public-only
         """
         if self.m_is_public:
             raise Bip32KeyError("Public-only deterministic keys have no private half")
@@ -379,7 +389,7 @@ class Bip32:
 
         # Data to HMAC
         if Bip32Utils.IsHardenedIndex(index):
-            data = b"\0" + self.m_key.to_string() + index_bytes
+            data = b"\x00" + self.m_key.to_string() + index_bytes
         else:
             data = self.PublicKey().RawCompressed().ToBytes() + index_bytes
 
@@ -396,7 +406,7 @@ class Bip32:
         if k_int == 0:
             raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
 
-        secret = (b"\0"*32 + int_to_string(k_int))[-32:]
+        secret = (b"\x00"*32 + int_to_string(k_int))[-32:]
 
         # Construct and return a new Bip32 object
         return Bip32(secret      = secret,
