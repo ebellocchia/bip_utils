@@ -78,7 +78,7 @@ class Base58Encoder:
             enc = Base58Const.ALPHABET[mod] + enc
 
         # Get number of leading zeros
-        n = len(data_bytes) - len(data_bytes.lstrip(b"\0"))
+        n = len(data_bytes) - len(data_bytes.lstrip(b"\x00"))
         # Add padding
         return (Base58Const.ALPHABET[0] * n) + enc
 
@@ -127,7 +127,7 @@ class Base58Decoder:
         # Get padding length
         pad_len = len(data_str) - len(data_str.lstrip(Base58Const.ALPHABET[0]))
         # Add padding
-        return (b"\0" * pad_len) + bytes(dec[::-1])
+        return (b"\x00" * pad_len) + bytes(dec[::-1])
 
     @staticmethod
     def CheckDecode(data_str):
