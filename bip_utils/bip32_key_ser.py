@@ -44,7 +44,7 @@ class Bip32KeyDeserializer:
         self.m_key_str   = key_str
         self.m_depth     = 0
         self.m_fprint    = b""
-        self.m_child     = 0
+        self.m_index     = 0
         self.m_chain     = b""
         self.m_secret    = b""
         self.m_is_public = False
@@ -74,7 +74,7 @@ class Bip32KeyDeserializer:
         # De-serialize key
         self.m_depth  = key_bytes[4]
         self.m_fprint = key_bytes[5:9]
-        self.m_child  = int.from_bytes(key_bytes[9:13], "big")
+        self.m_index  = int.from_bytes(key_bytes[9:13], "big")
         self.m_chain  = key_bytes[13:45]
         self.m_secret = key_bytes[45:78]
 
@@ -84,7 +84,7 @@ class Bip32KeyDeserializer:
         Returns:
             tuple: Deserialized key parts
         """
-        return self.m_depth, self.m_fprint, self.m_child, self.m_chain, self.m_secret
+        return self.m_depth, self.m_fprint, self.m_index, self.m_chain, self.m_secret
 
     def IsPublic(self):
         """ Get if deserialized key is public.
@@ -138,9 +138,9 @@ class Bip32KeySerializer:
         # Get Bip32 data for serializing
         depth   = self.m_bip32_obj.Depth().to_bytes(1, "big")
         fprint  = self.m_bip32_obj.ParentFingerPrint()
-        child   = self.m_bip32_obj.Index().to_bytes(4, "big")
+        index   = self.m_bip32_obj.Index().to_bytes(4, "big")
         chain   = self.m_bip32_obj.Chain()
         # Serialize key
-        ser_key = key_net_ver + depth + fprint + child + chain + key_bytes
+        ser_key = key_net_ver + depth + fprint + index + chain + key_bytes
         # Encode it
         return Base58Encoder.CheckEncode(ser_key)
