@@ -174,13 +174,19 @@ TEST_SEED_ERR = \
 # Tests for invalid extended key
 TEST_EX_KEY_ERR = \
     [
-        # Invalid lengths (generated on purpose to have a correct checksum)
+        # Private keys with invalid lengths (generated on purpose to have a correct checksum)
         "DeaWiRvhTUWHmRFa63ZawWQy57DX4NvP62TfD46boXurKLAgyUEp5Xz59LLRSa4sse2nscJCmFC4DvmScVSuJSxfQAzFhxDc4RV85PtjgAwLMX",
         "5FQFKc7mTW13jdERCczZfzcHum9pTkjqVdP6HZCVtfC2YAjAT8RnDG6Lmo583qUQx2toUpuxyEJFVgAp725tEfbUJqXEA1WCgm8Qm4BPft8otyZpr",
-        # Invalid net version
+        # Private key with invalid net version
         "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
-        # Private key with invalid secret (0x01 instead of 0x00, generated on purpose)
+        # Private key with invalid secret byte (0x01 instead of 0x00, generated on purpose)
         "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnListey6gETHL1FYgFnbGTHGh6bsXjp3w31igA2CuxhgLyGu6pvL45",
+        # Invalid private key (secret is zero)
+        "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisrXZJziEEC1DUnKroSfeGxPp2YKsFRobQpLPsPTCU64kGZdiNbk",
+        # Invalid master key (fingerprint is not valid)
+        "xprv9s21ZrQZgP7FPptNcV6ZuWeytnfAsNFoPXFUTMDdUQpc44ZhfkDAnctGeUuywWTKXEFwLFGRPGd9WcjbTDdjKU25eRw5REDTVxfiAxZFhrV",
+        # Invalid master key (index is not zero)
+        "xprv9s21ZrQH143K5p8oLYasVfWDcfK9E5HPajvc6vEmTG592KSs8jk4fb3vA6ZoueJM4oi7xTrbbfU5MyTPRLFPbXLr3TZjQw4rXFQ7v1sk7C4",
         # Invalid public key (it's a private key with public net version, generated on purpose)
         "xpub661MyMwAqRbcFkPHucMnrGNzDwb6teAX1RbKQmqtEF8kK3Z7LZ59qafCj3rW1cw1qdn2KJo1MSajvp3cr5ceA5nJT3QHp65rcYr8AUbzLPh",
     ]
