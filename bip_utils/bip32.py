@@ -387,7 +387,7 @@ class Bip32:
         # Index as bytes
         index_bytes = index.to_bytes(4, "big")
 
-        # Data to HMAC
+        # Data for HMAC
         if Bip32Utils.IsHardenedIndex(index):
             data = b"\x00" + self.m_key.to_string() + index_bytes
         else:
@@ -396,17 +396,14 @@ class Bip32:
         # Compute HMAC halves
         i_l, i_r = self.__HmacHalves(data)
 
-        # Construct new key material from i_l and current private key
+        # Construct new key secret from i_l and current private key
         i_l_int = string_to_int(i_l)
-        if i_l_int >= Bip32Const.CURVE_ORDER:
-            raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
+        key_int = string_to_int(self.m_key.to_string())
+        new_key_int = (i_l_int + key_int) % Bip32Const.CURVE_ORDER
 
-        pvt_int = string_to_int(self.m_key.to_string())
-        k_int = (i_l_int + pvt_int) % Bip32Const.CURVE_ORDER
-        if k_int == 0:
-            raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
-
-        secret = (b"\x00"*32 + int_to_string(k_int))[-32:]
+        # Convert to string and left pad with zeros
+        secret = int_to_string(new_key_int)
+        secret = b"\x00" * (32 - len(secret)) + secret
 
         # Construct and return a new Bip32 object
         return Bip32(secret      = secret,
@@ -434,23 +431,20 @@ class Bip32:
         if Bip32Utils.IsHardenedIndex(index):
             raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
-        # Data to HMAC, same of CkdPriv() for public child key
+        # Data for HMAC, same of __CkdPriv() for public child key
         data = self.PublicKey().RawCompressed().ToBytes() + index.to_bytes(4, "big")
 
         # Get HMAC of data
         i_l, i_r = self.__HmacHalves(data)
 
         # Construct curve point i_l*G+K
-        i_l_int = string_to_int(i_l)
-        if i_l_int >= Bip32Const.CURVE_ORDER:
-            raise Bip32KeyError("Computed public child key is not valid, very unlucky index")
+        point = string_to_int(i_l) * generator_secp256k1 + self.m_ver_key.pubkey.point
 
-        point = i_l_int * generator_secp256k1 + self.m_ver_key.pubkey.point
-        if point == Bip32Const.INFINITY:
+        # Try to construct public key from the curve point
+        try:
+            k_i = ecdsa.VerifyingKey.from_public_point(point, curve = SECP256k1)
+        except:
             raise Bip32KeyError("Computed public child key is not valid, very unlucky index")
-
-        # Retrieve public key based on curve point
-        k_i = ecdsa.VerifyingKey.from_public_point(point, curve = SECP256k1)
 
         # Construct and return a new Bip32 object
         return Bip32(secret      = k_i,
