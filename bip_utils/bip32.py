@@ -37,10 +37,6 @@ class Bip32Const:
 
     # SECP256k1 curve order
     CURVE_ORDER          = generator_secp256k1.order()
-    # SECP256k1 field order
-    FIELD_ORDER          = SECP256k1.curve.p()
-    # Infinity point
-    INFINITY             = ecdsa.ellipticcurve.INFINITY
 
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN = 4

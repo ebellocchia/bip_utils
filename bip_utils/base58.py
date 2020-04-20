@@ -29,8 +29,6 @@ class Base58Const:
 
     # Base58 alphabet
     ALPHABET          =  "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
-    # Base58 alphabet bytes
-    ALPHABET_BYTES    = b"123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"
     # Base58 radix
     RADIX             = 58
     # Checksum length in bytes
@@ -109,9 +107,6 @@ class Base58Decoder:
 
         Returns:
             bytes: Base58 decoded bytes
-
-        Raises:
-            ValueError: if the string is not a valid Base58 format
         """
 
         # Convert string to integer
