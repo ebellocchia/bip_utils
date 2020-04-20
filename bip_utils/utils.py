@@ -23,6 +23,7 @@
 import binascii
 import hashlib
 import hmac
+from bisect import bisect_left
 
 
 def Sha256(data_bytes):
@@ -184,3 +185,20 @@ def StringEncode(data_str, encoding = "utf-8"):
         bytes: String encoded to bytes
     """
     return data_str.encode(encoding)
+
+
+def BinarySearch(arr, elem):
+    """ Binary search algorithm simply implemented by using the bisect library.
+
+    Args:
+        arr (array): array of elements
+        elem (any) : element to be searched
+
+    Returns:
+        int: First index of the element, -1 if not found
+    """
+    i = bisect_left(arr, elem)
+    if i != len(arr) and arr[i] == elem:
+        return i
+    else:
+        return -1
