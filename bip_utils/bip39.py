@@ -103,7 +103,11 @@ class MnemonicFileReader:
         Returns:
             int: Word index
         """
-        return self.m_words_list.index(word)
+        idx = utils.BinarySearch(self.m_words_list, word)
+        if idx == -1:
+            raise ValueError("Word %s is not existent in word list" % word)
+
+        return idx
 
     def GetWordAtIdx(self, word_idx):
         """ Get the word at the specified index.
