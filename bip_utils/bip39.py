@@ -82,7 +82,7 @@ class MnemonicFileReader:
         """ Construct class by reading the words list from file.
 
         Raises:
-            Bip39InvalidFileError: If loaded words list number is not 2048
+            Bip39InvalidFileError: If loaded words list length is not 2048
         """
 
         # Read file
@@ -90,7 +90,7 @@ class MnemonicFileReader:
         with open(file_path, "r", encoding = "utf-8") as fin:
             self.m_words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
 
-        # Check words list number
+        # Check words list length
         if len(self.m_words_list) != Bip39Const.WORDS_LIST_NUM:
             raise Bip39InvalidFileError("Number of loaded words list (%d) is not valid" % len(self.m_words_list))
 
@@ -102,6 +102,9 @@ class MnemonicFileReader:
 
         Returns:
             int: Word index
+
+        Raises:
+            ValueError: If the word is not found
         """
         idx = utils.BinarySearch(self.m_words_list, word)
         if idx == -1:
