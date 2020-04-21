@@ -191,8 +191,8 @@ def BinarySearch(arr, elem):
     """ Binary search algorithm simply implemented by using the bisect library.
 
     Args:
-        arr (array): array of elements
-        elem (any) : element to be searched
+        arr (list): list of elements
+        elem (any): element to be searched
 
     Returns:
         int: First index of the element, -1 if not found
