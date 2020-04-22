@@ -27,7 +27,7 @@ from bip_utils import XrpAddr
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
-TEST_MAIN = \
+TEST_VECT = \
     [
         {
             "pub_key" : b"03db0da69187edd94aba300f1b2e7a09f407a8301d6fff54322a6ee4dde9842681",
@@ -58,5 +58,5 @@ TEST_MAIN = \
 class XrpAddrTests(unittest.TestCase):
     # Run all tests in test vector
     def test_to_addr(self):
-        for test in TEST_MAIN:
+        for test in TEST_VECT:
             self.assertEqual(test["address"], XrpAddr.ToAddress(binascii.unhexlify(test["pub_key"])))

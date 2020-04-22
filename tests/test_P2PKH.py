@@ -27,7 +27,7 @@ from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, P2PKH
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
-TEST_MAIN = \
+TEST_VECT = \
     [
         #
         # Main nets
@@ -97,8 +97,8 @@ TEST_MAIN = \
         },
     ]
 
-# Some invalid keys
-TEST_KEY_INVALID = \
+# Tests for invalid keys
+TEST_VECT_KEY_INVALID = \
     [
         # Private key (not accepted by P2PKH)
         b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
@@ -117,10 +117,10 @@ TEST_KEY_INVALID = \
 class P2PKHTests(unittest.TestCase):
     # Run all tests in test vector
     def test_to_addr(self):
-        for test in TEST_MAIN:
+        for test in TEST_VECT:
             self.assertEqual(test["address"], P2PKH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
-        for test in TEST_KEY_INVALID:
+        for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, P2PKH.ToAddress, binascii.unhexlify(test))
