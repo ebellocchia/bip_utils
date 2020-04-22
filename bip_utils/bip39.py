@@ -21,17 +21,54 @@
 
 # Imports
 import os
+from enum      import IntEnum, unique
 from .bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
 from .         import utils
+
+
+@unique
+class Bip39WordsNum(IntEnum):
+    """ Enumerative for BIP-0039 words number. """
+
+    WORDS_NUM_12 = 12,
+    WORDS_NUM_15 = 15,
+    WORDS_NUM_18 = 18,
+    WORDS_NUM_21 = 21,
+    WORDS_NUM_24 = 24,
+
+
+@unique
+class Bip39EntropyBitLen(IntEnum):
+    """ Enumerative for BIP-0039 entropy bit lengths. """
+
+    BIT_LEN_128 = 128,
+    BIT_LEN_160 = 160,
+    BIT_LEN_192 = 192,
+    BIT_LEN_224 = 224,
+    BIT_LEN_256 = 256,
 
 
 class Bip39Const:
     """ Class container for BIP39 constants. """
 
     # Accepted entropy lenghts in bit
-    ENTROPY_BIT_LEN    = [128, 160, 192, 224, 256]
+    ENTROPY_BIT_LEN    = \
+        [
+            Bip39EntropyBitLen.BIT_LEN_128,
+            Bip39EntropyBitLen.BIT_LEN_160,
+            Bip39EntropyBitLen.BIT_LEN_192,
+            Bip39EntropyBitLen.BIT_LEN_224,
+            Bip39EntropyBitLen.BIT_LEN_256,
+        ]
     # Accepted mnemonic word lengths
-    MNEMONIC_WORD_LEN  = [12, 15, 18, 21, 24]
+    MNEMONIC_WORD_LEN  = \
+        [
+            Bip39WordsNum.WORDS_NUM_12,
+            Bip39WordsNum.WORDS_NUM_15,
+            Bip39WordsNum.WORDS_NUM_18,
+            Bip39WordsNum.WORDS_NUM_21,
+            Bip39WordsNum.WORDS_NUM_24,
+        ]
 
     # Total number of words
     WORDS_LIST_NUM     = 2048
