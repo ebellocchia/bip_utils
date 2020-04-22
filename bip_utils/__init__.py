@@ -16,7 +16,9 @@ from .eth_addr      import EthAddr
 from .xrp_addr      import XrpAddr
 # BIP39
 from .bip39_ex      import Bip39InvalidFileError, Bip39ChecksumError
-from .bip39         import EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
+from .bip39         import (
+    EntropyGenerator, Bip39WordsNum, Bip39EntropyBitLen, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
+)
 # BIP32
 from .bip32_ex      import Bip32KeyError, Bip32PathError
 from .bip32_utils   import Bip32Utils
