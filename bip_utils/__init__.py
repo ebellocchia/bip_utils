@@ -2,7 +2,7 @@
 from ._version      import __version__
 # Base58
 from .base58_ex     import Base58ChecksumError
-from .base58        import Base58Decoder, Base58Encoder
+from .base58        import Base58Decoder, Base58Encoder, Base58Alphabets
 # Bech32
 from .bech32_ex     import Bech32ChecksumError, Bech32FormatError
 from .bech32        import Bech32Decoder, Bech32Encoder, Bech32ChecksumError, Bech32FormatError
