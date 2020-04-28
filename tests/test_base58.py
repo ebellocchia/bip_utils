@@ -22,12 +22,12 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Base58Decoder, Base58Encoder, Base58ChecksumError
+from bip_utils import Base58Decoder, Base58Encoder, Base58ChecksumError, Base58Alphabets
 
 
-# Test vector from Bitcoin code tests
+# Test vector from Bitcoin alphabet
 # https://github.com/bitcoin/bitcoin/blob/master/src/test/data/base58_encode_decode.json
-TEST_VECT = \
+TEST_VECT_BTC = \
     [
         {
             "raw"          : b"61",
@@ -96,6 +96,76 @@ TEST_VECT = \
         }
     ]
 
+# Same as before but for Ripple alphabet
+TEST_VECT_XRP = \
+    [
+        {
+            "raw"          : b"61",
+            "encode"       :  "pg",
+            "check_encode" :  "UpdGTAc"
+        },
+        {
+            "raw"          : b"626262",
+            "encode"       :  "2sgV",
+            "check_encode" :  "hjEnuNRJwK"
+        },
+        {
+            "raw"          : b"636363",
+            "encode"       :  "2PNi",
+            "check_encode" :  "hmThkiq7YJ"
+        },
+        {
+            "raw"          : b"73696d706c792061206c6f6e6720737472696e67",
+            "encode"       :  "pcEuFj68N1S8n9qHX1tmKpCCFLvp",
+            "check_encode" :  "BXErHuN7UqeVzZdiKeJjGfhijeXxqJfdW"
+        },
+        {
+            "raw"          : b"00eb15231dfceb60925886b67d065299925915aeb172c06647",
+            "encode"       :  "r4Srf52g9jJgTHDrVXjvLUN8ZuQsiJDN9L",
+            "check_encode" :  "rsRNm76epck7KyrEvMfwMUdtyYq3sryxMsQeyNuh"
+        },
+        {
+            "raw"          : b"516b6fcd0f",
+            "encode"       :  "wB8LTmg",
+            "check_encode" :  "psfLSiY947721"
+        },
+        {
+            "raw"          : b"bf4f89001e670274dd",
+            "encode"       :  "sSNosLWLoP8tU",
+            "check_encode" :  "GADDDedujrjFykcpfe"
+        },
+        {
+            "raw"          : b"572e4794",
+            "encode"       :  "sNE7fm",
+            "check_encode" :  "E2mNxCqUez2"
+        },
+        {
+            "raw"          : b"ecac89cad93923c02321",
+            "encode"       :  "NJDM3diCXwauyw",
+            "check_encode" :  "pWrYdnZuaWGyKVtHGMiH"
+        },
+        {
+            "raw"          : b"10c8511e",
+            "encode"       :  "Rtnzm",
+            "check_encode" :  "soFs5uGMm61"
+        },
+        {
+            "raw"          : b"00000000000000000000",
+            "encode"       :  "rrrrrrrrrr",
+            "check_encode" :  "rrrrrrrrrrhaMomb"
+        },
+        {
+            "raw"          : b"000111d38e5fc9071ffcd20b4a763cc9ae4f252bb4e48fd66a835e252ada93ff480d6dd43dc62a641155a5",
+            "encode"       :  "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz",
+            "check_encode" :  "rfmxz9bpTuL8DCaXyQiHjwcs7vMoNgfYzR1JkBdhVA4FE632rStKmUenWtwWpfY"
+        },
+        {
+            "raw"          : b"000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff",
+            "encode"       :  "rcWBnHUBdLjwuqGGReWNsRsUguuASjAaRH8s91pyuDRTSn41Bg45EFWgw8NxaVQ53c1exkgYAsmdYiMHi3x95f2NAP3kZfvccXWqKDvGvsurGxEKPuwk83JUPPGDMCsvMM8bzma469z6rgc41MvHsZ4LmPnCSGaDGbb5ptuAMWPt6ihboWAUxCfeASg4Qe2cyoz6KDDQQrqLnCQE7WnpQK7ZDZnCAsKX4QJMc4Tc2BfpsLc6jeKu8fMuGWnqyUBZYzwrKjoC4rgYBVs4qy6QJs41fhaG4uC94pFQPmHzhxF8SiiCUvyaTVVzndhPdije161WQAFZ1ZGzvbdwd43MKVnQ1BDY",
+            "check_encode" :  "rnrKWPPBRzdWPirwSeurfpgVgLCrYC7FaVJykaK9thcLqYtEHcM2p5X3Ss4JNFi7cWfWnLv2PRFzf7GfFuBjnSTNs8K6UGtneckYqfmM8n8TfoTT5cpBwXazDdqimGU8k1zQkzkz3enQLGDjCfKeQgtNDmh7NRaDMSdBjEQV2acHiiJ89myVyy67i1V8C7kpWm4EZvkWvsT8vzopcJrxWapXDC7gYzrFd9fe7GGPuXvDECL1BVdrdCd76PAxWfFMPgdWHTmgnuqKGEEavNhxXFwqZTbTxRZjUDdT8a3cpAicxwFm36qsJXanH5xfVtcDrsEE3bfBzBtAjXqrzea4MjKg7cqFGVnXwn"
+        }
+    ]
+
 # Tests for base58 encoded strings with invalid checksum
 TEST_VECT_CHKSUM_INVALID = \
     [
@@ -117,19 +187,37 @@ TEST_VECT_ENC_INVALID = \
 # Tests
 #
 class Base58Tests(unittest.TestCase):
-    # Test decoder
-    def test_decoder(self):
-        for test in TEST_VECT:
+    # Test decoder for Bitcoin alphabet
+    def test_decoder_btc(self):
+        for test in TEST_VECT_BTC:
             # Test decoder
-            self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.Decode(test["encode"])))
-            self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.CheckDecode(test["check_encode"])))
+            self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.Decode(test["encode"], Base58Alphabets.BITCOIN)))
+            self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.CheckDecode(test["check_encode"], Base58Alphabets.BITCOIN)))
 
-    # Test encoder
-    def test_encoder(self):
-        for test in TEST_VECT:
+    # Test encoder for Bitcoin alphabet
+    def test_encoder_btc(self):
+        for test in TEST_VECT_BTC:
+            raw_bytes = binascii.unhexlify(test["raw"])
+
             # Test encoder
-            self.assertEqual(test["encode"]      , Base58Encoder.Encode(binascii.unhexlify(test["raw"])))
-            self.assertEqual(test["check_encode"], Base58Encoder.CheckEncode(binascii.unhexlify(test["raw"])))
+            self.assertEqual(test["encode"]      , Base58Encoder.Encode(raw_bytes, Base58Alphabets.BITCOIN))
+            self.assertEqual(test["check_encode"], Base58Encoder.CheckEncode(raw_bytes, Base58Alphabets.BITCOIN))
+
+    # Test decoder for Ripple alphabet
+    def test_decoder_xrp(self):
+        for test in TEST_VECT_XRP:
+            # Test decoder
+            self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.Decode(test["encode"], Base58Alphabets.RIPPLE)))
+            self.assertEqual(test["raw"], binascii.hexlify(Base58Decoder.CheckDecode(test["check_encode"], Base58Alphabets.RIPPLE)))
+
+    # Test encoder for Ripple alphabet
+    def test_encoder_xrp(self):
+        for test in TEST_VECT_XRP:
+            raw_bytes = binascii.unhexlify(test["raw"])
+
+            # Test encoder
+            self.assertEqual(test["encode"]      , Base58Encoder.Encode(raw_bytes, Base58Alphabets.RIPPLE))
+            self.assertEqual(test["check_encode"], Base58Encoder.CheckEncode(raw_bytes, Base58Alphabets.RIPPLE))
 
     # Test invalid checksum
     def test_invalid_checksum(self):
@@ -140,3 +228,10 @@ class Base58Tests(unittest.TestCase):
     def test_invalid_encoding(self):
         for test in TEST_VECT_ENC_INVALID:
             self.assertRaises(ValueError, Base58Decoder.Decode, test)
+
+    # Test invalid alphabet
+    def test_invalid_alphabet(self):
+        self.assertRaises(TypeError, Base58Encoder.Encode, "test", 0)
+        self.assertRaises(TypeError, Base58Encoder.CheckEncode, "test", 0)
+        self.assertRaises(TypeError, Base58Decoder.Decode, "test", 0)
+        self.assertRaises(TypeError, Base58Decoder.CheckDecode, "test", 0)
