@@ -90,7 +90,7 @@ class EntropyGenerator:
         """ Construct class by specifying the bits length.
 
         Args:
-            bits_len (int): Entropy length in bits
+            bits_len (int or Bip39EntropyBitLen): Entropy length in bits
 
         Raises:
             ValueError: If the bit length is not valid
@@ -172,7 +172,7 @@ class Bip39MnemonicGenerator:
         """ Generate mnemonic with the specified words number from random entropy.
 
         Args:
-            words_num (int): Number of words (12, 15, 18, 21, 24)
+            words_num (int or Bip39WordsNum): Number of words (12, 15, 18, 21, 24)
 
         Returns:
             str: Generated mnemonic from random entropy
