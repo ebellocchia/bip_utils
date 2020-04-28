@@ -388,13 +388,13 @@ This library is used internally by the other libraries, but it's available also 
 
 ## Base58
 
-This library is used internally by the other libraries, but it's available also for external use.
-It supports both normal encode/decode and check_encode/check_decode.
+This library is used internally by the other libraries, but it's available also for external use.\
+It supports both normal encode/decode and check_encode/check_decode with Bitcoin and Ripple alphabets (if not specified, the Bitcoin one will be used by default).
 
 **Code example**
 
     import binascii
-    from bip_utils import Base58Decoder, Base58Encoder
+    from bip_utils import Base58Decoder, Base58Encoder, Base58Alphabets
 
     data_bytes = binascii.unhexlify(b"636363")
 
@@ -407,6 +407,13 @@ It supports both normal encode/decode and check_encode/check_decode.
     dec     = Base58Decoder.Decode(enc)
     # Check decode, RuntimeError is raised if checksum verification fails
     chk_dec = Base58Decoder.CheckDecode(chk_enc)
+
+    # Same as before with Ripple alphabet
+    enc     = Base58Encoder.Encode(data_bytes, Base58Alphabets.RIPPLE)
+    chk_enc = Base58Encoder.CheckEncode(data_bytes, Base58Alphabets.RIPPLE)
+    dec     = Base58Decoder.Decode(enc, Base58Alphabets.RIPPLE)
+    chk_dec = Base58Decoder.CheckDecode(chk_enc, Base58Alphabets.RIPPLE)
+
 
 ## Bech32
 
