@@ -80,11 +80,13 @@ class BitcoinCashConf:
                                        KeyNetVersions(b"044a5262", b"044a4e28"))
 
     # Versions for P2PKH address (Bitcoin Cash has HRP and net version)
-    BCH_P2PKH_NET_VER    = NetVersions(("bitcoincash", b"\x00"), ("bchtest", b"\x00"))
+    BCH_P2PKH_NET_VER    = NetVersions({"hrp" : "bitcoincash", "net_ver" : b"\x00"},
+                                       {"hrp" : "bchtest"    , "net_ver" : b"\x00"})
     # Versions for P2PKH legacy address (same of Bitcoin)
     LEGACY_P2PKH_NET_VER = BitcoinConf.P2PKH_NET_VER
     # Versions for P2SH address (Bitcoin Cash has HRP and net version)
-    BCH_P2SH_NET_VER     = NetVersions(("bitcoincash", b"\x08"), ("bchtest", b"\x08"))
+    BCH_P2SH_NET_VER     = NetVersions({"hrp" : "bitcoincash", "net_ver" : b"\x08"},
+                                       {"hrp" : "bchtest"    , "net_ver" : b"\x08"})
     # Versions for P2PKH legacy address (same of Bitcoin)
     LEGACY_P2SH_NET_VER  = BitcoinConf.P2SH_NET_VER
     # WIF net version
@@ -128,11 +130,11 @@ class LitecoinConf:
 
     # BIP44 net versions
     # Litecoin can have 2 different main version: same of Bitcoin or (Ltpv / Ltub), whereas test net version is always (ttub / ttpv)
-    BIP44_KEY_NET_VER  = NetVersions((BitcoinConf.BIP44_KEY_NET_VER.Main(), KeyNetVersions(b"019da462", b"019d9cfe")),
+    BIP44_KEY_NET_VER  = NetVersions({"btc" : BitcoinConf.BIP44_KEY_NET_VER.Main(), "alt" : KeyNetVersions(b"019da462", b"019d9cfe")},
                                      KeyNetVersions(b"0436f6e1", b"0436ef7d"))
     # BIP49 net versions
     # Litecoin can have 2 different main version: same of Bitcoin or (Mtpv / Mtub), whereas test net version is always (ttub / ttpv)
-    BIP49_KEY_NET_VER  = NetVersions((BitcoinConf.BIP49_KEY_NET_VER.Main(), KeyNetVersions(b"01b26ef6", b"01b26792")),
+    BIP49_KEY_NET_VER  = NetVersions({"btc" : BitcoinConf.BIP49_KEY_NET_VER.Main(), "alt" : KeyNetVersions(b"01b26ef6", b"01b26792")},
                                      KeyNetVersions(b"0436f6e1", b"0436ef7d"))
     # BIP84 net versions (zpub / zprv) - (ttub / ttpv)
     BIP84_KEY_NET_VER  = NetVersions(BitcoinConf.BIP84_KEY_NET_VER.Main(),

@@ -122,21 +122,21 @@ TEST_VECT_BCH = \
         {
             "pub_key"      : b"03aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e",
             "address"      :  "bitcoincash:qrvcdmgpk73zyfd8pmdl9wnuld36zh9n4gms8s0u59",
-            "hrp"          :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()[0],
-            "net_addr_ver" :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()[1],
+            "hrp"          :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()["hrp"],
+            "net_addr_ver" :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()["net_ver"],
         },
         {
             "pub_key"      : b"02b5cbfe6ee73b7c5e968e1c515a964894f306a7c882dd18433ab4e16a66d36972",
             "address"      :  "bitcoincash:qpceft8d22pq4894wm9nh673y9rz7wwtpu6ryz8hlr",
-            "hrp"          :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()[0],
-            "net_addr_ver" :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()[1],
+            "hrp"          :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()["hrp"],
+            "net_addr_ver" :  BitcoinCashConf.BCH_P2PKH_NET_VER.Main()["net_ver"],
         },
         # Test nets
         {
             "pub_key"      : b"02a7451395735369f2ecdfc829c0f774e88ef1303dfe5b2f04dbaab30a535dfdd6",
             "address"      :  "bchtest:qqaz6s295ncfs53m86qj0uw6sl8u2kuw0ymst35fx4",
-            "hrp"          :  BitcoinCashConf.BCH_P2PKH_NET_VER.Test()[0],
-            "net_addr_ver" :  BitcoinCashConf.BCH_P2PKH_NET_VER.Test()[1],
+            "hrp"          :  BitcoinCashConf.BCH_P2PKH_NET_VER.Test()["hrp"],
+            "net_addr_ver" :  BitcoinCashConf.BCH_P2PKH_NET_VER.Test()["net_ver"],
         },
     ]
 

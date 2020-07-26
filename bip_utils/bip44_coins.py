@@ -56,7 +56,7 @@ class Bip44Litecoin(Bip44Coin):
 
         # Get standard or alternate version depending on the configuration flag
         if not self.m_is_testnet:
-            return self.m_key_net_ver.Main()[0] if not self.m_coin_conf.EX_KEY_ALT else self.m_key_net_ver.Main()[1]
+            return self.m_key_net_ver.Main()["btc"] if not self.m_coin_conf.EX_KEY_ALT else self.m_key_net_ver.Main()["alt"]
         else:
             return self.m_key_net_ver.Test()
 
@@ -78,7 +78,7 @@ class Bip44BitcoinCash(Bip44Coin):
         """
         if not self.m_coin_conf.LEGACY_ADDR:
             addr_ver = self.m_coin_conf.BCH_P2PKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.BCH_P2PKH_NET_VER.Test()
-            return self.m_addr_fct["bch"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver[0], addr_ver[1])
+            return self.m_addr_fct["bch"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver["hrp"], addr_ver["net_ver"])
         else:
             addr_ver = self.m_coin_conf.LEGACY_P2PKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.LEGACY_P2PKH_NET_VER.Test()
             return self.m_addr_fct["legacy"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
