@@ -213,3 +213,39 @@ def IsStringMixed(data_str):
         bool: True if mixed case, false otherwise
     """
     return any(c.islower() for c in data_str) and any(c.isupper() for c in data_str)
+
+
+def ConvertToBits(data, from_bits, to_bits, pad = True):
+    """ Perform generic bits conversion.
+
+    Args:
+        data (list or bytes): Data to be converted
+        from_bits (int)     : Number of bits to start from
+        to_bits (int)       : Number of bits at the end
+        pad (bool)          : True if data must be padded, false otherwise
+
+    Returns:
+        list: List of converted bits, None in case of errors
+    """
+
+    acc = 0
+    bits = 0
+    ret = []
+    maxv = (1 << to_bits) - 1
+    max_acc = (1 << (from_bits + to_bits - 1)) - 1
+
+    for value in data:
+        if value < 0 or (value >> from_bits):
+            return None
+        acc = ((acc << from_bits) | value) & max_acc
+        bits += from_bits
+        while bits >= to_bits:
+            bits -= to_bits
+            ret.append((acc >> bits) & maxv)
+    if pad:
+        if bits:
+            ret.append((acc << (to_bits - bits)) & maxv)
+    elif bits >= from_bits or ((acc << (to_bits - bits)) & maxv):
+        return None
+
+    return ret

@@ -49,41 +49,6 @@ class Bech32Utils:
     """ Class container for Bech32 utility functions. """
 
     @staticmethod
-    def ConvertToBits(data, from_bits, to_bits, pad = True):
-        """ Perform generic bits conversion.
-
-        Args:
-            data (list or bytes): Data to be converted
-            from_bits (int)     : Number of bits to start from
-            to_bits (int)       : Number of bits at the end
-            pad (bool)          : True if data must be padded, false otherwise
-
-        Returns:
-            list: List of converted bits
-        """
-
-        acc = 0
-        bits = 0
-        ret = []
-        maxv = (1 << to_bits) - 1
-        max_acc = (1 << (from_bits + to_bits - 1)) - 1
-
-        for value in data:
-            if value < 0 or (value >> from_bits):
-                return None
-            acc = ((acc << from_bits) | value) & max_acc
-            bits += from_bits
-            while bits >= to_bits:
-                bits -= to_bits
-                ret.append((acc >> bits) & maxv)
-        if pad:
-            if bits:
-                ret.append((acc << (to_bits - bits)) & maxv)
-        elif bits >= from_bits or ((acc << (to_bits - bits)) & maxv):
-            return None
-        return ret
-
-    @staticmethod
     def PolyMod(values):
         """ Computes the Bech32 checksum.
 
@@ -162,7 +127,7 @@ class Bech32Encoder:
         """
 
         # Convert to base32
-        base32_enc = Bech32Utils.ConvertToBits(wit_prog, 8, 5)
+        base32_enc = utils.ConvertToBits(wit_prog, 8, 5)
         if base32_enc == None:
             raise Bech32FormatError("Invalid data, cannot perform base32 conversion")
 
@@ -210,7 +175,7 @@ class Bech32Decoder:
             raise Bech32FormatError("Invalid segwit address (HRP not valid)")
 
         # Convert back from base32
-        base32_dec = Bech32Utils.ConvertToBits(data[1:], 5, 8, False)
+        base32_dec = utils.ConvertToBits(data[1:], 5, 8, False)
         if base32_dec == None:
             raise Bech32FormatError("Invalid data, cannot perform base32 conversion")
 
