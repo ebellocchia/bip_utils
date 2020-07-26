@@ -19,6 +19,6 @@
 # THE SOFTWARE
 
 
-class SegwitBech32Error(Exception):
-    """ Exception in case of address error. """
+class SegwitBech32FormatError(Exception):
+    """ Exception in case of format error. """
     pass

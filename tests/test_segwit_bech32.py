@@ -22,8 +22,9 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import SegwitBech32Decoder, SegwitBech32Encoder, Bech32ChecksumError, Bech32FormatError, SegwitBech32Error
-
+from bip_utils import (
+    SegwitBech32Decoder, SegwitBech32Encoder, Bech32ChecksumError, Bech32FormatError, SegwitBech32FormatError
+)
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
@@ -82,31 +83,31 @@ TEST_VECT_ADDR_INVALID = \
         {
             "addr": "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
             "hrp" : "tb",
-            "ex"  : SegwitBech32Error,
+            "ex"  : SegwitBech32FormatError,
         },
         # Invalid witness version
         {
             "addr": "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
             "hrp" : "bc",
-            "ex"  : SegwitBech32Error,
+            "ex"  : SegwitBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "bc1rw5uspcuh",
             "hrp" : "bc",
-            "ex"  : SegwitBech32Error,
+            "ex"  : SegwitBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
             "hrp" : "bc",
-            "ex"  : SegwitBech32Error,
+            "ex"  : SegwitBech32FormatError,
         },
         # Invalid program length for witness version 0
         {
             "addr": "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
             "hrp" : "bc",
-            "ex"  : SegwitBech32Error,
+            "ex"  : SegwitBech32FormatError,
         },
         # Zero padding of more than 4 bits
         {
@@ -161,22 +162,22 @@ TEST_VECT_ADDR_INVALID = \
 #
 # Tests
 #
-class SegwitTests(unittest.TestCase):
+class SegwitBech32Tests(unittest.TestCase):
     # Test decoder
     def test_decoder(self):
         for test in TEST_VECT:
             # Test decoder
-            hrp = test["encode"][:2]
+            hrp = test["encode"][:test["encode"].find("1")]
             dec = SegwitBech32Decoder.Decode(hrp, test["encode"])
 
-            self.assertEqual(binascii.hexlify(dec[1]), test["raw"])
             self.assertEqual(dec[0], 0)
+            self.assertEqual(binascii.hexlify(dec[1]), test["raw"])
 
     # Test encoder
     def test_encoder(self):
         for test in TEST_VECT:
             # Test encoder
-            hrp = test["encode"][:2]
+            hrp = test["encode"][:test["encode"].find("1")]
             enc = SegwitBech32Encoder.Encode(hrp, 0, binascii.unhexlify(test["raw"]))
             self.assertEqual(test["encode"], enc)
 
