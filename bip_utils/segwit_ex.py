@@ -16,14 +16,9 @@
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
+# THE SOFTWARE
 
 
-class Bech32ChecksumError(Exception):
-    """ Exception in case of checksum error. """
-    pass
-
-
-class Bech32FormatError(Exception):
-    """ Exception in case of format error. """
+class SegwitAddressError(Exception):
+    """ Exception in case of address error. """
     pass

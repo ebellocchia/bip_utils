@@ -5,7 +5,8 @@ from .base58_ex     import Base58ChecksumError
 from .base58        import Base58Decoder, Base58Encoder, Base58Alphabets
 # Bech32
 from .bech32_ex     import Bech32ChecksumError, Bech32FormatError
-from .bech32        import Bech32Decoder, Bech32Encoder, Bech32ChecksumError, Bech32FormatError
+from .segwit_ex     import SegwitAddressError
+from .segwit_addr   import SegwitDecoder, SegwitEncoder
 # WIF
 from .wif           import WifDecoder, WifEncoder
 # Address computation
