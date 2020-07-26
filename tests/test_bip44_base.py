@@ -48,7 +48,7 @@ class Bip44BaseTestHelper:
 
             # Test master key
             ut_class.assertEqual(test["ex_master"] , bip_obj_ctx.PrivateKey().ToExtended())
-            ut_class.assertEqual(test["wif_master"], bip_obj_ctx.PrivateKey().ToWif())
+            ut_class.assertEqual(test["wif_master"], bip_obj_ctx.PrivateKey().ToWif(False))
 
             # Derive account
             bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)

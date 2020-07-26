@@ -60,6 +60,33 @@ TEST_VECT = \
                     "37mbeJptxfQC6SNNLJ9a8efCY4BwBh5Kak",
                 ],
         },
+        # BitcoinSV
+        {
+            "coin"       : Bip44Coins.BITCOIN_SV,
+            "names"      : ("BitcoinSV", "BSV"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+            "wif_master" :  "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
+            "account" :
+                {
+                    "ex_pub"  : "ypub6XeYcPUzGwK9dPtY7Vkb6P1LgeaT6GEoqoPW1xAciZ6HKqBYJjL5pGABtEQizEw2jkGSHyYfc6DGCCR2ZnKDoSCD4qtp56uy4jtC6N1XyV3",
+                    "ex_priv" : "yprvAJfCCsx6SZkrQup51UDajF4c8cjxgoWxUaTuDZm1ADZJT2rPmC1qGTqi2vXLRzFRmdGpKoosLeZZfJnQ4wF37o8prmUqNqSdyhjM63KXWwT",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "ypub6Zc68W6DVfKx49xWgrb6HCCMHkzvSEhewiZDdBU97hzD5rWDaoHmBokhdN36a3uFDyxSTsQEiYxJfNQ3rromoeChXB4pPMBjamhQLwVxP7i",
+                    "ex_priv" : "yprvALcjizZKfHmeqft3aq45v4FcjjAS2myoaVdcpo4XZNTED4B53FyWe1SDn69kJmPDajxdGyxsM2gSJh4yti5PRwkbVBokibu9EwUeGDXvEEo",
+                },
+            "addresses" :
+                [
+                    "3DBZLGqauQhKR7CBM8fhi9gZANUp9EcA2F",
+                    "3BdMLsRbEf6rFKpQzFaNH5pRfmYdEXLZUN",
+                    "37gow1C7tEGUGh2LUusj5ZQANynvr82BdY",
+                    "3Q1ZdpKhecKkbon3UPUDXeAW16WdtXp9Rj",
+                    "36tsqGBbuGkB7NLFXAQ6JPwu2bQjszFgYH",
+                ],
+        },
         # Litecoin
         {
             "coin"          : Bip44Coins.LITECOIN,
@@ -158,6 +185,33 @@ TEST_VECT = \
         {
             "coin"       : Bip44Coins.BITCOIN_TESTNET,
             "names"      : ("Bitcoin TestNet", "BTC"),
+            "is_testnet" : True,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "uprv8tXDerPXZ1QsVNjUJWTurs9kA1KGfKUAts74GCkcXtU8GwnH33GDRbNJpEqTvipfCyycARtQJhmdfWf8oKt41X9LL1zeD2pLsWmxEk3VAwd",
+            "wif_master" :  "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
+            "account" :
+                {
+                    "ex_pub"  : "upub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY",
+                    "ex_priv" : "uprv91G7gZkzehuMVxDJTYE6tLivdF8e4rvzSu1LFfKw3b2Qx1Aj8vpoFnHdfUZ3hmi9jsvPifmZ24RTN2KhwB8BfMLTVqaBReibyaFFcTP1s9n",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "upub5F7X3ZAt1HsUyFLTFU9vhKeGULy77aDoJFhscvGBV91tm2mzQ5egFGpeP4nGskwERwbU48g14qREqXJ388X8XBiaLm7PWwk3S45Fe3WAvdK",
+                    "ex_priv" : "uprv928Ae3dzAvKBkmFz9ScvLBhXvK8ci7Vww2nGpXrZvoUutESqrYLRhUWAXpK5acXh517npKuCpJ7NXaoWnLs1dLB9w3MHe3KNUm7hPENqMzt",
+                },
+            "addresses" :
+                [
+                    "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+                    "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
+                    "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
+                    "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
+                    "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+                ],
+        },
+        # BitcoinSV test net
+        {
+            "coin"       : Bip44Coins.BITCOIN_SV_TESTNET,
+            "names"      : ("BitcoinSV TestNet", "BSV"),
             "is_testnet" : True,
             "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
             "ex_master"  :  "uprv8tXDerPXZ1QsVNjUJWTurs9kA1KGfKUAts74GCkcXtU8GwnH33GDRbNJpEqTvipfCyycARtQJhmdfWf8oKt41X9LL1zeD2pLsWmxEk3VAwd",
