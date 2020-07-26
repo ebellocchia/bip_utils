@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, P2PKH
+from bip_utils import BitcoinConf, BitcoinSvConf, LitecoinConf, DogecoinConf, DashConf, P2PKH
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -41,6 +41,16 @@ TEST_VECT = \
             "pub_key"      : b"02b5cbfe6ee73b7c5e968e1c515a964894f306a7c882dd18433ab4e16a66d36972",
             "address"      :  "1BMZTqDtNogSEs1oZoGxRqfR6jS2tVxvHX",
             "net_addr_ver" :  BitcoinConf.P2PKH_NET_VER.Main(),
+        },
+        {
+            "pub_key"      : b"03aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e",
+            "address"      :  "1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA",
+            "net_addr_ver" :  BitcoinSvConf.P2PKH_NET_VER.Main(),
+        },
+        {
+            "pub_key"      : b"02b5cbfe6ee73b7c5e968e1c515a964894f306a7c882dd18433ab4e16a66d36972",
+            "address"      :  "1BMZTqDtNogSEs1oZoGxRqfR6jS2tVxvHX",
+            "net_addr_ver" :  BitcoinSvConf.P2PKH_NET_VER.Main(),
         },
         {
             "pub_key"      : b"02a233494d46445b70a7bc3c5b376f1233e6a3acdc866b1566473984518e275dbc",
@@ -79,6 +89,11 @@ TEST_VECT = \
             "pub_key"      : b"02a7451395735369f2ecdfc829c0f774e88ef1303dfe5b2f04dbaab30a535dfdd6",
             "address"      :  "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
             "net_addr_ver" :  BitcoinConf.P2PKH_NET_VER.Test(),
+        },
+        {
+            "pub_key"      : b"02a7451395735369f2ecdfc829c0f774e88ef1303dfe5b2f04dbaab30a535dfdd6",
+            "address"      :  "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
+            "net_addr_ver" :  BitcoinSvConf.P2PKH_NET_VER.Test(),
         },
         {
             "pub_key"      : b"03be3878cb32ea37037b6d906ca8dfadc8bf511305194e24093379e19ea8fce04e",
