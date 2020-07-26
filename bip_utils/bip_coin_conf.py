@@ -62,6 +62,28 @@ class BitcoinConf:
     WIF_NET_VER       = NetVersions(b"\x80", b"\xef")
 
 
+class BitcoinSvConf:
+    """ Class container for BitcoinSV configuration. """
+
+    # Names
+    NAMES             = CoinNames("BitcoinSV"        , "BSV")
+    # Test names
+    TEST_NAMES        = CoinNames("BitcoinSV TestNet", "BSV")
+
+    # BIP44 net versions (same of BIP32)
+    BIP44_KEY_NET_VER = Bip32Conf.KEY_NET_VER
+    # BIP49 net versions (ypub / yprv) - (upub / uprv)
+    BIP49_KEY_NET_VER = NetVersions(KeyNetVersions(b"049d7cb2", b"049d7878"),
+                                    KeyNetVersions(b"044a5262", b"044a4e28"))
+
+    # Versions for P2PKH address
+    P2PKH_NET_VER     = NetVersions(b"\x00", b"\x6f")
+    # Versions for P2SH address
+    P2SH_NET_VER      = NetVersions(b"\x05", b"\xc4")
+    # WIF net version
+    WIF_NET_VER       = NetVersions(b"\x80", b"\xef")
+
+
 class LitecoinConf:
     """ Class container for Litecoin configuration. """
 

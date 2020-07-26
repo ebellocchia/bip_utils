@@ -32,18 +32,19 @@ from .bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
 class Bip44Coins(IntEnum):
     """ Enumerative for BIP44 coins. Only some coins are present but it can be extended. """
 
-    BITCOIN          = 0,
-    LITECOIN         = 2,
-    DOGECOIN         = 3,
-    DASH             = 5,
-    ETHEREUM         = 60,
-    RIPPLE           = 144,
+    BITCOIN              = 0,
+    LITECOIN             = 2,
+    DOGECOIN             = 3,
+    DASH                 = 5,
+    ETHEREUM             = 60,
+    RIPPLE               = 144,
+    BITCOIN_SV           = 236,
     # Test nets. Special indexes are used here, they are converted to 1 internally
-    BITCOIN_TESTNET  = -1,
-    LITECOIN_TESTNET = -2,
-    DOGECOIN_TESTNET = -3,
-    DASH_TESTNET     = -4,
-
+    BITCOIN_TESTNET      = -1,
+    LITECOIN_TESTNET     = -2,
+    DOGECOIN_TESTNET     = -3,
+    DASH_TESTNET         = -4,
+    BITCOIN_SV_TESTNET   = -5,
 
 @unique
 class Bip44Changes(IntEnum):

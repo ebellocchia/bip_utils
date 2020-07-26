@@ -23,6 +23,7 @@
 from .bip_coin_base import BipCoinBase
 from .bip_coin_conf import *
 from .P2PKH         import P2PKH
+from .bch_addr      import BchAddr
 from .eth_addr      import EthAddr
 from .xrp_addr      import XrpAddr
 
@@ -69,6 +70,14 @@ Bip44BitcoinMainNet = Bip44Coin(coin_conf  = BitcoinConf,
 Bip44BitcoinTestNet = Bip44Coin(coin_conf  = BitcoinConf,
                                 is_testnet = True,
                                 addr_fct   = P2PKH)
+# Configuration for BitcoinSV main net
+Bip44BitcoinSvMainNet = Bip44Coin(coin_conf  = BitcoinSvConf,
+                                  is_testnet = False,
+                                  addr_fct   = P2PKH)
+# Configuration for BitcoinSV test net
+Bip44BitcoinSvTestNet = Bip44Coin(coin_conf  = BitcoinSvConf,
+                                  is_testnet = True,
+                                  addr_fct   = P2PKH)
 # Configuration for Litecoin main net
 Bip44LitecoinMainNet = Bip44Litecoin(coin_conf  = LitecoinConf,
                                      is_testnet = False,

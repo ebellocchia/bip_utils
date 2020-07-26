@@ -35,26 +35,29 @@ class Bip44Const:
     # Allowed coins
     ALLOWED_COINS = \
         [
-            Bip44Coins.BITCOIN , Bip44Coins.BITCOIN_TESTNET ,
-            Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET,
-            Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET,
-            Bip44Coins.DASH    , Bip44Coins.DASH_TESTNET,
-            Bip44Coins.ETHEREUM,
-            Bip44Coins.RIPPLE,
+            Bip44Coins.BITCOIN     , Bip44Coins.BITCOIN_TESTNET,
+            Bip44Coins.BITCOIN_SV  , Bip44Coins.BITCOIN_SV_TESTNET,
+            Bip44Coins.LITECOIN    , Bip44Coins.LITECOIN_TESTNET,
+            Bip44Coins.DOGECOIN    , Bip44Coins.DOGECOIN_TESTNET,
+            Bip44Coins.DASH        , Bip44Coins.DASH_TESTNET,
+            Bip44Coins.ETHEREUM    ,
+            Bip44Coins.RIPPLE      ,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
         {
-            Bip44Coins.BITCOIN          : Bip44BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET  : Bip44BitcoinTestNet,
-            Bip44Coins.LITECOIN         : Bip44LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET : Bip44LitecoinTestNet,
-            Bip44Coins.DOGECOIN         : Bip44DogecoinMainNet,
-            Bip44Coins.DOGECOIN_TESTNET : Bip44DogecoinTestNet,
-            Bip44Coins.DASH             : Bip44DashMainNet,
-            Bip44Coins.DASH_TESTNET     : Bip44DashTestNet,
-            Bip44Coins.ETHEREUM         : Bip44Ethereum,
-            Bip44Coins.RIPPLE           : Bip44Ripple,
+            Bip44Coins.BITCOIN              : Bip44BitcoinMainNet,
+            Bip44Coins.BITCOIN_TESTNET      : Bip44BitcoinTestNet,
+            Bip44Coins.BITCOIN_SV           : Bip44BitcoinSvMainNet,
+            Bip44Coins.BITCOIN_SV_TESTNET   : Bip44BitcoinSvTestNet,
+            Bip44Coins.LITECOIN             : Bip44LitecoinMainNet,
+            Bip44Coins.LITECOIN_TESTNET     : Bip44LitecoinTestNet,
+            Bip44Coins.DOGECOIN             : Bip44DogecoinMainNet,
+            Bip44Coins.DOGECOIN_TESTNET     : Bip44DogecoinTestNet,
+            Bip44Coins.DASH                 : Bip44DashMainNet,
+            Bip44Coins.DASH_TESTNET         : Bip44DashTestNet,
+            Bip44Coins.ETHEREUM             : Bip44Ethereum,
+            Bip44Coins.RIPPLE               : Bip44Ripple,
         }
 
 
