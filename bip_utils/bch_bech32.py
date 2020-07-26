@@ -20,9 +20,10 @@
 
 
 # Imports
-from .bech32_ex import Bech32ChecksumError, Bech32FormatError
-from .bech32    import Bech32Decoder, Bech32Encoder, Bech32Utils
-from .          import utils
+from .bech32_ex     import Bech32ChecksumError, Bech32FormatError
+from .bech32        import Bech32Decoder, Bech32Encoder, Bech32Utils
+from .bch_bech32_ex import BchBech32FormatError
+from .              import utils
 
 
 class BchBech32Const:
@@ -32,6 +33,10 @@ class BchBech32Const:
     SEPARATOR    = ":"
     # Checkum minimum length
     CHECKSUM_LEN = 8
+    # Minimum data length
+    DATA_MIN_LEN              = 2
+    # Maximum data length
+    DATA_MAX_LEN              = 40
 
 
 class BchBech32Utils:
@@ -97,7 +102,7 @@ class BchBech32Encoder(Bech32Encoder):
             Bech32FormatError: If the data is not valid
         """
 
-        return BchBech32Encoder._Encode(hrp, Bech32Utils.ConvertToBase32(net_ver + data), BchBech32Const.SEPARATOR)
+        return BchBech32Encoder._EncodeBech32(hrp, Bech32Utils.ConvertToBase32(net_ver + data), BchBech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp, data):
@@ -114,3 +119,53 @@ class BchBech32Encoder(Bech32Encoder):
         values = BchBech32Utils.HrpExpand(hrp) + data
         polymod = BchBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0, 0, 0])
         return [(polymod >> 5 * (7 - i)) & 0x1f for i in range(BchBech32Const.CHECKSUM_LEN)]
+
+
+class BchBech32Decoder(Bech32Decoder):
+    """ Segwit decoder class. It provides methods for decoding Segwit format. """
+
+    @staticmethod
+    def Decode(hrp, addr):
+        """ Decode a segwit address.
+
+        Args:
+            hrp (str) : Human readable part
+            addr (str): Address
+
+        Returns:
+            tuple: Witness version (index 0) and witness program (index 1)
+
+        Raises:
+            BchBech32FormatError: If the address is not valid
+            Bech32FormatError: If the bech32 string is not valid
+            Bech32ChecksumError: If the checksum is not valid
+        """
+
+        # Decode string
+        hrpgot, data = BchBech32Decoder._DecodeBech32(addr, BchBech32Const.SEPARATOR, BchBech32Const.CHECKSUM_LEN)
+
+        # Check HRP
+        if hrpgot != hrp:
+            raise BchBech32FormatError("Invalid BCH format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+
+        # Convert back from base32
+        conv_data = Bech32Utils.ConvertFromBase32(data)
+
+        # Check converted data
+        if len(conv_data) < BchBech32Const.DATA_MIN_LEN or len(conv_data) > BchBech32Const.DATA_MAX_LEN:
+            raise BchBech32FormatError("Invalid BCH format (length not valid)")
+
+        return (conv_data[0], utils.ListToBytes(conv_data[1:]))
+
+    @staticmethod
+    def _VerifyChecksum(hrp, data):
+        """ Verify the checksum from the specified HRP and converted data characters.
+
+        Args:
+            hrp  (str): HRP
+            data (str): Data part
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        return BchBech32Utils.PolyMod(BchBech32Utils.HrpExpand(hrp) + data) == 0
