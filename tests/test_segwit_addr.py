@@ -81,46 +81,55 @@ TEST_VECT_ADDR_INVALID = \
         # Invalid human-readable part
         {
             "addr": "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
+            "hrp" : "tb",
             "ex"  : SegwitAddressError,
         },
         # Invalid witness version
         {
             "addr": "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
+            "hrp" : "bc",
             "ex"  : SegwitAddressError,
         },
         # Invalid program length
         {
             "addr": "bc1rw5uspcuh",
+            "hrp" : "bc",
             "ex"  : SegwitAddressError,
         },
         # Invalid program length
         {
             "addr": "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
+            "hrp" : "bc",
             "ex"  : SegwitAddressError,
         },
         # Invalid program length for witness version 0
         {
             "addr": "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
+            "hrp" : "bc",
             "ex"  : SegwitAddressError,
         },
         # Zero padding of more than 4 bits
         {
             "addr": "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du",
-            "ex"  : SegwitAddressError,
+            "hrp" : "bc",
+            "ex"  : Bech32FormatError,
         },
         # Invalid checksum
         {
             "addr": "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5",
+            "hrp" : "bc",
             "ex"  : Bech32ChecksumError,
         },
         # Mixed case
         {
             "addr": "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
+            "hrp" : "tb",
             "ex"  : Bech32FormatError,
         },
         # Empty data section
         {
             "addr": "bc1gmk9yu",
+            "hrp" : "bc",
             "ex"  : Bech32FormatError,
         },
 
@@ -131,16 +140,13 @@ TEST_VECT_ADDR_INVALID = \
         # Invalid HRP characters
         {
             "addr": "t 1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7",
+            "hrp" : "tb",
             "ex"  : Bech32FormatError,
         },
         # No separator
         {
-            "addr": "tcqrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7",
-            "ex"  : Bech32FormatError,
-        },
-        # No separator
-        {
-            "addr": "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3gbty",
+            "addr": "tbqrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7",
+            "hrp" : "tb",
             "ex"  : Bech32FormatError,
         },
     ]
@@ -171,5 +177,4 @@ class SegwitTests(unittest.TestCase):
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(test["ex"],  SegwitDecoder.DecodeAddr, "bc", test["addr"])
-            self.assertRaises(test["ex"],  SegwitDecoder.DecodeAddr, "tb", test["addr"])
+            self.assertRaises(test["ex"],  SegwitDecoder.DecodeAddr, test["hrp"], test["addr"])
