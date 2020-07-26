@@ -36,6 +36,7 @@ class Bip44Const:
     ALLOWED_COINS = \
         [
             Bip44Coins.BITCOIN     , Bip44Coins.BITCOIN_TESTNET,
+            Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET,
             Bip44Coins.BITCOIN_SV  , Bip44Coins.BITCOIN_SV_TESTNET,
             Bip44Coins.LITECOIN    , Bip44Coins.LITECOIN_TESTNET,
             Bip44Coins.DOGECOIN    , Bip44Coins.DOGECOIN_TESTNET,
@@ -48,6 +49,8 @@ class Bip44Const:
         {
             Bip44Coins.BITCOIN              : Bip44BitcoinMainNet,
             Bip44Coins.BITCOIN_TESTNET      : Bip44BitcoinTestNet,
+            Bip44Coins.BITCOIN_CASH         : Bip44BitcoinCashMainNet,
+            Bip44Coins.BITCOIN_CASH_TESTNET : Bip44BitcoinCashTestNet,
             Bip44Coins.BITCOIN_SV           : Bip44BitcoinSvMainNet,
             Bip44Coins.BITCOIN_SV_TESTNET   : Bip44BitcoinSvTestNet,
             Bip44Coins.LITECOIN             : Bip44LitecoinMainNet,

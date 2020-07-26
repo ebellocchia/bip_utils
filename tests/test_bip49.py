@@ -60,6 +60,41 @@ TEST_VECT = \
                     "37mbeJptxfQC6SNNLJ9a8efCY4BwBh5Kak",
                 ],
         },
+        # Bitcoin Cash
+        {
+            "coin"       : Bip44Coins.BITCOIN_CASH,
+            "names"      : ("Bitcoin Cash", "BCH"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+            "wif_master" :  "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
+            "account" :
+                {
+                    "ex_pub"  : "ypub6XD1Q33WmwYsBXZG237uvDEwq6TyKQ4qJgmsaXBYzmkEeiqqBjNfGbj4eryszYmuthLu7ZSTcXGFQnYachKy7wZbtkW6JQZc6BBzbyWhaeg",
+                    "ex_priv" : "yprvAJDezXWcwZzZy3Unv1auZ5JDH4dUuwLywTrGn8mwSSDFmvWgeC4QioQaoZhU4DSe5FQe6oRKgscT2yifCEL2WMBP143ZaJPhq47uDT9qvRy",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "ypub6YYwTNows1mBXUEKPiwjb59omko4q1L1xizLTHcf9jGnSpqEnMkqsCrvkfdMj7FiJM46V4Z8SXfMEXSddYM5GqUqaRZW2Vq9c1XHDqWh9sk",
+                    "ex_priv" : "yprvAKZb3sH42eCtJz9rHhQjDwD5DixaRYcAbW4jeuD3bPjoa2W6EpSbKQYSuN5Jxs9Wr2swLny7koEo8FyteuemBvK85SG1ihwSo8MM3ZXaSU3",
+                },
+            "addresses_legacy" :
+                [
+                    "3Bwt6R3hEY2FoB3PMjGUbxKKeHM2tZGMkA",
+                    "3QAXpUmNCMLRBfBHqZ4X2QtbvKpscf8XF8",
+                    "3KPaWEXZ8UwhQ8CtxeHA4oUYfnWWHQaaMU",
+                    "32vT3n51KZ14osw4BMiJX4Zf36x8SAVNgE",
+                    "3QnzPDR9CLSoTotiDEWffkaGMfqawq8yAu",
+                ],
+            "addresses" :
+                [
+                    "bitcoincash:ppcgpaskfreturznhcjdvmeunscff6ufu5kt8jx4qt",
+                    "bitcoincash:prmgdapr6x6dk8w3qhlmaxsavsq3jlvwgvfc2s2kqy",
+                    "bitcoincash:prpzt72nhvhsum6lf8u0udu7knqs003ewuldavgk6g",
+                    "bitcoincash:pqxc9qdqfjpdrs7mxvvxk55kxxkz328w2v56p07svx",
+                    "bitcoincash:pr7kcxn8jz75luswpdut06f2ll2am0dwzumrq7wyj4",
+                ],
+        },
         # BitcoinSV
         {
             "coin"       : Bip44Coins.BITCOIN_SV,
@@ -206,6 +241,41 @@ TEST_VECT = \
                     "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
                     "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
                     "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+                ],
+        },
+        # Bitcoin Cash test net
+        {
+            "coin"       : Bip44Coins.BITCOIN_CASH_TESTNET,
+            "names"      : ("Bitcoin Cash TestNet", "BCH"),
+            "is_testnet" : True,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "uprv8tXDerPXZ1QsVNjUJWTurs9kA1KGfKUAts74GCkcXtU8GwnH33GDRbNJpEqTvipfCyycARtQJhmdfWf8oKt41X9LL1zeD2pLsWmxEk3VAwd",
+            "wif_master" :  "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
+            "account" :
+                {
+                    "ex_pub"  : "upub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY",
+                    "ex_priv" : "uprv91G7gZkzehuMVxDJTYE6tLivdF8e4rvzSu1LFfKw3b2Qx1Aj8vpoFnHdfUZ3hmi9jsvPifmZ24RTN2KhwB8BfMLTVqaBReibyaFFcTP1s9n",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "upub5F7X3ZAt1HsUyFLTFU9vhKeGULy77aDoJFhscvGBV91tm2mzQ5egFGpeP4nGskwERwbU48g14qREqXJ388X8XBiaLm7PWwk3S45Fe3WAvdK",
+                    "ex_priv" : "uprv928Ae3dzAvKBkmFz9ScvLBhXvK8ci7Vww2nGpXrZvoUutESqrYLRhUWAXpK5acXh517npKuCpJ7NXaoWnLs1dLB9w3MHe3KNUm7hPENqMzt",
+                },
+            "addresses_legacy" :
+                [
+                    "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+                    "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
+                    "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
+                    "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
+                    "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+                ],
+            "addresses" :
+                [
+                    "bchtest:pqeke2snuz9evzq2x26asxx4nd9t8vm8ggd9ngnmpx",
+                    "bchtest:pzqawj7d8qxqtau3686vsxph2ew7exerfg60w5xcq0",
+                    "bchtest:pzc83an7qwjcq6ex952nmkhha4wvruzg7un3fz27x0",
+                    "bchtest:ppzgfa67kf0sng9rw7nl84m5qrurjcm3lqv4kqu2pa",
+                    "bchtest:pqtvvn3z9v5gwza4q3qrrde6s6tsc3k5vy3wpqejv9",
                 ],
         },
         # BitcoinSV test net

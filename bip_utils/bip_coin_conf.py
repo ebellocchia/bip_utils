@@ -62,6 +62,35 @@ class BitcoinConf:
     WIF_NET_VER       = NetVersions(b"\x80", b"\xef")
 
 
+class BitcoinCashConf:
+    """ Class container for Bitcoin Cash configuration. """
+
+    # Names
+    NAMES                 = CoinNames("Bitcoin Cash"        , "BCH")
+    # Test names
+    TEST_NAMES            = CoinNames("Bitcoin Cash TestNet", "BCH")
+
+    # False for using Bitcoin Cash addresses, True for using Bitcoin legacy addresses
+    LEGACY_ADDR          = False
+
+    # BIP44 net versions (same of BIP32)
+    BIP44_KEY_NET_VER    = Bip32Conf.KEY_NET_VER
+    # BIP49 net versions (ypub / yprv) - (upub / uprv)
+    BIP49_KEY_NET_VER    = NetVersions(KeyNetVersions(b"049d7cb2", b"049d7878"),
+                                       KeyNetVersions(b"044a5262", b"044a4e28"))
+
+    # Versions for P2PKH address (Bitcoin Cash has HRP and net version)
+    BCH_P2PKH_NET_VER    = NetVersions(("bitcoincash", b"\x00"), ("bchtest", b"\x00"))
+    # Versions for P2PKH legacy address (same of Bitcoin)
+    LEGACY_P2PKH_NET_VER = BitcoinConf.P2PKH_NET_VER
+    # Versions for P2SH address (Bitcoin Cash has HRP and net version)
+    BCH_P2SH_NET_VER     = NetVersions(("bitcoincash", b"\x08"), ("bchtest", b"\x08"))
+    # Versions for P2PKH legacy address (same of Bitcoin)
+    LEGACY_P2SH_NET_VER  = BitcoinConf.P2SH_NET_VER
+    # WIF net version
+    WIF_NET_VER          = NetVersions(b"\x80", b"\xef")
+
+
 class BitcoinSvConf:
     """ Class container for BitcoinSV configuration. """
 
@@ -76,12 +105,12 @@ class BitcoinSvConf:
     BIP49_KEY_NET_VER = NetVersions(KeyNetVersions(b"049d7cb2", b"049d7878"),
                                     KeyNetVersions(b"044a5262", b"044a4e28"))
 
-    # Versions for P2PKH address
-    P2PKH_NET_VER     = NetVersions(b"\x00", b"\x6f")
-    # Versions for P2SH address
-    P2SH_NET_VER      = NetVersions(b"\x05", b"\xc4")
-    # WIF net version
-    WIF_NET_VER       = NetVersions(b"\x80", b"\xef")
+    # Versions for P2PKH address (same of Bitcoin)
+    P2PKH_NET_VER     = BitcoinConf.P2PKH_NET_VER
+    # Versions for P2SH address (same of Bitcoin)
+    P2SH_NET_VER      = BitcoinConf.P2SH_NET_VER
+    # WIF net version (same of Bitcoin)
+    WIF_NET_VER       = BitcoinConf.WIF_NET_VER
 
 
 class LitecoinConf:
@@ -98,11 +127,11 @@ class LitecoinConf:
     P2SH_DEPR_ADDR     = False
 
     # BIP44 net versions
-    # Litecoin can have 2 different main version: same of Bitcoin or (Ltpv / Ltub), test net version is (ttub / ttpv)
+    # Litecoin can have 2 different main version: same of Bitcoin or (Ltpv / Ltub), whereas test net version is always (ttub / ttpv)
     BIP44_KEY_NET_VER  = NetVersions((BitcoinConf.BIP44_KEY_NET_VER.Main(), KeyNetVersions(b"019da462", b"019d9cfe")),
                                      KeyNetVersions(b"0436f6e1", b"0436ef7d"))
     # BIP49 net versions
-    # Litecoin can have 2 different main version: same of Bitcoin or (Mtpv / Mtub), test net version is (ttub / ttpv)
+    # Litecoin can have 2 different main version: same of Bitcoin or (Mtpv / Mtub), whereas test net version is always (ttub / ttpv)
     BIP49_KEY_NET_VER  = NetVersions((BitcoinConf.BIP49_KEY_NET_VER.Main(), KeyNetVersions(b"01b26ef6", b"01b26792")),
                                      KeyNetVersions(b"0436f6e1", b"0436ef7d"))
     # BIP84 net versions (zpub / zprv) - (ttub / ttpv)

@@ -22,8 +22,7 @@
 # Imports
 from .bip_coin_base import BipCoinBase
 from .bip_coin_conf import *
-from .P2PKH         import P2PKH
-from .bch_addr      import BchAddr
+from .P2PKH         import P2PKH, BchP2PKH
 from .eth_addr      import EthAddr
 from .xrp_addr      import XrpAddr
 
@@ -62,6 +61,29 @@ class Bip44Litecoin(Bip44Coin):
             return self.m_key_net_ver.Test()
 
 
+class Bip44BitcoinCash(Bip44Coin):
+    """ Bitcoin Cash BIP-0044 class.
+    It overrides ComputeAddress to return different addresses depending on the configuration.
+    """
+
+    def ComputeAddress(self, pub_key):
+        """ Compute address from public key.
+        Bitcoin Cash overrides the method because it can have 2 different addresses types
+
+        Args:
+            pub_key (BipPublicKey object): BipPublicKey object
+
+        Returns:
+            str: Address string
+        """
+        if not self.m_coin_conf.LEGACY_ADDR:
+            addr_ver = self.m_coin_conf.BCH_P2PKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.BCH_P2PKH_NET_VER.Test()
+            return self.m_addr_fct["bch"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver[0], addr_ver[1])
+        else:
+            addr_ver = self.m_coin_conf.LEGACY_P2PKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.LEGACY_P2PKH_NET_VER.Test()
+            return self.m_addr_fct["legacy"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
+
+
 # Configuration for Bitcoin main net
 Bip44BitcoinMainNet = Bip44Coin(coin_conf  = BitcoinConf,
                                 is_testnet = False,
@@ -70,6 +92,14 @@ Bip44BitcoinMainNet = Bip44Coin(coin_conf  = BitcoinConf,
 Bip44BitcoinTestNet = Bip44Coin(coin_conf  = BitcoinConf,
                                 is_testnet = True,
                                 addr_fct   = P2PKH)
+# Configuration for Bitcoin Cash main net
+Bip44BitcoinCashMainNet = Bip44BitcoinCash(coin_conf  = BitcoinCashConf,
+                                           is_testnet = False,
+                                           addr_fct   = {"legacy" : P2PKH, "bch" : BchP2PKH})
+# Configuration for Bitcoin Cash test net
+Bip44BitcoinCashTestNet = Bip44BitcoinCash(coin_conf  = BitcoinCashConf,
+                                           is_testnet = True,
+                                           addr_fct   = {"legacy" : P2PKH, "bch" : BchP2PKH})
 # Configuration for BitcoinSV main net
 Bip44BitcoinSvMainNet = Bip44Coin(coin_conf  = BitcoinSvConf,
                                   is_testnet = False,

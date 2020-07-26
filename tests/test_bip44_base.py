@@ -25,7 +25,8 @@ from bip_utils import (
      Bip44Coins, Bip44Changes, Bip44Levels,
      Bip44DepthError, Bip44CoinNotAllowedError,
      Bip32KeyError,
-     LitecoinConf
+     BitcoinCashConf,
+     LitecoinConf,
 )
 
 
@@ -89,12 +90,22 @@ class Bip44BaseTestHelper:
                 # Reset flag
                 LitecoinConf.EX_KEY_ALT = False
 
+            # Only for Bitcoin Cash and Bitcoin Cash test net, test legacy addresses
+            if test["coin"] in (Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
+                # Set flag
+                BitcoinCashConf.LEGACY_ADDR = True
+                # Test addresses (bip_obj_ctx is already the external chain)
+                for i in range(len(test["addresses_legacy"])):
+                    ut_class.assertEqual(test["addresses_legacy"][i], bip_obj_ctx.AddressIndex(i).PublicKey().ToAddress())
+                # Reset flag
+                BitcoinCashConf.LEGACY_ADDR = False
+
             # Only for Litecoin and Litecoin test net, test deprecated addresses
             if test["coin"] in (Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET) and "addresses_depr" in test:
                 # Set flag
                 LitecoinConf.P2SH_DEPR_ADDR = True
                 # Test addresses (bip_obj_ctx is already the external chain)
-                for i in range(len(test["addresses"])):
+                for i in range(len(test["addresses_depr"])):
                     ut_class.assertEqual(test["addresses_depr"][i], bip_obj_ctx.AddressIndex(i).PublicKey().ToAddress())
                 # Reset flag
                 LitecoinConf.P2SH_DEPR_ADDR = False

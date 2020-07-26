@@ -38,13 +38,16 @@ class Bip44Coins(IntEnum):
     DASH                 = 5,
     ETHEREUM             = 60,
     RIPPLE               = 144,
+    BITCOIN_CASH         = 145,
     BITCOIN_SV           = 236,
     # Test nets. Special indexes are used here, they are converted to 1 internally
     BITCOIN_TESTNET      = -1,
     LITECOIN_TESTNET     = -2,
     DOGECOIN_TESTNET     = -3,
     DASH_TESTNET         = -4,
+    BITCOIN_CASH_TESTNET = -6,
     BITCOIN_SV_TESTNET   = -5,
+
 
 @unique
 class Bip44Changes(IntEnum):

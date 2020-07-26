@@ -35,25 +35,28 @@ class Bip49Const:
     # Allowed coins
     ALLOWED_COINS = \
         [
-            Bip44Coins.BITCOIN   , Bip44Coins.BITCOIN_TESTNET,
-            Bip44Coins.BITCOIN_SV, Bip44Coins.BITCOIN_SV_TESTNET,
-            Bip44Coins.LITECOIN  , Bip44Coins.LITECOIN_TESTNET,
-            Bip44Coins.DOGECOIN  , Bip44Coins.DOGECOIN_TESTNET,
-            Bip44Coins.DASH      , Bip44Coins.DASH_TESTNET,
+            Bip44Coins.BITCOIN     , Bip44Coins.BITCOIN_TESTNET,
+            Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET,
+            Bip44Coins.BITCOIN_SV  , Bip44Coins.BITCOIN_SV_TESTNET,
+            Bip44Coins.LITECOIN    , Bip44Coins.LITECOIN_TESTNET,
+            Bip44Coins.DOGECOIN    , Bip44Coins.DOGECOIN_TESTNET,
+            Bip44Coins.DASH        , Bip44Coins.DASH_TESTNET,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
         {
-            Bip44Coins.BITCOIN            : Bip49BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET    : Bip49BitcoinTestNet,
-            Bip44Coins.BITCOIN_SV         : Bip49BitcoinSvMainNet,
-            Bip44Coins.BITCOIN_SV_TESTNET : Bip49BitcoinSvTestNet,
-            Bip44Coins.LITECOIN           : Bip49LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET   : Bip49LitecoinTestNet,
-            Bip44Coins.DOGECOIN           : Bip49DogecoinMainNet,
-            Bip44Coins.DOGECOIN_TESTNET   : Bip49DogecoinTestNet,
-            Bip44Coins.DASH               : Bip49DashMainNet,
-            Bip44Coins.DASH_TESTNET       : Bip49DashTestNet,
+            Bip44Coins.BITCOIN              : Bip49BitcoinMainNet,
+            Bip44Coins.BITCOIN_TESTNET      : Bip49BitcoinTestNet,
+            Bip44Coins.BITCOIN_CASH         : Bip49BitcoinCashMainNet,
+            Bip44Coins.BITCOIN_CASH_TESTNET : Bip49BitcoinCashTestNet,
+            Bip44Coins.BITCOIN_SV           : Bip49BitcoinSvMainNet,
+            Bip44Coins.BITCOIN_SV_TESTNET   : Bip49BitcoinSvTestNet,
+            Bip44Coins.LITECOIN             : Bip49LitecoinMainNet,
+            Bip44Coins.LITECOIN_TESTNET     : Bip49LitecoinTestNet,
+            Bip44Coins.DOGECOIN             : Bip49DogecoinMainNet,
+            Bip44Coins.DOGECOIN_TESTNET     : Bip49DogecoinTestNet,
+            Bip44Coins.DASH                 : Bip49DashMainNet,
+            Bip44Coins.DASH_TESTNET         : Bip49DashTestNet,
         }
 
 
