@@ -23,7 +23,7 @@
 
 # Imports
 from .bech32_ex import Bech32ChecksumError, Bech32FormatError
-from .bech32    import Bech32Decoder, Bech32Encoder
+from .bech32    import Bech32Decoder, Bech32Encoder, Bech32Utils
 from .segwit_ex import SegwitAddressError
 from .          import utils
 
@@ -43,6 +43,7 @@ class SegwitConst:
     DATA_MAX_LEN              = 40
     # Accepted data lengths when witness version is zero
     WITNESS_VER_ZERO_DATA_LEN = (20, 32)
+
 
 class SegwitUtils:
     """ Class container for Segwit utility functions. """
@@ -99,13 +100,7 @@ class SegwitEncoder(Bech32Encoder):
             SegwitAddressError: If the string is not valid
         """
 
-        # Convert to base32
-        base32_enc = utils.ConvertToBits(wit_prog, 8, 5)
-        if base32_enc == None:
-            raise SegwitAddressError("Invalid segwit address data, cannot perform base32 encoding")
-
-        # Encode
-        return SegwitEncoder._Encode(hrp, [wit_ver] + base32_enc, SegwitConst.SEPARATOR)
+        return SegwitEncoder._Encode(hrp, [wit_ver] + Bech32Utils.ConvertToBase32(wit_prog), SegwitConst.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp, data):
@@ -148,22 +143,20 @@ class SegwitDecoder(Bech32Decoder):
         hrpgot, data = SegwitDecoder._Decode(addr, SegwitConst.SEPARATOR, SegwitConst.CHECKSUM_LEN)
         # Check HRP
         if hrpgot != hrp:
-            raise SegwitAddressError("Invalid segwit address (HRP not valid)")
+            raise SegwitAddressError("Invalid segwit address (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
 
         # Convert back from base32
-        base32_dec = utils.ConvertToBits(data[1:], 5, 8, False)
-        if base32_dec == None:
-            raise SegwitAddressError("Invalid segwit address data, cannot perform base32 decoding")
+        conv_data = Bech32Utils.ConvertFromBase32(data[1:])
 
         # Check decoded data
-        if len(base32_dec) < SegwitConst.DATA_MIN_LEN or len(base32_dec) > SegwitConst.DATA_MAX_LEN:
+        if len(conv_data) < SegwitConst.DATA_MIN_LEN or len(conv_data) > SegwitConst.DATA_MAX_LEN:
             raise SegwitAddressError("Invalid segwit address (length not valid)")
         if data[0] > SegwitConst.WITNESS_VER_MAX_VAL:
             raise SegwitAddressError("Invalid segwit address (witness version not valid)")
-        if data[0] == 0 and not len(base32_dec) in SegwitConst.WITNESS_VER_ZERO_DATA_LEN:
+        if data[0] == 0 and not len(conv_data) in SegwitConst.WITNESS_VER_ZERO_DATA_LEN:
             raise SegwitAddressError("Invalid segwit address (length not valid)")
 
-        return (data[0], utils.ListToBytes(base32_dec))
+        return (data[0], utils.ListToBytes(conv_data))
 
     @staticmethod
     def _VerifyChecksum(hrp, data):

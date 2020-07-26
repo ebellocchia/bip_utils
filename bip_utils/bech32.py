@@ -39,6 +39,50 @@ class Bech32Const:
     MIN_DATA_PART_LEN = 7
 
 
+class Bech32Utils:
+    """ Class container for Bech32 utility functions. """
+
+    @staticmethod
+    def ConvertToBase32(data):
+        """ Convert data to base32.
+
+        Args:
+            data (list or bytes): Data to be converted
+        Returns:
+            list: Converted data
+
+        Raises:
+            Bech32FormatError: If the string is not valid
+        """
+
+        # Convert to base32
+        conv_data = utils.ConvertToBits(data, 8, 5)
+        if conv_data == None:
+            raise Bech32FormatError("Invalid data, cannot perform conversion to base32")
+
+        return conv_data
+
+    @staticmethod
+    def ConvertFromBase32(data):
+        """ Convert data from base32.
+
+        Args:
+            data (list or bytes): Data to be converted
+        Returns:
+            list: Converted data
+
+        Raises:
+            Bech32FormatError: If the string is not valid
+        """
+
+        # Convert to base32
+        conv_data = utils.ConvertToBits(data, 5, 8, False)
+        if conv_data == None:
+            raise Bech32FormatError("Invalid data, cannot perform conversion from base32")
+
+        return conv_data
+
+
 class Bech32Encoder(ABC):
     """ Bech32 encoder class. It provides methods for encoding to Bech32 format. """
 
@@ -73,6 +117,7 @@ class Bech32Encoder(ABC):
             str: Computed checksum
         """
         pass
+
 
 class Bech32Decoder(ABC):
     """ Bech32 decoder class. It provides methods for decoding Bech32 format. """
