@@ -363,7 +363,7 @@ These libraries are used internally by the other libraries, but they are availab
 
 **Code example**
 
-    from bip_utils import P2PKH, P2SH, P2WPKH
+    from bip_utils import P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH
 
     # P2PKH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
     addr = P2PKH.ToAddress(pub_key_bytes)
@@ -371,6 +371,11 @@ These libraries are used internally by the other libraries, but they are availab
     addr = P2SH.ToAddress(pub_key_bytes)
     # P2WPKH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
     addr = P2WPKH.ToAddress(pub_key_bytes)
+
+    # P2PKH addresses in Bitcoin Cash format
+    addr = BchP2PKH.ToAddress(pub_key_bytes, "bitcoincash", b"\x00")
+    # P2SH addresses in Bitcoin Cash format
+    addr = BchP2SH.ToAddress(pub_key_bytes, "bitcoincash", b"\x00")
 
 ## WIF
 
@@ -423,7 +428,7 @@ This library is used internally by the other libraries, but it's available also 
 **Code example**
 
     import binascii
-    from bip_utils import SegwitDecoder, SegwitEncoder
+    from bip_utils import SegwitBech32Decoder, SegwitBech32Encoder
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
 
@@ -431,9 +436,9 @@ This library is used internally by the other libraries, but it's available also 
     wit_ver = 0
 
     # Encode
-    enc = SegwitEncoder.EncodeAddr("bc", wit_ver, data_bytes)
+    enc = SegwitBech32Encoder.Encode("bc", wit_ver, data_bytes)
     # Decode
-    dec = SegwitDecoder.DecodeAddr("bc", enc)
+    dec = SegwitBech32Decoder.Decode("bc", enc)
 
 ## Complete code example
 
