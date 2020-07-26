@@ -22,7 +22,9 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import BitcoinConf, BitcoinSvConf, LitecoinConf, DogecoinConf, DashConf, P2SH
+from bip_utils import (
+    BitcoinConf, BitcoinCashConf, BitcoinSvConf, LitecoinConf, DogecoinConf, DashConf, P2SH, BchP2SH
+    )
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -112,6 +114,31 @@ TEST_VECT = \
         },
     ]
 
+# Tests for Bitcoin Cash
+TEST_VECT_BCH = \
+    [
+        # Main nets
+        {
+            "pub_key"      : b"039b3b694b8fc5b5e07fb069c783cac754f5d38c3e08bed1960e31fdb1dda35c24",
+            "address"      :  "bitcoincash:pqlmd62cztjhhdrfr7dy5c5gv2np5nmknvhfvqp85n",
+            "hrp"          :  BitcoinCashConf.BCH_P2SH_NET_VER.Main()[0],
+            "net_addr_ver" :  BitcoinCashConf.BCH_P2SH_NET_VER.Main()[1],
+        },
+        {
+            "pub_key"      : b"025c3cd8658ff360e3ab7aec091d33d386fd02173fb4d9bd08713dae4b13c9b869",
+            "address"      :  "bitcoincash:prlqav3u50a76ln0u8hy7rj5pnjvz68yd5tkse7wf8",
+            "hrp"          :  BitcoinCashConf.BCH_P2SH_NET_VER.Main()[0],
+            "net_addr_ver" :  BitcoinCashConf.BCH_P2SH_NET_VER.Main()[1],
+        },
+        # Test nets
+        {
+            "pub_key"      : b"03b22d357d64aa0c10caffcdaeb22fca282b31f011c8c2c8c6d5e56a676d52c803",
+            "address"      :  "bchtest:pzqawj7d8qxqtau3686vsxph2ew7exerfg60w5xcq0",
+            "hrp"          :  BitcoinCashConf.BCH_P2SH_NET_VER.Test()[0],
+            "net_addr_ver" :  BitcoinCashConf.BCH_P2SH_NET_VER.Test()[1],
+        },
+    ]
+
 # Tests for invalid keys
 TEST_VECT_KEY_INVALID = \
     [
@@ -134,8 +161,11 @@ class P2SHTests(unittest.TestCase):
     def test_to_addr(self):
         for test in TEST_VECT:
             self.assertEqual(test["address"], P2SH.ToAddress(binascii.unhexlify(test["pub_key"]), test["net_addr_ver"]))
+        for test in TEST_VECT_BCH:
+            self.assertEqual(test["address"], BchP2SH.ToAddress(binascii.unhexlify(test["pub_key"]), test["hrp"], test["net_addr_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, P2SH.ToAddress, binascii.unhexlify(test))
+            self.assertRaises(ValueError, BchP2SH.ToAddress, binascii.unhexlify(test), "", b"\x00")
