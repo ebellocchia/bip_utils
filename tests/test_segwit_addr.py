@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bech32Decoder, Bech32Encoder, Bech32ChecksumError, Bech32FormatError
+from bip_utils import SegwitDecoder, SegwitEncoder, Bech32ChecksumError, Bech32FormatError, SegwitAddressError
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -71,36 +71,91 @@ TEST_VECT = \
         },
     ]
 
-# Tests for Bech32 encoded addresses that are not valid from BIP-0173 page, plus a couple for better code coverage
+# Tests for Segwit encoded addresses that are not valid from BIP-0173 page, plus a couple for better code coverage
 TEST_VECT_ADDR_INVALID = \
     [
+        #
         # From BIP-0173 page
-        "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
-        "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5",
-        "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
-        "bc1rw5uspcuh",
-        "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
-        "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
-        "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
-        "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du",
-        "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv",
-        "bc1gmk9yu",
-        # Added
-        "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3gbty",
-        "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90y0c5xw7kw5rljs90",
+        #
+
+        # Invalid human-readable part
+        {
+            "addr": "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
+            "ex"  : SegwitAddressError,
+        },
+        # Invalid witness version
+        {
+            "addr": "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
+            "ex"  : SegwitAddressError,
+        },
+        # Invalid program length
+        {
+            "addr": "bc1rw5uspcuh",
+            "ex"  : SegwitAddressError,
+        },
+        # Invalid program length
+        {
+            "addr": "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
+            "ex"  : SegwitAddressError,
+        },
+        # Invalid program length for witness version 0
+        {
+            "addr": "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
+            "ex"  : SegwitAddressError,
+        },
+        # Zero padding of more than 4 bits
+        {
+            "addr": "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du",
+            "ex"  : SegwitAddressError,
+        },
+        # Invalid checksum
+        {
+            "addr": "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5",
+            "ex"  : Bech32ChecksumError,
+        },
+        # Mixed case
+        {
+            "addr": "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
+            "ex"  : Bech32FormatError,
+        },
+        # Empty data section
+        {
+            "addr": "bc1gmk9yu",
+            "ex"  : Bech32FormatError,
+        },
+
+        #
+        # Added for improving code coverage
+        #
+
+        # Invalid HRP characters
+        {
+            "addr": "t 1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7",
+            "ex"  : Bech32FormatError,
+        },
+        # No separator
+        {
+            "addr": "tcqrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7",
+            "ex"  : Bech32FormatError,
+        },
+        # No separator
+        {
+            "addr": "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3gbty",
+            "ex"  : Bech32FormatError,
+        },
     ]
 
 
 #
 # Tests
 #
-class Bech32Tests(unittest.TestCase):
+class SegwitTests(unittest.TestCase):
     # Test decoder
     def test_decoder(self):
         for test in TEST_VECT:
             # Test decoder
             hrp = test["encode"][:2]
-            dec = Bech32Decoder.DecodeAddr(hrp, test["encode"])
+            dec = SegwitDecoder.DecodeAddr(hrp, test["encode"])
 
             self.assertEqual(binascii.hexlify(dec[1]), test["raw"])
             self.assertEqual(dec[0], 0)
@@ -110,11 +165,11 @@ class Bech32Tests(unittest.TestCase):
         for test in TEST_VECT:
             # Test encoder
             hrp = test["encode"][:2]
-            enc = Bech32Encoder.EncodeAddr(hrp, 0, binascii.unhexlify(test["raw"]))
+            enc = SegwitEncoder.EncodeAddr(hrp, 0, binascii.unhexlify(test["raw"]))
             self.assertEqual(test["encode"], enc)
 
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "bc", test)
-            self.assertRaises((Bech32ChecksumError, Bech32FormatError),  Bech32Decoder.DecodeAddr, "tb", test)
+            self.assertRaises(test["ex"],  SegwitDecoder.DecodeAddr, "bc", test["addr"])
+            self.assertRaises(test["ex"],  SegwitDecoder.DecodeAddr, "tb", test["addr"])
