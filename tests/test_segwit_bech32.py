@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import SegwitDecoder, SegwitEncoder, Bech32ChecksumError, Bech32FormatError, SegwitAddressError
+from bip_utils import SegwitBech32Decoder, SegwitBech32Encoder, Bech32ChecksumError, Bech32FormatError, SegwitBech32Error
 
 
 # Some keys randomly taken from Ian Coleman web page
@@ -82,31 +82,31 @@ TEST_VECT_ADDR_INVALID = \
         {
             "addr": "tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty",
             "hrp" : "tb",
-            "ex"  : SegwitAddressError,
+            "ex"  : SegwitBech32Error,
         },
         # Invalid witness version
         {
             "addr": "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
             "hrp" : "bc",
-            "ex"  : SegwitAddressError,
+            "ex"  : SegwitBech32Error,
         },
         # Invalid program length
         {
             "addr": "bc1rw5uspcuh",
             "hrp" : "bc",
-            "ex"  : SegwitAddressError,
+            "ex"  : SegwitBech32Error,
         },
         # Invalid program length
         {
             "addr": "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
             "hrp" : "bc",
-            "ex"  : SegwitAddressError,
+            "ex"  : SegwitBech32Error,
         },
         # Invalid program length for witness version 0
         {
             "addr": "BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P",
             "hrp" : "bc",
-            "ex"  : SegwitAddressError,
+            "ex"  : SegwitBech32Error,
         },
         # Zero padding of more than 4 bits
         {
@@ -149,6 +149,12 @@ TEST_VECT_ADDR_INVALID = \
             "hrp" : "tb",
             "ex"  : Bech32FormatError,
         },
+        # Empty HRP
+        {
+            "addr": "qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7",
+            "hrp" : "tb",
+            "ex"  : Bech32FormatError,
+        },
     ]
 
 
@@ -161,7 +167,7 @@ class SegwitTests(unittest.TestCase):
         for test in TEST_VECT:
             # Test decoder
             hrp = test["encode"][:2]
-            dec = SegwitDecoder.DecodeAddr(hrp, test["encode"])
+            dec = SegwitBech32Decoder.Decode(hrp, test["encode"])
 
             self.assertEqual(binascii.hexlify(dec[1]), test["raw"])
             self.assertEqual(dec[0], 0)
@@ -171,10 +177,10 @@ class SegwitTests(unittest.TestCase):
         for test in TEST_VECT:
             # Test encoder
             hrp = test["encode"][:2]
-            enc = SegwitEncoder.EncodeAddr(hrp, 0, binascii.unhexlify(test["raw"]))
+            enc = SegwitBech32Encoder.Encode(hrp, 0, binascii.unhexlify(test["raw"]))
             self.assertEqual(test["encode"], enc)
 
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(test["ex"],  SegwitDecoder.DecodeAddr, test["hrp"], test["addr"])
+            self.assertRaises(test["ex"],  SegwitBech32Decoder.Decode, test["hrp"], test["addr"])

@@ -22,13 +22,13 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
-from .bech32_ex import Bech32ChecksumError, Bech32FormatError
-from .bech32    import Bech32Decoder, Bech32Encoder, Bech32Utils
-from .segwit_ex import SegwitAddressError
-from .          import utils
+from .bech32_ex        import Bech32ChecksumError, Bech32FormatError
+from .bech32           import Bech32Decoder, Bech32Encoder, Bech32Utils
+from .segwit_bech32_ex import SegwitBech32Error
+from .                 import utils
 
 
-class SegwitConst:
+class SegwitBech32Const:
     """ Class container for Segwit constants. """
 
     # Separator
@@ -45,7 +45,7 @@ class SegwitConst:
     WITNESS_VER_ZERO_DATA_LEN = (20, 32)
 
 
-class SegwitUtils:
+class SegwitBech32Utils:
     """ Class container for Segwit utility functions. """
 
     @staticmethod
@@ -81,11 +81,11 @@ class SegwitUtils:
         return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 0x1f for x in hrp]
 
 
-class SegwitEncoder(Bech32Encoder):
+class SegwitBech32Encoder(Bech32Encoder):
     """ Segwit encoder class. It provides methods for encoding to Segwit format. """
 
     @staticmethod
-    def EncodeAddr(hrp, wit_ver, wit_prog):
+    def Encode(hrp, wit_ver, wit_prog):
         """ Encode a segwit address.
 
         Args:
@@ -97,10 +97,10 @@ class SegwitEncoder(Bech32Encoder):
             str: Encoded address
 
         Raises:
-            SegwitAddressError: If the string is not valid
+            Bech32FormatError: If the data is not valid
         """
 
-        return SegwitEncoder._Encode(hrp, [wit_ver] + Bech32Utils.ConvertToBase32(wit_prog), SegwitConst.SEPARATOR)
+        return SegwitBech32Encoder._Encode(hrp, [wit_ver] + Bech32Utils.ConvertToBase32(wit_prog), SegwitBech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp, data):
@@ -114,16 +114,16 @@ class SegwitEncoder(Bech32Encoder):
             str: Computed checksum
         """
 
-        values = SegwitUtils.HrpExpand(hrp) + data
-        polymod = SegwitUtils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
-        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(SegwitConst.CHECKSUM_LEN)]
+        values = SegwitBech32Utils.HrpExpand(hrp) + data
+        polymod = SegwitBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
+        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(SegwitBech32Const.CHECKSUM_LEN)]
 
 
-class SegwitDecoder(Bech32Decoder):
+class SegwitBech32Decoder(Bech32Decoder):
     """ Segwit decoder class. It provides methods for decoding Segwit format. """
 
     @staticmethod
-    def DecodeAddr(hrp, addr):
+    def Decode(hrp, addr):
         """ Decode a segwit address.
 
         Args:
@@ -134,27 +134,27 @@ class SegwitDecoder(Bech32Decoder):
             tuple: Witness version (index 0) and witness program (index 1)
 
         Raises:
-            SegwitAddressError: If the string is not valid
-            Bech32FormatError: If the string is not valid
+            SegwitBech32Error: If the address is not valid
+            Bech32FormatError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
 
         # Decode string
-        hrpgot, data = SegwitDecoder._Decode(addr, SegwitConst.SEPARATOR, SegwitConst.CHECKSUM_LEN)
+        hrpgot, data = SegwitBech32Decoder._Decode(addr, SegwitBech32Const.SEPARATOR, SegwitBech32Const.CHECKSUM_LEN)
         # Check HRP
         if hrpgot != hrp:
-            raise SegwitAddressError("Invalid segwit address (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+            raise SegwitBech32Error("Invalid segwit address (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
 
         # Convert back from base32
         conv_data = Bech32Utils.ConvertFromBase32(data[1:])
 
         # Check decoded data
-        if len(conv_data) < SegwitConst.DATA_MIN_LEN or len(conv_data) > SegwitConst.DATA_MAX_LEN:
-            raise SegwitAddressError("Invalid segwit address (length not valid)")
-        if data[0] > SegwitConst.WITNESS_VER_MAX_VAL:
-            raise SegwitAddressError("Invalid segwit address (witness version not valid)")
-        if data[0] == 0 and not len(conv_data) in SegwitConst.WITNESS_VER_ZERO_DATA_LEN:
-            raise SegwitAddressError("Invalid segwit address (length not valid)")
+        if len(conv_data) < SegwitBech32Const.DATA_MIN_LEN or len(conv_data) > SegwitBech32Const.DATA_MAX_LEN:
+            raise SegwitBech32Error("Invalid segwit address (length not valid)")
+        if data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
+            raise SegwitBech32Error("Invalid segwit address (witness version not valid)")
+        if data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_LEN:
+            raise SegwitBech32Error("Invalid segwit address (length not valid)")
 
         return (data[0], utils.ListToBytes(conv_data))
 
@@ -169,4 +169,4 @@ class SegwitDecoder(Bech32Decoder):
         Returns:
             bool: True if valid, false otherwise
         """
-        return SegwitUtils.PolyMod(SegwitUtils.HrpExpand(hrp) + data) == 1
+        return SegwitBech32Utils.PolyMod(SegwitBech32Utils.HrpExpand(hrp) + data) == 1

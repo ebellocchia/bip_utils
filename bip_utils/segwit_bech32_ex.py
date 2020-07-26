@@ -19,6 +19,6 @@
 # THE SOFTWARE
 
 
-class SegwitAddressError(Exception):
+class SegwitBech32Error(Exception):
     """ Exception in case of address error. """
     pass

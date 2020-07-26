@@ -22,7 +22,7 @@
 # Imports
 import binascii
 from .              import utils
-from .segwit_addr   import SegwitEncoder
+from .segwit_bech32 import SegwitBech32Encoder
 from .bip_coin_conf import BitcoinConf
 from .key_helper    import KeyHelper
 
@@ -58,4 +58,4 @@ class P2WPKH:
         if not KeyHelper.IsPublicCompressed(pub_key_bytes):
             raise ValueError("Public compressed key is required for P2WPKH")
 
-        return SegwitEncoder.EncodeAddr(net_addr_ver, P2WPKHConst.WITNESS_VER, utils.Hash160(pub_key_bytes))
+        return SegwitBech32Encoder.Encode(net_addr_ver, P2WPKHConst.WITNESS_VER, utils.Hash160(pub_key_bytes))
