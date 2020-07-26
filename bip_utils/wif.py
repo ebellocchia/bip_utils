@@ -29,19 +29,20 @@ from .              import utils
 class WifConst:
     """ Class container for WIF constants. """
 
-    # Public key suffix
-    PUB_KEY_SUFFIX = b"\x01"
+    # Suffix to be added if the private key correspond to a compressed public key
+    COMPR_PUB_KEY_SUFFIX = b"\x01"
 
 
 class WifEncoder:
     """ WIF encoder class. It provides methods for encoding to WIF format. """
 
     @staticmethod
-    def Encode(key_bytes, net_addr_ver = BitcoinConf.WIF_NET_VER.Main()):
+    def Encode(key_bytes, compr_pub_key = True, net_addr_ver = BitcoinConf.WIF_NET_VER.Main()):
         """ Encode key bytes into a WIF string.
 
         Args:
             key_bytes (bytes)             : Key bytes
+            compr_pub_key (bool)          : True if private key corresponds to a compressed public key, false otherwise
             net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
 
         Returns:
@@ -52,12 +53,12 @@ class WifEncoder:
         """
 
         # Check key
-        if not KeyHelper.IsValid(key_bytes):
+        if not KeyHelper.IsPrivate(key_bytes):
             raise ValueError("Invalid key (%s)" % utils.BytesToHexString(key_bytes))
 
-        # Add suffix if compressed public key
-        if KeyHelper.IsPublicCompressed(key_bytes):
-            key_bytes += WifConst.PUB_KEY_SUFFIX
+        # Add suffix if correspond to a compressed public key
+        if compr_pub_key:
+            key_bytes += WifConst.COMPR_PUB_KEY_SUFFIX
 
         # Add net address version
         key_bytes = net_addr_ver + key_bytes
@@ -94,11 +95,11 @@ class WifDecoder:
         # Remove net version
         key_bytes = key_bytes[1:]
 
-        # Remove suffix if compressed public key
-        if KeyHelper.IsPublicCompressed(key_bytes[:-1]):
+        # Remove suffix if correspond to a compressed public key
+        if KeyHelper.IsPrivate(key_bytes[:-1]):
             # Check the compressed public key suffix
-            if key_bytes[-1] != ord(WifConst.PUB_KEY_SUFFIX):
-                raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" % (ord(WifConst.PUB_KEY_SUFFIX), key_bytes[-1]))
+            if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
+                raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" % (ord(WifConst.COMPR_PUB_KEY_SUFFIX), key_bytes[-1]))
             # Remove it
             key_bytes = key_bytes[:-1]
 

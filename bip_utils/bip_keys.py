@@ -138,15 +138,15 @@ class BipPrivateKey:
         """
         return Bip32KeySerializer(self.m_bip32_obj).SerializePrivateKey()
 
-    def ToWif(self):
+    def ToWif(self, compr_pub_key = True):
         """ Return key in WIF format.
+
+        Args:
+            compr_pub_key (bool) : True if private key corresponds to a compressed public key, false otherwise
 
         Returns:
             str: Key in WIF format
         """
         wif_net_ver = self.m_coin_class.WifNetVersion()
 
-        if not wif_net_ver is None:
-            return WifEncoder.Encode(self.Raw().ToBytes(), wif_net_ver)
-        else:
-            return ""
+        return WifEncoder.Encode(self.Raw().ToBytes(), compr_pub_key, wif_net_ver) if not wif_net_ver is None else ""
