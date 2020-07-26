@@ -29,6 +29,7 @@ In addition to this, the package allows to:
 
 The currently supported coins are:
 - Bitcoin (and related test net)
+- Bitcoin Cash (and related test net)
 - BitcoinSV (and related test net)
 - Litecoin (and related test net)
 - Dogecoin (and related test net)
@@ -283,6 +284,7 @@ The private and public extended keys can be printed at any level.
 
 Currently supported coins enumerative:
 - Bitcoin (and related test net) : *Bip44Coins.BITCOIN, Bip44Coins.BITCOIN_TESTNET*
+- Bitcoin Cash (and related test net) : *Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET*
 - BitcoinSV (and related test net) : *Bip44Coins.BITCOIN_SV, Bip44Coins.BITCOIN_SV_TESTNET*
 - Litecoin (and related test net) : *Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET*
 - Dogecoin (and related test net) : *Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET*
@@ -421,24 +423,26 @@ It supports both normal encode/decode and check_encode/check_decode with Bitcoin
     dec     = Base58Decoder.Decode(enc, Base58Alphabets.RIPPLE)
     chk_dec = Base58Decoder.CheckDecode(chk_enc, Base58Alphabets.RIPPLE)
 
-## Segwit
+## Bech32
 
 This library is used internally by the other libraries, but it's available also for external use.
 
 **Code example**
 
     import binascii
-    from bip_utils import SegwitBech32Decoder, SegwitBech32Encoder
+    from bip_utils import SegwitBech32Decoder, SegwitBech32Encoder, BchBech32Encoder, BchBech32Decoder
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
 
-    # Witness version
-    wit_ver = 0
-
-    # Encode
-    enc = SegwitBech32Encoder.Encode("bc", wit_ver, data_bytes)
-    # Decode
+    # Encode with segwit
+    enc = SegwitBech32Encoder.Encode("bc", 0, data_bytes)
+    # Decode with segwit
     dec = SegwitBech32Decoder.Decode("bc", enc)
+
+    # Encode with BCH
+    enc = BchBech32Encoder.Encode("bitcoincash", b"\x00", data_bytes)
+    # Decode with BCH
+    dec = BchBech32Decoder.Decode("bitcoincash", enc)
 
 ## Complete code example
 
