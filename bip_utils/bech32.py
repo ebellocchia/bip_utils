@@ -87,7 +87,7 @@ class Bech32Encoder(ABC):
     """ Bech32 encoder class. It provides methods for encoding to Bech32 format. """
 
     @classmethod
-    def _Encode(cls, hrp, data, sep):
+    def _EncodeBech32(cls, hrp, data, sep):
         """ Encode a Bech32 string from the specified HRP and data.
 
         Args:
@@ -123,7 +123,7 @@ class Bech32Decoder(ABC):
     """ Bech32 decoder class. It provides methods for decoding Bech32 format. """
 
     @classmethod
-    def _Decode(cls, bech_str, sep, checksum_len):
+    def _DecodeBech32(cls, bech_str, sep, checksum_len):
         """ Decode and validate a Bech32 string, determining its HRP and data.
 
         Args:
@@ -141,7 +141,7 @@ class Bech32Decoder(ABC):
 
         # Check string length and case
         if len(bech_str) > Bech32Const.MAX_STR_LEN or utils.IsStringMixed(bech_str):
-            raise Bech32FormatError("Invalid bech32 string (length not valid)")
+            raise Bech32FormatError("Invalid bech32 format (length not valid)")
 
         # Lower string
         bech_str = bech_str.lower()
@@ -149,24 +149,23 @@ class Bech32Decoder(ABC):
         # Find separator and check its position
         sep_pos = bech_str.rfind(sep)
         if sep_pos == -1:
-            raise Bech32FormatError("Invalid bech32 string (no separator found)")
+            raise Bech32FormatError("Invalid bech32 format (no separator found)")
 
         # Get HRP and check it
         hrp = bech_str[:sep_pos]
         if len(hrp) == 0 or any(ord(x) < 33 or ord(x) > 126 for x in hrp):
-            raise Bech32FormatError("Invalid bech32 string (HRP not valid)")
+            raise Bech32FormatError("Invalid bech32 format (HRP not valid)")
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
         if len(data_part) < Bech32Const.MIN_DATA_PART_LEN or not all(x in Bech32Const.CHARSET for x in data_part):
-            raise Bech32FormatError("Invalid bech32 string (data part not valid)")
+            raise Bech32FormatError("Invalid bech32 format (data part not valid)")
 
         # Convert back from alphabet and verify checksum
         int_data = [Bech32Const.CHARSET.find(x) for x in data_part]
         if not cls._VerifyChecksum(hrp, int_data):
-            raise Bech32ChecksumError("Invalid checksum")
+            raise Bech32ChecksumError("Invalid bech32 checksum")
 
-        # Remove checksum from data
         return hrp, int_data[:-checksum_len]
 
     @staticmethod
