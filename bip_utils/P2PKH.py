@@ -22,6 +22,7 @@
 # Imports
 from .              import utils
 from .base58        import Base58Encoder, Base58Alphabets
+from .bch_bech32    import BchBech32Encoder
 from .bip_coin_conf import BitcoinConf
 from .key_helper    import KeyHelper
 
@@ -48,3 +49,27 @@ class P2PKH:
             raise ValueError("Public compressed key is required for P2PKH")
 
         return Base58Encoder.CheckEncode(net_addr_ver + utils.Hash160(pub_key_bytes), base58_alph)
+
+
+class BchP2PKH:
+    """ Bitcoin Cash P2PKH class. It allows the Bitcoin Cash P2PKH generation. """
+
+    @staticmethod
+    def ToAddress(pub_key_bytes, hrp, net_addr_ver):
+        """ Get address in Bitcoin Cash P2PKH format.
+
+        Args:
+            pub_key_bytes (bytes): Public key bytes
+            hrp (str)            : HRP
+            net_addr_ver (int)   : Net address version
+
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If key is not a public compressed key
+        """
+        if not KeyHelper.IsPublicCompressed(pub_key_bytes):
+            raise ValueError("Public compressed key is required for Bitcoin Cash")
+
+        return BchBech32Encoder.Encode(hrp, net_addr_ver, utils.Hash160(pub_key_bytes))

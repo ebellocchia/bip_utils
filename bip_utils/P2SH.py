@@ -23,6 +23,7 @@
 import binascii
 from .              import utils
 from .base58        import Base58Encoder
+from .bch_bech32    import BchBech32Encoder
 from .bip_coin_conf import BitcoinConf
 from .key_helper    import KeyHelper
 
@@ -32,6 +33,27 @@ class P2SHConst:
 
     # Script bytes
     SCRIPT_BYTES = b"0014"
+
+
+class P2SHUtils:
+    """ Class container for P2SH utility functions. """
+
+    @staticmethod
+    def AddScriptSig(pub_key_bytes):
+        """ Add script signature to public key and get address bytes.
+
+        Args:
+            pub_key_bytes (bytes) : Public key bytes
+
+        Returns:
+            bytes: Address bytes
+        """
+        # Key hash: Hash160(public_key)
+        key_hash = utils.Hash160(pub_key_bytes)
+        # Script signature: 0x0014 | Hash160(public_key)
+        script_sig = binascii.unhexlify(P2SHConst.SCRIPT_BYTES) + key_hash
+        # Address bytes = Hash160(script_signature)
+        return utils.Hash160(script_sig)
 
 
 class P2SH:
@@ -54,12 +76,29 @@ class P2SH:
         if not KeyHelper.IsPublicCompressed(pub_key_bytes):
             raise ValueError("Public compressed key is required for P2SH")
 
-        # Key hash: Hash160(public_key)
-        key_hash = utils.Hash160(pub_key_bytes)
-        # Script signature: 0x0014 | Hash160(public_key)
-        script_sig = binascii.unhexlify(P2SHConst.SCRIPT_BYTES) + key_hash
-        # Address bytes = Hash160(script_signature)
-        addr_bytes = utils.Hash160(script_sig)
-
         # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(net_addr_ver + addr_bytes)
+        return Base58Encoder.CheckEncode(net_addr_ver + P2SHUtils.AddScriptSig(pub_key_bytes))
+
+
+class BchP2SH:
+    """ Bitcoin Cash P2SH class. It allows the Bitcoin Cash P2SH generation. """
+
+    @staticmethod
+    def ToAddress(pub_key_bytes, hrp, net_addr_ver):
+        """ Get address in Bitcoin Cash P2SH format.
+
+        Args:
+            pub_key_bytes (bytes): Public key bytes
+            hrp (str)            : HRP
+            net_addr_ver (int)   : Net address version
+
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If key is not a public compressed key
+        """
+        if not KeyHelper.IsPublicCompressed(pub_key_bytes):
+            raise ValueError("Public compressed key is required for Bitcoin Cash")
+
+        return BchBech32Encoder.Encode(hrp, net_addr_ver, P2SHUtils.AddScriptSig(pub_key_bytes))
