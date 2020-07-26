@@ -21,7 +21,7 @@
 # Specifications:
 # https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 #
-# NOTE: the code comes from: https://github.com/sipa/bech32/tree/master/ref/python
+# NOTE: the code comes from https://github.com/sipa/bech32/tree/master/ref/python
 # and it was refactored to be compliant with the other code files
 
 
@@ -47,10 +47,10 @@ class Bech32Utils:
         """ Perform generic bits conversion.
 
         Args:
-            data    (list or bytes): Data to be converted
-            from_bits (int)        : Number of bits to start from
-            to_bits (int)          : Number of bits at the end
-            pad    (bool)          : True if data must be padded, false otherwise
+            data (list or bytes): Data to be converted
+            from_bits (int)     : Number of bits to start from
+            to_bits (int)       : Number of bits at the end
+            pad (bool)          : True if data must be padded, false otherwise
 
         Returns:
             list: List of converted bits
@@ -107,7 +107,7 @@ class Bech32Utils:
         Returns:
             list: Expanded HRP
         """
-        return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 31 for x in hrp]
+        return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 0x1f for x in hrp]
 
 
 class Bech32Encoder:
@@ -156,7 +156,7 @@ class Bech32Encoder:
 
         values = Bech32Utils.HrpExpand(hrp) + data
         polymod = Bech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
-        return [(polymod >> 5 * (5 - i)) & 31 for i in range(6)]
+        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(6)]
 
 
 class Bech32Decoder:
