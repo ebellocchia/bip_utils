@@ -202,3 +202,14 @@ def BinarySearch(arr, elem):
         return i
     else:
         return -1
+
+def IsStringMixed(data_str):
+    """ Get if the specified string is in mixed case.
+
+    Args:
+        data_str (str): string
+
+    Returns:
+        bool: True if mixed case, false otherwise
+    """
+    return any(c.islower() for c in data_str) and any(c.isupper() for c in data_str)
