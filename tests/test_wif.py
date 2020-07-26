@@ -29,63 +29,105 @@ from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, WifDeco
 # https://gobittest.appspot.com/PrivateKey
 TEST_VECT = \
     [
-        # Private keys
+        # Bitcoin
         {
-            "key_bytes"    : b"5e9441950b3918772cc3da1fc6735b7c33f1bbe08a8f1e704be46cb664f7e457",
-            "encode"       :  "5JXwUhNu98kXkyhR8EpvpaTGRjj8JZEP7hWboB5xscgjbgK2zNk",
-            "net_addr_ver" :  BitcoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"5e9441950b3918772cc3da1fc6735b7c33f1bbe08a8f1e704be46cb664f7e457",
+            "encode"        :  "5JXwUhNu98kXkyhR8EpvpaTGRjj8JZEP7hWboB5xscgjbgK2zNk",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  BitcoinConf.WIF_NET_VER.Main(),
         },
         {
-            "key_bytes"    : b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
-            "encode"       :  "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
-            "net_addr_ver" :  BitcoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"5e9441950b3918772cc3da1fc6735b7c33f1bbe08a8f1e704be46cb664f7e457",
+            "encode"        :  "92Ja4SCSjMpfj3ChkaiqhB1E5Q5qTimaTeNYsoSUDMRnNiDZUez",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  BitcoinConf.WIF_NET_VER.Test(),
         },
         {
-            "key_bytes"    : b"4baa38b7623a40da63836cd9ee8c51d0b6273e766c88adde156fd5fec6e19008",
-            "encode"       :  "6uhLoqNczaCPTj3GmT7qfau4Qrp5qb7riHtYshudPgbiGSx3bVs",
-            "net_addr_ver" :  LitecoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
+            "encode"        :  "Kx2nc8CerNfcsutaet3rPwVtxQvXuQTYxw1mSsfFHsWExJ9xVpLf",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  BitcoinConf.WIF_NET_VER.Main(),
         },
         {
-            "key_bytes"    : b"abd83a20f1161f5ddb561b64de3e60d2b6350e3b6bc35968e52edb097c73a2c3",
-            "encode"       :  "6vRhbAcRpmPZT4GKJzKs33tXGpxfHeBwzkxGYE8QY13QePS9TdM",
-            "net_addr_ver" :  LitecoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
+            "encode"        :  "cNPn53CWHSMt3MMr3HrymFzxaeDwZrZF2yAEZJ7knzAFD3GTTi2x",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  BitcoinConf.WIF_NET_VER.Test(),
+        },
+        # Litecoin
+        {
+            "key_bytes"     : b"4baa38b7623a40da63836cd9ee8c51d0b6273e766c88adde156fd5fec6e19008",
+            "encode"        :  "6uhLoqNczaCPTj3GmT7qfau4Qrp5qb7riHtYshudPgbiGSx3bVs",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  LitecoinConf.WIF_NET_VER.Main(),
         },
         {
-            "key_bytes"    : b"21f5e16d57b9b70a1625020b59a85fa9342de9c103af3dd9f7b94393a4ac2f46",
-            "encode"       :  "6JPaMAeJjouhb8xPzFzETYCHJAJ9wBoFsCyC1LXFSTcZDmHgy6L",
-            "net_addr_ver" :  DogecoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"4baa38b7623a40da63836cd9ee8c51d0b6273e766c88adde156fd5fec6e19008",
+            "encode"        :  "92AEvSedgNoexQehsyDnknfr73cKnxD2HZMLF9F71y29MZAdg13",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  LitecoinConf.WIF_NET_VER.Test(),
         },
         {
-            "key_bytes"    : b"7c5e3d057ec9d8cd61c8e59873fd3ff478cbe0808c444092986e34cc533fa5d7",
-            "encode"       :  "6K5Ph1CE23gtNGsxyAfiUMuXzNq7WRdDr9KANWoXGETz1SNNZYf",
-            "net_addr_ver" :  DogecoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"abd83a20f1161f5ddb561b64de3e60d2b6350e3b6bc35968e52edb097c73a2c3",
+            "encode"        :  "T8p29oRNZpvaE1QbpQ2Fr3kQcrgfzT9KjvzwapwgsqBdMotY6kQW",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  LitecoinConf.WIF_NET_VER.Main(),
         },
         {
-            "key_bytes"    : b"a215750fac2ad0382e40ad02d11aa1467f5ec844f0a7e995c1b3e979fbdc71d0",
-            "encode"       :  "7rnFCh34mBbn3uxT9FwNbS4hfdbn7W75u19Jmn3YoS5mXZjPoaX",
-            "net_addr_ver" :  DashConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"abd83a20f1161f5ddb561b64de3e60d2b6350e3b6bc35968e52edb097c73a2c3",
+            "encode"        :  "cTLkAy83bWeEccEzfAtX11i6JELmapE7zmF9qSmeoyfU6fQWAyxC",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  LitecoinConf.WIF_NET_VER.Test(),
+        },
+        # Dogecoin
+        {
+            "key_bytes"     : b"21f5e16d57b9b70a1625020b59a85fa9342de9c103af3dd9f7b94393a4ac2f46",
+            "encode"        :  "6JPaMAeJjouhb8xPzFzETYCHJAJ9wBoFsCyC1LXFSTcZDmHgy6L",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  DogecoinConf.WIF_NET_VER.Main(),
         },
         {
-            "key_bytes"    : b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
-            "encode"       :  "7qhJEwZSPmCzzMsFFgVVfWjfiS79UQsjTWNqud6yZUVdASqwap5",
-            "net_addr_ver" :  DashConf.WIF_NET_VER.Main(),
-        },
-        # Public compressed key
-        {
-            "key_bytes"    : b"0338994349b3a804c44bbec55c2824443ebb9e475dfdad14f4b1a01a97d42751b3",
-            "encode"       :  "2SanjgwXS8KTJb1Pv7YGCMCfRSWU8Qw4F1fG1PmAxrgZ9cCZosxosN",
-            "net_addr_ver" :  BitcoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"21f5e16d57b9b70a1625020b59a85fa9342de9c103af3dd9f7b94393a4ac2f46",
+            "encode"        :  "95jMzQtxU83VnEBwENWAd9xZJdQktdjwBFr8FmcewrAkBNHta8u",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  DogecoinConf.WIF_NET_VER.Test(),
         },
         {
-            "key_bytes"    : b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
-            "encode"       :  "2Sahb5hCJow8gvz5fq5Wh1dun8GUvTpcfr3Px4jDf1HhYD7D7Z8JCT",
-            "net_addr_ver" :  BitcoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"7c5e3d057ec9d8cd61c8e59873fd3ff478cbe0808c444092986e34cc533fa5d7",
+            "encode"        :  "QSnP9ZrYTcs3iu5x2uft3mGsnFMMisgshuhAMxYLaES6cndEdopn",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  DogecoinConf.WIF_NET_VER.Main(),
         },
-        # Public uncompressed key
         {
-            "key_bytes"    : b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb52919824f",
-            "encode"       :  "2HJMDEE3pAbtM7ij1NDWgUXnoNBhM5WC8enF3X5BbFhtfCMy1ULFm1bpxKA4CzHmgPnMY2UNSsp5v5FeEmsySYcruiQzLHC",
-            "net_addr_ver" :  BitcoinConf.WIF_NET_VER.Main(),
+            "key_bytes"     : b"7c5e3d057ec9d8cd61c8e59873fd3ff478cbe0808c444092986e34cc533fa5d7",
+            "encode"        :  "ciuibxmCzNuTbrBhwCS18D8JSK2W1cCDDaPyofJCKwzAzG51dDJk",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  DogecoinConf.WIF_NET_VER.Test(),
+        },
+        # Dash
+        {
+            "key_bytes"     : b"a215750fac2ad0382e40ad02d11aa1467f5ec844f0a7e995c1b3e979fbdc71d0",
+            "encode"        :  "7rnFCh34mBbn3uxT9FwNbS4hfdbn7W75u19Jmn3YoS5mXZjPoaX",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  DashConf.WIF_NET_VER.Main(),
+        },
+        {
+            "key_bytes"     : b"a215750fac2ad0382e40ad02d11aa1467f5ec844f0a7e995c1b3e979fbdc71d0",
+            "encode"        :  "92pJNokBb5GhmdJ8sYfLyf3oid9us9bjSNd5K27vbNKLoLLfwfP",
+            "compr_pub_key" : False,
+            "net_addr_ver"  :  DashConf.WIF_NET_VER.Test(),
+        },
+        {
+            "key_bytes"     : b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
+            "encode"        :  "XBvs6XpB5U7xxB6muoJmWzFKssp8PzNvPzfQsGMNeLMLcd3pdCC9",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  DashConf.WIF_NET_VER.Main(),
+        },
+        {
+            "key_bytes"     : b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
+            "encode"        :  "cNDw7BRfCrBn4HZfGT82P5ZNb5qxcdsN6TTyTAUgq5jFUD5xFN65",
+            "compr_pub_key" : True,
+            "net_addr_ver"  :  DashConf.WIF_NET_VER.Test(),
         },
     ]
 
@@ -108,14 +150,13 @@ TEST_VECT_ENC_STR_INVALID = \
 # Tests for invalid keys for encoding
 TEST_VECT_ENC_KEY_INVALID = \
     [
-        # Private key with invalid length
+        # Private keys with invalid length
         b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e",
-        # Compressed public key with valid length but wrong version (0x01)
-        b"019efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
-        # Compressed public key with invalid length
-        b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c7000",
-        # Uncompressed public key with invalid length
-        b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb5291982"
+        b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e71d0",
+        # Public compressed key
+        b"0338994349b3a804c44bbec55c2824443ebb9e475dfdad14f4b1a01a97d42751b3",
+        # Public uncompressed key
+        b"aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e9370164133294e5fd1679672fe7866c307daf97281a28f66dca7cbb52919824f",
     ]
 
 # Tests for invalid keys for decoding
@@ -124,16 +165,11 @@ TEST_VECT_DEC_KEY_INVALID = \
     [
         # Valid private key with wrong net version prefix (0x79 instead of 0x80)
         "54fKtD9rQfDYgbQ4XpQQPC5r3j6sTpFqEXxBfdveRtM7kJ4s4nK",
-        # Private key with invalid length
+        # Private keys with invalid length
         "ye3sXre57tZGpZheVLSm6AvcfAoaPMJaP8f9veXhvxANZxnVJ",
-        # Compressed public key with valid length but wrong version (0x01 instead of 0x02 or 0x03)
-        "2SaZ1T82wukymo1Zf4XSJ7qjge23iozCQ7sxKwAmJuoDnVpt1DKCHv",
-        # Compressed public key with invalid length
-        "7Muk9RiQuc9vwFGwcPCv3bouxB5LEyPASTTaJ3TLrkGhvkSQU1a4RMw",
-        # Compressed public key with invalid added suffix (0x02 instead of 0x01)
-        "2Sahb5hCJow8gvz5fq5Wh1dun8GUvTpcfr3Px4jDf1HhYD7DHXiKYy",
-        # Uncompressed public key with invalid length
-        "HsjZzgDFeJDh69NCV9YPatTWuY7zusKt5bwgvJu6U3FrA4MB87b6nQAXogEuvKvXf2Y8Dw1T5n4fjwiFqhHM1wHv2iyvG"
+        "3JSPtAmfbMvMSGNUBU85FBDh3muKXzRT4PCxkivBjALfi1j3DUVhxh",
+        # Private key with invalid compressed key suffix (0x02 instead of 0x01)
+        "KzPZTFDf8uD8m7FPUx2YYzew6BawEVG4cZoeaoWucQWP22cQYAEt",
     ]
 
 
@@ -151,7 +187,7 @@ class WifTests(unittest.TestCase):
     def test_encoder(self):
         for test in TEST_VECT:
             # Test encoder
-            self.assertEqual(test["encode"], WifEncoder.Encode(binascii.unhexlify(test["key_bytes"]), test["net_addr_ver"]))
+            self.assertEqual(test["encode"], WifEncoder.Encode(binascii.unhexlify(test["key_bytes"]), test["compr_pub_key"], test["net_addr_ver"]))
 
     # Test invalid checksum
     def test_invalid_checksum(self):
