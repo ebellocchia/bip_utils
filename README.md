@@ -25,10 +25,11 @@ In addition to this, the package allows to:
 - Generate Ripple addresses
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
-- Encode/Decode [bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
+- Encode/Decode [segwit](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
 
 The currently supported coins are:
 - Bitcoin (and related test net)
+- BitcoinSV (and related test net)
 - Litecoin (and related test net)
 - Dogecoin (and related test net)
 - Dash (and related test net)
@@ -282,6 +283,7 @@ The private and public extended keys can be printed at any level.
 
 Currently supported coins enumerative:
 - Bitcoin (and related test net) : *Bip44Coins.BITCOIN, Bip44Coins.BITCOIN_TESTNET*
+- BitcoinSV (and related test net) : *Bip44Coins.BITCOIN_SV, Bip44Coins.BITCOIN_SV_TESTNET*
 - Litecoin (and related test net) : *Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET*
 - Dogecoin (and related test net) : *Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET*
 - Dash (and related test net) : *Bip44Coins.DASH, Bip44Coins.DASH_TESTNET*
@@ -414,22 +416,24 @@ It supports both normal encode/decode and check_encode/check_decode with Bitcoin
     dec     = Base58Decoder.Decode(enc, Base58Alphabets.RIPPLE)
     chk_dec = Base58Decoder.CheckDecode(chk_enc, Base58Alphabets.RIPPLE)
 
-
-## Bech32
+## Segwit
 
 This library is used internally by the other libraries, but it's available also for external use.
 
 **Code example**
 
     import binascii
-    from bip_utils import Bech32Decoder, Bech32Encoder
+    from bip_utils import SegwitDecoder, SegwitEncoder
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
 
+    # Witness version
+    wit_ver = 0
+
     # Encode
-    enc = Bech32Encoder.EncodeAddr("bc", 0, data_bytes)
+    enc = SegwitEncoder.EncodeAddr("bc", wit_ver, data_bytes)
     # Decode
-    dec = Bech32Decoder.DecodeAddr("bc", enc)
+    dec = SegwitDecoder.DecodeAddr("bc", enc)
 
 ## Complete code example
 
@@ -461,6 +465,13 @@ Example from mnemonic generation to wallet addresses.
         print("%d. Address public key (extended): %s" % (i, bip_obj_addr.PublicKey().ToExtended()))
         print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PrivateKey().ToExtended()))
         print("%d. Address: %s" % (i, bip_obj_addr.PublicKey().ToAddress()))
+
+# Donations
+
+If you'd like to donate something:
+- BTC: bc1qxr3camglhmrcl5uhs2m5hmaxmrxf47krs3fzpm
+- ETH: 0xd059eA7259367512fFC7269B9beD4A45f13bb40b
+Thank you very much in advance for your support.
 
 # License
 
