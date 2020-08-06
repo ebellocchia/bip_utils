@@ -23,6 +23,7 @@ In addition to this, the package allows to:
 - Generate P2WPKH addresses (included in BIP-0084)
 - Generate Ethereum addresses
 - Generate Ripple addresses
+- Generate Tron addresses
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
 - Encode/Decode [segwit](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
@@ -36,6 +37,7 @@ The currently supported coins are:
 - Dash (and related test net)
 - Ethereum
 - Ripple
+- Tron
 
 ## Install the package
 
@@ -291,6 +293,7 @@ Currently supported coins enumerative:
 - Dash (and related test net) : *Bip44Coins.DASH, Bip44Coins.DASH_TESTNET*
 - Ethereum : *Bip44Coins.ETHEREUM*
 - Ripple : *Bip44Coins.RIPPLE*
+- Tron : *Bip44Coins.TRON*
 
 The library can be easily extended with other coins anyway.
 
@@ -346,16 +349,18 @@ The library can be easily extended with other coins anyway.
 
 In the example above, Bip44 can be substituted with Bip49 or Bip84 without changing the code.
 
-## Ethereum/Ripple addresses
+## Ethereum/Ripple/Tron addresses
 
 These libraries are used internally by the other libraries, but they are available also for external use.
 
 **Code example**
 
-    from bip_utils import EthAddr, XrpAddr
+    from bip_utils import EthAddr, TrxAddr, XrpAddr
 
     # Ethereum needs the uncompressed public key
     addr = EthAddr.ToAddress(pub_key_bytes)
+    # Tron needs the uncompressed public key
+    addr = TrxAddr.ToAddress(pub_key_bytes)
     # Ripple needs the compressed public key
     addr = XrpAddr.ToAddress(pub_key_bytes)
 
