@@ -24,6 +24,7 @@ from .P2PKH    import P2PKH
 from .P2SH     import P2SH
 from .P2WPKH   import P2WPKH
 from .eth_addr import EthAddr
+from .trx_addr import TrxAddr
 from .xrp_addr import XrpAddr
 
 
@@ -105,7 +106,7 @@ class BipCoinBase:
             addr_ver = self.m_coin_conf.P2WPKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.P2WPKH_NET_VER.Test()
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # EthAddr
-        elif self.m_addr_fct is EthAddr:
+        elif self.m_addr_fct is EthAddr or self.m_addr_fct is TrxAddr:
             return self.m_addr_fct.ToAddress(pub_key.RawUncompressed().ToBytes())
         # XrpAddr
         elif self.m_addr_fct is XrpAddr:

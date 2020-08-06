@@ -39,6 +39,7 @@ class Bip44Coins(IntEnum):
     ETHEREUM             = 60,
     RIPPLE               = 144,
     BITCOIN_CASH         = 145,
+    TRON                 = 195,
     BITCOIN_SV           = 236,
     # Test nets. Special indexes are used here, they are converted to 1 internally
     BITCOIN_TESTNET      = -1,

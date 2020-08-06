@@ -43,6 +43,7 @@ class Bip44Const:
             Bip44Coins.DASH        , Bip44Coins.DASH_TESTNET,
             Bip44Coins.ETHEREUM    ,
             Bip44Coins.RIPPLE      ,
+            Bip44Coins.TRON        ,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
@@ -61,6 +62,7 @@ class Bip44Const:
             Bip44Coins.DASH_TESTNET         : Bip44DashTestNet,
             Bip44Coins.ETHEREUM             : Bip44Ethereum,
             Bip44Coins.RIPPLE               : Bip44Ripple,
+            Bip44Coins.TRON                 : Bip44Tron,
         }
 
 

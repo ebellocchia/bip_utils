@@ -24,6 +24,7 @@ from .bip_coin_base import BipCoinBase
 from .bip_coin_conf import *
 from .P2PKH         import P2PKH, BchP2PKH
 from .eth_addr      import EthAddr
+from .trx_addr      import TrxAddr
 from .xrp_addr      import XrpAddr
 
 
@@ -140,3 +141,7 @@ Bip44Ethereum = Bip44Coin(coin_conf  = EthereumConf,
 Bip44Ripple = Bip44Coin(coin_conf  = RippleConf,
                         is_testnet = False,
                         addr_fct   = XrpAddr)
+# Configuration for Tron main net
+Bip44Tron = Bip44Coin(coin_conf  = TronConf,
+                      is_testnet = False,
+                      addr_fct   = TrxAddr)

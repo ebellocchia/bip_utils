@@ -210,7 +210,7 @@ class EthereumConf:
 
 
 class RippleConf:
-    """ Class container for Bitcoin configuration. """
+    """ Class container for Ripple configuration. """
 
     # Names
     NAMES             = CoinNames("Ripple", "XRP")
@@ -220,5 +220,18 @@ class RippleConf:
 
     # Versions for P2PKH address, test net not supported
     P2PKH_NET_VER     = NetVersions(b"\x00")
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
+class TronConf:
+    """ Class container for Tron configuration. """
+
+    # Names
+    NAMES             = CoinNames("Tron", "TRX")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
     # WIF not supported
     WIF_NET_VER       = NetVersions()
