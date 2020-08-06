@@ -260,6 +260,33 @@ TEST_VECT = \
                     "rPdQVkTzpZ7ToRqTRBRrUKPoCTty7n3UVj",
                 ],
         },
+        # Tron
+        {
+            "coin"       : Bip44Coins.TRON,
+            "names"      : ("Tron", "TRX"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master" :  "",
+            "account" :
+                {
+                    "ex_pub"  : "xpub6D1AabNHCupeiLM65ZR9UStMhJ1vCpyV4XbZdyhMZBiJXALQtmn9p42VTQckoHVn8WNqS7dqnJokZHAHcHGoaQgmv8D45oNUKx6DZMNZBCd",
+                    "ex_priv" : "xprv9z1pB5qPNYGMVrGcyXt97Jwd9GBRoNFdhJfxqbHjzrBKeN1GMETuGFi1c73SQkP8kkKz5MVoMtLRcsDWggUcaPF32AXN4qNsNWBoJbaHcQ7",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "xpub6EuK4CZWW5urEHdwAVDdDw327danAtccFcrXYvgf1DHrPXRwErt36xStQ2PNhn4hpwzPbzJ8pJVpewgChRnSs59q5Ay61GCfQZKUe71gbLq",
+                    "ex_priv" : "xprvA1uxeh2cfiMZ1oZU4Tgcro6HZbkHmRtktPvvkYH3SsksWj6nhKZnZA8QYjdXx8LzM6wuMTE3LcVoAiANjLSRwbh24GWxdztn6xvjBuctSrk",
+                },
+            "addresses" :
+                [
+                    "TUEZSdKsoDHQMeZwihtdoBiN46zxhGWYdH",
+                    "TSeJkUh4Qv67VNFwY8LaAxERygNdy6NQZK",
+                    "TYJPRrdB5APNeRs4R7fYZSwW3TcrTKw2gx",
+                    "TRhVWK5XEDkQBDevcdCWW7RW51aRncty4W",
+                    "TT2X2yyubp7qpAWYYNE5JQWBtoZ7ikQFsY",
+                ],
+        },
         # Bitcoin test net
         {
             "coin"       : Bip44Coins.BITCOIN_TESTNET,
