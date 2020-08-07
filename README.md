@@ -18,14 +18,7 @@ The implemented BIP specifications are the following:
 
 In addition to this, the package allows to:
 - Parse BIP-0032 derivation paths
-- Generate P2PKH addresses (included in BIP-0044)
-- Generate P2SH addresses (included in BIP-0049)
-- Generate P2WPKH addresses (included in BIP-0084)
-- Generate Ethereum addresses
-- Generate Ripple addresses
-- Generate Cosmos addresses
-- Generate Band Protocol addresses
-- Generate Tron addresses
+- Generate addresses for all the supported coins
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
 - Encode/Decode [segwit bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
@@ -40,11 +33,14 @@ The currently supported coins are:
 - Dogecoin (and related test net)
 - Dash (and related test net)
 - Zcash (and related test net)
-- Ethereum
+- Ethereum (and therefore all related tokens)
 - Ripple
-- Cosmos
-- Band Protocol
 - Tron
+- Cosmos
+- Band Protocol (Cosmos blockchain)
+- Kava (Cosmos blockchain)
+- IRIS Network (Cosmos blockchain)
+- Binance Coin (Cosmos blockchain)
 
 ## Install the package
 
@@ -292,18 +288,24 @@ using the correspondent methods. If keys are derived in the wrong level, a *Runt
 The private and public extended keys can be printed at any level.
 
 Currently supported coins enumerative:
-- Bitcoin (and related test net) : *Bip44Coins.BITCOIN, Bip44Coins.BITCOIN_TESTNET*
-- Bitcoin Cash (and related test net) : *Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET*
-- BitcoinSV (and related test net) : *Bip44Coins.BITCOIN_SV, Bip44Coins.BITCOIN_SV_TESTNET*
-- Litecoin (and related test net) : *Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET*
-- Dogecoin (and related test net) : *Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET*
-- Dash (and related test net) : *Bip44Coins.DASH, Bip44Coins.DASH_TESTNET*
-- Zcash (and related test net) : *Bip44Coins.ZCASH, Bip44Coins.ZCASH_TESTNET*
-- Ethereum : *Bip44Coins.ETHEREUM*
-- Ripple : *Bip44Coins.RIPPLE*
-- Cosmos : *Bip44Coins.COSMOS*
-- Band Protocol : *Bip44Coins.BAND_PROTOCOL*
-- Tron : *Bip44Coins.TRON*
+
+|Coin|Main net|Test net|
+|---|---|---|
+|Bitcoin|*Bip44Coins.BITCOIN*|*Bip44Coins.BITCOIN_TESTNET*|
+|Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
+|BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
+|Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
+|Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
+|Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
+|Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
+|Ethereum|*Bip44Coins.ETHEREUM*|-|
+|Ripple|*Bip44Coins.RIPPLE*|-|
+|Tron|*Bip44Coins.TRON*|-|
+|Cosmos|*Bip44Coins.COSMOS*|-|
+|Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
+|Kava|*Bip44Coins.KAVA*|-|
+|IRISnet|*Bip44Coins.IRIS_NET*|-|
+|Binance Coin|*Bip44Coins.BINANCE_COIN*|-|
 
 The library can be easily extended with other coins anyway.
 
