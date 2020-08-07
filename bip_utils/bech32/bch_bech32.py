@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Specifications:
+# https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
 
 # Imports
 from bip_utils.bech32.bech32        import Bech32DecoderBase, Bech32EncoderBase, Bech32Utils
