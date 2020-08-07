@@ -22,22 +22,29 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
-from bip_utils.bech32.bech32           import Bech32EncoderBase, Bech32Utils
-from bip_utils.bech32.segwit_bech32    import SegwitBech32Const, SegwitBech32Utils
-from bip_utils.utils                   import ConvUtils
+from bip_utils.bech32.bech32         import Bech32DecoderBase, Bech32EncoderBase, Bech32Utils
+from bip_utils.bech32.segwit_bech32  import SegwitBech32Const, SegwitBech32Utils
+from bip_utils.bech32.atom_bech32_ex import AtomBech32FormatError
+from bip_utils.utils                 import ConvUtils
 
 
 class AtomBech32Const:
     # Separator (same as Segwit)
-    SEPARATOR = SegwitBech32Const.SEPARATOR
+    SEPARATOR    = SegwitBech32Const.SEPARATOR
+    # Checkum minimum length (same as Segwit)
+    CHECKSUM_LEN = SegwitBech32Const.CHECKSUM_LEN
+    # Minimum data length
+    DATA_MIN_LEN = 2
+    # Maximum data length
+    DATA_MAX_LEN = 40
 
 
 class AtomBech32Encoder(Bech32EncoderBase):
-    """ Segwit encoder class. It provides methods for encoding to Segwit format. """
+    """ Atom encoder class. It provides methods for encoding to Atom format. """
 
     @staticmethod
     def Encode(hrp, data):
-        """ Encode a segwit address.
+        """ Encode to Atom Bech32.
 
         Args:
             hrp (str)       : HRP
@@ -66,3 +73,57 @@ class AtomBech32Encoder(Bech32EncoderBase):
 
         # Same as Segwit
         return SegwitBech32Utils.ComputeChecksum(hrp, data)
+
+
+class AtomBech32Decoder(Bech32DecoderBase):
+    """ Atom decoder class. It provides methods for decoding Atom format. """
+
+    @staticmethod
+    def Decode(hrp, addr):
+        """ Decode from Atom Bech32.
+
+        Args:
+            hrp (str) : Human readable part
+            addr (str): Address
+
+        Returns:
+            bytes: Data
+
+        Raises:
+            AtomBech32FormatError: If the address is not valid
+            Bech32FormatError: If the bech32 string is not valid
+            Bech32ChecksumError: If the checksum is not valid
+        """
+
+        # Decode string
+        hrpgot, data = AtomBech32Decoder._DecodeBech32(addr, AtomBech32Const.SEPARATOR, AtomBech32Const.CHECKSUM_LEN)
+
+        # Check HRP
+        if hrpgot != hrp:
+            raise AtomBech32FormatError("Invalid Atom format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+
+        # Convert back from base32
+        conv_data = Bech32Utils.ConvertFromBase32(data)
+
+        print(len(conv_data))
+
+        # Check converted data
+        if len(conv_data) < AtomBech32Const.DATA_MIN_LEN or len(conv_data) > AtomBech32Const.DATA_MAX_LEN:
+            raise AtomBech32FormatError("Invalid Atom format (length not valid)")
+
+        return ConvUtils.ListToBytes(conv_data)
+
+    @staticmethod
+    def _VerifyChecksum(hrp, data):
+        """ Verify the checksum from the specified HRP and converted data characters.
+
+        Args:
+            hrp  (str): HRP
+            data (str): Data part
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+
+        # Same as Segwit
+        return SegwitBech32Utils.VerifyChecksum(hrp, data)

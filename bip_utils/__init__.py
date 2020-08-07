@@ -7,10 +7,10 @@ from .base58 import (
 )
 # Bech32
 from .bech32 import (
-    Bech32ChecksumError, Bech32FormatError, BchBech32FormatError, SegwitBech32FormatError,
+    Bech32ChecksumError, Bech32FormatError, AtomBech32FormatError, BchBech32FormatError, SegwitBech32FormatError,
+    AtomBech32Decoder, AtomBech32Encoder,
     BchBech32Decoder, BchBech32Encoder,
-    SegwitBech32Decoder, SegwitBech32Encoder,
-    AtomBech32Encoder
+    SegwitBech32Decoder, SegwitBech32Encoder
 )
 # WIF
 from .wif import WifDecoder, WifEncoder
