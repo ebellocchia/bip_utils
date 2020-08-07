@@ -79,6 +79,35 @@ class SegwitBech32Utils:
         """
         return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 0x1f for x in hrp]
 
+    @staticmethod
+    def ComputeChecksum(hrp, data):
+        """ Compute the checksum from the specified HRP and data.
+
+        Args:
+            hrp (str)  : HRP
+            data (list): Data part
+
+        Returns:
+            str: Computed checksum
+        """
+
+        values = SegwitBech32Utils.HrpExpand(hrp) + data
+        polymod = SegwitBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
+        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(SegwitBech32Const.CHECKSUM_LEN)]
+
+    @staticmethod
+    def VerifyChecksum(hrp, data):
+        """ Verify the checksum from the specified HRP and converted data characters.
+
+        Args:
+            hrp  (str): HRP
+            data (str): Data part
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        return SegwitBech32Utils.PolyMod(SegwitBech32Utils.HrpExpand(hrp) + data) == 1
+
 
 class SegwitBech32Encoder(Bech32EncoderBase):
     """ Segwit encoder class. It provides methods for encoding to Segwit format. """
@@ -112,10 +141,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
         Returns:
             str: Computed checksum
         """
-
-        values = SegwitBech32Utils.HrpExpand(hrp) + data
-        polymod = SegwitBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
-        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(SegwitBech32Const.CHECKSUM_LEN)]
+        return SegwitBech32Utils.ComputeChecksum(hrp, data)
 
 
 class SegwitBech32Decoder(Bech32DecoderBase):
@@ -168,4 +194,4 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         Returns:
             bool: True if valid, false otherwise
         """
-        return SegwitBech32Utils.PolyMod(SegwitBech32Utils.HrpExpand(hrp) + data) == 1
+        return SegwitBech32Utils.VerifyChecksum(hrp, data)
