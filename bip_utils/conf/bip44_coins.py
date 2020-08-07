@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.addr               import P2PKH, BchP2PKH, EthAddr, TrxAddr, XrpAddr
+from bip_utils.addr               import P2PKH, BchP2PKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
 
@@ -145,17 +145,27 @@ Bip44ZcashTestNet = Bip44Coin(coin_conf  = ZcashConf,
                               is_testnet = True,
                               addr_fct   = P2PKH)
 
-# Configuration for Ethereum main net
+# Configuration for Ethereum
 Bip44Ethereum = Bip44Coin(coin_conf  = EthereumConf,
                           is_testnet = False,
                           addr_fct   = EthAddr)
 
-# Configuration for Ripple main net
+# Configuration for Ripple
 Bip44Ripple = Bip44Coin(coin_conf  = RippleConf,
                         is_testnet = False,
                         addr_fct   = XrpAddr)
 
-# Configuration for Tron main net
+# Configuration for Cosmos
+Bip44Cosmos = Bip44Coin(coin_conf  = CosmosConf,
+                        is_testnet = False,
+                        addr_fct   = AtomAddr)
+
+# Configuration for Band Protocol
+Bip44BandProtocol = Bip44Coin(coin_conf  = BandProtocolConf,
+                              is_testnet = False,
+                              addr_fct   = AtomAddr)
+
+# Configuration for Tron
 Bip44Tron = Bip44Coin(coin_conf  = TronConf,
                       is_testnet = False,
                       addr_fct   = TrxAddr)

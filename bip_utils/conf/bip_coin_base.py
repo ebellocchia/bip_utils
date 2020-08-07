@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.addr import P2PKH, P2SH, P2WPKH, EthAddr, TrxAddr, XrpAddr
+from bip_utils.addr import P2PKH, P2SH, P2WPKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
 
 
 class BipCoinBase:
@@ -106,5 +106,8 @@ class BipCoinBase:
         # XrpAddr
         elif self.m_addr_fct is XrpAddr:
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes())
+        # AtomAddr
+        elif self.m_addr_fct is AtomAddr:
+            return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), self.m_coin_conf.ADDR_HRP.Main())
         else:
             raise RuntimeError("Invalid address class")

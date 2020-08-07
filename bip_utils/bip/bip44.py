@@ -35,16 +35,18 @@ class Bip44Const:
     # Allowed coins
     ALLOWED_COINS = \
         [
-            Bip44Coins.BITCOIN     , Bip44Coins.BITCOIN_TESTNET,
-            Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET,
-            Bip44Coins.BITCOIN_SV  , Bip44Coins.BITCOIN_SV_TESTNET,
-            Bip44Coins.LITECOIN    , Bip44Coins.LITECOIN_TESTNET,
-            Bip44Coins.DOGECOIN    , Bip44Coins.DOGECOIN_TESTNET,
-            Bip44Coins.DASH        , Bip44Coins.DASH_TESTNET,
-            Bip44Coins.ZCASH       , Bip44Coins.ZCASH_TESTNET,
-            Bip44Coins.ETHEREUM    ,
-            Bip44Coins.RIPPLE      ,
-            Bip44Coins.TRON        ,
+            Bip44Coins.BITCOIN      , Bip44Coins.BITCOIN_TESTNET,
+            Bip44Coins.BITCOIN_CASH , Bip44Coins.BITCOIN_CASH_TESTNET,
+            Bip44Coins.BITCOIN_SV   , Bip44Coins.BITCOIN_SV_TESTNET,
+            Bip44Coins.LITECOIN     , Bip44Coins.LITECOIN_TESTNET,
+            Bip44Coins.DOGECOIN     , Bip44Coins.DOGECOIN_TESTNET,
+            Bip44Coins.DASH         , Bip44Coins.DASH_TESTNET,
+            Bip44Coins.ZCASH        , Bip44Coins.ZCASH_TESTNET,
+            Bip44Coins.ETHEREUM     ,
+            Bip44Coins.RIPPLE       ,
+            Bip44Coins.COSMOS       ,
+            Bip44Coins.BAND_PROTOCOL,
+            Bip44Coins.TRON         ,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
@@ -65,6 +67,8 @@ class Bip44Const:
             Bip44Coins.ZCASH_TESTNET        : Bip44ZcashTestNet,
             Bip44Coins.ETHEREUM             : Bip44Ethereum,
             Bip44Coins.RIPPLE               : Bip44Ripple,
+            Bip44Coins.COSMOS               : Bip44Cosmos,
+            Bip44Coins.BAND_PROTOCOL        : Bip44BandProtocol,
             Bip44Coins.TRON                 : Bip44Tron,
         }
 

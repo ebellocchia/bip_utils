@@ -37,11 +37,13 @@ class Bip44Coins(IntEnum):
     DOGECOIN             = 3,
     DASH                 = 5,
     ETHEREUM             = 60,
+    COSMOS               = 118,
     ZCASH                = 133,
     RIPPLE               = 144,
     BITCOIN_CASH         = 145,
     TRON                 = 195,
     BITCOIN_SV           = 236,
+    BAND_PROTOCOL        = 494,
     # Test nets. Special indexes are used here, they are converted to 1 internally
     BITCOIN_TESTNET      = -1,
     LITECOIN_TESTNET     = -2,
