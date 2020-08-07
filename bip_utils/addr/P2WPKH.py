@@ -20,7 +20,6 @@
 
 
 # Imports
-import binascii
 from bip_utils.bech32 import SegwitBech32Encoder
 from bip_utils.conf   import BitcoinConf
 from bip_utils.utils  import CryptoUtils, KeyUtils
