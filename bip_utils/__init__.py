@@ -1,38 +1,45 @@
 # Version
-from ._version         import __version__
+from ._version import __version__
 # Base58
-from .base58_ex        import Base58ChecksumError
-from .base58           import Base58Decoder, Base58Encoder, Base58Alphabets
+from .base58 import (
+    Base58ChecksumError, Base58Alphabets,
+    Base58Decoder, Base58Encoder
+)
 # Bech32
-from .bech32_ex        import Bech32ChecksumError, Bech32FormatError
-from .segwit_bech32_ex import SegwitBech32FormatError
-from .segwit_bech32    import SegwitBech32Decoder, SegwitBech32Encoder
-from .bch_bech32_ex    import BchBech32FormatError
-from .bch_bech32       import BchBech32Decoder, BchBech32Encoder
+from .bech32 import (
+    Bech32ChecksumError, Bech32FormatError, BchBech32FormatError, SegwitBech32FormatError,
+    SegwitBech32Decoder, SegwitBech32Encoder,
+    BchBech32Decoder, BchBech32Encoder
+)
 # WIF
-from .wif              import WifDecoder, WifEncoder
+from .wif import WifDecoder, WifEncoder
 # Address computation
-from .P2PKH            import P2PKH, BchP2PKH
-from .P2SH             import P2SH, BchP2SH
-from .P2WPKH           import P2WPKH
-from .eth_addr         import EthAddr
-from .trx_addr         import TrxAddr
-from .xrp_addr         import XrpAddr
+from .addr import (
+    P2PKH, BchP2PKH, P2SH, BchP2SH, P2WPKH,
+    EthAddr,
+    TrxAddr,
+    XrpAddr
+)
 # BIP39
-from .bip39_ex         import Bip39InvalidFileError, Bip39ChecksumError
-from .bip39            import (
-    EntropyGenerator, Bip39WordsNum, Bip39EntropyBitLen, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
+from .bip import (
+    Bip39InvalidFileError, Bip39ChecksumError,
+    Bip39WordsNum, Bip39EntropyBitLen,
+    Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
 )
 # BIP32
-from .bip32_ex         import Bip32KeyError, Bip32PathError
-from .bip32_utils      import Bip32Utils
-from .bip32_path       import Bip32PathParser
-from .bip32            import Bip32
+from .bip import (
+    Bip32KeyError, Bip32PathError,
+    Bip32Utils,
+    Bip32PathParser,
+    Bip32
+)
 # BIP44/49/84
-from .bip44_base_ex    import Bip44DepthError, Bip44CoinNotAllowedError
-from .bip44_base       import Bip44Changes, Bip44Coins, Bip44Levels
-from .bip44            import Bip44
-from .bip49            import Bip49
-from .bip84            import Bip84
-# Coin configuration
-from .bip_coin_conf    import *
+from .bip import (
+    Bip44DepthError, Bip44CoinNotAllowedError,
+    Bip44Changes, Bip44Coins, Bip44Levels,
+    Bip44,
+    Bip49,
+    Bip84
+)
+# Coins configuration
+from .conf import *
