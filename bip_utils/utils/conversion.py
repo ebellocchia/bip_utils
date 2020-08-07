@@ -49,7 +49,7 @@ class ConvUtils:
         Returns:
             str: Binary string
         """
-        return IntToBinaryStr(BytesToInteger(data_bytes), zero_pad)
+        return ConvUtils.IntToBinaryStr(ConvUtils.BytesToInteger(data_bytes), zero_pad)
 
     @staticmethod
     def IntToBinaryStr(data_int, zero_pad = 0):
