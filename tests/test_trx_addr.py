@@ -26,7 +26,7 @@ import ecdsa
 from ecdsa.curves import SECP256k1
 from bip_utils    import TrxAddr
 
-# Some keys randomly taken
+# Some keys randomly taken (verified with TronScan wallet)
 TEST_VECT = \
     [
         {

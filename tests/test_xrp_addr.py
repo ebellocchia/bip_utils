@@ -25,8 +25,7 @@ import unittest
 from bip_utils import XrpAddr
 
 
-# Some keys randomly taken from Ian Coleman web page
-# https://iancoleman.io/bip39/
+# Some random public keys (verified with https://iancoleman.io/bip39/)
 TEST_VECT = \
     [
         {
