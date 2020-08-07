@@ -20,7 +20,6 @@
 
 
 # Imports
-from bip_utils.bech32.bech32_ex     import Bech32ChecksumError, Bech32FormatError
 from bip_utils.bech32.bech32        import Bech32DecoderBase, Bech32EncoderBase, Bech32Utils
 from bip_utils.bech32.bch_bech32_ex import BchBech32FormatError
 from bip_utils.utils                import ConvUtils

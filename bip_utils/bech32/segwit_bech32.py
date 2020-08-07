@@ -22,7 +22,6 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
-from bip_utils.bech32.bech32_ex        import Bech32ChecksumError, Bech32FormatError
 from bip_utils.bech32.bech32           import Bech32DecoderBase, Bech32EncoderBase, Bech32Utils
 from bip_utils.bech32.segwit_bech32_ex import SegwitBech32FormatError
 from bip_utils.utils                   import ConvUtils
