@@ -105,8 +105,6 @@ class AtomBech32Decoder(Bech32DecoderBase):
         # Convert back from base32
         conv_data = Bech32Utils.ConvertFromBase32(data)
 
-        print(len(conv_data))
-
         # Check converted data
         if len(conv_data) < AtomBech32Const.DATA_MIN_LEN or len(conv_data) > AtomBech32Const.DATA_MAX_LEN:
             raise AtomBech32FormatError("Invalid Atom format (length not valid)")
