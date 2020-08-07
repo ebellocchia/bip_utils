@@ -33,8 +33,8 @@ setuptools.setup(
     license="MIT",
     test_suite="tests",
     install_requires = ["ecdsa","pysha3"],
-    packages=["bip_utils"],
-    package_data={"bip_utils": ["bip39_wordslist_en.txt"]},
+    packages=setuptools.find_packages(exclude=['tests']),
+    package_data={"bip_utils": ["bip/bip39_wordslist_en.txt"]},
     keywords="bitcoin, bitcoin cash, bitcoinsv, litecoin, dogecoin, dash, zcash, ethereum, ripple, cosmos, band protocol, tron, wallet, hd-wallet, bip39, bip32, bip44, bip49, bip84, python",
     platforms = ["any"],
     classifiers=[
