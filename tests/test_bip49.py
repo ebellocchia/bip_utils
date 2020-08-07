@@ -216,6 +216,33 @@ TEST_VECT = \
                     "7iWwAjC3qd3uBPkkAZsLjcjtQNP8maaBfB",
                 ],
         },
+        # Zcash
+        {
+            "coin"       : Bip44Coins.ZCASH,
+            "names"      : ("Zcash", "ZEC"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+            "wif_master" :  "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
+            "account" :
+                {
+                    "ex_pub"  : "ypub6Xsh1czMqaFJxfbfwoHocPLcZQBa8N94UuGziygg76pgGmHVSknYmL5EHLfdQsFomh943UhHap83thb49Y64rWtV8yePRVRPzBEPbZHrCcF",
+                    "ex_priv" : "yprvAJtLc7TU1Ch1kBXCqmkoFFPt1NM5iuRD7gMPvbH4YmHhPxxLuDUJDXkkS5ksuwpAaEKsbUZkcaYnXiLwQQ63M6LJ369EZBKKqa2n8EMydrA",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "ypub6Z3hN8BQqSpFwUW9SfgiVttz9tJUqet4MUvFKM7d79ZaCQFDzR6iACFHJ6yKewdS6Ku1EVzQAVkQjodFc2eqv7X1anjDXZHDVPhMFxedcsw",
+                    "ex_priv" : "yprvAL4LxceX15FxizRgLe9i8kxFbrTzSCACzFzeWxi1Yp2bKbv5SsnTcPvoSr4QNZ8X5YMQ8v2rqEkdedTVEHynsZMmMQuws6V8gLi3wErATkQ",
+                },
+            "addresses" :
+                [
+                    "t3WrebyH3US8WvEdS9yNEWJZGApy3beYdeL",
+                    "t3VTbz8F6Qrk63S21i2gLcHi7Hj2uTipcpb",
+                    "t3XYvamZQDF1QNjnvnqrnzm4uChnyS4dwNq",
+                    "t3gECjqstPbYHoVrircZqFwxpPk95rb4Ffc",
+                    "t3cYvaYasuzDan2FpZbY8k6bc7MQfv54zdZ",
+                ],
+        },
         # Bitcoin test net
         {
             "coin"       : Bip44Coins.BITCOIN_TESTNET,
@@ -392,6 +419,33 @@ TEST_VECT = \
                     "8vWZYUPTextvkcYLFDMQE1wyvfH1FLALz4",
                     "8kfkwmWK1ESMt31yxFy34d1Yrwxd8sUL6R",
                     "8gVt8miJ2YPRir1cjuwxgcDs9EM98qVtNJ",
+                ],
+        },
+        # Zcash test net
+        {
+            "coin"       : Bip44Coins.ZCASH_TESTNET,
+            "names"      : ("Zcash TestNet", "ZEC"),
+            "is_testnet" : True,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "uprv8tXDerPXZ1QsVNjUJWTurs9kA1KGfKUAts74GCkcXtU8GwnH33GDRbNJpEqTvipfCyycARtQJhmdfWf8oKt41X9LL1zeD2pLsWmxEk3VAwd",
+            "wif_master" :  "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
+            "account" :
+                {
+                    "ex_pub"  : "upub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY",
+                    "ex_priv" : "uprv91G7gZkzehuMVxDJTYE6tLivdF8e4rvzSu1LFfKw3b2Qx1Aj8vpoFnHdfUZ3hmi9jsvPifmZ24RTN2KhwB8BfMLTVqaBReibyaFFcTP1s9n",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "upub5F7X3ZAt1HsUyFLTFU9vhKeGULy77aDoJFhscvGBV91tm2mzQ5egFGpeP4nGskwERwbU48g14qREqXJ388X8XBiaLm7PWwk3S45Fe3WAvdK",
+                    "ex_priv" : "uprv928Ae3dzAvKBkmFz9ScvLBhXvK8ci7Vww2nGpXrZvoUutESqrYLRhUWAXpK5acXh517npKuCpJ7NXaoWnLs1dLB9w3MHe3KNUm7hPENqMzt",
+                },
+            "addresses" :
+                [
+                    "t2BEicU8di9CukDjmoZoUFia4wX9E2KsEEH",
+                    "t2JPM4LLPAB2hdEenrWofp7tn4D8fcF5okX",
+                    "t2NduoxjhZDodStDkmWW77hRXUk63xL54Km",
+                    "t2Co7DFrYuVM4aJhQUZ7jxJV6R2mfqBNZEj",
+                    "t28dEQG4XvoJ8R7h3GD6faHhQhKABoQVipY",
                 ],
         },
     ]

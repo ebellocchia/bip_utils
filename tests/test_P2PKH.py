@@ -23,13 +23,12 @@
 import binascii
 import unittest
 from bip_utils import (
-    BitcoinConf, BitcoinCashConf, BitcoinSvConf, LitecoinConf, DogecoinConf, DashConf,
+    BitcoinConf, BitcoinCashConf, BitcoinSvConf, LitecoinConf, DogecoinConf, DashConf, ZcashConf,
     P2PKH, BchP2PKH
 )
 
 
-# Some keys randomly taken from Ian Coleman web page
-# https://iancoleman.io/bip39/
+# Some random public keys (verified with https://iancoleman.io/bip39/ when possible)
 TEST_VECT = \
     [
         #
@@ -85,6 +84,16 @@ TEST_VECT = \
             "address"      :  "XykvvzP3nK2KRLKkpCe6hHV6p2w5DNQD56",
             "net_addr_ver" :  DashConf.P2PKH_NET_VER.Main(),
         },
+        {
+            "pub_key"      : b"039aeb5d8603d924b0ad36a1081a9a0c0188a9cd8e8782eb79a3a32ae564ca1c2f",
+            "address"      :  "t1Msw6c7mLQbPnHRyTC6NB3y2U2HjcrHiRM",
+            "net_addr_ver" :  ZcashConf.P2PKH_NET_VER.Main(),
+        },
+        {
+            "pub_key"      : b"036a72387457929aa58b1d5654101b0429c141d3971b5378e848db29f574d6751c",
+            "address"      :  "t1T6t4H4zerrZRtkPVuu7fgVBCjRjNMY295",
+            "net_addr_ver" :  ZcashConf.P2PKH_NET_VER.Main(),
+        },
         #
         # Test nets
         #
@@ -112,6 +121,11 @@ TEST_VECT = \
             "pub_key"      : b"03ee6c2e9fcb33d45966775d41990c68d6b4db14bb66044fbb591b3f313781d612",
             "address"      :  "ygAN9888Yy9thRdvaFuGqHa3Qm4M3Cvrj9",
             "net_addr_ver" :  DashConf.P2PKH_NET_VER.Test(),
+        },
+        {
+            "pub_key"      : b"0370b963230c857dfdbf9b99835dd1b06d96c2d37c888ca365a56806abd8732f6a",
+            "address"      :  "tmSEwQYGh3dzFu2boSfVeemmqHTjv4LMQFd",
+            "net_addr_ver" :  ZcashConf.P2PKH_NET_VER.Test(),
         },
     ]
 
