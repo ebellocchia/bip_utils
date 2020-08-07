@@ -8,14 +8,16 @@ from .base58 import (
 # Bech32
 from .bech32 import (
     Bech32ChecksumError, Bech32FormatError, BchBech32FormatError, SegwitBech32FormatError,
+    BchBech32Decoder, BchBech32Encoder,
     SegwitBech32Decoder, SegwitBech32Encoder,
-    BchBech32Decoder, BchBech32Encoder
+    AtomBech32Encoder
 )
 # WIF
 from .wif import WifDecoder, WifEncoder
 # Address computation
 from .addr import (
     P2PKH, BchP2PKH, P2SH, BchP2SH, P2WPKH,
+    AtomAddr,
     EthAddr,
     TrxAddr,
     XrpAddr
