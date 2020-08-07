@@ -93,6 +93,7 @@ Bip44BitcoinMainNet = Bip44Coin(coin_conf  = BitcoinConf,
 Bip44BitcoinTestNet = Bip44Coin(coin_conf  = BitcoinConf,
                                 is_testnet = True,
                                 addr_fct   = P2PKH)
+
 # Configuration for Bitcoin Cash main net
 Bip44BitcoinCashMainNet = Bip44BitcoinCash(coin_conf  = BitcoinCashConf,
                                            is_testnet = False,
@@ -101,6 +102,7 @@ Bip44BitcoinCashMainNet = Bip44BitcoinCash(coin_conf  = BitcoinCashConf,
 Bip44BitcoinCashTestNet = Bip44BitcoinCash(coin_conf  = BitcoinCashConf,
                                            is_testnet = True,
                                            addr_fct   = {"legacy" : P2PKH, "bch" : BchP2PKH})
+
 # Configuration for BitcoinSV main net
 Bip44BitcoinSvMainNet = Bip44Coin(coin_conf  = BitcoinSvConf,
                                   is_testnet = False,
@@ -109,6 +111,7 @@ Bip44BitcoinSvMainNet = Bip44Coin(coin_conf  = BitcoinSvConf,
 Bip44BitcoinSvTestNet = Bip44Coin(coin_conf  = BitcoinSvConf,
                                   is_testnet = True,
                                   addr_fct   = P2PKH)
+
 # Configuration for Litecoin main net
 Bip44LitecoinMainNet = Bip44Litecoin(coin_conf  = LitecoinConf,
                                      is_testnet = False,
@@ -117,6 +120,7 @@ Bip44LitecoinMainNet = Bip44Litecoin(coin_conf  = LitecoinConf,
 Bip44LitecoinTestNet = Bip44Litecoin(coin_conf  = LitecoinConf,
                                     is_testnet = True,
                                     addr_fct   = P2PKH)
+
 # Configuration for Dogecoin main net
 Bip44DogecoinMainNet = Bip44Coin(coin_conf  = DogecoinConf,
                                  is_testnet = False,
@@ -125,6 +129,7 @@ Bip44DogecoinMainNet = Bip44Coin(coin_conf  = DogecoinConf,
 Bip44DogecoinTestNet = Bip44Coin(coin_conf  = DogecoinConf,
                                  is_testnet = True,
                                  addr_fct   = P2PKH)
+
 # Configuration for Dash main net
 Bip44DashMainNet = Bip44Coin(coin_conf  = DashConf,
                              is_testnet = False,
@@ -133,14 +138,26 @@ Bip44DashMainNet = Bip44Coin(coin_conf  = DashConf,
 Bip44DashTestNet = Bip44Coin(coin_conf  = DashConf,
                              is_testnet = True,
                              addr_fct   = P2PKH)
+
+# Configuration for Zcash main net
+Bip44ZcashMainNet = Bip44Coin(coin_conf  = ZcashConf,
+                              is_testnet = False,
+                              addr_fct   = P2PKH)
+# Configuration for Zcash test net
+Bip44ZcashTestNet = Bip44Coin(coin_conf  = ZcashConf,
+                              is_testnet = True,
+                              addr_fct   = P2PKH)
+
 # Configuration for Ethereum main net
 Bip44Ethereum = Bip44Coin(coin_conf  = EthereumConf,
                           is_testnet = False,
                           addr_fct   = EthAddr)
+
 # Configuration for Ripple main net
 Bip44Ripple = Bip44Coin(coin_conf  = RippleConf,
                         is_testnet = False,
                         addr_fct   = XrpAddr)
+
 # Configuration for Tron main net
 Bip44Tron = Bip44Coin(coin_conf  = TronConf,
                       is_testnet = False,

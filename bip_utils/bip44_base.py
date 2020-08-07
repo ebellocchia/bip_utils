@@ -37,6 +37,7 @@ class Bip44Coins(IntEnum):
     DOGECOIN             = 3,
     DASH                 = 5,
     ETHEREUM             = 60,
+    ZCASH                = 133,
     RIPPLE               = 144,
     BITCOIN_CASH         = 145,
     TRON                 = 195,
@@ -46,8 +47,9 @@ class Bip44Coins(IntEnum):
     LITECOIN_TESTNET     = -2,
     DOGECOIN_TESTNET     = -3,
     DASH_TESTNET         = -4,
-    BITCOIN_CASH_TESTNET = -6,
-    BITCOIN_SV_TESTNET   = -5,
+    BITCOIN_CASH_TESTNET = -5,
+    BITCOIN_SV_TESTNET   = -6,
+    ZCASH_TESTNET        = -7,
 
 
 @unique

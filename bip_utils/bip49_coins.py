@@ -104,6 +104,7 @@ Bip49BitcoinMainNet = Bip49Coin(coin_conf  = BitcoinConf,
 Bip49BitcoinTestNet = Bip49Coin(coin_conf  = BitcoinConf,
                                 is_testnet = True,
                                 addr_fct   = P2SH)
+
 # Configuration for Bitcoin Cash main net
 Bip49BitcoinCashMainNet = Bip49BitcoinCash(coin_conf  = BitcoinCashConf,
                                            is_testnet = False,
@@ -112,6 +113,7 @@ Bip49BitcoinCashMainNet = Bip49BitcoinCash(coin_conf  = BitcoinCashConf,
 Bip49BitcoinCashTestNet = Bip49BitcoinCash(coin_conf  = BitcoinCashConf,
                                            is_testnet = True,
                                            addr_fct   = {"legacy" : P2SH, "bch" : BchP2SH})
+
 # Configuration for BitcoinSV main net
 Bip49BitcoinSvMainNet = Bip49Coin(coin_conf  = BitcoinSvConf,
                                   is_testnet = False,
@@ -120,14 +122,16 @@ Bip49BitcoinSvMainNet = Bip49Coin(coin_conf  = BitcoinSvConf,
 Bip49BitcoinSvTestNet = Bip49Coin(coin_conf  = BitcoinSvConf,
                                   is_testnet = True,
                                   addr_fct   = P2SH)
+
 # Configuration for Litecoin main net
 Bip49LitecoinMainNet = Bip49Litecoin(coin_conf  = LitecoinConf,
                                      is_testnet = False,
                                      addr_fct   = P2SH)
 # Configuration for Litecoin test net
 Bip49LitecoinTestNet = Bip49Litecoin(coin_conf  = LitecoinConf,
-                                    is_testnet = True,
-                                    addr_fct   = P2SH)
+                                     is_testnet = True,
+                                     addr_fct   = P2SH)
+
 # Configuration for Dogecoin main net
 Bip49DogecoinMainNet = Bip49Coin(coin_conf  = DogecoinConf,
                                  is_testnet = False,
@@ -136,11 +140,21 @@ Bip49DogecoinMainNet = Bip49Coin(coin_conf  = DogecoinConf,
 Bip49DogecoinTestNet = Bip49Coin(coin_conf  = DogecoinConf,
                                  is_testnet = True,
                                  addr_fct   = P2SH)
+
 # Configuration for Dash main net
 Bip49DashMainNet = Bip49Coin(coin_conf  = DashConf,
                              is_testnet = False,
                              addr_fct   = P2SH)
 # Configuration for Dash test net
 Bip49DashTestNet = Bip49Coin(coin_conf  = DashConf,
+                             is_testnet = True,
+                             addr_fct   = P2SH)
+
+# Configuration for Zcash main net
+Bip49ZcashMainNet = Bip49Coin(coin_conf  = ZcashConf,
+                             is_testnet = False,
+                             addr_fct   = P2SH)
+# Configuration for Zcash test net
+Bip49ZcashTestNet = Bip49Coin(coin_conf  = ZcashConf,
                              is_testnet = True,
                              addr_fct   = P2SH)

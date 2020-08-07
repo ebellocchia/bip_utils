@@ -196,6 +196,27 @@ class DashConf:
     WIF_NET_VER       = NetVersions(b"\xcc", b"\xef")
 
 
+class ZcashConf:
+    """ Class container for Zcash configuration. """
+
+    # Names
+    NAMES             = CoinNames("Zcash", "ZEC")
+    # Test names
+    TEST_NAMES        = CoinNames("Zcash TestNet", "ZEC")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+    # BIP49 net versions (same of Bitcoin)
+    BIP49_KEY_NET_VER = BitcoinConf.BIP49_KEY_NET_VER
+
+    # Versions for P2PKH address
+    P2PKH_NET_VER     = NetVersions(b"\x1c\xb8", b"\x1d\x25")
+    # Versions for P2SH address
+    P2SH_NET_VER      = NetVersions(b"\x1c\xbd", b"\x1c\xba")
+    # WIF net version
+    WIF_NET_VER       = BitcoinConf.WIF_NET_VER
+
+
 class EthereumConf:
     """ Class container for Ethereum configuration. """
 

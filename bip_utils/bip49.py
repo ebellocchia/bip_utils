@@ -41,6 +41,7 @@ class Bip49Const:
             Bip44Coins.LITECOIN    , Bip44Coins.LITECOIN_TESTNET,
             Bip44Coins.DOGECOIN    , Bip44Coins.DOGECOIN_TESTNET,
             Bip44Coins.DASH        , Bip44Coins.DASH_TESTNET,
+            Bip44Coins.ZCASH       , Bip44Coins.ZCASH_TESTNET,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
@@ -57,6 +58,8 @@ class Bip49Const:
             Bip44Coins.DOGECOIN_TESTNET     : Bip49DogecoinTestNet,
             Bip44Coins.DASH                 : Bip49DashMainNet,
             Bip44Coins.DASH_TESTNET         : Bip49DashTestNet,
+            Bip44Coins.ZCASH                : Bip49ZcashMainNet,
+            Bip44Coins.ZCASH_TESTNET        : Bip49ZcashTestNet,
         }
 
 
