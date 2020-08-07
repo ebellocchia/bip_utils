@@ -157,22 +157,22 @@ class Bip49(Bip44Base):
         return Bip49Const.SPEC_NAME
 
     @staticmethod
-    def IsCoinAllowed(coin_idx):
+    def IsCoinAllowed(coin_type):
         """ Get if the specified coin is allowed.
 
         Args:
-            coin_idx (Bip44Coins): Coin index, must be a Bip44Coins enum
+            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
 
         Returns :
             bool: True if allowed, false otherwise
 
         Raises:
-            TypeError: If coin_idx is not of Bip44Coins enum
+            TypeError: If coin_type is not of Bip44Coins enum
         """
-        if not isinstance(coin_idx, Bip44Coins):
-            raise TypeError("Coin index is not an enumerative of Bip44Coins")
+        if not isinstance(coin_type, Bip44Coins):
+            raise TypeError("Coin is not an enumerative of Bip44Coins")
 
-        return coin_idx in Bip49Const.ALLOWED_COINS
+        return coin_type in Bip49Const.ALLOWED_COINS
 
     @staticmethod
     def _GetPurpose():
@@ -184,13 +184,13 @@ class Bip49(Bip44Base):
         return Bip49Const.PURPOSE
 
     @staticmethod
-    def _GetCoinClass(coin_idx):
+    def _GetCoinClass(coin_type):
         """ Get coin class.
 
         Args:
-            coin_idx (Bip44Coins): Coin index, must be a Bip44Coins enum
+            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
 
         Returns:
             BipCoinBase child object: BipCoinBase child object
         """
-        return Bip49Const.COIN_TO_CLASS[coin_idx]
+        return Bip49Const.COIN_TO_CLASS[coin_type]

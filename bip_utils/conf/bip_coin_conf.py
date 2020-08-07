@@ -262,7 +262,7 @@ class CosmosConf:
 
 
 class BandProtocolConf:
-    """ Class container for Cosmos configuration. """
+    """ Class container for Band Protocol configuration. """
 
     # Names
     NAMES             = CoinNames("Band Protocol", "BAND")
@@ -272,6 +272,54 @@ class BandProtocolConf:
 
     # HRP for address
     ADDR_HRP          = NetVersions("band")
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
+class KavaConf:
+    """ Class container for Kava configuration. """
+
+    # Names
+    NAMES             = CoinNames("Kava", "KAVA")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # HRP for address
+    ADDR_HRP          = NetVersions("kava")
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
+class IrisNetConf:
+    """ Class container for IRIS network configuration. """
+
+    # Names
+    NAMES             = CoinNames("IRIS Network", "IRIS")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # HRP for address
+    ADDR_HRP          = NetVersions("iaa")
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
+class Bip44BinanceCoinConf:
+    """ Class container for Binance Coin configuration. """
+
+    # Names
+    NAMES             = CoinNames("Binance Coin", "BNB")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # HRP for address
+    ADDR_HRP          = NetVersions("bnb")
 
     # WIF not supported
     WIF_NET_VER       = NetVersions()

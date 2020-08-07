@@ -165,6 +165,21 @@ Bip44BandProtocol = Bip44Coin(coin_conf  = BandProtocolConf,
                               is_testnet = False,
                               addr_fct   = AtomAddr)
 
+# Configuration for Kava
+Bip44Kava = Bip44Coin(coin_conf  = KavaConf,
+                      is_testnet = False,
+                      addr_fct   = AtomAddr)
+
+# Configuration for IRISnet
+Bip44IrisNet = Bip44Coin(coin_conf  = IrisNetConf,
+                         is_testnet = False,
+                         addr_fct   = AtomAddr)
+
+# Configuration for Binance Coin
+Bip44BinanceCoin = Bip44Coin(coin_conf  = Bip44BinanceCoinConf,
+                             is_testnet = False,
+                             addr_fct   = AtomAddr)
+
 # Configuration for Tron
 Bip44Tron = Bip44Coin(coin_conf  = TronConf,
                       is_testnet = False,
