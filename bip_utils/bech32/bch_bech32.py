@@ -147,7 +147,7 @@ class BchBech32Encoder(Bech32EncoderBase):
 
 
 class BchBech32Decoder(Bech32DecoderBase):
-    """ Segwit decoder class. It provides methods for decoding Segwit format. """
+    """ Bitcoin Cash decoder class. It provides methods for decoding Bitcoin Cash format. """
 
     @staticmethod
     def Decode(hrp, addr):
