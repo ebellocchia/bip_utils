@@ -23,10 +23,14 @@ In addition to this, the package allows to:
 - Generate P2WPKH addresses (included in BIP-0084)
 - Generate Ethereum addresses
 - Generate Ripple addresses
+- Generate Cosmos addresses
+- Generate Band Protocol addresses
 - Generate Tron addresses
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
-- Encode/Decode [segwit](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
+- Encode/Decode [segwit bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
+- Encode/Decode Bitcoin Cash bech32
+- Encode/Decode Atom bech32
 
 The currently supported coins are:
 - Bitcoin (and related test net)
@@ -35,8 +39,11 @@ The currently supported coins are:
 - Litecoin (and related test net)
 - Dogecoin (and related test net)
 - Dash (and related test net)
+- Zcash (and related test net)
 - Ethereum
 - Ripple
+- Cosmos
+- Band Protocol
 - Tron
 
 ## Install the package
@@ -87,7 +94,7 @@ Supported entropy bits:
 **Code example**
 
     import binascii
-    from bip_utils import EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum
+    from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum
 
     # Generate a random mnemonic string of 15 words
     mnemonic = Bip39MnemonicGenerator.FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
@@ -97,7 +104,7 @@ Supported entropy bits:
     mnemonic = Bip39MnemonicGenerator.FromEntropy(binascii.unhexlify(entropy_bytes_hex))
 
     # Generate mnemonic from random 192-bit entropy
-    entropy_bytes = EntropyGenerator(Bip39EntropyBitLen.BIT_LEN_192).Generate()
+    entropy_bytes = Bip39EntropyGenerator(Bip39EntropyBitLen.BIT_LEN_192).Generate()
     mnemonic = Bip39MnemonicGenerator.FromEntropy(entropy_bytes)
 
 ### Mnemonic validation
@@ -291,8 +298,11 @@ Currently supported coins enumerative:
 - Litecoin (and related test net) : *Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET*
 - Dogecoin (and related test net) : *Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET*
 - Dash (and related test net) : *Bip44Coins.DASH, Bip44Coins.DASH_TESTNET*
+- Zcash (and related test net) : *Bip44Coins.ZCASH, Bip44Coins.ZCASH_TESTNET*
 - Ethereum : *Bip44Coins.ETHEREUM*
 - Ripple : *Bip44Coins.RIPPLE*
+- Cosmos : *Bip44Coins.COSMOS*
+- Band Protocol : *Bip44Coins.BAND_PROTOCOL*
 - Tron : *Bip44Coins.TRON*
 
 The library can be easily extended with other coins anyway.
@@ -349,28 +359,13 @@ The library can be easily extended with other coins anyway.
 
 In the example above, Bip44 can be substituted with Bip49 or Bip84 without changing the code.
 
-## Ethereum/Ripple/Tron addresses
+## Addresses generation
 
 These libraries are used internally by the other libraries, but they are available also for external use.
 
 **Code example**
 
-    from bip_utils import EthAddr, TrxAddr, XrpAddr
-
-    # Ethereum needs the uncompressed public key
-    addr = EthAddr.ToAddress(pub_key_bytes)
-    # Tron needs the uncompressed public key
-    addr = TrxAddr.ToAddress(pub_key_bytes)
-    # Ripple needs the compressed public key
-    addr = XrpAddr.ToAddress(pub_key_bytes)
-
-## P2PKH/P2SH/P2WPKH addresses
-
-These libraries are used internally by the other libraries, but they are available also for external use.
-
-**Code example**
-
-    from bip_utils import P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH
+    from bip_utils import P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, EthAddr, TrxAddr, XrpAddr
 
     # P2PKH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
     addr = P2PKH.ToAddress(pub_key_bytes)
@@ -383,6 +378,15 @@ These libraries are used internally by the other libraries, but they are availab
     addr = BchP2PKH.ToAddress(pub_key_bytes, "bitcoincash", b"\x00")
     # P2SH addresses in Bitcoin Cash format
     addr = BchP2SH.ToAddress(pub_key_bytes, "bitcoincash", b"\x00")
+
+    # Ethereum needs the uncompressed public key
+    addr = EthAddr.ToAddress(pub_key_bytes)
+    # Tron needs the uncompressed public key
+    addr = TrxAddr.ToAddress(pub_key_bytes)
+    # Atom needs the uncompressed public key
+    addr = AtomAddr.ToAddress(pub_key_bytes, "cosmos")
+    # Ripple needs the compressed public key
+    addr = XrpAddr.ToAddress(pub_key_bytes)
 
 ## WIF
 
@@ -435,7 +439,9 @@ This library is used internally by the other libraries, but it's available also 
 **Code example**
 
     import binascii
-    from bip_utils import SegwitBech32Decoder, SegwitBech32Encoder, BchBech32Encoder, BchBech32Decoder
+    from bip_utils import (
+        AtomBech32Decoder, AtomBech32Encoder, BchBech32Encoder, BchBech32Decoder, SegwitBech32Decoder, SegwitBech32Encoder
+    )
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
 
@@ -448,6 +454,11 @@ This library is used internally by the other libraries, but it's available also 
     enc = BchBech32Encoder.Encode("bitcoincash", b"\x00", data_bytes)
     # Decode with BCH
     dec = BchBech32Decoder.Decode("bitcoincash", enc)
+
+    # Encode with ATOM
+    enc = AtomBech32Encoder.Encode("cosmos", data_bytes)
+    # Decode with ATOM
+    dec = AtomBech32Decoder.Decode("cosmos", enc)
 
 ## Complete code example
 
