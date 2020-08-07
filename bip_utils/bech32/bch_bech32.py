@@ -158,7 +158,7 @@ class BchBech32Decoder(Bech32DecoderBase):
             addr (str): Address
 
         Returns:
-            tuple: Witness version (index 0) and witness program (index 1)
+            tuple: Net version (index 0) and data (index 1)
 
         Raises:
             BchBech32FormatError: If the address is not valid
