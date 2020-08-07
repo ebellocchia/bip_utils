@@ -85,4 +85,4 @@ class CryptoUtils:
         Returns:
             bytes: Computed Hash-160
         """
-        return hashlib.new("ripemd160", hashlib.sha256(data_bytes).digest()).digest()
+        return hashlib.new("ripemd160", CryptoUtils.Sha256(data_bytes)).digest()
