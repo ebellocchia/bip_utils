@@ -116,7 +116,7 @@ class BchBech32Encoder(Bech32EncoderBase):
 
     @staticmethod
     def Encode(hrp, net_ver, data):
-        """ Encode a Bitcoin Cash address.
+        """ Encode to Bitcoin Cash Bech32.
 
         Args:
             hrp (str)      : HRP
@@ -151,7 +151,7 @@ class BchBech32Decoder(Bech32DecoderBase):
 
     @staticmethod
     def Decode(hrp, addr):
-        """ Decode a segwit address.
+        """ Decode from Bitcoin Cash Bech32.
 
         Args:
             hrp (str) : Human readable part

@@ -114,7 +114,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
 
     @staticmethod
     def Encode(hrp, wit_ver, wit_prog):
-        """ Encode a segwit address.
+        """ Encode to Segwit Bech32.
 
         Args:
             hrp (str)       : HRP
@@ -149,7 +149,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
 
     @staticmethod
     def Decode(hrp, addr):
-        """ Decode a segwit address.
+        """ Decode from Segwit Bech32.
 
         Args:
             hrp (str) : Human readable part
