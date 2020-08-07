@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    EntropyGenerator, Bip39WordsNum, Bip39EntropyBitLen, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator, Bip39ChecksumError
+    Bip39EntropyGenerator, Bip39WordsNum, Bip39EntropyBitLen, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator, Bip39ChecksumError
 )
 
 
@@ -267,7 +267,7 @@ class Bip39Tests(unittest.TestCase):
     def test_entropy_valid_bitlen(self):
         for test_bit_len in TEST_VECT_ENTROPY_BITLEN_VALID:
             # Test generator
-            entropy = EntropyGenerator(test_bit_len).Generate()
+            entropy = Bip39EntropyGenerator(test_bit_len).Generate()
             self.assertEqual(len(entropy), test_bit_len // 8)
             # Generate mnemonic
             mnemonic = Bip39MnemonicGenerator.FromEntropy(entropy)
@@ -279,7 +279,7 @@ class Bip39Tests(unittest.TestCase):
     # Test entropy generator and construction from invalid entropy bit lengths
     def test_entropy_invalid_bitlen(self):
         for test_bit_len in TEST_VECT_ENTROPY_BITLEN_INVALID:
-            self.assertRaises(ValueError, EntropyGenerator, test_bit_len)
+            self.assertRaises(ValueError, Bip39EntropyGenerator, test_bit_len)
             # Build a dummy entropy with that bit length
             # Subtract 8 because, otherwise, dividing by 8 could result in a correct byte length
             dummy_ent = b"\x00" * ((test_bit_len - 8) // 8)
