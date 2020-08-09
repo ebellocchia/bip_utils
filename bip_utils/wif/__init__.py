@@ -1,1 +1,1 @@
-from .wif import WifDecoder, WifEncoder
+from bip_utils.wif.wif import WifDecoder, WifEncoder
