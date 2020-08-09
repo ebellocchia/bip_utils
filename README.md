@@ -310,7 +310,7 @@ Currently supported coins enumerative:
 |Cosmos|*Bip44Coins.COSMOS*|-|
 |Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
 |Kava|*Bip44Coins.KAVA*|-|
-|IRISnet|*Bip44Coins.IRIS_NET*|-|
+|IRIS Network|*Bip44Coins.IRIS_NET*|-|
 |Binance Coin|*Bip44Coins.BINANCE_COIN*|-|
 
 The library can be easily extended with other coins anyway.
