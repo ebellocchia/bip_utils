@@ -25,7 +25,7 @@ In addition to this, the package allows to:
 - Encode/Decode Bitcoin Cash bech32
 - Encode/Decode Atom bech32
 
-The currently supported coins are:
+The package currently supports the following coins:
 - Bitcoin (and related test net)
 - Bitcoin Cash (and related test net)
 - BitcoinSV (and related test net)
@@ -33,9 +33,9 @@ The currently supported coins are:
 - Dogecoin (and related test net)
 - Dash (and related test net)
 - Zcash (and related test net)
-- Ethereum (and therefore all related tokens)
+- Ethereum (and, therefore, all related tokens)
+- Tron (and, therefore, all related tokens)
 - Ripple
-- Tron
 - Cosmos
 - Band Protocol (Cosmos blockchain)
 - Kava (Cosmos blockchain)
