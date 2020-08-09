@@ -28,20 +28,23 @@ from bip_utils.bip.bip_keys      import BipPrivateKey, BipPublicKey
 from bip_utils.bip.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
 
 
+@unique
 class Bip44Coins(Enum):
-    """ Enumerative for BIP44 coins. Only some coins are present but it can be extended. """
+    """ Enumerative for supported BIP44 coins.
+    The indexes are just dummy values, they are converted to BIP44 indexes using the COIN_TO_IDX dictionary.
+    """
 
     BITCOIN              = auto(),
+    BITCOIN_CASH         = auto(),
+    BITCOIN_SV           = auto(),
     LITECOIN             = auto(),
     DOGECOIN             = auto(),
     DASH                 = auto(),
-    ETHEREUM             = auto(),
-    COSMOS               = auto(),
     ZCASH                = auto(),
-    RIPPLE               = auto(),
-    BITCOIN_CASH         = auto(),
+    ETHEREUM             = auto(),
     TRON                 = auto(),
-    BITCOIN_SV           = auto(),
+    RIPPLE               = auto(),
+    COSMOS               = auto(),
     BAND_PROTOCOL        = auto(),
     KAVA                 = auto(),
     IRIS_NET             = auto(),
@@ -78,9 +81,6 @@ class Bip44Levels(IntEnum):
 
 class Bip44BaseConst:
     """ Class container for BIP44 base constants. """
-
-    # Test net coin index
-    TEST_NET_COIN_IDX   = 1
 
     # Map from coin to index
     COIN_TO_IDX = \
@@ -290,9 +290,9 @@ class Bip44Base(ABC):
         if not cls.IsLevel(bip_obj, Bip44Levels.PURPOSE):
             raise Bip44DepthError("Current depth (%d) is not suitable for deriving coin" % bip_obj.m_bip32.Depth())
 
-        coin_type = Bip44BaseConst.COIN_TO_IDX[bip_obj.m_coin_type]
+        coin_idx = Bip44BaseConst.COIN_TO_IDX[bip_obj.m_coin_type]
 
-        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(coin_type)), bip_obj.m_coin_type)
+        return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(coin_idx)), bip_obj.m_coin_type)
 
     @classmethod
     def _AccountGeneric(cls, bip_obj, acc_idx):
