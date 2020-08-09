@@ -20,17 +20,17 @@
 
 
 # Imports
-from enum                       import IntEnum, unique
+from enum                       import Enum, auto, unique
 from bip_utils.base58.base58_ex import Base58ChecksumError
 from bip_utils.utils            import ConvUtils, CryptoUtils
 
 
 @unique
-class Base58Alphabets(IntEnum):
+class Base58Alphabets(Enum):
     """ Enumerative for Base58 alphabet. """
 
-    BITCOIN = 0,
-    RIPPLE  = 1,
+    BITCOIN = auto(),
+    RIPPLE  = auto(),
 
 
 class Base58Const:
