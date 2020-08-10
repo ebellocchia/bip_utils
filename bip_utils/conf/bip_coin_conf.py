@@ -245,6 +245,32 @@ class RippleConf:
     WIF_NET_VER       = NetVersions()
 
 
+class TronConf:
+    """ Class container for Tron configuration. """
+
+    # Names
+    NAMES             = CoinNames("Tron", "TRX")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
+class VeChainConf:
+    """ Class container for VeChain configuration. """
+
+    # Names
+    NAMES             = CoinNames("VeChain", "VET")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
 class CosmosConf:
     """ Class container for Cosmos configuration. """
 
@@ -320,19 +346,6 @@ class Bip44BinanceCoinConf:
 
     # HRP for address
     ADDR_HRP          = NetVersions("bnb")
-
-    # WIF not supported
-    WIF_NET_VER       = NetVersions()
-
-
-class TronConf:
-    """ Class container for Tron configuration. """
-
-    # Names
-    NAMES             = CoinNames("Tron", "TRX")
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
     # WIF not supported
     WIF_NET_VER       = NetVersions()

@@ -42,8 +42,9 @@ class Bip44Coins(Enum):
     DASH                 = auto(),
     ZCASH                = auto(),
     ETHEREUM             = auto(),
-    TRON                 = auto(),
     RIPPLE               = auto(),
+    TRON                 = auto(),
+    VECHAIN              = auto(),
     COSMOS               = auto(),
     BAND_PROTOCOL        = auto(),
     KAVA                 = auto(),
@@ -100,6 +101,7 @@ class Bip44BaseConst:
         Bip44Coins.BAND_PROTOCOL        : 494,
         Bip44Coins.KAVA                 : 494,
         Bip44Coins.BINANCE_COIN         : 714,
+        Bip44Coins.VECHAIN              : 818,
         # Test nets
         Bip44Coins.BITCOIN_TESTNET      : 1,
         Bip44Coins.LITECOIN_TESTNET     : 1,

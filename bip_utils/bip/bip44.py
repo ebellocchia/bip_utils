@@ -44,12 +44,13 @@ class Bip44Const:
             Bip44Coins.ZCASH        , Bip44Coins.ZCASH_TESTNET,
             Bip44Coins.ETHEREUM     ,
             Bip44Coins.RIPPLE       ,
+            Bip44Coins.TRON         ,
+            Bip44Coins.VECHAIN      ,
             Bip44Coins.COSMOS       ,
             Bip44Coins.BAND_PROTOCOL,
             Bip44Coins.KAVA         ,
             Bip44Coins.IRIS_NET     ,
             Bip44Coins.BINANCE_COIN ,
-            Bip44Coins.TRON         ,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
@@ -70,12 +71,13 @@ class Bip44Const:
             Bip44Coins.ZCASH_TESTNET        : Bip44ZcashTestNet,
             Bip44Coins.ETHEREUM             : Bip44Ethereum,
             Bip44Coins.RIPPLE               : Bip44Ripple,
+            Bip44Coins.TRON                 : Bip44Tron,
+            Bip44Coins.VECHAIN              : Bip44VeChain,
             Bip44Coins.COSMOS               : Bip44Cosmos,
             Bip44Coins.BAND_PROTOCOL        : Bip44BandProtocol,
             Bip44Coins.KAVA                 : Bip44Kava,
             Bip44Coins.IRIS_NET             : Bip44IrisNet,
             Bip44Coins.BINANCE_COIN         : Bip44BinanceCoin,
-            Bip44Coins.TRON                 : Bip44Tron,
         }
 
 

@@ -155,6 +155,16 @@ Bip44Ripple = Bip44Coin(coin_conf  = RippleConf,
                         is_testnet = False,
                         addr_fct   = XrpAddr)
 
+# Configuration for Tron
+Bip44Tron = Bip44Coin(coin_conf  = TronConf,
+                      is_testnet = False,
+                      addr_fct   = TrxAddr)
+
+# Configuration for VeChain
+Bip44VeChain = Bip44Coin(coin_conf  = VeChainConf,
+                         is_testnet = False,
+                         addr_fct   = EthAddr)
+
 # Configuration for Cosmos
 Bip44Cosmos = Bip44Coin(coin_conf  = CosmosConf,
                         is_testnet = False,
@@ -179,8 +189,3 @@ Bip44IrisNet = Bip44Coin(coin_conf  = IrisNetConf,
 Bip44BinanceCoin = Bip44Coin(coin_conf  = Bip44BinanceCoinConf,
                              is_testnet = False,
                              addr_fct   = AtomAddr)
-
-# Configuration for Tron
-Bip44Tron = Bip44Coin(coin_conf  = TronConf,
-                      is_testnet = False,
-                      addr_fct   = TrxAddr)
