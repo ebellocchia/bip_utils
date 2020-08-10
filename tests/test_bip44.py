@@ -315,6 +315,33 @@ TEST_VECT = \
                     "TT2X2yyubp7qpAWYYNE5JQWBtoZ7ikQFsY",
                 ],
         },
+        # Tron
+        {
+            "coin"       : Bip44Coins.VECHAIN,
+            "names"      : ("VeChain", "VET"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master" :  "",
+            "account" :
+                {
+                    "ex_pub"  : "xpub6DFQXWMJmxXgQrCwUboTCdbWRujz3FU7VGkCC7W2Pe2JNGkwGTonKAS73u6yg8jGiPvbuHBMDgwyF2Vb4rPExFA5WxigX5xDwiSy8ySjars",
+                    "ex_priv" : "xprv9zG47zpQwayPCN8UNaGSqVemssuVdnkG83pbPj6QqJVKVURnivVXmN7dCcwHmqsqPG4pwHbaXXpUWrnvroytRA7zd8izYBrd82YhCGNExbV",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "xpub6EV2C29DE2vifLG7VfDz3SrnW9ZJCGFXyi8sB4VaTDicJThQSm2LCftd54R7PgaHdr9izo7GnVH1FKj678DU3vrimvZRJuiBDj4dTBDXuLK",
+                    "ex_priv" : "xprvA1VfnWcKPfNRSrBePdgygJv3x7ionoXgcVDGNg5xttBdRfNFuDi5esa9DjmgqFNwNUTCxyHA47gPNL7jBHQ5Kz4w7tPKb8WMMu6vv6BXveV",
+                },
+            "addresses" :
+                [
+                    "0xE5d846748409dF0b23D5bd47CEB14afc1CBbbcB3",
+                    "0xDb62FE39887b1b3b80a05e16596150CcDB12199e",
+                    "0xE1695De2C14Bd840D111EE45Dc4d9b7D9Baddf3D",
+                    "0x98CEa2F92172db44e062C7482e7539cb38B1B233",
+                    "0x076988846613FBf7713ca25453b97b97219f5c05",
+                ],
+        },
         # Cosmos
         {
             "coin"       : Bip44Coins.COSMOS,
