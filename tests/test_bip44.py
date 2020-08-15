@@ -261,6 +261,33 @@ TEST_VECT = \
                     "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
                 ],
         },
+        # Ethereum Classic
+        {
+            "coin"       : Bip44Coins.ETHEREUM_CLASSIC,
+            "names"      : ("Ethereum Classic", "ETC"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master" :  "",
+            "account" :
+                {
+                    "ex_pub"  : "xpub6CqTNrUVV95XgHEP2LVe42cdpWKh2jeA4GnyXrQ219wJJVPAFajkbuFEdzf6xfGgdJWrhKuK5p8v47vxVQHFGU85J1J8Di95Z6hFJx8GhYz",
+                    "ex_priv" : "xprv9yr6yLwbemXETo9uvJxdgtfuGUVCdGvJh3sNjTzQSpQKRh41i3RW46vkni1casJdVAqZ7xe2GQ5gMX8z7v3dPodSe1dzkTBZJdmuRoWt6XH",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "xpub6EE7YMPj76jViZjqa4LfaBX6ZdaVs6QJpwF29otjUUVAyYs7J1Doq8m2mXGFtz3M1TLBaFvh2dcWsczUTLkvH7gZcZkuN9BjbF3yZMDnJnc",
+                    "ex_priv" : "xprvA1Em8qrqGjBCW5fNU2ofD3aN1bk1TdgTTiKRMRV7v8xC6kXxkTuZHLSYvDUht8aTHFUY16Ea9ES8SRpmht6VSAe3X8ViDVYhjqbJymS8Lk3",
+                },
+            "addresses" :
+                [
+                    "0xFA22515E43658ce56A7682B801e9B5456f511420",
+                    "0xAee144cB8098B17BCD98D82802fDf32E8ca518cF",
+                    "0x6A9F90A1241E1960AD1A0cCb2400C9d235eA0846",
+                    "0x4Fb914Ca25C64595B28aa6dD78321E7b885a8eC7",
+                    "0x327b2ac3B8623eBdB3eEB39B150f960b6d3ec1a9",
+                ],
+        },
         # Ripple
         {
             "coin"       : Bip44Coins.RIPPLE,
