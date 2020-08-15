@@ -230,6 +230,19 @@ class EthereumConf:
     WIF_NET_VER       = NetVersions()
 
 
+class EthereumClassicConf:
+    """ Class container for Ethereum Classic configuration. """
+
+    # Names
+    NAMES             = CoinNames("Ethereum Classic", "ETC")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
 class RippleConf:
     """ Class container for Ripple configuration. """
 

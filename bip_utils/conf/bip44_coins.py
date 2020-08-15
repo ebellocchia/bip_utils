@@ -149,6 +149,10 @@ Bip44ZcashTestNet = Bip44Coin(coin_conf  = ZcashConf,
 Bip44Ethereum = Bip44Coin(coin_conf  = EthereumConf,
                           is_testnet = False,
                           addr_fct   = EthAddr)
+# Configuration for Ethereum Classic
+Bip44EthereumClassic = Bip44Coin(coin_conf  = EthereumClassicConf,
+                                 is_testnet = False,
+                                 addr_fct   = EthAddr)
 
 # Configuration for Ripple
 Bip44Ripple = Bip44Coin(coin_conf  = RippleConf,

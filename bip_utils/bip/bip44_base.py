@@ -34,6 +34,7 @@ class Bip44Coins(Enum):
     The indexes are just dummy values, they are converted to BIP44 indexes using the COIN_TO_IDX dictionary.
     """
 
+    # Main nets
     BITCOIN              = auto(),
     BITCOIN_CASH         = auto(),
     BITCOIN_SV           = auto(),
@@ -42,6 +43,7 @@ class Bip44Coins(Enum):
     DASH                 = auto(),
     ZCASH                = auto(),
     ETHEREUM             = auto(),
+    ETHEREUM_CLASSIC     = auto(),
     RIPPLE               = auto(),
     TRON                 = auto(),
     VECHAIN              = auto(),
@@ -86,11 +88,13 @@ class Bip44BaseConst:
     # Map from coin to index
     COIN_TO_IDX = \
     {
+        # Main nets
         Bip44Coins.BITCOIN              : 0,
         Bip44Coins.LITECOIN             : 2,
         Bip44Coins.DOGECOIN             : 3,
         Bip44Coins.DASH                 : 5,
         Bip44Coins.ETHEREUM             : 60,
+        Bip44Coins.ETHEREUM_CLASSIC     : 61,
         Bip44Coins.COSMOS               : 118,
         Bip44Coins.IRIS_NET             : 118,
         Bip44Coins.ZCASH                : 133,
