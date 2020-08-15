@@ -25,7 +25,7 @@ setuptools.setup(
     author_email="ebellocchia@gmail.com",
     maintainer="Emanuele Bellocchia",
     maintainer_email="ebellocchia@gmail.com",
-    description="Implementation of BIP39, BIP32, BIP44, BIP49 and BIP84 for wallet seeds, keys and addresses generation. Supported coins: Bitcoin, Bitcoin Cash, BitcoinSV, Litecoin, Dogecoin, Dash, Zcash, Ethereum, Ripple, Tron, Cosmos, Band Protocol, Kava, IRIS Network, Binance Coin.",
+    description="Implementation of BIP39, BIP32, BIP44, BIP49 and BIP84 for wallet seeds, keys and addresses generation. Supported coins: Bitcoin, Bitcoin Cash, BitcoinSV, Litecoin, Dogecoin, Dash, Zcash, Ethereum, Ethereum Classic, VeChain, Ripple, Tron, Cosmos, Band Protocol, Kava, IRIS Network, Binance Coin.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ebellocchia/bip_utils",
@@ -35,7 +35,7 @@ setuptools.setup(
     install_requires = ["ecdsa","pysha3"],
     packages=setuptools.find_packages(exclude=['tests']),
     package_data={"bip_utils": ["bip/bip39_wordslist_en.txt"]},
-    keywords="bitcoin, bitcoin cash, bitcoinsv, litecoin, dogecoin, dash, zcash, ethereum, ripple, tron, cosmos, atom, band protocol, kava, iris, irisnet, binance coin, bnb, wallet, hd-wallet, bip39, bip32, bip44, bip49, bip84, python",
+    keywords="bitcoin, bitcoin cash, bitcoinsv, litecoin, dogecoin, dash, zcash, ethereum, ethereum classic, vechain, ripple, tron, cosmos, atom, band protocol, kava, iris, irisnet, binance coin, bnb, wallet, hd-wallet, bip39, bip32, bip44, bip49, bip84, python",
     platforms = ["any"],
     classifiers=[
         "Programming Language :: Python :: 3",
