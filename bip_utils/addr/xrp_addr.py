@@ -20,9 +20,9 @@
 
 
 # Imports
-from bip_utils.addr.P2PKH import P2PKH
-from bip_utils.base58     import Base58Alphabets
-from bip_utils.conf       import RippleConf
+from bip_utils.addr.P2PKH_addr import P2PKH
+from bip_utils.base58          import Base58Alphabets
+from bip_utils.conf            import RippleConf
 
 
 class XrpAddr:
@@ -41,4 +41,6 @@ class XrpAddr:
         Raises:
             ValueError: If key is not a public compressed key
         """
+
+        # Ripple address is just a P2PKH address with a different Base58 alphabet
         return P2PKH.ToAddress(pub_key_bytes, RippleConf.P2PKH_NET_VER.Main(), Base58Alphabets.RIPPLE)

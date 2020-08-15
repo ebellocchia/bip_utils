@@ -32,7 +32,7 @@ class SegwitBech32Const:
 
     # Separator
     SEPARATOR                 = "1"
-    # Checkum minimum length
+    # Checkum length
     CHECKSUM_LEN              = 6
     # Witness version maximum value
     WITNESS_VER_MAX_VAL       = 16

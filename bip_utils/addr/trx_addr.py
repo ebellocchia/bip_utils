@@ -49,8 +49,8 @@ class TrxAddr:
             ValueError: If the key is not a public uncompressed key
         """
 
-        # Get address in Ethereum format
+        # Get address in Ethereum format (remove "0x" at the beginning)
         addr = EthAddr.ToAddress(pub_key_bytes)[2:]
 
-        # Add rpefix and encode
+        # Add prefix and encode
         return Base58Encoder.CheckEncode(binascii.unhexlify(TrxAddrConst.PREFIX + addr))

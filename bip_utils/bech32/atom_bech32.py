@@ -31,7 +31,7 @@ from bip_utils.utils                 import ConvUtils
 class AtomBech32Const:
     # Separator (same as Segwit)
     SEPARATOR    = SegwitBech32Const.SEPARATOR
-    # Checkum minimum length (same as Segwit)
+    # Checkum length (same as Segwit)
     CHECKSUM_LEN = SegwitBech32Const.CHECKSUM_LEN
     # Minimum data length
     DATA_MIN_LEN = 2

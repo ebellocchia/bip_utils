@@ -29,11 +29,11 @@ class AtomAddr:
 
     @staticmethod
     def ToAddress(pub_key_bytes, hrp):
-        """ Get address in P2WPKH format.
+        """ Get address in Atom format.
 
         Args:
             pub_key_bytes (bytes): Public key bytes
-            hrp (bytes)          : Net address version, default is Bitcoin main network
+            hrp (str)            : HRP
 
         Returns:
             str: Address string
