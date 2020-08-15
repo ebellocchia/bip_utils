@@ -34,8 +34,10 @@ The package currently supports the following coins (I try to add new ones from t
 - Dash (and related test net)
 - Zcash (and related test net)
 - Ethereum (and, therefore, all related tokens)
+- Ethereum Classic
 - Tron (and, therefore, all related tokens)
 - Ripple
+- VeChain
 - Cosmos
 - Band Protocol (Cosmos blockchain)
 - Kava (Cosmos blockchain)
@@ -305,8 +307,10 @@ Currently supported coins enumerative:
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
 |Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
+|Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
 |Tron|*Bip44Coins.TRON*|-|
+|VeChain|*Bip44Coins.VECHAIN*|-|
 |Cosmos|*Bip44Coins.COSMOS*|-|
 |Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
 |Kava|*Bip44Coins.KAVA*|-|
