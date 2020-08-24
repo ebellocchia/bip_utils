@@ -23,12 +23,12 @@
 
 
 # Imports
-from abc                        import ABC, abstractmethod
-from bip_utils.bech32.bech32_ex import Bech32ChecksumError, Bech32FormatError
-from bip_utils.utils            import AlgoUtils, ConvUtils
+from abc                             import ABC, abstractmethod
+from bip_utils.bech32.bech32_base_ex import Bech32ChecksumError, Bech32FormatError
+from bip_utils.utils                 import AlgoUtils, ConvUtils
 
 
-class Bech32Const:
+class Bech32BaseConst:
     """ Class container for Bech32 constants. """
 
     # Character set
@@ -39,7 +39,7 @@ class Bech32Const:
     MIN_DATA_PART_LEN = 7
 
 
-class Bech32Utils:
+class Bech32BaseUtils:
     """ Class container for Bech32 utility functions. """
 
     @staticmethod
@@ -102,7 +102,7 @@ class Bech32EncoderBase(ABC):
         # Add checksum to data
         data += cls._ComputeChecksum(hrp, data)
         # Encode to alphabet
-        return hrp + sep + "".join([Bech32Const.CHARSET[d] for d in data])
+        return hrp + sep + "".join([Bech32BaseConst.CHARSET[d] for d in data])
 
     @staticmethod
     @abstractmethod
@@ -140,7 +140,7 @@ class Bech32DecoderBase(ABC):
         """
 
         # Check string length and case
-        if len(bech_str) > Bech32Const.MAX_STR_LEN or AlgoUtils.IsStringMixed(bech_str):
+        if len(bech_str) > Bech32BaseConst.MAX_STR_LEN or AlgoUtils.IsStringMixed(bech_str):
             raise Bech32FormatError("Invalid bech32 format (length not valid)")
 
         # Lower string
@@ -158,11 +158,11 @@ class Bech32DecoderBase(ABC):
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
-        if len(data_part) < Bech32Const.MIN_DATA_PART_LEN or not all(x in Bech32Const.CHARSET for x in data_part):
+        if len(data_part) < Bech32BaseConst.MIN_DATA_PART_LEN or not all(x in Bech32BaseConst.CHARSET for x in data_part):
             raise Bech32FormatError("Invalid bech32 format (data part not valid)")
 
         # Convert back from alphabet and verify checksum
-        int_data = [Bech32Const.CHARSET.find(x) for x in data_part]
+        int_data = [Bech32BaseConst.CHARSET.find(x) for x in data_part]
         if not cls._VerifyChecksum(hrp, int_data):
             raise Bech32ChecksumError("Invalid bech32 checksum")
 
