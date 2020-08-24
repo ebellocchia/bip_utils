@@ -22,7 +22,7 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
-from bip_utils.bech32.bech32           import Bech32DecoderBase, Bech32EncoderBase, Bech32Utils
+from bip_utils.bech32.bech32_base      import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.bech32.segwit_bech32_ex import SegwitBech32FormatError
 from bip_utils.utils                   import ConvUtils
 
@@ -128,7 +128,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
             Bech32FormatError: If the data is not valid
         """
 
-        return SegwitBech32Encoder._EncodeBech32(hrp, [wit_ver] + Bech32Utils.ConvertToBase32(wit_prog), SegwitBech32Const.SEPARATOR)
+        return SegwitBech32Encoder._EncodeBech32(hrp, [wit_ver] + Bech32BaseUtils.ConvertToBase32(wit_prog), SegwitBech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp, data):
@@ -171,7 +171,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
             raise SegwitBech32FormatError("Invalid segwit format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
 
         # Convert back from base32
-        conv_data = Bech32Utils.ConvertFromBase32(data[1:])
+        conv_data = Bech32BaseUtils.ConvertFromBase32(data[1:])
 
         # Check converted data
         if len(conv_data) < SegwitBech32Const.DATA_MIN_LEN or len(conv_data) > SegwitBech32Const.DATA_MAX_LEN:

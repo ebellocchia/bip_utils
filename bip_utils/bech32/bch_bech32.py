@@ -22,7 +22,7 @@
 # https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
 
 # Imports
-from bip_utils.bech32.bech32        import Bech32DecoderBase, Bech32EncoderBase, Bech32Utils
+from bip_utils.bech32.bech32_base   import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.bech32.bch_bech32_ex import BchBech32FormatError
 from bip_utils.utils                import ConvUtils
 
@@ -132,7 +132,7 @@ class BchBech32Encoder(Bech32EncoderBase):
             Bech32FormatError: If the data is not valid
         """
 
-        return BchBech32Encoder._EncodeBech32(hrp, Bech32Utils.ConvertToBase32(net_ver + data), BchBech32Const.SEPARATOR)
+        return BchBech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(net_ver + data), BchBech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp, data):
@@ -176,7 +176,7 @@ class BchBech32Decoder(Bech32DecoderBase):
             raise BchBech32FormatError("Invalid BCH format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
 
         # Convert back from base32
-        conv_data = Bech32Utils.ConvertFromBase32(data)
+        conv_data = Bech32BaseUtils.ConvertFromBase32(data)
 
         # Check converted data
         if len(conv_data) < BchBech32Const.DATA_MIN_LEN or len(conv_data) > BchBech32Const.DATA_MAX_LEN:
