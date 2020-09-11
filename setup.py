@@ -32,7 +32,7 @@ setuptools.setup(
     download_url="https://github.com/ebellocchia/bip_utils/archive/v%s.tar.gz" % version,
     license="MIT",
     test_suite="tests",
-    install_requires = ["ecdsa","pysha3"],
+    install_requires = ["ecdsa>=0.14","pysha3"],
     packages=setuptools.find_packages(exclude=['tests']),
     package_data={"bip_utils": ["bip/bip39_wordslist_en.txt"]},
     keywords="bitcoin, bitcoin cash, bitcoinsv, litecoin, dogecoin, dash, zcash, ethereum, ethereum classic, vechain, ripple, tron, cosmos, atom, band protocol, kava, iris, irisnet, binance coin, bnb, wallet, hd-wallet, bip39, bip32, bip44, bip49, bip84, python",
