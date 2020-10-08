@@ -194,6 +194,6 @@ Bip44BinanceCoin = Bip44Coin(coin_conf  = Bip44BinanceCoinConf,
                              is_testnet = False,
                              addr_fct   = AtomAddr)
 
-Bip44NineChroniclesGold = Bip44Coin(coin_conf  = NineChroniclesGoldConf,
+Bip44NineChroniclesGold = Bip44Coin(coin_conf  = Bip44NineChroniclesGoldConf,
                                     is_testnet = False,
                                     addr_fct   = EthAddr)
