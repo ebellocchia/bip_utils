@@ -52,6 +52,7 @@ class Bip44Const:
             Bip44Coins.KAVA            ,
             Bip44Coins.IRIS_NET        ,
             Bip44Coins.BINANCE_COIN    ,
+            Bip44Coins.NINE_CHRONICLES_GOLD,
         ]
     # Map from Bip44Coins to coin classes
     COIN_TO_CLASS = \
@@ -80,6 +81,7 @@ class Bip44Const:
             Bip44Coins.KAVA                 : Bip44Kava,
             Bip44Coins.IRIS_NET             : Bip44IrisNet,
             Bip44Coins.BINANCE_COIN         : Bip44BinanceCoin,
+            Bip44Coins.NINE_CHRONICLES_GOLD : Bip44NineChroniclesGold,
         }
 
 

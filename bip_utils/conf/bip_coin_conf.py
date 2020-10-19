@@ -362,3 +362,16 @@ class Bip44BinanceCoinConf:
 
     # WIF not supported
     WIF_NET_VER       = NetVersions()
+
+
+class Bip44NineChroniclesGoldConf:
+    """ Class container for NCG configuration. """
+
+    # Names
+    NAMES             = CoinNames("Nine Chronicles Gold", "NCG")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()

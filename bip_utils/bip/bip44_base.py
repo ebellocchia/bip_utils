@@ -52,6 +52,7 @@ class Bip44Coins(Enum):
     KAVA                 = auto(),
     IRIS_NET             = auto(),
     BINANCE_COIN         = auto(),
+    NINE_CHRONICLES_GOLD = auto(),
     # Test nets
     BITCOIN_TESTNET      = auto(),
     LITECOIN_TESTNET     = auto(),
@@ -104,6 +105,7 @@ class Bip44BaseConst:
         Bip44Coins.BITCOIN_SV           : 236,
         Bip44Coins.BAND_PROTOCOL        : 494,
         Bip44Coins.KAVA                 : 494,
+        Bip44Coins.NINE_CHRONICLES_GOLD : 567,
         Bip44Coins.BINANCE_COIN         : 714,
         Bip44Coins.VECHAIN              : 818,
         # Test nets
