@@ -172,6 +172,26 @@ class Bip44Base(ABC):
             raise Bip44CoinNotAllowedError("Coin %s cannot derive from %s specification" % (coin_type, cls.SpecName()))
         return cls(Bip32.FromExtendedKey(key_str, cls._GetCoinClass(coin_type).KeyNetVersions()), coin_type)
 
+    @classmethod
+    def FromAddressPrivKey(cls, key_bytes, coin_type):
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key related to an address.
+
+        Args:
+            key_bytes (bytes)     : Key bytes
+            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin index is not a Bip44Coins enum
+            Bip44CoinNotAllowedError: If the coin is not allowed to derive from the BIP specification
+            Bip32KeyError: If the key is not valid
+        """
+        if not cls.IsCoinAllowed(coin_type):
+            raise Bip44CoinNotAllowedError("Coin %s cannot derive from %s specification" % (coin_type, cls.SpecName()))
+        return cls(Bip32(key_bytes, b"", Bip44Levels.ADDRESS_INDEX, key_net_ver=cls._GetCoinClass(coin_type).KeyNetVersions()), coin_type)
+
     #
     # Public methods
     #
@@ -200,7 +220,7 @@ class Bip44Base(ABC):
 
         # Finally, initialize class
         self.m_bip32      = bip32_obj
-        self.m_coin_type   = coin_type
+        self.m_coin_type  = coin_type
         self.m_coin_class = self._GetCoinClass(coin_type)
 
     def PublicKey(self):
