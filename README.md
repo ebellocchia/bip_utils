@@ -39,10 +39,10 @@ The package currently supports the following coins (I try to add new ones from t
 - Ripple
 - VeChain
 - Cosmos
-- Band Protocol (Cosmos blockchain)
-- Kava (Cosmos blockchain)
-- IRIS Network (Cosmos blockchain)
-- Binance Coin (Cosmos blockchain)
+- Band Protocol (Cosmos SDK)
+- Kava (Cosmos SDK)
+- IRIS Network (Cosmos SDK)
+- Binance Coin (Cosmos SDK)
 
 ## Install the package
 
