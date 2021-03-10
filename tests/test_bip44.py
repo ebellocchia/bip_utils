@@ -477,10 +477,10 @@ TEST_VECT = \
                     "iaa12ecyuddg4wlnhztusgju5zxxjgznkz7f9t5053",
                 ],
         },
-        # Binance Coin
+        # Binance Chain
         {
-            "coin"       : Bip44Coins.BINANCE_COIN,
-            "names"      : ("Binance Coin", "BNB"),
+            "coin"       : Bip44Coins.BINANCE_CHAIN,
+            "names"      : ("Binance Chain", "BNB"),
             "is_testnet" : False,
             "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
             "ex_master"  :  "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
@@ -502,6 +502,33 @@ TEST_VECT = \
                     "bnb1qw8m2q8rhjvpq29drvn3n8e3eujx4l4phs27ac",
                     "bnb182uz9jph8ran264scmpe529n4rupsvsf03y2xl",
                     "bnb1jpcfwe6x9q3q5t0dfjcfz052x8q94vlygyva4r",
+                ],
+        },
+        # Binance Smart Chain
+        {
+            "coin"       : Bip44Coins.BINANCE_SMART_CHAIN,
+            "names"      : ("Binance Smart Chain", "BNB"),
+            "is_testnet" : False,
+            "seed"       : b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master"  :  "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master" :  "",
+            "account" :
+                {
+                    "ex_pub"  : "xpub6DCoCpSuQZB2jawqnGMEPS63ePKWkwWPH4TU45Q7LPXWuNd8TMtVxRrgjtEshuqpK3mdhaWHPFsBngh5GFZaM6si3yZdUsT8ddYM3PwnATt",
+                    "ex_priv" : "xprv9zDSoJv1aBcjX6sNgEpE2J9K6MV2MUnXuqXsFgzVn3zY2aHyupaFQdYCtdCbNMkvcTdx9FeN49sgXw6mjrhrFLRSzJVnRYPfSCCgjeg4GxY",
+                },
+            "chain_ext" :
+                {
+                    "ex_pub"  : "xpub6EF8jXqFeFEW5bwMU7RpQtHkzE4KJxcqJtvkCjJumzW8CPpacXkb92ek4WzLQXjL93HycJwTPUAcuNxCqFPKKU5m5Z2Vq4nCyh5CyPeBFFr",
+                    "ex_priv" : "xprvA1FnL2JMosgCs7rtN5tp3kM2SCDpuVtywg19QLuJDey9KbVS4zSLbELGDFdugxESvYxCU1wEJhDmMXvHKwmpCLd8QSoUJCHmVHCGvpFPxiw",
+                },
+            "addresses" :
+                [
+                    "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
+                    "0x6Fac4D18c912343BF86fa7049364Dd4E424Ab9C0",
+                    "0xb6716976A3ebe8D39aCEB04372f22Ff8e6802D7A",
+                    "0xF3f50213C1d2e255e4B2bAD430F8A38EEF8D718E",
+                    "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
                 ],
         },
         # Bitcoin test net
