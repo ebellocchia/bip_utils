@@ -189,11 +189,16 @@ Bip44IrisNet = Bip44Coin(coin_conf  = IrisNetConf,
                          is_testnet = False,
                          addr_fct   = AtomAddr)
 
-# Configuration for Binance Coin
-Bip44BinanceCoin = Bip44Coin(coin_conf  = Bip44BinanceCoinConf,
-                             is_testnet = False,
-                             addr_fct   = AtomAddr)
+# Configuration for Binance Chain
+Bip44BinanceChain = Bip44Coin(coin_conf  = BinanceChainConf,
+                              is_testnet = False,
+                              addr_fct   = AtomAddr)
+# Configuration for Binance Smart Chain
+Bip44BinanceSmartChain = Bip44Coin(coin_conf  = BinanceSmartChainConf,
+                                   is_testnet = False,
+                                   addr_fct   = EthAddr)
 
-Bip44NineChroniclesGold = Bip44Coin(coin_conf  = Bip44NineChroniclesGoldConf,
+# Configuration for NG
+Bip44NineChroniclesGold = Bip44Coin(coin_conf  = NineChroniclesGoldConf,
                                     is_testnet = False,
                                     addr_fct   = EthAddr)

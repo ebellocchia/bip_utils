@@ -348,11 +348,11 @@ class IrisNetConf:
     WIF_NET_VER       = NetVersions()
 
 
-class Bip44BinanceCoinConf:
+class BinanceChainConf:
     """ Class container for Binance Coin configuration. """
 
     # Names
-    NAMES             = CoinNames("Binance Coin", "BNB")
+    NAMES             = CoinNames("Binance Chain", "BNB")
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -364,7 +364,20 @@ class Bip44BinanceCoinConf:
     WIF_NET_VER       = NetVersions()
 
 
-class Bip44NineChroniclesGoldConf:
+class BinanceSmartChainConf:
+    """ Class container for Ethereum configuration. """
+
+    # Names
+    NAMES             = CoinNames("Binance Smart Chain", "BNB")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER       = NetVersions()
+
+
+class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 
     # Names
