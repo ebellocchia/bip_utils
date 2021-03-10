@@ -42,7 +42,8 @@ The package currently supports the following coins (I try to add new ones from t
 - Band Protocol (Cosmos SDK)
 - Kava (Cosmos SDK)
 - IRIS Network (Cosmos SDK)
-- Binance Coin (Cosmos SDK)
+- Binance Chain (Cosmos SDK)
+- Binance Smart Chain
 
 ## Install the package
 
@@ -315,7 +316,8 @@ Currently supported coins enumerative:
 |Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
 |Kava|*Bip44Coins.KAVA*|-|
 |IRIS Network|*Bip44Coins.IRIS_NET*|-|
-|Binance Coin|*Bip44Coins.BINANCE_COIN*|-|
+|Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
+|Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
 
 The library can be easily extended with other coins anyway.
 
