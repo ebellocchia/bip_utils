@@ -61,7 +61,7 @@ To run the tests:
 
 - Without code coverage
 
-        python setup.py test
+        python -m unittest discover
 
 - With code coverage and report:
 
