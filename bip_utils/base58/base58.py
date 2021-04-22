@@ -129,7 +129,7 @@ class Base58Decoder:
         """ Decode bytes from a Base58 string.
 
         Args:
-            data_bytes (bytes)                  : Data bytes
+            data_str (string)                   : Data string
             alph_idx (Base58Alphabets, optional): Alphabet index, Bitcoin by default
 
         Returns:
@@ -164,7 +164,7 @@ class Base58Decoder:
         """ Decode bytes from a Base58 string with checksum.
 
         Args:
-            data_bytes (bytes)                  : Data bytes
+            data_str (str)                      : Data string
             alph_idx (Base58Alphabets, optional): Alphabet index, Bitcoin by default
 
         Returns:
