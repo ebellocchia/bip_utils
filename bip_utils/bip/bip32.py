@@ -152,8 +152,8 @@ class Bip32:
         else:
             try:
                 secret = ecdsa.VerifyingKey.from_string(secret, curve = SECP256k1)
-            except ecdsa.keys.MalformedPointError:
-                raise Bip32KeyError("Invalid extended public key (malformed point)")
+            except ecdsa.keys.MalformedPointError as ex:
+                raise Bip32KeyError("Invalid extended public key (malformed point)") from ex
 
         return Bip32(
             secret      = secret,
@@ -195,8 +195,8 @@ class Bip32:
             # Check private key validity
             try:
                 self.m_key = ecdsa.SigningKey.from_string(secret, curve = SECP256k1)
-            except ecdsa.keys.MalformedPointError:
-                raise Bip32KeyError("Invalid private key (malformed point)")
+            except ecdsa.keys.MalformedPointError as ex:
+                raise Bip32KeyError("Invalid private key (malformed point)") from ex
             # Get verifying key
             self.m_ver_key = self.m_key.get_verifying_key()
         else:
