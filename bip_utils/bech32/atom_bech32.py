@@ -47,8 +47,8 @@ class AtomBech32Encoder(Bech32EncoderBase):
         """ Encode to Atom Bech32.
 
         Args:
-            hrp (str)       : HRP
-            wit_prog (bytes): Data
+            hrp (str)   : HRP
+            data (bytes): Data
 
         Returns:
             str: Encoded address
