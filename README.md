@@ -43,7 +43,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Kava (Cosmos SDK)
 - IRIS Network (Cosmos SDK)
 - Binance Chain (Cosmos SDK)
-- Binance Smart Chain
+- Binance Smart Chain (and, therefore, all related tokens)
 
 ## Install the package
 
