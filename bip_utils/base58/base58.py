@@ -20,9 +20,10 @@
 
 
 # Imports
-from enum                       import Enum, auto, unique
+from enum import Enum, auto, unique
+from typing import Dict
 from bip_utils.base58.base58_ex import Base58ChecksumError
-from bip_utils.utils            import ConvUtils, CryptoUtils
+from bip_utils.utils import ConvUtils, CryptoUtils
 
 
 @unique
@@ -30,21 +31,21 @@ class Base58Alphabets(Enum):
     """ Enumerative for Base58 alphabet. """
 
     BITCOIN = auto(),
-    RIPPLE  = auto(),
+    RIPPLE = auto(),
 
 
 class Base58Const:
     """ Class container for Base58 constants. """
 
     # Base58 radix
-    RADIX             = 58
+    RADIX: int = 58
     # Checksum length in bytes
-    CHECKSUM_BYTE_LEN = 4
+    CHECKSUM_BYTE_LEN: int = 4
     # Alphabets
-    ALPHABETS = \
+    ALPHABETS: Dict[Base58Alphabets, str] = \
         {
-            Base58Alphabets.BITCOIN : "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
-            Base58Alphabets.RIPPLE  : "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz",
+            Base58Alphabets.BITCOIN: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
+            Base58Alphabets.RIPPLE: "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz",
         }
 
 
@@ -52,7 +53,7 @@ class Base58Utils:
     """ Class container for Base58 utility functions. """
 
     @staticmethod
-    def ComputeChecksum(data_bytes):
+    def ComputeChecksum(data_bytes: bytes) -> bytes:
         """ Compute Base58 checksum.
 
         Args:
@@ -68,7 +69,8 @@ class Base58Encoder:
     """ Base58 encoder class. It provides methods for encoding and checksum encoding to Base58 format. """
 
     @staticmethod
-    def Encode(data_bytes, alph_idx = Base58Alphabets.BITCOIN):
+    def Encode(data_bytes: bytes,
+               alph_idx: Base58Alphabets = Base58Alphabets.BITCOIN) -> str:
         """ Encode bytes into a Base58 string.
 
         Args:
@@ -103,7 +105,8 @@ class Base58Encoder:
         return (alphabet[0] * n) + enc
 
     @staticmethod
-    def CheckEncode(data_bytes, alph_idx = Base58Alphabets.BITCOIN):
+    def CheckEncode(data_bytes: bytes,
+                    alph_idx: Base58Alphabets = Base58Alphabets.BITCOIN) -> str:
         """ Encode bytes into Base58 string with checksum.
 
         Args:
@@ -125,7 +128,8 @@ class Base58Decoder:
     """ Base58 decoder class. It provides methods for decoding and checksum decoding Base58 format. """
 
     @staticmethod
-    def Decode(data_str, alph_idx = Base58Alphabets.BITCOIN):
+    def Decode(data_str: str,
+               alph_idx: Base58Alphabets = Base58Alphabets.BITCOIN) -> bytes:
         """ Decode bytes from a Base58 string.
 
         Args:
@@ -160,7 +164,8 @@ class Base58Decoder:
         return (b"\x00" * pad_len) + bytes(dec[::-1])
 
     @staticmethod
-    def CheckDecode(data_str, alph_idx = Base58Alphabets.BITCOIN):
+    def CheckDecode(data_str: str,
+                    alph_idx: Base58Alphabets = Base58Alphabets.BITCOIN) -> bytes:
         """ Decode bytes from a Base58 string with checksum.
 
         Args:
@@ -179,7 +184,8 @@ class Base58Decoder:
         # Decode string
         dec_bytes = Base58Decoder.Decode(data_str, alph_idx)
         # Get data and checksum bytes
-        data_bytes, checksum_bytes = dec_bytes[:-Base58Const.CHECKSUM_BYTE_LEN], dec_bytes[-Base58Const.CHECKSUM_BYTE_LEN:]
+        data_bytes = dec_bytes[:-Base58Const.CHECKSUM_BYTE_LEN]
+        checksum_bytes = dec_bytes[-Base58Const.CHECKSUM_BYTE_LEN:]
 
         # Compute checksum
         comp_checksum = Base58Utils.ComputeChecksum(data_bytes)
