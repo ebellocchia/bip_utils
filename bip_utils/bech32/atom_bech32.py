@@ -22,28 +22,30 @@
 # https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
-from bip_utils.bech32.bech32_base    import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.segwit_bech32  import SegwitBech32Const, SegwitBech32Utils
+from typing import List
+from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
+from bip_utils.bech32.segwit_bech32 import SegwitBech32Const, SegwitBech32Utils
 from bip_utils.bech32.atom_bech32_ex import AtomBech32FormatError
-from bip_utils.utils                 import ConvUtils
+from bip_utils.utils import ConvUtils
 
 
 class AtomBech32Const:
     # Separator (same as Segwit)
-    SEPARATOR    = SegwitBech32Const.SEPARATOR
+    SEPARATOR: str = SegwitBech32Const.SEPARATOR
     # Checkum length (same as Segwit)
-    CHECKSUM_LEN = SegwitBech32Const.CHECKSUM_LEN
+    CHECKSUM_LEN: int = SegwitBech32Const.CHECKSUM_LEN
     # Minimum data length
-    DATA_MIN_LEN = 2
+    DATA_MIN_LEN: int = 2
     # Maximum data length
-    DATA_MAX_LEN = 40
+    DATA_MAX_LEN: int = 40
 
 
 class AtomBech32Encoder(Bech32EncoderBase):
     """ Atom encoder class. It provides methods for encoding to Atom format. """
 
     @staticmethod
-    def Encode(hrp, data):
+    def Encode(hrp: str,
+               data: bytes) -> str:
         """ Encode to Atom Bech32.
 
         Args:
@@ -60,7 +62,8 @@ class AtomBech32Encoder(Bech32EncoderBase):
         return AtomBech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(data), AtomBech32Const.SEPARATOR)
 
     @staticmethod
-    def _ComputeChecksum(hrp, data):
+    def _ComputeChecksum(hrp: str,
+                         data: List) -> List:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -68,7 +71,7 @@ class AtomBech32Encoder(Bech32EncoderBase):
             data (list): Data part
 
         Returns:
-            str: Computed checksum
+            list: Computed checksum
         """
 
         # Same as Segwit
@@ -79,7 +82,8 @@ class AtomBech32Decoder(Bech32DecoderBase):
     """ Atom decoder class. It provides methods for decoding Atom format. """
 
     @staticmethod
-    def Decode(hrp, addr):
+    def Decode(hrp: str,
+               addr: str) -> bytes:
         """ Decode from Atom Bech32.
 
         Args:
@@ -112,7 +116,8 @@ class AtomBech32Decoder(Bech32DecoderBase):
         return ConvUtils.ListToBytes(conv_data)
 
     @staticmethod
-    def _VerifyChecksum(hrp, data):
+    def _VerifyChecksum(hrp: str,
+                        data: List) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:

@@ -23,27 +23,28 @@
 
 
 # Imports
-from abc                             import ABC, abstractmethod
+from abc import ABC, abstractmethod
+from typing import List, Tuple, Union
 from bip_utils.bech32.bech32_base_ex import Bech32ChecksumError, Bech32FormatError
-from bip_utils.utils                 import AlgoUtils, ConvUtils
+from bip_utils.utils import AlgoUtils, ConvUtils
 
 
 class Bech32BaseConst:
     """ Class container for Bech32 constants. """
 
     # Character set
-    CHARSET           = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
+    CHARSET: str = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
     # Maximum string length
-    MAX_STR_LEN       = 90
+    MAX_STR_LEN: int = 90
     # Data part minimum length
-    MIN_DATA_PART_LEN = 7
+    MIN_DATA_PART_LEN: int = 7
 
 
 class Bech32BaseUtils:
     """ Class container for Bech32 utility functions. """
 
     @staticmethod
-    def ConvertToBase32(data):
+    def ConvertToBase32(data: Union[List, bytes]) -> List:
         """ Convert data to base32.
 
         Args:
@@ -63,7 +64,7 @@ class Bech32BaseUtils:
         return conv_data
 
     @staticmethod
-    def ConvertFromBase32(data):
+    def ConvertFromBase32(data: Union[List, bytes]) -> List:
         """ Convert data from base32.
 
         Args:
@@ -87,7 +88,10 @@ class Bech32EncoderBase(ABC):
     """ Bech32 encoder base class. It provides methods for encoding to Bech32 format. """
 
     @classmethod
-    def _EncodeBech32(cls, hrp, data, sep):
+    def _EncodeBech32(cls,
+                      hrp: str,
+                      data: List,
+                      sep: str) -> str:
         """ Encode a Bech32 string from the specified HRP and data.
 
         Args:
@@ -106,7 +110,8 @@ class Bech32EncoderBase(ABC):
 
     @staticmethod
     @abstractmethod
-    def _ComputeChecksum(hrp, data):
+    def _ComputeChecksum(hrp: str,
+                         data: List) -> List:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -114,7 +119,7 @@ class Bech32EncoderBase(ABC):
             data (list): Data part
 
         Returns:
-            str: Computed checksum
+            list: Computed checksum
         """
         pass
 
@@ -123,7 +128,10 @@ class Bech32DecoderBase(ABC):
     """ Bech32 decoder base class. It provides methods for decoding Bech32 format. """
 
     @classmethod
-    def _DecodeBech32(cls, bech_str, sep, checksum_len):
+    def _DecodeBech32(cls,
+                      bech_str: str,
+                      sep: str,
+                      checksum_len: int) -> Tuple[str, List]:
         """ Decode and validate a Bech32 string, determining its HRP and data.
 
         Args:
@@ -170,7 +178,8 @@ class Bech32DecoderBase(ABC):
 
     @staticmethod
     @abstractmethod
-    def _VerifyChecksum(hrp, data):
+    def _VerifyChecksum(hrp: str,
+                        data: List) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:

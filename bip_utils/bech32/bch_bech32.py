@@ -22,46 +22,48 @@
 # https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
 
 # Imports
-from bip_utils.bech32.bech32_base   import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
+from typing import List, Tuple
+from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.bech32.bch_bech32_ex import BchBech32FormatError
-from bip_utils.utils                import ConvUtils
+from bip_utils.utils import ConvUtils
 
 
 class BchBech32Const:
     """ Class container for Bitcoin Cash constants. """
 
     # Separator
-    SEPARATOR    = ":"
+    SEPARATOR: str = ":"
     # Checkum length
-    CHECKSUM_LEN = 8
+    CHECKSUM_LEN: int = 8
     # Minimum data length
-    DATA_MIN_LEN = 2
+    DATA_MIN_LEN: int = 2
     # Maximum data length
-    DATA_MAX_LEN = 40
+    DATA_MAX_LEN: int = 40
 
 
 class BchBech32Utils:
     """ Class container for Bitcoin Cash utility functions. """
 
     @staticmethod
-    def PolyMod(values):
-        """ Computes the Bitcoin Cash checksum.
+    def PolyMod(values: List) -> int:
+        """ Computes the polynomial modulus.
 
         Args:
-            values (list): Values for checksum computation
+            values (list): List of polynomial coefficients
 
         Returns:
-            int: Computed checksum
+            int: Computed modulus
         """
 
-        chk = 1
+        # Generator polynomial
         generator = [
             (0x01, 0x98f2bc8e61),
             (0x02, 0x79b76d99e2),
             (0x04, 0xf33e5fb3c4),
             (0x08, 0xae2eabe2a8),
             (0x10, 0x1e4f43e470)]
-
+        # Compute modulus
+        chk = 1
         for value in values:
             top = chk >> 35
             chk = ((chk & 0x07ffffffff) << 5) ^ value
@@ -72,19 +74,21 @@ class BchBech32Utils:
         return chk ^ 1
 
     @staticmethod
-    def HrpExpand(hrp):
+    def HrpExpand(hrp: str) -> List:
         """ Expand the HRP into values for checksum computation.
 
         Args:
             hrp (str): HRP
 
         Returns:
-            list: Expanded HRP
+            list: Expanded HRP values
         """
+        # [lower 5 bits of each character] + [0]
         return [ord(x) & 0x1f for x in hrp] + [0]
 
     @staticmethod
-    def ComputeChecksum(hrp, data):
+    def ComputeChecksum(hrp: str,
+                        data: List) -> List:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -92,7 +96,7 @@ class BchBech32Utils:
             data (list): Data part
 
         Returns:
-            str: Computed checksum
+            list: Computed checksum
         """
 
         values = BchBech32Utils.HrpExpand(hrp) + data
@@ -100,7 +104,8 @@ class BchBech32Utils:
         return [(polymod >> 5 * (7 - i)) & 0x1f for i in range(BchBech32Const.CHECKSUM_LEN)]
 
     @staticmethod
-    def VerifyChecksum(hrp, data):
+    def VerifyChecksum(hrp: str,
+                       data: List) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
@@ -117,7 +122,9 @@ class BchBech32Encoder(Bech32EncoderBase):
     """ Bitcoin Cash encoder class. It provides methods for encoding to Bitcoin Cash format. """
 
     @staticmethod
-    def Encode(hrp, net_ver, data):
+    def Encode(hrp: str,
+               net_ver: bytes,
+               data: bytes) -> str:
         """ Encode to Bitcoin Cash Bech32.
 
         Args:
@@ -135,7 +142,8 @@ class BchBech32Encoder(Bech32EncoderBase):
         return BchBech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(net_ver + data), BchBech32Const.SEPARATOR)
 
     @staticmethod
-    def _ComputeChecksum(hrp, data):
+    def _ComputeChecksum(hrp: str,
+                         data: List) -> List:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -143,7 +151,7 @@ class BchBech32Encoder(Bech32EncoderBase):
             data (list): Data part
 
         Returns:
-            str: Computed checksum
+            list: Computed checksum
         """
         return BchBech32Utils.ComputeChecksum(hrp, data)
 
@@ -152,7 +160,8 @@ class BchBech32Decoder(Bech32DecoderBase):
     """ Bitcoin Cash decoder class. It provides methods for decoding Bitcoin Cash format. """
 
     @staticmethod
-    def Decode(hrp, addr):
+    def Decode(hrp: str,
+               addr: str) -> Tuple[bytes, bytes]:
         """ Decode from Bitcoin Cash Bech32.
 
         Args:
@@ -185,7 +194,8 @@ class BchBech32Decoder(Bech32DecoderBase):
         return conv_data[0], ConvUtils.ListToBytes(conv_data[1:])
 
     @staticmethod
-    def _VerifyChecksum(hrp, data):
+    def _VerifyChecksum(hrp: str,
+                        data: List) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
