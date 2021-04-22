@@ -57,7 +57,7 @@ class Bech32BaseUtils:
 
         # Convert to base32
         conv_data = ConvUtils.ConvertToBits(data, 8, 5)
-        if conv_data == None:
+        if conv_data is None:
             raise Bech32FormatError("Invalid data, cannot perform conversion to base32")
 
         return conv_data
@@ -77,7 +77,7 @@ class Bech32BaseUtils:
 
         # Convert to base32
         conv_data = ConvUtils.ConvertToBits(data, 5, 8, False)
-        if conv_data == None:
+        if conv_data is None:
             raise Bech32FormatError("Invalid data, cannot perform conversion from base32")
 
         return conv_data
