@@ -21,6 +21,7 @@
 
 # Imports
 import binascii
+from bip_utils.utils.algo import AlgoUtils
 
 
 class ConvUtils:
@@ -65,17 +66,17 @@ class ConvUtils:
         return bin(data_int)[2:].zfill(zero_pad)
 
     @staticmethod
-    def BytesFromBinaryStr(data_str, zero_pad = 0):
+    def BytesFromBinaryStr(data, zero_pad = 0):
         """ Convert the specified binary string to bytes.
 
         Args:
-            data_str (str)          : Data string
+            data (str or bytes)     : Data
             zero_pad (int, optional): Zero padding, 0 if not specified
 
         Returns:
             bytes: Bytes representation
         """
-        return binascii.unhexlify(hex(int(data_str, 2))[2:].zfill(zero_pad))
+        return binascii.unhexlify(hex(int(AlgoUtils.Encode(data), 2))[2:].zfill(zero_pad))
 
     @staticmethod
     def ListToBytes(data_list):
@@ -94,8 +95,8 @@ class ConvUtils:
         """ Convert bytes to hex string.
 
         Args:
-            data_bytes (str): Data bytes
-            encoding (str)  : Encoding type
+            data_bytes (bytes): Data bytes
+            encoding (str)    : Encoding type
 
         Returns:
             str: Bytes converted to hex string
@@ -103,16 +104,16 @@ class ConvUtils:
         return binascii.hexlify(data_bytes).decode(encoding)
 
     @staticmethod
-    def HexStringToBytes(data_str):
+    def HexStringToBytes(data):
         """ Convert hex string to bytes.
 
         Args:
-            data_str (str): Data bytes
+            data (str or bytes): Data bytes
 
         Returns
             bytes: Hex string converted to bytes
         """
-        return binascii.unhexlify(data_str)
+        return binascii.unhexlify(AlgoUtils.Encode(data))
 
     @staticmethod
     def ConvertToBits(data, from_bits, to_bits, pad = True):
