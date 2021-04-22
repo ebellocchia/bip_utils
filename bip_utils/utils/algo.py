@@ -21,13 +21,15 @@
 
 # Imports
 from bisect import bisect_left
+from typing import Any, List, Union
 
 
 class AlgoUtils:
     """ Class container for algorithm utility functions. """
 
     @staticmethod
-    def BinarySearch(arr, elem):
+    def BinarySearch(arr: List,
+                     elem: Any) -> int:
         """ Binary search algorithm simply implemented by using the bisect library.
 
         Args:
@@ -38,16 +40,17 @@ class AlgoUtils:
             int: First index of the element, -1 if not found
         """
 
-        INVALID_IDX = -1
+        invalid_idx = -1
 
         i = bisect_left(arr, elem)
         if i != len(arr) and arr[i] == elem:
             return i
         else:
-            return INVALID_IDX
+            return invalid_idx
 
     @staticmethod
-    def Encode(data, encoding = "utf-8"):
+    def Encode(data: Union[bytes, str],
+               encoding: str = "utf-8") -> bytes:
         """ Encode to bytes.
 
         Args:
@@ -59,12 +62,12 @@ class AlgoUtils:
         """
         if isinstance(data, str):
             return data.encode(encoding)
-        elif isinstance(data, bytes) or isinstance(data, bytearray):
+        elif isinstance(data, bytes):
             return data
         raise ValueError("Invalid data type")
 
     @staticmethod
-    def IsStringMixed(data_str):
+    def IsStringMixed(data_str: str) -> bool:
         """ Get if the specified string is in mixed case.
 
         Args:

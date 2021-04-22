@@ -19,24 +19,28 @@
 # THE SOFTWARE.
 
 
+# Imports
+from typing import Tuple
+
+
 class KeyUtilsConst:
     """ Class container for key helper constants. """
 
     # Private key length
-    PRIV_KEY_LEN         = 32
+    PRIV_KEY_LEN: int = 32
     # Public uncompressed key length
-    PUB_KEY_UNCOMPR_LEN  = 64
+    PUB_KEY_UNCOMPR_LEN: int = 64
     # Public compressed key length
-    PUB_KEY_COMPR_LEN    = 33
+    PUB_KEY_COMPR_LEN: int = 33
     # Public compressed key prefix (0x02, 0x03)
-    PUB_KEY_COMPR_PREFIX = (2, 3)
+    PUB_KEY_COMPR_PREFIX: Tuple[int, int] = (2, 3)
 
 
 class KeyUtils:
     """ Key helper class. It provides methods for checking formats of ECDSA keys. """
 
     @staticmethod
-    def IsPrivate(key_bytes):
+    def IsPrivate(key_bytes: bytes) -> bool:
         """ Get if the specified key is private.
 
         Args:
@@ -48,7 +52,7 @@ class KeyUtils:
         return len(key_bytes) == KeyUtilsConst.PRIV_KEY_LEN
 
     @staticmethod
-    def IsPublicUncompressed(key_bytes):
+    def IsPublicUncompressed(key_bytes: bytes) -> bool:
         """ Get if the specified key is public uncompressed (first version byte not considered).
 
         Args:
@@ -60,7 +64,7 @@ class KeyUtils:
         return len(key_bytes) == KeyUtilsConst.PUB_KEY_UNCOMPR_LEN
 
     @staticmethod
-    def IsPublicCompressed(key_bytes):
+    def IsPublicCompressed(key_bytes: bytes) -> bool:
         """ Get if the specified key is public compressed.
 
         Args:
@@ -72,7 +76,7 @@ class KeyUtils:
         return len(key_bytes) == KeyUtilsConst.PUB_KEY_COMPR_LEN and key_bytes[0] in KeyUtilsConst.PUB_KEY_COMPR_PREFIX
 
     @staticmethod
-    def IsValid(key_bytes):
+    def IsValid(key_bytes: bytes) -> bool:
         """ Get if the specified key is valid.
 
         Args:
@@ -81,6 +85,6 @@ class KeyUtils:
         Returns:
             bool: True if private or public compressed/decompressed, false otherwise
         """
-        return KeyUtils.IsPrivate(key_bytes)            or \
-               KeyUtils.IsPublicUncompressed(key_bytes) or \
-               KeyUtils.IsPublicCompressed(key_bytes)
+        return (KeyUtils.IsPrivate(key_bytes) or
+                KeyUtils.IsPublicUncompressed(key_bytes) or
+                KeyUtils.IsPublicCompressed(key_bytes))

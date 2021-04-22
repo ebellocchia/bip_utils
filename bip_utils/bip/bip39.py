@@ -432,6 +432,6 @@ class Bip39SeedGenerator:
         # Get salt
         salt = Bip39Const.SEED_SALT_MOD + passphrase
         # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(AlgoUtils.Encode(self.m_mnemonic), AlgoUtils.Encode(salt), Bip39Const.SEED_PBKDF2_ROUNDS)
+        key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic, salt, Bip39Const.SEED_PBKDF2_ROUNDS)
 
         return key[:Bip39Const.SEED_LEN]
