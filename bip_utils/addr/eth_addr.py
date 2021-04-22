@@ -36,6 +36,7 @@ class EthAddrConst:
 class EthAddrUtils:
     """ Class container for Ethereum address utility functions. """
 
+    @staticmethod
     def ChecksumEncode(addr):
         """ Checksum encode the specified address.
 
