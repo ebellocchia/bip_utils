@@ -21,22 +21,24 @@
 
 # Imports
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.conf   import BitcoinConf
-from bip_utils.utils  import ConvUtils, KeyUtils
+from bip_utils.conf import BitcoinConf
+from bip_utils.utils import ConvUtils, KeyUtils
 
 
 class WifConst:
     """ Class container for WIF constants. """
 
     # Suffix to be added if the private key correspond to a compressed public key
-    COMPR_PUB_KEY_SUFFIX = b"\x01"
+    COMPR_PUB_KEY_SUFFIX: bytes = b"\x01"
 
 
 class WifEncoder:
     """ WIF encoder class. It provides methods for encoding to WIF format. """
 
     @staticmethod
-    def Encode(key_bytes, compr_pub_key = True, net_addr_ver = BitcoinConf.WIF_NET_VER.Main()):
+    def Encode(key_bytes: bytes,
+               compr_pub_key: bool = True,
+               net_addr_ver: bytes = BitcoinConf.WIF_NET_VER.Main()) -> str:
         """ Encode key bytes into a WIF string.
 
         Args:
@@ -65,11 +67,13 @@ class WifEncoder:
         # Encode key
         return Base58Encoder.CheckEncode(key_bytes)
 
+
 class WifDecoder:
     """ WIF encoder class. It provides methods for encoding to WIF format."""
 
     @staticmethod
-    def Decode(wif_str, net_addr_ver = BitcoinConf.WIF_NET_VER.Main()):
+    def Decode(wif_str: str,
+               net_addr_ver: bytes = BitcoinConf.WIF_NET_VER.Main()) -> bytes:
         """ Decode key bytes from a WIF string.
 
         Args:
