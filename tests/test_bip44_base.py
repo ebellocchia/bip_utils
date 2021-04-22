@@ -111,6 +111,7 @@ class Bip44BaseTestHelper:
                 LitecoinConf.P2SH_DEPR_ADDR = False
 
     # Run all tests in test vector using FromExtendedKey for construction
+    @staticmethod
     def test_from_ex_key(ut_class, bip_class, test_vector):
         for test in test_vector:
             # Create from private master key
@@ -139,6 +140,7 @@ class Bip44BaseTestHelper:
             ut_class.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
 
     # Test for IsLevel method
+    @staticmethod
     def test_is_level(ut_class, bip_class, test_seed_bytes):
         # Master level
         bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), Bip44Coins.BITCOIN)
@@ -163,6 +165,7 @@ class Bip44BaseTestHelper:
         ut_class.assertRaises(TypeError, bip_obj_ctx.IsLevel, 0)
 
     # Test different key formats
+    @staticmethod
     def test_key_formats(ut_class, bip_class, test_data):
         # Create from seed
         bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test_data["seed"]), test_data["coin"])
@@ -175,6 +178,7 @@ class Bip44BaseTestHelper:
         ut_class.assertEqual(test_data["raw_uncompr_pub"], bip_obj_ctx.PublicKey().RawUncompressed().ToHex())
 
     # Test construction from extended keys with valid and invalid depths
+    @staticmethod
     def test_from_ex_key_depth(ut_class, bip_class, test_data):
         # Private key with depth 5 shall not raise exception
         bip_class.FromExtendedKey(test_data["ex_priv_5"], Bip44Coins.BITCOIN)
@@ -190,6 +194,7 @@ class Bip44BaseTestHelper:
         ut_class.assertRaises(Bip44DepthError, bip_class.FromExtendedKey, test_data["ex_pub_6"], Bip44Coins.BITCOIN)
 
     # Test coins
+    @staticmethod
     def test_coins(ut_class, bip_class, test_coins):
         # Test not allowed coins
         for test in test_coins["not_allowed"]:
@@ -208,6 +213,7 @@ class Bip44BaseTestHelper:
         ut_class.assertRaises(TypeError, bip_class.IsCoinAllowed, 0)
 
     # Test invalid path derivations
+    @staticmethod
     def test_invalid_derivations(ut_class, bip_class, test_seed_bytes):
         # Create all the derivations
         bip_obj_mst    = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), Bip44Coins.BITCOIN)
