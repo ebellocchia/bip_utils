@@ -182,7 +182,7 @@ class BchBech32Decoder(Bech32DecoderBase):
         if len(conv_data) < BchBech32Const.DATA_MIN_LEN or len(conv_data) > BchBech32Const.DATA_MAX_LEN:
             raise BchBech32FormatError("Invalid BCH format (length not valid)")
 
-        return (conv_data[0], ConvUtils.ListToBytes(conv_data[1:]))
+        return conv_data[0], ConvUtils.ListToBytes(conv_data[1:])
 
     @staticmethod
     def _VerifyChecksum(hrp, data):

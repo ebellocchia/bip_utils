@@ -463,4 +463,4 @@ class Bip32:
 
         # Use chain as HMAC key
         hmac = CryptoUtils.HmacSha512(self.m_chain, data_bytes)
-        return (hmac[:32], hmac[32:])
+        return hmac[:32], hmac[32:]

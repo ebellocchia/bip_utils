@@ -181,7 +181,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         elif data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_LEN:
             raise SegwitBech32FormatError("Invalid segwit format (length not valid)")
 
-        return (data[0], ConvUtils.ListToBytes(conv_data))
+        return data[0], ConvUtils.ListToBytes(conv_data)
 
     @staticmethod
     def _VerifyChecksum(hrp, data):
