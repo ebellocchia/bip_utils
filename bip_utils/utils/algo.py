@@ -47,17 +47,21 @@ class AlgoUtils:
             return INVALID_IDX
 
     @staticmethod
-    def StringEncode(data_str, encoding = "utf-8"):
-        """ Encode string to bytes.
+    def Encode(data, encoding = "utf-8"):
+        """ Encode to bytes.
 
         Args:
-            data_str (str): Data string
-            encoding (str): Encoding type
+            data (str or bytes): Data
+            encoding (str)     : Encoding type
 
         Returns:
             bytes: String encoded to bytes
         """
-        return data_str.encode(encoding)
+        if isinstance(data, str):
+            return data.encode(encoding)
+        elif isinstance(data, bytes) or isinstance(data, bytearray):
+            return data
+        raise ValueError("Invalid data type")
 
     @staticmethod
     def IsStringMixed(data_str):
