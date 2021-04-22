@@ -100,8 +100,8 @@ class SegwitBech32Utils:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str): HRP
-            data (str): Data part
+            hrp  (str) : HRP
+            data (list): Data part
 
         Returns:
             bool: True if valid, false otherwise
@@ -188,8 +188,8 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str): HRP
-            data (str): Data part
+            hrp  (str) : HRP
+            data (list): Data part
 
         Returns:
             bool: True if valid, false otherwise

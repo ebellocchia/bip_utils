@@ -89,7 +89,7 @@ class BchP2SH:
         Args:
             pub_key_bytes (bytes): Public key bytes
             hrp (str)            : HRP
-            net_addr_ver (int)   : Net address version
+            net_addr_ver (bytes) : Net address version
 
         Returns:
             str: Address string

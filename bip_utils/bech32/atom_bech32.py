@@ -116,8 +116,8 @@ class AtomBech32Decoder(Bech32DecoderBase):
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str): HRP
-            data (str): Data part
+            hrp  (str) : HRP
+            data (list): Data part
 
         Returns:
             bool: True if valid, false otherwise
