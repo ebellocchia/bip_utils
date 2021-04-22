@@ -44,8 +44,8 @@ class P2WPKH:
         """ Get address in P2WPKH format.
 
         Args:
-            pub_key_bytes (bytes)         : Public key bytes
-            net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
+            pub_key_bytes (bytes)       : Public key bytes
+            net_addr_ver (str, optional): Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string
