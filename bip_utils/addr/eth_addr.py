@@ -21,23 +21,23 @@
 
 # Imports
 import sha3
-from bip_utils.utils import KeyUtils
+from bip_utils.utils import AlgoUtils, KeyUtils
 
 
 class EthAddrConst:
     """ Class container for Ethereum address constants. """
 
     # Prefix
-    PREFIX     = "0x"
+    PREFIX: str = "0x"
     # Start byte
-    START_BYTE = 24
+    START_BYTE: int = 24
 
 
 class EthAddrUtils:
     """ Class container for Ethereum address utility functions. """
 
     @staticmethod
-    def ChecksumEncode(addr):
+    def ChecksumEncode(addr: str) -> str:
         """ Checksum encode the specified address.
 
         Args:
@@ -48,7 +48,7 @@ class EthAddrUtils:
         """
 
         # Compute address digest
-        addr_digest = sha3.keccak_256(addr.encode()).hexdigest()
+        addr_digest = sha3.keccak_256(AlgoUtils.Encode(addr)).hexdigest()
         # Encode it
         enc_addr = [c.upper() if (int(addr_digest[i], 16) >= 8) else c.lower() for i, c in enumerate(addr)]
 
@@ -59,7 +59,7 @@ class EthAddr:
     """ Ethereum address class. It allows the Ethereum address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes):
+    def ToAddress(pub_key_bytes: bytes) -> str:
         """ Get address in Ethereum format.
 
         Args:

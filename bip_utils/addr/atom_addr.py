@@ -21,14 +21,15 @@
 
 # Imports
 from bip_utils.bech32 import AtomBech32Encoder
-from bip_utils.utils  import CryptoUtils, KeyUtils
+from bip_utils.utils import CryptoUtils, KeyUtils
 
 
 class AtomAddr:
     """ Atom address class. It allows the Atom address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, hrp):
+    def ToAddress(pub_key_bytes: bytes,
+                  hrp: str) -> str:
         """ Get address in Atom format.
 
         Args:

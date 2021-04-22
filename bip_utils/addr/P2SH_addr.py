@@ -23,22 +23,22 @@
 import binascii
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
-from bip_utils.conf   import BitcoinConf
-from bip_utils.utils  import CryptoUtils, KeyUtils
+from bip_utils.conf import BitcoinConf
+from bip_utils.utils import CryptoUtils, KeyUtils
 
 
 class P2SHConst:
     """ Class container for P2SH constants. """
 
     # Script bytes
-    SCRIPT_BYTES = b"0014"
+    SCRIPT_BYTES: bytes = b"0014"
 
 
 class P2SHUtils:
     """ Class container for P2SH utility functions. """
 
     @staticmethod
-    def AddScriptSig(pub_key_bytes):
+    def AddScriptSig(pub_key_bytes: bytes) -> bytes:
         """ Add script signature to public key and get address bytes.
 
         Args:
@@ -59,7 +59,8 @@ class P2SH:
     """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2SH_NET_VER.Main()):
+    def ToAddress(pub_key_bytes: bytes,
+                  net_addr_ver: bytes = BitcoinConf.P2SH_NET_VER.Main()) -> str:
         """ Get address in P2SH format.
 
         Args:
@@ -83,7 +84,9 @@ class BchP2SH:
     """ Bitcoin Cash P2SH class. It allows the Bitcoin Cash P2SH generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, hrp, net_addr_ver):
+    def ToAddress(pub_key_bytes: bytes,
+                  hrp: str,
+                  net_addr_ver: bytes) -> str:
         """ Get address in Bitcoin Cash P2SH format.
 
         Args:

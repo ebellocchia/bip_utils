@@ -21,15 +21,15 @@
 
 # Imports
 from bip_utils.addr.P2PKH_addr import P2PKH
-from bip_utils.base58          import Base58Alphabets
-from bip_utils.conf            import RippleConf
+from bip_utils.base58 import Base58Alphabets
+from bip_utils.conf import RippleConf
 
 
 class XrpAddr:
     """ Ripple address class. It allows the Ripple address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes):
+    def ToAddress(pub_key_bytes: bytes) -> str:
         """ Get address in Ripple format.
 
         Args:

@@ -22,21 +22,21 @@
 # Imports
 import binascii
 from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.base58        import Base58Encoder
+from bip_utils.base58 import Base58Encoder
 
 
 class TrxAddrConst:
     """ Class container for Tron address constants. """
 
     # Prefix
-    PREFIX = "41"
+    PREFIX: str = "41"
 
 
 class TrxAddr:
     """ Tron address class. It allows the Tron address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes):
+    def ToAddress(pub_key_bytes: bytes) -> str:
         """ Get address in Tron format.
 
         Args:

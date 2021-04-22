@@ -21,15 +21,15 @@
 
 # Imports
 from bip_utils.bech32 import SegwitBech32Encoder
-from bip_utils.conf   import BitcoinConf
-from bip_utils.utils  import CryptoUtils, KeyUtils
+from bip_utils.conf import BitcoinConf
+from bip_utils.utils import CryptoUtils, KeyUtils
 
 
 class P2WPKHConst:
     """ Class container for P2WPKH constants. """
 
     # Witness version
-    WITNESS_VER = 0
+    WITNESS_VER: int = 0
 
 
 class P2WPKH:
@@ -40,7 +40,8 @@ class P2WPKH:
     """
 
     @staticmethod
-    def ToAddress(pub_key_bytes, net_addr_ver = BitcoinConf.P2WPKH_NET_VER.Main()):
+    def ToAddress(pub_key_bytes: bytes,
+                  net_addr_ver: str = BitcoinConf.P2WPKH_NET_VER.Main()) -> str:
         """ Get address in P2WPKH format.
 
         Args:
