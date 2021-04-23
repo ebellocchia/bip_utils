@@ -23,39 +23,11 @@
 from bip_utils.bip.bip32_ex      import Bip32KeyError
 from bip_utils.bip.bip32_key_ser import Bip32KeySerializer
 from bip_utils.conf              import Bip44BitcoinMainNet
-from bip_utils.utils             import ConvUtils
+from bip_utils.utils             import KeyBytes, PublicKey, PrivateKey
 from bip_utils.wif               import WifEncoder
 
 
-class BipKeyBytes:
-    """ BIP key bytes class. It allows to get key bytes in different formats. """
-
-    def __init__(self, key_bytes):
-        """ Construct class.
-
-        Args:
-            key_bytes (bytes): Key bytes
-        """
-        self.m_key_bytes = key_bytes
-
-    def ToBytes(self):
-        """ Get key bytes.
-
-        Returns:
-            bytes: Key bytes
-        """
-        return self.m_key_bytes
-
-    def ToHex(self):
-        """ Get key bytes in hex format.
-
-        Returns:
-            str: Key bytes in hex format
-        """
-        return ConvUtils.BytesToHexString(self.m_key_bytes)
-
-
-class BipPublicKey:
+class BipPublicKey(PublicKey):
     """ BIP public key class. It allows to get a public key in different formats. """
 
     def __init__(self, bip32_obj, coin_class = Bip44BitcoinMainNet):
@@ -72,19 +44,19 @@ class BipPublicKey:
         """ Return raw compressed public key.
 
         Returns:
-            BipKeyBytes object: BipKeyBytes object
+            KeyBytes object: KeyBytes object
         """
-        return BipKeyBytes(self.m_bip32_obj.EcdsaPublicKey().to_string("compressed"))
+        return KeyBytes(self.m_bip32_obj.EcdsaPublicKey().to_string("compressed"))
 
     def RawUncompressed(self):
         """ Return raw uncompressed public key.
 
         Returns:
-            BipKeyBytes object: BipKeyBytes object
+            KeyBytes object: KeyBytes object
         """
 
         # The first byte is the version (0x04) and it's not needed
-        return BipKeyBytes(self.m_bip32_obj.EcdsaPublicKey().to_string("uncompressed")[1:])
+        return KeyBytes(self.m_bip32_obj.EcdsaPublicKey().to_string("uncompressed")[1:])
 
     def ToExtended(self):
         """ Return key in serialized extended format.
@@ -103,8 +75,8 @@ class BipPublicKey:
         return self.m_coin_class.ComputeAddress(self)
 
 
-class BipPrivateKey:
-    """ BIP privte key class. It allows to get a privte key in different formats. """
+class BipPrivateKey(PrivateKey):
+    """ BIP private key class. It allows to get a private key in different formats. """
 
     def __init__(self, bip32_obj, coin_class = Bip44BitcoinMainNet):
         """ Construct class.
@@ -126,9 +98,9 @@ class BipPrivateKey:
         """ Return raw private key.
 
         Returns:
-            BipKeyBytes object: BipKeyBytes object
+            KeyBytes object: KeyBytes object
         """
-        return BipKeyBytes(self.m_bip32_obj.EcdsaPrivateKey().to_string())
+        return KeyBytes(self.m_bip32_obj.EcdsaPrivateKey().to_string())
 
     def ToExtended(self):
         """ Return key in serialized extended format.
