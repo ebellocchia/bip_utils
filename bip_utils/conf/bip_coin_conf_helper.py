@@ -20,13 +20,16 @@
 
 
 # Imports
+from typing import Any, Optional
 from bip_utils.utils import ConvUtils
 
 
 class CoinNames:
     """ Helper class for representing coin names. """
 
-    def __init__(self, name, abbr):
+    def __init__(self,
+                 name: str,
+                 abbr: str) -> None:
         """ Construct class.
 
         Args:
@@ -36,7 +39,7 @@ class CoinNames:
         self.m_name = name
         self.m_abbr = abbr
 
-    def Name(self):
+    def Name(self) -> str:
         """ Get name.
 
         Returns :
@@ -44,7 +47,7 @@ class CoinNames:
         """
         return self.m_name
 
-    def Abbreviation(self):
+    def Abbreviation(self) -> str:
         """ Get abbreviation.
 
         Returns:
@@ -56,17 +59,19 @@ class CoinNames:
 class KeyNetVersions:
     """ Helper class for representing key net versions. """
 
-    def __init__(self, pub_net_ver, priv_net_ver):
+    def __init__(self,
+                 pub_net_ver: bytes,
+                 priv_net_ver: bytes) -> None:
         """ Construct class.
 
         Args:
             pub_net_ver (bytes) : Public net version
             priv_net_ver (bytes): Private net version
         """
-        self.m_pub_net_ver  = ConvUtils.HexStringToBytes(pub_net_ver)
+        self.m_pub_net_ver = ConvUtils.HexStringToBytes(pub_net_ver)
         self.m_priv_net_ver = ConvUtils.HexStringToBytes(priv_net_ver)
 
-    def Public(self):
+    def Public(self) -> bytes:
         """ Get public net version.
 
         Returns:
@@ -74,7 +79,7 @@ class KeyNetVersions:
         """
         return self.m_pub_net_ver
 
-    def Private(self):
+    def Private(self) -> bytes:
         """ Get private net version.
 
         Returns:
@@ -86,17 +91,19 @@ class KeyNetVersions:
 class NetVersions:
     """ Helper class for representing net versions. """
 
-    def __init__(self, main_net_ver = None, test_net_ver = None):
+    def __init__(self,
+                 main_net_ver: Optional[Any] = None,
+                 test_net_ver: Optional[Any] = None) -> None:
         """ Construct class.
 
         Args:
             main_net_ver (object): Main net version, None by default
-            test_net_ver (object): Test net verions, None by default
+            test_net_ver (object): Test net version, None by default
         """
         self.m_main_net_ver = main_net_ver
         self.m_test_net_ver = test_net_ver
 
-    def Main(self):
+    def Main(self) -> Any:
         """ Get main net version.
 
         Returns:
@@ -104,7 +111,7 @@ class NetVersions:
         """
         return self.m_main_net_ver
 
-    def Test(self):
+    def Test(self) -> Any:
         """ Get test net version.
 
         Returns:

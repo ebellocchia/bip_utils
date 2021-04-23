@@ -20,9 +20,10 @@
 
 
 # Imports
-from bip_utils.addr               import P2PKH, BchP2PKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
+from bip_utils.addr import P2PKH, BchP2PKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
+from bip_utils.utils import PublicKey
 
 
 class Bip44Coin(BipCoinBase):
@@ -54,7 +55,9 @@ class Bip44Litecoin(Bip44Coin):
 
         # Get standard or alternate version depending on the configuration flag
         if not self.m_is_testnet:
-            return self.m_key_net_ver.Main()["btc"] if not self.m_coin_conf.EX_KEY_ALT else self.m_key_net_ver.Main()["alt"]
+            return (self.m_key_net_ver.Main()["btc"]
+                    if not self.m_coin_conf.EX_KEY_ALT
+                    else self.m_key_net_ver.Main()["alt"])
         else:
             return self.m_key_net_ver.Test()
 
@@ -64,141 +67,174 @@ class Bip44BitcoinCash(Bip44Coin):
     It overrides ComputeAddress to return different addresses depending on the configuration.
     """
 
-    def ComputeAddress(self, pub_key):
+    def ComputeAddress(self,
+                       pub_key: PublicKey):
         """ Compute address from public key.
         Bitcoin Cash overrides the method because it can have 2 different addresses types
 
         Args:
-            pub_key (BipPublicKey object): BipPublicKey object
+            pub_key (PublicKey object): PublicKey object
 
         Returns:
             str: Address string
         """
         if not self.m_coin_conf.LEGACY_ADDR:
-            addr_ver = self.m_coin_conf.BCH_P2PKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.BCH_P2PKH_NET_VER.Test()
-            return self.m_addr_fct["bch"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver["hrp"], addr_ver["net_ver"])
+            addr_ver = (self.m_coin_conf.BCH_P2PKH_NET_VER.Main()
+                        if not self.m_is_testnet
+                        else self.m_coin_conf.BCH_P2PKH_NET_VER.Test())
+            return self.m_addr_fct["bch"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver["hrp"],
+                                                    addr_ver["net_ver"])
         else:
-            addr_ver = self.m_coin_conf.LEGACY_P2PKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.LEGACY_P2PKH_NET_VER.Test()
-            return self.m_addr_fct["legacy"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
+            addr_ver = (self.m_coin_conf.LEGACY_P2PKH_NET_VER.Main()
+                        if not self.m_is_testnet
+                        else self.m_coin_conf.LEGACY_P2PKH_NET_VER.Test())
+            return self.m_addr_fct["legacy"].ToAddress(pub_key.RawCompressed().ToBytes(),
+                                                       addr_ver)
 
 
 # Configuration for Bitcoin main net
-Bip44BitcoinMainNet = Bip44Coin(coin_conf  = BitcoinConf,
-                                is_testnet = False,
-                                addr_fct   = P2PKH)
+Bip44BitcoinMainNet: Bip44Coin = Bip44Coin(
+    coin_conf=BitcoinConf,
+    is_testnet=False,
+    addr_fct=P2PKH)
 # Configuration for Bitcoin test net
-Bip44BitcoinTestNet = Bip44Coin(coin_conf  = BitcoinConf,
-                                is_testnet = True,
-                                addr_fct   = P2PKH)
+Bip44BitcoinTestNet: Bip44Coin = Bip44Coin(
+    coin_conf=BitcoinConf,
+    is_testnet=True,
+    addr_fct=P2PKH)
 
 # Configuration for Bitcoin Cash main net
-Bip44BitcoinCashMainNet = Bip44BitcoinCash(coin_conf  = BitcoinCashConf,
-                                           is_testnet = False,
-                                           addr_fct   = {"legacy" : P2PKH, "bch" : BchP2PKH})
+Bip44BitcoinCashMainNet: Bip44BitcoinCash = Bip44BitcoinCash(
+    coin_conf=BitcoinCashConf,
+    is_testnet=False,
+    addr_fct={"legacy": P2PKH, "bch": BchP2PKH})
 # Configuration for Bitcoin Cash test net
-Bip44BitcoinCashTestNet = Bip44BitcoinCash(coin_conf  = BitcoinCashConf,
-                                           is_testnet = True,
-                                           addr_fct   = {"legacy" : P2PKH, "bch" : BchP2PKH})
+Bip44BitcoinCashTestNet: Bip44BitcoinCash = Bip44BitcoinCash(
+    coin_conf=BitcoinCashConf,
+    is_testnet=True,
+    addr_fct={"legacy": P2PKH, "bch": BchP2PKH})
 
 # Configuration for BitcoinSV main net
-Bip44BitcoinSvMainNet = Bip44Coin(coin_conf  = BitcoinSvConf,
-                                  is_testnet = False,
-                                  addr_fct   = P2PKH)
+Bip44BitcoinSvMainNet: Bip44Coin = Bip44Coin(
+    coin_conf=BitcoinSvConf,
+    is_testnet=False,
+    addr_fct=P2PKH)
 # Configuration for BitcoinSV test net
-Bip44BitcoinSvTestNet = Bip44Coin(coin_conf  = BitcoinSvConf,
-                                  is_testnet = True,
-                                  addr_fct   = P2PKH)
+Bip44BitcoinSvTestNet: Bip44Coin = Bip44Coin(
+    coin_conf=BitcoinSvConf,
+    is_testnet=True,
+    addr_fct=P2PKH)
 
 # Configuration for Litecoin main net
-Bip44LitecoinMainNet = Bip44Litecoin(coin_conf  = LitecoinConf,
-                                     is_testnet = False,
-                                     addr_fct   = P2PKH)
+Bip44LitecoinMainNet: Bip44Litecoin = Bip44Litecoin(
+    coin_conf=LitecoinConf,
+    is_testnet=False,
+    addr_fct=P2PKH)
 # Configuration for Litecoin test net
-Bip44LitecoinTestNet = Bip44Litecoin(coin_conf  = LitecoinConf,
-                                    is_testnet = True,
-                                    addr_fct   = P2PKH)
+Bip44LitecoinTestNet: Bip44Litecoin = Bip44Litecoin(
+    coin_conf=LitecoinConf,
+    is_testnet=True,
+    addr_fct=P2PKH)
 
 # Configuration for Dogecoin main net
-Bip44DogecoinMainNet = Bip44Coin(coin_conf  = DogecoinConf,
-                                 is_testnet = False,
-                                 addr_fct   = P2PKH)
+Bip44DogecoinMainNet: Bip44Coin = Bip44Coin(
+    coin_conf=DogecoinConf,
+    is_testnet=False,
+    addr_fct=P2PKH)
 # Configuration for Dogecoin test net
-Bip44DogecoinTestNet = Bip44Coin(coin_conf  = DogecoinConf,
-                                 is_testnet = True,
-                                 addr_fct   = P2PKH)
+Bip44DogecoinTestNet: Bip44Coin = Bip44Coin(
+    coin_conf=DogecoinConf,
+    is_testnet=True,
+    addr_fct=P2PKH)
 
 # Configuration for Dash main net
-Bip44DashMainNet = Bip44Coin(coin_conf  = DashConf,
-                             is_testnet = False,
-                             addr_fct   = P2PKH)
+Bip44DashMainNet: Bip44Coin = Bip44Coin(
+    coin_conf=DashConf,
+    is_testnet=False,
+    addr_fct=P2PKH)
 # Configuration for Dash test net
-Bip44DashTestNet = Bip44Coin(coin_conf  = DashConf,
-                             is_testnet = True,
-                             addr_fct   = P2PKH)
+Bip44DashTestNet: Bip44Coin = Bip44Coin(
+    coin_conf=DashConf,
+    is_testnet=True,
+    addr_fct=P2PKH)
 
 # Configuration for Zcash main net
-Bip44ZcashMainNet = Bip44Coin(coin_conf  = ZcashConf,
-                              is_testnet = False,
-                              addr_fct   = P2PKH)
+Bip44ZcashMainNet: Bip44Coin = Bip44Coin(
+    coin_conf=ZcashConf,
+    is_testnet=False,
+    addr_fct=P2PKH)
 # Configuration for Zcash test net
-Bip44ZcashTestNet = Bip44Coin(coin_conf  = ZcashConf,
-                              is_testnet = True,
-                              addr_fct   = P2PKH)
+Bip44ZcashTestNet: Bip44Coin = Bip44Coin(
+    coin_conf=ZcashConf,
+    is_testnet=True,
+    addr_fct=P2PKH)
 
 # Configuration for Ethereum
-Bip44Ethereum = Bip44Coin(coin_conf  = EthereumConf,
-                          is_testnet = False,
-                          addr_fct   = EthAddr)
+Bip44Ethereum: Bip44Coin = Bip44Coin(
+    coin_conf=EthereumConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
 # Configuration for Ethereum Classic
-Bip44EthereumClassic = Bip44Coin(coin_conf  = EthereumClassicConf,
-                                 is_testnet = False,
-                                 addr_fct   = EthAddr)
+Bip44EthereumClassic: Bip44Coin = Bip44Coin(
+    coin_conf=EthereumClassicConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
 
 # Configuration for Ripple
-Bip44Ripple = Bip44Coin(coin_conf  = RippleConf,
-                        is_testnet = False,
-                        addr_fct   = XrpAddr)
+Bip44Ripple: Bip44Coin = Bip44Coin(
+    coin_conf=RippleConf,
+    is_testnet=False,
+    addr_fct=XrpAddr)
 
 # Configuration for Tron
-Bip44Tron = Bip44Coin(coin_conf  = TronConf,
-                      is_testnet = False,
-                      addr_fct   = TrxAddr)
+Bip44Tron: Bip44Coin = Bip44Coin(
+    coin_conf=TronConf,
+    is_testnet=False,
+    addr_fct=TrxAddr)
 
 # Configuration for VeChain
-Bip44VeChain = Bip44Coin(coin_conf  = VeChainConf,
-                         is_testnet = False,
-                         addr_fct   = EthAddr)
+Bip44VeChain: Bip44Coin = Bip44Coin(
+    coin_conf=VeChainConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
 
 # Configuration for Cosmos
-Bip44Cosmos = Bip44Coin(coin_conf  = CosmosConf,
-                        is_testnet = False,
-                        addr_fct   = AtomAddr)
+Bip44Cosmos: Bip44Coin = Bip44Coin(
+    coin_conf=CosmosConf,
+    is_testnet=False,
+    addr_fct=AtomAddr)
 
 # Configuration for Band Protocol
-Bip44BandProtocol = Bip44Coin(coin_conf  = BandProtocolConf,
-                              is_testnet = False,
-                              addr_fct   = AtomAddr)
+Bip44BandProtocol: Bip44Coin = Bip44Coin(
+    coin_conf=BandProtocolConf,
+    is_testnet=False,
+    addr_fct=AtomAddr)
 
 # Configuration for Kava
-Bip44Kava = Bip44Coin(coin_conf  = KavaConf,
-                      is_testnet = False,
-                      addr_fct   = AtomAddr)
+Bip44Kava: Bip44Coin = Bip44Coin(
+    coin_conf=KavaConf,
+    is_testnet=False,
+    addr_fct=AtomAddr)
 
 # Configuration for IRISnet
-Bip44IrisNet = Bip44Coin(coin_conf  = IrisNetConf,
-                         is_testnet = False,
-                         addr_fct   = AtomAddr)
+Bip44IrisNet: Bip44Coin = Bip44Coin(
+    coin_conf=IrisNetConf,
+    is_testnet=False,
+    addr_fct=AtomAddr)
 
 # Configuration for Binance Chain
-Bip44BinanceChain = Bip44Coin(coin_conf  = BinanceChainConf,
-                              is_testnet = False,
-                              addr_fct   = AtomAddr)
+Bip44BinanceChain: Bip44Coin = Bip44Coin(
+    coin_conf=BinanceChainConf,
+    is_testnet=False,
+    addr_fct=AtomAddr)
 # Configuration for Binance Smart Chain
-Bip44BinanceSmartChain = Bip44Coin(coin_conf  = BinanceSmartChainConf,
-                                   is_testnet = False,
-                                   addr_fct   = EthAddr)
+Bip44BinanceSmartChain: Bip44Coin = Bip44Coin(
+    coin_conf=BinanceSmartChainConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
 
 # Configuration for NG
-Bip44NineChroniclesGold = Bip44Coin(coin_conf  = NineChroniclesGoldConf,
-                                    is_testnet = False,
-                                    addr_fct   = EthAddr)
+Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(
+    coin_conf=NineChroniclesGoldConf,
+    is_testnet=False,
+    addr_fct=EthAddr)

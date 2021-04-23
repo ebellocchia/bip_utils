@@ -20,15 +20,19 @@
 
 
 # Imports
-from bip_utils.addr               import P2SH, BchP2SH
+from bip_utils.addr import P2SH, BchP2SH
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
+from bip_utils.utils import PublicKey
 
 
 class Bip49Coin(BipCoinBase):
     """ Generic class for BIP-049 coins. """
 
-    def __init__(self, coin_conf, is_testnet, addr_fct):
+    def __init__(self,
+                 coin_conf: Any,
+                 is_testnet: bool,
+                 addr_fct: Any) -> None:
         """ Construct class.
 
         Args:
@@ -44,7 +48,7 @@ class Bip49Litecoin(Bip49Coin):
     It overrides KeyNetVersions to return different main net versions depending on the configuration.
     """
 
-    def KeyNetVersions(self):
+    def KeyNetVersions(self) -> KeyNetVersions:
         """ Get key net versions. It overrides the method in BipCoinBase.
         Litecoin overrides the method because it can have 2 different main net versions.
 
@@ -54,21 +58,25 @@ class Bip49Litecoin(Bip49Coin):
 
         # Get standard or alternate version depending on the configuration flag
         if not self.m_is_testnet:
-            return self.m_key_net_ver.Main()["btc"] if not self.m_coin_conf.EX_KEY_ALT else self.m_key_net_ver.Main()["alt"]
+            return self.m_key_net_ver.Main()["btc"] if not self.m_coin_conf.EX_KEY_ALT else self.m_key_net_ver.Main()[
+                "alt"]
         else:
             return self.m_key_net_ver.Test()
 
-    def ComputeAddress(self, pub_key):
+    def ComputeAddress(self,
+                       pub_key: PublicKey) -> str:
         """ Compute address from public key.
         Litecoin overrides the method because it can have 2 different address versions.
 
         Args:
-            pub_key (BipPublicKey object): BipPublicKey object
+            pub_key (PublicKey object): PublicKey object
 
         Returns:
             str: Address string
         """
-        p2sh_ver = self.m_coin_conf.P2SH_NET_VER if not self.m_coin_conf.P2SH_DEPR_ADDR else self.m_coin_conf.P2SH_DEPR_NET_VER
+        p2sh_ver = (self.m_coin_conf.P2SH_NET_VER
+                    if not self.m_coin_conf.P2SH_DEPR_ADDR
+                    else self.m_coin_conf.P2SH_DEPR_NET_VER)
         addr_ver = p2sh_ver.Main() if not self.m_is_testnet else p2sh_ver.Test()
         return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
@@ -78,83 +86,103 @@ class Bip49BitcoinCash(Bip49Coin):
     It overrides ComputeAddress to return different addresses depending on the configuration.
     """
 
-    def ComputeAddress(self, pub_key):
+    def ComputeAddress(self,
+                       pub_key: PublicKey) -> str:
         """ Compute address from public key.
         Bitcoin Cash overrides the method because it can have 2 different addresses types
 
         Args:
-            pub_key (BipPublicKey object): BipPublicKey object
+            pub_key (PublicKey object): PublicKey object
 
         Returns:
             str: Address string
         """
         if not self.m_coin_conf.LEGACY_ADDR:
-            addr_ver = self.m_coin_conf.BCH_P2SH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.BCH_P2SH_NET_VER.Test()
-            return self.m_addr_fct["bch"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver["hrp"], addr_ver["net_ver"])
+            addr_ver = (self.m_coin_conf.BCH_P2SH_NET_VER.Main()
+                        if not self.m_is_testnet
+                        else self.m_coin_conf.BCH_P2SH_NET_VER.Test())
+            return self.m_addr_fct["bch"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver["hrp"],
+                                                    addr_ver["net_ver"])
         else:
-            addr_ver = self.m_coin_conf.LEGACY_P2SH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.LEGACY_P2SH_NET_VER.Test()
+            addr_ver = (self.m_coin_conf.LEGACY_P2SH_NET_VER.Main()
+                        if not self.m_is_testnet
+                        else self.m_coin_conf.LEGACY_P2SH_NET_VER.Test())
             return self.m_addr_fct["legacy"].ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
 
 
 # Configuration for Bitcoin main net
-Bip49BitcoinMainNet = Bip49Coin(coin_conf  = BitcoinConf,
-                                is_testnet = False,
-                                addr_fct   = P2SH)
+Bip49BitcoinMainNet: Bip49Coin = Bip49Coin(
+    coin_conf=BitcoinConf,
+    is_testnet=False,
+    addr_fct=P2SH)
 # Configuration for Bitcoin test net
-Bip49BitcoinTestNet = Bip49Coin(coin_conf  = BitcoinConf,
-                                is_testnet = True,
-                                addr_fct   = P2SH)
+Bip49BitcoinTestNet: Bip49Coin = Bip49Coin(
+    coin_conf=BitcoinConf,
+    is_testnet=True,
+    addr_fct=P2SH)
 
 # Configuration for Bitcoin Cash main net
-Bip49BitcoinCashMainNet = Bip49BitcoinCash(coin_conf  = BitcoinCashConf,
-                                           is_testnet = False,
-                                           addr_fct   = {"legacy" : P2SH, "bch" : BchP2SH})
+Bip49BitcoinCashMainNet: Bip49BitcoinCash = Bip49BitcoinCash(
+    coin_conf=BitcoinCashConf,
+    is_testnet=False,
+    addr_fct={"legacy": P2SH, "bch": BchP2SH})
 # Configuration for Bitcoin Cash test net
-Bip49BitcoinCashTestNet = Bip49BitcoinCash(coin_conf  = BitcoinCashConf,
-                                           is_testnet = True,
-                                           addr_fct   = {"legacy" : P2SH, "bch" : BchP2SH})
+Bip49BitcoinCashTestNet: Bip49BitcoinCash = Bip49BitcoinCash(
+    coin_conf=BitcoinCashConf,
+    is_testnet=True,
+    addr_fct={"legacy": P2SH, "bch": BchP2SH})
 
 # Configuration for BitcoinSV main net
-Bip49BitcoinSvMainNet = Bip49Coin(coin_conf  = BitcoinSvConf,
-                                  is_testnet = False,
-                                  addr_fct   = P2SH)
+Bip49BitcoinSvMainNet: Bip49Coin = Bip49Coin(
+    coin_conf=BitcoinSvConf,
+    is_testnet=False,
+    addr_fct=P2SH)
 # Configuration for BitcoinSV test net
-Bip49BitcoinSvTestNet = Bip49Coin(coin_conf  = BitcoinSvConf,
-                                  is_testnet = True,
-                                  addr_fct   = P2SH)
+Bip49BitcoinSvTestNet: Bip49Coin = Bip49Coin(
+    coin_conf=BitcoinSvConf,
+    is_testnet=True,
+    addr_fct=P2SH)
 
 # Configuration for Litecoin main net
-Bip49LitecoinMainNet = Bip49Litecoin(coin_conf  = LitecoinConf,
-                                     is_testnet = False,
-                                     addr_fct   = P2SH)
+Bip49LitecoinMainNet: Bip49Litecoin = Bip49Litecoin(
+    coin_conf=LitecoinConf,
+    is_testnet=False,
+    addr_fct=P2SH)
 # Configuration for Litecoin test net
-Bip49LitecoinTestNet = Bip49Litecoin(coin_conf  = LitecoinConf,
-                                     is_testnet = True,
-                                     addr_fct   = P2SH)
+Bip49LitecoinTestNet: Bip49Litecoin = Bip49Litecoin(
+    coin_conf=LitecoinConf,
+    is_testnet=True,
+    addr_fct=P2SH)
 
 # Configuration for Dogecoin main net
-Bip49DogecoinMainNet = Bip49Coin(coin_conf  = DogecoinConf,
-                                 is_testnet = False,
-                                 addr_fct   = P2SH)
+Bip49DogecoinMainNet: Bip49Coin = Bip49Coin(
+    coin_conf=DogecoinConf,
+    is_testnet=False,
+    addr_fct=P2SH)
 # Configuration for Dogecoin test net
-Bip49DogecoinTestNet = Bip49Coin(coin_conf  = DogecoinConf,
-                                 is_testnet = True,
-                                 addr_fct   = P2SH)
+Bip49DogecoinTestNet: Bip49Coin = Bip49Coin(
+    coin_conf=DogecoinConf,
+    is_testnet=True,
+    addr_fct=P2SH)
 
 # Configuration for Dash main net
-Bip49DashMainNet = Bip49Coin(coin_conf  = DashConf,
-                             is_testnet = False,
-                             addr_fct   = P2SH)
+Bip49DashMainNet: Bip49Coin = Bip49Coin(
+    coin_conf=DashConf,
+    is_testnet=False,
+    addr_fct=P2SH)
 # Configuration for Dash test net
-Bip49DashTestNet = Bip49Coin(coin_conf  = DashConf,
-                             is_testnet = True,
-                             addr_fct   = P2SH)
+Bip49DashTestNet: Bip49Coin = Bip49Coin(
+    coin_conf=DashConf,
+    is_testnet=True,
+    addr_fct=P2SH)
 
 # Configuration for Zcash main net
-Bip49ZcashMainNet = Bip49Coin(coin_conf  = ZcashConf,
-                             is_testnet = False,
-                             addr_fct   = P2SH)
+Bip49ZcashMainNet: Bip49Coin = Bip49Coin(
+    coin_conf=ZcashConf,
+    is_testnet=False,
+    addr_fct=P2SH)
 # Configuration for Zcash test net
-Bip49ZcashTestNet = Bip49Coin(coin_conf  = ZcashConf,
-                             is_testnet = True,
-                             addr_fct   = P2SH)
+Bip49ZcashTestNet: Bip49Coin = Bip49Coin(
+    coin_conf=ZcashConf,
+    is_testnet=True,
+    addr_fct=P2SH)

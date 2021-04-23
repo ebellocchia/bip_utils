@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.addr               import P2WPKH
+from bip_utils.addr import P2WPKH
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
 
@@ -28,7 +28,10 @@ from bip_utils.conf.bip_coin_conf import *
 class Bip84Coin(BipCoinBase):
     """ Generic class for BIP-084 coins. """
 
-    def __init__(self, coin_conf, is_testnet, addr_fct):
+    def __init__(self,
+                 coin_conf: Any,
+                 is_testnet: bool,
+                 addr_fct: Any) -> None:
         """ Construct class.
 
         Args:
@@ -40,19 +43,23 @@ class Bip84Coin(BipCoinBase):
 
 
 # Configuration for Bitcoin main net
-Bip84BitcoinMainNet = Bip84Coin(coin_conf  = BitcoinConf,
-                                is_testnet = False,
-                                addr_fct   = P2WPKH)
+Bip84BitcoinMainNet: Bip84Coin = Bip84Coin(
+    coin_conf=BitcoinConf,
+    is_testnet=False,
+    addr_fct=P2WPKH)
 # Configuration for Bitcoin test net
-Bip84BitcoinTestNet = Bip84Coin(coin_conf  = BitcoinConf,
-                                is_testnet = True,
-                                addr_fct   = P2WPKH)
+Bip84BitcoinTestNet: Bip84Coin = Bip84Coin(
+    coin_conf=BitcoinConf,
+    is_testnet=True,
+    addr_fct=P2WPKH)
 
 # Configuration for Litecoin main net
-Bip84LitecoinMainNet = Bip84Coin(coin_conf  = LitecoinConf,
-                                 is_testnet = False,
-                                 addr_fct   = P2WPKH)
+Bip84LitecoinMainNet: Bip84Coin = Bip84Coin(
+    coin_conf=LitecoinConf,
+    is_testnet=False,
+    addr_fct=P2WPKH)
 # Configuration for Litecoin test net
-Bip84LitecoinTestNet = Bip84Coin(coin_conf  = LitecoinConf,
-                                 is_testnet = True,
-                                 addr_fct   = P2WPKH)
+Bip84LitecoinTestNet: Bip84Coin = Bip84Coin(
+    coin_conf=LitecoinConf,
+    is_testnet=True,
+    addr_fct=P2WPKH)

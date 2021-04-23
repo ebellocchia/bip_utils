@@ -21,6 +21,8 @@
 
 # Imports
 from bip_utils.addr import P2PKH, P2SH, P2WPKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
+from bip_utils.utils import PublicKey
+from bip_utils.conf.bip_coin_conf_helper import *
 
 
 class BipCoinBase:
@@ -28,7 +30,11 @@ class BipCoinBase:
     It basically wraps the coin configuration allowing to get through methods.
     """
 
-    def __init__(self, coin_conf, key_net_ver, is_testnet, addr_fct):
+    def __init__(self,
+                 coin_conf: Any,
+                 key_net_ver: NetVersions,
+                 is_testnet: bool,
+                 addr_fct: Any) -> None:
         """ Construct class.
 
         Args:
@@ -37,12 +43,12 @@ class BipCoinBase:
             is_testnet (bool)                  : True if test net, false otherwise
             addr_fct (class)                   : Address class
         """
-        self.m_coin_conf   = coin_conf
+        self.m_coin_conf = coin_conf
         self.m_key_net_ver = key_net_ver
-        self.m_is_testnet  = is_testnet
-        self.m_addr_fct    = addr_fct
+        self.m_is_testnet = is_testnet
+        self.m_addr_fct = addr_fct
 
-    def KeyNetVersions(self):
+    def KeyNetVersions(self) -> KeyNetVersions:
         """ Get key net versions.
 
         Returns:
@@ -50,7 +56,7 @@ class BipCoinBase:
         """
         return self.m_key_net_ver.Main() if not self.m_is_testnet else self.m_key_net_ver.Test()
 
-    def WifNetVersion(self):
+    def WifNetVersion(self) -> KeyNetVersions:
         """ Get WIF net version.
 
         Returns:
@@ -59,7 +65,7 @@ class BipCoinBase:
         """
         return self.m_coin_conf.WIF_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.WIF_NET_VER.Test()
 
-    def IsTestNet(self):
+    def IsTestNet(self) -> bool:
         """ Get if test net
 
         Returns:
@@ -67,7 +73,7 @@ class BipCoinBase:
         """
         return self.m_is_testnet
 
-    def CoinNames(self):
+    def CoinNames(self) -> CoinNames:
         """ Get coin names.
 
         Returns:
@@ -75,14 +81,18 @@ class BipCoinBase:
         """
         return self.m_coin_conf.NAMES if not self.m_is_testnet else self.m_coin_conf.TEST_NAMES
 
-    def ComputeAddress(self, pub_key):
+    def ComputeAddress(self,
+                       pub_key: PublicKey) -> str:
         """ Compute address from public key.
 
         Args:
-            pub_key (BipPublicKey object): BipPublicKey object
+            pub_key (PublicKey object): PublicKey object
 
         Returns:
             str: Address string
+
+        Raises:
+            RuntimeError: If the configured address class is not valid
         """
 
         # This if-else can be avoided by creating a child class for each address, but I leave it here for now since
@@ -90,15 +100,21 @@ class BipCoinBase:
 
         # P2PKH
         if self.m_addr_fct is P2PKH:
-            addr_ver = self.m_coin_conf.P2PKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.P2PKH_NET_VER.Test()
+            addr_ver = (self.m_coin_conf.P2PKH_NET_VER.Main()
+                        if not self.m_is_testnet
+                        else self.m_coin_conf.P2PKH_NET_VER.Test())
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # P2SH
         elif self.m_addr_fct is P2SH:
-            addr_ver = self.m_coin_conf.P2SH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.P2SH_NET_VER.Test()
+            addr_ver = (self.m_coin_conf.P2SH_NET_VER.Main()
+                        if not self.m_is_testnet
+                        else self.m_coin_conf.P2SH_NET_VER.Test())
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # P2WPKH
         elif self.m_addr_fct is P2WPKH:
-            addr_ver = self.m_coin_conf.P2WPKH_NET_VER.Main() if not self.m_is_testnet else self.m_coin_conf.P2WPKH_NET_VER.Test()
+            addr_ver = (self.m_coin_conf.P2WPKH_NET_VER.Main()
+                        if not self.m_is_testnet
+                        else self.m_coin_conf.P2WPKH_NET_VER.Test())
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # EthAddr
         elif self.m_addr_fct is EthAddr or self.m_addr_fct is TrxAddr:
