@@ -59,6 +59,9 @@ class AlgoUtils:
 
         Returns:
             bytes: String encoded to bytes
+
+        Raises:
+            ValueError: If the data is neither string nor bytes
         """
         if isinstance(data, str):
             return data.encode(encoding)
