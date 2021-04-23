@@ -102,7 +102,8 @@ class WifDecoder:
         if KeyUtils.IsPrivate(key_bytes[:-1]):
             # Check the compressed public key suffix
             if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
-                raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" % (ord(WifConst.COMPR_PUB_KEY_SUFFIX), key_bytes[-1]))
+                raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" %
+                                 (ord(WifConst.COMPR_PUB_KEY_SUFFIX), key_bytes[-1]))
             # Remove it
             key_bytes = key_bytes[:-1]
 
