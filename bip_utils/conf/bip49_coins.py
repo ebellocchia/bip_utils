@@ -23,7 +23,7 @@
 from bip_utils.addr import P2SH, BchP2SH
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
-from bip_utils.utils import PublicKey
+from bip_utils.utils import IPublicKey
 
 
 class Bip49Coin(BipCoinBase):
@@ -64,12 +64,12 @@ class Bip49Litecoin(Bip49Coin):
             return self.m_key_net_ver.Test()
 
     def ComputeAddress(self,
-                       pub_key: PublicKey) -> str:
+                       pub_key: IPublicKey) -> str:
         """ Compute address from public key.
         Litecoin overrides the method because it can have 2 different address versions.
 
         Args:
-            pub_key (PublicKey object): PublicKey object
+            pub_key (IPublicKey object): IPublicKey object
 
         Returns:
             str: Address string
@@ -87,12 +87,12 @@ class Bip49BitcoinCash(Bip49Coin):
     """
 
     def ComputeAddress(self,
-                       pub_key: PublicKey) -> str:
+                       pub_key: IPublicKey) -> str:
         """ Compute address from public key.
         Bitcoin Cash overrides the method because it can have 2 different addresses types
 
         Args:
-            pub_key (PublicKey object): PublicKey object
+            pub_key (IPublicKey object): IPublicKey object
 
         Returns:
             str: Address string

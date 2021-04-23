@@ -21,7 +21,7 @@
 
 # Imports
 from bip_utils.addr import P2PKH, P2SH, P2WPKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
-from bip_utils.utils import PublicKey
+from bip_utils.utils import IPublicKey
 from bip_utils.conf.bip_coin_conf_helper import *
 
 
@@ -82,11 +82,11 @@ class BipCoinBase:
         return self.m_coin_conf.NAMES if not self.m_is_testnet else self.m_coin_conf.TEST_NAMES
 
     def ComputeAddress(self,
-                       pub_key: PublicKey) -> str:
+                       pub_key: IPublicKey) -> str:
         """ Compute address from public key.
 
         Args:
-            pub_key (PublicKey object): PublicKey object
+            pub_key (IPublicKey object): IPublicKey object
 
         Returns:
             str: Address string

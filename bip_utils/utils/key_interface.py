@@ -53,7 +53,7 @@ class KeyBytes:
         return ConvUtils.BytesToHexString(self.m_key_bytes)
 
 
-class PublicKey(ABC):
+class IPublicKey(ABC):
     """ Public key interface. It allows to get a public key in different formats. """
 
     @abstractmethod
@@ -93,7 +93,7 @@ class PublicKey(ABC):
         pass
 
 
-class PrivateKey(ABC):
+class IPrivateKey(ABC):
     """ Private key interface. It allows to get a private key in different formats. """
 
     @abstractmethod

@@ -23,7 +23,7 @@
 from bip_utils.addr import P2PKH, BchP2PKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
-from bip_utils.utils import PublicKey
+from bip_utils.utils import IPublicKey
 
 
 class Bip44Coin(BipCoinBase):
@@ -68,12 +68,12 @@ class Bip44BitcoinCash(Bip44Coin):
     """
 
     def ComputeAddress(self,
-                       pub_key: PublicKey):
+                       pub_key: IPublicKey):
         """ Compute address from public key.
         Bitcoin Cash overrides the method because it can have 2 different addresses types
 
         Args:
-            pub_key (PublicKey object): PublicKey object
+            pub_key (IPublicKey object): IPublicKey object
 
         Returns:
             str: Address string
