@@ -166,7 +166,8 @@ class Bech32DecoderBase(ABC):
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
-        if len(data_part) < Bech32BaseConst.MIN_DATA_PART_LEN or not all(x in Bech32BaseConst.CHARSET for x in data_part):
+        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_LEN or
+                not all(x in Bech32BaseConst.CHARSET for x in data_part)):
             raise Bech32FormatError("Invalid bech32 format (data part not valid)")
 
         # Convert back from alphabet and verify checksum

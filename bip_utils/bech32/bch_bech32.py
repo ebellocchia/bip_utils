@@ -139,7 +139,9 @@ class BchBech32Encoder(Bech32EncoderBase):
             Bech32FormatError: If the data is not valid
         """
 
-        return BchBech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(net_ver + data), BchBech32Const.SEPARATOR)
+        return BchBech32Encoder._EncodeBech32(hrp,
+                                              Bech32BaseUtils.ConvertToBase32(net_ver + data),
+                                              BchBech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
