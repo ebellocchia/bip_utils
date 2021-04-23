@@ -8,7 +8,7 @@ with open("README.md", "r") as f:
 
 def load_version():
     version_line = open(VERSION_FILE).read().rstrip()
-    vre = re.compile(r'__version__ = "([^"]+)"')
+    vre = re.compile(r'__version__: str = "([^"]+)"')
     matches = vre.findall(version_line)
 
     if matches and len(matches) > 0:
