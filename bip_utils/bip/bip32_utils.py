@@ -18,19 +18,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Imports
+from bip_utils.utils import BitUtils
+
 
 class Bip32UtilsConst:
     """ Class container for BIP32 utility constants. """
 
     # Hardened index
-    HARDENED_IDX = 0x80000000
+    HARDENED_IDX: int = 30
 
 
 class Bip32Utils:
     """ BIP32 utility class. It contains some helper method for Bip32 class. """
 
     @staticmethod
-    def HardenIndex(index):
+    def HardenIndex(index: int) -> int:
         """ Harden the specified index and return it.
 
         Args:
@@ -39,10 +42,10 @@ class Bip32Utils:
         Returns:
             int: Hardened index
         """
-        return Bip32UtilsConst.HARDENED_IDX + index
+        return BitUtils.SetBit(index, Bip32UtilsConst.HARDENED_IDX)
 
     @staticmethod
-    def IsHardenedIndex(index):
+    def IsHardenedIndex(index: int) -> bool:
         """ Get if the specified index is hardened.
 
         Args:
@@ -51,4 +54,4 @@ class Bip32Utils:
         Returns:
             bool: True if hardened, false otherwise
         """
-        return (index & Bip32UtilsConst.HARDENED_IDX) != 0
+        return BitUtils.IsBitSet(index, Bip32UtilsConst.HARDENED_IDX)
