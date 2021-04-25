@@ -21,9 +21,10 @@
 
 # Imports
 import os
-from enum                   import IntEnum, unique
+from enum import IntEnum, unique
+from typing import List, Union
 from bip_utils.bip.bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
-from bip_utils.utils        import AlgoUtils, ConvUtils, CryptoUtils
+from bip_utils.utils import AlgoUtils, ConvUtils, CryptoUtils
 
 
 @unique
@@ -52,8 +53,7 @@ class Bip39Const:
     """ Class container for BIP39 constants. """
 
     # Accepted entropy lenghts in bit
-    ENTROPY_BIT_LEN    = \
-        [
+    ENTROPY_BIT_LEN = [
             Bip39EntropyBitLen.BIT_LEN_128,
             Bip39EntropyBitLen.BIT_LEN_160,
             Bip39EntropyBitLen.BIT_LEN_192,
@@ -61,8 +61,7 @@ class Bip39Const:
             Bip39EntropyBitLen.BIT_LEN_256,
         ]
     # Accepted mnemonic word lengths
-    MNEMONIC_WORD_LEN  = \
-        [
+    MNEMONIC_WORD_LEN = [
             Bip39WordsNum.WORDS_NUM_12,
             Bip39WordsNum.WORDS_NUM_15,
             Bip39WordsNum.WORDS_NUM_18,
@@ -71,22 +70,23 @@ class Bip39Const:
         ]
 
     # Total number of words
-    WORDS_LIST_NUM     = 2048
+    WORDS_LIST_NUM = 2048
     # Bits of a single word
-    WORD_BITS          = 11
+    WORD_BITS = 11
 
     # Salt modifier for seed generation
-    SEED_SALT_MOD      = "mnemonic"
+    SEED_SALT_MOD = "mnemonic"
     # PBKDF2 round for seed generation
     SEED_PBKDF2_ROUNDS = 2048
     # Seed length
-    SEED_LEN           = 64
+    SEED_LEN = 64
 
 
 class Bip39EntropyGenerator:
     """ Entropy generator class. It generates random entropy bytes with the specified length. """
 
-    def __init__(self, bits_len):
+    def __init__(self,
+                 bits_len: Union[int, Bip39EntropyBitLen]) -> None:
         """ Construct class by specifying the bits length.
 
         Args:
@@ -100,7 +100,7 @@ class Bip39EntropyGenerator:
 
         self.m_bits_len = bits_len
 
-    def Generate(self):
+    def Generate(self) -> bytes:
         """ Generate random entropy bytes with the length specified during construction.
 
         Returns:
@@ -115,7 +115,7 @@ class MnemonicFileReader:
     # File name constant
     FILE_NAME = "bip39_wordslist_en.txt"
 
-    def __init__(self):
+    def __init__(self) -> None:
         """ Construct class by reading the words list from file.
 
         Raises:
@@ -131,7 +131,8 @@ class MnemonicFileReader:
         if len(self.m_words_list) != Bip39Const.WORDS_LIST_NUM:
             raise Bip39InvalidFileError("Number of loaded words list (%d) is not valid" % len(self.m_words_list))
 
-    def GetWordIdx(self, word):
+    def GetWordIdx(self,
+                   word: str) -> int:
         """ Get the index of the specified word, by searching it in the list.
 
         Args:
@@ -149,7 +150,8 @@ class MnemonicFileReader:
 
         return idx
 
-    def GetWordAtIdx(self, word_idx):
+    def GetWordAtIdx(self,
+                     word_idx: int) -> str:
         """ Get the word at the specified index.
 
         Args:
@@ -168,7 +170,7 @@ class Bip39MnemonicGenerator:
      """
 
     @staticmethod
-    def FromWordsNumber(words_num):
+    def FromWordsNumber(words_num: Union[int, Bip39WordsNum]) -> str:
         """ Generate mnemonic with the specified words number from random entropy.
 
         Args:
@@ -193,7 +195,7 @@ class Bip39MnemonicGenerator:
         return Bip39MnemonicGenerator.FromEntropy(entropy_bytes)
 
     @staticmethod
-    def FromEntropy(entropy_bytes):
+    def FromEntropy(entropy_bytes: bytes) -> str:
         """ Generate mnemonic from the specified entropy bytes.
 
         Args:
@@ -206,7 +208,7 @@ class Bip39MnemonicGenerator:
             ValueError: If entropy length is not valid
         """
 
-        # Check entropy lenght in bits
+        # Check entropy length in bits
         entropy_bit_len = len(entropy_bytes) * 8
         if entropy_bit_len not in Bip39Const.ENTROPY_BIT_LEN:
             raise ValueError("Entropy length in bits (%d) is not valid" % entropy_bit_len)
@@ -241,11 +243,11 @@ class Bip39MnemonicGenerator:
         return " ".join(mnemonic)
 
     @staticmethod
-    def __EntropyBitLenFromWordsNum(words_num):
+    def __EntropyBitLenFromWordsNum(words_num: int) -> int:
         """ Get entropy length from words number.
 
         Args:
-            words_num (int): Words numer
+            words_num (int): Words number
 
         Returns:
             int: Correspondent entropy length
@@ -260,7 +262,8 @@ class Bip39MnemonicValidator:
     # Public methods
     #
 
-    def __init__(self, mnemonic):
+    def __init__(self,
+                 mnemonic: Union[str, List]) -> None:
         """ Construct the class from mnemonic.
 
         Args:
@@ -268,7 +271,7 @@ class Bip39MnemonicValidator:
         """
         self.m_mnemonic = mnemonic
 
-    def Validate(self):
+    def Validate(self) -> bool:
         """ Validate the mnemonic specified at construction.
 
         Returns:
@@ -284,7 +287,7 @@ class Bip39MnemonicValidator:
         # The computed checksum shall be equal to the existent one
         return self.__ComputeChecksum(mnemonic_bin) == self.__GetChecksum(mnemonic_bin)
 
-    def GetEntropy(self):
+    def GetEntropy(self) -> bytes:
         """Get entropy bytes from mnemonic.
 
         Returns:
@@ -312,7 +315,7 @@ class Bip39MnemonicValidator:
     # Private methods
     #
 
-    def __GetMnemonicBinaryStr(self):
+    def __GetMnemonicBinaryStr(self) -> str:
         """ Get mnemonic binary string from mnemonic string or list.
 
         Returns:
@@ -337,7 +340,8 @@ class Bip39MnemonicValidator:
         # Join the elements to get the complete binary string
         return "".join(mnemonic_bin)
 
-    def __GetEntropyBytes(self, mnemonic_bin_str):
+    def __GetEntropyBytes(self,
+                          mnemonic_bin_str: str) -> bytes:
         """ Get entropy from mnemonic binary string.
 
         Args:
@@ -355,7 +359,8 @@ class Bip39MnemonicValidator:
         # Get entropy bytes from binary string
         return ConvUtils.BinaryStrToBytes(entropy_bin, checksum_len * 8)
 
-    def __GetChecksum(self, mnemonic_bin_str):
+    def __GetChecksum(self,
+                      mnemonic_bin_str: str) -> str:
         """ Get checksum from mnemonic binary string.
 
         Args:
@@ -367,7 +372,8 @@ class Bip39MnemonicValidator:
 
         return mnemonic_bin_str[-self.__GetChecksumLen(mnemonic_bin_str):]
 
-    def __ComputeChecksum(self, mnemonic_bin_str):
+    def __ComputeChecksum(self,
+                          mnemonic_bin_str: str) -> bytes:
         """ Compute checksum from mnemonic binary string.
 
         Args:
@@ -388,7 +394,7 @@ class Bip39MnemonicValidator:
         return checksum_bin
 
     @staticmethod
-    def __GetChecksumLen(mnemonic_bin_str):
+    def __GetChecksumLen(mnemonic_bin_str: str) -> int:
         """ Get checksum length from mnemonic binary string.
 
         Args:
@@ -403,7 +409,8 @@ class Bip39MnemonicValidator:
 class Bip39SeedGenerator:
     """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
 
-    def __init__(self, mnemonic):
+    def __init__(self,
+                 mnemonic: Union[str, List]) -> None:
         """ Construct the class from a specified mnemonic.
 
         Args:
@@ -419,7 +426,8 @@ class Bip39SeedGenerator:
 
         self.m_mnemonic = mnemonic
 
-    def Generate(self, passphrase = ""):
+    def Generate(self,
+                 passphrase: str = "") -> bytes:
         """ Generate the seed using the specified passphrase.
 
         Args:
