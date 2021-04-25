@@ -124,7 +124,7 @@ class MnemonicFileReader:
 
         # Read file
         file_path = os.path.join(os.path.dirname(__file__), self.FILE_NAME)
-        with open(file_path, "r", encoding = "utf-8") as fin:
+        with open(file_path, "r", encoding="utf-8") as fin:
             self.m_words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
 
         # Check words list length
@@ -235,7 +235,7 @@ class Bip39MnemonicGenerator:
         # Get mnemonic from entropy
         for i in range(len(mnemonic_entropy_bin) // Bip39Const.WORD_BITS):
             # Get current word index
-            word_idx = int(mnemonic_entropy_bin[i * Bip39Const.WORD_BITS : (i + 1) * Bip39Const.WORD_BITS], 2)
+            word_idx = int(mnemonic_entropy_bin[i * Bip39Const.WORD_BITS: (i + 1) * Bip39Const.WORD_BITS], 2)
             # Get word at given index
             mnemonic.append(mnemonic_reader.GetWordAtIdx(word_idx))
 
@@ -301,12 +301,13 @@ class Bip39MnemonicValidator:
         # Get back mnemonic binary string
         mnemonic_bin = self.__GetMnemonicBinaryStr()
 
-        checksum      = self.__GetChecksum(mnemonic_bin)
+        checksum = self.__GetChecksum(mnemonic_bin)
         comp_checksum = self.__ComputeChecksum(mnemonic_bin)
 
         # Verify checksum
         if checksum != comp_checksum:
-            raise Bip39ChecksumError("Invalid checksum when getting entropy (expected %s, got %s" % (comp_checksum, checksum))
+            raise Bip39ChecksumError("Invalid checksum when getting entropy (expected %s, got %s" %
+                                     (comp_checksum, checksum))
 
         # Get entropy bytes from binary string
         return self.__GetEntropyBytes(mnemonic_bin)
@@ -335,7 +336,9 @@ class Bip39MnemonicValidator:
         # Create reader
         mnemonic_reader = MnemonicFileReader()
         # Convert each word to its index in binary format
-        mnemonic_bin = map(lambda word : ConvUtils.IntegerToBinaryStr(mnemonic_reader.GetWordIdx(word), Bip39Const.WORD_BITS), mnemonic)
+        mnemonic_bin = map(lambda word: ConvUtils.IntegerToBinaryStr(mnemonic_reader.GetWordIdx(word),
+                                                                     Bip39Const.WORD_BITS),
+                           mnemonic)
 
         # Join the elements to get the complete binary string
         return "".join(mnemonic_bin)
@@ -373,20 +376,21 @@ class Bip39MnemonicValidator:
         return mnemonic_bin_str[-self.__GetChecksumLen(mnemonic_bin_str):]
 
     def __ComputeChecksum(self,
-                          mnemonic_bin_str: str) -> bytes:
+                          mnemonic_bin_str: str) -> str:
         """ Compute checksum from mnemonic binary string.
 
         Args:
             mnemonic_bin_str (str): Mnemonic binary string
 
         Returns:
-           bytes: Computed checksum binary string
+           str: Computed checksum binary string
         """
 
         # Get entropy bytes
         entropy_bytes = self.__GetEntropyBytes(mnemonic_bin_str)
         # Convert entropy hash to binary string
-        entropy_hash_bin = ConvUtils.BytesToBinaryStr(CryptoUtils.Sha256(entropy_bytes), CryptoUtils.Sha256DigestSize() * 8)
+        entropy_hash_bin = ConvUtils.BytesToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
+                                                      CryptoUtils.Sha256DigestSize() * 8)
 
         # Compute checksum
         checksum_bin = entropy_hash_bin[:self.__GetChecksumLen(mnemonic_bin_str)]
