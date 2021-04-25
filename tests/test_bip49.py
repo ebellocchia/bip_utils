@@ -460,7 +460,7 @@ TEST_VECT_KEY_FORMATS = \
         "raw_priv"        : "1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
         "ex_pub"          : "ypub6QqdH2c5z79673aQjy9R4MUVPujYqGA1vY7YCAjmcFWdN9NLbDEiTeKLkP7ECKzds8NrfRnX8zGyZtXA9QFT7mTs8vi1PVeq8YQpcNKUMvQ",
         "raw_compr_pub"   : "03d902f35f560e0470c63313c7369168d9d7df2d49bf295fd9fb7cb109ccee0494",
-        "raw_uncompr_pub" : "d902f35f560e0470c63313c7369168d9d7df2d49bf295fd9fb7cb109ccee04947d000a1345d3845dd83b4c5814f876c918305b598f066c958fad972bf59f2ec7",
+        "raw_uncompr_pub" : "04d902f35f560e0470c63313c7369168d9d7df2d49bf295fd9fb7cb109ccee04947d000a1345d3845dd83b4c5814f876c918305b598f066c958fad972bf59f2ec7",
     }
 
 # Tests for extended keys with valid and invalid depths
