@@ -22,11 +22,11 @@
 # Imports
 import binascii
 from bip_utils import (
-     Bip44Coins, Bip44Changes, Bip44Levels,
-     Bip44DepthError, Bip44CoinNotAllowedError,
-     Bip32KeyError,
-     BitcoinCashConf,
-     LitecoinConf,
+    Bip44Coins, Bip44Changes, Bip44Levels,
+    Bip44DepthError, Bip44CoinNotAllowedError,
+    Bip32KeyError,
+    BitcoinCashConf,
+    LitecoinConf,
 )
 
 
@@ -48,19 +48,19 @@ class Bip44BaseTestHelper:
             ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinClass().IsTestNet())
 
             # Test master key
-            ut_class.assertEqual(test["ex_master"] , bip_obj_ctx.PrivateKey().ToExtended())
+            ut_class.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())
             ut_class.assertEqual(test["wif_master"], bip_obj_ctx.PrivateKey().ToWif(False))
 
             # Derive account
             bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)
             # Test account keys
-            ut_class.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            ut_class.assertEqual(test["account"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Derive external chain
             bip_obj_ctx = bip_obj_ctx.Change(Bip44Changes.CHAIN_EXT)
             # Test external chain keys
-            ut_class.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            ut_class.assertEqual(test["chain_ext"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Test external chain addresses
@@ -79,24 +79,26 @@ class Bip44BaseTestHelper:
                 # Derive account
                 bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)
                 # Test account keys
-                ut_class.assertEqual(test["account"]["ex_pub_alt"] , bip_obj_ctx.PublicKey().ToExtended())
+                ut_class.assertEqual(test["account"]["ex_pub_alt"], bip_obj_ctx.PublicKey().ToExtended())
                 ut_class.assertEqual(test["account"]["ex_priv_alt"], bip_obj_ctx.PrivateKey().ToExtended())
 
                 # Derive external chain
                 bip_obj_ctx = bip_obj_ctx.Change(Bip44Changes.CHAIN_EXT)
                 # Test external chain keys
-                ut_class.assertEqual(test["chain_ext"]["ex_pub_alt"] , bip_obj_ctx.PublicKey().ToExtended())
+                ut_class.assertEqual(test["chain_ext"]["ex_pub_alt"], bip_obj_ctx.PublicKey().ToExtended())
                 ut_class.assertEqual(test["chain_ext"]["ex_priv_alt"], bip_obj_ctx.PrivateKey().ToExtended())
                 # Reset flag
                 LitecoinConf.EX_KEY_ALT = False
 
             # Only for Bitcoin Cash and Bitcoin Cash test net, test legacy addresses
-            if test["coin"] in (Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
+            if test["coin"] in (
+            Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
                 # Set flag
                 BitcoinCashConf.LEGACY_ADDR = True
                 # Test addresses (bip_obj_ctx is already the external chain)
                 for i in range(len(test["addresses_legacy"])):
-                    ut_class.assertEqual(test["addresses_legacy"][i], bip_obj_ctx.AddressIndex(i).PublicKey().ToAddress())
+                    ut_class.assertEqual(test["addresses_legacy"][i],
+                                         bip_obj_ctx.AddressIndex(i).PublicKey().ToAddress())
                 # Reset flag
                 BitcoinCashConf.LEGACY_ADDR = False
 
@@ -123,20 +125,20 @@ class Bip44BaseTestHelper:
             # Create from private account key
             bip_obj_ctx = bip_class.FromExtendedKey(test["account"]["ex_priv"], test["coin"])
             # Test account keys
-            ut_class.assertEqual(test["account"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            ut_class.assertEqual(test["account"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Create from private change key
             bip_obj_ctx = bip_class.FromExtendedKey(test["chain_ext"]["ex_priv"], test["coin"])
             # Test external chain keys
             ut_class.assertFalse(bip_obj_ctx.IsPublicOnly())
-            ut_class.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            ut_class.assertEqual(test["chain_ext"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Create from public change key
             bip_obj_ctx = bip_class.FromExtendedKey(test["chain_ext"]["ex_pub"], test["coin"])
             ut_class.assertTrue(bip_obj_ctx.IsPublicOnly())
-            ut_class.assertEqual(test["chain_ext"]["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+            ut_class.assertEqual(test["chain_ext"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
 
     # Test for IsLevel method
@@ -170,10 +172,10 @@ class Bip44BaseTestHelper:
         # Create from seed
         bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test_data["seed"]), test_data["coin"])
         # Check private key formats
-        ut_class.assertEqual(test_data["ex_priv"] , bip_obj_ctx.PrivateKey().ToExtended())
+        ut_class.assertEqual(test_data["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
         ut_class.assertEqual(test_data["raw_priv"], bip_obj_ctx.PrivateKey().Raw().ToHex())
         # Check public key formats
-        ut_class.assertEqual(test_data["ex_pub"] , bip_obj_ctx.PublicKey().ToExtended())
+        ut_class.assertEqual(test_data["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
         ut_class.assertEqual(test_data["raw_compr_pub"], bip_obj_ctx.PublicKey().RawCompressed().ToHex())
         ut_class.assertEqual(test_data["raw_uncompr_pub"], bip_obj_ctx.PublicKey().RawUncompressed().ToHex())
 
@@ -199,7 +201,8 @@ class Bip44BaseTestHelper:
         # Test not allowed coins
         for test in test_coins["not_allowed"]:
             ut_class.assertFalse(bip_class.IsCoinAllowed(test))
-            ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromSeed, binascii.unhexlify(test_coins["seed"]), test)
+            ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromSeed, binascii.unhexlify(test_coins["seed"]),
+                                  test)
             ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromExtendedKey, test_coins["ex_key"], test)
 
         # Test allowed coins
@@ -216,43 +219,43 @@ class Bip44BaseTestHelper:
     @staticmethod
     def test_invalid_derivations(ut_class, bip_class, test_seed_bytes):
         # Create all the derivations
-        bip_obj_mst    = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), Bip44Coins.BITCOIN)
-        bip_obj_prp    = bip_obj_mst.Purpose()
-        bip_obj_coin   = bip_obj_prp.Coin()
-        bip_obj_acc    = bip_obj_coin.Account(0)
+        bip_obj_mst = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), Bip44Coins.BITCOIN)
+        bip_obj_prp = bip_obj_mst.Purpose()
+        bip_obj_coin = bip_obj_prp.Coin()
+        bip_obj_acc = bip_obj_coin.Account(0)
         bip_obj_change = bip_obj_acc.Change(Bip44Changes.CHAIN_EXT)
-        bip_obj_addr   = bip_obj_change.AddressIndex(0)
+        bip_obj_addr = bip_obj_change.AddressIndex(0)
 
         # Invalid change type
         ut_class.assertRaises(TypeError, bip_obj_acc.Change, 0)
         # Invalid derivation from master
         ut_class.assertRaises(Bip44DepthError, bip_obj_mst.Coin)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_mst.Account     , 0)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_mst.Change      , Bip44Changes.CHAIN_EXT)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_mst.Account, 0)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_mst.Change, Bip44Changes.CHAIN_EXT)
         ut_class.assertRaises(Bip44DepthError, bip_obj_mst.AddressIndex, 0)
         # Invalid derivation from purpose
         ut_class.assertRaises(Bip44DepthError, bip_obj_prp.Purpose)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_prp.Account     , 0)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_prp.Change      , Bip44Changes.CHAIN_EXT)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_prp.Account, 0)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_prp.Change, Bip44Changes.CHAIN_EXT)
         ut_class.assertRaises(Bip44DepthError, bip_obj_prp.AddressIndex, 0)
         # Invalid derivation from coin
         ut_class.assertRaises(Bip44DepthError, bip_obj_coin.Purpose)
         ut_class.assertRaises(Bip44DepthError, bip_obj_coin.Coin)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_coin.Change      , Bip44Changes.CHAIN_EXT)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_coin.Change, Bip44Changes.CHAIN_EXT)
         ut_class.assertRaises(Bip44DepthError, bip_obj_coin.AddressIndex, 0)
         # Invalid derivation from account
         ut_class.assertRaises(Bip44DepthError, bip_obj_acc.Purpose)
         ut_class.assertRaises(Bip44DepthError, bip_obj_acc.Coin)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_acc.Account     , 0)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_acc.Account, 0)
         ut_class.assertRaises(Bip44DepthError, bip_obj_acc.AddressIndex, 0)
         # Invalid derivation from chain
         ut_class.assertRaises(Bip44DepthError, bip_obj_change.Purpose)
         ut_class.assertRaises(Bip44DepthError, bip_obj_change.Coin)
         ut_class.assertRaises(Bip44DepthError, bip_obj_change.Account, 0)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_change.Change , Bip44Changes.CHAIN_EXT)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_change.Change, Bip44Changes.CHAIN_EXT)
         # Invalid derivation from address index
         ut_class.assertRaises(Bip44DepthError, bip_obj_addr.Purpose)
         ut_class.assertRaises(Bip44DepthError, bip_obj_addr.Coin)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_addr.Account     , 0)
-        ut_class.assertRaises(Bip44DepthError, bip_obj_addr.Change      , Bip44Changes.CHAIN_EXT)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_addr.Account, 0)
+        ut_class.assertRaises(Bip44DepthError, bip_obj_addr.Change, Bip44Changes.CHAIN_EXT)
         ut_class.assertRaises(Bip44DepthError, bip_obj_addr.AddressIndex, 0)

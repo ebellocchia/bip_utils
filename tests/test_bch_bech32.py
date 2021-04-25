@@ -23,43 +23,41 @@
 import binascii
 import unittest
 from bip_utils import (
-    BchBech32Decoder, BchBech32Encoder, Bech32ChecksumError, Bech32FormatError, BchBech32FormatError
+    BchBech32Decoder, BchBech32Encoder, BchBech32FormatError
 )
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
-TEST_VECT = \
-    [
+TEST_VECT = [
         {
-            "raw"    : b"751e76e8199196d454941c45d1b3a323f1433bd6",
-            "encode" :  "bitcoincash:qp63uahgrxged4z5jswyt5dn5v3lzsem6cy4spdc2h",
+            "raw": b"751e76e8199196d454941c45d1b3a323f1433bd6",
+            "encode": "bitcoincash:qp63uahgrxged4z5jswyt5dn5v3lzsem6cy4spdc2h",
         },
         {
-            "raw"    : b"30ea99599334801bf09d753af38ba546800bea8b",
-            "encode" :  "bitcoincash:qqcw4x2ejv6gqxlsn46n4uut54rgqzl23v4y77ks69",
+            "raw": b"30ea99599334801bf09d753af38ba546800bea8b",
+            "encode": "bitcoincash:qqcw4x2ejv6gqxlsn46n4uut54rgqzl23v4y77ks69",
         },
         {
-            "raw"    : b"18abaed50b7c1176308baa094b054383b775f12c",
-            "encode" :  "bitcoincash:qqv2htk4pd7pza3s3w4qjjc9gwpmwa039s9cgntx7v",
+            "raw": b"18abaed50b7c1176308baa094b054383b775f12c",
+            "encode": "bitcoincash:qqv2htk4pd7pza3s3w4qjjc9gwpmwa039s9cgntx7v",
         },
         {
-            "raw"    : b"29595a3c78760fe90fe883b922f353b67441d28d",
-            "encode" :  "bchtest:qq54jk3u0pmql6g0azpmjghn2wm8gswj35af22xyv3",
+            "raw": b"29595a3c78760fe90fe883b922f353b67441d28d",
+            "encode": "bchtest:qq54jk3u0pmql6g0azpmjghn2wm8gswj35af22xyv3",
         },
         {
-            "raw"    : b"b819a85f25b116c2f7e64416a55b8d49b744d209",
-            "encode" :  "bchtest:qzupn2zlykc3dshhuezpdf2m34ymw3xjpycg0fwyaq",
+            "raw": b"b819a85f25b116c2f7e64416a55b8d49b744d209",
+            "encode": "bchtest:qzupn2zlykc3dshhuezpdf2m34ymw3xjpycg0fwyaq",
         },
         {
-            "raw"    : b"904c82e2c1a8508ba784e4e53e195b5047682e87",
-            "encode" :  "bchtest:qzgyeqhzcx59pza8snjw20setdgyw6pwsulf9dv498",
+            "raw": b"904c82e2c1a8508ba784e4e53e195b5047682e87",
+            "encode": "bchtest:qzgyeqhzcx59pza8snjw20setdgyw6pwsulf9dv498",
         },
     ]
 
 # Tests for BCH encoded addresses
 # Few tests because most cases are already covered by Segwit tests
-TEST_VECT_ADDR_INVALID = \
-    [
+TEST_VECT_ADDR_INVALID = [
         #
         # From BIP-0173 page
         #
@@ -67,20 +65,20 @@ TEST_VECT_ADDR_INVALID = \
         # Invalid human-readable part
         {
             "addr": "bitciincash:qq54jk3u0pmql6g0azpmjghn2wm8gswj35853zv6sr",
-            "hrp" : "bitcoincash",
-            "ex"  : BchBech32FormatError,
+            "hrp": "bitcoincash",
+            "ex": BchBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "bitcoincash:qqyq78nf2w",
-            "hrp" : "bitcoincash",
-            "ex"  : BchBech32FormatError,
+            "hrp": "bitcoincash",
+            "ex": BchBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "bitcoincash:qq54jk3u0pmql6g0azpmjghn2wm8gswj3554jk3u0pmql6g0azpmjghn2wm8gswj35x65g3a2n",
-            "hrp" : "bitcoincash",
-            "ex"  : BchBech32FormatError,
+            "hrp": "bitcoincash",
+            "ex": BchBech32FormatError,
         },
     ]
 
@@ -110,4 +108,4 @@ class BchBech32Tests(unittest.TestCase):
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(test["ex"],  BchBech32Decoder.Decode, test["hrp"], test["addr"])
+            self.assertRaises(test["ex"], BchBech32Decoder.Decode, test["hrp"], test["addr"])

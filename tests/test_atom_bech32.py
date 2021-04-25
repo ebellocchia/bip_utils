@@ -23,35 +23,33 @@
 import binascii
 import unittest
 from bip_utils import (
-    AtomBech32Decoder, AtomBech32Encoder, Bech32ChecksumError, Bech32FormatError, AtomBech32FormatError
+    AtomBech32Decoder, AtomBech32Encoder, AtomBech32FormatError
 )
 
 # Some keys randomly taken from Ian Coleman web page
 # https://iancoleman.io/bip39/
-TEST_VECT = \
-    [
+TEST_VECT = [
         {
-            "raw"    : b"751e76e8199196d454941c45d1b3a323f1433bd6",
-            "encode" :  "cosmos1w508d6qejxtdg4y5r3zarvary0c5xw7k6ah60c",
+            "raw": b"751e76e8199196d454941c45d1b3a323f1433bd6",
+            "encode": "cosmos1w508d6qejxtdg4y5r3zarvary0c5xw7k6ah60c",
         },
         {
-            "raw"    : b"30ea99599334801bf09d753af38ba546800bea8b",
-            "encode" :  "cosmos1xr4fjkvnxjqphuyaw5a08za9g6qqh65t36srck",
+            "raw": b"30ea99599334801bf09d753af38ba546800bea8b",
+            "encode": "cosmos1xr4fjkvnxjqphuyaw5a08za9g6qqh65t36srck",
         },
         {
-            "raw"    : b"18abaed50b7c1176308baa094b054383b775f12c",
-            "encode" :  "band1rz46a4gt0sghvvyt4gy5kp2rswmhtufv49nfef",
+            "raw": b"18abaed50b7c1176308baa094b054383b775f12c",
+            "encode": "band1rz46a4gt0sghvvyt4gy5kp2rswmhtufv49nfef",
         },
         {
-            "raw"    : b"29595a3c78760fe90fe883b922f353b67441d28d",
-            "encode" :  "band199v450rcwc87jrlgswuj9u6nke6yr55dxjrx4e",
+            "raw": b"29595a3c78760fe90fe883b922f353b67441d28d",
+            "encode": "band199v450rcwc87jrlgswuj9u6nke6yr55dxjrx4e",
         },
     ]
 
 # Tests for BCH encoded addresses
 # Few tests because most cases are already covered by Segwit tests
-TEST_VECT_ADDR_INVALID = \
-    [
+TEST_VECT_ADDR_INVALID = [
         #
         # From BIP-0173 page
         #
@@ -59,20 +57,20 @@ TEST_VECT_ADDR_INVALID = \
         # Invalid human-readable part
         {
             "addr": "cosmis1w508d6qejxtdg4y5r3zarvary0c5xw7khxen85",
-            "hrp" : "cosmos",
-            "ex"  : AtomBech32FormatError,
+            "hrp": "cosmos",
+            "ex": AtomBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "cosmos1w554mng0",
-            "hrp" : "cosmos",
-            "ex"  : AtomBech32FormatError,
+            "hrp": "cosmos",
+            "ex": AtomBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "cosmos1w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kqq2z39yp",
-            "hrp" : "cosmos",
-            "ex"  : AtomBech32FormatError,
+            "hrp": "cosmos",
+            "ex": AtomBech32FormatError,
         },
     ]
 
@@ -100,4 +98,4 @@ class AtomBech32Tests(unittest.TestCase):
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(test["ex"],  AtomBech32Decoder.Decode, test["hrp"], test["addr"])
+            self.assertRaises(test["ex"], AtomBech32Decoder.Decode, test["hrp"], test["addr"])
