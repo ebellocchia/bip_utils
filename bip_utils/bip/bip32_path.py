@@ -20,6 +20,7 @@
 
 
 # Import
+from typing import List, Optional, Tuple, Union
 from bip_utils.bip.bip32_utils import Bip32Utils
 
 
@@ -27,16 +28,17 @@ class Bip32PathParserConst:
     """ Class container for path parser constants. """
 
     # Hardened characters
-    HARDENED_CHARS = ("'", "p")
+    HARDENED_CHARS: Tuple[str, str] = ("'", "p")
     # Master character
-    MASTER_CHAR    = "m"
+    MASTER_CHAR: str = "m"
 
 
 class Bip32PathParser:
     """ Path parser class. It parses a BIP-0032 path and return a list of its indexes. """
 
     @staticmethod
-    def Parse(path, skip_master = False):
+    def Parse(path: str,
+              skip_master: bool = False) -> List[Union[str, int]]:
         """ Validate a path.
 
         Args:
@@ -50,7 +52,8 @@ class Bip32PathParser:
         return Bip32PathParser.__ParseElems(path.split("/"), skip_master)
 
     @staticmethod
-    def __ParseElems(path_elems, skip_master):
+    def __ParseElems(path_elems: List[str],
+                     skip_master: bool) -> List[Union[str, int]]:
         """ Parse path elements.
 
         Args:
@@ -88,7 +91,7 @@ class Bip32PathParser:
         return path_list
 
     @staticmethod
-    def __GetElemIndex(path_elem):
+    def __GetElemIndex(path_elem: str) -> Optional[int]:
         """ Get index of a path element.
 
         Args:
