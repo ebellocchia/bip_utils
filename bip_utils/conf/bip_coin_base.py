@@ -21,7 +21,7 @@
 
 # Imports
 from bip_utils.addr import P2PKH, P2SH, P2WPKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
-from bip_utils.utils import IPublicKey
+from bip_utils.ecc import EcdsaPublicKey
 from bip_utils.conf.bip_coin_conf_helper import *
 
 
@@ -82,11 +82,11 @@ class BipCoinBase:
         return self.m_coin_conf.NAMES if not self.m_is_testnet else self.m_coin_conf.TEST_NAMES
 
     def ComputeAddress(self,
-                       pub_key: IPublicKey) -> str:
+                       pub_key: EcdsaPublicKey) -> str:
         """ Compute address from public key.
 
         Args:
-            pub_key (IPublicKey object): IPublicKey object
+            pub_key (EcdsaPublicKey object): EcdsaPublicKey object
 
         Returns:
             str: Address string
@@ -118,7 +118,8 @@ class BipCoinBase:
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # EthAddr
         elif self.m_addr_fct is EthAddr or self.m_addr_fct is TrxAddr:
-            return self.m_addr_fct.ToAddress(pub_key.RawUncompressed().ToBytes())
+            # The first byte of the uncompressed key (0x04) is not needed
+            return self.m_addr_fct.ToAddress(pub_key.RawUncompressed().ToBytes()[1:])
         # XrpAddr
         elif self.m_addr_fct is XrpAddr:
             return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes())
