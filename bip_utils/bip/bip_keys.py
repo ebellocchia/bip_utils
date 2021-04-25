@@ -20,6 +20,7 @@
 
 
 # Imports
+from typing import Type
 from bip_utils.bip.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
 from bip_utils.conf import BipCoinBase, Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import KeyBytes, EcdsaPrivateKey, EcdsaPublicKey
@@ -36,7 +37,7 @@ class BipPublicKey:
                  fprint: bytes,
                  index: int,
                  chain: bytes,
-                 coin_class: BipCoinBase = Bip44BitcoinMainNet) -> None:
+                 coin_class: Type[BipCoinBase] = Bip44BitcoinMainNet) -> None:
         """ Construct class.
 
         Args:
@@ -104,7 +105,7 @@ class BipPrivateKey:
                  fprint: bytes,
                  index: int,
                  chain: bytes,
-                 coin_class: BipCoinBase = Bip44BitcoinMainNet) -> None:
+                 coin_class: Type[BipCoinBase] = Bip44BitcoinMainNet) -> None:
         """ Construct class.
 
         Args:
