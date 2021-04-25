@@ -20,70 +20,69 @@
 
 
 # Imports
-from bip_utils.bip.bip32_utils  import Bip32Utils
-from bip_utils.bip.bip44_base   import Bip44Base, Bip44Coins
-from bip_utils.conf             import *
+from typing import Dict, List, Type
+from bip_utils.bip.bip32_utils import Bip32Utils
+from bip_utils.bip.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
+from bip_utils.conf import *
 
 
 class Bip44Const:
     """ Class container for BIP44 constants. """
 
     # Specification name
-    SPEC_NAME = "BIP-0044"
+    SPEC_NAME: str = "BIP-0044"
     # Purpose
-    PURPOSE   = Bip32Utils.HardenIndex(44)
+    PURPOSE: int = Bip32Utils.HardenIndex(44)
     # Allowed coins
-    ALLOWED_COINS = \
-        [
-            Bip44Coins.BITCOIN            , Bip44Coins.BITCOIN_TESTNET,
-            Bip44Coins.BITCOIN_CASH       , Bip44Coins.BITCOIN_CASH_TESTNET,
-            Bip44Coins.BITCOIN_SV         , Bip44Coins.BITCOIN_SV_TESTNET,
-            Bip44Coins.LITECOIN           , Bip44Coins.LITECOIN_TESTNET,
-            Bip44Coins.DOGECOIN           , Bip44Coins.DOGECOIN_TESTNET,
-            Bip44Coins.DASH               , Bip44Coins.DASH_TESTNET,
-            Bip44Coins.ZCASH              , Bip44Coins.ZCASH_TESTNET,
-            Bip44Coins.ETHEREUM           ,
-            Bip44Coins.ETHEREUM_CLASSIC   ,
-            Bip44Coins.RIPPLE             ,
-            Bip44Coins.TRON               ,
-            Bip44Coins.VECHAIN            ,
-            Bip44Coins.COSMOS             ,
-            Bip44Coins.BAND_PROTOCOL      ,
-            Bip44Coins.KAVA               ,
-            Bip44Coins.IRIS_NET           ,
-            Bip44Coins.BINANCE_CHAIN      ,
+    ALLOWED_COINS: List[Bip44Coins] = [
+            Bip44Coins.BITCOIN, Bip44Coins.BITCOIN_TESTNET,
+            Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET,
+            Bip44Coins.BITCOIN_SV, Bip44Coins.BITCOIN_SV_TESTNET,
+            Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET,
+            Bip44Coins.DOGECOIN, Bip44Coins.DOGECOIN_TESTNET,
+            Bip44Coins.DASH, Bip44Coins.DASH_TESTNET,
+            Bip44Coins.ZCASH, Bip44Coins.ZCASH_TESTNET,
+            Bip44Coins.ETHEREUM,
+            Bip44Coins.ETHEREUM_CLASSIC,
+            Bip44Coins.RIPPLE,
+            Bip44Coins.TRON,
+            Bip44Coins.VECHAIN,
+            Bip44Coins.COSMOS,
+            Bip44Coins.BAND_PROTOCOL,
+            Bip44Coins.KAVA,
+            Bip44Coins.IRIS_NET,
+            Bip44Coins.BINANCE_CHAIN,
             Bip44Coins.BINANCE_SMART_CHAIN,
             Bip44Coins.NINE_CHRONICLES_GOLD,
         ]
     # Map from Bip44Coins to coin classes
-    COIN_TO_CLASS = \
-        {
-            Bip44Coins.BITCOIN              : Bip44BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET      : Bip44BitcoinTestNet,
-            Bip44Coins.BITCOIN_CASH         : Bip44BitcoinCashMainNet,
-            Bip44Coins.BITCOIN_CASH_TESTNET : Bip44BitcoinCashTestNet,
-            Bip44Coins.BITCOIN_SV           : Bip44BitcoinSvMainNet,
-            Bip44Coins.BITCOIN_SV_TESTNET   : Bip44BitcoinSvTestNet,
-            Bip44Coins.LITECOIN             : Bip44LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET     : Bip44LitecoinTestNet,
-            Bip44Coins.DOGECOIN             : Bip44DogecoinMainNet,
-            Bip44Coins.DOGECOIN_TESTNET     : Bip44DogecoinTestNet,
-            Bip44Coins.DASH                 : Bip44DashMainNet,
-            Bip44Coins.DASH_TESTNET         : Bip44DashTestNet,
-            Bip44Coins.ZCASH                : Bip44ZcashMainNet,
-            Bip44Coins.ZCASH_TESTNET        : Bip44ZcashTestNet,
-            Bip44Coins.ETHEREUM             : Bip44Ethereum,
-            Bip44Coins.ETHEREUM_CLASSIC     : Bip44EthereumClassic,
-            Bip44Coins.RIPPLE               : Bip44Ripple,
-            Bip44Coins.TRON                 : Bip44Tron,
-            Bip44Coins.VECHAIN              : Bip44VeChain,
-            Bip44Coins.COSMOS               : Bip44Cosmos,
-            Bip44Coins.BAND_PROTOCOL        : Bip44BandProtocol,
-            Bip44Coins.KAVA                 : Bip44Kava,
-            Bip44Coins.IRIS_NET             : Bip44IrisNet,
-            Bip44Coins.BINANCE_CHAIN        : Bip44BinanceChain,
-            Bip44Coins.BINANCE_SMART_CHAIN  : Bip44BinanceSmartChain,
-            Bip44Coins.NINE_CHRONICLES_GOLD : Bip44NineChroniclesGold,
+    COIN_TO_CLASS: Dict[Bip44Coins, Type[BipCoinBase]] = {
+            Bip44Coins.BITCOIN: Bip44BitcoinMainNet,
+            Bip44Coins.BITCOIN_TESTNET: Bip44BitcoinTestNet,
+            Bip44Coins.BITCOIN_CASH: Bip44BitcoinCashMainNet,
+            Bip44Coins.BITCOIN_CASH_TESTNET: Bip44BitcoinCashTestNet,
+            Bip44Coins.BITCOIN_SV: Bip44BitcoinSvMainNet,
+            Bip44Coins.BITCOIN_SV_TESTNET: Bip44BitcoinSvTestNet,
+            Bip44Coins.LITECOIN: Bip44LitecoinMainNet,
+            Bip44Coins.LITECOIN_TESTNET: Bip44LitecoinTestNet,
+            Bip44Coins.DOGECOIN: Bip44DogecoinMainNet,
+            Bip44Coins.DOGECOIN_TESTNET: Bip44DogecoinTestNet,
+            Bip44Coins.DASH: Bip44DashMainNet,
+            Bip44Coins.DASH_TESTNET: Bip44DashTestNet,
+            Bip44Coins.ZCASH: Bip44ZcashMainNet,
+            Bip44Coins.ZCASH_TESTNET: Bip44ZcashTestNet,
+            Bip44Coins.ETHEREUM: Bip44Ethereum,
+            Bip44Coins.ETHEREUM_CLASSIC: Bip44EthereumClassic,
+            Bip44Coins.RIPPLE: Bip44Ripple,
+            Bip44Coins.TRON: Bip44Tron,
+            Bip44Coins.VECHAIN: Bip44VeChain,
+            Bip44Coins.COSMOS: Bip44Cosmos,
+            Bip44Coins.BAND_PROTOCOL: Bip44BandProtocol,
+            Bip44Coins.KAVA: Bip44Kava,
+            Bip44Coins.IRIS_NET: Bip44IrisNet,
+            Bip44Coins.BINANCE_CHAIN: Bip44BinanceChain,
+            Bip44Coins.BINANCE_SMART_CHAIN: Bip44BinanceSmartChain,
+            Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
         }
 
 
@@ -96,7 +95,7 @@ class Bip44(Bip44Base):
     # Override methods
     #
 
-    def Purpose(self):
+    def Purpose(self) -> 'Bip44':
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _PurposeGeneric method with the current object as parameter.
 
@@ -109,8 +108,9 @@ class Bip44(Bip44Base):
         """
         return self._PurposeGeneric(self)
 
-    def Coin(self):
-        """ Derive a child key from the coin type specified at construction and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+    def Coin(self) -> 'Bip44':
+        """ Derive a child key from the coin type specified at construction and return
+        a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _CoinGeneric method with the current object as parameter.
 
         Returns:
@@ -122,7 +122,8 @@ class Bip44(Bip44Base):
         """
         return self._CoinGeneric(self)
 
-    def Account(self, acc_idx):
+    def Account(self,
+                acc_idx: int) -> 'Bip44':
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AccountGeneric method with the current object as parameter.
 
@@ -138,7 +139,8 @@ class Bip44(Bip44Base):
         """
         return self._AccountGeneric(self, acc_idx)
 
-    def Change(self, change_idx):
+    def Change(self,
+               change_idx: Bip44Changes) -> 'Bip44':
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _ChangeGeneric method with the current object as parameter.
 
@@ -155,7 +157,8 @@ class Bip44(Bip44Base):
         """
         return self._ChangeGeneric(self, change_idx)
 
-    def AddressIndex(self, addr_idx):
+    def AddressIndex(self,
+                     addr_idx: int) -> 'Bip44':
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AddressIndexGeneric method with the current object as parameter.
 
@@ -172,7 +175,7 @@ class Bip44(Bip44Base):
         return self._AddressIndexGeneric(self, addr_idx)
 
     @staticmethod
-    def SpecName():
+    def SpecName() -> str:
         """ Get specification name.
 
         Returns:
@@ -181,7 +184,7 @@ class Bip44(Bip44Base):
         return Bip44Const.SPEC_NAME
 
     @staticmethod
-    def IsCoinAllowed(coin_type):
+    def IsCoinAllowed(coin_type: BipCoinBase) -> bool:
         """ Get if the specified coin is allowed.
 
         Args:
@@ -199,7 +202,7 @@ class Bip44(Bip44Base):
         return coin_type in Bip44Const.ALLOWED_COINS
 
     @staticmethod
-    def _GetPurpose():
+    def _GetPurpose() -> int:
         """ Get purpose.
 
         Returns:
@@ -208,7 +211,7 @@ class Bip44(Bip44Base):
         return Bip44Const.PURPOSE
 
     @staticmethod
-    def _GetCoinClass(coin_type):
+    def _GetCoinClass(coin_type: Bip44Coins) -> Type[BipCoinBase]:
         """ Get coin class.
 
         Args:
