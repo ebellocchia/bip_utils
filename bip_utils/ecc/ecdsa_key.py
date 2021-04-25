@@ -28,10 +28,6 @@ from bip_utils.ecc.key_bytes import KeyBytes
 class EcdsaPublicKey:
     """ ECDSA public key class. """
 
-    #@staticmethod
-    #def FromString(data_str: str) -> EcdsaPublicKey:
-    #    return EcdsaPublicKey(ecdsa.VerifyingKey.from_string(data_str, curve=SECP256k1))
-
     def __init__(self,
                  ecdsa_obj: ecdsa.VerifyingKey) -> None:
         """ Construct class.

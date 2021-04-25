@@ -103,7 +103,7 @@ class Bip32PathParser:
         """
 
         # Get if hardened
-        is_hardened = len(path_elem) > 0  and path_elem[-1] in Bip32PathParserConst.HARDENED_CHARS
+        is_hardened = len(path_elem) > 0 and path_elem[-1] in Bip32PathParserConst.HARDENED_CHARS
 
         # If hardened, remove the last character from the string
         if is_hardened:
