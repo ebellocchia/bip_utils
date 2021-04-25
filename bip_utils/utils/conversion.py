@@ -29,16 +29,32 @@ class ConvUtils:
     """ Class container for conversion utility functions. """
 
     @staticmethod
-    def BytesToInteger(data_bytes: bytes) -> int:
+    def BytesToInteger(data_bytes: bytes,
+                       endianness: str = "big") -> int:
         """ Convert the specified bytes to integer.
 
         Args:
-            data_bytes (bytes): Data bytes
+            data_bytes (bytes)        : Data bytes
+            endianness (str, optional): Endianness
 
         Returns:
             int: Integer representation
         """
-        return int(binascii.hexlify(data_bytes), 16)
+        return int.from_bytes(data_bytes, endianness)
+
+    @staticmethod
+    def IntegerToBytes(data_int: int,
+                       endianness: str = "big") -> bytes:
+        """ Convert integer to bytes.
+
+        Args:
+            data_int (int)            : Data integer
+            endianness (str, optional): Endianness
+
+        Returns:
+            bytes: Bytes representation
+        """
+        return data_int.to_bytes((data_int.bit_length() + 7) // 8, endianness)
 
     @staticmethod
     def BytesToBinaryStr(data_bytes: bytes,
@@ -52,25 +68,11 @@ class ConvUtils:
         Returns:
             str: Binary string
         """
-        return ConvUtils.IntToBinaryStr(ConvUtils.BytesToInteger(data_bytes), zero_pad)
+        return ConvUtils.IntegerToBinaryStr(ConvUtils.BytesToInteger(data_bytes), zero_pad)
 
     @staticmethod
-    def IntToBinaryStr(data_int: int,
-                       zero_pad: int = 0) -> str:
-        """ Convert the specified integer to a binary string.
-
-        Args:
-            data_int (int)          : Data integer
-            zero_pad (int, optional): Zero padding, 0 if not specified
-
-        Returns:
-            str: Binary string
-        """
-        return bin(data_int)[2:].zfill(zero_pad)
-
-    @staticmethod
-    def BytesFromBinaryStr(data: Union[bytes, str],
-                           zero_pad: int = 0) -> bytes:
+    def BinaryStrToBytes(data: Union[bytes, str],
+                         zero_pad: int = 0) -> bytes:
         """ Convert the specified binary string to bytes.
 
         Args:
@@ -81,18 +83,6 @@ class ConvUtils:
             bytes: Bytes representation
         """
         return binascii.unhexlify(hex(int(AlgoUtils.Encode(data), 2))[2:].zfill(zero_pad))
-
-    @staticmethod
-    def ListToBytes(data_list: List) -> bytes:
-        """ Convert the specified list to bytes
-
-        Args:
-            data_list (list): Data list
-
-        Returns:
-            bytes: Correspondent bytes representation
-        """
-        return bytes(bytearray(data_list))
 
     @staticmethod
     def BytesToHexString(data_bytes: bytes,
@@ -109,6 +99,20 @@ class ConvUtils:
         return binascii.hexlify(data_bytes).decode(encoding)
 
     @staticmethod
+    def IntegerToBinaryStr(data_int: int,
+                           zero_pad: int = 0) -> str:
+        """ Convert the specified integer to a binary string.
+
+        Args:
+            data_int (int)          : Data integer
+            zero_pad (int, optional): Zero padding, 0 if not specified
+
+        Returns:
+            str: Binary string
+        """
+        return bin(data_int)[2:].zfill(zero_pad)
+
+    @staticmethod
     def HexStringToBytes(data: Union[bytes, str]) -> bytes:
         """ Convert hex string to bytes.
 
@@ -119,6 +123,18 @@ class ConvUtils:
             bytes: Hex string converted to bytes
         """
         return binascii.unhexlify(AlgoUtils.Encode(data))
+
+    @staticmethod
+    def ListToBytes(data_list: List) -> bytes:
+        """ Convert the specified list to bytes
+
+        Args:
+            data_list (list): Data list
+
+        Returns:
+            bytes: Correspondent bytes representation
+        """
+        return bytes(bytearray(data_list))
 
     @staticmethod
     def ConvertToBits(data: Union[bytes, List[int]],
