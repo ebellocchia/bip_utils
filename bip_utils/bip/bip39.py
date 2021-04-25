@@ -332,7 +332,7 @@ class Bip39MnemonicValidator:
         # Create reader
         mnemonic_reader = MnemonicFileReader()
         # Convert each word to its index in binary format
-        mnemonic_bin = map(lambda word : ConvUtils.IntToBinaryStr(mnemonic_reader.GetWordIdx(word), Bip39Const.WORD_BITS), mnemonic)
+        mnemonic_bin = map(lambda word : ConvUtils.IntegerToBinaryStr(mnemonic_reader.GetWordIdx(word), Bip39Const.WORD_BITS), mnemonic)
 
         # Join the elements to get the complete binary string
         return "".join(mnemonic_bin)
@@ -353,7 +353,7 @@ class Bip39MnemonicValidator:
         entropy_bin = mnemonic_bin_str[:-checksum_len]
 
         # Get entropy bytes from binary string
-        return ConvUtils.BytesFromBinaryStr(entropy_bin, checksum_len * 8)
+        return ConvUtils.BinaryStrToBytes(entropy_bin, checksum_len * 8)
 
     def __GetChecksum(self, mnemonic_bin_str):
         """ Get checksum from mnemonic binary string.
