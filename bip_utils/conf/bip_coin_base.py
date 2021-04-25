@@ -56,7 +56,7 @@ class BipCoinBase:
         """
         return self.m_key_net_ver.Main() if not self.m_is_testnet else self.m_key_net_ver.Test()
 
-    def WifNetVersion(self) -> KeyNetVersions:
+    def WifNetVersion(self) -> bytes:
         """ Get WIF net version.
 
         Returns:
