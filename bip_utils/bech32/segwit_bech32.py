@@ -49,7 +49,7 @@ class SegwitBech32Utils:
     """ Class container for Segwit utility functions. """
 
     @staticmethod
-    def PolyMod(values: List) -> int:
+    def PolyMod(values: List[int]) -> int:
         """ Computes the polynomial modulus.
 
         Args:
@@ -72,7 +72,7 @@ class SegwitBech32Utils:
         return chk
 
     @staticmethod
-    def HrpExpand(hrp: str) -> List:
+    def HrpExpand(hrp: str) -> List[int]:
         """ Expand the HRP into values for checksum computation.
 
         Args:
@@ -86,7 +86,7 @@ class SegwitBech32Utils:
 
     @staticmethod
     def ComputeChecksum(hrp: str,
-                        data: List) -> List:
+                        data: List[int]) -> List[int]:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -103,7 +103,7 @@ class SegwitBech32Utils:
 
     @staticmethod
     def VerifyChecksum(hrp: str,
-                       data: List) -> bool:
+                       data: List[int]) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
@@ -143,7 +143,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
-                         data: List) -> List:
+                         data: List[int]) -> List[int]:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -200,7 +200,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
 
     @staticmethod
     def _VerifyChecksum(hrp: str,
-                        data: List) -> bool:
+                        data: List[int]) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:

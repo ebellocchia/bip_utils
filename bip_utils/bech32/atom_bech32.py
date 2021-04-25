@@ -63,7 +63,7 @@ class AtomBech32Encoder(Bech32EncoderBase):
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
-                         data: List) -> List:
+                         data: List[int]) -> List[int]:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -117,7 +117,7 @@ class AtomBech32Decoder(Bech32DecoderBase):
 
     @staticmethod
     def _VerifyChecksum(hrp: str,
-                        data: List) -> bool:
+                        data: List[int]) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:

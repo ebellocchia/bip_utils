@@ -44,7 +44,7 @@ class Bech32BaseUtils:
     """ Class container for Bech32 utility functions. """
 
     @staticmethod
-    def ConvertToBase32(data: Union[List, bytes]) -> List:
+    def ConvertToBase32(data: Union[List[int], bytes]) -> List[int]:
         """ Convert data to base32.
 
         Args:
@@ -64,7 +64,7 @@ class Bech32BaseUtils:
         return conv_data
 
     @staticmethod
-    def ConvertFromBase32(data: Union[List, bytes]) -> List:
+    def ConvertFromBase32(data: Union[List[int], bytes]) -> List[int]:
         """ Convert data from base32.
 
         Args:
@@ -90,7 +90,7 @@ class Bech32EncoderBase(ABC):
     @classmethod
     def _EncodeBech32(cls,
                       hrp: str,
-                      data: List,
+                      data: List[int],
                       sep: str) -> str:
         """ Encode a Bech32 string from the specified HRP and data.
 
@@ -111,7 +111,7 @@ class Bech32EncoderBase(ABC):
     @staticmethod
     @abstractmethod
     def _ComputeChecksum(hrp: str,
-                         data: List) -> List:
+                         data: List[int]) -> List[int]:
         """ Compute the checksum from the specified HRP and data.
 
         Args:
@@ -131,7 +131,7 @@ class Bech32DecoderBase(ABC):
     def _DecodeBech32(cls,
                       bech_str: str,
                       sep: str,
-                      checksum_len: int) -> Tuple[str, List]:
+                      checksum_len: int) -> Tuple[str, List[int]]:
         """ Decode and validate a Bech32 string, determining its HRP and data.
 
         Args:
@@ -180,7 +180,7 @@ class Bech32DecoderBase(ABC):
     @staticmethod
     @abstractmethod
     def _VerifyChecksum(hrp: str,
-                        data: List) -> bool:
+                        data: List[int]) -> bool:
         """ Verify the checksum from the specified HRP and converted data characters.
 
         Args:
