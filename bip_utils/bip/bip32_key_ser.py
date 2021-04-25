@@ -1,4 +1,4 @@
-# Copyright (c) 2014 Corgan Labs, 2020 Emanuele Bellocchia
+# Copyright (c) 2020 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,7 @@ from typing import Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32_ex import Bip32KeyError
 from bip_utils.conf import KeyNetVersions
+from bip_utils.ecc import EcdsaPublicKey, EcdsaPrivateKey
 from bip_utils.utils import ConvUtils
 
 
@@ -100,55 +101,95 @@ class Bip32KeyDeserializer:
         return self.m_is_public
 
 
+class Bip32PrivateKeySerializer:
+    """ BIP32 private key serializer class. It serializes private keys. """
 
-class Bip32KeySerializer:
-    """ BIP32key serializer class. It serializes private/public keys. """
-
-    def __init__(self,
-                 bip32_obj: 'Bip32') -> None:
-        """ Construct class.
+    @staticmethod
+    def Serialize(priv_key: EcdsaPrivateKey,
+                  key_net_ver: KeyNetVersions,
+                  depth: int,
+                  fprint: bytes,
+                  index: int,
+                  chain: bytes) -> str:
+        """ Serialize a private key.
 
         Args:
-            bip32_obj (Bip32 object): Bip32 object
-        """
-        self.m_bip32_obj = bip32_obj
-
-    def SerializePublicKey(self) -> str:
-        """ Serialize the Bip32 object public key.
-
-        Returns:
-            str: Serialized public key
-        """
-        return self.__SerializeKey(self.m_bip32_obj.PublicKey().RawCompressed().ToBytes(),
-                                   self.m_bip32_obj.KeyNetVersions().Public())
-
-    def SerializePrivateKey(self) -> str:
-        """ Serialize the Bip32 object private key.
+            priv_key (EcdsaPrivateKey object): EcdsaPrivateKey object
+            key_net_ver (KeyNetVersions)     : KeyNetVersions object
+            depth (int)                      : Key depth
+            fprint (bytes)                   : Key fingerprint
+            index (int)                      : Key index
+            chain (bytes)                    : Key chain code
 
         Returns:
             str: Serialized private key
         """
-        return self.__SerializeKey(b"\x00" + self.m_bip32_obj.PrivateKey().Raw().ToBytes(),
-                                   self.m_bip32_obj.KeyNetVersions().Private())
+        return Bip32KeySerializer.Serialize(b"\x00" + priv_key.Raw().ToBytes(),
+                                            key_net_ver.Private(),
+                                            depth,
+                                            fprint,
+                                            index,
+                                            chain)
 
-    def __SerializeKey(self,
-                       key_bytes: bytes,
-                       key_net_ver: bytes) -> str:
+
+class Bip32PublicKeySerializer:
+    """ BIP32 public key serializer class. It serializes public keys. """
+
+    @staticmethod
+    def Serialize(pub_key: EcdsaPublicKey,
+                  key_net_ver: KeyNetVersions,
+                  depth: int,
+                  fprint: bytes,
+                  index: int,
+                  chain: bytes) -> str:
+        """ Serialize the a public key.
+
+        Args:
+            pub_key (EcdsaPublicKey object): EcdsaPublicKey object
+            key_net_ver (KeyNetVersions)   : KeyNetVersions object
+            depth (int)                    : Key depth
+            fprint (bytes)                 : Key fingerprint
+            index (int)                    : Key index
+            chain (bytes)                  : Key chain code
+
+        Returns:
+            str: Serialized public key
+        """
+        return Bip32KeySerializer.Serialize(pub_key.RawCompressed().ToBytes(),
+                                            key_net_ver.Public(),
+                                            depth,
+                                            fprint,
+                                            index,
+                                            chain)
+
+
+class Bip32KeySerializer:
+    """ BIP32 key serializer class. It serializes private/public keys. """
+
+    @staticmethod
+    def Serialize(key_bytes: bytes,
+                  key_net_ver: bytes,
+                  depth: int,
+                  fprint: bytes,
+                  index: int,
+                  chain: bytes) -> str:
         """ Serialize the specified key bytes.
 
         Args:
             key_bytes (bytes)  : Key bytes
             key_net_ver (bytes): Key net version
+            depth (int): Key depth
+            fprint (bytes): Key fingerprint
+            index (int): Key index
+            chain (bytes): Key chain code
 
         Returns:
             str: Serialized key
         """
 
-        # Get Bip32 data for serializing
-        depth = self.m_bip32_obj.Depth().to_bytes(1, "big")
-        fprint = self.m_bip32_obj.ParentFingerPrint()
-        index = self.m_bip32_obj.Index().to_bytes(4, "big")
-        chain = self.m_bip32_obj.Chain()
+        # Get bytes for serializing
+        depth = depth.to_bytes(1, "big")
+        index = index.to_bytes(4, "big")
         # Serialize key
         ser_key = key_net_ver + depth + fprint + index + chain + key_bytes
         # Encode it
