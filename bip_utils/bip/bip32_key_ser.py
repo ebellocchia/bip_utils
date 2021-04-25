@@ -20,36 +20,41 @@
 
 
 # Imports
-from bip_utils.base58.base58 import Base58Decoder, Base58Encoder
-from bip_utils.bip.bip32_ex  import Bip32KeyError
+from typing import Tuple
+from bip_utils.base58 import Base58Decoder, Base58Encoder
+from bip_utils.bip.bip32_ex import Bip32KeyError
+from bip_utils.conf import KeyNetVersions
+from bip_utils.utils import ConvUtils
 
 
-class Bip32KeySerConst:
+class Bip32KeyDeserConst:
     """ Class container for BIP32 key serialize constants. """
 
     # Extended key length
-    EXTENDED_KEY_LEN = 78
+    EXTENDED_KEY_LEN: int = 78
 
 
 class Bip32KeyDeserializer:
     """ BIP32key deserializer class. It deserializes a key. """
 
-    def __init__(self, key_str):
+    def __init__(self,
+                 key_str: str) -> None:
         """ Construct class.
 
         Args:
             key_str (str): Serialized key string
         """
 
-        self.m_key_str   = key_str
-        self.m_depth     = 0
-        self.m_fprint    = b""
-        self.m_index     = 0
-        self.m_chain     = b""
-        self.m_secret    = b""
+        self.m_key_str = key_str
+        self.m_depth = 0
+        self.m_fprint = b""
+        self.m_index = 0
+        self.m_chain = b""
+        self.m_secret = b""
         self.m_is_public = False
 
-    def DeserializeKey(self, key_net_ver):
+    def DeserializeKey(self,
+                       key_net_ver: KeyNetVersions) -> None:
         """ Deserialize a key.
 
         Args:
@@ -60,7 +65,7 @@ class Bip32KeyDeserializer:
         key_bytes = Base58Decoder.CheckDecode(self.m_key_str)
 
         # Check length
-        if len(key_bytes) != Bip32KeySerConst.EXTENDED_KEY_LEN:
+        if len(key_bytes) != Bip32KeyDeserConst.EXTENDED_KEY_LEN:
             raise Bip32KeyError("Invalid extended key (wrong length)")
 
         # Get if key is public/private depending on net version
@@ -72,13 +77,13 @@ class Bip32KeyDeserializer:
             raise Bip32KeyError("Invalid extended key (wrong net version)")
 
         # De-serialize key
-        self.m_depth  = key_bytes[4]
+        self.m_depth = key_bytes[4]
         self.m_fprint = key_bytes[5:9]
-        self.m_index  = int.from_bytes(key_bytes[9:13], "big")
-        self.m_chain  = key_bytes[13:45]
+        self.m_index = ConvUtils.BytesToInteger(key_bytes[9:13])
+        self.m_chain = key_bytes[13:45]
         self.m_secret = key_bytes[45:78]
 
-    def GetKeyParts(self):
+    def GetKeyParts(self) -> Tuple[int, bytes, int, bytes, bytes]:
         """ Get deserialized key parts.
 
         Returns:
@@ -86,7 +91,7 @@ class Bip32KeyDeserializer:
         """
         return self.m_depth, self.m_fprint, self.m_index, self.m_chain, self.m_secret
 
-    def IsPublic(self):
+    def IsPublic(self) -> bool:
         """ Get if deserialized key is public.
 
         Returns:
@@ -95,10 +100,12 @@ class Bip32KeyDeserializer:
         return self.m_is_public
 
 
+
 class Bip32KeySerializer:
     """ BIP32key serializer class. It serializes private/public keys. """
 
-    def __init__(self, bip32_obj):
+    def __init__(self,
+                 bip32_obj: 'Bip32') -> None:
         """ Construct class.
 
         Args:
@@ -106,16 +113,16 @@ class Bip32KeySerializer:
         """
         self.m_bip32_obj = bip32_obj
 
-    def SerializePublicKey(self):
+    def SerializePublicKey(self) -> str:
         """ Serialize the Bip32 object public key.
 
         Returns:
-            bytes: Serialized public key
+            str: Serialized public key
         """
         return self.__SerializeKey(self.m_bip32_obj.PublicKey().RawCompressed().ToBytes(),
                                    self.m_bip32_obj.KeyNetVersions().Public())
 
-    def SerializePrivateKey(self):
+    def SerializePrivateKey(self) -> str:
         """ Serialize the Bip32 object private key.
 
         Returns:
@@ -124,7 +131,9 @@ class Bip32KeySerializer:
         return self.__SerializeKey(b"\x00" + self.m_bip32_obj.PrivateKey().Raw().ToBytes(),
                                    self.m_bip32_obj.KeyNetVersions().Private())
 
-    def __SerializeKey(self, key_bytes, key_net_ver):
+    def __SerializeKey(self,
+                       key_bytes: bytes,
+                       key_net_ver: bytes) -> str:
         """ Serialize the specified key bytes.
 
         Args:
@@ -136,10 +145,10 @@ class Bip32KeySerializer:
         """
 
         # Get Bip32 data for serializing
-        depth   = self.m_bip32_obj.Depth().to_bytes(1, "big")
-        fprint  = self.m_bip32_obj.ParentFingerPrint()
-        index   = self.m_bip32_obj.Index().to_bytes(4, "big")
-        chain   = self.m_bip32_obj.Chain()
+        depth = self.m_bip32_obj.Depth().to_bytes(1, "big")
+        fprint = self.m_bip32_obj.ParentFingerPrint()
+        index = self.m_bip32_obj.Index().to_bytes(4, "big")
+        chain = self.m_bip32_obj.Chain()
         # Serialize key
         ser_key = key_net_ver + depth + fprint + index + chain + key_bytes
         # Encode it
