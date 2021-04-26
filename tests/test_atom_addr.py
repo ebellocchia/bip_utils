@@ -25,8 +25,7 @@ import unittest
 from bip_utils import AtomAddr
 
 # Some keys randomly taken (verified with Cosmostation wallet)
-TEST_VECT = \
-    [
+TEST_VECT = [
         {
             "pub_key": b"039cb22e5c6ce15e06b76d5725dcf084b87357d926dcdfeeb20d628d3d11ff543b",
             "hrp": "cosmos",
@@ -80,8 +79,7 @@ TEST_VECT = \
     ]
 
 # Tests for invalid keys
-TEST_VECT_KEY_INVALID = \
-    [
+TEST_VECT_KEY_INVALID = [
         # Private key (not accepted by Atom address)
         b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
         # Uncompressed public key (not accepted by Atom address)
