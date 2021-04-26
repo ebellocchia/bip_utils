@@ -47,7 +47,7 @@ TEST_VECT = [
         },
     ]
 
-# Tests for BCH encoded addresses
+# Tests for Atom encoded addresses
 # Few tests because most cases are already covered by Segwit tests
 TEST_VECT_ADDR_INVALID = [
         # Invalid human-readable part
