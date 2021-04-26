@@ -29,7 +29,7 @@ from bip_utils.utils import ConvUtils
 
 
 class BchBech32Const:
-    """ Class container for Bitcoin Cash constants. """
+    """ Class container for Bitcoin Cash Bech32 constants. """
 
     # Separator
     SEPARATOR: str = ":"
@@ -119,7 +119,7 @@ class BchBech32Utils:
 
 
 class BchBech32Encoder(Bech32EncoderBase):
-    """ Bitcoin Cash encoder class. It provides methods for encoding to Bitcoin Cash format. """
+    """ Bitcoin Cash Bech32 encoder class. It provides methods for encoding to Bitcoin Cash Bech32 format. """
 
     @staticmethod
     def Encode(hrp: str,
@@ -159,7 +159,7 @@ class BchBech32Encoder(Bech32EncoderBase):
 
 
 class BchBech32Decoder(Bech32DecoderBase):
-    """ Bitcoin Cash decoder class. It provides methods for decoding Bitcoin Cash format. """
+    """ Bitcoin Cash Bech32 decoder class. It provides methods for decoding Bitcoin Cash Bech32 format. """
 
     @staticmethod
     def Decode(hrp: str,

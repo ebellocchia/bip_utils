@@ -30,6 +30,8 @@ from bip_utils.utils import ConvUtils
 
 
 class AtomBech32Const:
+    """ Class container for Atom Bech32 constants. """
+
     # Separator (same as Segwit)
     SEPARATOR: str = SegwitBech32Const.SEPARATOR
     # Checkum length (same as Segwit)
@@ -41,7 +43,7 @@ class AtomBech32Const:
 
 
 class AtomBech32Encoder(Bech32EncoderBase):
-    """ Atom encoder class. It provides methods for encoding to Atom format. """
+    """ Atom Bech32 encoder class. It provides methods for encoding to Atom Bech32 format. """
 
     @staticmethod
     def Encode(hrp: str,
@@ -79,7 +81,7 @@ class AtomBech32Encoder(Bech32EncoderBase):
 
 
 class AtomBech32Decoder(Bech32DecoderBase):
-    """ Atom decoder class. It provides methods for decoding Atom format. """
+    """ Atom Bech32 decoder class. It provides methods for decoding Atom Bech32 format. """
 
     @staticmethod
     def Decode(hrp: str,

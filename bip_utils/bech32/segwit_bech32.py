@@ -29,7 +29,7 @@ from bip_utils.utils import ConvUtils
 
 
 class SegwitBech32Const:
-    """ Class container for Segwit constants. """
+    """ Class container for Segwit Bech32 constants. """
 
     # Separator
     SEPARATOR: str = "1"
@@ -117,7 +117,7 @@ class SegwitBech32Utils:
 
 
 class SegwitBech32Encoder(Bech32EncoderBase):
-    """ Segwit encoder class. It provides methods for encoding to Segwit format. """
+    """ Segwit Bech32 encoder class. It provides methods for encoding to Segwit Bech32 format. """
 
     @staticmethod
     def Encode(hrp: str,
@@ -157,7 +157,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
 
 
 class SegwitBech32Decoder(Bech32DecoderBase):
-    """ Segwit decoder class. It provides methods for decoding Segwit format. """
+    """ Segwit Bech32 decoder class. It provides methods for decoding Segwit Bech32 format. """
 
     @staticmethod
     def Decode(hrp: str,
