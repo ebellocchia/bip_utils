@@ -50,10 +50,6 @@ TEST_VECT = [
 # Tests for BCH encoded addresses
 # Few tests because most cases are already covered by Segwit tests
 TEST_VECT_ADDR_INVALID = [
-        #
-        # From BIP-0173 page
-        #
-
         # Invalid human-readable part
         {
             "addr": "cosmis1w508d6qejxtdg4y5r3zarvary0c5xw7khxen85",

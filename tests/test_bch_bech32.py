@@ -58,10 +58,6 @@ TEST_VECT = [
 # Tests for BCH encoded addresses
 # Few tests because most cases are already covered by Segwit tests
 TEST_VECT_ADDR_INVALID = [
-        #
-        # From BIP-0173 page
-        #
-
         # Invalid human-readable part
         {
             "addr": "bitciincash:qq54jk3u0pmql6g0azpmjghn2wm8gswj35853zv6sr",
