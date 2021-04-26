@@ -25,6 +25,7 @@
 from enum import Enum, auto, unique
 from typing import Dict, List
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase
+from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.bech32.atom_bech32 import AtomBech32Decoder, AtomBech32Encoder
 
 
@@ -112,7 +113,7 @@ class AvaxBech32Decoder(Bech32DecoderBase):
         # Check prefix
         if (not addr.startswith(AvaxBech32Const.CHAIN_PREFIXES[AvaxChainTypes.AVAX_P_CHAIN]) and
                 not addr.startswith(AvaxBech32Const.CHAIN_PREFIXES[AvaxChainTypes.AVAX_X_CHAIN])):
-            raise AvaxBech32FormatError("Invalid Avax format (prefix not valid)")
+            raise Bech32FormatError("Invalid format (prefix not valid)")
 
         # Remove Avax prefix
         return AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[2:])
