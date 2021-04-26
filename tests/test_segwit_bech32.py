@@ -165,10 +165,10 @@ class SegwitBech32Tests(unittest.TestCase):
         for test in TEST_VECT:
             # Test decoder
             hrp = test["encode"][:test["encode"].find("1")]
-            dec = SegwitBech32Decoder.Decode(hrp, test["encode"])
+            wit_ver, wit_prog = SegwitBech32Decoder.Decode(hrp, test["encode"])
 
-            self.assertEqual(dec[0], 0)
-            self.assertEqual(binascii.hexlify(dec[1]), test["raw"])
+            self.assertEqual(wit_ver, 0)
+            self.assertEqual(binascii.hexlify(wit_prog), test["raw"])
 
     # Test encoder
     def test_encoder(self):

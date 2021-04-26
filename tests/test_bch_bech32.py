@@ -85,10 +85,10 @@ class BchBech32Tests(unittest.TestCase):
         for test in TEST_VECT:
             # Test decoder
             hrp = test["encode"][:test["encode"].find(":")]
-            dec = BchBech32Decoder.Decode(hrp, test["encode"])
+            net_ver, dec = BchBech32Decoder.Decode(hrp, test["encode"])
 
-            self.assertEqual(dec[0], 0)
-            self.assertEqual(binascii.hexlify(dec[1]), test["raw"])
+            self.assertEqual(net_ver, 0)
+            self.assertEqual(binascii.hexlify(dec), test["raw"])
 
     # Test encoder
     def test_encoder(self):
