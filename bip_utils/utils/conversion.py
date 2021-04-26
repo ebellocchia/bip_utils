@@ -140,7 +140,7 @@ class ConvUtils:
     def ConvertToBits(data: Union[bytes, List[int]],
                       from_bits: int,
                       to_bits: int,
-                      pad: bool = True):
+                      pad: bool = True) -> List[int]:
         """ Perform generic bits conversion.
 
         Args:
