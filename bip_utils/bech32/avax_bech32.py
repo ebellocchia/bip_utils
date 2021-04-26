@@ -23,7 +23,7 @@
 
 # Imports
 from enum import Enum, auto, unique
-from typing import Dict, List
+from typing import Dict, List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.bech32.atom_bech32 import AtomBech32Decoder, AtomBech32Encoder
@@ -40,8 +40,11 @@ class AvaxChainTypes(Enum):
 class AvaxBech32Const:
     """ Class container for Avax Bech32 constants. """
 
-    # Human readable aprt
+    # Human readable part
     HRP: str = "avax"
+
+    # Prefix length
+    PREFIX_LEN: int = 2
 
     # Prefixes for chains
     CHAIN_PREFIXES: Dict[AvaxChainTypes, str] = {
@@ -94,15 +97,14 @@ class AvaxBech32Decoder(Bech32DecoderBase):
     """ Avax decoder class. It provides methods for decoding Avax format. """
 
     @staticmethod
-    def Decode(addr: str) -> bytes:
+    def Decode(addr: str) -> Tuple[bytes, AvaxChainTypes]:
         """ Decode from Avax Bech32.
 
         Args:
-            hrp (str) : Human readable part
             addr (str): Address
 
         Returns:
-            bytes: Data
+            tuple: Data (index 0), chain type (index 1)
 
         Raises:
             Bech32FormatError: If the bech32 string is not valid
@@ -110,12 +112,15 @@ class AvaxBech32Decoder(Bech32DecoderBase):
         """
 
         # Check prefix
-        if (not addr.startswith(AvaxBech32Const.CHAIN_PREFIXES[AvaxChainTypes.AVAX_P_CHAIN]) and
-                not addr.startswith(AvaxBech32Const.CHAIN_PREFIXES[AvaxChainTypes.AVAX_X_CHAIN])):
+        if addr.startswith(AvaxBech32Const.CHAIN_PREFIXES[AvaxChainTypes.AVAX_P_CHAIN]):
+            chain_type = AvaxChainTypes.AVAX_P_CHAIN
+        elif addr.startswith(AvaxBech32Const.CHAIN_PREFIXES[AvaxChainTypes.AVAX_X_CHAIN]):
+            chain_type = AvaxChainTypes.AVAX_X_CHAIN
+        else:
             raise Bech32FormatError("Invalid format (prefix not valid)")
 
-        # Remove Avax prefix
-        return AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[2:])
+        # Remove Avax prefix when decoding
+        return AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[AvaxBech32Const.PREFIX_LEN:]), chain_type
 
     @staticmethod
     def _VerifyChecksum(hrp: str,
