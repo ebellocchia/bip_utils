@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    BchBech32Decoder, BchBech32Encoder, BchBech32FormatError
+    BchBech32Decoder, BchBech32Encoder, Bech32FormatError
 )
 
 # Some keys randomly taken from Ian Coleman web page
@@ -62,19 +62,16 @@ TEST_VECT_ADDR_INVALID = [
         {
             "addr": "bitciincash:qq54jk3u0pmql6g0azpmjghn2wm8gswj35853zv6sr",
             "hrp": "bitcoincash",
-            "ex": BchBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "bitcoincash:qqyq78nf2w",
             "hrp": "bitcoincash",
-            "ex": BchBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "bitcoincash:qq54jk3u0pmql6g0azpmjghn2wm8gswj3554jk3u0pmql6g0azpmjghn2wm8gswj35x65g3a2n",
             "hrp": "bitcoincash",
-            "ex": BchBech32FormatError,
         },
     ]
 
@@ -104,4 +101,4 @@ class BchBech32Tests(unittest.TestCase):
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(test["ex"], BchBech32Decoder.Decode, test["hrp"], test["addr"])
+            self.assertRaises(Bech32FormatError, BchBech32Decoder.Decode, test["hrp"], test["addr"])

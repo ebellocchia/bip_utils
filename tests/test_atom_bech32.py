@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    AtomBech32Decoder, AtomBech32Encoder, AtomBech32FormatError
+    AtomBech32Decoder, AtomBech32Encoder, Bech32FormatError
 )
 
 # Some keys randomly taken from Ian Coleman web page
@@ -54,19 +54,16 @@ TEST_VECT_ADDR_INVALID = [
         {
             "addr": "cosmis1w508d6qejxtdg4y5r3zarvary0c5xw7khxen85",
             "hrp": "cosmos",
-            "ex": AtomBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "cosmos1w554mng0",
             "hrp": "cosmos",
-            "ex": AtomBech32FormatError,
         },
         # Invalid program length
         {
             "addr": "cosmos1w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kqq2z39yp",
             "hrp": "cosmos",
-            "ex": AtomBech32FormatError,
         },
     ]
 
@@ -94,4 +91,4 @@ class AtomBech32Tests(unittest.TestCase):
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(test["ex"], AtomBech32Decoder.Decode, test["hrp"], test["addr"])
+            self.assertRaises(Bech32FormatError, AtomBech32Decoder.Decode, test["hrp"], test["addr"])
