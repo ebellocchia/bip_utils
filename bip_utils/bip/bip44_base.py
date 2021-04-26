@@ -55,6 +55,9 @@ class Bip44Coins(Enum):
     IRIS_NET = auto(),
     BINANCE_CHAIN = auto(),
     BINANCE_SMART_CHAIN = auto(),
+    AVAX_C_CHAIN = auto(),
+    AVAX_X_CHAIN = auto(),
+    AVAX_P_CHAIN = auto(),
     NINE_CHRONICLES_GOLD = auto(),
     # Test nets
     BITCOIN_TESTNET = auto(),
@@ -98,6 +101,7 @@ class Bip44BaseConst:
             Bip44Coins.DASH: 5,
             Bip44Coins.ETHEREUM: 60,
             Bip44Coins.BINANCE_SMART_CHAIN: 60,
+            Bip44Coins.AVAX_C_CHAIN: 60,
             Bip44Coins.ETHEREUM_CLASSIC: 61,
             Bip44Coins.COSMOS: 118,
             Bip44Coins.IRIS_NET: 118,
@@ -111,6 +115,8 @@ class Bip44BaseConst:
             Bip44Coins.NINE_CHRONICLES_GOLD: 567,
             Bip44Coins.BINANCE_CHAIN: 714,
             Bip44Coins.VECHAIN: 818,
+            Bip44Coins.AVAX_X_CHAIN: 9000,
+            Bip44Coins.AVAX_P_CHAIN: 9000,
             # Test nets
             Bip44Coins.BITCOIN_TESTNET: 1,
             Bip44Coins.LITECOIN_TESTNET: 1,
