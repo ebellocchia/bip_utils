@@ -97,14 +97,14 @@ class AvaxBech32Decoder(Bech32DecoderBase):
     """ Avax decoder class. It provides methods for decoding Avax format. """
 
     @staticmethod
-    def Decode(addr: str) -> Tuple[bytes, AvaxChainTypes]:
+    def Decode(addr: str) -> Tuple[AvaxChainTypes, bytes]:
         """ Decode from Avax Bech32.
 
         Args:
             addr (str): Address
 
         Returns:
-            tuple: Data (index 0), chain type (index 1)
+            tuple: Chain type (index 0), data (index 1)
 
         Raises:
             Bech32FormatError: If the bech32 string is not valid
@@ -120,7 +120,7 @@ class AvaxBech32Decoder(Bech32DecoderBase):
             raise Bech32FormatError("Invalid format (prefix not valid)")
 
         # Remove Avax prefix when decoding
-        return AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[AvaxBech32Const.PREFIX_LEN:]), chain_type
+        return chain_type, AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[AvaxBech32Const.PREFIX_LEN:])
 
     @staticmethod
     def _VerifyChecksum(hrp: str,

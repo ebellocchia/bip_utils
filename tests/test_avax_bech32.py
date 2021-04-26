@@ -66,9 +66,9 @@ class AvaxBech32Tests(unittest.TestCase):
     def test_decoder(self):
         for test in TEST_VECT:
             # Test decoder
-            dec, chain = AvaxBech32Decoder.Decode(test["encode"])
+            chain_type, dec = AvaxBech32Decoder.Decode(test["encode"])
             self.assertEqual(binascii.hexlify(dec), test["raw"])
-            self.assertEqual(chain, test["chain"])
+            self.assertEqual(chain_type, test["chain"])
 
     # Test encoder
     def test_encoder(self):
