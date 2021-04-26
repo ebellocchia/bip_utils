@@ -3,12 +3,14 @@ from bip_utils._version import __version__
 # Base58
 from bip_utils.base58 import (
     Base58ChecksumError, Base58Alphabets,
-    Base58Decoder, Base58Encoder
+    Base58Decoder, Base58Encoder,
+    CBase58Decoder, CBase58Encoder
 )
 # Bech32
 from bip_utils.bech32 import (
-    Bech32ChecksumError, Bech32FormatError, AtomBech32FormatError, BchBech32FormatError, SegwitBech32FormatError,
+    Bech32ChecksumError, Bech32FormatError, AtomBech32FormatError, AvaxBech32FormatError, BchBech32FormatError, SegwitBech32FormatError,
     AtomBech32Decoder, AtomBech32Encoder,
+    AvaxChainTypes, AvaxBech32Decoder, AvaxBech32Encoder,
     BchBech32Decoder, BchBech32Encoder,
     SegwitBech32Decoder, SegwitBech32Encoder
 )
@@ -18,6 +20,7 @@ from bip_utils.wif import WifDecoder, WifEncoder
 from bip_utils.addr import (
     P2PKH, BchP2PKH, P2SH, BchP2SH, P2WPKH,
     AtomAddr,
+    AvaxPChainAddr, AvaxXChainAddr,
     EthAddr,
     TrxAddr,
     XrpAddr
