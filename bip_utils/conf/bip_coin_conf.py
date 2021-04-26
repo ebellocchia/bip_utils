@@ -370,7 +370,7 @@ class BinanceChainConf:
 
 
 class BinanceSmartChainConf:
-    """ Class container for Ethereum configuration. """
+    """ Class container for Binance Chain configuration. """
 
     # Names
     NAMES: CoinNames = CoinNames("Binance Smart Chain", "BNB")
@@ -381,6 +381,44 @@ class BinanceSmartChainConf:
     # WIF not supported
     WIF_NET_VER: NetVersions = NetVersions()
 
+
+class AvaxCChainConf:
+    """ Class container for Avax C-Chain configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Avax C-Chain", "AVAX")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class AvaxXChainConf:
+    """ Class container for Avax X-Chain configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Avax X-Chain", "AVAX")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class AvaxPChainConf:
+    """ Class container for Avax P-Chain configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Avax P-Chain", "AVAX")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
 
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
