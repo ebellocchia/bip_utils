@@ -49,8 +49,7 @@ TEST_VECT = [
     ]
 
 # Tests for invalid keys
-TEST_VECT_KEY_INVALID = \
-    [
+TEST_VECT_KEY_INVALID = [
         # Private key (not accepted by Avax address)
         b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
         # Uncompressed public key (not accepted by Avax address)
