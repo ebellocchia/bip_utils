@@ -164,7 +164,7 @@ class BchBech32Decoder(Bech32DecoderBase):
 
     @staticmethod
     def Decode(hrp: str,
-               addr: str) -> Tuple[bytes, bytes]:
+               addr: str) -> Tuple[int, bytes]:
         """ Decode from Bitcoin Cash Bech32.
 
         Args:
