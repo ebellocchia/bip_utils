@@ -472,12 +472,12 @@ This library is used internally by the other libraries, but it's available also 
     # Encode with segwit
     enc = SegwitBech32Encoder.Encode("bc", 0, data_bytes)
     # Decode with segwit
-    dec = SegwitBech32Decoder.Decode("bc", enc)
+    wit_ver, wit_prog = SegwitBech32Decoder.Decode("bc", enc)
 
     # Encode with BCH
     enc = BchBech32Encoder.Encode("bitcoincash", b"\x00", data_bytes)
     # Decode with BCH
-    dec = BchBech32Decoder.Decode("bitcoincash", enc)
+    net_ver, dec = BchBech32Decoder.Decode("bitcoincash", enc)
 
     # Encode with ATOM
     enc = AtomBech32Encoder.Encode("cosmos", data_bytes)
@@ -487,7 +487,7 @@ This library is used internally by the other libraries, but it's available also 
     # Encode with AVAX
     enc = AvaxBech32Encoder.Encode(data_bytes, AvaxChainTypes.AVAX_X_CHAIN)
     # Decode with AVAX
-    dec = AvaxBech32Decoder.Decode(enc)
+    chain_type, dec = AvaxBech32Decoder.Decode(enc)
 
 ## Complete code example
 
