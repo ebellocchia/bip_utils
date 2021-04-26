@@ -420,6 +420,7 @@ class AvaxPChainConf:
     # WIF not supported
     WIF_NET_VER: NetVersions = NetVersions()
 
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 
