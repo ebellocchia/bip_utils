@@ -42,8 +42,7 @@ class Base58Const:
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
     # Alphabets
-    ALPHABETS: Dict[Base58Alphabets, str] = \
-        {
+    ALPHABETS: Dict[Base58Alphabets, str] = {
             Base58Alphabets.BITCOIN: "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz",
             Base58Alphabets.RIPPLE: "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz",
         }
