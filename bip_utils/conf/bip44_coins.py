@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.addr import P2PKH, BchP2PKH, AtomAddr, EthAddr, TrxAddr, XrpAddr
+from bip_utils.addr import P2PKH, BchP2PKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EthAddr, TrxAddr, XrpAddr
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
 from bip_utils.ecc import EcdsaPublicKey
@@ -232,6 +232,22 @@ Bip44BinanceSmartChain: Bip44Coin = Bip44Coin(
     coin_conf=BinanceSmartChainConf,
     is_testnet=False,
     addr_fct=EthAddr)
+
+# Configuration for Avax C-Chain
+Bip44AvaxCChain: Bip44Coin = Bip44Coin(
+    coin_conf=AvaxCChainConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
+# Configuration for Avax X-Chain
+Bip44AvaxXChain: Bip44Coin = Bip44Coin(
+    coin_conf=AvaxXChainConf,
+    is_testnet=False,
+    addr_fct=AvaxXChainAddr)
+# Configuration for Avax P-Chain
+Bip44AvaxPChain: Bip44Coin = Bip44Coin(
+    coin_conf=AvaxPChainConf,
+    is_testnet=False,
+    addr_fct=AvaxPChainAddr)
 
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(
