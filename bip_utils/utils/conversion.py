@@ -21,7 +21,7 @@
 
 # Imports
 import binascii
-from typing import List, Union
+from typing import List, Optional, Union
 from bip_utils.utils.algo import AlgoUtils
 
 
@@ -140,7 +140,7 @@ class ConvUtils:
     def ConvertToBits(data: Union[bytes, List[int]],
                       from_bits: int,
                       to_bits: int,
-                      pad: bool = True) -> List[int]:
+                      pad: bool = True) -> Optional[List[int]]:
         """ Perform generic bits conversion.
 
         Args:
