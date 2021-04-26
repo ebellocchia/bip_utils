@@ -44,6 +44,7 @@ The package currently supports the following coins (I try to add new ones from t
 - IRIS Network (Cosmos SDK)
 - Binance Chain (Cosmos SDK)
 - Binance Smart Chain (and, therefore, all related tokens)
+- Avalanche (all the three chains)
 
 ## Install the package
 
@@ -318,6 +319,9 @@ Currently supported coins enumerative:
 |IRIS Network|*Bip44Coins.IRIS_NET*|-|
 |Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
 |Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
+|Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
+|Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
+|Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
 
 The library can be easily extended with other coins anyway.
 
@@ -379,7 +383,9 @@ These libraries are used internally by the other libraries, but they are availab
 
 **Code example**
 
-    from bip_utils import P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, EthAddr, TrxAddr, XrpAddr
+    from bip_utils import (
+      P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EthAddr, TrxAddr, XrpAddr
+    )
 
     # P2PKH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
     addr = P2PKH.ToAddress(pub_key_bytes)
@@ -397,7 +403,10 @@ These libraries are used internally by the other libraries, but they are availab
     addr = EthAddr.ToAddress(pub_key_bytes)
     # Tron needs the uncompressed public key
     addr = TrxAddr.ToAddress(pub_key_bytes)
-    # Atom needs the uncompressed public key
+    # AVAX needs the compressed public key
+    addr = AvaxPChainAddr.ToAddress(pub_key_bytes)
+    addr = AvaxXChainAddr.ToAddress(pub_key_bytes)
+    # Atom needs the compressed public key
     addr = AtomAddr.ToAddress(pub_key_bytes, "cosmos")
     # Ripple needs the compressed public key
     addr = XrpAddr.ToAddress(pub_key_bytes)
@@ -454,7 +463,8 @@ This library is used internally by the other libraries, but it's available also 
 
     import binascii
     from bip_utils import (
-        AtomBech32Decoder, AtomBech32Encoder, BchBech32Encoder, BchBech32Decoder, SegwitBech32Decoder, SegwitBech32Encoder
+        AtomBech32Decoder, AtomBech32Encoder, AvaxChainTypes, AvaxBech32Decoder, AvaxBech32Encoder
+        BchBech32Encoder, BchBech32Decoder, SegwitBech32Decoder, SegwitBech32Encoder
     )
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
@@ -473,6 +483,11 @@ This library is used internally by the other libraries, but it's available also 
     enc = AtomBech32Encoder.Encode("cosmos", data_bytes)
     # Decode with ATOM
     dec = AtomBech32Decoder.Decode("cosmos", enc)
+
+    # Encode with AVAX
+    enc = AvaxBech32Encoder.Encode(data_bytes, AvaxChainTypes.AVAX_X_CHAIN)
+    # Decode with AVAX
+    dec = AvaxBech32Decoder.Decode(enc)
 
 ## Complete code example
 
