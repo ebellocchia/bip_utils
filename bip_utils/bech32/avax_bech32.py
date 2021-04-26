@@ -26,8 +26,6 @@ from enum import Enum, auto, unique
 from typing import Dict, List
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.bech32.atom_bech32 import AtomBech32Decoder, AtomBech32Encoder
-from bip_utils.bech32.atom_bech32_ex import AtomBech32FormatError
-from bip_utils.bech32.avax_bech32_ex import AvaxBech32FormatError
 
 
 @unique
@@ -116,11 +114,8 @@ class AvaxBech32Decoder(Bech32DecoderBase):
                 not addr.startswith(AvaxBech32Const.CHAIN_PREFIXES[AvaxChainTypes.AVAX_X_CHAIN])):
             raise AvaxBech32FormatError("Invalid Avax format (prefix not valid)")
 
-        try:
-            # Remove Avax prefix
-            return AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[2:])
-        except AtomBech32FormatError as ex:
-            raise AvaxBech32FormatError("Invalid Avax format") from ex
+        # Remove Avax prefix
+        return AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[2:])
 
     @staticmethod
     def _VerifyChecksum(hrp: str,

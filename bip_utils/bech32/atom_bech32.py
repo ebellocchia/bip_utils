@@ -23,7 +23,7 @@
 from typing import List
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.bech32.segwit_bech32 import SegwitBech32Const, SegwitBech32Utils
-from bip_utils.bech32.atom_bech32_ex import AtomBech32FormatError
+from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.utils import ConvUtils
 
 
@@ -94,7 +94,6 @@ class AtomBech32Decoder(Bech32DecoderBase):
             bytes: Data
 
         Raises:
-            AtomBech32FormatError: If the address is not valid
             Bech32FormatError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
@@ -104,14 +103,14 @@ class AtomBech32Decoder(Bech32DecoderBase):
 
         # Check HRP
         if hrpgot != hrp:
-            raise AtomBech32FormatError("Invalid Atom format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+            raise Bech32FormatError("Invalid format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
 
         # Check converted data
         if len(conv_data) < AtomBech32Const.DATA_MIN_LEN or len(conv_data) > AtomBech32Const.DATA_MAX_LEN:
-            raise AtomBech32FormatError("Invalid Atom format (length not valid)")
+            raise Bech32FormatError("Invalid format (length not valid)")
 
         return ConvUtils.ListToBytes(conv_data)
 

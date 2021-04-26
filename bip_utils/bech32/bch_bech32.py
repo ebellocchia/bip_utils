@@ -24,7 +24,7 @@
 # Imports
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.bch_bech32_ex import BchBech32FormatError
+from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.utils import ConvUtils
 
 
@@ -61,7 +61,8 @@ class BchBech32Utils:
             (0x02, 0x79b76d99e2),
             (0x04, 0xf33e5fb3c4),
             (0x08, 0xae2eabe2a8),
-            (0x10, 0x1e4f43e470)]
+            (0x10, 0x1e4f43e470)
+        ]
         # Compute modulus
         chk = 1
         for value in values:
@@ -174,7 +175,6 @@ class BchBech32Decoder(Bech32DecoderBase):
             tuple: Net version (index 0) and data (index 1)
 
         Raises:
-            BchBech32FormatError: If the address is not valid
             Bech32FormatError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
@@ -184,14 +184,14 @@ class BchBech32Decoder(Bech32DecoderBase):
 
         # Check HRP
         if hrpgot != hrp:
-            raise BchBech32FormatError("Invalid BCH format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+            raise Bech32FormatError("Invalid format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
 
         # Check converted data
         if len(conv_data) < BchBech32Const.DATA_MIN_LEN or len(conv_data) > BchBech32Const.DATA_MAX_LEN:
-            raise BchBech32FormatError("Invalid BCH format (length not valid)")
+            raise Bech32FormatError("Invalid format (length not valid)")
 
         return conv_data[0], ConvUtils.ListToBytes(conv_data[1:])
 

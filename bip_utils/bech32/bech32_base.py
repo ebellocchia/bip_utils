@@ -25,7 +25,7 @@
 # Imports
 from abc import ABC, abstractmethod
 from typing import List, Tuple, Union
-from bip_utils.bech32.bech32_base_ex import Bech32ChecksumError, Bech32FormatError
+from bip_utils.bech32.bech32_ex import Bech32ChecksumError, Bech32FormatError
 from bip_utils.utils import AlgoUtils, ConvUtils
 
 

@@ -24,7 +24,7 @@
 # Imports
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.segwit_bech32_ex import SegwitBech32FormatError
+from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.utils import ConvUtils
 
 
@@ -172,7 +172,6 @@ class SegwitBech32Decoder(Bech32DecoderBase):
             tuple: Witness version (index 0) and witness program (index 1)
 
         Raises:
-            SegwitBech32FormatError: If the address is not valid
             Bech32FormatError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
@@ -183,18 +182,18 @@ class SegwitBech32Decoder(Bech32DecoderBase):
                                                          SegwitBech32Const.CHECKSUM_LEN)
         # Check HRP
         if hrpgot != hrp:
-            raise SegwitBech32FormatError("Invalid segwit format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+            raise Bech32FormatError("Invalid format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data[1:])
 
         # Check converted data
         if len(conv_data) < SegwitBech32Const.DATA_MIN_LEN or len(conv_data) > SegwitBech32Const.DATA_MAX_LEN:
-            raise SegwitBech32FormatError("Invalid segwit format (length not valid)")
+            raise Bech32FormatError("Invalid format (length not valid)")
         elif data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
-            raise SegwitBech32FormatError("Invalid segwit format (witness version not valid)")
+            raise Bech32FormatError("Invalid format (witness version not valid)")
         elif data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_LEN:
-            raise SegwitBech32FormatError("Invalid segwit format (length not valid)")
+            raise Bech32FormatError("Invalid format (length not valid)")
 
         return data[0], ConvUtils.ListToBytes(conv_data)
 
