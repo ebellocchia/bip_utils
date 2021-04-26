@@ -105,7 +105,6 @@ class AvaxBech32Decoder(Bech32DecoderBase):
             bytes: Data
 
         Raises:
-            AvaxBech32FormatError: If the address is not valid
             Bech32FormatError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
