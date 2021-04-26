@@ -53,6 +53,9 @@ class Bip44Const:
             Bip44Coins.IRIS_NET,
             Bip44Coins.BINANCE_CHAIN,
             Bip44Coins.BINANCE_SMART_CHAIN,
+            Bip44Coins.AVAX_C_CHAIN,
+            Bip44Coins.AVAX_X_CHAIN,
+            Bip44Coins.AVAX_P_CHAIN,
             Bip44Coins.NINE_CHRONICLES_GOLD,
         ]
     # Map from Bip44Coins to coin classes
@@ -82,6 +85,9 @@ class Bip44Const:
             Bip44Coins.IRIS_NET: Bip44IrisNet,
             Bip44Coins.BINANCE_CHAIN: Bip44BinanceChain,
             Bip44Coins.BINANCE_SMART_CHAIN: Bip44BinanceSmartChain,
+            Bip44Coins.AVAX_C_CHAIN: Bip44AvaxCChain,
+            Bip44Coins.AVAX_X_CHAIN: Bip44AvaxXChain,
+            Bip44Coins.AVAX_P_CHAIN: Bip44AvaxPChain,
             Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
         }
 
