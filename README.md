@@ -42,6 +42,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Band Protocol (Cosmos SDK)
 - Kava (Cosmos SDK)
 - IRIS Network (Cosmos SDK)
+- Terra (Cosmos SDK)
 - Binance Chain (Cosmos SDK)
 - Binance Smart Chain (and, therefore, all related tokens)
 - Avalanche (all the three chains)
@@ -317,6 +318,7 @@ Currently supported coins enumerative:
 |Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
 |Kava|*Bip44Coins.KAVA*|-|
 |IRIS Network|*Bip44Coins.IRIS_NET*|-|
+|Terra|*Bip44Coins.TERRA*|-|
 |Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
 |Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
 |Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
