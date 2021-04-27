@@ -479,6 +479,33 @@ TEST_VECT = [
                     "iaa12ecyuddg4wlnhztusgju5zxxjgznkz7f9t5053",
                 ],
         },
+        # Terra
+        {
+            "coin": Bip44Coins.TERRA,
+            "names": ("Terra", "LUNA"),
+            "is_testnet": False,
+            "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master": "",
+            "account":
+                {
+                    "ex_pub": "xpub6CpXk1ari53YGLf8YFmh7bcUgmM1H6G7nKxodjVHL4nzSuxPhKq57biM4cgYkAbop78wxSvwPY9YYQa7Jdv2ZPSngzHVGq8VXq1cLVXiCVt",
+                    "ex_priv": "xprv9yqBLW3xshVF3rafSEEgkTfk8jWWsdYGR73CqM5fmjG1a7dF9nWpZoPsDMjRoRw8HQzKGPNhEsue92MT1fLeR3MbT1TBYqs7SakFHJHsQmo",
+                },
+            "chain_ext":
+                {
+                    "ex_pub": "xpub6EWWxQVjGS5KGKojMyTNUWH6BkPWZ3FzgpAxFSkocwzBfcALcj1bTgGh9ojBGnj7rqQKgkMf7soVE9F3tHWfHekWkyT6y8Z6v3SPUQA9GzN",
+                    "ex_priv": "xprvA1XAYtxqS4X23qjGFwvN7NLMdiZ29aY9KbFMT4MC4cTCnoqC5BhLusxDJYdHw2whwczZMz7bEMvGkjQ5HRtqUbU24eiGCp9GS3esXe6JAzr",
+                },
+            "addresses":
+                [
+                    "terra1amdttz2937a3dytmxmkany53pp6ma6dy4vsllv",
+                    "terra1lpywxkky22stctm9yzn5quwkr9fnxu3atqk2ax",
+                    "terra1was3u69zgthug7duuen2mulfrvvjrq3rasw7dr",
+                    "terra1sra8dye8kd4zsx9qcwea4eyg6aecypdkwws072",
+                    "terra16exv3gcch2vucqpaxgxfne93thweqhamqpdyt8",
+                ],
+        },
         # Binance Chain
         {
             "coin": Bip44Coins.BINANCE_CHAIN,

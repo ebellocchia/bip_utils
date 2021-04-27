@@ -67,6 +67,16 @@ TEST_VECT = [
             "address": "iaa1n6ugmlarydek7k8wslzuy55seftfe7g2gznfvq",
         },
         {
+            "pub_key": b"03de159b5635abfdb91b6ae3bf57317d3ecc4eb7a734ef72cc18f307e83359b854",
+            "hrp": "terra",
+            "address": "terra1tqgahz3c85x438vgeh57z63rs04cshlcx5ga4z",
+        },
+        {
+            "pub_key": b"033e444813a45a334240087619ffc73e626db10454738e08dbdfc71741fb44af26",
+            "hrp": "terra",
+            "address": "terra1xtdk54kyldfck05je9daej58e87uex0zk47rz5",
+        },
+        {
             "pub_key": b"0223d645338396fdbce2d754a14568537d52deb76e1addb940994868feef9c5994",
             "hrp": "bnb",
             "address": "bnb1lwjdd82uj4fqhu8nqw5d959rhys58dccv9aalj",
