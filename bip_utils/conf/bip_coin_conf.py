@@ -353,6 +353,22 @@ class IrisNetConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class TerraConf:
+    """ Class container for Terra configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Terra", "LUNA")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # HRP for address
+    ADDR_HRP: NetVersions = NetVersions("terra")
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class BinanceChainConf:
     """ Class container for Binance Coin configuration. """
 

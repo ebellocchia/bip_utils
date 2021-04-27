@@ -222,6 +222,12 @@ Bip44IrisNet: Bip44Coin = Bip44Coin(
     is_testnet=False,
     addr_fct=AtomAddr)
 
+# Configuration for Terra
+Bip44Terra: Bip44Coin = Bip44Coin(
+    coin_conf=TerraConf,
+    is_testnet=False,
+    addr_fct=AtomAddr)
+
 # Configuration for Binance Chain
 Bip44BinanceChain: Bip44Coin = Bip44Coin(
     coin_conf=BinanceChainConf,
