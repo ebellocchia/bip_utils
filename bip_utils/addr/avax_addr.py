@@ -20,7 +20,6 @@
 
 
 # Imports
-from enum import Enum, auto, unique
 from bip_utils.bech32 import AvaxChainTypes, AvaxBech32Encoder
 from bip_utils.utils import CryptoUtils, KeyUtils
 
