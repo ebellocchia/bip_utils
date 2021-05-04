@@ -497,7 +497,7 @@ class Bip39MnemonicValidator:
 
         for lang in Bip39Languages:
             # We search for each word because some languages have words in common (e.g. 'fatigue' both in English and French)
-            # It's time consuming, but considering only the first word can detect the wrong language sometimes
+            # It's more time consuming, but considering only the first word can detect the wrong language sometimes
             try:
                 mnemonic_reader = MnemonicFileReader(lang)
                 for word in mnemonic:
