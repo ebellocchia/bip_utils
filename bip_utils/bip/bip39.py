@@ -21,8 +21,8 @@
 
 # Imports
 import os
-from enum import IntEnum, unique
-from typing import List, Union
+from enum import auto, Enum, IntEnum, unique
+from typing import Dict, List, Optional, Union
 from bip_utils.bip.bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
 from bip_utils.utils import AlgoUtils, ConvUtils, CryptoUtils
 
@@ -49,19 +49,32 @@ class Bip39EntropyBitLen(IntEnum):
     BIT_LEN_256 = 256,
 
 
+@unique
+class Bip39Languages(Enum):
+    """ Enumerative for BIP-0039 languages. """
+
+    ENGLISH = auto(),
+    ITALIAN = auto(),
+    FRENCH = auto(),
+    SPANISH = auto(),
+    PORTUGUESE = auto(),
+    CZECH = auto(),
+
+
 class Bip39Const:
     """ Class container for BIP39 constants. """
 
     # Accepted entropy lenghts in bit
-    ENTROPY_BIT_LEN = [
+    ENTROPY_BIT_LEN: List[Bip39EntropyBitLen] = [
             Bip39EntropyBitLen.BIT_LEN_128,
             Bip39EntropyBitLen.BIT_LEN_160,
             Bip39EntropyBitLen.BIT_LEN_192,
             Bip39EntropyBitLen.BIT_LEN_224,
             Bip39EntropyBitLen.BIT_LEN_256,
         ]
+
     # Accepted mnemonic word lengths
-    MNEMONIC_WORD_LEN = [
+    MNEMONIC_WORD_LEN: List[Bip39WordsNum] = [
             Bip39WordsNum.WORDS_NUM_12,
             Bip39WordsNum.WORDS_NUM_15,
             Bip39WordsNum.WORDS_NUM_18,
@@ -69,17 +82,27 @@ class Bip39Const:
             Bip39WordsNum.WORDS_NUM_24,
         ]
 
+    # Language files
+    LANGUAGE_FILES: Dict[Bip39Languages, str] = {
+            Bip39Languages.ENGLISH: "bip39_words/english.txt",
+            Bip39Languages.ITALIAN: "bip39_words/italian.txt",
+            Bip39Languages.FRENCH: "bip39_words/french.txt",
+            Bip39Languages.SPANISH: "bip39_words/spanish.txt",
+            Bip39Languages.PORTUGUESE: "bip39_words/portuguese.txt",
+            Bip39Languages.CZECH: "bip39_words/czech.txt",
+        }
+
     # Total number of words
-    WORDS_LIST_NUM = 2048
+    WORDS_LIST_NUM: int = 2048
     # Bits of a single word
-    WORD_BITS = 11
+    WORD_BITS: int = 11
 
     # Salt modifier for seed generation
-    SEED_SALT_MOD = "mnemonic"
+    SEED_SALT_MOD: str = "mnemonic"
     # PBKDF2 round for seed generation
-    SEED_PBKDF2_ROUNDS = 2048
+    SEED_PBKDF2_ROUNDS: int = 2048
     # Seed length
-    SEED_LEN = 64
+    SEED_LEN: int = 64
 
 
 class Bip39EntropyGenerator:
@@ -112,24 +135,27 @@ class Bip39EntropyGenerator:
 class MnemonicFileReader:
     """ Mnemonic file reader class. It reads the English BIP39 words list from a file """
 
-    # File name constant
-    FILE_NAME = "bip39_wordslist_en.txt"
+    # Languages supporting binary search
+    BIN_SEARCH_LANG: List[Bip39Languages] = [Bip39Languages.ENGLISH, Bip39Languages.ITALIAN,
+                                             Bip39Languages.PORTUGUESE, Bip39Languages.CZECH]
 
-    def __init__(self) -> None:
+    def __init__(self,
+                 lang: Bip39Languages = Bip39Languages.ENGLISH) -> None:
         """ Construct class by reading the words list from file.
 
+        Args:
+            lang (Bip39Languages, optional): Language (default: English)
+
         Raises:
+            TypeError: If the language is not a Bip39Languages enum
             Bip39InvalidFileError: If loaded words list length is not 2048
         """
 
-        # Read file
-        file_path = os.path.join(os.path.dirname(__file__), self.FILE_NAME)
-        with open(file_path, "r", encoding="utf-8") as fin:
-            self.m_words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
+        if not isinstance(lang, Bip39Languages):
+            raise TypeError("Language is not an enumerative of Bip39Languages")
 
-        # Check words list length
-        if len(self.m_words_list) != Bip39Const.WORDS_LIST_NUM:
-            raise Bip39InvalidFileError("Number of loaded words list (%d) is not valid" % len(self.m_words_list))
+        self.m_lang = lang
+        self.__LoadFile(lang)
 
     def GetWordIdx(self,
                    word: str) -> int:
@@ -144,9 +170,15 @@ class MnemonicFileReader:
         Raises:
             ValueError: If the word is not found
         """
-        idx = AlgoUtils.BinarySearch(self.m_words_list, word)
+
+        # Use binary search when possible
+        if self.m_lang in self.BIN_SEARCH_LANG:
+            idx = AlgoUtils.BinarySearch(self.m_words_list, word)
+        else:
+            idx = self.m_words_list.index(word)
+        # Check index
         if idx == -1:
-            raise ValueError("Word %s is not existent in word list" % word)
+            raise ValueError("Word '%s' is not existent in word list" % word)
 
         return idx
 
@@ -162,15 +194,50 @@ class MnemonicFileReader:
         """
         return self.m_words_list[word_idx]
 
+    def __LoadFile(self,
+                   lang: Bip39Languages) -> None:
+        """ Load mnemonic file.
+
+        Args:
+            lang (Bip39Languages): Language
+
+        Raises:
+            Bip39InvalidFileError: If loaded words list length is not 2048
+        """
+
+        # Get file path
+        file_name = Bip39Const.LANGUAGE_FILES[lang]
+        file_path = os.path.join(os.path.dirname(__file__), file_name)
+        # Read file
+        with open(file_path, "r", encoding="utf-8") as fin:
+            self.m_words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
+
+        # Check words list length
+        if len(self.m_words_list) != Bip39Const.WORDS_LIST_NUM:
+            raise Bip39InvalidFileError("Number of loaded words list (%d) is not valid" % len(self.m_words_list))
+
 
 class Bip39MnemonicGenerator:
     """ BIP39 mnemonic generator class. It generates the mnemonic in according to BIP39.
     Mnemonic can be generated randomly or from a specified entropy.
     BIP-0039 specifications: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-     """
+    """
 
-    @staticmethod
-    def FromWordsNumber(words_num: Union[int, Bip39WordsNum]) -> str:
+    def __init__(self,
+                 lang: Bip39Languages = Bip39Languages.ENGLISH) -> None:
+        """ Construct class from language.
+
+        Args:
+            lang (Bip39Languages, optional): Language (default: English)
+
+        Raises:
+            TypeError: If the language is not a Bip39Languages enum
+            Bip39InvalidFileError: If loaded words list length is not 2048
+        """
+        self.m_mnemonic_reader = MnemonicFileReader(lang)
+
+    def FromWordsNumber(self,
+                        words_num: Union[int, Bip39WordsNum]) -> str:
         """ Generate mnemonic with the specified words number from random entropy.
 
         Args:
@@ -188,14 +255,14 @@ class Bip39MnemonicGenerator:
             raise ValueError("Words number for mnemonic (%d) is not valid" % words_num)
 
         # Get entropy length in bit from words number
-        entropy_bit_len = Bip39MnemonicGenerator.__EntropyBitLenFromWordsNum(words_num)
+        entropy_bit_len = self.__EntropyBitLenFromWordsNum(words_num)
         # Generate entropy
         entropy_bytes = Bip39EntropyGenerator(entropy_bit_len).Generate()
 
-        return Bip39MnemonicGenerator.FromEntropy(entropy_bytes)
+        return self.FromEntropy(entropy_bytes)
 
-    @staticmethod
-    def FromEntropy(entropy_bytes: bytes) -> str:
+    def FromEntropy(self,
+                    entropy_bytes: bytes) -> str:
         """ Generate mnemonic from the specified entropy bytes.
 
         Args:
@@ -226,18 +293,13 @@ class Bip39MnemonicGenerator:
         # Create mnemonic entropy binary string by concatenating entropy and checksum, as specified in BIP39
         mnemonic_entropy_bin = entropy_bin + checksum_bin
 
-        # Create mnemonic reader
-        mnemonic_reader = MnemonicFileReader()
-
-        # Empty mnemonic
-        mnemonic = []
-
         # Get mnemonic from entropy
+        mnemonic = []
         for i in range(len(mnemonic_entropy_bin) // Bip39Const.WORD_BITS):
             # Get current word index
             word_idx = int(mnemonic_entropy_bin[i * Bip39Const.WORD_BITS: (i + 1) * Bip39Const.WORD_BITS], 2)
             # Get word at given index
-            mnemonic.append(mnemonic_reader.GetWordAtIdx(word_idx))
+            mnemonic.append(self.m_mnemonic_reader.GetWordAtIdx(word_idx))
 
         # Join to string
         return " ".join(mnemonic)
@@ -263,29 +325,55 @@ class Bip39MnemonicValidator:
     #
 
     def __init__(self,
-                 mnemonic: Union[str, List[str]]) -> None:
+                 mnemonic: Union[str, List[str]],
+                 lang: Optional[Bip39Languages] = None) -> None:
         """ Construct the class from mnemonic.
 
         Args:
             mnemonic (str or list): Mnemonic
+            lang (Bip39Languages, optional): Language, None for automatic detection
         """
-        self.m_mnemonic = mnemonic
+        self.m_mnemonic = mnemonic.split(" ") if not isinstance(mnemonic, list) else mnemonic
+        self.m_mnemonic_reader = (self.__GetMnemonicReader(self.m_mnemonic)
+                                  if lang is None
+                                  else MnemonicFileReader(lang))
 
-    def Validate(self) -> bool:
+    def Validate(self) -> None:
         """ Validate the mnemonic specified at construction.
+
+        Raises:
+            ValueError: If mnemonic is not valid
+            Bip39ChecksumError: If checksum is not valid
+        """
+
+        # Check language
+        if self.m_mnemonic_reader is None:
+            raise ValueError("Invalid language for mnemonic '%s'" % " ".join(self.m_mnemonic))
+
+        # Get back mnemonic binary string
+        mnemonic_bin = self.__GetMnemonicBinaryStr()
+
+        # Verify checksum
+        checksum = self.__GetChecksum(mnemonic_bin)
+        comp_checksum = self.__ComputeChecksum(mnemonic_bin)
+
+        if checksum != comp_checksum:
+            raise Bip39ChecksumError("Invalid checksum when getting entropy (expected %s, got %s)" %
+                                     (comp_checksum, checksum))
+
+    def IsValid(self) -> bool:
+        """ Get if the mnemonic specified at construction is valid.
 
         Returns:
             bool: True if valid, False otherwise
         """
 
-        # Get back mnemonic binary string
+        # Simply try to validate
         try:
-            mnemonic_bin = self.__GetMnemonicBinaryStr()
-        except ValueError:
+            self.Validate()
+            return True
+        except (ValueError, Bip39ChecksumError):
             return False
-
-        # The computed checksum shall be equal to the existent one
-        return self.__ComputeChecksum(mnemonic_bin) == self.__GetChecksum(mnemonic_bin)
 
     def GetEntropy(self) -> bytes:
         """Get entropy bytes from mnemonic.
@@ -298,19 +386,11 @@ class Bip39MnemonicValidator:
             Bip39ChecksumError: If checksum is not valid
         """
 
-        # Get back mnemonic binary string
-        mnemonic_bin = self.__GetMnemonicBinaryStr()
-
-        checksum = self.__GetChecksum(mnemonic_bin)
-        comp_checksum = self.__ComputeChecksum(mnemonic_bin)
-
-        # Verify checksum
-        if checksum != comp_checksum:
-            raise Bip39ChecksumError("Invalid checksum when getting entropy (expected %s, got %s" %
-                                     (comp_checksum, checksum))
+        # Validate mnemonic
+        self.Validate()
 
         # Get entropy bytes from binary string
-        return self.__GetEntropyBytes(mnemonic_bin)
+        return self.__GetEntropyBytes(self.__GetMnemonicBinaryStr())
 
     #
     # Private methods
@@ -326,19 +406,14 @@ class Bip39MnemonicValidator:
             ValueError: If mnemonic is not valid
         """
 
-        # Split mnemonic string if needed
-        mnemonic = self.m_mnemonic.split(" ") if not isinstance(self.m_mnemonic, list) else self.m_mnemonic
-
         # Check mnemonic length
-        if len(mnemonic) not in Bip39Const.MNEMONIC_WORD_LEN:
-            raise ValueError("Mnemonic length (%d) is not valid" % len(mnemonic))
+        if len(self.m_mnemonic) not in Bip39Const.MNEMONIC_WORD_LEN:
+            raise ValueError("Mnemonic length (%d) is not valid" % len(self.m_mnemonic))
 
-        # Create reader
-        mnemonic_reader = MnemonicFileReader()
         # Convert each word to its index in binary format
-        mnemonic_bin = map(lambda word: ConvUtils.IntegerToBinaryStr(mnemonic_reader.GetWordIdx(word),
+        mnemonic_bin = map(lambda word: ConvUtils.IntegerToBinaryStr(self.m_mnemonic_reader.GetWordIdx(word),
                                                                      Bip39Const.WORD_BITS),
-                           mnemonic)
+                           self.m_mnemonic)
 
         # Join the elements to get the complete binary string
         return "".join(mnemonic_bin)
@@ -372,7 +447,6 @@ class Bip39MnemonicValidator:
         Returns:
            str: Checksum binary string
         """
-
         return mnemonic_bin_str[-self.__GetChecksumLen(mnemonic_bin_str):]
 
     def __ComputeChecksum(self,
@@ -409,24 +483,50 @@ class Bip39MnemonicValidator:
         """
         return len(mnemonic_bin_str) // 33
 
+    @staticmethod
+    def __GetMnemonicReader(mnemonic: List[str]) -> Optional[MnemonicFileReader]:
+        """ Automatically find the language of the specified mnemonic and
+        get the correct MnemonicFileReader class for it.
+
+        Args:
+            mnemonic (list): List of words
+
+        Returns:
+           MnemonicFileReader: Mnemonic reader class for the found language, None if language is not found
+        """
+
+        for lang in Bip39Languages:
+            # We search for each word because some languages have words in common (e.g. 'fatigue' both in English and French)
+            # It's time consuming, but considering only the first word can detect the wrong language sometimes
+            try:
+                mnemonic_reader = MnemonicFileReader(lang)
+                for word in mnemonic:
+                    mnemonic_reader.GetWordIdx(word)
+                return mnemonic_reader
+            except ValueError:
+                continue
+
+        return None
+
 
 class Bip39SeedGenerator:
     """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
 
     def __init__(self,
-                 mnemonic: Union[str, List[str]]) -> None:
+                 mnemonic: Union[str, List[str]],
+                 lang: Optional[Bip39Languages] = None) -> None:
         """ Construct the class from a specified mnemonic.
 
         Args:
             mnemonic (str or list): Mnemonic
+            lang (Bip39Languages, optional): Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
 
         # Make sure that the given mnemonic is valid
-        if not Bip39MnemonicValidator(mnemonic).Validate():
-            raise ValueError("Invalid mnemonic (%s)" % mnemonic)
+        Bip39MnemonicValidator(mnemonic, lang).Validate()
 
         self.m_mnemonic = mnemonic
 
