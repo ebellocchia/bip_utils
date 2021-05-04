@@ -263,7 +263,7 @@ class Bip39MnemonicValidator:
     #
 
     def __init__(self,
-                 mnemonic: Union[str, List]) -> None:
+                 mnemonic: Union[str, List[str]]) -> None:
         """ Construct the class from mnemonic.
 
         Args:
@@ -414,7 +414,7 @@ class Bip39SeedGenerator:
     """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
 
     def __init__(self,
-                 mnemonic: Union[str, List]) -> None:
+                 mnemonic: Union[str, List[str]]) -> None:
         """ Construct the class from a specified mnemonic.
 
         Args:
