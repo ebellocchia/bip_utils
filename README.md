@@ -96,42 +96,68 @@ Supported entropy bits:
 |224|*Bip39EntropyBitLen.BIT_LEN_224*|
 |256|*Bip39EntropyBitLen.BIT_LEN_256*|
 
-**NOTE:** only the English words list is currently supported.
+Supported languages (if not specified, the default is English):
+
+|Language|Enum|
+|---|---|
+|English|*Bip39Languages.ENGLISH*|
+|Italian|*Bip39Languages.ITALIAN*|
+|French|*Bip39Languages.FRENCH*|
+|Spanish|*Bip39Languages.SPANISH*|
+|Portuguese|*Bip39Languages.PORTUGUESE*|
+|Czech|*Bip39Languages.CZECH*|
 
 **Code example**
 
     import binascii
-    from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum
+    from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39Languages
 
-    # Generate a random mnemonic string of 15 words
-    mnemonic = Bip39MnemonicGenerator.FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
+    # Generate a random mnemonic string of 12 words with default language (English)
+    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
+
+    # Generate a random mnemonic string of 15 words by specifying the language
+    mnemonic = Bip39MnemonicGenerator(Bip39Languages.ITALIAN).FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
 
     # Generate the mnemonic string from entropy bytes:
     entropy_bytes_hex = b"00000000000000000000000000000000"
-    mnemonic = Bip39MnemonicGenerator.FromEntropy(binascii.unhexlify(entropy_bytes_hex))
+    mnemonic = Bip39MnemonicGenerator().FromEntropy(binascii.unhexlify(entropy_bytes_hex))
+    mnemonic = Bip39MnemonicGenerator(Bip39Languages.FRENCH).FromEntropy(binascii.unhexlify(entropy_bytes_hex))
 
     # Generate mnemonic from random 192-bit entropy
     entropy_bytes = Bip39EntropyGenerator(Bip39EntropyBitLen.BIT_LEN_192).Generate()
-    mnemonic = Bip39MnemonicGenerator.FromEntropy(entropy_bytes)
+    mnemonic = Bip39MnemonicGenerator().FromEntropy(entropy_bytes)
 
 ### Mnemonic validation
 
 A mnemonic string can be validated by verifying its checksum.
-It is also possible to get back the entropy bytes from a mnemonic.
+It is also possible to get back the entropy bytes from a mnemonic.\
+When validating, the language can be either specified or automatically detected.
+Automatic detection takes more time, so if you know the mnemonic language in advance it'll be better to specify it at construction.
 
 **Code example**
 
-     from bip_utils import Bip39MnemonicValidator
+    from bip_utils import Bip39ChecksumError, Bip39Languages, Bip39MnemonicValidator
 
-     # Get back the original entropy from a mnemonic string
-     entropy_bytes = Bip39MnemonicValidator(mnemonic).GetEntropy()
-     # Validate a mnemonic string by verifying its checksum
-     is_valid = Bip39MnemonicValidator(mnemonic).Validate()
+    # Get back the original entropy from a mnemonic string, specifying the language
+    entropy_bytes = Bip39MnemonicValidator(mnemonic, Bip39Languages.SPANISH).GetEntropy()
+    # Like before with automatic language detection
+    entropy_bytes = Bip39MnemonicValidator(mnemonic).GetEntropy()
+    # Get if a mnemonic string is valid, return bool
+    is_valid = Bip39MnemonicValidator(mnemonic).IsValid()
+    # Validate a mnemonic string, raise exceptions
+    try:
+        Bip39MnemonicValidator(mnemonic).Validate()
+        # Valid...
+    except Bip39ChecksumError:
+        # Invalid checksum...
+    except ValueError:
+        # Invalid length or language...
 
 ### Seed generation
 
 A secure 64-byte seed is generated from a mnemonic and can be protected by a passphrase.\
-This seed can be used to contruct a Bip class.
+This seed can be used to construct a Bip class.\
+Also in this case, the language can be specified or automatically detected.
 
 **Code example**
 
