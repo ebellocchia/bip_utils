@@ -27,7 +27,7 @@ from bip_utils.addr import (
 # BIP39
 from bip_utils.bip import (
     Bip39InvalidFileError, Bip39ChecksumError,
-    Bip39WordsNum, Bip39EntropyBitLen,
+    Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
 )
 # BIP32
