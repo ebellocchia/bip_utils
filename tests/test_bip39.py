@@ -23,8 +23,9 @@
 import binascii
 import unittest
 from bip_utils import (
-    Bip39EntropyGenerator, Bip39WordsNum, Bip39EntropyBitLen, Bip39MnemonicGenerator, Bip39MnemonicValidator,
-    Bip39SeedGenerator, Bip39ChecksumError
+    Bip39SeedGenerator, Bip39ChecksumError,
+    Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
+    Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator
 )
 
 # Tests from BIP39 page
@@ -157,6 +158,67 @@ TEST_VECT = [
             "mnemonic": "void come effort suffer camp survey warrior heavy shoot primary clutch crush open amazing screen patrol group space point ten exist slush involve unfold",
             "seed": b"01f5bced59dec48e362f2c45b5de68b9fd6c92c6634f44d6d40aab69056506f0e35524a518034ddc1192e1dacd32c1ed3eaa3c3b131c88ed8e7e54c49a5d0998",
         },
+        # Different languages (generated and checked with other tools)
+        {
+            "entropy": b"1f3816778bbb384fa7dab64f593ec7df",
+            "mnemonic": "bosco sarto perplesso baccano ribadire cassone piacere frassino favoloso seme replica sagoma",
+            "seed": b"332e7e798088280ae79534de319252f6f8ed357ee7dc1c2aa674cb46546184f25367c9cd1bedbf6a10b8ba2306a33dc13828c8629967e1bd26a952545b769969",
+            "lang": Bip39Languages.ITALIAN,
+        },
+        {
+            "entropy": b"e12e14deab85bcbafc561e44d50f96d71357aa08b1251a8abe392fa1e560465d",
+            "mnemonic": "svolta lentezza davvero freccetta gatto gergo unitario scambiare eluso pretesto tesserato ramingo cuculo solvente bussola campale bava foro odierno giurato bisturi recinto barca rinnovo",
+            "seed": b"79558674b80227b7ec92567744cbbf91fd97ec26bf266d1b3defd2304ffce4ad4e11acc072ecf5e820cb8211f399ac2584e15e3ee8b580e7abe8171b451f8a81",
+            "lang": Bip39Languages.ITALIAN,
+        },
+        {
+            "entropy": b"c4cf0ca40669a21673d3419b9bce0489",
+            "mnemonic": "pupitre hangar capable anaphore mérite ambigu revivre fixer miette sodium inexact asticot",
+            "seed": b"73bc4755506335d59cc7ffd493465a16e09a0cce83dcde8b0d2a96b171ec1e05ceea2886f63936b7229ccb90c464ca58ebc2b024ec0d5505fe7b0d1ec2bdf419",
+            "lang": Bip39Languages.FRENCH,
+        },
+        {
+            "entropy": b"639b3b85d452eaa61ddeeebb7699792483c9b75d0020311d0002e2b13bf0ed01",
+            "mnemonic": "fatigue semaine souvenir obliger chausson encoche guitare sismique plateau peigne éviter donjon cuisine sésame gouffre acompte cigare tarif aborder querelle astre venimeux patience cascade",
+            "seed": b"02440d6ea198766fe10c7e5a532fcbe231024bb09ad3dd4665dcbd3427911228e6f1ebce9e21b26172e0a4cd172a37bdc41cdc26c9f6dd97e91c0cdfc5e0fa11",
+            "lang": Bip39Languages.FRENCH,
+        },
+        {
+            "entropy": b"72754293ddabb5286e683ab657636637",
+            "mnemonic": "inerte panal órbita proa proa mover potro ajeno pleno prisión sodio humilde",
+            "seed": b"fb88d495839e5a0a9f03048349e016cd0d2f1add2625da9911b5679c0927ebe364470c0675af47c46ccf94dc2e243d62c00e1c5687144177f37cf30ec356fb7d",
+            "lang": Bip39Languages.SPANISH,
+        },
+        {
+            "entropy": b"0a7a0e7056dd570d3031f11c1f77b6be79d65794263344e11e1e3c11c7fd1886",
+            "mnemonic": "alto sagrado nota peatón señal maldad radical curar barco visor trauma legión nueve carro esquí reloj disco alfiler mando júpiter báscula yeso gastar rígido",
+            "seed": b"b1f69660a6defbee34a85dce645858da424e5c481f9b61ec9758fbd5d986ca95eb790f0fd0878356c7f79d3b85ca030d45e85fe680987429f27b8d2fde3e41a6",
+            "lang": Bip39Languages.SPANISH,
+        },
+        {
+            "entropy": b"502f2e4fdebd715a7b04f3fd28069e50",
+            "mnemonic": "dominado guaxinim lotado piscar sadio olaria tinteiro mexer voador cortejo neural moita",
+            "seed": b"7fa6942c80ac82e1fbbd8bfcd1d71a9a3a7fdd8c76a6631c8bc1adf84af75364267ec7e63e8b2e922e4f8a89041f0293490374b0999921385503148eeb8df8cd",
+            "lang": Bip39Languages.PORTUGUESE,
+        },
+        {
+            "entropy": b"e1257e7d2c2d5d13f69ba62693e7c4efd4e4084f2747af3a6a5e6c316ce24e62",
+            "mnemonic": "soprano cacau milhar enquanto rugido juiz secar girino bocado milenar trilogia socorro discreta aclamar coluna teclado orar robalo manada saltar arroba garimpo clareza esgrima",
+            "seed": b"06bcf33e49ba7055bf2c405e2921b76ecc9348998612fb383ab294c87d0791bdfc6451091ff29642bdb2cdffa90cf478e731223f42ca5f9c06777ea6a7c25e33",
+            "lang": Bip39Languages.PORTUGUESE,
+        },
+        {
+            "entropy": b"0cc43525e0289632d208c4b45b0d912c",
+            "mnemonic": "branka dorost klam slanina omezit cuketa kazeta cizost rozchod tvaroh majetek kyvadlo",
+            "seed": b"6f34c0375358ff4188cf884e8dbb3b45738afe9fd7389b700f3bad4781c6e36db657f748d5a10abb8d30f36a0f067401453eb75cb8e9758394b53d74448b7932",
+            "lang": Bip39Languages.CZECH,
+        },
+        {
+            "entropy": b"13c1b202721c14e9390b093dec53ce898028be41a8be10d83178b2139d331731",
+            "mnemonic": "chichot bronz obvinit vidle slina naposled vidle lomcovat invalida lstivost zamezit chalupa astma lihovina bazilika cinkot bzukot slon letokruh mahagon hrnek plevel lehce facka",
+            "seed": b"b1c4419f57696d40e6a764490ba62a1eb3722c5aa3636a168700a624fff6420ba10277d4c0d8a0989126af30bd939cce8acd7bd305f9d6757377fd8fbdae446a",
+            "lang": Bip39Languages.CZECH,
+        },
     ]
 
 # Tests passphrase
@@ -233,27 +295,29 @@ class Bip39Tests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
+            lang = test["lang"] if "lang" in test else Bip39Languages.ENGLISH
+
             # Test mnemonic generator
-            mnemonic = Bip39MnemonicGenerator.FromEntropy(binascii.unhexlify(test["entropy"]))
+            mnemonic = Bip39MnemonicGenerator(lang).FromEntropy(binascii.unhexlify(test["entropy"]))
 
             self.assertEqual(test["mnemonic"], mnemonic)
 
-            # Test mnemonic validator using string
-            bip39_mnemonic_validator = Bip39MnemonicValidator(mnemonic)
+            # Test mnemonic validator using string (language specified)
+            bip39_mnemonic_validator = Bip39MnemonicValidator(mnemonic, lang)
             entropy = bip39_mnemonic_validator.GetEntropy()
 
             self.assertEqual(test["entropy"], binascii.hexlify(entropy))
-            self.assertTrue(bip39_mnemonic_validator.Validate())
+            self.assertTrue(bip39_mnemonic_validator.IsValid())
 
-            # Test mnemonic validator using list
+            # Test mnemonic validator using list (automatic language detection)
             bip39_mnemonic_validator = Bip39MnemonicValidator(mnemonic.split(" "))
             entropy = bip39_mnemonic_validator.GetEntropy()
 
             self.assertEqual(test["entropy"], binascii.hexlify(entropy))
-            self.assertTrue(bip39_mnemonic_validator.Validate())
+            self.assertTrue(bip39_mnemonic_validator.IsValid())
 
             # Test seed generator
-            seed = Bip39SeedGenerator(mnemonic).Generate(TEST_PASSPHRASE)
+            seed = Bip39SeedGenerator(mnemonic, lang).Generate(TEST_PASSPHRASE)
 
             self.assertEqual(test["seed"], binascii.hexlify(seed))
 
@@ -264,7 +328,7 @@ class Bip39Tests(unittest.TestCase):
             entropy = Bip39EntropyGenerator(test_bit_len).Generate()
             self.assertEqual(len(entropy), test_bit_len // 8)
             # Generate mnemonic
-            mnemonic = Bip39MnemonicGenerator.FromEntropy(entropy)
+            mnemonic = Bip39MnemonicGenerator().FromEntropy(entropy)
             # Compute the expected mnemonic length
             mnemonic_len = (test_bit_len + (test_bit_len // 32)) // 11
             # Test generated mnemonic length
@@ -278,22 +342,28 @@ class Bip39Tests(unittest.TestCase):
             # Subtract 8 because, otherwise, dividing by 8 could result in a correct byte length
             dummy_ent = b"\x00" * ((test_bit_len - 8) // 8)
             # Construct from it
-            self.assertRaises(ValueError, Bip39MnemonicGenerator.FromEntropy, dummy_ent)
+            self.assertRaises(ValueError, Bip39MnemonicGenerator().FromEntropy, dummy_ent)
 
     # Test construction from valid words number
     def test_from_valid_words_num(self):
         for test_words_num in TEST_VECT_WORDS_NUM_VALID:
-            mnemonic = Bip39MnemonicGenerator.FromWordsNumber(test_words_num)
+            mnemonic = Bip39MnemonicGenerator().FromWordsNumber(test_words_num)
             self.assertEqual(len(mnemonic.split(" ")), test_words_num)
 
     # Test construction from invalid words number
     def test_from_invalid_words_num(self):
         for test_words_num in TEST_VECT_WORDS_NUM_INVALID:
-            self.assertRaises(ValueError, Bip39MnemonicGenerator.FromWordsNumber, test_words_num)
+            self.assertRaises(ValueError, Bip39MnemonicGenerator().FromWordsNumber, test_words_num)
 
     # Tests invalid mnemonic
     def test_invalid_mnemonic(self):
         for test in TEST_VECT_MNEMONIC_INVALID:
-            self.assertFalse(Bip39MnemonicValidator(test["mnemonic"]).Validate())
+            self.assertFalse(Bip39MnemonicValidator(test["mnemonic"]).IsValid())
+            self.assertRaises(test["exception"], Bip39MnemonicValidator(test["mnemonic"]).Validate)
             self.assertRaises(test["exception"], Bip39MnemonicValidator(test["mnemonic"]).GetEntropy)
-            self.assertRaises(ValueError, Bip39SeedGenerator, test["mnemonic"])
+            self.assertRaises(test["exception"], Bip39SeedGenerator, test["mnemonic"])
+
+    # Tests invalid parameters
+    def test_invalid_params(self):
+        self.assertRaises(TypeError, Bip39MnemonicGenerator, 0)
+        self.assertRaises(TypeError, Bip39MnemonicValidator, "", 0)
