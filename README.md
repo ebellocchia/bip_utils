@@ -163,9 +163,12 @@ Also in this case, the language can be specified or automatically detected.
 
     from bip_utils import Bip39SeedGenerator
 
-    # If not specified, the passphrase will be empty
-    passphrase = "my_passphrase"
-    seed_bytes = Bip39SeedGenerator(mnemonic).Generate(passphrase)
+    # Generate with automatic language detection and passphrase (empty)
+    seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
+    # Generate with automatic language detection and custom passphrase
+    seed_bytes = Bip39SeedGenerator(mnemonic).Generate("my_passphrase")
+    # Generate specifying the language
+    seed_bytes = Bip39SeedGenerator(mnemonic, Bip39Languages.CZECH).Generate()
 
 ## BIP-0032 library
 
