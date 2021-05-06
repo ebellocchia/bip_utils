@@ -430,10 +430,10 @@ These libraries are used internally by the other libraries, but they are availab
     # P2SH addresses in Bitcoin Cash format
     addr = BchP2SH.ToAddress(pub_key_bytes, "bitcoincash", b"\x00")
 
-    # Ethereum needs the uncompressed public key
-    addr = EthAddr.ToAddress(pub_key_bytes)
+    # Ethereum needs the uncompressed public key (discard the first 0x04 byte)
+    addr = EthAddr.ToAddress(pub_key_bytes[1:])
     # Tron needs the uncompressed public key
-    addr = TrxAddr.ToAddress(pub_key_bytes)
+    addr = TrxAddr.ToAddress(pub_key_bytes[1:])
     # AVAX needs the compressed public key
     addr = AvaxPChainAddr.ToAddress(pub_key_bytes)
     addr = AvaxXChainAddr.ToAddress(pub_key_bytes)
