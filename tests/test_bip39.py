@@ -318,6 +318,7 @@ class Bip39Tests(unittest.TestCase):
 
             # Test seed generator
             seed = Bip39SeedGenerator(mnemonic, lang).Generate(TEST_PASSPHRASE)
+            seed = Bip39SeedGenerator(mnemonic.split(" "), lang).Generate(TEST_PASSPHRASE)
 
             self.assertEqual(test["seed"], binascii.hexlify(seed))
 
@@ -367,3 +368,5 @@ class Bip39Tests(unittest.TestCase):
     def test_invalid_params(self):
         self.assertRaises(TypeError, Bip39MnemonicGenerator, 0)
         self.assertRaises(TypeError, Bip39MnemonicValidator, "", 0)
+        self.assertRaises(TypeError, Bip39MnemonicValidator, 123)
+        self.assertRaises(TypeError, Bip39SeedGenerator, 123)
