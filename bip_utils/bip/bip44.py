@@ -57,6 +57,10 @@ class Bip44Const:
             Bip44Coins.AVAX_C_CHAIN,
             Bip44Coins.AVAX_X_CHAIN,
             Bip44Coins.AVAX_P_CHAIN,
+            Bip44Coins.POLYGON,
+            Bip44Coins.FANTOM_OPERA,
+            Bip44Coins.HARMONY_ONE,
+            Bip44Coins.HUOBI_CHAIN,
             Bip44Coins.NINE_CHRONICLES_GOLD,
         ]
     # Map from Bip44Coins to coin classes
@@ -90,6 +94,10 @@ class Bip44Const:
             Bip44Coins.AVAX_C_CHAIN: Bip44AvaxCChain,
             Bip44Coins.AVAX_X_CHAIN: Bip44AvaxXChain,
             Bip44Coins.AVAX_P_CHAIN: Bip44AvaxPChain,
+            Bip44Coins.POLYGON: Bip44Polygon,
+            Bip44Coins.FANTOM_OPERA: Bip44FantomOpera,
+            Bip44Coins.HARMONY_ONE: Bip44HarmonyOne,
+            Bip44Coins.HUOBI_CHAIN: Bip44HuobiChain,
             Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
         }
 

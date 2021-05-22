@@ -386,7 +386,7 @@ class BinanceChainConf:
 
 
 class BinanceSmartChainConf:
-    """ Class container for Binance Chain configuration. """
+    """ Class container for Binance Smart Chain configuration. """
 
     # Names
     NAMES: CoinNames = CoinNames("Binance Smart Chain", "BNB")
@@ -429,6 +429,58 @@ class AvaxPChainConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Avax P-Chain", "AVAX")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class PolygonConf:
+    """ Class container for Polygon configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Polygon", "MATIC")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class FantomOperaConf:
+    """ Class container for Fantom Opera configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Fantom Opera", "FTM")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class HarmonyOneConf:
+    """ Class container for Harmony One configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Harmony One", "ONE")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class HuobiChainConf:
+    """ Class container for Huobi Chain configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Huobi Token", "HT")
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER

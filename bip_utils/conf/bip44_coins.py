@@ -255,6 +255,30 @@ Bip44AvaxPChain: Bip44Coin = Bip44Coin(
     is_testnet=False,
     addr_fct=AvaxPChainAddr)
 
+# Configuration for Polygon
+Bip44Polygon: Bip44Coin = Bip44Coin(
+    coin_conf=PolygonConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
+
+# Configuration for Fantom Opera
+Bip44FantomOpera: Bip44Coin = Bip44Coin(
+    coin_conf=FantomOperaConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
+
+# Configuration for Harmony One
+Bip44HarmonyOne: Bip44Coin = Bip44Coin(
+    coin_conf=HarmonyOneConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
+
+# Configuration for Huobi Chain
+Bip44HuobiChain: Bip44Coin = Bip44Coin(
+    coin_conf=HuobiChainConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
+
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(
     coin_conf=NineChroniclesGoldConf,
