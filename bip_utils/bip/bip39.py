@@ -60,12 +60,15 @@ class Bip39Languages(Enum):
     SPANISH = auto(),
     PORTUGUESE = auto(),
     CZECH = auto(),
+    CHINESE_SIMPLIFIED = auto(),
+    CHINESE_TRADITIONAL = auto(),
+    KOREAN = auto(),
 
 
 class Bip39Const:
     """ Class container for BIP39 constants. """
 
-    # Accepted entropy lenghts in bit
+    # Accepted entropy lengths in bit
     ENTROPY_BIT_LEN: List[Bip39EntropyBitLen] = [
             Bip39EntropyBitLen.BIT_LEN_128,
             Bip39EntropyBitLen.BIT_LEN_160,
@@ -91,6 +94,9 @@ class Bip39Const:
             Bip39Languages.SPANISH: "bip39_words/spanish.txt",
             Bip39Languages.PORTUGUESE: "bip39_words/portuguese.txt",
             Bip39Languages.CZECH: "bip39_words/czech.txt",
+            Bip39Languages.CHINESE_SIMPLIFIED: "bip39_words/chinese_simplified.txt",
+            Bip39Languages.CHINESE_TRADITIONAL: "bip39_words/chinese_traditional.txt",
+            Bip39Languages.KOREAN: "bip39_words/korean.txt",
         }
 
     # Total number of words
