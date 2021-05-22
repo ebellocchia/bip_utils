@@ -363,11 +363,26 @@ Currently supported coins enumerative:
 |Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
-|Harmony One|*Bip44Coins.HARMONY_ONE*|-|
+|Harmony One (Metamask address)|*Bip44Coins.HARMONY_ONE_METAMASK*|-|
+|Harmony One (Ethereum address)|*Bip44Coins.HARMONY_ONE_ETH*|-|
+|Harmony One (Cosmos address)|*Bip44Coins.HARMONY_ONE_ATOM*|-|
 |Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
-|OKEx Chain|*Bip44Coins.OKEX_CHAIN*|-|
+|OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
+|OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
+|OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
 
 The library can be easily extended with other coins anyway.
+
+**NOTES**
+
+- *Bip44Coins.HARMONY_ONE_ETH* generates the address using the Harmony One coin index (i.e. *1023*).
+This is the behavior of the official Harmony One wallet and the Ethereum address that you get in the Harmony One explorer.\
+  However, if you just add the Harmony One network in Metamask, Metamask will use the Ethereum coin index (i.e. *60*) thus resulting in a different address.
+Therefore, if you need to generate the Harmony One address for Metamask, use *Bip44Coins.HARMONY_ONE_METAMASK*.
+- *Bip44Coins.OKEX_CHAIN_ETH* and *Bip44Coins.OKEX_CHAIN_ATOM* generate the address using the Ethereum coin index (i.e. *60*).
+These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* is compatible with Metamask.\
+*Bip44Coins.OKEX_CHAIN_ATOM_OLD* generates the address using the OKEx Chain coin index (i.e. *996*). 
+  This address format was used before the mainnet upgrade (some wallets still use it, e.g. Cosmostation).
 
 **Code example**
 
@@ -428,7 +443,8 @@ These libraries are used internally by the other libraries, but they are availab
 **Code example**
 
     from bip_utils import (
-      P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EthAddr, TrxAddr, XrpAddr
+      P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
+      EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr
     )
 
     # P2PKH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
@@ -452,6 +468,10 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AvaxXChainAddr.ToAddress(pub_key_bytes)
     # Atom needs the compressed public key
     addr = AtomAddr.ToAddress(pub_key_bytes, "cosmos")
+    # OKEx Chain needs the uncompressed public key
+    addr = OkexAddr.ToAddress(pub_key_bytes[1:])
+    # Harmony One needs the uncompressed public key
+    addr = OneAddr.ToAddress(pub_key_bytes[1:])
     # Ripple needs the compressed public key
     addr = XrpAddr.ToAddress(pub_key_bytes)
 
