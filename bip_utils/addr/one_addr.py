@@ -23,14 +23,13 @@
 import binascii
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.bech32 import AtomBech32Encoder
-from bip_utils.utils import CryptoUtils, KeyUtils
 
 
 class OneAddrConst:
     """ Class container for Harmony One address constants. """
 
     # Huma-readable part
-    HRP: str = "one"
+    HRP: str = "ex"
 
 
 class OneAddr:
