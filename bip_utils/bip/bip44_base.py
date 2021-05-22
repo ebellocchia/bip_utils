@@ -63,6 +63,7 @@ class Bip44Coins(Enum):
     FANTOM_OPERA = auto(),
     HARMONY_ONE = auto(),
     HUOBI_CHAIN = auto(),
+    OKEX_CHAIN = auto(),
     NINE_CHRONICLES_GOLD = auto(),
     # Test nets
     BITCOIN_TESTNET = auto(),
@@ -111,6 +112,7 @@ class Bip44BaseConst:
             Bip44Coins.FANTOM_OPERA: 60,
             Bip44Coins.HARMONY_ONE: 60,
             Bip44Coins.HUOBI_CHAIN: 60,
+            Bip44Coins.OKEX_CHAIN: 60,
             Bip44Coins.ETHEREUM_CLASSIC: 61,
             Bip44Coins.COSMOS: 118,
             Bip44Coins.IRIS_NET: 118,

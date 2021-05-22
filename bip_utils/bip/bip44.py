@@ -61,6 +61,7 @@ class Bip44Const:
             Bip44Coins.FANTOM_OPERA,
             Bip44Coins.HARMONY_ONE,
             Bip44Coins.HUOBI_CHAIN,
+            Bip44Coins.OKEX_CHAIN,
             Bip44Coins.NINE_CHRONICLES_GOLD,
         ]
     # Map from Bip44Coins to coin classes
@@ -98,6 +99,7 @@ class Bip44Const:
             Bip44Coins.FANTOM_OPERA: Bip44FantomOpera,
             Bip44Coins.HARMONY_ONE: Bip44HarmonyOne,
             Bip44Coins.HUOBI_CHAIN: Bip44HuobiChain,
+            Bip44Coins.OKEX_CHAIN: Bip44OkexChain,
             Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
         }
 

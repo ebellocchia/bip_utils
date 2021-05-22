@@ -279,6 +279,12 @@ Bip44HuobiChain: Bip44Coin = Bip44Coin(
     is_testnet=False,
     addr_fct=EthAddr)
 
+# Configuration for OKEx Chain
+Bip44OkexChain: Bip44Coin = Bip44Coin(
+    coin_conf=OkexChainConf,
+    is_testnet=False,
+    addr_fct=EthAddr)
+
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(
     coin_conf=NineChroniclesGoldConf,

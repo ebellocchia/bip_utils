@@ -489,6 +489,19 @@ class HuobiChainConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class OkexChainConf:
+    """ Class container for OKEx Chain configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("OKExChain", "OKT")
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 
