@@ -46,6 +46,10 @@ The package currently supports the following coins (I try to add new ones from t
 - Binance Chain (Cosmos SDK)
 - Binance Smart Chain (and, therefore, all related tokens)
 - Avalanche (all the three chains)
+- Polygon (and, therefore, all related tokens)
+- Fantom Opera (and, therefore, all related tokens)
+- Harmony One (and, therefore, all related tokens)
+- Huobi Heco Chain (and, therefore, all related tokens)
 
 ## Install the package
 
@@ -356,6 +360,10 @@ Currently supported coins enumerative:
 |Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
 |Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
 |Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
+|Polygon|*Bip44Coins.POLYGON*|-|
+|Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
+|Harmony One|*Bip44Coins.HARMONY_ONE*|-|
+|Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
 
 The library can be easily extended with other coins anyway.
 
