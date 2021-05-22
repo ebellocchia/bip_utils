@@ -118,6 +118,9 @@ class Bip39Utils:
 
         Returns:
             str or list: Normalized string or list of strings
+
+        Raises:
+            TypeError: If input data type is not valid
         """
         if isinstance(data_str, str):
             return unicodedata.normalize("NFKD", data_str)
