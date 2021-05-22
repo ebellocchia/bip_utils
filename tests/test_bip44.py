@@ -695,9 +695,9 @@ TEST_VECT = [
                     "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
                 ],
         },
-        # Harmony One
+        # Harmony One (Metamask address)
         {
-            "coin": Bip44Coins.HARMONY_ONE,
+            "coin": Bip44Coins.HARMONY_ONE_METAMASK,
             "names": ("Harmony One", "ONE"),
             "is_testnet": False,
             "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -720,6 +720,60 @@ TEST_VECT = [
                     "0xb6716976A3ebe8D39aCEB04372f22Ff8e6802D7A",
                     "0xF3f50213C1d2e255e4B2bAD430F8A38EEF8D718E",
                     "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
+                ],
+        },
+        # Harmony One (Ethereum address)
+        {
+            "coin": Bip44Coins.HARMONY_ONE_ETH,
+            "names": ("Harmony One", "ONE"),
+            "is_testnet": False,
+            "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master": "",
+            "account":
+                {
+                    "ex_pub": "xpub6D1uaphVsP3GnzyuMuuo1p6q9ff6pvJEtEfXkjm9jTS65fwwxGZ7UfKny5qUn7RwunUbKtjQDat1vJqUyKgJkT6n342Wq95pKxeNaifKsGt",
+                    "ex_priv": "xprv9z2ZBKAc31UyaWuSFtNnegA6bdpcRTaPX1jvxMMYB7u7CscoQjErvs1K7ncAv2KCEDWSZQPscYNZ6YX9ZquxAb28VAznP7BV9dcUxg6XXPs",
+                },
+            "chain_ext":
+                {
+                    "ex_pub": "xpub6ENtqxYx6UsgxtGBD4Z5JYSrwTViyCJNFT8FSZxwM5a3uk1ghfhW9kRsEniAhiiCUnCR4ZWwnyDayFzABYqZ8nB5FdKk4Q6HNjf2nwcnJM3",
+                    "ex_priv": "xprvA1PYST24G7KPkQBi7324wQW8PRfEZjaWtECeeBZKnk352wgYA8PFbx7PPXAwcoVAPiv1dTmdr2x7DZoHjWsHuSxZ4N3vi8ieqqjcbaYKEoa",
+                },
+            "addresses":
+                [
+                    "0x06916163A17F07ce70e3d43Ed37395f05B5738aE",
+                    "0x8E2A1aB44092F1CD399665c160e61D44D145A61F",
+                    "0xF917A35c84D91AA501C18b0607B40f8bBB3B2C10",
+                    "0x24e0D8F411657022Adc05Ac316D6ee175A069b67",
+                    "0x458Ab16675FAC0aFb94f3EF4a0BAd884ede8F1D6",
+                ],
+        },
+        # Harmony One (Atom address)
+        {
+            "coin": Bip44Coins.HARMONY_ONE_ATOM,
+            "names": ("Harmony One", "ONE"),
+            "is_testnet": False,
+            "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master": "",
+            "account":
+                {
+                    "ex_pub": "xpub6D1uaphVsP3GnzyuMuuo1p6q9ff6pvJEtEfXkjm9jTS65fwwxGZ7UfKny5qUn7RwunUbKtjQDat1vJqUyKgJkT6n342Wq95pKxeNaifKsGt",
+                    "ex_priv": "xprv9z2ZBKAc31UyaWuSFtNnegA6bdpcRTaPX1jvxMMYB7u7CscoQjErvs1K7ncAv2KCEDWSZQPscYNZ6YX9ZquxAb28VAznP7BV9dcUxg6XXPs",
+                },
+            "chain_ext":
+                {
+                    "ex_pub": "xpub6ENtqxYx6UsgxtGBD4Z5JYSrwTViyCJNFT8FSZxwM5a3uk1ghfhW9kRsEniAhiiCUnCR4ZWwnyDayFzABYqZ8nB5FdKk4Q6HNjf2nwcnJM3",
+                    "ex_priv": "xprvA1PYST24G7KPkQBi7324wQW8PRfEZjaWtECeeBZKnk352wgYA8PFbx7PPXAwcoVAPiv1dTmdr2x7DZoHjWsHuSxZ4N3vi8ieqqjcbaYKEoa",
+                },
+            "addresses":
+                [
+                    "one1q6gkzcap0uruuu8r6sldxuu47pd4ww9w9t7tg6",
+                    "one13c4p4dzqjtcu6wvkvhqkpesagng5tfsl625gqm",
+                    "one1lyt6xhyymyd22qwp3vrq0dq03wanktqsereqtt",
+                    "one1ynsd3aq3v4cz9twqttp3d4hwzadqdxm85s64v3",
+                    "one1gk9tzen4ltq2lw208m62pwkcsnk73uwklq7mgd",
                 ],
         },
         # Huobi Chain
@@ -749,9 +803,9 @@ TEST_VECT = [
                     "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
                 ],
         },
-        # OKEx Chain
+        # OKEx Chain (Ethereum address)
         {
-            "coin": Bip44Coins.OKEX_CHAIN,
+            "coin": Bip44Coins.OKEX_CHAIN_ETH,
             "names": ("OKExChain", "OKT"),
             "is_testnet": False,
             "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -774,6 +828,60 @@ TEST_VECT = [
                     "0xb6716976A3ebe8D39aCEB04372f22Ff8e6802D7A",
                     "0xF3f50213C1d2e255e4B2bAD430F8A38EEF8D718E",
                     "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
+                ],
+        },
+        # OKEx Chain (Atom address)
+        {
+            "coin": Bip44Coins.OKEX_CHAIN_ATOM,
+            "names": ("OKExChain", "OKT"),
+            "is_testnet": False,
+            "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master": "",
+            "account":
+                {
+                    "ex_pub": "xpub6DCoCpSuQZB2jawqnGMEPS63ePKWkwWPH4TU45Q7LPXWuNd8TMtVxRrgjtEshuqpK3mdhaWHPFsBngh5GFZaM6si3yZdUsT8ddYM3PwnATt",
+                    "ex_priv": "xprv9zDSoJv1aBcjX6sNgEpE2J9K6MV2MUnXuqXsFgzVn3zY2aHyupaFQdYCtdCbNMkvcTdx9FeN49sgXw6mjrhrFLRSzJVnRYPfSCCgjeg4GxY",
+                },
+            "chain_ext":
+                {
+                    "ex_pub": "xpub6EF8jXqFeFEW5bwMU7RpQtHkzE4KJxcqJtvkCjJumzW8CPpacXkb92ek4WzLQXjL93HycJwTPUAcuNxCqFPKKU5m5Z2Vq4nCyh5CyPeBFFr",
+                    "ex_priv": "xprvA1FnL2JMosgCs7rtN5tp3kM2SCDpuVtywg19QLuJDey9KbVS4zSLbELGDFdugxESvYxCU1wEJhDmMXvHKwmpCLd8QSoUJCHmVHCGvpFPxiw",
+                },
+            "addresses":
+                [
+                    "ex1npvwllfr9dqr8erajqqr6s0vxnk2ak55peywkd",
+                    "ex1d7ky6xxfzg6rh7r05uzfxexafepy4wwqr4rxvg",
+                    "ex1keckja4ra05d8xkwkpph9u30lrngqtt6wvs5kj",
+                    "ex1706syy7p6t39te9jht2rp79r3mhc6uvw9kqult",
+                    "ex1289gl703cz5elz8gdwq3963jxl64xax27sqa7g",
+                ],
+        },
+        # OKEx Chain (Old Atom address)
+        {
+            "coin": Bip44Coins.OKEX_CHAIN_ATOM_OLD,
+            "names": ("OKExChain", "OKT"),
+            "is_testnet": False,
+            "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+            "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+            "wif_master": "",
+            "account":
+                {
+                    "ex_pub": "xpub6CfUe4mAn2nxb94zjkWk9KgY4rZWQqkyZEZApyGMknJJgsW65C9zDq9Tc5xpp37qfxD5ftbY3dXjuaKSYvvFFAh9Etj1ypiXfhqngwBHN8e",
+                    "ex_priv": "xprv9yg8EZEGwfEfNezXdiyjnBjoWpj21P38C1da2arkCSmKp5AwXeqjg2pyko2SJvgKnE1yWRCV54Es6R3upWtdF8XJ9yvGLDdwvnRXP4JSfsk",
+                },
+            "chain_ext":
+                {
+                    "ex_pub": "xpub6EwpPxZGbUGJGMH2V2xWyjx7mDFVSUrydV2yDthHa1EMxLqf6rbKduFNnFSAeVKZS2TF1bJgdZqw79uSQSni8qpkQC7ucmsm79VepRMo42q",
+                    "ex_priv": "xprvA1xTzT2Nm6i13sCZP1RWcc1PDBR13298GG7NRWHg1fhP5YWWZKH566vtvxagAGngxHxTPDkomeEGKLFPYCWajY78Hk27kMkrvR12KrhJsqj",
+                },
+            "addresses":
+                [
+                    "ex19dhmgh5vxg9cq5f85l88jm6h4r4uklkgpamn38",
+                    "ex19qm8st4v3wut8ddenj9gh98xkhylngq36pnshq",
+                    "ex14uqe6p2fqgxvf029gjhn4l6re97sl5auqw9f2e",
+                    "ex13tgz70jdd92fmgkt9ctsd04q347t3r20sc6usw",
+                    "ex1fu97k478nepxkkeqy0786g4vseh8ksffg6dq6c",
                 ],
         },
 
