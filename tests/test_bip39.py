@@ -31,7 +31,9 @@ from bip_utils import (
 # Tests from BIP39 page
 # https://github.com/trezor/python-mnemonic/blob/master/vectors.json
 TEST_VECT = [
+        #
         # Basic 12-words
+        #
         {
             "entropy": b"00000000000000000000000000000000",
             "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
@@ -52,7 +54,10 @@ TEST_VECT = [
             "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong",
             "seed": b"ac27495480225222079d7be181583751e86f571027b0497b5b5d11218e0a8a13332572917f0f8e5a589620c6f15b11c61dee327651a14c34e18231052e48c069",
         },
+
+        #
         # Basic 18-words
+        #
         {
             "entropy": b"000000000000000000000000000000000000000000000000",
             "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon agent",
@@ -73,7 +78,10 @@ TEST_VECT = [
             "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo when",
             "seed": b"0cd6e5d827bb62eb8fc1e262254223817fd068a74b5b449cc2f667c3f1f985a76379b43348d952e2265b4cd129090758b3e3c2c49103b5051aac2eaeb890a528",
         },
+
+        #
         # Basic 24-words
+        #
         {
             "entropy": b"0000000000000000000000000000000000000000000000000000000000000000",
             "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art",
@@ -94,7 +102,10 @@ TEST_VECT = [
             "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo vote",
             "seed": b"dd48c104698c30cfe2b6142103248622fb7bb0ff692eebb00089b32d22484e1613912f0a5b694407be899ffd31ed3992c456cdf60f5d4564b8ba3f05a69890ad",
         },
+
+        #
         # Various
+        #
         {
             "entropy": b"9e885d952ad362caeb4efe34a8e91bd2",
             "mnemonic": "ozone drill grab fiber curtain grace pudding thank cruise elder eight picnic",
@@ -158,7 +169,12 @@ TEST_VECT = [
             "mnemonic": "void come effort suffer camp survey warrior heavy shoot primary clutch crush open amazing screen patrol group space point ten exist slush involve unfold",
             "seed": b"01f5bced59dec48e362f2c45b5de68b9fd6c92c6634f44d6d40aab69056506f0e35524a518034ddc1192e1dacd32c1ed3eaa3c3b131c88ed8e7e54c49a5d0998",
         },
+
+        #
         # Different languages (generated and checked with other tools)
+        #
+
+        # Italian
         {
             "entropy": b"1f3816778bbb384fa7dab64f593ec7df",
             "mnemonic": "bosco sarto perplesso baccano ribadire cassone piacere frassino favoloso seme replica sagoma",
@@ -171,6 +187,7 @@ TEST_VECT = [
             "seed": b"79558674b80227b7ec92567744cbbf91fd97ec26bf266d1b3defd2304ffce4ad4e11acc072ecf5e820cb8211f399ac2584e15e3ee8b580e7abe8171b451f8a81",
             "lang": Bip39Languages.ITALIAN,
         },
+        # French
         {
             "entropy": b"c4cf0ca40669a21673d3419b9bce0489",
             "mnemonic": "pupitre hangar capable anaphore mérite ambigu revivre fixer miette sodium inexact asticot",
@@ -183,6 +200,7 @@ TEST_VECT = [
             "seed": b"02440d6ea198766fe10c7e5a532fcbe231024bb09ad3dd4665dcbd3427911228e6f1ebce9e21b26172e0a4cd172a37bdc41cdc26c9f6dd97e91c0cdfc5e0fa11",
             "lang": Bip39Languages.FRENCH,
         },
+        # Spanish
         {
             "entropy": b"72754293ddabb5286e683ab657636637",
             "mnemonic": "inerte panal órbita proa proa mover potro ajeno pleno prisión sodio humilde",
@@ -195,6 +213,7 @@ TEST_VECT = [
             "seed": b"b1f69660a6defbee34a85dce645858da424e5c481f9b61ec9758fbd5d986ca95eb790f0fd0878356c7f79d3b85ca030d45e85fe680987429f27b8d2fde3e41a6",
             "lang": Bip39Languages.SPANISH,
         },
+        # Portuguese
         {
             "entropy": b"502f2e4fdebd715a7b04f3fd28069e50",
             "mnemonic": "dominado guaxinim lotado piscar sadio olaria tinteiro mexer voador cortejo neural moita",
@@ -207,6 +226,7 @@ TEST_VECT = [
             "seed": b"06bcf33e49ba7055bf2c405e2921b76ecc9348998612fb383ab294c87d0791bdfc6451091ff29642bdb2cdffa90cf478e731223f42ca5f9c06777ea6a7c25e33",
             "lang": Bip39Languages.PORTUGUESE,
         },
+        # Czech
         {
             "entropy": b"0cc43525e0289632d208c4b45b0d912c",
             "mnemonic": "branka dorost klam slanina omezit cuketa kazeta cizost rozchod tvaroh majetek kyvadlo",
@@ -218,6 +238,45 @@ TEST_VECT = [
             "mnemonic": "chichot bronz obvinit vidle slina naposled vidle lomcovat invalida lstivost zamezit chalupa astma lihovina bazilika cinkot bzukot slon letokruh mahagon hrnek plevel lehce facka",
             "seed": b"b1c4419f57696d40e6a764490ba62a1eb3722c5aa3636a168700a624fff6420ba10277d4c0d8a0989126af30bd939cce8acd7bd305f9d6757377fd8fbdae446a",
             "lang": Bip39Languages.CZECH,
+        },
+        # Chinese (simplified)
+        {
+            "entropy": b"4af203a39228787182365db8625ef85c",
+            "mnemonic": "犯 宝 亭 术 圈 斯 度 鸭 允 但 荒 兼",
+            "seed": b"873a8af2f9a181e6006f5b47b76d90668edd217271276dcc42e09aeed410f9c3037861e8f45d7fd977dd47b27ff59cb99f69464af34db0696979b2cab60f6641",
+            "lang": Bip39Languages.CHINESE_SIMPLIFIED,
+        },
+        {
+            "entropy": b"c728f71b2169073ff18c0a7cc13b7dcc026ed301afd0f0b359ae9db27e41d45d",
+            "mnemonic": "竞 爱 洛 李 闻 冰 瓷 敢 归 高 胀 嘴 切 伯 后 嫂 浩 臣 乐 京 场 光 跑 碧",
+            "seed": b"e31b8769b7e95b703f18d51f0dbb02d160f66d0736e9c450491402b3f86a02947ad1cc26695dfa96146ab0f709ba0df581d52289fbdca8b0e0df94e9ef33e9d6",
+            "lang": Bip39Languages.CHINESE_SIMPLIFIED,
+        },
+        # Chinese (traditional)
+        {
+            "entropy": b"3546f07366d9451fff7e90ec48a48ad6",
+            "mnemonic": "酸 劃 別 冒 耕 頓 餓 輔 烷 另 東 幸",
+            "seed": b"d863e03468ee820d51bb2d3965c4ec6788343811a3de88b962aa924ac3c8e329204d865540757e9b5884bc1f8c99c2a266992e764cb4cadb6ef6f55dfa86a7b4",
+            "lang": Bip39Languages.CHINESE_TRADITIONAL,
+        },
+        {
+            "entropy": b"5c44ac4fcb2bf886df37a5391dac7b08bd19610c700580663462146b7557b14f",
+            "mnemonic": "衛 權 變 煉 簽 輪 歸 纜 查 撒 西 正 錫 獎 連 了 腦 驗 入 萬 仲 窮 迷 漂",
+            "seed": b"d817a3dcf7365911d7eb7a28f3cd6c833462100cbfc4f3db3b54beb03ed13170bb7f990f2589c8ab0fb4aaf5a561a4544556f5260a0ecedf252c4c42861f11a0",
+            "lang": Bip39Languages.CHINESE_TRADITIONAL,
+        },
+        # Korean
+        {
+            "entropy": b"7cf050d2a257004f26decf7d100c1ffd",
+            "mnemonic": "신규 아시아 동화책 민주 솔직히 넥타이 요금 출입 신념 실험 거품 환영",
+            "seed": b"64e91f1ca49a1463905da6ec21a00b44c24f6fc3b6ce9ec18a1f277f6f17f01ecd70c29ac20751f50eea954d62e74616178cf10a18dd3d5aa767fcad2cd15f9a",
+            "lang": Bip39Languages.KOREAN,
+        },
+        {
+            "entropy": b"2e59cfc5e2466699703543185fdad758bf0095146d8616eeb53fb935b977c7d9",
+            "mnemonic": "담임 짜증 한여름 주말 서적 백색 제출 이틀 국가 흑인 재산 작업 한꺼번에 방면 보름 자존심 구름 스스로 변명 수업 비용 점수 기념 대합실",
+            "seed": b"6f76a73fb8d7124e5b893fa752df2fa9f1cca7178524f9f8ca2f7c2674c6967eb5772f8b7645b45d9a0ecff2ff039582b31614e32603e395c6b33b3736c1cc7e",
+            "lang": Bip39Languages.KOREAN,
         },
     ]
 
