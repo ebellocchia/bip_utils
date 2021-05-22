@@ -20,6 +20,7 @@ from bip_utils.addr import (
     P2PKH, BchP2PKH, P2SH, BchP2SH, P2WPKH,
     AtomAddr,
     AvaxPChainAddr, AvaxXChainAddr,
+    OneAddr,
     EthAddr,
     TrxAddr,
     XrpAddr
