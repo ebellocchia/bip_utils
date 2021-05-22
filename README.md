@@ -50,6 +50,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Fantom Opera (and, therefore, all related tokens)
 - Harmony One (and, therefore, all related tokens)
 - Huobi Heco Chain (and, therefore, all related tokens)
+- OKEx Chain (and, therefore, all related tokens)
 
 ## Install the package
 
@@ -364,6 +365,7 @@ Currently supported coins enumerative:
 |Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
 |Harmony One|*Bip44Coins.HARMONY_ONE*|-|
 |Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
+|OKEx Chain|*Bip44Coins.OKEX_CHAIN*|-|
 
 The library can be easily extended with other coins anyway.
 
