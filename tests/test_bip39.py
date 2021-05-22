@@ -285,6 +285,12 @@ TEST_VECT_MNEMONIC_INVALID = [
             "mnemonic": "abandon abandon abandon notexistent abandon abandon abandon abandon abandon abandon abandon about",
             "exception": ValueError,
         },
+        # Wrong language
+        {
+            "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
+            "lang": Bip39Languages.ITALIAN,
+            "exception": ValueError,
+        },
     ]
 
 
@@ -316,10 +322,11 @@ class Bip39Tests(unittest.TestCase):
             self.assertEqual(test["entropy"], binascii.hexlify(entropy))
             self.assertTrue(bip39_mnemonic_validator.IsValid())
 
-            # Test seed generator
+            # Test seed generator using string
             seed = Bip39SeedGenerator(mnemonic, lang).Generate(TEST_PASSPHRASE)
+            self.assertEqual(test["seed"], binascii.hexlify(seed))
+            # Test seed generator using list
             seed = Bip39SeedGenerator(mnemonic.split(" "), lang).Generate(TEST_PASSPHRASE)
-
             self.assertEqual(test["seed"], binascii.hexlify(seed))
 
     # Test entropy generator and construction from valid entropy bit lengths
@@ -359,10 +366,12 @@ class Bip39Tests(unittest.TestCase):
     # Tests invalid mnemonic
     def test_invalid_mnemonic(self):
         for test in TEST_VECT_MNEMONIC_INVALID:
-            self.assertFalse(Bip39MnemonicValidator(test["mnemonic"]).IsValid())
-            self.assertRaises(test["exception"], Bip39MnemonicValidator(test["mnemonic"]).Validate)
-            self.assertRaises(test["exception"], Bip39MnemonicValidator(test["mnemonic"]).GetEntropy)
-            self.assertRaises(test["exception"], Bip39SeedGenerator, test["mnemonic"])
+            lang = test["lang"] if "lang" in test else Bip39Languages.ENGLISH
+
+            self.assertFalse(Bip39MnemonicValidator(test["mnemonic"], lang).IsValid())
+            self.assertRaises(test["exception"], Bip39MnemonicValidator(test["mnemonic"], lang).Validate)
+            self.assertRaises(test["exception"], Bip39MnemonicValidator(test["mnemonic"], lang).GetEntropy)
+            self.assertRaises(test["exception"], Bip39SeedGenerator, test["mnemonic"], lang)
 
     # Tests invalid parameters
     def test_invalid_params(self):
