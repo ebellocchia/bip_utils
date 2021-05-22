@@ -21,6 +21,7 @@
 
 # Imports
 import os
+import unicodedata
 from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union
 from bip_utils.bip.bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
@@ -103,6 +104,51 @@ class Bip39Const:
     SEED_PBKDF2_ROUNDS: int = 2048
     # Seed length
     SEED_LEN: int = 64
+
+
+class Bip39Utils:
+    """ Class container for BIP39 utility functions. """
+
+    @staticmethod
+    def NormalizeString(data_str: Union[str, List[str]]) -> Union[str, List[str]]:
+        """ Normalize string using NFKD.
+
+        Args:
+            data_str (str or list): Input string or list of strings
+
+        Returns:
+            str or list: Normalized string or list of strings
+        """
+        if isinstance(data_str, str):
+            return unicodedata.normalize("NFKD", data_str)
+        elif isinstance(data_str, list):
+            return list(map(lambda s: unicodedata.normalize("NFKD", s), data_str))
+        else:
+            raise TypeError("Invalid data type")
+
+    @staticmethod
+    def MnemonicToList(mnemonic: Union[str, List[str]]) -> List[str]:
+        """ Convert a mnemonic to list.
+
+        Args:
+            mnemonic (str or list): Mnemonic
+
+        Returns:
+            list: Mnemonic list
+        """
+        return mnemonic.split(" ") if not isinstance(mnemonic, list) else mnemonic
+
+    @staticmethod
+    def MnemonicToString(mnemonic: Union[str, List[str]]) -> str:
+        """ Convert a mnemonic to string.
+
+        Args:
+            mnemonic (str or list): Mnemonic
+
+        Returns:
+            str: Mnemonic string
+        """
+        return " ".join(mnemonic) if isinstance(mnemonic, list) else mnemonic
 
 
 class Bip39EntropyGenerator:
@@ -301,8 +347,7 @@ class Bip39MnemonicGenerator:
             # Get word at given index
             mnemonic.append(self.m_mnemonic_reader.GetWordAtIdx(word_idx))
 
-        # Join to string
-        return " ".join(mnemonic)
+        return Bip39Utils.MnemonicToString(mnemonic)
 
     @staticmethod
     def __EntropyBitLenFromWordsNum(words_num: int) -> int:
@@ -333,7 +378,7 @@ class Bip39MnemonicValidator:
             mnemonic (str or list): Mnemonic
             lang (Bip39Languages, optional): Language, None for automatic detection
         """
-        self.m_mnemonic = mnemonic.split(" ") if not isinstance(mnemonic, list) else mnemonic
+        self.m_mnemonic = Bip39Utils.MnemonicToList(Bip39Utils.NormalizeString(mnemonic))
         self.m_mnemonic_reader = (self.__GetMnemonicReader(self.m_mnemonic)
                                   if lang is None
                                   else MnemonicFileReader(lang))
@@ -528,7 +573,7 @@ class Bip39SeedGenerator:
         # Make sure that the given mnemonic is valid
         Bip39MnemonicValidator(mnemonic, lang).Validate()
 
-        self.m_mnemonic = mnemonic
+        self.m_mnemonic = Bip39Utils.MnemonicToString(Bip39Utils.NormalizeString(mnemonic))
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
@@ -542,8 +587,10 @@ class Bip39SeedGenerator:
         """
 
         # Get salt
-        salt = Bip39Const.SEED_SALT_MOD + passphrase
+        salt = Bip39Utils.NormalizeString(Bip39Const.SEED_SALT_MOD + passphrase)
         # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic, salt, Bip39Const.SEED_PBKDF2_ROUNDS)
+        key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic,
+                                           salt,
+                                           Bip39Const.SEED_PBKDF2_ROUNDS)
 
         return key[:Bip39Const.SEED_LEN]
