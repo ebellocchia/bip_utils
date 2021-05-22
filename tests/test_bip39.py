@@ -27,6 +27,8 @@ from bip_utils import (
     Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator
 )
+from bip_utils.bip.bip39 import Bip39Utils
+
 
 # Tests from BIP39 page
 # https://github.com/trezor/python-mnemonic/blob/master/vectors.json
@@ -375,7 +377,7 @@ class Bip39Tests(unittest.TestCase):
             self.assertTrue(bip39_mnemonic_validator.IsValid())
 
             # Test mnemonic validator using list (automatic language detection)
-            bip39_mnemonic_validator = Bip39MnemonicValidator(mnemonic.split(" "))
+            bip39_mnemonic_validator = Bip39MnemonicValidator(Bip39Utils.MnemonicToList(mnemonic))
             entropy = bip39_mnemonic_validator.GetEntropy()
 
             self.assertEqual(test["entropy"], binascii.hexlify(entropy))
@@ -385,7 +387,7 @@ class Bip39Tests(unittest.TestCase):
             seed = Bip39SeedGenerator(mnemonic, lang).Generate(TEST_PASSPHRASE)
             self.assertEqual(test["seed"], binascii.hexlify(seed))
             # Test seed generator using list
-            seed = Bip39SeedGenerator(mnemonic.split(" "), lang).Generate(TEST_PASSPHRASE)
+            seed = Bip39SeedGenerator(Bip39Utils.MnemonicToList(mnemonic), lang).Generate(TEST_PASSPHRASE)
             self.assertEqual(test["seed"], binascii.hexlify(seed))
 
     # Test entropy generator and construction from valid entropy bit lengths
@@ -399,7 +401,7 @@ class Bip39Tests(unittest.TestCase):
             # Compute the expected mnemonic length
             mnemonic_len = (test_bit_len + (test_bit_len // 32)) // 11
             # Test generated mnemonic length
-            self.assertEqual(len(mnemonic.split(" ")), mnemonic_len)
+            self.assertEqual(len(Bip39Utils.MnemonicToList(mnemonic)), mnemonic_len)
 
     # Test entropy generator and construction from invalid entropy bit lengths
     def test_entropy_invalid_bitlen(self):
@@ -415,7 +417,7 @@ class Bip39Tests(unittest.TestCase):
     def test_from_valid_words_num(self):
         for test_words_num in TEST_VECT_WORDS_NUM_VALID:
             mnemonic = Bip39MnemonicGenerator().FromWordsNumber(test_words_num)
-            self.assertEqual(len(mnemonic.split(" ")), test_words_num)
+            self.assertEqual(len(Bip39Utils.MnemonicToList(mnemonic)), test_words_num)
 
     # Test construction from invalid words number
     def test_from_invalid_words_num(self):
