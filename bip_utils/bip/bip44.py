@@ -59,9 +59,13 @@ class Bip44Const:
             Bip44Coins.AVAX_P_CHAIN,
             Bip44Coins.POLYGON,
             Bip44Coins.FANTOM_OPERA,
-            Bip44Coins.HARMONY_ONE,
+            Bip44Coins.HARMONY_ONE_METAMASK,
+            Bip44Coins.HARMONY_ONE_ETH,
+            Bip44Coins.HARMONY_ONE_ATOM,
             Bip44Coins.HUOBI_CHAIN,
-            Bip44Coins.OKEX_CHAIN,
+            Bip44Coins.OKEX_CHAIN_ETH,
+            Bip44Coins.OKEX_CHAIN_ATOM,
+            Bip44Coins.OKEX_CHAIN_ATOM_OLD,
             Bip44Coins.NINE_CHRONICLES_GOLD,
         ]
     # Map from Bip44Coins to coin classes
@@ -97,9 +101,13 @@ class Bip44Const:
             Bip44Coins.AVAX_P_CHAIN: Bip44AvaxPChain,
             Bip44Coins.POLYGON: Bip44Polygon,
             Bip44Coins.FANTOM_OPERA: Bip44FantomOpera,
-            Bip44Coins.HARMONY_ONE: Bip44HarmonyOne,
+            Bip44Coins.HARMONY_ONE_METAMASK: Bip44HarmonyOneMetamask,
+            Bip44Coins.HARMONY_ONE_ETH: Bip44HarmonyOneEth,
+            Bip44Coins.HARMONY_ONE_ATOM: Bip44HarmonyOneAtom,
             Bip44Coins.HUOBI_CHAIN: Bip44HuobiChain,
-            Bip44Coins.OKEX_CHAIN: Bip44OkexChain,
+            Bip44Coins.OKEX_CHAIN_ETH: Bip44OkexChainEth,
+            Bip44Coins.OKEX_CHAIN_ATOM: Bip44OkexChainAtom,
+            Bip44Coins.OKEX_CHAIN_ATOM_OLD: Bip44OkexChainAtom,
             Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
         }
 

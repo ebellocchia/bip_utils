@@ -21,7 +21,8 @@
 
 # Imports
 from bip_utils.addr import (
-    P2PKH, P2SH, P2WPKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EthAddr, TrxAddr, XrpAddr
+    P2PKH, P2SH, P2WPKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
+    EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr
 )
 from bip_utils.ecc import EcdsaPublicKey
 from bip_utils.conf.bip_coin_conf_helper import *
@@ -36,19 +37,19 @@ class BipCoinBase:
                  coin_conf: Any,
                  key_net_ver: NetVersions,
                  is_testnet: bool,
-                 addr_fct: Any) -> None:
+                 addr_cls: Any) -> None:
         """ Construct class.
 
         Args:
             coin_conf (class)                  : Coin configuration class
             key_net_ver (KeyNetVersions object): Key net versions
             is_testnet (bool)                  : True if test net, false otherwise
-            addr_fct (class)                   : Address class
+            addr_cls (class)                   : Address class
         """
         self.m_coin_conf = coin_conf
         self.m_key_net_ver = key_net_ver
         self.m_is_testnet = is_testnet
-        self.m_addr_fct = addr_fct
+        self.m_addr_cls = addr_cls
 
     def KeyNetVersions(self) -> KeyNetVersions:
         """ Get key net versions.
@@ -101,34 +102,35 @@ class BipCoinBase:
         # there are few different address functions.
 
         # P2PKH
-        if self.m_addr_fct is P2PKH:
+        if self.m_addr_cls is P2PKH:
             addr_ver = (self.m_coin_conf.P2PKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2PKH_NET_VER.Test())
-            return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
+            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # P2SH
-        elif self.m_addr_fct is P2SH:
+        elif self.m_addr_cls is P2SH:
             addr_ver = (self.m_coin_conf.P2SH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2SH_NET_VER.Test())
-            return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
+            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # P2WPKH
-        elif self.m_addr_fct is P2WPKH:
+        elif self.m_addr_cls is P2WPKH:
             addr_ver = (self.m_coin_conf.P2WPKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2WPKH_NET_VER.Test())
-            return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
+            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
         # EthAddr
-        elif self.m_addr_fct is EthAddr or self.m_addr_fct is TrxAddr:
+        elif (self.m_addr_cls is EthAddr or self.m_addr_cls is TrxAddr or
+              self.m_addr_cls is OkexAddr or self.m_addr_cls is OneAddr):
             # The first byte of the uncompressed key (0x04) is not needed
-            return self.m_addr_fct.ToAddress(pub_key.RawUncompressed().ToBytes()[1:])
+            return self.m_addr_cls.ToAddress(pub_key.RawUncompressed().ToBytes()[1:])
         # XrpAddr
-        elif self.m_addr_fct is XrpAddr:
-            return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes())
+        elif self.m_addr_cls is XrpAddr:
+            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes())
         # AtomAddr
-        elif self.m_addr_fct is AtomAddr:
-            return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes(), self.m_coin_conf.ADDR_HRP.Main())
-        elif self.m_addr_fct is AvaxPChainAddr or self.m_addr_fct is AvaxXChainAddr:
-            return self.m_addr_fct.ToAddress(pub_key.RawCompressed().ToBytes())
+        elif self.m_addr_cls is AtomAddr:
+            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), self.m_coin_conf.ADDR_HRP.Main())
+        elif self.m_addr_cls is AvaxPChainAddr or self.m_addr_cls is AvaxXChainAddr:
+            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes())
         else:
             raise RuntimeError("Invalid address class")
