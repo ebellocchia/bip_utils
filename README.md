@@ -106,6 +106,9 @@ Supported languages (if not specified, the default is English):
 |Spanish|*Bip39Languages.SPANISH*|
 |Portuguese|*Bip39Languages.PORTUGUESE*|
 |Czech|*Bip39Languages.CZECH*|
+|Chinese (simplified)|*Bip39Languages.CHINESE_SIMPLIFIED*|
+|Chinese (traditional)|*Bip39Languages.CHINESE_TRADITIONAL*|
+|Korean|*Bip39Languages.KOREAN*|
 
 **Code example**
 
