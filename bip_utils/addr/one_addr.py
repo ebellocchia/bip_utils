@@ -29,7 +29,7 @@ class OneAddrConst:
     """ Class container for Harmony One address constants. """
 
     # Huma-readable part
-    HRP: str = "ex"
+    HRP: str = "one"
 
 
 class OneAddr:
