@@ -34,8 +34,8 @@ setuptools.setup(
     test_suite="tests",
     install_requires = ["ecdsa>=0.14","pysha3"],
     packages=setuptools.find_packages(exclude=['tests']),
-    package_data={"bip_utils": ["bip/bip39_words/english.txt", "bip/bip39_words/italian.txt", "bip/bip39_words/french.txt", "bip/bip39_words/spanish.txt", "bip/bip39_words/portuguese.txt", "bip/bip39_words/czech.txt"]},
-    keywords="bitcoin, bitcoin cash, bitcoinsv, litecoin, dogecoin, dash, zcash, ethereum, ethereum classic, vechain, ripple, tron, cosmos, atom, band protocol, kava, iris, irisnet, terra, binance chain, binance smart chain, bnb, avalanche, avax, wallet, hd-wallet, bip39, bip32, bip44, bip49, bip84, python",
+    package_data={"bip_utils": ["bip/bip39_words/english.txt", "bip/bip39_words/italian.txt", "bip/bip39_words/french.txt", "bip/bip39_words/spanish.txt", "bip/bip39_words/portuguese.txt", "bip/bip39_words/czech.txt", "bip/bip39_words/chinese_simplified.txt", "bip/bip39_words/chinese_traditional.txt", "bip/bip39_words/korean.txt"]},
+    keywords="bitcoin, bitcoin cash, bitcoinsv, litecoin, dogecoin, dash, zcash, ethereum, ethereum classic, vechain, ripple, tron, cosmos, atom, band protocol, kava, iris, irisnet, terra, binance chain, binance smart chain, bnb, avalanche, avax, polygon, matic, fantom opera, harmony one, huobi chain, wallet, hd-wallet, bip39, bip32, bip44, bip49, bip84, python",
     platforms = ["any"],
     classifiers=[
         "Programming Language :: Python :: 3",
