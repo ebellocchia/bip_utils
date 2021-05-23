@@ -106,31 +106,25 @@ class BipCoinBase:
             addr_ver = (self.m_coin_conf.P2PKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2PKH_NET_VER.Test())
-            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
+            return self.m_addr_cls.ToAddress(pub_key, addr_ver)
         # P2SH
         elif self.m_addr_cls is P2SH:
             addr_ver = (self.m_coin_conf.P2SH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2SH_NET_VER.Test())
-            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
+            return self.m_addr_cls.ToAddress(pub_key, addr_ver)
         # P2WPKH
         elif self.m_addr_cls is P2WPKH:
             addr_ver = (self.m_coin_conf.P2WPKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2WPKH_NET_VER.Test())
-            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), addr_ver)
-        # EthAddr
-        elif (self.m_addr_cls is EthAddr or self.m_addr_cls is TrxAddr or
-              self.m_addr_cls is OkexAddr or self.m_addr_cls is OneAddr):
-            # The first byte of the uncompressed key (0x04) is not needed
-            return self.m_addr_cls.ToAddress(pub_key.RawUncompressed().ToBytes()[1:])
-        # XrpAddr
-        elif self.m_addr_cls is XrpAddr:
-            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes())
+            return self.m_addr_cls.ToAddress(pub_key, addr_ver)
         # AtomAddr
         elif self.m_addr_cls is AtomAddr:
-            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes(), self.m_coin_conf.ADDR_HRP.Main())
-        elif self.m_addr_cls is AvaxPChainAddr or self.m_addr_cls is AvaxXChainAddr:
-            return self.m_addr_cls.ToAddress(pub_key.RawCompressed().ToBytes())
+            return self.m_addr_cls.ToAddress(pub_key, self.m_coin_conf.ADDR_HRP.Main())
+        # Others
+        elif (self.m_addr_cls in [AvaxPChainAddr, AvaxXChainAddr, EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr]):
+            return self.m_addr_cls.ToAddress(pub_key)
+        # Invalid class
         else:
             raise RuntimeError("Invalid address class")
