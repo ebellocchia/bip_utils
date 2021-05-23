@@ -123,7 +123,7 @@ class BipCoinBase:
         elif self.m_addr_cls is AtomAddr:
             return self.m_addr_cls.ToAddress(pub_key, self.m_coin_conf.ADDR_HRP.Main())
         # Others
-        elif (self.m_addr_cls in [AvaxPChainAddr, AvaxXChainAddr, EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr]):
+        elif self.m_addr_cls in [AvaxPChainAddr, AvaxXChainAddr, EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr]:
             return self.m_addr_cls.ToAddress(pub_key)
         # Invalid class
         else:
