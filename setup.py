@@ -3,6 +3,7 @@ import re
 
 # File names
 DESCRIPTION_FILE = "README.md"
+KEYWORDS_FILE = "keywords.txt"
 REQUIREMENTS_FILE = "requirements.txt"
 VERSION_FILE = "bip_utils/_version.py"
 
@@ -10,7 +11,13 @@ VERSION_FILE = "bip_utils/_version.py"
 def load_long_description():
     return open(DESCRIPTION_FILE).read()
 
-# Read version
+# Load keywords
+def load_keywords():
+    with open(KEYWORDS_FILE, "r") as fin:
+        return ", ".join([line for line in map(str.strip, fin.read().splitlines())
+                          if len(line) > 0 and not line.startswith('#')])
+
+# Load version
 def load_version():
     version_line = open(VERSION_FILE).read().rstrip()
     vre = re.compile(r'__version__: str = "([^"]+)"')
@@ -29,8 +36,11 @@ def load_requirements():
 
 # Load needed files
 long_description = load_long_description()
+keywords = load_keywords()
 install_requires = load_requirements()
 version = load_version()
+
+print(keywords)
 
 # Setup configuration
 setuptools.setup(
@@ -40,7 +50,7 @@ setuptools.setup(
     author_email="ebellocchia@gmail.com",
     maintainer="Emanuele Bellocchia",
     maintainer_email="ebellocchia@gmail.com",
-    description="Implementation of BIP39, BIP32, BIP44, BIP49 and BIP84 for wallet seeds, keys and addresses generation. Supported coins: Bitcoin, Bitcoin Cash, BitcoinSV, Litecoin, Dogecoin, Dash, Zcash, Ethereum, Ethereum Classic, VeChain, Ripple, Tron, Cosmos, Band Protocol, Kava, IRIS Network, Terra, Binance Chain, Binance Smart Chain, Avalanche, Polygon, Fantom Opera, Harmony One, Huobi Chain, OKEx Chain.",
+    description="Implementation of BIP39, BIP32, BIP44, BIP49 and BIP84 for wallet seeds, keys and addresses generation.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/ebellocchia/bip_utils",
@@ -62,7 +72,7 @@ setuptools.setup(
             "bip/bip39_words/korean.txt"
         ]
     },
-    keywords="bitcoin, bitcoin cash, bitcoinsv, litecoin, dogecoin, dash, zcash, ethereum, ethereum classic, vechain, ripple, tron, cosmos, atom, band protocol, kava, iris, irisnet, terra, binance chain, binance smart chain, bnb, avalanche, avax, polygon, matic, fantom opera, harmony one, huobi chain, okex chain, wallet, hd-wallet, bip39, bip32, bip44, bip49, bip84, python",
+    keywords=keywords,
     platforms=["any"],
     classifiers=[
         "Programming Language :: Python :: 3",
