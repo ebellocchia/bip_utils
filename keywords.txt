@@ -1,0 +1,42 @@
+python
+cryptography
+ecdsa
+wallet
+hd-wallet
+bip39
+bip32
+bip44
+bip49
+bip84
+bech32
+segwit
+bitcoin
+bitcoin cash
+bitcoinsv
+litecoin
+dogecoin
+dash
+zcash
+ethereum
+ethereum classic
+vechain
+ripple
+tron
+cosmos
+atom
+band protocol
+kava
+iris
+irisnet
+terra
+binance chain
+binance smart chain
+bnb
+avalanche
+avax
+polygon
+matic
+fantom opera
+harmony one
+huobi chain
+okex chain
