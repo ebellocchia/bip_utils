@@ -20,23 +20,25 @@
 
 
 # Imports
+from typing import Union
 from bip_utils.base58 import Base58Encoder, Base58Alphabets
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.conf import BitcoinConf
-from bip_utils.utils import CryptoUtils, KeyUtils
+from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.utils import CryptoUtils
 
 
 class P2PKH:
     """ P2PKH class. It allows the Pay-to-Public-Key-Hash address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes: bytes,
+    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey],
                   net_addr_ver: bytes = BitcoinConf.P2PKH_NET_VER.Main(),
                   base58_alph: Base58Alphabets = Base58Alphabets.BITCOIN) -> str:
         """ Get address in P2PKH format.
 
         Args:
-            pub_key_bytes (bytes)                  : Public key bytes
+            pub_key (bytes or EcdsaPublicKey)      : Public key bytes or object
             net_addr_ver (bytes, optional)         : Net address version, default is Bitcoin main network
             base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin by default
 
@@ -44,35 +46,38 @@ class P2PKH:
             str: Address string
 
         Raises:
-            ValueError: If the key is not a public compressed key
+            ValueError: If the public key is not valid
         """
-        if not KeyUtils.IsPublicCompressed(pub_key_bytes):
-            raise ValueError("Public compressed key is required for P2PKH")
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
 
-        return Base58Encoder.CheckEncode(net_addr_ver + CryptoUtils.Hash160(pub_key_bytes), base58_alph)
+        return Base58Encoder.CheckEncode(net_addr_ver + CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()),
+                                         base58_alph)
 
 
 class BchP2PKH:
     """ Bitcoin Cash P2PKH class. It allows the Bitcoin Cash P2PKH generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes: bytes,
+    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey],
                   hrp: str,
                   net_addr_ver: bytes) -> str:
         """ Get address in Bitcoin Cash P2PKH format.
 
         Args:
-            pub_key_bytes (bytes): Public key bytes
-            hrp (str)            : HRP
-            net_addr_ver (bytes) : Net address version
+            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            hrp (str)                        : HRP
+            net_addr_ver (bytes)             : Net address version
 
         Returns:
             str: Address string
 
         Raises:
-            ValueError: If key is not a public compressed key
+            ValueError: If the public key is not valid
         """
-        if not KeyUtils.IsPublicCompressed(pub_key_bytes):
-            raise ValueError("Public compressed key is required for Bitcoin Cash")
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
 
-        return BchBech32Encoder.Encode(hrp, net_addr_ver, CryptoUtils.Hash160(pub_key_bytes))
+        return BchBech32Encoder.Encode(hrp,
+                                       net_addr_ver,
+                                       CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()))

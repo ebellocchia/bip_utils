@@ -20,9 +20,11 @@
 
 
 # Imports
+from typing import Union
 from bip_utils.bech32 import SegwitBech32Encoder
 from bip_utils.conf import BitcoinConf
-from bip_utils.utils import CryptoUtils, KeyUtils
+from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.utils import CryptoUtils
 
 
 class P2WPKHConst:
@@ -40,21 +42,23 @@ class P2WPKH:
     """
 
     @staticmethod
-    def ToAddress(pub_key_bytes: bytes,
+    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey],
                   net_addr_ver: str = BitcoinConf.P2WPKH_NET_VER.Main()) -> str:
         """ Get address in P2WPKH format.
 
         Args:
-            pub_key_bytes (bytes)       : Public key bytes
-            net_addr_ver (str, optional): Net address version, default is Bitcoin main network
+            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            net_addr_ver (str, optional)     : Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string
 
         Raises:
-            ValueError: If key is not a public compressed key
+            ValueError: If the public key is not valid
         """
-        if not KeyUtils.IsPublicCompressed(pub_key_bytes):
-            raise ValueError("Public compressed key is required for P2WPKH")
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
 
-        return SegwitBech32Encoder.Encode(net_addr_ver, P2WPKHConst.WITNESS_VER, CryptoUtils.Hash160(pub_key_bytes))
+        return SegwitBech32Encoder.Encode(net_addr_ver,
+                                          P2WPKHConst.WITNESS_VER,
+                                          CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()))
