@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,20 +22,68 @@
 # Imports
 import ecdsa
 from ecdsa.curves import SECP256k1
+from ecdsa.ellipticcurve import PointJacobi
 from bip_utils.ecc.key_bytes import KeyBytes
+
+
+class EcdsaPublicPoint:
+    """ ECDSA public point class. """
+
+    def __init__(self,
+                 point: PointJacobi) -> None:
+        """ Construct class.
+
+        Args:
+            point (ecdsa.ellipticcurve.PointJacobi object): ecdsa.ellipticcurve.PointJacobi object
+        """
+        self.m_point = point
+
+    def X(self) -> int:
+        """ Get point X coordinate.
+
+        Returns:
+           int: Point X coordinate
+        """
+        return self.m_point.x()
+
+    def Y(self) -> int:
+        """ Get point Y coordinate.
+
+        Returns:
+           int: Point Y coordinate
+        """
+        return self.m_point.y()
+
+    def __add__(self,
+                other: 'EcdsaPublicPoint') -> 'EcdsaPublicPoint':
+        """ Add point to another point.
+
+        Args:
+            other (EcdsaPublicPoint object): EcdsaPublicPoint object
+        """
+        return EcdsaPublicPoint(self.m_point + other.m_point)
+
+    def __mul__(self,
+                other: int) -> 'EcdsaPublicPoint':
+        """ Multiply point by integer.
+
+        Args:
+            other (int): integer
+        """
+        return EcdsaPublicPoint(self.m_point * other)
 
 
 class EcdsaPublicKey:
     """ ECDSA public key class. """
 
     def __init__(self,
-                 ecdsa_obj: ecdsa.VerifyingKey) -> None:
+                 ver_key: ecdsa.VerifyingKey) -> None:
         """ Construct class.
 
         Args:
-            ecdsa_obj (ecdsa.VerifyingKey): ecdsa.VerifyingKey object
+            ver_key (ecdsa.VerifyingKey object): ecdsa.VerifyingKey object
         """
-        self.m_ecdsa_obj = ecdsa_obj
+        self.m_ver_key = ver_key
 
     def RawCompressed(self) -> KeyBytes:
         """ Return raw compressed public key.
@@ -43,7 +91,7 @@ class EcdsaPublicKey:
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return KeyBytes(self.m_ecdsa_obj.to_string("compressed"))
+        return KeyBytes(self.m_ver_key.to_string("compressed"))
 
     def RawUncompressed(self) -> KeyBytes:
         """ Return raw uncompressed public key.
@@ -51,20 +99,23 @@ class EcdsaPublicKey:
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return KeyBytes(self.m_ecdsa_obj.to_string("uncompressed"))
+        return KeyBytes(self.m_ver_key.to_string("uncompressed"))
+
+    def Point(self) -> EcdsaPublicPoint:
+        return EcdsaPublicPoint(self.m_ver_key.pubkey.point)
 
 
 class EcdsaPrivateKey:
     """ ECDSA private key class. """
 
     def __init__(self,
-                 ecdsa_obj: ecdsa.SigningKey) -> None:
+                 sign_key: ecdsa.SigningKey) -> None:
         """ Construct class.
 
         Args:
-            ecdsa_obj (ecdsa.SigningKey): ecdsa.SigningKey object
+            sign_key (ecdsa.SigningKey object): ecdsa.SigningKey object
         """
-        self.m_ecdsa_obj = ecdsa_obj
+        self.m_sign_key = sign_key
 
     def Raw(self) -> KeyBytes:
         """ Return raw private key.
@@ -72,4 +123,12 @@ class EcdsaPrivateKey:
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return KeyBytes(self.m_ecdsa_obj.to_string())
+        return KeyBytes(self.m_sign_key.to_string())
+
+    def GetPublicKey(self) -> EcdsaPublicKey:
+        """ Get the public key correspondent to the private one.
+
+        Returns:
+            EcdsaPublicKey object: EcdsaPublicKey object
+        """
+        return EcdsaPublicKey(self.m_sign_key.get_verifying_key())
