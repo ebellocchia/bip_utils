@@ -29,7 +29,6 @@ from bip_utils import (
     LitecoinConf,
 )
 
-
 #
 # Helper class for Bip44Base child classes, wchich share the same tests
 #
