@@ -56,7 +56,7 @@ Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avala
 
 ## Install the package
 
-The package requires Python 3, it is not compatible with Python 2.
+The package requires Python 3, it is not compatible with Python 2.\
 To install it:
 - Using *setuptools*:
 
