@@ -39,11 +39,11 @@ The package currently supports the following coins (I try to add new ones from t
 - Ripple
 - VeChain
 - Cosmos
-- Band Protocol (Cosmos SDK)
-- Kava (Cosmos SDK)
-- IRIS Network (Cosmos SDK)
-- Terra (Cosmos SDK)
-- Binance Chain (Cosmos SDK)
+- Band Protocol
+- Kava
+- IRIS Network
+- Terra
+- Binance Chain
 - Binance Smart Chain
 - Avalanche (all the 3 chains)
 - Polygon
