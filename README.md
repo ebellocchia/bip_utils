@@ -440,7 +440,8 @@ In the example above, Bip44 can be substituted with Bip49 or Bip84 without chang
 
 ## Addresses generation
 
-These libraries are used internally by the other libraries, but they are available also for external use.
+These libraries are used internally by the other libraries, but they are available also for external use.\
+
 
 **Code example**
 
@@ -449,33 +450,38 @@ These libraries are used internally by the other libraries, but they are availab
       EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr
     )
 
+    # You can use key bytes
+    pub_key = b"03fd87569e9af6015d9d938c67c68fcdf5440d3c235eccbc1195a1924bba90e5e1"
+    # Or directly a public key object
+    pub_key = bip44_addr.PublicKey()
+
     # P2PKH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2PKH.ToAddress(pub_key_bytes)
+    addr = P2PKH.ToAddress(pub_key)
     # P2SH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2SH.ToAddress(pub_key_bytes)
+    addr = P2SH.ToAddress(pub_key)
     # P2WPKH addresses (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2WPKH.ToAddress(pub_key_bytes)
+    addr = P2WPKH.ToAddress(pub_key)
 
     # P2PKH addresses in Bitcoin Cash format
-    addr = BchP2PKH.ToAddress(pub_key_bytes, "bitcoincash", b"\x00")
+    addr = BchP2PKH.ToAddress(pub_key, "bitcoincash", b"\x00")
     # P2SH addresses in Bitcoin Cash format
-    addr = BchP2SH.ToAddress(pub_key_bytes, "bitcoincash", b"\x00")
+    addr = BchP2SH.ToAddress(pub_key, "bitcoincash", b"\x00")
 
-    # Ethereum needs the uncompressed public key (discard the first 0x04 byte)
-    addr = EthAddr.ToAddress(pub_key_bytes[1:])
-    # Tron needs the uncompressed public key
-    addr = TrxAddr.ToAddress(pub_key_bytes[1:])
-    # AVAX needs the compressed public key
-    addr = AvaxPChainAddr.ToAddress(pub_key_bytes)
-    addr = AvaxXChainAddr.ToAddress(pub_key_bytes)
-    # Atom needs the compressed public key
-    addr = AtomAddr.ToAddress(pub_key_bytes, "cosmos")
-    # OKEx Chain needs the uncompressed public key
-    addr = OkexAddr.ToAddress(pub_key_bytes[1:])
-    # Harmony One needs the uncompressed public key
-    addr = OneAddr.ToAddress(pub_key_bytes[1:])
-    # Ripple needs the compressed public key
-    addr = XrpAddr.ToAddress(pub_key_bytes)
+    # Ethereum address
+    addr = EthAddr.ToAddress(pub_key)
+    # Tron address
+    addr = TrxAddr.ToAddress(pub_key)
+    # AVAX address
+    addr = AvaxPChainAddr.ToAddress(pub_key)
+    addr = AvaxXChainAddr.ToAddress(pub_key)
+    # Atom address
+    addr = AtomAddr.ToAddress(pub_key, "cosmos")
+    # OKEx Chain address
+    addr = OkexAddr.ToAddress(pub_key)
+    # Harmony One address
+    addr = OneAddr.ToAddress(pub_key)
+    # Ripple address
+    addr = XrpAddr.ToAddress(pub_key)
 
 ## WIF
 
