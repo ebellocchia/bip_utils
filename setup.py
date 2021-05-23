@@ -40,8 +40,6 @@ keywords = load_keywords()
 install_requires = load_requirements()
 version = load_version()
 
-print(keywords)
-
 # Setup configuration
 setuptools.setup(
     name="bip_utils",
