@@ -33,9 +33,9 @@ The package currently supports the following coins (I try to add new ones from t
 - Dogecoin (and related test net)
 - Dash (and related test net)
 - Zcash (and related test net)
-- Ethereum (and, therefore, all related tokens)
+- Ethereum
 - Ethereum Classic
-- Tron (and, therefore, all related tokens)
+- Tron
 - Ripple
 - VeChain
 - Cosmos
@@ -44,13 +44,15 @@ The package currently supports the following coins (I try to add new ones from t
 - IRIS Network (Cosmos SDK)
 - Terra (Cosmos SDK)
 - Binance Chain (Cosmos SDK)
-- Binance Smart Chain (and, therefore, all related tokens)
-- Avalanche (all the three chains)
-- Polygon (and, therefore, all related tokens)
-- Fantom Opera (and, therefore, all related tokens)
-- Harmony One (and, therefore, all related tokens)
-- Huobi Heco Chain (and, therefore, all related tokens)
-- OKEx Chain (and, therefore, all related tokens)
+- Binance Smart Chain
+- Avalanche (all the 3 chains)
+- Polygon
+- Fantom Opera
+- Harmony One
+- Huobi Heco Chain
+- OKEx Chain
+
+Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avalanche, ...), the generated addresses are valid for all the related tokens.
 
 ## Install the package
 
@@ -381,7 +383,7 @@ This is the behavior of the official Harmony One wallet and the Ethereum address
 Therefore, if you need to generate the Harmony One address for Metamask, use *Bip44Coins.HARMONY_ONE_METAMASK*.
 - *Bip44Coins.OKEX_CHAIN_ETH* and *Bip44Coins.OKEX_CHAIN_ATOM* generate the address using the Ethereum coin index (i.e. *60*).
 These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* is compatible with Metamask.\
-*Bip44Coins.OKEX_CHAIN_ATOM_OLD* generates the address using the OKEx Chain coin index (i.e. *996*). 
+*Bip44Coins.OKEX_CHAIN_ATOM_OLD* generates the address using the OKEx Chain coin index (i.e. *996*).
   This address format was used before the mainnet upgrade (some wallets still use it, e.g. Cosmostation).
 
 **Code example**
