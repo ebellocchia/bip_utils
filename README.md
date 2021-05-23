@@ -48,9 +48,9 @@ The package currently supports the following coins (I try to add new ones from t
 - Avalanche (all the 3 chains)
 - Polygon
 - Fantom Opera
-- Harmony One
+- Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
-- OKEx Chain
+- OKEx Chain (Ethereum and Cosmos addresses)
 
 Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avalanche, ...), the generated addresses are valid for all the related tokens.
 
