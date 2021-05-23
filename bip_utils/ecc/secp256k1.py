@@ -75,7 +75,7 @@ class Secp256k1:
         try:
             return EcdsaPublicKey(ecdsa.VerifyingKey.from_string(data_bytes, curve=SECP256k1))
         except ecdsa.keys.MalformedPointError as ex:
-            raise ValueError("Invalid key bytes") from ex
+            raise ValueError("Invalid public key bytes") from ex
 
     @staticmethod
     def PublicKeyFromPoint(point: EcdsaPublicPoint) -> EcdsaPublicKey:
@@ -93,7 +93,7 @@ class Secp256k1:
         try:
             return EcdsaPublicKey(ecdsa.VerifyingKey.from_public_point(point.m_point, curve=SECP256k1))
         except ecdsa.keys.MalformedPointError as ex:
-            raise ValueError("Invalid key bytes") from ex
+            raise ValueError("Invalid point") from ex
 
     @staticmethod
     def PrivateKeyFromBytes(data_bytes: bytes) -> EcdsaPrivateKey:
@@ -111,7 +111,7 @@ class Secp256k1:
         try:
             return EcdsaPrivateKey(ecdsa.SigningKey.from_string(data_bytes, curve=SECP256k1))
         except ecdsa.keys.MalformedPointError as ex:
-            raise ValueError("Invalid key bytes") from ex
+            raise ValueError("Invalid private  key bytes") from ex
 
     @staticmethod
     def IsPublicKeyBytesValid(data_bytes: bytes) -> bool:
