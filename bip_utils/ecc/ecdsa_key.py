@@ -22,7 +22,6 @@
 # Imports
 import ecdsa
 from ecdsa.curves import SECP256k1
-from ecdsa.ellipticcurve import PointJacobi
 from bip_utils.ecc.key_bytes import KeyBytes
 
 
@@ -30,7 +29,7 @@ class EcdsaPublicPoint:
     """ ECDSA public point class. """
 
     def __init__(self,
-                 point: PointJacobi) -> None:
+                 point: ecdsa.ellipticcurve.PointJacobi) -> None:
         """ Construct class.
 
         Args:
@@ -74,7 +73,9 @@ class EcdsaPublicPoint:
 
 
 class EcdsaPublicKey:
-    """ ECDSA public key class. """
+    """ ECDSA public key class.
+    Method for verifying signatures is missing because not needed.
+    """
 
     def __init__(self,
                  ver_key: ecdsa.VerifyingKey) -> None:
@@ -111,7 +112,9 @@ class EcdsaPublicKey:
 
 
 class EcdsaPrivateKey:
-    """ ECDSA private key class. """
+    """ ECDSA private key class.
+    Method for signing messages is missing because not needed.
+    """
 
     def __init__(self,
                  sign_key: ecdsa.SigningKey) -> None:
