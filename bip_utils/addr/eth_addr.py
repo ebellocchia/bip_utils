@@ -21,7 +21,9 @@
 
 # Imports
 import sha3
-from bip_utils.utils import AlgoUtils, KeyUtils
+from typing import Union
+from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.utils import AlgoUtils
 
 
 class EthAddrConst:
@@ -59,20 +61,21 @@ class EthAddr:
     """ Ethereum address class. It allows the Ethereum address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes: bytes) -> str:
+    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
         """ Get address in Ethereum format.
 
         Args:
-            pub_key_bytes (bytes): Public key bytes
+            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raised:
-            ValueError: If the key is not a public uncompressed key
+            ValueError: If the public key is not valid
         """
-        if not KeyUtils.IsPublicUncompressed(pub_key_bytes):
-            raise ValueError("Public uncompressed key is required for Ethereum address")
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
 
-        addr = sha3.keccak_256(pub_key_bytes).hexdigest()[EthAddrConst.START_BYTE:]
+        # First byte of the uncompressed key (i.e. 0x04) is not needed
+        addr = sha3.keccak_256(pub_key.RawUncompressed().ToBytes()[1:]).hexdigest()[EthAddrConst.START_BYTE:]
         return EthAddrConst.PREFIX + EthAddrUtils.ChecksumEncode(addr)
