@@ -50,12 +50,14 @@ class BipPublicKey:
             coin_class (BipCoinBase child object, optional): BipCoinBase child object, Bip44BitcoinMainNet by default
         """
         self.m_pub_key = pub_key
-        self.m_key_net_ver = key_net_ver
-        self.m_depth = depth
-        self.m_fprint = fprint
-        self.m_index = index
-        self.m_chain = chain
-        self.m_coin_class = coin_class
+        # Pre-compute serialized key and address
+        self.m_ser_key = Bip32PublicKeySerializer.Serialize(pub_key,
+                                                            key_net_ver,
+                                                            depth,
+                                                            fprint,
+                                                            index,
+                                                            chain)
+        self.m_addr = coin_class.ComputeAddress(pub_key)
 
     def RawCompressed(self) -> KeyBytes:
         """ Return raw compressed public key.
@@ -79,12 +81,7 @@ class BipPublicKey:
         Returns:
             str: Key in serialized extended format
         """
-        return Bip32PublicKeySerializer.Serialize(self.m_pub_key,
-                                                  self.m_key_net_ver,
-                                                  self.m_depth,
-                                                  self.m_fprint,
-                                                  self.m_index,
-                                                  self.m_chain)
+        return self.m_ser_key
 
     def ToAddress(self) -> str:
         """ Return address correspondent tot he public key.
@@ -92,7 +89,7 @@ class BipPublicKey:
         Returns:
             str: Address
         """
-        return self.m_coin_class.ComputeAddress(self.m_pub_key)
+        return self.m_addr
 
 
 class BipPrivateKey:
@@ -121,11 +118,13 @@ class BipPrivateKey:
             Bip32KeyError: If the Bip32 object is public-only
         """
         self.m_priv_key = priv_key
-        self.m_key_net_ver = key_net_ver
-        self.m_depth = depth
-        self.m_fprint = fprint
-        self.m_index = index
-        self.m_chain = chain
+        # Pre-compute serialized key
+        self.m_ser_key = Bip32PrivateKeySerializer.Serialize(priv_key,
+                                                             key_net_ver,
+                                                             depth,
+                                                             fprint,
+                                                             index,
+                                                             chain)
         self.m_coin_class = coin_class
 
     def Raw(self) -> KeyBytes:
@@ -142,12 +141,7 @@ class BipPrivateKey:
         Returns:
             str: Key in serialized extended format
         """
-        return Bip32PrivateKeySerializer.Serialize(self.m_priv_key,
-                                                   self.m_key_net_ver,
-                                                   self.m_depth,
-                                                   self.m_fprint,
-                                                   self.m_index,
-                                                   self.m_chain)
+        return self.m_ser_key
 
     def ToWif(self,
               compr_pub_key: bool = True) -> str:
