@@ -47,5 +47,7 @@ from bip_utils.bip import (
     Bip49,
     Bip84
 )
+# ECC
+from bip_utils.ecc import EcdsaPublicKey, EcdsaPrivateKey, Secp256k1
 # Coins configuration
 from bip_utils.conf import *

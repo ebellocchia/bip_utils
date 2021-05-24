@@ -20,25 +20,19 @@
 
 
 # Imports
-import ecdsa
 from typing import Tuple
-from ecdsa.curves import SECP256k1
-from ecdsa.ecdsa import generator_secp256k1
 from bip_utils.bip.bip32_ex import Bip32KeyError, Bip32PathError
 from bip_utils.bip.bip32_utils import Bip32Utils
 from bip_utils.bip.bip32_path import Bip32PathParser
 from bip_utils.bip.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip.bip_keys import BipPrivateKey, BipPublicKey
 from bip_utils.conf import Bip32Conf, KeyNetVersions
-from bip_utils.ecc import EcdsaPublicKey, EcdsaPrivateKey
+from bip_utils.ecc import EcdsaPublicKey, EcdsaPrivateKey, Secp256k1
 from bip_utils.utils import CryptoUtils, ConvUtils
 
 
 class Bip32Const:
     """ Class container for BIP32 constants. """
-
-    # SECP256k1 curve order
-    CURVE_ORDER: int = generator_secp256k1.order()
 
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN: int = 4
@@ -156,12 +150,6 @@ class Bip32:
             if secret[0] != 0:
                 raise Bip32KeyError("Invalid extended key (wrong secret)")
             secret = secret[1:]
-        # If public key, recover the complete key from the compressed one
-        else:
-            try:
-                secret = ecdsa.VerifyingKey.from_string(secret, curve=SECP256k1)
-            except ecdsa.keys.MalformedPointError as ex:
-                raise Bip32KeyError("Invalid extended public key (malformed point)") from ex
 
         return Bip32(secret=secret,
                      chain=chain,
@@ -201,16 +189,21 @@ class Bip32:
         """
 
         if not is_public:
-            # Check private key validity
+            # Get private key
             try:
-                self.m_key = ecdsa.SigningKey.from_string(secret, curve=SECP256k1)
-            except ecdsa.keys.MalformedPointError as ex:
-                raise Bip32KeyError("Invalid private key (malformed point)") from ex
-            # Get verifying key
-            self.m_ver_key = self.m_key.get_verifying_key()
+                self.m_priv_key = Secp256k1.PrivateKeyFromBytes(secret)
+            except ValueError as ex:
+                raise Bip32KeyError("Invalid private key") from ex
+            # Get public key
+            self.m_pub_key = self.m_priv_key.GetPublicKey()
         else:
-            self.m_key = None
-            self.m_ver_key = secret
+            # No private key
+            self.m_priv_key = None
+            # Get public key
+            try:
+                 self.m_pub_key = Secp256k1.PublicKeyFromBytes(secret)
+            except ValueError as ex:
+                raise Bip32KeyError("Invalid public key") from ex
 
         self.m_is_public = is_public
         self.m_chain = chain
@@ -265,7 +258,7 @@ class Bip32:
 
     def ConvertToPublic(self) -> None:
         """ Convert a private Bip32 object into a public one. """
-        self.m_key = None
+        self.m_priv_key = None
         self.m_is_public = True
 
     def IsPublicOnly(self) -> bool:
@@ -287,7 +280,7 @@ class Bip32:
         """
         if self.m_is_public:
             raise Bip32KeyError("Public-only deterministic keys have no private half")
-        return EcdsaPrivateKey(self.m_key)
+        return self.m_priv_key
 
     def EcdsaPublicKey(self) -> EcdsaPublicKey:
         """ Return ECC public key object.
@@ -295,7 +288,7 @@ class Bip32:
         Returns:
             EcdsaPublicKey object: EcdsaPublicKey object
         """
-        return EcdsaPublicKey(self.m_ver_key)
+        return self.m_pub_key
 
     def PrivateKey(self) -> BipPrivateKey:
         """ Return private key object.
@@ -306,6 +299,8 @@ class Bip32:
         Raises:
             Bip32KeyError: If internal key is public-only
         """
+
+        # Use EcdsaPrivateKey so it checks for public-only key
         return BipPrivateKey(self.EcdsaPrivateKey(),
                              self.KeyNetVersions(),
                              self.Depth(),
@@ -319,7 +314,7 @@ class Bip32:
         Returns:
             BipPublicKey object: BipPublicKey object
         """
-        return BipPublicKey(self.EcdsaPublicKey(),
+        return BipPublicKey(self.m_pub_key,
                             self.KeyNetVersions(),
                             self.Depth(),
                             self.ParentFingerPrint(),
@@ -364,7 +359,7 @@ class Bip32:
         Returns:
             bytes: Key identifier bytes
         """
-        return CryptoUtils.Hash160(self.EcdsaPublicKey().RawCompressed().ToBytes())
+        return CryptoUtils.Hash160(self.m_pub_key.RawCompressed().ToBytes())
 
     def FingerPrint(self) -> bytes:
         """ Get key fingerprint.
@@ -405,17 +400,17 @@ class Bip32:
 
         # Data for HMAC
         if Bip32Utils.IsHardenedIndex(index):
-            data = b"\x00" + self.EcdsaPrivateKey().Raw().ToBytes() + index_bytes
+            data = b"\x00" + self.m_priv_key.Raw().ToBytes() + index_bytes
         else:
-            data = self.EcdsaPublicKey().RawCompressed().ToBytes() + index_bytes
+            data = self.m_pub_key.RawCompressed().ToBytes() + index_bytes
 
         # Compute HMAC halves
         i_l, i_r = self.__HmacHalves(data)
 
         # Construct new key secret from i_l and current private key
         i_l_int = ConvUtils.BytesToInteger(i_l)
-        key_int = ConvUtils.BytesToInteger(self.m_key.to_string())
-        new_key_int = (i_l_int + key_int) % Bip32Const.CURVE_ORDER
+        key_int = ConvUtils.BytesToInteger(self.m_priv_key.Raw().ToBytes())
+        new_key_int = (i_l_int + key_int) % Secp256k1.CurveOrder()
 
         # Convert to string and left pad with zeros
         secret = ConvUtils.IntegerToBytes(new_key_int)
@@ -449,22 +444,20 @@ class Bip32:
             raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         # Data for HMAC, same of __CkdPriv() for public child key
-        data = self.EcdsaPublicKey().RawCompressed().ToBytes() + index.to_bytes(4, "big")
+        data = self.m_pub_key.RawCompressed().ToBytes() + index.to_bytes(4, "big")
 
         # Get HMAC of data
         i_l, i_r = self.__HmacHalves(data)
 
-        # Construct curve point i_l*G+K
-        point = ConvUtils.BytesToInteger(i_l) * generator_secp256k1 + self.m_ver_key.pubkey.point
-
-        # Try to construct public key from the curve point
+        # Try to construct a new public key from the curve point: pub_key + G*i_l
         try:
-            k_i = ecdsa.VerifyingKey.from_public_point(point, curve=SECP256k1)
-        except ecdsa.keys.MalformedPointError as ex:
+            new_point = self.m_pub_key.Point() + (Secp256k1.Generator() * ConvUtils.BytesToInteger(i_l))
+            pub_key = Secp256k1.PublicKeyFromPoint(new_point)
+        except ValueError as ex:
             raise Bip32KeyError("Computed public child key is not valid, very unlucky index") from ex
 
         # Construct and return a new Bip32 object
-        return Bip32(secret=k_i,
+        return Bip32(secret=pub_key.RawCompressed().ToBytes(),
                      chain=i_r,
                      depth=self.m_depth + 1,
                      index=index,

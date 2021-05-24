@@ -20,29 +20,31 @@
 
 
 # Imports
+from typing import Union
 from bip_utils.bech32 import AtomBech32Encoder
-from bip_utils.utils import CryptoUtils, KeyUtils
+from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.utils import CryptoUtils
 
 
 class AtomAddr:
     """ Atom address class. It allows the Atom address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes: bytes,
+    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey],
                   hrp: str) -> str:
         """ Get address in Atom format.
 
         Args:
-            pub_key_bytes (bytes): Public key bytes
-            hrp (str)            : HRP
+            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            hrp (str)                        : HRP
 
         Returns:
             str: Address string
 
         Raises:
-            ValueError: If key is not a public compressed key
+            ValueError: If the public key is not valid
         """
-        if not KeyUtils.IsPublicCompressed(pub_key_bytes):
-            raise ValueError("Public compressed key is required for Atom address")
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
 
-        return AtomBech32Encoder.Encode(hrp, CryptoUtils.Hash160(pub_key_bytes))
+        return AtomBech32Encoder.Encode(hrp, CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()))

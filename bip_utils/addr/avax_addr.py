@@ -20,49 +20,53 @@
 
 
 # Imports
+from typing import Union
 from bip_utils.bech32 import AvaxChainTypes, AvaxBech32Encoder
-from bip_utils.utils import CryptoUtils, KeyUtils
+from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.utils import CryptoUtils
 
 
 class AvaxXChainAddr:
     """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes: bytes) -> str:
+    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
         """ Get address in Atom format.
 
         Args:
-            pub_key_bytes (bytes) : Public key bytes
+            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raises:
-            ValueError: If key is not a public compressed key
+            ValueError: If the public key is not valid
         """
-        if not KeyUtils.IsPublicCompressed(pub_key_bytes):
-            raise ValueError("Public compressed key is required for Avax address")
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
 
-        return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key_bytes), AvaxChainTypes.AVAX_X_CHAIN)
+        return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()),
+                                        AvaxChainTypes.AVAX_X_CHAIN)
 
 
 class AvaxPChainAddr:
     """ Avax P-Chain address class. It allows the Avax P-Chain address generation. """
 
     @staticmethod
-    def ToAddress(pub_key_bytes: bytes) -> str:
+    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
         """ Get address in Atom format.
 
         Args:
-            pub_key_bytes (bytes) : Public key bytes
+            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raises:
-            ValueError: If key is not a public compressed key
+            ValueError: If the public key is not valid
         """
-        if not KeyUtils.IsPublicCompressed(pub_key_bytes):
-            raise ValueError("Public compressed key is required for Avax address")
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
 
-        return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key_bytes), AvaxChainTypes.AVAX_P_CHAIN)
+        return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()),
+                                        AvaxChainTypes.AVAX_P_CHAIN)
