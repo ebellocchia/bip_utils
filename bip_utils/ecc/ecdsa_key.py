@@ -102,6 +102,11 @@ class EcdsaPublicKey:
         return KeyBytes(self.m_ver_key.to_string("uncompressed"))
 
     def Point(self) -> EcdsaPublicPoint:
+        """ Get public key point.
+
+        Returns:
+            EcdsaPublicPoint object: EcdsaPublicPoint object
+        """
         return EcdsaPublicPoint(self.m_ver_key.pubkey.point)
 
 
