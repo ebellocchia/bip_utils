@@ -21,8 +21,9 @@
 
 # Imports
 from bip_utils.base58 import Base58Decoder, Base58Encoder
+from bip_utils.ecc import Secp256k1
 from bip_utils.conf import BitcoinConf
-from bip_utils.utils import ConvUtils, KeyUtils
+from bip_utils.utils import ConvUtils
 
 
 class WifConst:
@@ -54,7 +55,7 @@ class WifEncoder:
         """
 
         # Check key
-        if not KeyUtils.IsPrivate(key_bytes):
+        if not Secp256k1.IsPrivateKeyBytesValid(key_bytes):
             raise ValueError("Invalid key (%s)" % ConvUtils.BytesToHexString(key_bytes))
 
         # Add suffix if correspond to a compressed public key
@@ -99,16 +100,14 @@ class WifDecoder:
         key_bytes = key_bytes[1:]
 
         # Remove suffix if correspond to a compressed public key
-        if KeyUtils.IsPrivate(key_bytes[:-1]):
+        if Secp256k1.IsPrivateKeyBytesValid(key_bytes[:-1]):
             # Check the compressed public key suffix
             if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
                 raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" %
                                  (ord(WifConst.COMPR_PUB_KEY_SUFFIX), key_bytes[-1]))
             # Remove it
             key_bytes = key_bytes[:-1]
-
-        # Check if valid
-        if not KeyUtils.IsValid(key_bytes):
+        elif not Secp256k1.IsPrivateKeyBytesValid(key_bytes):
             raise ValueError("Invalid decoded key (%s)" % ConvUtils.BytesToHexString(key_bytes))
 
         return key_bytes
