@@ -201,7 +201,7 @@ class Bip32:
             self.m_priv_key = None
             # Get public key
             try:
-                 self.m_pub_key = Secp256k1.PublicKeyFromBytes(secret)
+                self.m_pub_key = Secp256k1.PublicKeyFromBytes(secret)
             except ValueError as ex:
                 raise Bip32KeyError("Invalid public key") from ex
 

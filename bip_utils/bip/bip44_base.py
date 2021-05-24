@@ -256,7 +256,7 @@ class Bip44Base(ABC):
         # If the Bip32 is public-only, the depth shall start from the account level because hardened derivation is
         # used below it, which is not possible with public keys
         if bip32_obj.IsPublicOnly():
-            if (bip32_obj.Depth() < Bip44Levels.ACCOUNT or bip32_obj.Depth() > Bip44Levels.ADDRESS_INDEX):
+            if bip32_obj.Depth() < Bip44Levels.ACCOUNT or bip32_obj.Depth() > Bip44Levels.ADDRESS_INDEX:
                 raise Bip44DepthError(
                     "Depth of the public-only Bip32 object (%d) is below account level or beyond address index level" %
                     bip32_obj.Depth())

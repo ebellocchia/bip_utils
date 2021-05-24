@@ -73,7 +73,7 @@ class AvaxAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            cls = AvaxXChainAddr if test["chain"] == AvaxChainTypes.AVAX_X_CHAIN else  AvaxPChainAddr
+            cls = AvaxXChainAddr if test["chain"] == AvaxChainTypes.AVAX_X_CHAIN else AvaxPChainAddr
             self.assertEqual(test["address"], cls.ToAddress(key_bytes))
             self.assertEqual(test["address"], cls.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes)))
 
