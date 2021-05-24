@@ -299,6 +299,8 @@ class Bip32:
         Raises:
             Bip32KeyError: If internal key is public-only
         """
+
+        # Use EcdsaPrivateKey so it checks for public-only key
         return BipPrivateKey(self.EcdsaPrivateKey(),
                              self.KeyNetVersions(),
                              self.Depth(),
@@ -312,7 +314,7 @@ class Bip32:
         Returns:
             BipPublicKey object: BipPublicKey object
         """
-        return BipPublicKey(self.EcdsaPublicKey(),
+        return BipPublicKey(self.m_pub_key,
                             self.KeyNetVersions(),
                             self.Depth(),
                             self.ParentFingerPrint(),
@@ -357,7 +359,7 @@ class Bip32:
         Returns:
             bytes: Key identifier bytes
         """
-        return CryptoUtils.Hash160(self.EcdsaPublicKey().RawCompressed().ToBytes())
+        return CryptoUtils.Hash160(self.m_pub_key.RawCompressed().ToBytes())
 
     def FingerPrint(self) -> bytes:
         """ Get key fingerprint.
@@ -398,16 +400,16 @@ class Bip32:
 
         # Data for HMAC
         if Bip32Utils.IsHardenedIndex(index):
-            data = b"\x00" + self.EcdsaPrivateKey().Raw().ToBytes() + index_bytes
+            data = b"\x00" + self.m_priv_key.Raw().ToBytes() + index_bytes
         else:
-            data = self.EcdsaPublicKey().RawCompressed().ToBytes() + index_bytes
+            data = self.m_pub_key.RawCompressed().ToBytes() + index_bytes
 
         # Compute HMAC halves
         i_l, i_r = self.__HmacHalves(data)
 
         # Construct new key secret from i_l and current private key
         i_l_int = ConvUtils.BytesToInteger(i_l)
-        key_int = ConvUtils.BytesToInteger(self.EcdsaPrivateKey().Raw().ToBytes())
+        key_int = ConvUtils.BytesToInteger(self.m_priv_key.Raw().ToBytes())
         new_key_int = (i_l_int + key_int) % Secp256k1.CurveOrder()
 
         # Convert to string and left pad with zeros
@@ -442,7 +444,7 @@ class Bip32:
             raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         # Data for HMAC, same of __CkdPriv() for public child key
-        data = self.EcdsaPublicKey().RawCompressed().ToBytes() + index.to_bytes(4, "big")
+        data = self.m_pub_key.RawCompressed().ToBytes() + index.to_bytes(4, "big")
 
         # Get HMAC of data
         i_l, i_r = self.__HmacHalves(data)
