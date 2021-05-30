@@ -182,128 +182,67 @@ TEST_VECT_EX_KEY_ERR = [
 # Tests for paths for Bip32PathParser
 TEST_VECT_PATH = [
     {
-        "skip_master": False,
         "path": "m",
-        "parsed": ["m"],
+        "parsed": [],
     },
     {
-        "skip_master": False,
         "path": "m/",
-        "parsed": ["m"],
+        "parsed": [],
     },
     {
-        "skip_master": False,
         "path": "m/  0/1",
-        "parsed": ["m", 0, 1],
+        "parsed": [0, 1],
     },
     {
-        "skip_master": False,
         "path": "m/0  /1'",
-        "parsed": ["m", 0, Bip32Utils.HardenIndex(1)],
+        "parsed": [0, Bip32Utils.HardenIndex(1)],
     },
     {
-        "skip_master": False,
         "path": "m/0  /1p",
-        "parsed": ["m", 0, Bip32Utils.HardenIndex(1)],
+        "parsed": [0, Bip32Utils.HardenIndex(1)],
     },
     {
-        "skip_master": False,
         "path": "m/0'/1'/2/",
-        "parsed": ["m", Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
     },
     {
-        "skip_master": False,
         "path": "m/0p/1p/2/",
-        "parsed": ["m", Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
     },
     {
-        "skip_master": True,
         "path": "0",
         "parsed": [0],
     },
     {
-        "skip_master": True,
         "path": "0/",
         "parsed": [0],
     },
     {
-        "skip_master": True,
         "path": "0'/1'/2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
     },
     {
-        "skip_master": True,
         "path": "0p/1p/2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
     },
 ]
 
-# Tests for invalid paths for the Bip32PathParser (the result is always an empty list)
+# Tests for invalid paths for the Bip32PathParser
 TEST_VECT_PATH_INVALID = [
-    {
-        "skip_master": False,
-        "path": "",
-    },
-    {
-        "skip_master": False,
-        "path": "mm",
-    },
-    {
-        "skip_master": False,
-        "path": "m//",
-    },
-    {
-        "skip_master": False,
-        "path": "n/",
-    },
-    {
-        "skip_master": False,
-        "path": "mm/0",
-    },
-    {
-        "skip_master": False,
-        "path": "m/0''",
-    },
-    {
-        "skip_master": False,
-        "path": "m/0pp",
-    },
-    {
-        "skip_master": False,
-        "path": "m/0'0/1",
-    },
-    {
-        "skip_master": False,
-        "path": "m/0p0/1",
-    },
-    {
-        "skip_master": False,
-        "path": "m/a/1",
-    },
-    {
-        "skip_master": False,
-        "path": "m/0 1/1",
-    },
-    {
-        "skip_master": False,
-        "path": "m/0//1/1",
-    },
-    {
-        "skip_master": True,
-        "path": "0/a/1",
-    },
-    {
-        "skip_master": True,
-        "path": "0//1/1",
-    },
-    {
-        "skip_master": True,
-        "path": "m/",
-    },
-    {
-        "skip_master": True,
-        "path": "m/0/1/2",
-    },
+    "",
+    "mm",
+    "m//",
+    "n/",
+    "mm/0",
+    "m/0''",
+    "m/0pp",
+    "m/0'0/1",
+    "m/0p0/1",
+    "m/a/1",
+    "m/0 1/1",
+    "m/0//1/1",
+    "0/a/1",
+    "0//1/1",
 ]
 
 
@@ -422,21 +361,33 @@ class Bip32PathParserTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT_PATH:
-            self.assertEqual(test["parsed"], Bip32PathParser.Parse(test["path"], test["skip_master"]))
-            # Bip32.FromSeedAndPath shall raise an exception if path is not a master one
-            if test["skip_master"]:
-                self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, b"", test["path"])
+            path = Bip32PathParser.Parse(test["path"])
+
+            # Check if valid
+            self.assertTrue(path.IsValid())
+            # Check length
+            self.assertEqual(len(test["parsed"]), path.Length())
+
+            # Check by iterating
+            for idx, elem in enumerate(path):
+                self.assertEqual(test["parsed"][idx], int(elem))
+                self.assertEqual(test["parsed"][idx], int(path[idx]))
+                self.assertEqual(test["parsed"][idx], elem.ToInt())
+                self.assertEqual(Bip32Utils.IsHardenedIndex(test["parsed"][idx]), elem.IsHardened())
+                self.assertTrue(elem.IsValid())
+            # Check by converting to list
+            for idx, elem in enumerate(path.ToList()):
+                self.assertEqual(test["parsed"][idx], elem)
 
     # Test invalid paths
     def test_invalid_paths(self):
         seed = binascii.unhexlify(b"000102030405060708090a0b0c0d0e0f")
 
         for test in TEST_VECT_PATH_INVALID:
-            self.assertEqual([], Bip32PathParser.Parse(test["path"], test["skip_master"]))
+            # Try to parse an invalid path
+            self.assertFalse(Bip32PathParser.Parse(test).IsValid())
 
             # Try to derive an invalid path
             bip32 = Bip32.FromSeed(seed)
-            self.assertRaises(Bip32PathError, bip32.DerivePath, test["path"])
-            # Try to construct from an invalid path (Bip32.FromSeedAndPath does not skip master)
-            if not test["skip_master"]:
-                self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, b"", test["path"])
+            self.assertRaises(Bip32PathError, bip32.DerivePath, test)
+            self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, seed, test)
