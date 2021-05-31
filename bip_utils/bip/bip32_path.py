@@ -118,7 +118,7 @@ class Bip32Path:
         """ Get the path as a string.
 
         Returns:
-            str: Path as a list of integers
+            str: Path as a string
         """
         if not self.IsValid():
             return ""
