@@ -184,46 +184,57 @@ TEST_VECT_PATH = [
     {
         "path": "m",
         "parsed": [],
+        "to_str": "",
     },
     {
         "path": "m/",
         "parsed": [],
+        "to_str": "",
     },
     {
         "path": "m/  0/1",
         "parsed": [0, 1],
+        "to_str": "0/1",
     },
     {
         "path": "m/0  /1'",
         "parsed": [0, Bip32Utils.HardenIndex(1)],
+        "to_str": "0/1'",
     },
     {
         "path": "m/0  /1p",
         "parsed": [0, Bip32Utils.HardenIndex(1)],
+        "to_str": "0/1'",
     },
     {
         "path": "m/0'/1'/2/",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "to_str": "0'/1'/2",
     },
     {
         "path": "m/0p/1p/2/",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "to_str": "0'/1'/2",
     },
     {
         "path": "0",
         "parsed": [0],
+        "to_str": "0",
     },
     {
         "path": "0/",
         "parsed": [0],
+        "to_str": "0",
     },
     {
         "path": "0'/1'/2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "to_str": "0'/1'/2",
     },
     {
         "path": "0p/1p/2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "to_str": "0'/1'/2",
     },
 ]
 
@@ -367,6 +378,9 @@ class Bip32PathParserTests(unittest.TestCase):
             self.assertTrue(path.IsValid())
             # Check length
             self.assertEqual(len(test["parsed"]), path.Length())
+            # Check string conversion
+            self.assertEqual(test["to_str"], path.ToStr())
+            self.assertEqual(test["to_str"], str(path))
 
             # Check by iterating
             for idx, elem in enumerate(path):
