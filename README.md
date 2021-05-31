@@ -294,6 +294,9 @@ In case of error, an empty list is returned.
     print(path.IsValid())
     # Get length
     print(path.Length())
+    # Convert to string
+    print(path.ToStr())
+    print(str(path))
     # Print elements info and value
     for elem in path:
         print(elem.IsHardened())
