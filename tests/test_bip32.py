@@ -398,8 +398,13 @@ class Bip32PathParserTests(unittest.TestCase):
         seed = binascii.unhexlify(b"000102030405060708090a0b0c0d0e0f")
 
         for test in TEST_VECT_PATH_INVALID:
-            # Try to parse an invalid path
-            self.assertFalse(Bip32PathParser.Parse(test).IsValid())
+            path = Bip32PathParser.Parse(test)
+
+            # Check if not valid
+            self.assertFalse(path.IsValid())
+            # Check conversion to string
+            self.assertEqual("", path.ToStr())
+            self.assertEqual("", str(path))
 
             # Try to derive an invalid path
             bip32 = Bip32.FromSeed(seed)
