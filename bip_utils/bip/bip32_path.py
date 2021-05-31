@@ -114,6 +114,32 @@ class Bip32Path:
         """
         return [int(elem) for elem in self.m_elems]
 
+    def ToStr(self) -> str:
+        """ Get the path as a string.
+
+        Returns:
+            str: Path as a list of integers
+        """
+        if not self.IsValid():
+            return ""
+
+        path_str = ""
+        for elem in self.m_elems:
+            if not elem.IsHardened():
+                path_str += str(elem.ToInt()) + "/"
+            else:
+                path_str += str(Bip32Utils.UnhardenIndex(elem.ToInt())) + "'/"
+
+        return path_str[:-1]
+
+    def __str__(self) -> str:
+        """ Get the path as a string.
+
+        Returns:
+            str: Path as a list of integers
+        """
+        return self.ToStr()
+
     def __getitem__(self,
                     idx: int) -> Bip32PathElement:
         """ Get the specified element index.
