@@ -46,6 +46,18 @@ class Bip32Utils:
         return BitUtils.SetBit(index, Bip32UtilsConst.HARDENED_IDX)
 
     @staticmethod
+    def UnhardenIndex(index: int) -> int:
+        """ Unharden the specified index and return it.
+
+        Args:
+            index (int): Index
+
+        Returns:
+            int: Unhardened index
+        """
+        return BitUtils.ResetBit(index, Bip32UtilsConst.HARDENED_IDX)
+
+    @staticmethod
     def IsHardenedIndex(index: int) -> bool:
         """ Get if the specified index is hardened.
 
