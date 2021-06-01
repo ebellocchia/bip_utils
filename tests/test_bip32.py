@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32, Bip32KeyError, Bip32PathError, Bip32PathParser, Bip32Utils
+from bip_utils import Bip32, Bip32KeyError, Bip32Utils
 
 # Tests from BIP32 page
 TEST_VECT_BIP32 = [
@@ -179,83 +179,6 @@ TEST_VECT_EX_KEY_ERR = [
     "xpub661MyMwAqRbcFkPHucMnrGNzDwb6teAX1RbKQmqtEF8kK3Z7LZ59qafCj3rW1cw1qdn2KJo1MSajvp3cr5ceA5nJT3QHp65rcYr8AUbzLPh",
 ]
 
-# Tests for paths for Bip32PathParser
-TEST_VECT_PATH = [
-    {
-        "path": "m",
-        "parsed": [],
-        "to_str": "",
-    },
-    {
-        "path": "m/",
-        "parsed": [],
-        "to_str": "",
-    },
-    {
-        "path": "m/  0/1",
-        "parsed": [0, 1],
-        "to_str": "0/1",
-    },
-    {
-        "path": "m/0  /1'",
-        "parsed": [0, Bip32Utils.HardenIndex(1)],
-        "to_str": "0/1'",
-    },
-    {
-        "path": "m/0  /1p",
-        "parsed": [0, Bip32Utils.HardenIndex(1)],
-        "to_str": "0/1'",
-    },
-    {
-        "path": "m/0'/1'/2/",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
-        "to_str": "0'/1'/2",
-    },
-    {
-        "path": "m/0p/1p/2/",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
-        "to_str": "0'/1'/2",
-    },
-    {
-        "path": "0",
-        "parsed": [0],
-        "to_str": "0",
-    },
-    {
-        "path": "0/",
-        "parsed": [0],
-        "to_str": "0",
-    },
-    {
-        "path": "0'/1'/2",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
-        "to_str": "0'/1'/2",
-    },
-    {
-        "path": "0p/1p/2",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
-        "to_str": "0'/1'/2",
-    },
-]
-
-# Tests for invalid paths for the Bip32PathParser
-TEST_VECT_PATH_INVALID = [
-    "",
-    "mm",
-    "m//",
-    "n/",
-    "mm/0",
-    "m/0''",
-    "m/0pp",
-    "m/0'0/1",
-    "m/0p0/1",
-    "m/a/1",
-    "m/0 1/1",
-    "m/0//1/1",
-    "0/a/1",
-    "0//1/1",
-]
-
 
 #
 # Bip32 tests
@@ -329,7 +252,7 @@ class Bip32Tests(unittest.TestCase):
                 self.assertEqual(chain["ex_pub"], bip32_ctx.PublicKey().ToExtended())
                 self.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
-    # Test public derivationcoverage report
+    # Test public derivation
     def test_public_derivation(self):
         # Construct from extended private key
         bip32_ctx = Bip32.FromExtendedKey(TEST_VECT_PUBLIC_DER["ex_priv"])
@@ -363,54 +286,3 @@ class Bip32Tests(unittest.TestCase):
     def test_invalid_ex_key(self):
         for test in TEST_VECT_EX_KEY_ERR:
             self.assertRaises(Bip32KeyError, Bip32.FromExtendedKey, test)
-
-
-#
-# Path parser tests
-#
-class Bip32PathParserTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_vector(self):
-        for test in TEST_VECT_PATH:
-            path = Bip32PathParser.Parse(test["path"])
-
-            # Check if valid
-            self.assertTrue(path.IsValid())
-            # Check length
-            self.assertEqual(len(test["parsed"]), path.Length())
-            # Check string conversion
-            self.assertEqual(test["to_str"], path.ToStr())
-            self.assertEqual(test["to_str"], str(path))
-
-            # Check by iterating
-            for idx, elem in enumerate(path):
-                test_elem = test["parsed"][idx]
-
-                self.assertEqual(test_elem, int(elem))
-                self.assertEqual(test_elem, int(path[idx]))
-                self.assertEqual(test_elem, elem.ToInt())
-                self.assertEqual(Bip32Utils.IsHardenedIndex(test_elem), elem.IsHardened())
-                self.assertTrue(elem.IsValid())
-            # Check by converting to list
-            for idx, elem in enumerate(path.ToList()):
-                self.assertEqual(test["parsed"][idx], elem)
-
-    # Test invalid paths
-    def test_invalid_paths(self):
-        seed = binascii.unhexlify(b"000102030405060708090a0b0c0d0e0f")
-
-        for test in TEST_VECT_PATH_INVALID:
-            path = Bip32PathParser.Parse(test)
-
-            # Check if not valid
-            self.assertFalse(path.IsValid())
-            # Check conversion to string
-            self.assertEqual("", path.ToStr())
-            self.assertEqual("", str(path))
-            # Check conversion to list
-            self.assertEqual([], path.ToList())
-
-            # Try to derive an invalid path
-            bip32 = Bip32.FromSeed(seed)
-            self.assertRaises(Bip32PathError, bip32.DerivePath, test)
-            self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, seed, test)
