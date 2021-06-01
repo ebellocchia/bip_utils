@@ -23,9 +23,7 @@
 import ecdsa
 from ecdsa.curves import SECP256k1
 from ecdsa.ecdsa import generator_secp256k1
-from ecdsa.ellipticcurve import PointJacobi
 from bip_utils.ecc.ecdsa_key import EcdsaPublicPoint, EcdsaPublicKey, EcdsaPrivateKey
-from bip_utils.utils import ConvUtils
 
 
 class Secp256k1Const:
