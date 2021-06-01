@@ -112,6 +112,9 @@ class Bip32Path:
         Returns:
             list: Path as a list of integers
         """
+        if not self.IsValid():
+            return []
+
         return [int(elem) for elem in self.m_elems]
 
     def ToStr(self) -> str:

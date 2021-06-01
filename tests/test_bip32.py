@@ -384,10 +384,12 @@ class Bip32PathParserTests(unittest.TestCase):
 
             # Check by iterating
             for idx, elem in enumerate(path):
-                self.assertEqual(test["parsed"][idx], int(elem))
-                self.assertEqual(test["parsed"][idx], int(path[idx]))
-                self.assertEqual(test["parsed"][idx], elem.ToInt())
-                self.assertEqual(Bip32Utils.IsHardenedIndex(test["parsed"][idx]), elem.IsHardened())
+                test_elem = test["parsed"][idx]
+
+                self.assertEqual(test_elem, int(elem))
+                self.assertEqual(test_elem, int(path[idx]))
+                self.assertEqual(test_elem, elem.ToInt())
+                self.assertEqual(Bip32Utils.IsHardenedIndex(test_elem), elem.IsHardened())
                 self.assertTrue(elem.IsValid())
             # Check by converting to list
             for idx, elem in enumerate(path.ToList()):
@@ -405,6 +407,8 @@ class Bip32PathParserTests(unittest.TestCase):
             # Check conversion to string
             self.assertEqual("", path.ToStr())
             self.assertEqual("", str(path))
+            # Check conversion to list
+            self.assertEqual([], path.ToList())
 
             # Try to derive an invalid path
             bip32 = Bip32.FromSeed(seed)
