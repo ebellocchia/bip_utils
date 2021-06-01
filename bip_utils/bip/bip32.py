@@ -100,20 +100,9 @@ class Bip32:
             Bip32KeyError: If the seed is not suitable for master key generation
         """
 
-        # Parse path
-        path_idx = Bip32PathParser.Parse(path)
-
-        # Check result
-        if len(path_idx) == 0:
-            raise Bip32PathError("The specified path is not valid")
-
-        # Create Bip32 object
+        # Create Bip32 object and derive path
         bip32_ctx = Bip32.FromSeed(seed_bytes, key_net_ver)
-        # Start from 1 because the master key is already derived
-        for i in range(1, len(path_idx)):
-            bip32_ctx = bip32_ctx.ChildKey(path_idx[i])
-
-        return bip32_ctx
+        return bip32_ctx.DerivePath(path)
 
     @staticmethod
     def FromExtendedKey(key_str: str,
@@ -243,16 +232,16 @@ class Bip32:
         """
 
         # Parse path
-        path_idx = Bip32PathParser.Parse(path, True)
+        path = Bip32PathParser.Parse(path)
 
         # Check result
-        if len(path_idx) == 0:
+        if not path.IsValid():
             raise Bip32PathError("The specified path is not valid")
 
         bip32_obj = self
         # Derive children keys
-        for idx in path_idx:
-            bip32_obj = bip32_obj.ChildKey(idx)
+        for path_elem in path:
+            bip32_obj = bip32_obj.ChildKey(int(path_elem))
 
         return bip32_obj
 

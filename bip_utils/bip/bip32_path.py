@@ -20,12 +20,12 @@
 
 
 # Import
-from typing import List, Optional, Tuple, Union
+from typing import Iterator, List, Optional, Tuple
 from bip_utils.bip.bip32_utils import Bip32Utils
 
 
-class Bip32PathParserConst:
-    """ Class container for path parser constants. """
+class Bip32PathConst:
+    """ Class container for BIP32 path constants. """
 
     # Hardened characters
     HARDENED_CHARS: Tuple[str, str] = ("'", "p")
@@ -33,77 +33,190 @@ class Bip32PathParserConst:
     MASTER_CHAR: str = "m"
 
 
-class Bip32PathParser:
-    """ Path parser class. It parses a BIP-0032 path and return a list of its indexes. """
+class Bip32PathElement:
+    """ BIP32 path element class. It represents a BIP-0032 path single element. """
 
-    @staticmethod
-    def Parse(path: str,
-              skip_master: bool = False) -> List[Union[str, int]]:
-        """ Validate a path.
-
-        Args:
-            path (str)                  : Path
-            skip_master (bool, optional): True to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
-
-        Returns:
-            list: List with path indexes
-        """
-
-        return Bip32PathParser.__ParseElems(path.split("/"), skip_master)
-
-    @staticmethod
-    def __ParseElems(path_elems: List[str],
-                     skip_master: bool) -> List[Union[str, int]]:
-        """ Parse path elements.
+    def __init__(self,
+                 elem: Optional[int]) -> None:
+        """ Construct class by specifying the path element.
 
         Args:
-            path_elems (list)           : Path element list
-            skip_master (bool, optional): True to skip the master in path (e.g. 0/1/2), false otherwise (e.g. m/0/1/2)
+            elem (int or None): Path element
+        """
+        self.m_elem = elem
+
+    def IsHardened(self) -> bool:
+        """ Get if the path element is hardened.
 
         Returns:
-            list: List with path indexes
+            bool: True if hardened, false otherwise
         """
+        return Bip32Utils.IsHardenedIndex(self.m_elem)
 
-        path_list = []
+    def IsValid(self) -> bool:
+        """ Get if the path element is valid.
 
-        # Check each element
-        for i in range(len(path_elems)):
-            path_elem = path_elems[i].strip()
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        return self.m_elem is not None
 
-            # Skip last empty element if any
-            if len(path_elem) == 0 and i == len(path_elems) - 1:
-                continue
+    def ToInt(self) -> int:
+        """ Get the path element as integer.
 
-            # If path starts from master, the first element shall be "m"
-            if i == 0 and not skip_master:
-                if path_elem != Bip32PathParserConst.MASTER_CHAR:
-                    return []
-                path_list.append(Bip32PathParserConst.MASTER_CHAR)
+        Returns:
+            int: Path element
+        """
+        return int(self.m_elem)
+
+    def __int__(self) -> int:
+        """ Get the path element as integer.
+
+        Returns:
+            int: Path element
+        """
+        return self.ToInt()
+
+
+class Bip32Path:
+    """ BIP32 path class. It represents a BIP-0032 path. """
+
+    def __init__(self,
+                 elems: List[int]) -> None:
+        """ Construct class by specifying the path elements.
+
+        Args:
+            elems (list): Path elements
+        """
+        self.m_elems = [Bip32PathElement(elem) for elem in elems]
+
+    def Length(self) -> int:
+        """ Get the number of elements of the path.
+
+        Returns:
+            int: Number of elements
+        """
+        return len(self.m_elems)
+
+    def IsValid(self) -> bool:
+        """ Get if the path is valid.
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        return all(elem.IsValid() for elem in self.m_elems)
+
+    def ToList(self) -> List[int]:
+        """ Get the path as a list of integers.
+
+        Returns:
+            list: Path as a list of integers
+        """
+        return [int(elem) for elem in self.m_elems]
+
+    def ToStr(self) -> str:
+        """ Get the path as a string.
+
+        Returns:
+            str: Path as a string
+        """
+        if not self.IsValid():
+            return ""
+
+        path_str = ""
+        for elem in self.m_elems:
+            if not elem.IsHardened():
+                path_str += str(elem.ToInt()) + "/"
             else:
-                # Get index
-                path_idx = Bip32PathParser.__GetElemIndex(path_elem)
-                # Check it
-                if path_idx is None:
-                    return []
-                # Add it to the list
-                path_list.append(path_idx)
+                path_str += str(Bip32Utils.UnhardenIndex(elem.ToInt())) + "'/"
 
-        return path_list
+        return path_str[:-1]
+
+    def __str__(self) -> str:
+        """ Get the path as a string.
+
+        Returns:
+            str: Path as a list of integers
+        """
+        return self.ToStr()
+
+    def __getitem__(self,
+                    idx: int) -> Bip32PathElement:
+        """ Get the specified element index.
+
+        Args:
+            idx (int): Element index
+
+        Returns:
+            int or str: Element at the specified index
+        """
+        return self.m_elems[idx]
+
+    def __iter__(self) -> Iterator[Bip32PathElement]:
+        """ Get the iterator to the current element.
+
+        Returns:
+            Iterator object: Iterator to the current element
+        """
+        yield from self.m_elems
+
+
+class Bip32PathParser:
+    """ BIP32 path parser class. It parses a BIP-0032 path and return a Bip32Path object. """
 
     @staticmethod
-    def __GetElemIndex(path_elem: str) -> Optional[int]:
-        """ Get index of a path element.
+    def Parse(path: str) -> Bip32Path:
+        """ Parse a path and return a Bip32Path object.
+
+        Args:
+            path (str): Path
+
+        Returns:
+            Bip32Path: Bip32Path object
+        """
+
+        # Remove trailing "/" if any
+        if path.endswith("/"):
+            path = path[:-1]
+
+        # Parse elements
+        return Bip32PathParser.__ParseElements(path.split("/"))
+
+    @staticmethod
+    def __ParseElements(path_elems: List[str]) -> Bip32Path:
+        """ Parse path elements and return a Bip32Path object.
+
+        Args:
+            path_elems (list): Path elements
+
+        Returns:
+            Bip32Path: Bip32Path object
+        """
+
+        # Remove the initial "m" character if any
+        if len(path_elems) > 0 and path_elems[0] == Bip32PathConst.MASTER_CHAR:
+            path_elems = path_elems[1:]
+
+        # Parse elements
+        parsed_elems = list(map(Bip32PathParser.__ParseElem, path_elems))
+        return Bip32Path(parsed_elems)
+
+    @staticmethod
+    def __ParseElem(path_elem: str) -> Optional[int]:
+        """ Parse path element and get the correspondent index.
 
         Args:
             path_elem (str): Path element
 
         Returns:
-            int: Index of the element
-            None: If the element is not a valid index
+            int: Index of the element, None if the element is not a valid index
         """
 
+        # Strip spaces
+        path_elem = path_elem.strip()
+
         # Get if hardened
-        is_hardened = len(path_elem) > 0 and path_elem[-1] in Bip32PathParserConst.HARDENED_CHARS
+        is_hardened = path_elem.endswith(Bip32PathConst.HARDENED_CHARS)
 
         # If hardened, remove the last character from the string
         if is_hardened:

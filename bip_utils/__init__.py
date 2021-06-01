@@ -36,7 +36,7 @@ from bip_utils.bip import (
 from bip_utils.bip import (
     Bip32KeyError, Bip32PathError,
     Bip32Utils,
-    Bip32PathParser,
+    Bip32PathParser, Bip32PathElement, Bip32Path,
     Bip32
 )
 # BIP44/49/84

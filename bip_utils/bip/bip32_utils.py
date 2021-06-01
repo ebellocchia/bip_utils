@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+
 # Imports
 from bip_utils.utils import BitUtils
 
@@ -43,6 +44,18 @@ class Bip32Utils:
             int: Hardened index
         """
         return BitUtils.SetBit(index, Bip32UtilsConst.HARDENED_IDX)
+
+    @staticmethod
+    def UnhardenIndex(index: int) -> int:
+        """ Unharden the specified index and return it.
+
+        Args:
+            index (int): Index
+
+        Returns:
+            int: Unhardened index
+        """
+        return BitUtils.ResetBit(index, Bip32UtilsConst.HARDENED_IDX)
 
     @staticmethod
     def IsHardenedIndex(index: int) -> bool:

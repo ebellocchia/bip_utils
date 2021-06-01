@@ -7,7 +7,7 @@ from bip_utils.bip.bip39 import (
 # BIP32
 from bip_utils.bip.bip32_ex import Bip32KeyError, Bip32PathError
 from bip_utils.bip.bip32_utils import Bip32Utils
-from bip_utils.bip.bip32_path import Bip32PathParser
+from bip_utils.bip.bip32_path import Bip32PathParser, Bip32PathElement, Bip32Path
 from bip_utils.bip.bip32 import Bip32
 # BIP44/49/84
 from bip_utils.bip.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError

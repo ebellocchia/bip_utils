@@ -284,14 +284,29 @@ In case of error, an empty list is returned.
 
     from bip_utils import Bip32PathParser
 
-    # Print: ["m", 2147483648, 2147483649, 2]
-    print(Bip32PathParser.Parse("m/0'/1'/2"))
-    # Same but skipping the master. Print: [2147483648, 2147483649, 2]
-    print(Bip32PathParser.Parse("0'/1'/2", True))
+    # Parse path
+    path = Bip32PathParser.Parse("0'/1'/2")
     # 'p' can be used as an alternative character instead of '
-    print(Bip32PathParser.Parse("m/0p/1p/2"))
-    # Error path: empty list returned. Print: []
-    print(Bip32PathParser.Parse("m/0'/abc/2"))
+    path = Bip32PathParser.Parse("0p/1p/2")
+    # "m" can be added at the beginning
+    path = Bip32PathParser.Parse("m/0'/1'/2")
+    # Get if valid
+    print(path.IsValid())
+    # Get length
+    print(path.Length())
+    # Convert to string
+    print(path.ToStr())
+    print(str(path))
+    # Print elements info and value
+    for elem in path:
+        print(elem.IsHardened())
+        print(elem.IsValid())
+        print(elem.ToInt())
+        print(int(elem))
+    # Get as list of integers
+    path_list = path.ToList()
+    for elem in path_list:
+        print(elem)
 
 ## Bip-0044, BIP-0049, BIP-0084 libraries
 
