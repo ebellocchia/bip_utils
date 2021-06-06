@@ -43,6 +43,9 @@ class BitcoinConf:
     # Test names
     TEST_NAMES: CoinNames = CoinNames("Bitcoin TestNet", "BTC")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of BIP32)
     BIP44_KEY_NET_VER: NetVersions = Bip32Conf.KEY_NET_VER
     # BIP49 net versions (ypub / yprv) - (upub / uprv)
@@ -69,6 +72,9 @@ class BitcoinCashConf:
     NAMES: CoinNames = CoinNames("Bitcoin Cash", "BCH")
     # Test names
     TEST_NAMES: CoinNames = CoinNames("Bitcoin Cash TestNet", "BCH")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # False for using Bitcoin Cash addresses, True for using Bitcoin legacy addresses
     LEGACY_ADDR: bool = False
@@ -101,6 +107,9 @@ class BitcoinSvConf:
     # Test names
     TEST_NAMES: CoinNames = CoinNames("BitcoinSV TestNet", "BSV")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of BIP32)
     BIP44_KEY_NET_VER: NetVersions = Bip32Conf.KEY_NET_VER
     # BIP49 net versions (ypub / yprv) - (upub / uprv)
@@ -122,6 +131,9 @@ class LitecoinConf:
     NAMES: CoinNames = CoinNames("Litecoin", "LTC")
     # Test names
     TEST_NAMES: CoinNames = CoinNames("Litecoin TestNet", "LTC")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # False for using Bitcoin net versions for extended keys (xprv/xpub and similar)
     # True for using the alternate ones (Ltpv/Ltub and similar)
@@ -165,6 +177,9 @@ class DogecoinConf:
     # Test names
     TEST_NAMES: CoinNames = CoinNames("Dogecoin TestNet", "DOGE")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (dgub / dgpv) - (tgub / tgpv)
     BIP44_KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"02facafd", b"02fac398"),
                                                  KeyNetVersions(b"0432a9a8", b"0432a243"))
@@ -188,6 +203,9 @@ class DashConf:
     # Test names
     TEST_NAMES: CoinNames = CoinNames("Dash TestNet", "DASH")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
     # BIP49 net versions (same of Bitcoin)
@@ -209,6 +227,9 @@ class ZcashConf:
     # Test names
     TEST_NAMES: CoinNames = CoinNames("Zcash TestNet", "ZEC")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
     # BIP49 net versions (same of Bitcoin)
@@ -228,6 +249,9 @@ class EthereumConf:
     # Names
     NAMES: CoinNames = CoinNames("Ethereum", "ETH")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -241,6 +265,9 @@ class EthereumClassicConf:
     # Names
     NAMES: CoinNames = CoinNames("Ethereum Classic", "ETC")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -253,6 +280,9 @@ class RippleConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Ripple", "XRP")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -269,6 +299,9 @@ class TronConf:
     # Names
     NAMES: CoinNames = CoinNames("Tron", "TRX")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -282,6 +315,9 @@ class VeChainConf:
     # Names
     NAMES: CoinNames = CoinNames("VeChain", "VET")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -294,6 +330,9 @@ class CosmosConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Cosmos", "ATOM")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
@@ -311,6 +350,9 @@ class BandProtocolConf:
     # Names
     NAMES: CoinNames = CoinNames("Band Protocol", "BAND")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -326,6 +368,9 @@ class KavaConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Kava", "KAVA")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -343,6 +388,9 @@ class IrisNetConf:
     # Names
     NAMES: CoinNames = CoinNames("IRIS Network", "IRIS")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -358,6 +406,9 @@ class TerraConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Terra", "LUNA")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -375,6 +426,9 @@ class BinanceChainConf:
     # Names
     NAMES: CoinNames = CoinNames("Binance Chain", "BNB")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -391,6 +445,9 @@ class BinanceSmartChainConf:
     # Names
     NAMES: CoinNames = CoinNames("Binance Smart Chain", "BNB")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -403,6 +460,9 @@ class AvaxCChainConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Avax C-Chain", "AVAX")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -417,6 +477,9 @@ class AvaxXChainConf:
     # Names
     NAMES: CoinNames = CoinNames("Avax X-Chain", "AVAX")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -429,6 +492,9 @@ class AvaxPChainConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Avax P-Chain", "AVAX")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -443,6 +509,9 @@ class PolygonConf:
     # Names
     NAMES: CoinNames = CoinNames("Polygon", "MATIC")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -455,6 +524,9 @@ class FantomOperaConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Fantom Opera", "FTM")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -469,6 +541,9 @@ class HarmonyOneConf:
     # Names
     NAMES: CoinNames = CoinNames("Harmony One", "ONE")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -481,6 +556,9 @@ class HuobiChainConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Huobi Token", "HT")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -495,6 +573,9 @@ class OkexChainConf:
     # Names
     NAMES: CoinNames = CoinNames("OKExChain", "OKT")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -507,6 +588,9 @@ class SolanaConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Solana", "SOL")
+
+    # Default path
+    DEFAULT_PATH: str = "0'"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
@@ -521,6 +605,9 @@ class TezosConf:
     # Names
     NAMES: CoinNames = CoinNames("Tezos", "XTZ")
 
+    # Default path
+    DEFAULT_PATH: str = "0'/0'"
+
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
@@ -533,6 +620,9 @@ class NineChroniclesGoldConf:
 
     # Names
     NAMES: CoinNames = CoinNames("Nine Chronicles Gold", "NCG")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER

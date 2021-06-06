@@ -64,6 +64,14 @@ class BipCoinBase:
         """
         return self.m_bip32_cls
 
+    def DefaultPath(self) -> str:
+        """ Get the default derivation path.
+
+        Returns:
+            str: Default derivation path
+        """
+        return self.m_coin_conf.DEFAULT_PATH
+
     def KeyNetVersions(self) -> KeyNetVersions:
         """ Get key net versions.
 
