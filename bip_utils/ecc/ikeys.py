@@ -23,6 +23,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any, Union
+from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.key_bytes import KeyBytes
 
 
@@ -47,6 +48,16 @@ class IPoint(ABC):
 
         Returns:
            Any: Underlying object
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
         """
         pass
 
@@ -141,6 +152,16 @@ class IPublicKey(ABC):
 
     @staticmethod
     @abstractmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
     def IsValid(key_data: Union[bytes, IPoint]) -> bool:
         """ Return if the specified data represents a valid public key.
 
@@ -204,6 +225,16 @@ class IPrivateKey(ABC):
 
         Raises:
             ValueError: If key bytes are not valid
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
         """
         pass
 

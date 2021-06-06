@@ -20,26 +20,12 @@
 
 
 # Imports
-from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.ed25519_keys import Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey
+from enum import Enum, auto, unique
 
 
-class Ed25519Const:
-    """ Class container for Ed25519 constants. """
+@unique
+class EllipticCurveTypes(Enum):
+    """ Enumerative for elliptic curve types. """
 
-    # Curve name
-    NAME: str = "Ed25519"
-    # Curve order
-    CURVE_ORDER: int = 0x1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED
-    # Curve generator point
-    GENERATOR: Ed25519Point = Ed25519Point(15112221349535400772501151409588531511454012693041857206046113283949847762202,
-                                           46316835694926478169428394003475163141307993866256225615783033603165251855960)
-
-
-# Ed25519 curve definition
-Ed25519: EllipticCurve = EllipticCurve(Ed25519Const.NAME,
-                                       Ed25519Const.CURVE_ORDER,
-                                       Ed25519Const.GENERATOR,
-                                       Ed25519Point,
-                                       Ed25519PublicKey,
-                                       Ed25519PrivateKey)
+    SECP256K1 = auto(),
+    ED25519 = auto(),

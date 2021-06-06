@@ -21,7 +21,7 @@
 
 # Imports
 from ecdsa.ecdsa import generator_secp256k1
-from bip_utils.ecc.curve import EllipticCurve
+from bip_utils.ecc.elliptic_curve import EllipticCurve
 from bip_utils.ecc.secp256k1_keys import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
 
 

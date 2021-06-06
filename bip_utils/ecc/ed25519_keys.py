@@ -23,6 +23,7 @@
 from __future__ import annotations
 from nacl import exceptions, signing
 from typing import Any, Union
+from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
 
@@ -41,6 +42,15 @@ class Ed25519Point(IPoint):
         """
         self.m_x = x
         self.m_y = y
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.ED25519
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -143,6 +153,15 @@ class Ed25519PublicKey(IPublicKey):
             raise TypeError("Invalid public key data type")
 
     @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.ED25519
+
+    @staticmethod
     def IsValid(key_data: Union[bytes, IPoint]) -> bool:
         """ Return if the specified data represents a valid public key.
 
@@ -232,6 +251,15 @@ class Ed25519PrivateKey(IPrivateKey):
             self.m_sign_key = signing.SigningKey(key_bytes)
         except (exceptions.RuntimeError, exceptions.ValueError) as ex:
             raise ValueError("Invalid private key bytes") from ex
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.ED25519
 
     @staticmethod
     def IsValid(key_bytes: bytes) -> bool:

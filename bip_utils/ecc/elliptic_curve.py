@@ -84,7 +84,7 @@ class EllipticCurve:
         Returns:
             IPoint class: Point class
         """
-        return self.m_pub_key_cls
+        return self.m_point_cls
 
     def PublicKeyClass(self) -> Type[IPublicKey]:
         """ Return the public key class.

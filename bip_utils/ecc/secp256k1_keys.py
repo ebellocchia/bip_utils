@@ -25,6 +25,7 @@ from typing import Any, Union
 import ecdsa
 from ecdsa import curves, ellipticcurve, keys
 from ecdsa.ecdsa import curve_secp256k1
+from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
 
@@ -42,6 +43,15 @@ class Secp256k1Point(IPoint):
             y (int): Y coordinate
         """
         self.m_point = ellipticcurve.PointJacobi.from_affine(ellipticcurve.Point(curve_secp256k1, x, y))
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.SECP256K1
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -137,6 +147,15 @@ class Secp256k1PublicKey(IPublicKey):
             self.m_ver_key = self.__FromPoint(key_data)
         else:
             raise TypeError("Invalid public key data type")
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.SECP256K1
 
     @staticmethod
     def IsValid(key_data: Union[bytes, IPoint]) -> bool:
@@ -236,6 +255,15 @@ class Secp256k1PrivateKey(IPrivateKey):
             self.m_sign_key = ecdsa.SigningKey.from_string(key_bytes, curve=curves.SECP256k1)
         except keys.MalformedPointError as ex:
             raise ValueError("Invalid private key bytes") from ex
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.SECP256K1
 
     @staticmethod
     def IsValid(key_bytes: bytes) -> bool:

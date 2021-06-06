@@ -1,4 +1,6 @@
-from bip_utils.ecc.curve import EllipticCurve
+from bip_utils.ecc.elliptic_curve import EllipticCurve
+from bip_utils.ecc.elliptic_curve_getter import EllipticCurveGetter
+from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
 from bip_utils.ecc.ed25519 import Ed25519
