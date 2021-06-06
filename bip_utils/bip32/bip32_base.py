@@ -164,6 +164,7 @@ class Bip32Base(ABC):
                    is_public=is_public,
                    key_net_ver=key_data.KeyNetVersions())
 
+
     #
     # Public methods
     #

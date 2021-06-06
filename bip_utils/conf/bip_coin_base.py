@@ -20,6 +20,7 @@
 
 
 # Imports
+from typing import Type
 from bip_utils.addr import (
     P2PKH, P2SH, P2WPKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
     EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr
@@ -38,7 +39,7 @@ class BipCoinBase:
                  coin_conf: Any,
                  key_net_ver: NetVersions,
                  is_testnet: bool,
-                 bip32_cls: Bip32Base,
+                 bip32_cls: Type[Bip32Base],
                  addr_cls: Any) -> None:
         """ Construct class.
 
@@ -55,7 +56,7 @@ class BipCoinBase:
         self.m_bip32_cls = bip32_cls
         self.m_addr_cls = addr_cls
 
-    def Bip32Class(self) -> Bip32Base:
+    def Bip32Class(self) -> Type[Bip32Base]:
         """ Get the Bip32 class.
 
         Returns:

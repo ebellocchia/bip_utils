@@ -33,7 +33,7 @@ class Bip49Coin(BipCoinBase):
     def __init__(self,
                  coin_conf: Any,
                  is_testnet: bool,
-                 bip32_cls: Bip32Base,
+                 bip32_cls: Type[Bip32Base],
                  addr_cls: Any) -> None:
         """ Construct class.
 
