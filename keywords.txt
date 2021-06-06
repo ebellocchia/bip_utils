@@ -45,4 +45,5 @@ harmony one
 huobi chain
 okex chain
 tezos
+theta
 solana
