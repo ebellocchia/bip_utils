@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import TrxAddr, Secp256k1
+from bip_utils import TrxAddr, Ed25519PublicKey, Secp256k1PublicKey
 
 # Some keys randomly taken (verified with TronLink wallet)
 TEST_VECT = [
@@ -74,9 +74,12 @@ class TrxAddrTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"], TrxAddr.ToAddress(key_bytes))
-            self.assertEqual(test["address"], TrxAddr.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes)))
+            self.assertEqual(test["address"], TrxAddr.ToAddress(Secp256k1PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Test with invalid key type
+        self.assertRaises(TypeError, TrxAddr.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        # Test vector
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, TrxAddr.ToAddress, binascii.unhexlify(test))

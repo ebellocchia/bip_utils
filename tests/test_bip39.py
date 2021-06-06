@@ -27,7 +27,7 @@ from bip_utils import (
     Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator
 )
-from bip_utils.bip.bip39 import Bip39Utils
+from bip_utils.bip39.bip39 import Bip39Utils
 
 
 # Tests from BIP39 page

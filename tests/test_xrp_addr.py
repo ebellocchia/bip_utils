@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import XrpAddr, Secp256k1
+from bip_utils import XrpAddr, Ed25519PublicKey, Secp256k1PublicKey
 
 # Some random public keys (verified with https://iancoleman.io/bip39/)
 TEST_VECT = [
@@ -74,9 +74,12 @@ class XrpAddrTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"], XrpAddr.ToAddress(key_bytes))
-            self.assertEqual(test["address"], XrpAddr.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes)))
+            self.assertEqual(test["address"], XrpAddr.ToAddress(Secp256k1PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Test with invalid key type
+        self.assertRaises(TypeError, XrpAddr.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        # Test vector
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, XrpAddr.ToAddress, binascii.unhexlify(test))

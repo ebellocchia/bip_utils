@@ -42,9 +42,9 @@ class Bip44BaseTestHelper:
             bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
 
             # Test coin names and test net flag
-            coin_names = bip_obj_ctx.CoinClass().CoinNames()
+            coin_names = bip_obj_ctx.CoinConf().CoinNames()
             ut_class.assertEqual(test["names"], (coin_names.Name(), coin_names.Abbreviation()))
-            ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinClass().IsTestNet())
+            ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinConf().IsTestNet())
 
             # Test master key
             ut_class.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())

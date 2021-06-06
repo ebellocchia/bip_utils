@@ -24,7 +24,7 @@ import binascii
 import unittest
 from bip_utils import (
     BitcoinConf, BitcoinCashConf, BitcoinSvConf, LitecoinConf, DogecoinConf, DashConf, ZcashConf,
-    P2SH, BchP2SH, Secp256k1
+    P2SH, BchP2SH, Ed25519PublicKey, Secp256k1PublicKey
 )
 
 # Some random public keys (verified with https://iancoleman.io/bip39/ when possible)
@@ -181,7 +181,7 @@ class P2SHTests(unittest.TestCase):
             self.assertEqual(test["address"],
                              P2SH.ToAddress(key_bytes, test["net_addr_ver"]))
             self.assertEqual(test["address"],
-                             P2SH.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes), test["net_addr_ver"]))
+                             P2SH.ToAddress(Secp256k1PublicKey(key_bytes), test["net_addr_ver"]))
 
         # Bitcoin Cash P2PKH
         for test in TEST_VECT_BCH:
@@ -191,10 +191,14 @@ class P2SHTests(unittest.TestCase):
             self.assertEqual(test["address"],
                              BchP2SH.ToAddress(key_bytes, test["hrp"], test["net_addr_ver"]))
             self.assertEqual(test["address"],
-                             BchP2SH.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes), test["hrp"], test["net_addr_ver"]))
+                             BchP2SH.ToAddress(Secp256k1PublicKey(key_bytes), test["hrp"], test["net_addr_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Test with invalid key type
+        self.assertRaises(TypeError, P2SH.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        self.assertRaises(TypeError, BchP2SH.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"), "", b"\x00")
+        # Test vector
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, P2SH.ToAddress, binascii.unhexlify(test))
             self.assertRaises(ValueError, BchP2SH.ToAddress, binascii.unhexlify(test), "", b"\x00")

@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32, Bip32PathError, Bip32PathParser, Bip32Utils
+from bip_utils import Bip32Ed25519Slip, Bip32Secp256k1, Bip32PathError, Bip32PathParser, Bip32Utils
 
 # Tests for paths
 TEST_VECT_PATH = [
@@ -127,7 +127,6 @@ class Bip32PathTests(unittest.TestCase):
                 self.assertEqual(test_elem, int(path[idx]))
                 self.assertEqual(test_elem, elem.ToInt())
                 self.assertEqual(Bip32Utils.IsHardenedIndex(test_elem), elem.IsHardened())
-                self.assertTrue(elem.IsValid())
             # Check by converting to list
             for idx, elem in enumerate(path.ToList()):
                 self.assertEqual(test["parsed"][idx], elem)
@@ -148,6 +147,7 @@ class Bip32PathTests(unittest.TestCase):
             self.assertEqual([], path.ToList())
 
             # Try to derive an invalid path
-            bip32 = Bip32.FromSeed(seed)
-            self.assertRaises(Bip32PathError, bip32.DerivePath, test)
-            self.assertRaises(Bip32PathError, Bip32.FromSeedAndPath, seed, test)
+            self.assertRaises(Bip32PathError, Bip32Ed25519Slip.FromSeed(seed).DerivePath, test)
+            self.assertRaises(Bip32PathError, Bip32Ed25519Slip.FromSeedAndPath, seed, test)
+            self.assertRaises(Bip32PathError, Bip32Secp256k1.FromSeed(seed).DerivePath, test)
+            self.assertRaises(Bip32PathError, Bip32Secp256k1.FromSeedAndPath, seed, test)

@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import BitcoinConf, LitecoinConf, P2WPKH, Secp256k1
+from bip_utils import BitcoinConf, LitecoinConf, P2WPKH, Ed25519PublicKey, Secp256k1PublicKey
 
 # Some random public keys (verified with https://iancoleman.io/bip39/)
 TEST_VECT = [
@@ -92,9 +92,12 @@ class P2WPKHTests(unittest.TestCase):
             self.assertEqual(test["address"],
                              P2WPKH.ToAddress(key_bytes, test["net_addr_ver"]))
             self.assertEqual(test["address"],
-                             P2WPKH.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes), test["net_addr_ver"]))
+                             P2WPKH.ToAddress(Secp256k1PublicKey(key_bytes), test["net_addr_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Test with invalid key type
+        self.assertRaises(TypeError, P2WPKH.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        # Test vector
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, P2WPKH.ToAddress, binascii.unhexlify(test))

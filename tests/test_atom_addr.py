@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AtomAddr, Secp256k1
+from bip_utils import AtomAddr, Ed25519PublicKey, Secp256k1PublicKey
 
 # Some keys randomly taken (verified with Cosmostation wallet)
 TEST_VECT = [
@@ -114,9 +114,12 @@ class AtomAddrTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"], AtomAddr.ToAddress(key_bytes, test["hrp"]))
-            self.assertEqual(test["address"], AtomAddr.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes), test["hrp"]))
+            self.assertEqual(test["address"], AtomAddr.ToAddress(Secp256k1PublicKey(key_bytes), test["hrp"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Test with invalid key type
+        self.assertRaises(TypeError, AtomAddr.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"), "cosmos")
+        # Test vector
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, AtomAddr.ToAddress, binascii.unhexlify(test), "cosmos")

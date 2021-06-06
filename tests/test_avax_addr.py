@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AvaxChainTypes, AvaxPChainAddr, AvaxXChainAddr, Secp256k1
+from bip_utils import AvaxChainTypes, AvaxPChainAddr, AvaxXChainAddr, Ed25519PublicKey, Secp256k1PublicKey
 
 # Some keys randomly taken (verified with Avax wallet)
 TEST_VECT = [
@@ -75,10 +75,14 @@ class AvaxAddrTests(unittest.TestCase):
             # Test with bytes and public key object
             cls = AvaxXChainAddr if test["chain"] == AvaxChainTypes.AVAX_X_CHAIN else AvaxPChainAddr
             self.assertEqual(test["address"], cls.ToAddress(key_bytes))
-            self.assertEqual(test["address"], cls.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes)))
+            self.assertEqual(test["address"], cls.ToAddress(Secp256k1PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Test with invalid key type
+        self.assertRaises(TypeError, AvaxPChainAddr.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        self.assertRaises(TypeError, AvaxXChainAddr.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        # Test vector
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, AvaxPChainAddr.ToAddress, binascii.unhexlify(test))
             self.assertRaises(ValueError, AvaxXChainAddr.ToAddress, binascii.unhexlify(test))

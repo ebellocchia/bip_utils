@@ -22,7 +22,9 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import BitcoinConf, LitecoinConf, DogecoinConf, DashConf, WifDecoder, WifEncoder, Base58ChecksumError
+from bip_utils import (
+    BitcoinConf, LitecoinConf, DogecoinConf, DashConf, WifDecoder, WifEncoder, Base58ChecksumError, Ed25519PrivateKey, Secp256k1PrivateKey
+)
 
 # Some keys randomly generated from:
 # https://gobittest.appspot.com/PrivateKey
@@ -174,18 +176,22 @@ class WifTests(unittest.TestCase):
     # Test decoder
     def test_decoder(self):
         for test in TEST_VECT:
-            # Test decoder
             self.assertEqual(test["key_bytes"],
                              binascii.hexlify(WifDecoder.Decode(test["encode"], test["net_addr_ver"])))
 
     # Test encoder
     def test_encoder(self):
         for test in TEST_VECT:
-            # Test encoder
-            self.assertEqual(test["encode"],
-                             WifEncoder.Encode(binascii.unhexlify(test["key_bytes"]), test["compr_pub_key"],
-                                               test["net_addr_ver"]))
+            key_bytes = binascii.unhexlify(test["key_bytes"])
 
+            self.assertEqual(test["encode"],
+                             WifEncoder.Encode(key_bytes,
+                                               test["compr_pub_key"],
+                                               test["net_addr_ver"]))
+            self.assertEqual(test["encode"],
+                             WifEncoder.Encode(Secp256k1PrivateKey(key_bytes),
+                                               test["compr_pub_key"],
+                                               test["net_addr_ver"]))
     # Test invalid checksum
     def test_invalid_checksum(self):
         for test in TEST_VECT_CHKSUM_INVALID:
@@ -202,6 +208,8 @@ class WifTests(unittest.TestCase):
 
     # Test invalid keys for encoding
     def test_enc_invalid_keys(self):
+        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519PrivateKey(b"000102030405060708090a0b0c0d0e0f"))
+
         for test in TEST_VECT_ENC_KEY_INVALID:
             self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))
 
