@@ -24,12 +24,12 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Union, Tuple
 from bip_utils.bip32.bip32_ex import Bip32KeyError, Bip32PathError
-from bip_utils.bip32.bip32_key_data import Bip32KeyDataConst, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
+from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip32.bip32_path import Bip32PathParser
 from bip_utils.conf import Bip32Conf, KeyNetVersions
-from bip_utils.ecc import EllipticCurve, Secp256k1
+from bip_utils.ecc import EllipticCurveTypes
 from bip_utils.utils import CryptoUtils
 
 
@@ -59,13 +59,13 @@ class Bip32Base(ABC):
                   seed_bytes: bytes,
                   hmac_key_bytes: bytes,
                   key_net_ver: KeyNetVersions,
-                  curve: EllipticCurve) -> Bip32Base:
+                  curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
 
         Args:
             seed_bytes (bytes)                 : Seed bytes
             hmac_key_bytes (bytes)             : Key for HMAC computation
-            curve (EllipticCurve object)       : Elliptic curve
+            curve_type (EllipticCurveTypes)    : Elliptic curve type
             key_net_ver (KeyNetVersions object): KeyNetVersions object
 
         Returns:
@@ -85,7 +85,7 @@ class Bip32Base(ABC):
         # Create BIP32 by splitting the HMAC into two 32-byte sequences
         return cls(secret=hmac[:Bip32BaseConst.HMAC_HALF_LEN],
                    chain_code=hmac[Bip32BaseConst.HMAC_HALF_LEN:],
-                   curve=curve,
+                   curve_type=curve_type,
                    key_net_ver=key_net_ver)
 
     @classmethod
@@ -94,14 +94,14 @@ class Bip32Base(ABC):
                          hmac_key_bytes: bytes,
                          path: str,
                          key_net_ver: KeyNetVersions,
-                         curve: EllipticCurve) -> Bip32Base:
+                         curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
             seed_bytes (bytes)                 : Seed bytes
             hmac_key_bytes (bytes)             : Key for HMAC computation
             path (str)                         : Path
-            curve (EllipticCurve object)       : Elliptic curve
+            curve_type (EllipticCurveTypes)    : Elliptic curve type
             key_net_ver (KeyNetVersions object): KeyNetVersions object
 
         Returns:
@@ -113,20 +113,20 @@ class Bip32Base(ABC):
         """
 
         # Create Bip32 object and derive path
-        bip32_ctx = cls._FromSeed(seed_bytes, hmac_key_bytes, key_net_ver, curve)
+        bip32_ctx = cls._FromSeed(seed_bytes, hmac_key_bytes, key_net_ver, curve_type)
         return bip32_ctx.DerivePath(path)
 
     @classmethod
     def _FromExtendedKey(cls,
                          key_str: str,
                          key_net_ver: KeyNetVersions,
-                         curve: EllipticCurve) -> Bip32Base:
+                         curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified extended key.
 
         Args:
             key_str (str)                      : Extended key string
             key_net_ver (KeyNetVersions object): KeyNetVersions object
-            curve (EllipticCurve object)       : Elliptic curve
+            curve_type (EllipticCurveTypes)    : Elliptic curve type
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -157,7 +157,7 @@ class Bip32Base(ABC):
 
         return cls(secret=secret,
                    chain_code=key_data.ChainCode(),
-                   curve=curve,
+                   curve_type=curve_type,
                    depth=key_data.Depth(),
                    index=key_data.Index(),
                    fprint=key_data.ParentFingerPrint(),
@@ -171,7 +171,7 @@ class Bip32Base(ABC):
     def __init__(self,
                  secret: bytes,
                  chain_code: bytes,
-                 curve: EllipticCurve,
+                 curve_type: EllipticCurveTypes,
                  depth: int = 0,
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
                  fprint: Bip32FingerPrint = Bip32FingerPrint(),
@@ -182,6 +182,7 @@ class Bip32Base(ABC):
         Args:
             secret (bytes)                               : Source bytes to generate the keypair
             chain_code (bytes)                           : 32-byte representation of the chain code
+            curve_type (EllipticCurveTypes)              : Elliptic curve type
             depth (int, optional)                        : Child depth, parent increments its own by one when
                                                            assigning this (default: 0)
             index (Bip32KeyIndex object, optional)       : Child index (default: 0)
@@ -196,13 +197,13 @@ class Bip32Base(ABC):
         if not is_public:
             self.m_priv_key = Bip32PrivateKey(secret,
                                               Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
-                                              curve)
+                                              curve_type)
             self.m_pub_key = self.m_priv_key.PublicKey()
         else:
             self.m_priv_key = None
             self.m_pub_key = Bip32PublicKey(secret,
                                             Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
-                                            curve)
+                                            curve_type)
 
     def ChildKey(self,
                  index: Union[int, Bip32KeyIndex]) -> Bip32Base:
@@ -262,13 +263,13 @@ class Bip32Base(ABC):
         """
         return self.m_priv_key is None
 
-    def Curve(self) -> EllipticCurve:
-        """ Return the elliptic curve.
+    def CurveType(self) -> EllipticCurveTypes:
+        """ Return the elliptic curve type.
 
         Returns:
-            EllipticCurve object: EllipticCurve object
+            EllipticCurveTypes: Curve type
         """
-        return self.m_pub_key.Curve()
+        return self.m_pub_key.CurveType()
 
     def PrivateKey(self) -> Bip32PrivateKey:
         """ Return private key object.

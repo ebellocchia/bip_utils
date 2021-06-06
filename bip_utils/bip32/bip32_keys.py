@@ -22,8 +22,8 @@
 # Imports
 from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
-from bip_utils.bip32.bip32_key_data import Bip32KeyDataConst, Bip32FingerPrint, Bip32KeyData
-from bip_utils.ecc import EllipticCurve, KeyBytes, IPoint, IPrivateKey, IPublicKey
+from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
+from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, KeyBytes, IPoint, IPrivateKey, IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -35,32 +35,31 @@ class Bip32PublicKey:
     def __init__(self,
                  key_bytes: bytes,
                  key_data: Bip32KeyData,
-                 curve: EllipticCurve) -> None:
+                 curve_type: EllipticCurveTypes) -> None:
         """ Construct class.
 
         Args:
-            key_bytes (bytes)             : Key bytes
-            key_data (Bip32KeyData object): Key data
-            curve (EllipticCurve object)  : EllipticCurve object
+            key_bytes (bytes)              : Key bytes
+            key_data (Bip32KeyData object) : Key data
+            curve_type (EllipticCurveTypes): Elliptic curve type
 
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        self.m_pub_key = self.__KeyFromBytes(key_bytes, curve)
-        self.m_curve = curve
+        self.m_pub_key = self.__KeyFromBytes(key_bytes, curve_type)
         self.m_key_data = key_data
         # Pre-compute serialized key and key identifier
         self.m_ser_key = Bip32PublicKeySerializer.Serialize(self.m_pub_key,
                                                             key_data)
         self.m_key_ident = CryptoUtils.Hash160(self.m_pub_key.RawCompressed().ToBytes())
 
-    def Curve(self) -> EllipticCurve:
-        """ Return key elliptic curve.
+    def CurveType(self) -> EllipticCurveTypes:
+        """ Return key elliptic curve type.
 
         Returns:
-            EllipticCurve object: EllipticCurve object
+            EllipticCurveTypes: Elliptic curve type
         """
-        return self.m_curve
+        return self.m_pub_key.CurveType()
 
     def Data(self) -> Bip32KeyData:
         """ Return key data.
@@ -120,12 +119,12 @@ class Bip32PublicKey:
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes,
-                       curve: EllipticCurve) -> IPublicKey:
+                       curve_type: EllipticCurveTypes) -> IPublicKey:
         """ Construct key from bytes.
 
         Args:
-            key_bytes (bytes)           : Key bytes
-            curve (EllipticCurve object): EllipticCurve object
+            key_bytes (bytes)              : Key bytes
+            curve_type (EllipticCurveTypes): Elliptic curve type
 
         Returns:
             IPublicKey object: IPublicKey object
@@ -134,6 +133,7 @@ class Bip32PublicKey:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
         try:
+            curve = EllipticCurveGetter.FromType(curve_type)
             return curve.PublicKeyClass()(key_bytes)
         except ValueError as ex:
             raise Bip32KeyError("Invalid public key") from ex
@@ -147,33 +147,32 @@ class Bip32PrivateKey:
     def __init__(self,
                  key_bytes: bytes,
                  key_data: Bip32KeyData,
-                 curve: EllipticCurve) -> None:
+                 curve_type: EllipticCurveTypes) -> None:
         """ Construct class.
 
         Args:
-            key_bytes (bytes)             : Key bytes
-            key_data (Bip32KeyData object): Key data
-            curve (EllipticCurve object)  : EllipticCurve object
+            key_bytes (bytes)              : Key bytes
+            key_data (Bip32KeyData object) : Key data
+            curve_type (EllipticCurveTypes): Elliptic curve type
 
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        self.m_priv_key = self.__KeyFromBytes(key_bytes, curve)
-        self.m_curve = curve
+        self.m_priv_key = self.__KeyFromBytes(key_bytes, curve_type)
         self.m_key_data = key_data
         self.m_pub_key = Bip32PublicKey(self.m_priv_key.PublicKey().RawCompressed().ToBytes(),
                                         key_data,
-                                        curve)
+                                        curve_type)
         # Pre-compute serialized key
         self.m_ser_key = Bip32PrivateKeySerializer.Serialize(self.m_priv_key, key_data)
 
-    def Curve(self) -> EllipticCurve:
-        """ Return key elliptic curve.
+    def CurveType(self) -> EllipticCurveTypes:
+        """ Return key elliptic curve type.
 
         Returns:
-            EllipticCurve object: EllipticCurve object
+            EllipticCurveTypes: Elliptic curve type
         """
-        return self.m_curve
+        return self.m_priv_key.CurveType()
 
     def Data(self) -> Bip32KeyData:
         """ Return key data.
@@ -209,12 +208,12 @@ class Bip32PrivateKey:
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes,
-                       curve: EllipticCurve) -> IPrivateKey:
+                       curve_type: EllipticCurveTypes) -> IPrivateKey:
         """ Construct key from bytes.
 
         Args:
-            key_bytes (bytes)           : Key bytes
-            curve (EllipticCurve object): EllipticCurve object
+            key_bytes (bytes)              : Key bytes
+            curve_type (EllipticCurveTypes): Elliptic curve type
 
         Returns:
             IPrivateKey object: IPrivateKey object
@@ -223,6 +222,7 @@ class Bip32PrivateKey:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
         try:
+            curve = EllipticCurveGetter.FromType(curve_type)
             return curve.PrivateKeyClass()(key_bytes)
         except ValueError as ex:
             raise Bip32KeyError("Invalid private key") from ex

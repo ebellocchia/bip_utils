@@ -25,15 +25,15 @@ from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_base import Bip32BaseConst, Bip32Base
 from bip_utils.conf import Bip32Conf, KeyNetVersions
-from bip_utils.ecc import EllipticCurve, Secp256k1PublicKey, Secp256k1
+from bip_utils.ecc import EllipticCurveTypes, Secp256k1PublicKey, Secp256k1
 from bip_utils.utils import ConvUtils
 
 
 class Bip32Secp256k1Const:
     """ Class container for BIP32 secp256k1 constants. """
 
-    # Elliptic curve
-    CURVE: EllipticCurve = Secp256k1
+    # Elliptic curve type
+    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.SECP256K1
     # HMAC key for generating master key
     MASTER_KEY_HMAC_KEY: bytes = b"Bitcoin seed"
 
@@ -66,7 +66,7 @@ class Bip32Secp256k1(Bip32Base):
         return cls._FromSeed(seed_bytes,
                              Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY,
                              key_net_ver,
-                             Bip32Secp256k1Const.CURVE)
+                             Bip32Secp256k1Const.CURVE_TYPE)
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -91,7 +91,7 @@ class Bip32Secp256k1(Bip32Base):
                                     Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY,
                                     path,
                                     key_net_ver,
-                                    Bip32Secp256k1Const.CURVE)
+                                    Bip32Secp256k1Const.CURVE_TYPE)
 
     @classmethod
     def FromExtendedKey(cls,
@@ -111,7 +111,7 @@ class Bip32Secp256k1(Bip32Base):
         """
         return cls._FromExtendedKey(key_str,
                                     key_net_ver,
-                                    Bip32Secp256k1Const.CURVE)
+                                    Bip32Secp256k1Const.CURVE_TYPE)
 
     #
     # Public methods
@@ -176,7 +176,7 @@ class Bip32Secp256k1(Bip32Base):
         # Construct and return a new Bip32 object
         return Bip32Secp256k1(secret=secret,
                               chain_code=i_r,
-                              curve=self.Curve(),
+                              curve_type=self.CurveType(),
                               depth=self.Depth() + 1,
                               index=index,
                               fprint=self.m_pub_key.FingerPrint(),
@@ -214,7 +214,7 @@ class Bip32Secp256k1(Bip32Base):
         # Construct and return a new Bip32 object
         return Bip32Secp256k1(secret=pub_key.RawCompressed().ToBytes(),
                               chain_code=i_r,
-                              curve=self.Curve(),
+                              curve_type=self.CurveType(),
                               depth=self.Depth() + 1,
                               index=index,
                               fprint=self.m_pub_key.FingerPrint(),

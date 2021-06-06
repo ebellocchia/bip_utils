@@ -21,19 +21,18 @@
 
 # Imports
 from __future__ import annotations
-from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
-from bip_utils.bip32.bip32_base import Bip32BaseConst, Bip32Base
+from bip_utils.bip32.bip32_base import Bip32Base
 from bip_utils.conf import Bip32Conf, KeyNetVersions
-from bip_utils.ecc import EllipticCurve, Ed25519PublicKey, Ed25519
+from bip_utils.ecc import EllipticCurveTypes
 from bip_utils.utils import ConvUtils
 
 
 class Bip32Ed25519SlipConst:
     """ Class container for BIP32 ed25519 constants. """
 
-    # Elliptic curve
-    CURVE: EllipticCurve = Ed25519
+    # Elliptic curve type
+    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.ED25519
     # HMAC key for generating master key
     MASTER_KEY_HMAC_KEY: bytes = b"ed25519 seed"
 
@@ -67,7 +66,7 @@ class Bip32Ed25519Slip(Bip32Base):
         return cls._FromSeed(seed_bytes,
                              Bip32Ed25519SlipConst.MASTER_KEY_HMAC_KEY,
                              key_net_ver,
-                             Bip32Ed25519SlipConst.CURVE)
+                             Bip32Ed25519SlipConst.CURVE_TYPE)
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -92,7 +91,7 @@ class Bip32Ed25519Slip(Bip32Base):
                                     Bip32Ed25519SlipConst.MASTER_KEY_HMAC_KEY,
                                     path,
                                     key_net_ver,
-                                    Bip32Ed25519SlipConst.CURVE)
+                                    Bip32Ed25519SlipConst.CURVE_TYPE)
 
     @classmethod
     def FromExtendedKey(cls,
@@ -112,7 +111,7 @@ class Bip32Ed25519Slip(Bip32Base):
         """
         return cls._FromExtendedKey(key_str,
                                     key_net_ver,
-                                    Bip32Ed25519SlipConst.CURVE)
+                                    Bip32Ed25519SlipConst.CURVE_TYPE)
 
     #
     # Public methods
@@ -165,7 +164,7 @@ class Bip32Ed25519Slip(Bip32Base):
         # Construct and return a new Bip32 object
         return Bip32Ed25519Slip(secret=i_l,
                                 chain_code=i_r,
-                                curve=self.Curve(),
+                                curve_type=self.CurveType(),
                                 depth=self.Depth() + 1,
                                 index=index,
                                 fprint=self.m_pub_key.FingerPrint(),

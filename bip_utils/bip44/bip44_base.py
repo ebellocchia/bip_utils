@@ -295,7 +295,7 @@ class Bip44Base(ABC):
         bip32_pub_key = self.m_bip32.PublicKey()
         return Bip44PublicKey(bip32_pub_key.RawCompressed().ToBytes(),
                               bip32_pub_key.Data(),
-                              bip32_pub_key.Curve(),
+                              bip32_pub_key.CurveType(),
                               self.m_coin_conf)
 
     def PrivateKey(self) -> Bip44PrivateKey:
@@ -310,7 +310,7 @@ class Bip44Base(ABC):
         bip32_priv_key = self.m_bip32.PrivateKey()
         return Bip44PrivateKey(bip32_priv_key.Raw().ToBytes(),
                                bip32_priv_key.Data(),
-                               bip32_priv_key.Curve(),
+                               bip32_priv_key.CurveType(),
                                self.m_coin_conf)
 
     def CoinConf(self) -> BipCoinBase:
