@@ -615,6 +615,22 @@ class TezosConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class ThetaConf:
+    """ Class container for Theta configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Theta Network", "THETA")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 

@@ -70,6 +70,7 @@ class Bip44Coins(Enum):
     OKEX_CHAIN_ATOM_OLD = auto(),
     SOLANA = auto(),
     TEZOS = auto(),
+    THETA = auto(),
     NINE_CHRONICLES_GOLD = auto(),
     # Test nets
     BITCOIN_TESTNET = auto(),
@@ -131,6 +132,7 @@ class Bip44BaseConst:
             Bip44Coins.BAND_PROTOCOL: 494,
             Bip44Coins.KAVA: 494,
             Bip44Coins.TERRA: 330,
+            Bip44Coins.THETA: 500,
             Bip44Coins.SOLANA: 501,
             Bip44Coins.NINE_CHRONICLES_GOLD: 567,
             Bip44Coins.BINANCE_CHAIN: 714,
