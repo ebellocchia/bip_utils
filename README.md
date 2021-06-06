@@ -58,6 +58,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Huobi Heco Chain
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Solana
+- Tezos
 
 Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avalanche, ...), the generated addresses are valid for all the related tokens.
 
@@ -481,6 +482,7 @@ Currently supported coins enumerative:
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
+|Tezos|*Bip44Coins.TEZOS*|-|
 
 The library can be easily extended with other coins anyway.
 
