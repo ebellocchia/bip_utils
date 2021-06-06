@@ -21,15 +21,35 @@
 
 # Imports
 from typing import Union
-from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey, Ed25519PublicKey, Secp256k1PublicKey
 
 
 class AddrUtils:
     """ Class container for address utility functions. """
 
     @staticmethod
+    def ValidateAndGetEd25519Key(pub_key: Union[bytes, IPublicKey]) -> Ed25519PublicKey:
+        """ Validate and get a ed25519 public key.
+
+        Args:
+            pub_key (bytes or IPublicKey object): Public key bytes or object
+
+        Returns:
+            Ed25519PublicKey object: Ed25519PublicKey object
+
+        Raises:
+            TypeError: If the public key is not ed25519
+        """
+        if isinstance(pub_key, bytes):
+            pub_key = Ed25519PublicKey(pub_key)
+        elif not isinstance(pub_key, Ed25519PublicKey):
+            raise TypeError("A ed25519 public key is required")
+
+        return pub_key
+
+    @staticmethod
     def ValidateAndGetSecp256k1Key(pub_key: Union[bytes, IPublicKey]) -> Secp256k1PublicKey:
-        """ Validate and get a secp256k1 key.
+        """ Validate and get a secp256k1 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
