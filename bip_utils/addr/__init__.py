@@ -9,3 +9,4 @@ from bip_utils.addr.one_addr import OneAddr
 from bip_utils.addr.sol_addr import SolAddr
 from bip_utils.addr.trx_addr import TrxAddr
 from bip_utils.addr.xrp_addr import XrpAddr
+from bip_utils.addr.xtz_addr import XtzAddr
