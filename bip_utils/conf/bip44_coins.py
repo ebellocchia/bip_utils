@@ -22,9 +22,9 @@
 # Imports
 from bip_utils.addr import (
     P2PKH, BchP2PKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-    EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr
+    EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr
 )
-from bip_utils.bip32 import Bip32Base, Bip32Secp256k1
+from bip_utils.bip32 import Bip32Base, Bip32Ed25519Slip, Bip32Secp256k1
 from bip_utils.conf.bip_coin_base import BipCoinBase
 from bip_utils.conf.bip_coin_conf import *
 from bip_utils.ecc import IPublicKey
@@ -344,6 +344,13 @@ Bip44OkexChainAtom: Bip44Coin = Bip44Coin(
     is_testnet=False,
     bip32_cls=Bip32Secp256k1,
     addr_cls=OkexAddr)
+
+# Configiguraiton for Solana
+Bip44Solana: Bip44Coin = Bip44Coin(
+    coin_conf=SolanaConf,
+    is_testnet=False,
+    bip32_cls=Bip32Ed25519Slip,
+    addr_cls=SolAddr)
 
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(
