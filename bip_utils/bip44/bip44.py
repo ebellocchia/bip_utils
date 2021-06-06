@@ -21,7 +21,7 @@
 
 # Imports
 from __future__ import annotations
-from typing import Dict, List
+from typing import Dict
 from bip_utils.bip32 import Bip32Utils
 from bip_utils.bip44.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
 from bip_utils.conf import *
