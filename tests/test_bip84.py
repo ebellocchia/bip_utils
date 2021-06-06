@@ -127,6 +127,34 @@ TEST_VECT = [
     },
 ]
 
+# Tests for default path derivation
+TEST_VECT_DEFAULT_PATH = [
+    # Bitcoin
+    {
+        "coin": Bip44Coins.BITCOIN,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "bc1qcr8te4kr609gcawutmrza0j4xv80jy8z306fyu",
+    },
+    # Litecoin
+    {
+        "coin": Bip44Coins.LITECOIN,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "ltc1qjmxnz78nmc8nq77wuxh25n2es7rzm5c2rkk4wh",
+    },
+    # Bitcoin test net
+    {
+        "coin": Bip44Coins.BITCOIN_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "tb1q6rz28mcfaxtmd6v789l9rrlrusdprr9pqcpvkl",
+    },
+    # Litecoin test net
+    {
+        "coin": Bip44Coins.LITECOIN_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "tltc1q6rz28mcfaxtmd6v789l9rrlrusdprr9pesrjxk",
+    },
+]
+
 # Tests for different key formats
 TEST_VECT_KEY_FORMATS = {
     "coin": Bip44Coins.BITCOIN,
@@ -199,6 +227,10 @@ class Bip84Tests(unittest.TestCase):
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_priv_key(self):
         Bip44BaseTestHelper.test_from_priv_key(self, Bip84, TEST_VECT)
+
+    # Test default path derivation
+    def test_default_path_derivation(self):
+        Bip44BaseTestHelper.test_default_path_derivation(self, Bip84, TEST_VECT_DEFAULT_PATH)
 
     # Test for IsLevel method
     def test_is_level(self):

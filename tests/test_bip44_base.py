@@ -170,6 +170,15 @@ class Bip44BaseTestHelper:
             ut_class.assertEqual(bip_tmp_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
             ut_class.assertEqual(bip_tmp_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
 
+    # Test default path derivation
+    @staticmethod
+    def test_default_path_derivation(ut_class, bip_class, test_vector):
+        for test in test_vector:
+            # Create from seed
+            bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"]).DeriveDefaultPath()
+            # Test addresses
+            ut_class.assertEqual(test["default_address"], bip_obj_ctx.PublicKey().ToAddress())
+
     # Test for IsLevel method
     @staticmethod
     def test_is_level(ut_class, bip_class, test_seed_bytes):

@@ -403,6 +403,94 @@ TEST_VECT = [
     },
 ]
 
+# Tests for default path derivation
+TEST_VECT_DEFAULT_PATH = [
+    # Bitcoin
+    {
+        "coin": Bip44Coins.BITCOIN,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "37VucYSaXLCAsxYyAPfbSi9eh4iEcbShgf",
+    },
+    # Bitcoin Cash
+    {
+        "coin": Bip44Coins.BITCOIN_CASH,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "bitcoincash:ppcgpaskfreturznhcjdvmeunscff6ufu5kt8jx4qt",
+    },
+    # BitcoinSV
+    {
+        "coin": Bip44Coins.BITCOIN_SV,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "3DBZLGqauQhKR7CBM8fhi9gZANUp9EcA2F",
+    },
+    # Litecoin
+    {
+        "coin": Bip44Coins.LITECOIN,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "M7wtsL7wSHDBJVMWWhtQfTMSYYkyooAAXM",
+    },
+    # Dogecoin
+    {
+        "coin": Bip44Coins.DOGECOIN,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "9xzLEaWbi3eVzRzv6YdGcXbXQMHydntSq7",
+    },
+    # Dash
+    {
+        "coin": Bip44Coins.DASH,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "7bG9yjGpzvKvffhHkCkDRsLLZ5iJxyDcX7",
+    },
+    # Zcash
+    {
+        "coin": Bip44Coins.ZCASH,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "t3WrebyH3US8WvEdS9yNEWJZGApy3beYdeL",
+    },
+    # Bitcoin test net
+    {
+        "coin": Bip44Coins.BITCOIN_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+    },
+    # Bitcoin Cash test net
+    {
+        "coin": Bip44Coins.BITCOIN_CASH_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "bchtest:pqeke2snuz9evzq2x26asxx4nd9t8vm8ggd9ngnmpx",
+    },
+    # BitcoinSV test net
+    {
+        "coin": Bip44Coins.BITCOIN_SV_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+    },
+    # Litecoin test net
+    {
+        "coin": Bip44Coins.LITECOIN_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "QRHtkDQdVvNNwrVjEdeCGviCw7Ny3SNNiA",
+    },
+    # Dogecoin test net
+    {
+        "coin": Bip44Coins.DOGECOIN_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+    },
+    # Dash test net
+    {
+        "coin": Bip44Coins.DASH_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
+    },
+    # Zcash test net
+    {
+        "coin": Bip44Coins.ZCASH_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "t2BEicU8di9CukDjmoZoUFia4wX9E2KsEEH",
+    },
+]
+
 # Tests for different key formats
 TEST_VECT_KEY_FORMATS = {
     "coin": Bip44Coins.BITCOIN,
@@ -475,6 +563,10 @@ class Bip49Tests(unittest.TestCase):
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_priv_key(self):
         Bip44BaseTestHelper.test_from_priv_key(self, Bip49, TEST_VECT)
+
+    # Test default path derivation
+    def test_default_path_derivation(self):
+        Bip44BaseTestHelper.test_default_path_derivation(self, Bip49, TEST_VECT_DEFAULT_PATH)
 
     # Test for IsLevel method
     def test_is_level(self):
