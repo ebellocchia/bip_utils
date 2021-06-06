@@ -70,6 +70,20 @@ class CryptoUtils:
         return hashlib.sha256().digest_size
 
     @staticmethod
+    def Sha512_256(data: Union[bytes, str]) -> bytes:
+        """ Compute the SHA512/256 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed SHA256
+        """
+        h = hashlib.new('sha512_256')
+        h.update(AlgoUtils.Encode(data))
+        return h.digest()
+
+    @staticmethod
     def HmacSha512(key: Union[bytes, str],
                    data: Union[bytes, str]) -> bytes:
         """ Compute the HMAC-SHA512 of the specified bytes with the specified key.
