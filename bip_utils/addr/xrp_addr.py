@@ -24,24 +24,25 @@ from typing import Union
 from bip_utils.addr.P2PKH_addr import P2PKH
 from bip_utils.base58 import Base58Alphabets
 from bip_utils.conf import RippleConf
-from bip_utils.ecc import EcdsaPublicKey
+from bip_utils.ecc import Secp256k1PublicKey
 
 
 class XrpAddr:
     """ Ripple address class. It allows the Ripple address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
+    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Ripple format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
 
         # Ripple address is just a P2PKH address with a different Base58 alphabet

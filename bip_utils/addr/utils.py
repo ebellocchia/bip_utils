@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,40 +20,29 @@
 
 
 # Imports
-import binascii
 from typing import Union
-from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.ecc import Secp256k1PublicKey
-from bip_utils.base58 import Base58Encoder
+from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
 
 
-class TrxAddrConst:
-    """ Class container for Tron address constants. """
-
-    # Prefix
-    PREFIX: str = "41"
-
-
-class TrxAddr:
-    """ Tron address class. It allows the Tron address generation. """
+class AddrUtils:
+    """ Class container for address utility functions. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
-        """ Get address in Tron format.
+    def ValidateAndGetSecp256k1Key(pub_key: Union[bytes, IPublicKey]) -> Secp256k1PublicKey:
+        """ Validate and get a secp256k1 key.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey object): Public key bytes or object
 
         Returns:
-            str: Address string
+            Secp256k1PublicKey object: Secp256k1PublicKey object
 
-        Raised:
-            ValueError: If the public key is not valid
+        Raises:
             TypeError: If the public key is not secp256k1
         """
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1PublicKey(pub_key)
+        elif not isinstance(pub_key, Secp256k1PublicKey):
+            raise TypeError("A secp256k1 public key is required")
 
-        # Get address in Ethereum format (remove "0x" at the beginning)
-        eth_addr = EthAddr.ToAddress(pub_key)[2:]
-
-        # Add prefix and encode
-        return Base58Encoder.CheckEncode(binascii.unhexlify(TrxAddrConst.PREFIX + eth_addr))
+        return pub_key

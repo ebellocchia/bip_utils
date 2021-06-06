@@ -22,8 +22,8 @@
 # Imports
 import binascii
 from typing import Union
-from bip_utils.ecc import EcdsaPublicKey
 from bip_utils.addr.eth_addr import EthAddr
+from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.bech32 import AtomBech32Encoder
 
 
@@ -38,21 +38,22 @@ class OneAddr:
     """ Harmony One address class. It allows the Harmony One address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
+    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Harmony One format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        addr = EthAddr.ToAddress(pub_key)[2:]
+        eth_addr = EthAddr.ToAddress(pub_key)[2:]
 
         # Encode in Atom format
-        return AtomBech32Encoder.Encode(OneAddrConst.HRP, binascii.unhexlify(addr))
+        return AtomBech32Encoder.Encode(OneAddrConst.HRP, binascii.unhexlify(eth_addr))

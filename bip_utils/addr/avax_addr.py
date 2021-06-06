@@ -21,8 +21,9 @@
 
 # Imports
 from typing import Union
+from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import AvaxChainTypes, AvaxBech32Encoder
-from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -30,20 +31,20 @@ class AvaxXChainAddr:
     """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
+    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Atom format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
-        if isinstance(pub_key, bytes):
-            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
+        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()),
                                         AvaxChainTypes.AVAX_X_CHAIN)
@@ -53,20 +54,19 @@ class AvaxPChainAddr:
     """ Avax P-Chain address class. It allows the Avax P-Chain address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
+    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Atom format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
-        if isinstance(pub_key, bytes):
-            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
-
+        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
         return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()),
                                         AvaxChainTypes.AVAX_P_CHAIN)

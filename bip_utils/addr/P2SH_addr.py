@@ -22,10 +22,11 @@
 # Imports
 import binascii
 from typing import Union
+from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.conf import BitcoinConf
-from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -40,11 +41,11 @@ class P2SHUtils:
     """ Class container for P2SH utility functions. """
 
     @staticmethod
-    def AddScriptSig(pub_key: EcdsaPublicKey) -> bytes:
+    def AddScriptSig(pub_key: Secp256k1PublicKey) -> bytes:
         """ Add script signature to public key and get address bytes.
 
         Args:
-            pub_key (EcdsaPublicKey object) : Public key object
+            pub_key (Secp256k1PublicKey object) : Public key object
 
         Returns:
             bytes: Address bytes
@@ -61,22 +62,22 @@ class P2SH:
     """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey],
+    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey],
                   net_addr_ver: bytes = BitcoinConf.P2SH_NET_VER.Main()) -> str:
         """ Get address in P2SH format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
-            net_addr_ver (bytes, optional)   : Net address version, default is Bitcoin main network
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            net_addr_ver (bytes, optional)       : Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
-        if isinstance(pub_key, bytes):
-            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
+        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         # Final address: Base58Check(addr_prefix | address_bytes)
         return Base58Encoder.CheckEncode(net_addr_ver + P2SHUtils.AddScriptSig(pub_key))
@@ -86,23 +87,23 @@ class BchP2SH:
     """ Bitcoin Cash P2SH class. It allows the Bitcoin Cash P2SH generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey],
+    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey],
                   hrp: str,
                   net_addr_ver: bytes) -> str:
         """ Get address in Bitcoin Cash P2SH format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
-            hrp (str)                        : HRP
-            net_addr_ver (bytes)             : Net address version
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            hrp (str)                            : HRP
+            net_addr_ver (bytes)                 : Net address version
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
-        if isinstance(pub_key, bytes):
-            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
+        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return BchBech32Encoder.Encode(hrp, net_addr_ver, P2SHUtils.AddScriptSig(pub_key))
