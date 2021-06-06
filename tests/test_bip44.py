@@ -790,6 +790,54 @@ TEST_VECT = [
             "ex1fu97k478nepxkkeqy0786g4vseh8ksffg6dq6c",
         ],
     },
+    # Theta Network
+    {
+        "coin": Bip44Coins.THETA,
+        "names": ("Theta Network", "THETA"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CiroqWJYjzbiVf8QNrgrHy1XpeZxqksSt7YFRDUrH5ybHha2iRXPNjJpYu5Bi8imeW4GEuQCEmwExNH5L8CnvgQgprKPJ9NvB41mqPqcUB",
+            "ex_priv": "xprv9yjWQKyQiNSJW1afJMKgVA2Gynp5ZP325fBwT2osHwYziVNRVB7GqaQpyK4PTpcbxETZHMVLGQUoMvFJ4CoAbgreqDVyVpkkTuBSKmVVAiQ",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EnX6Yw6wxEme5wtArCPg6jXuSfGAo8w985nr9HmQAZkErJEoe7AtytWYYcmXf5244k4bcaQwwgBJ7DSJa4RVb77NwpcuGu3LmTK4HeycXz",
+            "ex_priv": "xprvA1oAh3QD7agURbsR4pfPJxnoMQpmmLR5muAC3kt9qq2mN3y6G6nvMBa2hHuJjqyFbeDM5csgRaqGpSkFGgs82uQ9sezFZsqm55P1BKszpsX",
+        },
+        "addresses": [
+            "0xB16f8D941d7D281aDCEf3e950aBF2147D7AC2D33",
+            "0xf2142cb79CEEC9aD39C15151CdEa90f0b853EA1C",
+            "0x17C6899cbD8628a614E69CeF96E6CB2Ea47A5Ace",
+            "0x92554055C248b7e155326ad827C8D5A8780322fF",
+            "0x02f9C86C8dA95C6748d063AA00c6DCD581311C06",
+        ],
+    },
+    # Algorand
+    {
+        "coin": Bip44Coins.ALGORAND,
+        "names": ("Algorand", "ALGO"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6Cury1Tm445cVt5je2szhiiAhfgJW1ke9hNjNbuMPE7MZ7ipvjhfp7N1wM39u6jc7GhsTDqpZc3hZM4716FWfvNTMFQStzE1yf7jQWZUsKP",
+            "ex_priv": "xprv9yvWZVvsDgXKHQ1GY1LzLamS9dqp6Z2nnUT8aDVjptaNgKPgPCPRGK3Y69Nb1TcLHsvh7iAA9HiRdJxgdYr6B8m14p7vWzUrYTB8acAjZMk",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EFjDRgeg9872k9ahTSsiTKDoxaL7DaVjuqkMmSFqYncfCS3ZXTBENkWyQJdrHJXKJbEo3xdbvtjApfnczBbHhYtPEGUGtZxs1ULDFpgm4e",
+            "ex_priv": "xprvA1GNov9kqmZopG57bRusMKNVFvjqhkreNgv9ZP2eHDFdnQ6u1z8vgaS38CeRMJLCWASNR3AGWhLAaKnyD1j4XSxsZ3HLr3kkzA2A15SAdMW",
+        },
+        "addresses": [
+            "EP2D7TV7IAFANZHK3B6QLKB53N5UTD7RARVXZTWCPCRQQBKYVGM2XIMT2Q",
+            "4TY6NBYEJMUOI5WPNUG7YRM63GQNVZA47336IICDLIARPF7GFUMSUJ2CUU",
+            "YJBVNZYARZIVME3DWJLXWMJ22YWMANMTHGPLO4O7A2FDWP6662SER5SWLA",
+            "4FNYH2QEESPLDGZJGNCOLRD7EZCIKWO3BHUPXTCU54JRJKCUN35FTQCTFQ",
+            "NLMHFPS37XEHFWDPUUN3MHWVPYEBRUPFQWZVHIMRKPHSW5UPUYLJCVZN5I",
+        ],
+    },
     # Solana
     {
         "coin": Bip44Coins.SOLANA,
@@ -836,30 +884,6 @@ TEST_VECT = [
             "tz1SL7ssKJb66kobc1ZT8c5PYUX42y3UDhuR",
             "tz1VeusEZR3qouTAsfmudLYSNx5o1gKc7ZG7",
             "tz1U2QVtbgZfbFanzogVd8wmEzMDvyR1SkV7",
-        ],
-    },
-    # Theta Network
-    {
-        "coin": Bip44Coins.THETA,
-        "names": ("Theta Network", "THETA"),
-        "is_testnet": False,
-        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
-        "wif_master": "",
-        "account": {
-            "ex_pub": "xpub6CiroqWJYjzbiVf8QNrgrHy1XpeZxqksSt7YFRDUrH5ybHha2iRXPNjJpYu5Bi8imeW4GEuQCEmwExNH5L8CnvgQgprKPJ9NvB41mqPqcUB",
-            "ex_priv": "xprv9yjWQKyQiNSJW1afJMKgVA2Gynp5ZP325fBwT2osHwYziVNRVB7GqaQpyK4PTpcbxETZHMVLGQUoMvFJ4CoAbgreqDVyVpkkTuBSKmVVAiQ",
-        },
-        "chain_ext": {
-            "ex_pub": "xpub6EnX6Yw6wxEme5wtArCPg6jXuSfGAo8w985nr9HmQAZkErJEoe7AtytWYYcmXf5244k4bcaQwwgBJ7DSJa4RVb77NwpcuGu3LmTK4HeycXz",
-            "ex_priv": "xprvA1oAh3QD7agURbsR4pfPJxnoMQpmmLR5muAC3kt9qq2mN3y6G6nvMBa2hHuJjqyFbeDM5csgRaqGpSkFGgs82uQ9sezFZsqm55P1BKszpsX",
-        },
-        "addresses": [
-            "0xB16f8D941d7D281aDCEf3e950aBF2147D7AC2D33",
-            "0xf2142cb79CEEC9aD39C15151CdEa90f0b853EA1C",
-            "0x17C6899cbD8628a614E69CeF96E6CB2Ea47A5Ace",
-            "0x92554055C248b7e155326ad827C8D5A8780322fF",
-            "0x02f9C86C8dA95C6748d063AA00c6DCD581311C06",
         ],
     },
 
@@ -1236,6 +1260,18 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "ex19dhmgh5vxg9cq5f85l88jm6h4r4uklkgpamn38",
     },
+    # Theta Network
+    {
+        "coin": Bip44Coins.THETA,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "0xB16f8D941d7D281aDCEf3e950aBF2147D7AC2D33",
+    },
+    # Algorand
+    {
+        "coin": Bip44Coins.ALGORAND,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "EP2D7TV7IAFANZHK3B6QLKB53N5UTD7RARVXZTWCPCRQQBKYVGM2XIMT2Q",
+    },
     # Solana
     {
         "coin": Bip44Coins.SOLANA,
@@ -1247,12 +1283,6 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.TEZOS,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "tz1VQA4RP4fLjEEMW2FR4pE9kAg5abb5h5GL",
-    },
-    # Theta Network
-    {
-        "coin": Bip44Coins.THETA,
-        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "0xB16f8D941d7D281aDCEf3e950aBF2147D7AC2D33",
     },
 
     #
