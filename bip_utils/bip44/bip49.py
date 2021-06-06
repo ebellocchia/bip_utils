@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,48 +20,54 @@
 
 
 # Imports
-from typing import Dict, List, Type
-from bip_utils.bip.bip32_utils import Bip32Utils
-from bip_utils.bip.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
+from __future__ import annotations
+from typing import Dict, List
+from bip_utils.bip32 import Bip32Utils
+from bip_utils.bip44.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
 from bip_utils.conf import *
 
 
-class Bip84Const:
+class Bip49Const:
     """ Class container for BIP44 constants. """
 
     # Specification name
-    SPEC_NAME: str = "BIP-0084"
+    SPEC_NAME: str = "BIP-0049"
     # Purpose
-    PURPOSE: int = Bip32Utils.HardenIndex(84)
-    # Allowed coins
-    ALLOWED_COINS: List[Bip44Coins] = [
-            Bip44Coins.BITCOIN, Bip44Coins.BITCOIN_TESTNET,
-            Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET,
-        ]
+    PURPOSE: int = Bip32Utils.HardenIndex(49)
     # Map from Bip44Coins to coin classes
-    COIN_TO_CLASS: Dict[Bip44Coins, Type[BipCoinBase]] = {
-            Bip44Coins.BITCOIN: Bip84BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET: Bip84BitcoinTestNet,
-            Bip44Coins.LITECOIN: Bip84LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET: Bip84LitecoinTestNet,
+    COIN_TO_CLASS: Dict[Bip44Coins, Bip49Coin] = {
+            Bip44Coins.BITCOIN: Bip49BitcoinMainNet,
+            Bip44Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
+            Bip44Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
+            Bip44Coins.BITCOIN_CASH_TESTNET: Bip49BitcoinCashTestNet,
+            Bip44Coins.BITCOIN_SV: Bip49BitcoinSvMainNet,
+            Bip44Coins.BITCOIN_SV_TESTNET: Bip49BitcoinSvTestNet,
+            Bip44Coins.LITECOIN: Bip49LitecoinMainNet,
+            Bip44Coins.LITECOIN_TESTNET: Bip49LitecoinTestNet,
+            Bip44Coins.DOGECOIN: Bip49DogecoinMainNet,
+            Bip44Coins.DOGECOIN_TESTNET: Bip49DogecoinTestNet,
+            Bip44Coins.DASH: Bip49DashMainNet,
+            Bip44Coins.DASH_TESTNET: Bip49DashTestNet,
+            Bip44Coins.ZCASH: Bip49ZcashMainNet,
+            Bip44Coins.ZCASH_TESTNET: Bip49ZcashTestNet,
         }
 
 
-class Bip84(Bip44Base):
-    """ BIP84 class. It allows master key generation and children keys derivation in according to BIP-0084.
-    BIP-0084 specifications: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
+class Bip49(Bip44Base):
+    """ BIP49 class. It allows master key generation and children keys derivation in according to BIP-0049.
+    BIP-0049 specifications: https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
     """
 
     #
     # Override methods
     #
 
-    def Purpose(self) -> 'Bip84':
+    def Purpose(self) -> Bip44Base:
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _PurposeGeneric method with the current object as parameter.
 
         Returns:
-            Bip84 object: Bip84 object
+            Bip49 object: Bip49 object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -69,13 +75,13 @@ class Bip84(Bip44Base):
         """
         return self._PurposeGeneric(self)
 
-    def Coin(self) -> 'Bip84':
+    def Coin(self) -> Bip44Base:
         """ Derive a child key from the coin type specified at construction and return
         a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _CoinGeneric method with the current object as parameter.
 
         Returns:
-            Bip84 object: Bip84 object
+            Bip49 object: Bip49 object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -84,7 +90,7 @@ class Bip84(Bip44Base):
         return self._CoinGeneric(self)
 
     def Account(self,
-                acc_idx: int) -> 'Bip84':
+                acc_idx: int) -> Bip44Base:
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AccountGeneric method with the current object as parameter.
 
@@ -92,7 +98,7 @@ class Bip84(Bip44Base):
             acc_idx (int): Account index
 
         Returns:
-            Bip84 object: Bip84 object
+            Bip49 object: Bip49 object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -101,7 +107,7 @@ class Bip84(Bip44Base):
         return self._AccountGeneric(self, acc_idx)
 
     def Change(self,
-               change_idx: Bip44Changes) -> 'Bip84':
+               change_idx: Bip44Changes) -> Bip44Base:
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _ChangeGeneric method with the current object as parameter.
 
@@ -109,7 +115,7 @@ class Bip84(Bip44Base):
             change_idx (Bip44Changes): Change index, must a Bip44Changes enum
 
         Returns:
-            Bip84 object: Bip84 object
+            Bip49 object: Bip49 object
 
         Raises:
             TypeError: If chain index is not a Bip44Changes enum
@@ -119,7 +125,7 @@ class Bip84(Bip44Base):
         return self._ChangeGeneric(self, change_idx)
 
     def AddressIndex(self,
-                     addr_idx: int) -> 'Bip84':
+                     addr_idx: int) -> Bip44Base:
         """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AddressIndexGeneric method with the current object as parameter.
 
@@ -127,7 +133,7 @@ class Bip84(Bip44Base):
             addr_idx (int): Address index
 
         Returns:
-            Bip84 object: Bip84 object
+            Bip49 object: Bip49 object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -142,7 +148,7 @@ class Bip84(Bip44Base):
         Returns:
             str: Specification name
         """
-        return Bip84Const.SPEC_NAME
+        return Bip49Const.SPEC_NAME
 
     @staticmethod
     def IsCoinAllowed(coin_type: Bip44Coins) -> bool:
@@ -160,7 +166,7 @@ class Bip84(Bip44Base):
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin is not an enumerative of Bip44Coins")
 
-        return coin_type in Bip84Const.ALLOWED_COINS
+        return coin_type in Bip49Const.COIN_TO_CLASS
 
     @staticmethod
     def _GetPurpose() -> int:
@@ -169,11 +175,11 @@ class Bip84(Bip44Base):
         Returns:
             int: Purpose index
         """
-        return Bip84Const.PURPOSE
+        return Bip49Const.PURPOSE
 
     @staticmethod
-    def _GetCoinClass(coin_type: Bip44Coins) -> Type[BipCoinBase]:
-        """ Get coin class.
+    def _GetCoinConf(coin_type: Bip44Coins) -> Bip49Coin:
+        """ Get coin configuration.
 
         Args:
             coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
@@ -181,4 +187,4 @@ class Bip84(Bip44Base):
         Returns:
             BipCoinBase child object: BipCoinBase child object
         """
-        return Bip84Const.COIN_TO_CLASS[coin_type]
+        return Bip49Const.COIN_TO_CLASS[coin_type]
