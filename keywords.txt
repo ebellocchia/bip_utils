@@ -47,3 +47,4 @@ okex chain
 tezos
 theta
 solana
+algorand
