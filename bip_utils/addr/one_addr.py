@@ -30,7 +30,7 @@ from bip_utils.bech32 import AtomBech32Encoder
 class OneAddrConst:
     """ Class container for Harmony One address constants. """
 
-    # Huma-readable part
+    # Human-readable part
     HRP: str = "one"
 
 

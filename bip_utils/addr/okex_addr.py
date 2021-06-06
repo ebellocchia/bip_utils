@@ -30,7 +30,7 @@ from bip_utils.ecc import Secp256k1PublicKey
 class OkexAddrConst:
     """ Class container for OKEx Chain address constants. """
 
-    # Huma-readable part
+    # Human-readable part
     HRP: str = "ex"
 
 
