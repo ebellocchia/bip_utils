@@ -137,6 +137,7 @@ class Bip32BaseTestHelper:
             # Test master key
             ut_class.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
             ut_class.assertEqual(test["master"]["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
+            ut_class.assertEqual(0, bip32_ctx.Depth())
             ut_class.assertEqual(zero_chain_code, bip32_ctx.ChainCode())
             ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
@@ -147,6 +148,7 @@ class Bip32BaseTestHelper:
                 # Test keys
                 ut_class.assertEqual(chain["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
                 ut_class.assertEqual(chain["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
+                ut_class.assertEqual(0, bip32_ctx.Depth())
                 ut_class.assertEqual(zero_chain_code, bip32_ctx.ChainCode())
                 ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
