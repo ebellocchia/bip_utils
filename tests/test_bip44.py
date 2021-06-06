@@ -790,6 +790,30 @@ TEST_VECT = [
             "ex1fu97k478nepxkkeqy0786g4vseh8ksffg6dq6c",
         ],
     },
+    # Solana
+    {
+        "coin": Bip44Coins.SOLANA,
+        "names": ("Solana", "SOL"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6BxGMZDzacMx38jcsWVxXtqgrU85CgRKN2NWXvaJhnCBPEUq5YcTLZreVRkm3uuhC3LiQk7WWp2ursTkxkMRfKnSvweLRtzdfbyUkCxTNgx",
+            "ex_priv": "xprv9xxux3h6kEoepef9mUxxAktxJSHaoDhTzoSujYAh9SfCWS9gY1JCnmYAeEdZ93ooDXdzAnq5D4nPPMHArDrm7CYVzw2X2WfZ8gwMg34X1dY",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6FQ5DsXbWT8Dp2HAaU6aD5fuY318tkgsGHW3oHDkm7msw4W2PYjQFMrEFpgAtFzNKFt9AmR7N4Yam9pgbK4hzF5XvsoGakWjnqg8X18Rtxr",
+            "ex_priv": "xprvA2QipMzhg5ZvbYChUSZZqwjAz1AeVHy1u4aSztp9CnEu4GAsr1R9hZXkQc8i6m2LZzuUmd8YzMgunJfRrmkfJhGYuxuGU9huHYLWiqz4b78",
+        },
+        "addresses": [
+            "B9sVeu4rJU12oUrUtzjc6BSNuEXdfvurZkdcaTVkP2LY",
+            "634j9U9kjxbM8TmPzNCRQhjeENowxtAYC86Pwy2eGcje",
+            "CjrzauKUn7WuiudgSkh4wrLuMkG6H1BhQnVdKMozganK",
+            "DHMbxQoRFocMyhJXcUn88Rp2FwoXmxHXuaA32dYb3ATZ",
+            "5VCDybrepFCgPprUHUo9MByZpS7zsTkrBwQryKC8zakF",
+        ],
+    },
 
     #
     # Test nets
