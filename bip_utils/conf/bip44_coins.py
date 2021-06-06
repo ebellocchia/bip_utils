@@ -20,6 +20,7 @@
 
 
 # Imports
+from typing import Type
 from bip_utils.addr import (
     P2PKH, BchP2PKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
     EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr

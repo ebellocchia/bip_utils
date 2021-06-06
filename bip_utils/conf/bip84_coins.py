@@ -20,6 +20,7 @@
 
 
 # Imports
+from typing import Type
 from bip_utils.addr import P2WPKH
 from bip_utils.bip32 import Bip32Base, Bip32Secp256k1
 from bip_utils.conf.bip_coin_base import BipCoinBase
