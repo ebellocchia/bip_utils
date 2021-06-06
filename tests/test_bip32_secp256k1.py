@@ -23,6 +23,7 @@
 import binascii
 import unittest
 from bip_utils import Bip32Secp256k1, Bip32KeyError, Bip32Utils
+from .test_bip32_base import Bip32BaseTestHelper
 
 # Tests from BIP32 and SLIP-0010 pages
 TEST_VECT = [
@@ -245,127 +246,28 @@ TEST_VECT_EX_KEY_ERR = [
 class Bip32Secp256k1Tests(unittest.TestCase):
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_from_seed_with_child_key(self):
-        for test in TEST_VECT:
-            # Create from seed
-            bip32_ctx = Bip32Secp256k1.FromSeed(binascii.unhexlify(test["seed"]))
-            # Test master key
-            self.assertEqual(test["master"]["index"], int(bip32_ctx.Index()))
-
-            self.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
-
-            self.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
-            self.assertEqual(test["master"]["pub_key"], str(bip32_ctx.PublicKey().RawCompressed()))
-            self.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode("utf-8")), bip32_ctx.PublicKey().RawCompressed().ToBytes())
-            self.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode("utf-8")), bytes(bip32_ctx.PublicKey().RawCompressed()))
-
-            self.assertEqual(test["master"]["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
-            self.assertEqual(test["master"]["priv_key"], str(bip32_ctx.PrivateKey().Raw()))
-            self.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode("utf-8")), bip32_ctx.PrivateKey().Raw().ToBytes())
-            self.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode("utf-8")), bytes(bip32_ctx.PrivateKey().Raw()))
-
-            self.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
-            self.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
-            self.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
-
-            # Test derivation paths
-            for chain in test["der_paths"]:
-                # Update context
-                bip32_ctx = bip32_ctx.ChildKey(chain["index"])
-                # Test keys
-                self.assertEqual(chain["index"], int(bip32_ctx.Index()))
-
-                self.assertEqual(chain["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-                self.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
-
-                self.assertEqual(chain["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
-                self.assertEqual(chain["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
-
-                self.assertEqual(chain["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
-                self.assertEqual(chain["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
-                self.assertEqual(chain["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
+        Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_from_seed_with_derive_path(self):
-        for test in TEST_VECT:
-            # Create from seed
-            bip32_ctx = Bip32Secp256k1.FromSeed(binascii.unhexlify(test["seed"]))
-            # Test master key
-            self.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
-
-            # Test derivation paths
-            for chain in test["der_paths"]:
-                # Update context
-                bip32_from_path = bip32_ctx.DerivePath(chain["path"][2:])
-                # Test keys
-                self.assertEqual(chain["ex_pub"], bip32_from_path.PublicKey().ToExtended())
-                self.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
+        Bip32BaseTestHelper.test_from_seed_with_derive_path(self, Bip32Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromSeedAndPath for construction
     def test_from_seed_and_path(self):
-        for test in TEST_VECT:
-            # Create from seed
-            bip32_ctx = Bip32Secp256k1.FromSeedAndPath(binascii.unhexlify(test["seed"]), "m")
-            # Test master key
-            self.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
-
-            # Test derivation paths
-            for chain in test["der_paths"]:
-                # Try to build from path and test again
-                bip32_from_path = Bip32Secp256k1.FromSeedAndPath(binascii.unhexlify(test["seed"]), chain["path"])
-                # Test keys
-                self.assertEqual(chain["ex_pub"], bip32_from_path.PublicKey().ToExtended())
-                self.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
+        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_from_ex_key(self):
-        for test in TEST_VECT:
-            # Create from private extended key
-            bip32_ctx = Bip32Secp256k1.FromExtendedKey(test["master"]["ex_priv"])
-            # Test master key
-            self.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-            self.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
-
-            # Same test for derivation paths
-            for chain in test["der_paths"]:
-                # Create from private extended key
-                bip32_ctx = Bip32Secp256k1.FromExtendedKey(chain["ex_priv"])
-                # Test keys
-                self.assertEqual(chain["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-                self.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
+        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Secp256k1, TEST_VECT)
 
     # Test public derivation
     def test_public_derivation(self):
-        # Construct from extended private key
-        bip32_ctx = Bip32Secp256k1.FromExtendedKey(TEST_VECT_PUBLIC_DER["ex_priv"])
-        # Shall not be public
-        self.assertFalse(bip32_ctx.IsPublicOnly())
-
-        # Convert to public
-        bip32_ctx.ConvertToPublic()
-        # Shall be public and the public key shall be correct
-        self.assertTrue(bip32_ctx.IsPublicOnly())
-        self.assertEqual(TEST_VECT_PUBLIC_DER["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-        # Getting the private key shall raise an exception
-        self.assertRaises(Bip32KeyError, bip32_ctx.PrivateKey)
-
-        # Test derivation paths
-        for test in TEST_VECT_PUBLIC_DER["der_paths"]:
-            # Public derivation does not support hardened indexes
-            if Bip32Utils.IsHardenedIndex(test["index"]):
-                self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
-            else:
-                bip32_ctx = bip32_ctx.ChildKey(test["index"])
-                self.assertEqual(test["ex_pub"], bip32_ctx.PublicKey().ToExtended())
+        Bip32BaseTestHelper.test_public_derivation(self, Bip32Secp256k1, TEST_VECT_PUBLIC_DER)
 
     # Test invalid seed
     def test_invalid_seed(self):
-        for test in TEST_VECT_SEED_ERR:
-            self.assertRaises(ValueError, Bip32Secp256k1.FromSeed, binascii.unhexlify(test))
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Secp256k1, TEST_VECT_SEED_ERR)
 
     # Test invalid extended key
     def test_invalid_ex_key(self):
-        for test in TEST_VECT_EX_KEY_ERR:
-            self.assertRaises(Bip32KeyError, Bip32Secp256k1.FromExtendedKey, test)
+        Bip32BaseTestHelper.test_invalid_ex_key(self, Bip32Secp256k1, TEST_VECT_EX_KEY_ERR)
