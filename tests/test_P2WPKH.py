@@ -97,7 +97,7 @@ class P2WPKHTests(unittest.TestCase):
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, P2WPKH.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        self.assertRaises(TypeError, P2WPKH.ToAddress, Ed25519PublicKey(binascii.unhexlify(b"00e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a61499547")))
         # Test vector
         for test in TEST_VECT_KEY_INVALID:
             self.assertRaises(ValueError, P2WPKH.ToAddress, binascii.unhexlify(test))
