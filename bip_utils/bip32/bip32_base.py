@@ -518,8 +518,9 @@ class Bip32Base(ABC):
         """
         pass
 
+    @staticmethod
     @abstractmethod
-    def IsPublicDerivationSupported(self) -> bool:
+    def IsPublicDerivationSupported() -> bool:
         """ Get if public derivation is supported.
 
         Returns:
@@ -527,8 +528,9 @@ class Bip32Base(ABC):
         """
         pass
 
+    @staticmethod
     @abstractmethod
-    def IsPrivateUnhardenedDerivationSupported(self) -> bool:
+    def IsPrivateUnhardenedDerivationSupported() -> bool:
         """ Get if private derivation with not-hardened indexes is supported.
 
         Returns:

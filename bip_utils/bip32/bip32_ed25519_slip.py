@@ -139,7 +139,8 @@ class Bip32Ed25519Slip(Bip32Base):
     # Public methods
     #
 
-    def IsPublicDerivationSupported(self) -> bool:
+    @staticmethod
+    def IsPublicDerivationSupported() -> bool:
         """ Get if public derivation is supported.
 
         Returns:
@@ -147,7 +148,8 @@ class Bip32Ed25519Slip(Bip32Base):
         """
         return False
 
-    def IsPrivateUnhardenedDerivationSupported(self) -> bool:
+    @staticmethod
+    def IsPrivateUnhardenedDerivationSupported() -> bool:
         """ Get if private derivation with not-hardened indexes is supported.
 
         Returns:
