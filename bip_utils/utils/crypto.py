@@ -30,6 +30,25 @@ class CryptoUtils:
     """ Class container for crypto utility functions. """
 
     @staticmethod
+    def Blake2b(data: Union[bytes, str],
+                digest_size: int = 64,
+                key: bytes = b"",
+                salt: bytes = b"") -> bytes:
+        """ Compute the Blake2b of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+            digest_size (int, optional): Digest size (default: 64)
+
+        Returns:
+            bytes: Computed Blake2b
+        """
+        return hashlib.blake2b(AlgoUtils.Encode(data),
+                               digest_size=digest_size,
+                               key=key,
+                               salt=salt).digest()
+
+    @staticmethod
     def Sha256(data: Union[bytes, str]) -> bytes:
         """ Compute the SHA256 of the specified bytes.
 
