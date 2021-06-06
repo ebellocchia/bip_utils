@@ -62,7 +62,7 @@ class Bip44BaseTestHelper:
             ut_class.assertEqual(test["chain_ext"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
-            # Test external chain addresses
+            # Test addresses
             for i in range(len(test["addresses"])):
                 bip_obj_addr_ctx = bip_obj_ctx.AddressIndex(i)
                 ut_class.assertEqual(test["addresses"][i], bip_obj_addr_ctx.PublicKey().ToAddress())
@@ -90,8 +90,7 @@ class Bip44BaseTestHelper:
                 LitecoinConf.EX_KEY_ALT = False
 
             # Only for Bitcoin Cash and Bitcoin Cash test net, test legacy addresses
-            if test["coin"] in (
-            Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
+            if test["coin"] in (Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
                 # Set flag
                 BitcoinCashConf.LEGACY_ADDR = True
                 # Test addresses (bip_obj_ctx is already the external chain)
