@@ -57,6 +57,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
 - OKEx Chain (Ethereum and Cosmos addresses)
+- Solana
 
 Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avalanche, ...), the generated addresses are valid for all the related tokens.
 
@@ -225,7 +226,7 @@ In addition to a seed, it's also possible to specify a derivation path.
 ### Construction from an extended key
 
 Alternatively, the class can be constructed directly from an extended key.\
-The object returned will be at the same depth of the specified key.
+The returned object will be at the same depth of the specified key.
 
 **Code example**
 
@@ -246,6 +247,27 @@ The object returned will be at the same depth of the specified key.
     # Print key
     print(bip32_ctx.PublicKey().ToExtended())
     # Getting private key from a public-only object triggers a Bip32KeyError exception
+
+### Construction from a private key bytes
+
+Finally, the class can be constructed directly from a private key bytes. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.
+
+**Code example**
+
+    import binascii
+    from bip_utils import Bip32Secp256k1
+
+    # Private key bytes
+    priv_key_bytes = b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35"
+    # Construct from private key bytes
+    bip32_ctx = Bip32Secp256k1.FromPrivateKey(binascii.unhexlify(priv_key_bytes))
+    # Print keys and data
+    print(bip32_ctx.PrivateKey().Raw().TóBytes())
+    print(bip32_ctx.PublicKey().RawCompressed().ToBytes())
+    print(bip32_ctx.Depth())
+    print(bip32_ctx.ChainCode())
+    print(bip32_ctx.ParentFingerPrint().ToBytes())
 
 ### Keys derivation
 
@@ -383,7 +405,7 @@ A Bip class can be constructed from a seed, like Bip32. The seed can be specifie
 ### Construction from an extended key
 
 Alternatively, a Bip class can be constructed directly from an extended key.\
-The Bip object returned will be at the same depth of the specified key.
+The returned Bip object will be at the same depth of the specified key.
 
 **Code example**
 
@@ -393,6 +415,21 @@ The Bip object returned will be at the same depth of the specified key.
     key_str = "xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi"
     # Construct from extended key
     bip44_ctx = Bip44.FromExtendedKey(key_str, Bip44Coins.BITCOIN)
+
+### Construction from a private key bytes
+
+Finally, a Bip class can be constructed directly from a private key bytes. Like BIP32, the key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.
+
+**Code example**
+
+    import binascii
+    from bip_utils import Bip44, Bip44Coins
+
+    # Private key bytes
+    priv_key_bytes = b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35"
+    # Construct from private key bytes
+    bip44_ctx = Bip44.FromPrivateKey(binascii.unhexlify(priv_key_bytes), Bip44Coins.BITCOIN)
 
 ### Keys derivation
 
@@ -443,6 +480,7 @@ Currently supported coins enumerative:
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
+|Solana|*Bip44Coins.SOLANA*|-|
 
 The library can be easily extended with other coins anyway.
 
@@ -518,7 +556,7 @@ These libraries are used internally by the other libraries, but they are availab
     from bip_utils import (
       P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
       EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr,
-      Ed25519, Secp256k1
+      Ed25519PublicKey, Secp256k1PublicKey
     )
 
     #
@@ -563,7 +601,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     # You can use public key bytes or a public key object
     pub_key = b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"
-    pub_key = Ed25519(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
+    pub_key = Ed25519PublicKey(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
 
     # Solana address
     addr = SolAddr.ToAddress(pub_key)
