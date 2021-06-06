@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,49 +20,26 @@
 
 
 # Imports
-from bip_utils.utils.conversion import ConvUtils
+from bip_utils.ecc.curve import EllipticCurve
+from bip_utils.ecc.ed25519_keys import Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey
 
 
-class KeyBytes:
-    """ Key bytes class. It allows to get key bytes in different formats. """
+class Ed25519Const:
+    """ Class container for Ed25519 constants. """
 
-    def __init__(self,
-                 key_bytes: bytes) -> None:
-        """ Construct class.
+    # Curve name
+    NAME: str = "Ed25519"
+    # Curve order
+    CURVE_ORDER: int = 0x1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED
+    # Curve generator point
+    GENERATOR: Ed25519Point = Ed25519Point(15112221349535400772501151409588531511454012693041857206046113283949847762202,
+                                           46316835694926478169428394003475163141307993866256225615783033603165251855960)
 
-        Args:
-            key_bytes (bytes): Key bytes
-        """
-        self.m_key_bytes = key_bytes
 
-    def ToBytes(self) -> bytes:
-        """ Get key bytes.
-
-        Returns:
-            bytes: Key bytes
-        """
-        return self.m_key_bytes
-
-    def ToHex(self) -> str:
-        """ Get key bytes in hex format.
-
-        Returns:
-            str: Key bytes in hex format
-        """
-        return ConvUtils.BytesToHexString(self.m_key_bytes)
-
-    def __bytes__(self) -> bytes:
-        """ Get key bytes.
-
-        Returns:
-            bytes: Key bytes
-        """
-        return self.ToBytes()
-
-    def __str__(self) -> str:
-        """ Get key bytes as string.
-
-        Returns:
-            str: Key bytes as string
-        """
-        return self.ToHex()
+# Ed25519 curve definition
+Ed25519: EllipticCurve = EllipticCurve(Ed25519Const.NAME,
+                                       Ed25519Const.CURVE_ORDER,
+                                       Ed25519Const.GENERATOR,
+                                       Ed25519Point,
+                                       Ed25519PublicKey,
+                                       Ed25519PrivateKey)
