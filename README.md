@@ -57,9 +57,10 @@ The package currently supports the following coins (I try to add new ones from t
 - Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
 - OKEx Chain (Ethereum and Cosmos addresses)
+- Theta Network
+- Algorand
 - Solana
 - Tezos
-- Theta Network
 
 Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avalanche, ...), the generated addresses are valid for all the related tokens.
 
@@ -482,9 +483,10 @@ Currently supported coins enumerative:
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
+|Theta Network|*Bip44Coins.THETA*|-|
+|Algorand|*Bip44Coins.ALGORAND*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
 |Tezos|*Bip44Coins.TEZOS*|-|
-|Theta Network|*Bip44Coins.THETA*|-|
 
 The library can be easily extended with other coins anyway.
 
@@ -639,6 +641,8 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     pub_key = Ed25519PublicKey(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
 
+    # Algorand address
+    addr = AlgoAddr.ToAddress(pub_key)
     # Solana address
     addr = SolAddr.ToAddress(pub_key)
     # Tezos address
