@@ -24,19 +24,21 @@ from bip_utils.addr import (
     P2PKH, P2SH, P2WPKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
     EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr
 )
-from bip_utils.ecc import EcdsaPublicKey
+from bip_utils.bip32 import Bip32Base
+from bip_utils.ecc import IPublicKey
 from bip_utils.conf.bip_coin_conf_helper import *
 
 
 class BipCoinBase:
     """ Bip coin base class. It's the base class for BipCoin classes (e.g. Bip44Coin, Bip49Coin).
-    It basically wraps the coin configuration allowing to get through methods.
+    It basically wraps the coin configuration allowing to get it through methods.
     """
 
     def __init__(self,
                  coin_conf: Any,
                  key_net_ver: NetVersions,
                  is_testnet: bool,
+                 bip32_cls: Bip32Base,
                  addr_cls: Any) -> None:
         """ Construct class.
 
@@ -44,12 +46,22 @@ class BipCoinBase:
             coin_conf (class)                  : Coin configuration class
             key_net_ver (KeyNetVersions object): Key net versions
             is_testnet (bool)                  : True if test net, false otherwise
+            bip32_cls (Bip32Base class)        : Bip32 class
             addr_cls (class)                   : Address class
         """
         self.m_coin_conf = coin_conf
         self.m_key_net_ver = key_net_ver
         self.m_is_testnet = is_testnet
+        self.m_bip32_cls = bip32_cls
         self.m_addr_cls = addr_cls
+
+    def Bip32Class(self) -> Bip32Base:
+        """ Get the Bip32 class.
+
+        Returns:
+            Bip32Base: Bip32 class
+        """
+        return self.m_bip32_cls
 
     def KeyNetVersions(self) -> KeyNetVersions:
         """ Get key net versions.
@@ -85,11 +97,11 @@ class BipCoinBase:
         return self.m_coin_conf.NAMES if not self.m_is_testnet else self.m_coin_conf.TEST_NAMES
 
     def ComputeAddress(self,
-                       pub_key: EcdsaPublicKey) -> str:
+                       pub_key: IPublicKey) -> str:
         """ Compute address from public key.
 
         Args:
-            pub_key (EcdsaPublicKey object): EcdsaPublicKey object
+            pub_key (IPublicKey object): IPublicKey object
 
         Returns:
             str: Address string
