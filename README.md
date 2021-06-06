@@ -517,9 +517,13 @@ These libraries are used internally by the other libraries, but they are availab
 
     from bip_utils import (
       P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr,
-      Secp256k1
+      EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr,
+      Ed25519, Secp256k1
     )
+
+    #
+    # Coins that require a secp256k1 curve
+    #
 
     # You can use public key bytes or a public key object
     pub_key = b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"
@@ -552,6 +556,17 @@ These libraries are used internally by the other libraries, but they are availab
     addr = OneAddr.ToAddress(pub_key)
     # Ripple address
     addr = XrpAddr.ToAddress(pub_key)
+
+    #
+    # Coins that require a ed25519 curve
+    #
+
+    # You can use public key bytes or a public key object
+    pub_key = b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"
+    pub_key = Ed25519(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
+
+    # Solana address
+    addr = SolAddr.ToAddress(pub_key)
 
 ## WIF
 
