@@ -1,8 +1,12 @@
 python
 cryptography
 ecdsa
+secp256k1
+ed25519
 wallet
 hd-wallet
+slip10
+slip0010
 bip39
 bip32
 bip44
