@@ -31,7 +31,7 @@ class SolAddr:
 
     @staticmethod
     def ToAddress(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
-        """ Get address in Ripple format.
+        """ Get address in Solana format.
 
         Args:
             pub_key (bytes or Ed25519PublicKey): Public key bytes or object
