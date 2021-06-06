@@ -44,17 +44,21 @@ class ConvUtils:
 
     @staticmethod
     def IntegerToBytes(data_int: int,
+                       bytes_num: Optional[int] = None,
                        endianness: str = "big") -> bytes:
         """ Convert integer to bytes.
 
         Args:
             data_int (int)            : Data integer
+            bytes_num (int, optional) : Number of bytes, automatic if None
             endianness (str, optional): Endianness
 
         Returns:
             bytes: Bytes representation
         """
-        return data_int.to_bytes((data_int.bit_length() + 7) // 8, endianness)
+        bytes_num = bytes_num or (data_int.bit_length() + 7) // 8
+
+        return data_int.to_bytes(bytes_num, endianness)
 
     @staticmethod
     def BytesToBinaryStr(data_bytes: bytes,
