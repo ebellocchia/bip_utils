@@ -25,13 +25,7 @@ from typing import Union
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.bech32 import AtomBech32Encoder
 from bip_utils.ecc import Secp256k1PublicKey
-
-
-class OkexAddrConst:
-    """ Class container for OKEx Chain address constants. """
-
-    # Human-readable part
-    HRP: str = "ex"
+from bip_utils.conf import OkexChainConf
 
 
 class OkexAddr:
@@ -56,4 +50,4 @@ class OkexAddr:
         eth_addr = EthAddr.ToAddress(pub_key)[2:]
 
         # Encode in Atom format
-        return AtomBech32Encoder.Encode(OkexAddrConst.HRP, binascii.unhexlify(eth_addr))
+        return AtomBech32Encoder.Encode(OkexChainConf.ADDR_HRP.Main(), binascii.unhexlify(eth_addr))
