@@ -59,15 +59,15 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['tests']),
     package_data={
         "bip_utils": [
-            "bip/bip39_words/english.txt",
-            "bip/bip39_words/italian.txt",
-            "bip/bip39_words/french.txt",
-            "bip/bip39_words/spanish.txt",
-            "bip/bip39_words/portuguese.txt",
-            "bip/bip39_words/czech.txt",
-            "bip/bip39_words/chinese_simplified.txt",
-            "bip/bip39_words/chinese_traditional.txt",
-            "bip/bip39_words/korean.txt"
+            "bip39/bip39_words/english.txt",
+            "bip39/bip39_words/italian.txt",
+            "bip39/bip39_words/french.txt",
+            "bip39/bip39_words/spanish.txt",
+            "bip39/bip39_words/portuguese.txt",
+            "bip39/bip39_words/czech.txt",
+            "bip39/bip39_words/chinese_simplified.txt",
+            "bip39/bip39_words/chinese_traditional.txt",
+            "bip39/bip39_words/korean.txt"
         ]
     },
     keywords=keywords,
@@ -78,5 +78,5 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
 )
