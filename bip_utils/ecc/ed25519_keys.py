@@ -22,10 +22,21 @@
 # Imports
 from __future__ import annotations
 from nacl import exceptions, signing
-from typing import Any, Union
+from typing import Any, Optional, Union
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
+
+
+class Ed25519KeysConst:
+    """ Class container for ed25519 keys constants. """
+
+    # Compressed public key length
+    PUB_KEY_COMPRESSED_LEN = 33
+    # Uncompressed public key length
+    PUB_KEY_UNCOMPRESSED_LEN = 33
+    # Private key length
+    PRIV_KEY_LEN = 32
 
 
 class Ed25519Point(IPoint):
@@ -33,15 +44,18 @@ class Ed25519Point(IPoint):
 
     def __init__(self,
                  x: int,
-                 y: int) -> None:
+                 y: int,
+                 order: Optional[int] = None) -> None:
         """ Construct class from point coordinates.
 
         Args:
             x (int): X coordinate
             y (int): Y coordinate
+            order (int): Order
         """
         self.m_x = x
         self.m_y = y
+        self.m_order = order or 0
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -59,6 +73,14 @@ class Ed25519Point(IPoint):
            Any: Underlying object
         """
         return None
+
+    def Order(self) -> int:
+        """ Return the point order.
+
+        Returns:
+            int: Point order
+        """
+        return self.m_order
 
     def X(self) -> int:
         """ Get point X coordinate.
@@ -177,6 +199,24 @@ class Ed25519PublicKey(IPublicKey):
         except ValueError:
             return False
 
+    @staticmethod
+    def CompressedLength() -> int:
+        """ Get the compressed key length.
+
+        Returns:
+           int: Compressed key length
+        """
+        return Ed25519KeysConst.PUB_KEY_COMPRESSED_LEN
+
+    @staticmethod
+    def UncompressedLength() -> int:
+        """ Get the uncompressed key length.
+
+        Returns:
+           int: Uncompressed key length
+        """
+        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_LEN
+
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
 
@@ -214,18 +254,18 @@ class Ed25519PublicKey(IPublicKey):
         pass
 
     @staticmethod
-    def __FromBytes(key_bytes: bytes) -> signing.VerifyingKey:
+    def __FromBytes(key_bytes: bytes) -> signing.VerifyKey:
         """ Get public key from bytes.
 
         Args:
             key_bytes (bytes): key bytes
 
         Returns:
-            signing.VerifyingKey: signing.VerifyingKey object
+            signing.VerifyKey: signing.VerifyKey object
         """
 
-        # Remove the first 0x00 if present
-        if len(key_bytes) == 33 and key_bytes[0] == 0:
+        # Remove the first 0x00 if present because nacl requires 32-byte length
+        if len(key_bytes) == Ed25519PublicKey.CompressedLength() and key_bytes[0] == 0:
             key_bytes = key_bytes[1:]
 
         try:
@@ -276,6 +316,15 @@ class Ed25519PrivateKey(IPrivateKey):
             return True
         except ValueError:
             return False
+
+    @staticmethod
+    def Length() -> int:
+        """ Get the key length.
+
+        Returns:
+           int: Key length
+        """
+        return Ed25519KeysConst.PRIV_KEY_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.

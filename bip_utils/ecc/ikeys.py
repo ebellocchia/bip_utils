@@ -22,7 +22,7 @@
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Any, Union
+from typing import Any, Optional, Union
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.key_bytes import KeyBytes
 
@@ -33,12 +33,24 @@ class IPoint(ABC):
     @abstractmethod
     def __init__(self,
                  x: int,
-                 y: int) -> None:
+                 y: int,
+                 order: Optional[int]) -> None:
         """ Construct class from point coordinates.
 
         Args:
             x (int): X coordinate
             y (int): Y coordinate
+            order (int): Order
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
         """
         pass
 
@@ -51,13 +63,12 @@ class IPoint(ABC):
         """
         pass
 
-    @staticmethod
     @abstractmethod
-    def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+    def Order(self) -> int:
+        """ Return the point order.
 
         Returns:
-           EllipticCurveTypes: Elliptic curve type
+            int: Point order
         """
         pass
 
@@ -173,6 +184,26 @@ class IPublicKey(ABC):
         """
         pass
 
+    @staticmethod
+    @abstractmethod
+    def CompressedLength() -> int:
+        """ Get the compressed key length.
+
+        Returns:
+           int: Compressed key length
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def UncompressedLength() -> int:
+        """ Get the uncompressed key length.
+
+        Returns:
+           int: Uncompressed key length
+        """
+        pass
+
     @abstractmethod
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -248,6 +279,16 @@ class IPrivateKey(ABC):
 
         Returns:
             bool: True if valid, false otherwise
+        """
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def Length() -> int:
+        """ Get the key length.
+
+        Returns:
+           int: Key length
         """
         pass
 

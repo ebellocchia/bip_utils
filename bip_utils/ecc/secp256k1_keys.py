@@ -21,7 +21,7 @@
 
 # Imports
 from __future__ import annotations
-from typing import Any, Union
+from typing import Any, Optional, Union
 import ecdsa
 from ecdsa import curves, ellipticcurve, keys
 from ecdsa.ecdsa import curve_secp256k1
@@ -30,19 +30,32 @@ from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
 
 
+class Secp256k1KeysConst:
+    """ Class container for secp256k1 keys constants. """
+
+    # Compressed public key length
+    PUB_KEY_COMPRESSED_LEN = 33
+    # Uncompressed public key length
+    PUB_KEY_UNCOMPRESSED_LEN = 65
+    # Private key length
+    PRIV_KEY_LEN = 32
+
+
 class Secp256k1Point(IPoint):
     """ Secp256k1 point class. """
 
     def __init__(self,
                  x: int,
-                 y: int) -> None:
+                 y: int,
+                 order: Optional[int] = None) -> None:
         """ Construct class from point coordinates.
 
         Args:
             x (int): X coordinate
             y (int): Y coordinate
+            order (int): Order
         """
-        self.m_point = ellipticcurve.PointJacobi.from_affine(ellipticcurve.Point(curve_secp256k1, x, y))
+        self.m_point = ellipticcurve.PointJacobi.from_affine(ellipticcurve.Point(curve_secp256k1, x, y, order))
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -60,6 +73,14 @@ class Secp256k1Point(IPoint):
            Any: Underlying object
         """
         return self.m_point
+
+    def Order(self) -> int:
+        """ Return the point order.
+
+        Returns:
+            int: Point order
+        """
+        return self.m_point.order()
 
     def X(self) -> int:
         """ Get point X coordinate.
@@ -173,6 +194,24 @@ class Secp256k1PublicKey(IPublicKey):
         except ValueError:
             return False
 
+    @staticmethod
+    def CompressedLength() -> int:
+        """ Get the compressed key length.
+
+        Returns:
+           int: Compressed key length
+        """
+        return Secp256k1KeysConst.PUB_KEY_COMPRESSED_LEN
+
+    @staticmethod
+    def UncompressedLength() -> int:
+        """ Get the uncompressed key length.
+
+        Returns:
+           int: Uncompressed key length
+        """
+        return Secp256k1KeysConst.PUB_KEY_UNCOMPRESSED_LEN
+
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
 
@@ -280,6 +319,15 @@ class Secp256k1PrivateKey(IPrivateKey):
             return True
         except ValueError:
             return False
+
+    @staticmethod
+    def Length() -> int:
+        """ Get the key length.
+
+        Returns:
+           int: Key length
+        """
+        return Secp256k1KeysConst.PRIV_KEY_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.

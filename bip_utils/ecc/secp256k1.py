@@ -36,7 +36,7 @@ class Secp256k1Const:
     # Defining it like this will be less efficient than using generator_secp256k1 directly,
     # because it doesn't precompute the multiplication table.
     # However, this is only used in public children derivation so it won't have a big impact.
-    GENERATOR: Secp256k1Point = Secp256k1Point(generator_secp256k1.x(), generator_secp256k1.y())
+    GENERATOR: Secp256k1Point = Secp256k1Point(generator_secp256k1.x(), generator_secp256k1.y(), generator_secp256k1.order())
 
 
 # Secp256k1 curve definition
