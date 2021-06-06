@@ -21,14 +21,15 @@
 
 # Imports
 import binascii
-import unittest
 from bip_utils import Bip32KeyError, Bip32Utils
 
 #
 # Helper class for Bip32Base child classes, which share the same tests
 #
 class Bip32BaseTestHelper:
+
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
+    @staticmethod
     def test_from_seed_with_child_key(ut_class, bip_class, test_vector):
         for test in test_vector:
             # Create from seed
@@ -71,6 +72,7 @@ class Bip32BaseTestHelper:
                 ut_class.assertEqual(chain["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
+    @staticmethod
     def test_from_seed_with_derive_path(ut_class, bip_class, test_vector):
         for test in test_vector:
             # Create from seed
@@ -88,6 +90,7 @@ class Bip32BaseTestHelper:
                 ut_class.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromSeedAndPath for construction
+    @staticmethod
     def test_from_seed_and_path(ut_class, bip_class, test_vector):
         for test in test_vector:
             # Create from seed
@@ -105,6 +108,7 @@ class Bip32BaseTestHelper:
                 ut_class.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromExtendedKey for construction
+    @staticmethod
     def test_from_ex_key(ut_class, bip_class, test_vector):
         for test in test_vector:
             # Create from private extended key
@@ -122,6 +126,7 @@ class Bip32BaseTestHelper:
                 ut_class.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
     # Test public derivation
+    @staticmethod
     def test_public_derivation(ut_class, bip_class, test_vector):
         # Construct from extended private key
         bip32_ctx = bip_class.FromExtendedKey(test_vector["ex_priv"])
@@ -146,11 +151,13 @@ class Bip32BaseTestHelper:
                 ut_class.assertEqual(test["ex_pub"], bip32_ctx.PublicKey().ToExtended())
 
     # Test invalid seed
+    @staticmethod
     def test_invalid_seed(ut_class, bip_class, test_vector):
         for test in test_vector:
             ut_class.assertRaises(ValueError, bip_class.FromSeed, binascii.unhexlify(test))
 
     # Test invalid extended key
+    @staticmethod
     def test_invalid_ex_key(ut_class, bip_class, test_vector):
         for test in test_vector:
             ut_class.assertRaises(Bip32KeyError, bip_class.FromExtendedKey, test)

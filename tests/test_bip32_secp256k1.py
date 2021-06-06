@@ -20,9 +20,8 @@
 
 
 # Imports
-import binascii
 import unittest
-from bip_utils import Bip32Secp256k1, Bip32KeyError, Bip32Utils
+from bip_utils import Bip32Secp256k1, Bip32Utils
 from .test_bip32_base import Bip32BaseTestHelper
 
 # Tests from BIP32 and SLIP-0010 pages
