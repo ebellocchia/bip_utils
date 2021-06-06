@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -243,6 +243,11 @@ TEST_VECT_EX_KEY_ERR = [
 # Bip32Secp256k1 tests
 #
 class Bip32Secp256k1Tests(unittest.TestCase):
+    # Tets supported derivation
+    def test_supported_derivation(self):
+        self.assertTrue(Bip32Secp256k1.IsPrivateUnhardenedDerivationSupported())
+        self.assertTrue(Bip32Secp256k1.IsPublicDerivationSupported())
+
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_from_seed_with_child_key(self):
         Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Secp256k1, TEST_VECT)

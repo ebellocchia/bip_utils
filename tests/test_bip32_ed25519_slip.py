@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -178,6 +178,11 @@ TEST_VECT_SEED_ERR = [
 # Bip32Ed25519Slip tests
 #
 class Bip32Ed25519SlipTests(unittest.TestCase):
+    # Tets supported derivation
+    def test_supported_derivation(self):
+        self.assertFalse(Bip32Ed25519Slip.IsPrivateUnhardenedDerivationSupported())
+        self.assertFalse(Bip32Ed25519Slip.IsPublicDerivationSupported())
+
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_from_seed_with_child_key(self):
         Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Ed25519Slip, TEST_VECT)
