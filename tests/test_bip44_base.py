@@ -30,7 +30,7 @@ from bip_utils import (
 )
 
 #
-# Helper class for Bip44Base child classes, wchich share the same tests
+# Helper class for Bip44Base child classes, which share the same tests
 #
 class Bip44BaseTestHelper:
 
