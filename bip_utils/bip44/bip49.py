@@ -62,12 +62,25 @@ class Bip49(Bip44Base):
     # Override methods
     #
 
+    def DeriveDefaultPath(self) -> Bip44Base:
+        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It calls the underlying _PurposeGeneric method with the current object as parameter.
+
+        Returns:
+            Bip44Base object: Bip44Base object
+
+        Raises:
+            Bip44DepthError: If current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
+        """
+        return self._DeriveDefaultPathGeneric(self)
+
     def Purpose(self) -> Bip44Base:
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _PurposeGeneric method with the current object as parameter.
 
         Returns:
-            Bip49 object: Bip49 object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -81,7 +94,7 @@ class Bip49(Bip44Base):
         It calls the underlying _CoinGeneric method with the current object as parameter.
 
         Returns:
-            Bip49 object: Bip49 object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -98,7 +111,7 @@ class Bip49(Bip44Base):
             acc_idx (int): Account index
 
         Returns:
-            Bip49 object: Bip49 object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -115,7 +128,7 @@ class Bip49(Bip44Base):
             change_idx (Bip44Changes): Change index, must a Bip44Changes enum
 
         Returns:
-            Bip49 object: Bip49 object
+            Bip44Base object: Bip44Base object
 
         Raises:
             TypeError: If chain index is not a Bip44Changes enum
@@ -133,7 +146,7 @@ class Bip49(Bip44Base):
             addr_idx (int): Address index
 
         Returns:
-            Bip49 object: Bip49 object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys

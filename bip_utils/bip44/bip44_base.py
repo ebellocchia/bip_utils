@@ -354,16 +354,42 @@ class Bip44Base(ABC):
     #
 
     @classmethod
+    def _DeriveDefaultPathGeneric(cls,
+                                  bip_obj: Bip44Base) -> Bip44Base:
+        """ Derive the default coin path and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It shall be called from a child class.
+
+        Args:
+            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+
+        Returns:
+            Bip44Base object: Bip44Base object
+
+        Raises:
+            Bip44DepthError: If the current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
+        """
+        if not cls.IsLevel(bip_obj, Bip44Levels.MASTER):
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving purpose" % bip_obj.m_bip32.Depth())
+
+        # Derive purpose and coin by default
+        bip_obj = cls._PurposeGeneric(bip_obj)
+        bip_obj = cls._CoinGeneric(bip_obj)
+
+        # Derive the remaining path
+        return cls(bip_obj.m_bip32.DerivePath(bip_obj.m_coin_conf.DefaultPath()), bip_obj.m_coin_type)
+
+    @classmethod
     def _PurposeGeneric(cls,
                         bip_obj: Bip44Base) -> Bip44Base:
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base child object): Bip44Base child object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If the current depth is not suitable for deriving keys
@@ -382,10 +408,10 @@ class Bip44Base(ABC):
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base child object): Bip44Base child object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If the current depth is not suitable for deriving keys
@@ -406,11 +432,11 @@ class Bip44Base(ABC):
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base child object): Bip44Base child object (e.g. BIP44, BIP49, BIP84)
-            acc_idx (int)                   : Account index
+            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            acc_idx (int)             : Account index
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If the current depth is not suitable for deriving keys
@@ -429,11 +455,11 @@ class Bip44Base(ABC):
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base child object): Bip44Base child object (e.g. BIP44, BIP49, BIP84)
-            change_idx (Bip44Changes)       : change index, must a Bip44Changes enum
+            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             TypeError: If chain index is not a Bip44Changes enum
@@ -460,11 +486,11 @@ class Bip44Base(ABC):
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base child object): Bip44Base child object (e.g. BIP44, BIP49, BIP84)
-            addr_idx (int)                  : Address index
+            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            addr_idx (int)            : Address index
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If the current depth is not suitable for deriving keys
@@ -484,12 +510,26 @@ class Bip44Base(ABC):
     #
 
     @abstractmethod
+    def DeriveDefaultPath(self) -> Bip44Base:
+        """ Derive the default coin path and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        It calls the underlying _DeriveDefaultPathGeneric method with the current object as parameter.
+
+        Returns:
+            Bip44Base object: Bip44Base object
+
+        Raises:
+            Bip44DepthError: If the current depth is not suitable for deriving keys
+            Bip32KeyError: If the derivation results in an invalid key
+        """
+        pass
+
+    @abstractmethod
     def Purpose(self) -> Bip44Base:
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _PurposeGeneric method with the current object as parameter.
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -504,7 +544,7 @@ class Bip44Base(ABC):
         It calls the underlying _CoinGeneric method with the current object as parameter.
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -523,7 +563,7 @@ class Bip44Base(ABC):
             acc_idx (int): Account index
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
@@ -542,7 +582,7 @@ class Bip44Base(ABC):
             change_idx (Bip44Changes): Change index, must a Bip44Changes enum
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             TypeError: If chain index is not a Bip44Changes enum
@@ -561,7 +601,7 @@ class Bip44Base(ABC):
             addr_idx (int): Address index
 
         Returns:
-            Bip44Base child object: Bip44Base child object
+            Bip44Base object: Bip44Base object
 
         Raises:
             Bip44DepthError: If current depth is not suitable for deriving keys
