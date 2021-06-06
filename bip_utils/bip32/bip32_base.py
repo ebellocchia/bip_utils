@@ -164,6 +164,31 @@ class Bip32Base(ABC):
                    is_public=is_public,
                    key_net_ver=key_data.KeyNetVersions())
 
+    @classmethod
+    def _FromPrivateKey(cls,
+                        key_bytes: bytes,
+                        key_net_ver: KeyNetVersions,
+                        curve_type: EllipticCurveTypes) -> Bip32Base:
+        """ Create a Bip32 object from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            key_bytes (bytes)                  : Key bytes
+            key_net_ver (KeyNetVersions object): KeyNetVersions object
+            curve_type (EllipticCurveTypes)    : Elliptic curve type
+
+        Returns:
+            Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
+        """
+        return cls(secret=key_bytes,
+                   chain_code=b"\x00" * Bip32BaseConst.HMAC_HALF_LEN,
+                   curve_type=curve_type,
+                   is_public=False,
+                   key_net_ver=key_net_ver)
 
     #
     # Public methods
@@ -466,6 +491,27 @@ class Bip32Base(ABC):
 
         Returns:
             Bip32 object: Bip32 object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def FromPrivateKey(cls,
+                       key_bytes: bytes,
+                       key_net_ver: KeyNetVersions) -> Bip32Base:
+        """ Create a Bip32 object from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            key_bytes (bytes)                  : Key bytes
+            key_net_ver (KeyNetVersions object): KeyNetVersions object
+
+        Returns:
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32KeyError: If the key is not valid

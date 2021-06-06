@@ -23,9 +23,9 @@
 from __future__ import annotations
 from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
-from bip_utils.bip32.bip32_base import Bip32BaseConst, Bip32Base
+from bip_utils.bip32.bip32_base import Bip32Base
 from bip_utils.conf import Bip32Conf, KeyNetVersions
-from bip_utils.ecc import EllipticCurveTypes, Secp256k1PublicKey, Secp256k1
+from bip_utils.ecc import EllipticCurveTypes, Secp256k1, Secp256k1PublicKey, Secp256k1PrivateKey
 from bip_utils.utils import ConvUtils
 
 
@@ -113,6 +113,28 @@ class Bip32Secp256k1(Bip32Base):
                                     key_net_ver,
                                     Bip32Secp256k1Const.CURVE_TYPE)
 
+    @classmethod
+    def FromPrivateKey(cls,
+                       key_bytes: bytes,
+                       key_net_ver: KeyNetVersions = Bip32Conf.KEY_NET_VER.Main()) -> Bip32Base:
+        """ Create a Bip32 object from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            key_bytes (bytes)                            : Key bytes
+            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
+
+        Returns:
+            Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
+        """
+        return cls._FromPrivateKey(key_bytes,
+                                   key_net_ver,
+                                   Bip32Secp256k1Const.CURVE_TYPE)
+
     #
     # Public methods
     #
@@ -171,7 +193,7 @@ class Bip32Secp256k1(Bip32Base):
 
         # Convert to string and left pad with zeros
         secret = ConvUtils.IntegerToBytes(new_key_int)
-        secret = b"\x00" * (Bip32BaseConst.HMAC_HALF_LEN - len(secret)) + secret
+        secret = b"\x00" * (Secp256k1PrivateKey.Length() - len(secret)) + secret
 
         # Construct and return a new Bip32 object
         return Bip32Secp256k1(secret=secret,

@@ -113,6 +113,28 @@ class Bip32Ed25519Slip(Bip32Base):
                                     key_net_ver,
                                     Bip32Ed25519SlipConst.CURVE_TYPE)
 
+    @classmethod
+    def FromPrivateKey(cls,
+                       key_bytes: bytes,
+                       key_net_ver: KeyNetVersions = Bip32Conf.KEY_NET_VER.Main()) -> Bip32Base:
+        """ Create a Bip32 object from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            key_bytes (bytes)                            : Key bytes
+            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
+
+        Returns:
+            Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
+        """
+        return cls._FromPrivateKey(key_bytes,
+                                   key_net_ver,
+                                   Bip32Ed25519SlipConst.CURVE_TYPE)
+
     #
     # Public methods
     #
