@@ -50,8 +50,9 @@ from bip_utils.bip44 import (
 )
 # ECC
 from bip_utils.ecc import (
-    Ed25519, Ed25519PublicKey, Ed25519PrivateKey,
-    Secp256k1, Secp256k1PublicKey, Secp256k1PrivateKey
+    EllipticCurveGetter, EllipticCurveTypes,
+    Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
+    Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
 )
 # Coins configuration
 from bip_utils.conf import *
