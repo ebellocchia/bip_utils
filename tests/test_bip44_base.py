@@ -140,6 +140,37 @@ class Bip44BaseTestHelper:
             ut_class.assertEqual(test["chain_ext"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
 
+    # Run all tests in test vector using FromPrivateKey for construction
+    @staticmethod
+    def test_from_priv_key(ut_class, bip_class, test_vector):
+        for test in test_vector:
+            # Create from private master key for reconstructing the private key
+            bip_tmp_ctx = bip_class.FromExtendedKey(test["ex_master"], test["coin"])
+            # Create from private key
+            bip_obj_ctx = bip_class.FromPrivateKey(bip_tmp_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
+
+            # Test master key
+            ut_class.assertEqual(bip_tmp_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
+            ut_class.assertEqual(bip_tmp_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
+
+            # Create from private account key for reconstructing the private key
+            bip_tmp_ctx = bip_class.FromExtendedKey(test["account"]["ex_priv"], test["coin"])
+            # Create from private key
+            bip_obj_ctx = bip_class.FromPrivateKey(bip_tmp_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
+
+            # Test account keys
+            ut_class.assertEqual(bip_tmp_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
+            ut_class.assertEqual(bip_tmp_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
+
+            # Create from private change key for reconstructing the private key
+            bip_tmp_ctx = bip_class.FromExtendedKey(test["chain_ext"]["ex_priv"], test["coin"])
+            # Create from private key
+            bip_obj_ctx = bip_class.FromPrivateKey(bip_tmp_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
+
+            # Test external chain keys
+            ut_class.assertEqual(bip_tmp_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
+            ut_class.assertEqual(bip_tmp_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
+
     # Test for IsLevel method
     @staticmethod
     def test_is_level(ut_class, bip_class, test_seed_bytes):
@@ -203,6 +234,7 @@ class Bip44BaseTestHelper:
             ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromSeed, binascii.unhexlify(test_coins["seed"]),
                                   test)
             ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromExtendedKey, test_coins["ex_key"], test)
+            ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromPrivateKey, b"", test)
 
         # Test allowed coins
         for test in test_coins["allowed"]:

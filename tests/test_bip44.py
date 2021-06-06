@@ -1064,6 +1064,10 @@ class Bip44Tests(unittest.TestCase):
     def test_from_ex_key(self):
         Bip44BaseTestHelper.test_from_ex_key(self, Bip44, TEST_VECT)
 
+    # Run all tests in test vector using FromPrivateKey for construction
+    def test_from_priv_key(self):
+        Bip44BaseTestHelper.test_from_priv_key(self, Bip44, TEST_VECT)
+
     # Test for IsLevel method
     def test_is_level(self):
         Bip44BaseTestHelper.test_is_level(self, Bip44, TEST_SEED)
