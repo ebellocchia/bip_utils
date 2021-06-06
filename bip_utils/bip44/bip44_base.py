@@ -71,6 +71,7 @@ class Bip44Coins(Enum):
     SOLANA = auto(),
     TEZOS = auto(),
     THETA = auto(),
+    ALGORAND = auto(),
     NINE_CHRONICLES_GOLD = auto(),
     # Test nets
     BITCOIN_TESTNET = auto(),
@@ -129,6 +130,7 @@ class Bip44BaseConst:
             Bip44Coins.BITCOIN_CASH: 145,
             Bip44Coins.TRON: 195,
             Bip44Coins.BITCOIN_SV: 236,
+            Bip44Coins.ALGORAND: 283,
             Bip44Coins.BAND_PROTOCOL: 494,
             Bip44Coins.KAVA: 494,
             Bip44Coins.TERRA: 330,

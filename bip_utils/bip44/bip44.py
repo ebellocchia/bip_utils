@@ -77,6 +77,7 @@ class Bip44Const:
             Bip44Coins.SOLANA: Bip44Solana,
             Bip44Coins.TEZOS: Bip44Tezos,
             Bip44Coins.THETA: Bip44Theta,
+            Bip44Coins.ALGORAND: Bip44Algorand,
             Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
         }
 

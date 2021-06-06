@@ -22,7 +22,7 @@
 # Imports
 from typing import Type
 from bip_utils.addr import (
-    P2PKH, BchP2PKH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
+    P2PKH, BchP2PKH, AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
     EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr, XtzAddr
 )
 from bip_utils.bip32 import Bip32Base, Bip32Ed25519Slip, Bip32Secp256k1
@@ -346,6 +346,20 @@ Bip44OkexChainAtom: Bip44Coin = Bip44Coin(
     bip32_cls=Bip32Secp256k1,
     addr_cls=OkexAddr)
 
+# Configuration for Theta
+Bip44Theta: Bip44Coin = Bip44Coin(
+    coin_conf=ThetaConf,
+    is_testnet=False,
+    bip32_cls=Bip32Secp256k1,
+    addr_cls=EthAddr)
+
+# Configuration for Algorand
+Bip44Algorand: Bip44Coin = Bip44Coin(
+    coin_conf=AlgorandConf,
+    is_testnet=False,
+    bip32_cls=Bip32Ed25519Slip,
+    addr_cls=AlgoAddr)
+
 # Configuration for Solana
 Bip44Solana: Bip44Coin = Bip44Coin(
     coin_conf=SolanaConf,
@@ -359,13 +373,6 @@ Bip44Tezos: Bip44Coin = Bip44Coin(
     is_testnet=False,
     bip32_cls=Bip32Ed25519Slip,
     addr_cls=XtzAddr)
-
-# Configuration for Theta
-Bip44Theta: Bip44Coin = Bip44Coin(
-    coin_conf=ThetaConf,
-    is_testnet=False,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=EthAddr)
 
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(

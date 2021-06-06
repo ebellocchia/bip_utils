@@ -547,6 +547,9 @@ class HarmonyOneConf:
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
 
+    # HRP for address
+    ADDR_HRP: NetVersions = NetVersions("one")
+
     # WIF not supported
     WIF_NET_VER: NetVersions = NetVersions()
 
@@ -578,6 +581,9 @@ class OkexChainConf:
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # HRP for address
+    ADDR_HRP: NetVersions = NetVersions("ex")
 
     # WIF not supported
     WIF_NET_VER: NetVersions = NetVersions()
@@ -623,6 +629,22 @@ class ThetaConf:
 
     # Default path
     DEFAULT_PATH: str = "0'/0/0"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class AlgorandConf:
+    """ Class container for Algorand configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Algorand", "ALGO")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0'/0'"
 
     # BIP44 net versions (same of Bitcoin)
     BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
