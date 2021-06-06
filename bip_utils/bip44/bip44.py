@@ -75,6 +75,7 @@ class Bip44Const:
             Bip44Coins.OKEX_CHAIN_ATOM: Bip44OkexChainAtom,
             Bip44Coins.OKEX_CHAIN_ATOM_OLD: Bip44OkexChainAtom,
             Bip44Coins.SOLANA: Bip44Solana,
+            Bip44Coins.TEZOS: Bip44Tezos,
             Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
         }
 

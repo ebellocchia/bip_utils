@@ -353,6 +353,13 @@ Bip44Solana: Bip44Coin = Bip44Coin(
     bip32_cls=Bip32Ed25519Slip,
     addr_cls=SolAddr)
 
+# Configiguraiton for Tezos
+Bip44Tezos: Bip44Coin = Bip44Coin(
+    coin_conf=TezosConf,
+    is_testnet=False,
+    bip32_cls=Bip32Ed25519Slip,
+    addr_cls=SolAddr)
+
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(
     coin_conf=NineChroniclesGoldConf,
