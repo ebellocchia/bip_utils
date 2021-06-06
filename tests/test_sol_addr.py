@@ -23,8 +23,9 @@
 import binascii
 import unittest
 from bip_utils import SolAddr, Ed25519PublicKey, Secp256k1PublicKey
+from .test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_SECP256K1_COMPR_PUB_KEY
 
-# Some keys randomly generated
+# Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"00e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a61499547",
@@ -48,14 +49,6 @@ TEST_VECT = [
     },
 ]
 
-# Tests for invalid keys
-TEST_VECT_KEY_INVALID = [
-    # Public key with valid length but wrong version
-    b"01e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a61499547",
-    # Public key with invalid length
-    b"00e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a6149954711",
-]
-
 
 #
 # Tests
@@ -73,7 +66,7 @@ class SolAddrTests(unittest.TestCase):
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, SolAddr.ToAddress, Secp256k1PublicKey(binascii.unhexlify(b"0261d015de607c9b8cfb77f658fabe6af3c7d6865740169026f2f2e95b6e5db14d")))
+        self.assertRaises(TypeError, SolAddr.ToAddress, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
         # Test vector
-        for test in TEST_VECT_KEY_INVALID:
+        for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
             self.assertRaises(ValueError, SolAddr.ToAddress, binascii.unhexlify(test))

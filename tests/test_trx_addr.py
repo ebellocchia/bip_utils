@@ -23,8 +23,9 @@
 import binascii
 import unittest
 from bip_utils import TrxAddr, Ed25519PublicKey, Secp256k1PublicKey
+from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY
 
-# Some keys randomly taken (verified with TronLink wallet)
+# Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"033d77bf3f63edd7aad3163c6f04eb48e968a76c3043def375c21a8414675e11ae",
@@ -48,20 +49,6 @@ TEST_VECT = [
     },
 ]
 
-# Tests for invalid keys
-TEST_VECT_KEY_INVALID = [
-    # Private key
-    b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
-    # Compressed public key with valid length but wrong version
-    b"019efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
-    # Compressed public key with invalid length
-    b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c7000",
-    # Uncompressed public key with valid length but wrong version
-    b"058ccab10df42f89efaf13ca23a96f8b2063d881601c195b354f6f49c3b5978dd4e17e3a1b1505fcb5e7d13b042fa5c8eff83c1efe17d8a56e3cf3fa9250cb80fe",
-    # Uncompressed public key with invalid length
-    b"04fd87569e9af6015d9d938c67c68fcdf5440d3c235eccbc1195a1924bba90e5e1954cb6d841054791ac227a8c11f79f77d24a20b238402c5424c8e436bb49",
-]
-
 
 #
 # Tests
@@ -79,7 +66,7 @@ class TrxAddrTests(unittest.TestCase):
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, TrxAddr.ToAddress, Ed25519PublicKey(b"000102030405060708090a0b0c0d0e0f"))
+        self.assertRaises(TypeError, TrxAddr.ToAddress, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         # Test vector
-        for test in TEST_VECT_KEY_INVALID:
+        for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
             self.assertRaises(ValueError, TrxAddr.ToAddress, binascii.unhexlify(test))

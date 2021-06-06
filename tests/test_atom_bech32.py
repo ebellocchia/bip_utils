@@ -26,8 +26,7 @@ from bip_utils import (
     AtomBech32Decoder, AtomBech32Encoder, Bech32FormatError
 )
 
-# Some keys randomly taken from Ian Coleman web page
-# https://iancoleman.io/bip39/
+# Some keys randomly taken
 TEST_VECT = [
     {
         "raw": b"751e76e8199196d454941c45d1b3a323f1433bd6",
