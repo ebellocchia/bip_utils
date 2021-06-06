@@ -814,6 +814,54 @@ TEST_VECT = [
             "5VCDybrepFCgPprUHUo9MByZpS7zsTkrBwQryKC8zakF",
         ],
     },
+    # Tezos
+    {
+        "coin": Bip44Coins.TEZOS,
+        "names": ("Tezos", "XTZ"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6D6eabhdYuAPkmJeFh3ihdPBrEGEGXhPGWsf8JeY25iVn6a8K6VaibiSJjuFBAL4mSUJPtVtnYCB6ZcxEjorhTNAaBApg4UF8CuS5Z813Ae",
+            "ex_priv": "xprv9z7JB6AjiXc6YHEB9fWiLVSTJCRjs4yXuHx4KvEvTkBWuJEymZBLAoPxTYcVKBdUXr2b6HsVDFurRN9n77xPaDrpaZJyqe7NXF866zivAmk",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EqHb2yAUGePWabtZ6gQYoxXqXbxYfA2LkDsLxSW1fvni16fRivuK8YH8gJnyyNjR194fht1N4b4xDdpU1aUXxBLeW1djeWyvuKupaysqhj",
+            "ex_priv": "xprvA1qwBXSGdu66J6XRT59QBg1oHVmU9CSAyXJGYa2tTLPoqCmWtBcemLDoHWFYcCp1vQ3kQTpXPZvJUpGjE2AKM6d1XeGQscJikKKRcBUtYnm",
+        },
+        "addresses": [
+            "tz1QSN6cBu6kbssDE5TSsTpftvKzptd1sgRY",
+            "tz1Rofn8Nh7Z99ef2M9MgVhq2mLuKzRATtbz",
+            "tz1SL7ssKJb66kobc1ZT8c5PYUX42y3UDhuR",
+            "tz1VeusEZR3qouTAsfmudLYSNx5o1gKc7ZG7",
+            "tz1U2QVtbgZfbFanzogVd8wmEzMDvyR1SkV7",
+        ],
+    },
+    # Theta Network
+    {
+        "coin": Bip44Coins.THETA,
+        "names": ("Theta Network", "THETA"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CiroqWJYjzbiVf8QNrgrHy1XpeZxqksSt7YFRDUrH5ybHha2iRXPNjJpYu5Bi8imeW4GEuQCEmwExNH5L8CnvgQgprKPJ9NvB41mqPqcUB",
+            "ex_priv": "xprv9yjWQKyQiNSJW1afJMKgVA2Gynp5ZP325fBwT2osHwYziVNRVB7GqaQpyK4PTpcbxETZHMVLGQUoMvFJ4CoAbgreqDVyVpkkTuBSKmVVAiQ",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EnX6Yw6wxEme5wtArCPg6jXuSfGAo8w985nr9HmQAZkErJEoe7AtytWYYcmXf5244k4bcaQwwgBJ7DSJa4RVb77NwpcuGu3LmTK4HeycXz",
+            "ex_priv": "xprvA1oAh3QD7agURbsR4pfPJxnoMQpmmLR5muAC3kt9qq2mN3y6G6nvMBa2hHuJjqyFbeDM5csgRaqGpSkFGgs82uQ9sezFZsqm55P1BKszpsX",
+        },
+        "addresses": [
+            "0xB16f8D941d7D281aDCEf3e950aBF2147D7AC2D33",
+            "0xf2142cb79CEEC9aD39C15151CdEa90f0b853EA1C",
+            "0x17C6899cbD8628a614E69CeF96E6CB2Ea47A5Ace",
+            "0x92554055C248b7e155326ad827C8D5A8780322fF",
+            "0x02f9C86C8dA95C6748d063AA00c6DCD581311C06",
+        ],
+    },
 
     #
     # Test nets
