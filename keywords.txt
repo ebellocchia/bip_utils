@@ -44,3 +44,4 @@ fantom opera
 harmony one
 huobi chain
 okex chain
+solana
