@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,8 @@
 
 # Import
 from typing import Iterator, List, Optional, Tuple
-from bip_utils.bip.bip32_utils import Bip32Utils
+from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip32.bip32_utils import Bip32Utils
 
 
 class Bip32PathConst:
@@ -33,62 +34,18 @@ class Bip32PathConst:
     MASTER_CHAR: str = "m"
 
 
-class Bip32PathElement:
-    """ BIP32 path element class. It represents a BIP-0032 path single element. """
-
-    def __init__(self,
-                 elem: Optional[int]) -> None:
-        """ Construct class by specifying the path element.
-
-        Args:
-            elem (int or None): Path element
-        """
-        self.m_elem = elem
-
-    def IsHardened(self) -> bool:
-        """ Get if the path element is hardened.
-
-        Returns:
-            bool: True if hardened, false otherwise
-        """
-        return Bip32Utils.IsHardenedIndex(self.m_elem)
-
-    def IsValid(self) -> bool:
-        """ Get if the path element is valid.
-
-        Returns:
-            bool: True if valid, false otherwise
-        """
-        return self.m_elem is not None
-
-    def ToInt(self) -> int:
-        """ Get the path element as integer.
-
-        Returns:
-            int: Path element
-        """
-        return int(self.m_elem)
-
-    def __int__(self) -> int:
-        """ Get the path element as integer.
-
-        Returns:
-            int: Path element
-        """
-        return self.ToInt()
-
-
 class Bip32Path:
     """ BIP32 path class. It represents a BIP-0032 path. """
 
     def __init__(self,
-                 elems: List[int]) -> None:
+                 elems: List[Optional[int]]) -> None:
         """ Construct class by specifying the path elements.
 
         Args:
             elems (list): Path elements
         """
-        self.m_elems = [Bip32PathElement(elem) for elem in elems]
+        self.m_is_valid = all(elem is not None for elem in elems)
+        self.m_elems = [] if not self.m_is_valid else [Bip32KeyIndex(elem) for elem in elems]
 
     def Length(self) -> int:
         """ Get the number of elements of the path.
@@ -104,7 +61,7 @@ class Bip32Path:
         Returns:
             bool: True if valid, false otherwise
         """
-        return all(elem.IsValid() for elem in self.m_elems)
+        return self.m_is_valid
 
     def ToList(self) -> List[int]:
         """ Get the path as a list of integers.
@@ -112,9 +69,6 @@ class Bip32Path:
         Returns:
             list: Path as a list of integers
         """
-        if not self.IsValid():
-            return []
-
         return [int(elem) for elem in self.m_elems]
 
     def ToStr(self) -> str:
@@ -123,9 +77,6 @@ class Bip32Path:
         Returns:
             str: Path as a string
         """
-        if not self.IsValid():
-            return ""
-
         path_str = ""
         for elem in self.m_elems:
             if not elem.IsHardened():
@@ -144,7 +95,7 @@ class Bip32Path:
         return self.ToStr()
 
     def __getitem__(self,
-                    idx: int) -> Bip32PathElement:
+                    idx: int) -> Bip32KeyIndex:
         """ Get the specified element index.
 
         Args:
@@ -155,7 +106,7 @@ class Bip32Path:
         """
         return self.m_elems[idx]
 
-    def __iter__(self) -> Iterator[Bip32PathElement]:
+    def __iter__(self) -> Iterator[Bip32KeyIndex]:
         """ Get the iterator to the current element.
 
         Returns:

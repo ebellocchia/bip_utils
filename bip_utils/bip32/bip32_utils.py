@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -26,8 +26,8 @@ from bip_utils.utils import BitUtils
 class Bip32UtilsConst:
     """ Class container for BIP32 utility constants. """
 
-    # Hardened index
-    HARDENED_IDX: int = 30
+    # Hardened bit index
+    HARDENED_BIT_IDX: int = 30
 
 
 class Bip32Utils:
@@ -43,7 +43,7 @@ class Bip32Utils:
         Returns:
             int: Hardened index
         """
-        return BitUtils.SetBit(index, Bip32UtilsConst.HARDENED_IDX)
+        return BitUtils.SetBit(index, Bip32UtilsConst.HARDENED_BIT_IDX)
 
     @staticmethod
     def UnhardenIndex(index: int) -> int:
@@ -55,7 +55,7 @@ class Bip32Utils:
         Returns:
             int: Unhardened index
         """
-        return BitUtils.ResetBit(index, Bip32UtilsConst.HARDENED_IDX)
+        return BitUtils.ResetBit(index, Bip32UtilsConst.HARDENED_BIT_IDX)
 
     @staticmethod
     def IsHardenedIndex(index: int) -> bool:
@@ -67,4 +67,4 @@ class Bip32Utils:
         Returns:
             bool: True if hardened, false otherwise
         """
-        return BitUtils.IsBitSet(index, Bip32UtilsConst.HARDENED_IDX)
+        return BitUtils.IsBitSet(index, Bip32UtilsConst.HARDENED_BIT_IDX)
