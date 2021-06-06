@@ -192,7 +192,11 @@ class Bip32Ed25519SlipTests(unittest.TestCase):
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_from_ex_key(self):
-        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Ed25519Slip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_ex_key(self, Bip32Ed25519Slip, TEST_VECT)
+
+    # Run all tests in test vector using FromPrivateKey for construction
+    def test_from_priv_key(self):
+        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Ed25519Slip, TEST_VECT)
 
     # Test invalid seed
     def test_invalid_seed(self):

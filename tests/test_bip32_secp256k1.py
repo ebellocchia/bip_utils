@@ -257,7 +257,11 @@ class Bip32Secp256k1Tests(unittest.TestCase):
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_from_ex_key(self):
-        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_ex_key(self, Bip32Secp256k1, TEST_VECT)
+
+    # Run all tests in test vector using FromPrivateKey for construction
+    def test_from_priv_key(self):
+        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Secp256k1, TEST_VECT)
 
     # Test public derivation
     def test_public_derivation(self):
