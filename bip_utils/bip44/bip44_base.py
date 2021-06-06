@@ -219,10 +219,12 @@ class Bip44Base(ABC):
                    coin_type)
 
     @classmethod
-    def FromAddressPrivKey(cls,
-                           key_bytes: bytes,
-                           coin_type: Bip44Coins) -> Bip44Base:
-        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key related to an address.
+    def FromPrivateKey(cls,
+                       key_bytes: bytes,
+                       coin_type: Bip44Coins) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
 
         Args:
             key_bytes (bytes)     : Key bytes
@@ -241,10 +243,8 @@ class Bip44Base(ABC):
 
         coin_conf = cls._GetCoinConf(coin_type)
         bip32_cls = coin_conf.Bip32Class()
-        return cls(bip32_cls(key_bytes,
-                             b"",
-                             Bip44Levels.ADDRESS_INDEX,
-                             key_net_ver=coin_conf.KeyNetVersions()),
+        return cls(bip32_cls.FromPrivateKey(key_bytes,
+                                            key_net_ver=coin_conf.KeyNetVersions()),
                    coin_type)
 
     #
