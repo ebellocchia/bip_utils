@@ -27,7 +27,7 @@ from bip_utils.bip32.bip32_ex import Bip32KeyError, Bip32PathError
 from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip32.bip32_key_ser import Bip32KeyDeserializer
-from bip_utils.bip32.bip32_path import Bip32PathParser
+from bip_utils.bip32.bip32_path import Bip32Path, Bip32PathParser
 from bip_utils.conf import Bip32Conf, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
 from bip_utils.utils import CryptoUtils
@@ -247,10 +247,11 @@ class Bip32Base(ABC):
         """
         if isinstance(index, int):
             index = Bip32KeyIndex(index)
+
         return self._ValidateAndCkdPriv(index) if not self.IsPublicOnly() else self._ValidateAndCkdPub(index)
 
     def DerivePath(self,
-                   path: str) -> Bip32Base:
+                   path: Union[str, Bip32Path]) -> Bip32Base:
         """ Derive children keys from the specified path.
 
         Args:
@@ -264,15 +265,16 @@ class Bip32Base(ABC):
         """
 
         # Parse path
-        parsed_path = Bip32PathParser.Parse(path)
+        if isinstance(path, str):
+            path = Bip32PathParser.Parse(path)
 
         # Check result
-        if not parsed_path.IsValid():
+        if not path.IsValid():
             raise Bip32PathError("The specified path is not valid")
 
         bip32_obj = self
         # Derive children keys
-        for path_elem in parsed_path:
+        for path_elem in path:
             bip32_obj = bip32_obj.ChildKey(int(path_elem))
 
         return bip32_obj
