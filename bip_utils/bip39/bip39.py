@@ -24,7 +24,7 @@ import os
 import unicodedata
 from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union
-from bip_utils.bip.bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
+from bip_utils.bip39.bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
 from bip_utils.utils import AlgoUtils, ConvUtils, CryptoUtils
 
 
