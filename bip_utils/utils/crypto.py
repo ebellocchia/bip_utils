@@ -22,6 +22,7 @@
 # Imports
 import hashlib
 import hmac
+import crcmod.predefined
 from Crypto.Hash import keccak
 from Crypto.Hash import SHA512
 from typing import Union
@@ -142,3 +143,17 @@ class CryptoUtils:
             bytes: Computed Hash-160
         """
         return hashlib.new("ripemd160", CryptoUtils.Sha256(data)).digest()
+
+    @staticmethod
+    def XModemCrc(data: Union[bytes, str]) -> bytes:
+        """ Compute the XMODEM-CRC of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed XMODEM-CRC
+        """
+        crc_fct = crcmod.predefined.Crc('xmodem')
+        crc_fct.update(AlgoUtils.Encode(data))
+        return crc_fct.digest()
