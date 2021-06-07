@@ -50,7 +50,7 @@ class AlgoUtils:
 
     @staticmethod
     def Decode(data: Union[bytes, str],
-               encoding: str = "utf-8") -> bytes:
+               encoding: str = "utf-8") -> str:
         """ Decode from bytes.
 
         Args:
@@ -58,16 +58,16 @@ class AlgoUtils:
             encoding (str)     : Encoding type
 
         Returns:
-            bytes: String encoded to bytes
+            str: String encoded to bytes
 
         Raises:
-            ValueError: If the data is neither string nor bytes
+            TypeError: If the data is neither string nor bytes
         """
         if isinstance(data, str):
             return data
         elif isinstance(data, bytes):
             return data.decode(encoding)
-        raise ValueError("Invalid data type")
+        raise TypeError("Invalid data type")
 
     @staticmethod
     def Encode(data: Union[bytes, str],
@@ -82,13 +82,13 @@ class AlgoUtils:
             bytes: String encoded to bytes
 
         Raises:
-            ValueError: If the data is neither string nor bytes
+            TypeError: If the data is neither string nor bytes
         """
         if isinstance(data, str):
             return data.encode(encoding)
         elif isinstance(data, bytes):
             return data
-        raise ValueError("Invalid data type")
+        raise TypeError("Invalid data type")
 
     @staticmethod
     def IsStringMixed(data_str: str) -> bool:

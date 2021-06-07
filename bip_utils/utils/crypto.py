@@ -37,8 +37,10 @@ class CryptoUtils:
         """ Compute the Blake2b of the specified bytes.
 
         Args:
-            data (str or bytes): Data
+            data (str or bytes)        : Data
             digest_size (int, optional): Digest size (default: 64)
+            key (bytes, optional)      : Key bytes (default: empty)
+            salt (bytes, optional)     : Salt bytes (default: empty)
 
         Returns:
             bytes: Computed Blake2b
