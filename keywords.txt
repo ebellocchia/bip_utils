@@ -45,6 +45,7 @@ okex chain
 polygon
 ripple
 solana
+stellar
 terra
 tezos
 theta
