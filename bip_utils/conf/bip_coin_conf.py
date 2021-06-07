@@ -692,7 +692,7 @@ class NeoConf:
     """ Class container for Neo configuration. """
 
     # Names
-    NAMES: CoinNames = CoinNames("Neo", "NEO")
+    NAMES: CoinNames = CoinNames("NEO", "NEO")
 
     # Default path
     DEFAULT_PATH: str = "0'/0/0"
