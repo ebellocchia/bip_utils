@@ -676,7 +676,7 @@ class StellarConf:
     """ Class container for Stellar configuration. """
 
     # Names
-    NAMES: CoinNames = CoinNames("Stellar", "XML")
+    NAMES: CoinNames = CoinNames("Stellar", "XLM")
 
     # Default path
     DEFAULT_PATH: str = "0'"
