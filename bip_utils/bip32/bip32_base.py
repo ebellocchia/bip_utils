@@ -83,6 +83,7 @@ class Bip32Base(ABC):
             raise ValueError("Seed length is too small, it shall be at least %d bit" % Bip32BaseConst.SEED_MIN_BIT_LEN)
 
         # Compute HMAC, retry if the resulting private key is not valid
+        hmac = b""
         hmac_data = seed_bytes
         success = False
 
