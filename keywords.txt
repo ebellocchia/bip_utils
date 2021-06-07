@@ -42,6 +42,7 @@ kava
 litecoin
 matic
 okex chain
+neo
 polygon
 ripple
 solana
