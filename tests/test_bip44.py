@@ -694,6 +694,30 @@ TEST_VECT = [
             "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
         ],
     },
+    # NEO
+    {
+        "coin": Bip44Coins.NEO,
+        "names": ("NEO", "NEO"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K43eeN7bb2E9YrDJsa6fYcbWK67iu4N397GNE1hoJP4SaeLz1g4QzPEokQD7XmzWszVPDB7zDmyrtwrHFPYxHasf2GmhCJE5",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6C14EL78ogJs6aQEpzMdPa6oUdo7dUFdScW7ckC6MXxUAN7zDiEP6pGQphtcjS2cv4Nusp4i9CVJPmtuGmp1RKN3pCvUPWkDFcoMHCHERTA",
+            "ex_priv": "xprv9y1hppaEyJkZt6Kmixpd2SA4vbxdE1Xn5PaWpMnUoCRVHZnqgAv8Z1wvyRpyPivKfJ2CtiT5mts6j4agm3SmdZA8ASftK1nPMuhzn4nWTMq",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EUcJ14d2zGWuzv59LbpBkM3Qe23rk6fAgnQpDgLgfT9zYXxCwcFHpWgRaDQPeCaqE7AMf9uAyrDRmj4ymcd19EbVxQrPhDz3SfjNnspxvf",
+            "ex_priv": "xprvA1VFtVXjCciDhWqc3K4opcQJrcBZTHNooTrp1qGj8KvB7kCofQHzk2CCaKVEfZdby56TRFWWdYjkgbhDyut9HdF66Ah2sucDTmKW6UYLFQN",
+        },
+        "addresses": [
+            "AJHeWQn2qKKqD4nBE82etebgT3GEM9HDRH",
+            "AYrG8CHdxTMiWiKDT1cZWvLh6WENaQZsRg",
+            "AW2ZSp5jCFoTAawyQHiDX5jzBHXzw8ydjZ",
+            "Aae1tmeie6ExyAG8RD3mTLYKfk6yx6SSmq",
+            "ARgD7zaeX578LqTyHagyx4W8CgbWfcUeCk",
+        ],
+    },
     # Polygon
     {
         "coin": Bip44Coins.POLYGON,
@@ -1283,6 +1307,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.OKEX_CHAIN_ETH,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
+    },
+    # NEO
+    {
+        "coin": Bip44Coins.NEO,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "AJHeWQn2qKKqD4nBE82etebgT3GEM9HDRH",
     },
     # Polygon
     {
