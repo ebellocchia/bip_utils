@@ -14,37 +14,39 @@ bip49
 bip84
 bech32
 segwit
+
+# Coins
+algorand
+atom
+avalanche
+avax
+band protocol
+binance chain
+binance smart chain
 bitcoin
 bitcoin cash
 bitcoinsv
-litecoin
-dogecoin
+bnb
+cosmos
 dash
-zcash
+dogecoin
 ethereum
 ethereum classic
-vechain
-ripple
-tron
-cosmos
-atom
-band protocol
-kava
-iris
-irisnet
-terra
-binance chain
-binance smart chain
-bnb
-avalanche
-avax
-polygon
-matic
 fantom opera
 harmony one
 huobi chain
+iris
+irisnet
+kava
+litecoin
+matic
 okex chain
+polygon
+ripple
+solana
+terra
 tezos
 theta
-solana
-algorand
+tron
+vechain
+zcash
