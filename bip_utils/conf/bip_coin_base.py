@@ -145,7 +145,7 @@ class BipCoinBase:
             return self.m_addr_cls.EncodeKey(pub_key, self.m_coin_conf.ADDR_HRP.Main())
         # Others
         elif self.m_addr_cls in [AlgoAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EthAddr,
-                                  OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr]:
+                                 OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr]:
             return self.m_addr_cls.EncodeKey(pub_key)
         # Invalid class
         else:
