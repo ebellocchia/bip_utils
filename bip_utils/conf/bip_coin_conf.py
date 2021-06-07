@@ -653,6 +653,25 @@ class AlgorandConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class ElrondConf:
+    """ Class container for Elrond configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Elrond eGold", "eGLD")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0'/0'"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # HRP for address
+    ADDR_HRP: NetVersions = NetVersions("erd")
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 
