@@ -68,5 +68,6 @@ class AvaxPChainAddr:
             TypeError: If the public key is not secp256k1
         """
         pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+
         return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()),
                                         AvaxChainTypes.AVAX_P_CHAIN)
