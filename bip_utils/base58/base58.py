@@ -191,6 +191,6 @@ class Base58Decoder:
 
         # Verify checksum
         if checksum_bytes != comp_checksum:
-            raise Base58ChecksumError("Invalid checksum (expected %s, got %s)" % (comp_checksum, checksum_bytes))
+            raise Base58ChecksumError("Invalid checksum (expected %r, got %r)" % (comp_checksum, checksum_bytes))
 
         return data_bytes

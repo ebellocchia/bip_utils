@@ -21,9 +21,10 @@
 
 # Imports
 from typing import Union
+from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import SegwitBech32Encoder
 from bip_utils.conf import BitcoinConf
-from bip_utils.ecc import EcdsaPublicKey, Secp256k1
+from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -42,22 +43,22 @@ class P2WPKH:
     """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey],
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
                   net_addr_ver: str = BitcoinConf.P2WPKH_NET_VER.Main()) -> str:
         """ Get address in P2WPKH format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
-            net_addr_ver (str, optional)     : Net address version, default is Bitcoin main network
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            net_addr_ver (str, optional)         : Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
-        if isinstance(pub_key, bytes):
-            pub_key = Secp256k1.PublicKeyFromBytes(pub_key)
+        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return SegwitBech32Encoder.Encode(net_addr_ver,
                                           P2WPKHConst.WITNESS_VER,

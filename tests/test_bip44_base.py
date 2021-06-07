@@ -30,7 +30,7 @@ from bip_utils import (
 )
 
 #
-# Helper class for Bip44Base child classes, wchich share the same tests
+# Helper class for Bip44Base child classes, which share the same tests
 #
 class Bip44BaseTestHelper:
 
@@ -42,9 +42,9 @@ class Bip44BaseTestHelper:
             bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
 
             # Test coin names and test net flag
-            coin_names = bip_obj_ctx.CoinClass().CoinNames()
+            coin_names = bip_obj_ctx.CoinConf().CoinNames()
             ut_class.assertEqual(test["names"], (coin_names.Name(), coin_names.Abbreviation()))
-            ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinClass().IsTestNet())
+            ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinConf().IsTestNet())
 
             # Test master key
             ut_class.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())
@@ -62,7 +62,7 @@ class Bip44BaseTestHelper:
             ut_class.assertEqual(test["chain_ext"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
-            # Test external chain addresses
+            # Test addresses
             for i in range(len(test["addresses"])):
                 bip_obj_addr_ctx = bip_obj_ctx.AddressIndex(i)
                 ut_class.assertEqual(test["addresses"][i], bip_obj_addr_ctx.PublicKey().ToAddress())
@@ -90,8 +90,7 @@ class Bip44BaseTestHelper:
                 LitecoinConf.EX_KEY_ALT = False
 
             # Only for Bitcoin Cash and Bitcoin Cash test net, test legacy addresses
-            if test["coin"] in (
-            Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
+            if test["coin"] in (Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
                 # Set flag
                 BitcoinCashConf.LEGACY_ADDR = True
                 # Test addresses (bip_obj_ctx is already the external chain)
@@ -139,6 +138,46 @@ class Bip44BaseTestHelper:
             ut_class.assertTrue(bip_obj_ctx.IsPublicOnly())
             ut_class.assertEqual(test["chain_ext"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
             ut_class.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
+
+    # Run all tests in test vector using FromPrivateKey for construction
+    @staticmethod
+    def test_from_priv_key(ut_class, bip_class, test_vector):
+        for test in test_vector:
+            # Create from private master key for reconstructing the private key
+            bip_tmp_ctx = bip_class.FromExtendedKey(test["ex_master"], test["coin"])
+            # Create from private key
+            bip_obj_ctx = bip_class.FromPrivateKey(bip_tmp_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
+
+            # Test master key
+            ut_class.assertEqual(bip_tmp_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
+            ut_class.assertEqual(bip_tmp_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
+
+            # Create from private account key for reconstructing the private key
+            bip_tmp_ctx = bip_class.FromExtendedKey(test["account"]["ex_priv"], test["coin"])
+            # Create from private key
+            bip_obj_ctx = bip_class.FromPrivateKey(bip_tmp_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
+
+            # Test account keys
+            ut_class.assertEqual(bip_tmp_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
+            ut_class.assertEqual(bip_tmp_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
+
+            # Create from private change key for reconstructing the private key
+            bip_tmp_ctx = bip_class.FromExtendedKey(test["chain_ext"]["ex_priv"], test["coin"])
+            # Create from private key
+            bip_obj_ctx = bip_class.FromPrivateKey(bip_tmp_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
+
+            # Test external chain keys
+            ut_class.assertEqual(bip_tmp_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
+            ut_class.assertEqual(bip_tmp_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
+
+    # Test default path derivation
+    @staticmethod
+    def test_default_path_derivation(ut_class, bip_class, test_vector):
+        for test in test_vector:
+            # Create from seed
+            bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"]).DeriveDefaultPath()
+            # Test addresses
+            ut_class.assertEqual(test["default_address"], bip_obj_ctx.PublicKey().ToAddress())
 
     # Test for IsLevel method
     @staticmethod
@@ -203,6 +242,7 @@ class Bip44BaseTestHelper:
             ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromSeed, binascii.unhexlify(test_coins["seed"]),
                                   test)
             ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromExtendedKey, test_coins["ex_key"], test)
+            ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromPrivateKey, b"", test)
 
         # Test allowed coins
         for test in test_coins["allowed"]:

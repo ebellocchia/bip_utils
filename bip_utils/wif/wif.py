@@ -22,7 +22,7 @@
 # Imports
 from typing import Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.ecc import EcdsaPrivateKey, Secp256k1
+from bip_utils.ecc import Secp256k1PrivateKey
 from bip_utils.conf import BitcoinConf
 from bip_utils.utils import ConvUtils
 
@@ -38,15 +38,15 @@ class WifEncoder:
     """ WIF encoder class. It provides methods for encoding to WIF format. """
 
     @staticmethod
-    def Encode(priv_key: Union[bytes, EcdsaPrivateKey],
+    def Encode(priv_key: Union[bytes, Secp256k1PrivateKey],
                compr_pub_key: bool = True,
                net_addr_ver: bytes = BitcoinConf.WIF_NET_VER.Main()) -> str:
         """ Encode key bytes into a WIF string.
 
         Args:
-            priv_key (bytes or EcdsaPrivateKey object): Private key bytes or object
-            compr_pub_key (bool)                      : True if private key corresponds to a compressed public key, false otherwise
-            net_addr_ver (bytes, optional)            : Net address version, default is Bitcoin main network
+            priv_key (bytes or Secp256k1PrivateKey object): Private key bytes or object
+            compr_pub_key (bools, optional)               : True if private key corresponds to a compressed public key, false otherwise
+            net_addr_ver (bytes, optional)                : Net address version, default is Bitcoin main network
 
         Returns:
             str: WIF encoded string
@@ -55,20 +55,23 @@ class WifEncoder:
             ValueError: If the key is not valid
         """
 
+        # Convert to private key to check if bytes are valid
         if isinstance(priv_key, bytes):
-            priv_key = Secp256k1.PrivateKeyFromBytes(priv_key)
+            priv_key = Secp256k1PrivateKey(priv_key)
+        elif not isinstance(priv_key, Secp256k1PrivateKey):
+            raise TypeError("A secp256k1 private key is required")
 
-        key_bytes = priv_key.Raw().ToBytes()
+        priv_key = priv_key.Raw().ToBytes()
 
         # Add suffix if correspond to a compressed public key
         if compr_pub_key:
-            key_bytes += WifConst.COMPR_PUB_KEY_SUFFIX
+            priv_key += WifConst.COMPR_PUB_KEY_SUFFIX
 
         # Add net address version
-        key_bytes = net_addr_ver + key_bytes
+        priv_key = net_addr_ver + priv_key
 
         # Encode key
-        return Base58Encoder.CheckEncode(key_bytes)
+        return Base58Encoder.CheckEncode(priv_key)
 
 
 class WifDecoder:
@@ -102,14 +105,14 @@ class WifDecoder:
         key_bytes = key_bytes[1:]
 
         # Remove suffix if correspond to a compressed public key
-        if Secp256k1.IsPrivateKeyBytesValid(key_bytes[:-1]):
+        if Secp256k1PrivateKey.IsValid(key_bytes[:-1]):
             # Check the compressed public key suffix
             if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
                 raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" %
                                  (ord(WifConst.COMPR_PUB_KEY_SUFFIX), key_bytes[-1]))
             # Remove it
             key_bytes = key_bytes[:-1]
-        elif not Secp256k1.IsPrivateKeyBytesValid(key_bytes):
+        elif not Secp256k1PrivateKey.IsValid(key_bytes):
             raise ValueError("Invalid decoded key (%s)" % ConvUtils.BytesToHexString(key_bytes))
 
         return key_bytes

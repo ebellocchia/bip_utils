@@ -15,6 +15,7 @@ The implemented BIP specifications are the following:
 - [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) for mnemonic and seed generation
 - [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) for master key generation (from the secure seed) and children keys derivation
 - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) and [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki) for the hierarchy of deterministic wallets, based on BIP-0032 specification
+- [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md) for BIP-0032 derivation with ed25519 curve
 
 In addition to this, the package allows to:
 - Parse BIP-0032 derivation paths
@@ -25,34 +26,43 @@ In addition to this, the package allows to:
 - Encode/Decode Bitcoin Cash bech32
 - Encode/Decode Atom bech32
 
+Dependencies:
+- [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
+- [ecdsa](https://pypi.org/project/ecdsa/) for secp256k1 curve
+- [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
+
 The package currently supports the following coins (I try to add new ones from time to time):
+- Algorand
+- Avalanche (all the 3 chains)
+- Band Protocol
+- Binance Chain
+- Binance Smart Chain
 - Bitcoin (and related test net)
 - Bitcoin Cash (and related test net)
 - BitcoinSV (and related test net)
-- Litecoin (and related test net)
-- Dogecoin (and related test net)
+- Cosmos
 - Dash (and related test net)
-- Zcash (and related test net)
+- Dogecoin (and related test net)
 - Ethereum
 - Ethereum Classic
-- Tron
-- Ripple
-- VeChain
-- Cosmos
-- Band Protocol (Cosmos SDK)
-- Kava (Cosmos SDK)
-- IRIS Network (Cosmos SDK)
-- Terra (Cosmos SDK)
-- Binance Chain (Cosmos SDK)
-- Binance Smart Chain
-- Avalanche (all the 3 chains)
-- Polygon
 - Fantom Opera
 - Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
+- IRIS Network
+- Kava
+- Litecoin (and related test net)
 - OKEx Chain (Ethereum and Cosmos addresses)
+- Polygon
+- Ripple
+- Solana
+- Terra
+- Tezos
+- Theta Network
+- Tron
+- VeChain
+- Zcash (and related test net)
 
-Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avalanche, ...), the generated addresses are valid for all the related tokens.
+Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, ...), the generated addresses are valid for all the related tokens.
 
 ## Install the package
 
@@ -182,7 +192,13 @@ Also in this case, the language can be specified or automatically detected.
 
 ## BIP-0032 library
 
-The BIP-0032 library is wrapped inside the BIP-0044, BIP-0049 and BIP-0084 libraries, so there is no need to use it alone unless you need to derive some non-standard paths.
+The BIP-0032 library is wrapped inside the BIP-0044, BIP-0049 and BIP-0084 libraries, so there is no need to use it alone unless you need to derive some non-standard paths.\
+The library currently supports the following elliptic curves for key derivation:
+- Secp256k1: *Bip32Secp256k1* class
+- Ed25519 (based on SLIP-0010): *Bip32Ed25519Slip* class
+
+They both inherit from the generic *Bip32Base* class, that can be used to implement new elliptic curves derivation.\
+The specific curve depends on the specific coin and it's automatically selected if you use the *Bip44* library.
 
 ### Construction from a seed
 
@@ -192,12 +208,12 @@ The constructed class is the master path, so printing the private key will resul
 **Code example**
 
     import binascii
-    from bip_utils import Bip32
+    from bip_utils import Bip32Secp256k1
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Construct from seed. In case it's a test net, pass True as second parameter. Derivation path returned: m
-    bip32_ctx = Bip32.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
     # Print master key in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
 
@@ -206,23 +222,23 @@ In addition to a seed, it's also possible to specify a derivation path.
 **Code example**
 
     # Derivation path returned: m/0'/1'/2
-    bip32_ctx = Bip32.FromSeedAndPath(seed_bytes, "m/0'/1'/2")
+    bip32_ctx = Bip32Secp256k1.FromSeedAndPath(seed_bytes, "m/0'/1'/2")
     # Print private key for derivation path m/0'/1'/2 in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
 
 ### Construction from an extended key
 
 Alternatively, the class can be constructed directly from an extended key.\
-The object returned will be at the same depth of the specified key.
+The returned object will be at the same depth of the specified key.
 
 **Code example**
 
-    from bip_utils import Bip32
+    from bip_utils import Bip32Secp256k1
 
     # Private extended key from derivation path m/0'/1 (depth 2)
     key_str = "xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs"
     # Construct from key (return object has depth 2)
-    bip32_ctx = Bip32.FromExtendedKey(key_str)
+    bip32_ctx = Bip32Secp256k1.FromExtendedKey(key_str)
     # Print keys
     print(bip32_ctx.PrivateKey().ToExtended())
     print(bip32_ctx.PublicKey().ToExtended())
@@ -230,25 +246,46 @@ The object returned will be at the same depth of the specified key.
     # Public extended key from derivation path m/0'/1 (depth 2)
     key_str = "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"
     # Construct from key (return object has depth 2)
-    bip32_ctx = Bip32.FromExtendedKey(key_str)
+    bip32_ctx = Bip32Secp256k1.FromExtendedKey(key_str)
     # Print key
     print(bip32_ctx.PublicKey().ToExtended())
     # Getting private key from a public-only object triggers a Bip32KeyError exception
 
+### Construction from a private key bytes
+
+Finally, the class can be constructed directly from a private key bytes. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.
+
+**Code example**
+
+    import binascii
+    from bip_utils import Bip32Secp256k1
+
+    # Private key bytes
+    priv_key_bytes = b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35"
+    # Construct from private key bytes
+    bip32_ctx = Bip32Secp256k1.FromPrivateKey(binascii.unhexlify(priv_key_bytes))
+    # Print keys and data
+    print(bip32_ctx.PrivateKey().Raw().TóBytes())
+    print(bip32_ctx.PublicKey().RawCompressed().ToBytes())
+    print(bip32_ctx.Depth())
+    print(bip32_ctx.ChainCode())
+    print(bip32_ctx.ParentFingerPrint().ToBytes())
+
 ### Keys derivation
 
-Each time a key is derived, a new instance of the Bip32 class is returned. This allows to chain the methods call or save a specific key pair for future derivation.\
+Each time a key is derived, a new instance of the class is returned. This allows to chain the methods call or save a specific key pair for future derivation.\
 The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
 
 **Code example**
 
     import binascii
-    from bip_utils import Bip32, Bip32Utils
+    from bip_utils import Bip32Secp256k1, Bip32Utils
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Path: m
-    bip32_ctx = Bip32.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
     # Derivation path: m/0'/1'/2/3
     bip32_ctx = bip32_ctx.ChildKey(Bip32Utils.HardenIndex(0)) \
                          .ChildKey(Bip32Utils.HardenIndex(1)) \
@@ -257,14 +294,38 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     # Print keys in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
     print(bip32_ctx.PublicKey().ToExtended())
+
+    # Print keys bytes
+    print(bip32_ctx.PrivateKey().Raw().ToBytes())
+    print(bytes(bip32_ctx.PrivateKey().Raw()))
+    print(bip32_ctx.PublicKey().RawCompressed().ToBytes())
+    print(bytes(bip32_ctx.PublicKey().RawCompressed()))
+    print(bip32_ctx.PublicKey().RawUncompressed().ToBytes())
+    print(bytes(bip32_ctx.PublicKey().RawUncompressed()))
+
     # Print keys in hex format
     print(bip32_ctx.PrivateKey().Raw().ToHex())
+    print(str(bip32_ctx.PrivateKey().Raw()))
     print(bip32_ctx.PublicKey().RawCompressed().ToHex())
+    print(str(bip32_ctx.PublicKey().RawCompressed()))
     print(bip32_ctx.PublicKey().RawUncompressed().ToHex())
-    # Print private key in WIF format
-    print(bip32_ctx.PrivateKey().ToWif())
-    # Print public key converted to address
-    print(bip32_ctx.PublicKey().ToAddress())
+    print(str(bip32_ctx.PublicKey().RawUncompressed()))
+
+    # Print other BIP32 data
+    print(bip32_ctx.Index().IsHardened())
+    print(bip32_ctx.Index().ToInt())
+    print(int(bip32_ctx.Index()))
+
+    print(bip32_ctx.Depth())
+    print(bip32_ctx.ChainCode())
+
+    print(bip32_ctx.FingerPrint().IsMasterKey())
+    print(bip32_ctx.FingerPrint().ToBytes())
+    print(bytes(bip32_ctx.FingerPrint()))
+
+    print(bip32_ctx.ParentFingerPrint().IsMasterKey())
+    print(bip32_ctx.ParentFingerPrint().ToBytes())
+    print(bytes(bip32_ctx.ParentFingerPrint()))
 
     # Alternative: use DerivePath method
     bip32_ctx = Bip32.FromSeed(seed_bytes)
@@ -274,6 +335,22 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     bip32_ctx = Bip32.FromSeed(seed_bytes)
     bip32_ctx = bip32_ctx.DerivePath("0'/1'")   # Derivation path: m/0'/1'
     bip32_ctx = bip32_ctx.DerivePath("2/3")     # Derivation path: m/0'/1'/2/3
+
+The *Bip32Ed25519Slip* class works exactly in the same way. The main differences are:
+- Not-hardened private key derivation is not supported
+- Public key derivation is not supported
+
+For example:
+
+    import binascii
+    from bip_utils import Bip32Ed25519Slip
+
+    # Seed bytes
+    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
+    # Only hardened private key derivation, it's ok
+    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
+    # Not-hardened private key derivation, Bip32KeyError is raised
+    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0/1")
 
 ### Parse path
 
@@ -300,7 +377,6 @@ In case of error, an empty list is returned.
     # Print elements info and value
     for elem in path:
         print(elem.IsHardened())
-        print(elem.IsValid())
         print(elem.ToInt())
         print(int(elem))
     # Get as list of integers
@@ -311,7 +387,8 @@ In case of error, an empty list is returned.
 ## Bip-0044, BIP-0049, BIP-0084 libraries
 
 These libraries derives all from the same base class, so they are used exactly in the same way.\
-Therefore, the following code examples can be used with the Bip44, Bip49 or Bip84 class.
+Therefore, the following code examples can be used with the Bip44, Bip49 or Bip84 class.\
+These classes automatically use the correct elliptic curve for key derivation depending on the coin.
 
 ### Construction from a seed
 
@@ -331,7 +408,7 @@ A Bip class can be constructed from a seed, like Bip32. The seed can be specifie
 ### Construction from an extended key
 
 Alternatively, a Bip class can be constructed directly from an extended key.\
-The Bip object returned will be at the same depth of the specified key.
+The returned Bip object will be at the same depth of the specified key.
 
 **Code example**
 
@@ -341,6 +418,21 @@ The Bip object returned will be at the same depth of the specified key.
     key_str = "xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi"
     # Construct from extended key
     bip44_ctx = Bip44.FromExtendedKey(key_str, Bip44Coins.BITCOIN)
+
+### Construction from a private key bytes
+
+Finally, a Bip class can be constructed directly from a private key bytes. Like BIP32, the key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.
+
+**Code example**
+
+    import binascii
+    from bip_utils import Bip44, Bip44Coins
+
+    # Private key bytes
+    priv_key_bytes = b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35"
+    # Construct from private key bytes
+    bip44_ctx = Bip44.FromPrivateKey(binascii.unhexlify(priv_key_bytes), Bip44Coins.BITCOIN)
 
 ### Keys derivation
 
@@ -352,41 +444,49 @@ The keys must be derived with the levels specified by BIP-0044:
 using the correspondent methods. If keys are derived in the wrong level, a *RuntimeError* will be raised.\
 The private and public extended keys can be printed at any level.
 
+**NOTE**: In case not-hardened private derivation is not supported (e.g. in ed25519 SLIP-0010), all indexes are hardened:
+
+    m / purpose' / coin_type' / account' / change' / address_index'
+
 Currently supported coins enumerative:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
+|Algorand|*Bip44Coins.ALGORAND*|-|
+|Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
+|Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
+|Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
+|Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
+|Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
+|Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
 |Bitcoin|*Bip44Coins.BITCOIN*|*Bip44Coins.BITCOIN_TESTNET*|
 |Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
 |BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
-|Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
-|Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
+|Cosmos|*Bip44Coins.COSMOS*|-|
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
-|Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
+|Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
 |Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
+|Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
+|Harmony One (Cosmos address)|*Bip44Coins.HARMONY_ONE_ATOM*|-|
+|Harmony One (Ethereum address)|*Bip44Coins.HARMONY_ONE_ETH*|-|
+|Harmony One (Metamask address)|*Bip44Coins.HARMONY_ONE_METAMASK*|-|
+|Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
+|IRIS Network|*Bip44Coins.IRIS_NET*|-|
+|Kava|*Bip44Coins.KAVA*|-|
+|Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
+|OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
+|OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
+|OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
+|Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
+|Solana|*Bip44Coins.SOLANA*|-|
+|Terra|*Bip44Coins.TERRA*|-|
+|Tezos|*Bip44Coins.TEZOS*|-|
+|Theta Network|*Bip44Coins.THETA*|-|
 |Tron|*Bip44Coins.TRON*|-|
 |VeChain|*Bip44Coins.VECHAIN*|-|
-|Cosmos|*Bip44Coins.COSMOS*|-|
-|Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
-|Kava|*Bip44Coins.KAVA*|-|
-|IRIS Network|*Bip44Coins.IRIS_NET*|-|
-|Terra|*Bip44Coins.TERRA*|-|
-|Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
-|Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
-|Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
-|Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
-|Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
-|Polygon|*Bip44Coins.POLYGON*|-|
-|Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
-|Harmony One (Metamask address)|*Bip44Coins.HARMONY_ONE_METAMASK*|-|
-|Harmony One (Ethereum address)|*Bip44Coins.HARMONY_ONE_ETH*|-|
-|Harmony One (Cosmos address)|*Bip44Coins.HARMONY_ONE_ATOM*|-|
-|Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
-|OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
-|OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
-|OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
+|Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
 
 The library can be easily extended with other coins anyway.
 
@@ -435,6 +535,8 @@ These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* 
     print(bip44_acc.IsAccountLevel())
     print(bip44_acc.PrivateKey().ToExtended())
     print(bip44_acc.PublicKey().ToExtended())
+    # Address of account level
+    print(bip44_acc.PublicKey().ToAddress())
 
     # Derive the external chain: m/44'/0'/0'/0
     bip44_change = bip44_acc.Change(Bip44Changes.CHAIN_EXT)
@@ -442,6 +544,8 @@ These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* 
     print(bip44_change.IsChangeLevel())
     print(bip44_change.PrivateKey().ToExtended())
     print(bip44_change.PublicKey().ToExtended())
+    # Address of change level
+    print(bip44_change.PublicKey().ToAddress())
 
     # Derive the first 20 addresses of the external chain: m/44'/0'/0'/0/i
     for i in range(20):
@@ -453,46 +557,96 @@ These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* 
 
 In the example above, Bip44 can be substituted with Bip49 or Bip84 without changing the code.
 
+### Default derivation paths
+
+Most of coins (especially the ones using the secp256k1 curve) use the complete BIP-0044 path to derive the address private key:
+
+    m / purpose' / coin_type' / account' / change / address_index
+
+But this doesn't apply all coins. For example, Solana uses the following path to derive the address private key: m/44'/501'/0'\
+This can be derived manually, for example:
+
+    # Derive m/44'/501'/0'
+    bip44_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA)
+    bip44_acc = bip44_mst.Purpose().Coin().Account(0)
+    # Default address generated by the wallet (e.g. TrustWallet): m/44'/501'/0'
+    print(bip44_acc.PublicKey().ToAddress())
+
+However, in order to avoid remembering the default path for each coin, the *DeriveDefaultPath* method can be used to automatically derive the default path:
+
+    # Automatically derive m/44'/501'/0'
+    bip44_def = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).DeriveDefaultPath()
+    # Same as before
+    print(bip44_def.PublicKey().ToAddress())
+
+    # Automatically derive m/44'/3'/0'/0/0
+    bip44_def = Bip44.FromSeed(seed_bytes, Bip44Coins.DOGECOIN).DeriveDefaultPath()
+    # Same as before
+    print(bip44_def.PublicKey().ToAddress())
+
 ## Addresses generation
 
 These libraries are used internally by the other libraries, but they are available also for external use.
 
 **Code example**
 
+    import binascii
     from bip_utils import (
       P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EthAddr, OkexAddr, OneAddr, TrxAddr, XrpAddr
+      EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr, XtzAddr,
+      Ed25519PublicKey, Secp256k1PublicKey
     )
 
-    pub_key = b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"
+    #
+    # Coins that require a secp256k1 curve
+    #
+
+    # You can use public key bytes or a public key object
+    pub_key = binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
+    pub_key = Secp256k1PublicKey(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
     # P2PKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2PKH.ToAddress(pub_key)
+    addr = P2PKH.EncodeKey(pub_key)
     # P2SH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2SH.ToAddress(pub_key)
+    addr = P2SH.EncodeKey(pub_key)
     # P2WPKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2WPKH.ToAddress(pub_key)
+    addr = P2WPKH.EncodeKey(pub_key)
 
     # P2PKH address in Bitcoin Cash format
-    addr = BchP2PKH.ToAddress(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2PKH.EncodeKey(pub_key, "bitcoincash", b"\x00")
     # P2SH address in Bitcoin Cash format
-    addr = BchP2SH.ToAddress(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2SH.EncodeKey(pub_key, "bitcoincash", b"\x00")
 
     # Ethereum address
-    addr = EthAddr.ToAddress(pub_key)
+    addr = EthAddr.EncodeKey(pub_key)
     # Tron address
-    addr = TrxAddr.ToAddress(pub_key)
+    addr = TrxAddr.EncodeKey(pub_key)
     # AVAX address
-    addr = AvaxPChainAddr.ToAddress(pub_key)
-    addr = AvaxXChainAddr.ToAddress(pub_key)
+    addr = AvaxPChainAddr.EncodeKey(pub_key)
+    addr = AvaxXChainAddr.EncodeKey(pub_key)
     # Atom address
-    addr = AtomAddr.ToAddress(pub_key, "cosmos")
+    addr = AtomAddr.EncodeKey(pub_key, "cosmos")
     # OKEx Chain address
-    addr = OkexAddr.ToAddress(pub_key)
+    addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
-    addr = OneAddr.ToAddress(pub_key)
+    addr = OneAddr.EncodeKey(pub_key)
     # Ripple address
-    addr = XrpAddr.ToAddress(pub_key)
+    addr = XrpAddr.EncodeKey(pub_key)
+
+    #
+    # Coins that require a ed25519 curve
+    #
+
+    # You can use public key bytes or a public key object
+    pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
+    pub_key = Ed25519PublicKey(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
+
+    # Algorand address
+    addr = AlgoAddr.EncodeKey(pub_key)
+    # Solana address
+    addr = SolAddr.EncodeKey(pub_key)
+    # Tezos address
+    addr = XtzAddr.EncodeKey(pub_key)
 
 ## WIF
 
@@ -501,12 +655,14 @@ This library is used internally by the other libraries, but it's available also 
 **Code example**
 
     import binascii
-    from bip_utils import WifDecoder, WifEncoder
+    from bip_utils import Secp256k1PublicKey, WifDecoder, WifEncoder
 
-    key_bytes = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
+    # You can use private key bytes or a private key object
+    priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
+    priv_key = Secp256k1PublicKey(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
     # Encode
-    enc = WifEncoder.Encode(key_bytes)
+    enc = WifEncoder.Encode(priv_key)
     # Decode
     dec = WifDecoder.Decode(enc)
 

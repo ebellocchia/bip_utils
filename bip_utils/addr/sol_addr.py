@@ -20,51 +20,30 @@
 
 
 # Imports
-from bip_utils.utils import BitUtils
+from typing import Union
+from bip_utils.addr.utils import AddrUtils
+from bip_utils.base58 import Base58Encoder
+from bip_utils.ecc import Ed25519PublicKey
 
 
-class Bip32UtilsConst:
-    """ Class container for BIP32 utility constants. """
-
-    # Hardened index
-    HARDENED_IDX: int = 30
-
-
-class Bip32Utils:
-    """ BIP32 utility class. It contains some helper method for Bip32 class. """
+class SolAddr:
+    """ Solana address class. It allows the Solana address generation. """
 
     @staticmethod
-    def HardenIndex(index: int) -> int:
-        """ Harden the specified index and return it.
+    def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
+        """ Get address in Solana format.
 
         Args:
-            index (int): Index
+            pub_key (bytes or Ed25519PublicKey): Public key bytes or object
 
         Returns:
-            int: Hardened index
+            str: Address string
+
+        Raises:
+            ValueError: If the public key is not valid
+            TypeError: If the public key is not ed25519
         """
-        return BitUtils.SetBit(index, Bip32UtilsConst.HARDENED_IDX)
+        pub_key = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-    @staticmethod
-    def UnhardenIndex(index: int) -> int:
-        """ Unharden the specified index and return it.
-
-        Args:
-            index (int): Index
-
-        Returns:
-            int: Unhardened index
-        """
-        return BitUtils.ResetBit(index, Bip32UtilsConst.HARDENED_IDX)
-
-    @staticmethod
-    def IsHardenedIndex(index: int) -> bool:
-        """ Get if the specified index is hardened.
-
-        Args:
-            index (int): Index
-
-        Returns:
-            bool: True if hardened, false otherwise
-        """
-        return BitUtils.IsBitSet(index, Bip32UtilsConst.HARDENED_IDX)
+        # Skip first 0x00 byte
+        return Base58Encoder.Encode(pub_key.RawCompressed().ToBytes()[1:])

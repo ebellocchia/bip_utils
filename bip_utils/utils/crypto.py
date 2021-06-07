@@ -22,12 +22,49 @@
 # Imports
 import hashlib
 import hmac
+from Crypto.Hash import keccak
+from Crypto.Hash import SHA512
 from typing import Union
 from bip_utils.utils.algo import AlgoUtils
 
 
 class CryptoUtils:
     """ Class container for crypto utility functions. """
+
+    @staticmethod
+    def Blake2b(data: Union[bytes, str],
+                digest_size: int = 64,
+                key: bytes = b"",
+                salt: bytes = b"") -> bytes:
+        """ Compute the Blake2b of the specified bytes.
+
+        Args:
+            data (str or bytes)        : Data
+            digest_size (int, optional): Digest size (default: 64)
+            key (bytes, optional)      : Key bytes (default: empty)
+            salt (bytes, optional)     : Salt bytes (default: empty)
+
+        Returns:
+            bytes: Computed Blake2b
+        """
+        return hashlib.blake2b(AlgoUtils.Encode(data),
+                               digest_size=digest_size,
+                               key=key,
+                               salt=salt).digest()
+
+    @staticmethod
+    def Kekkak256(data: Union[bytes, str]) -> bytes:
+        """ Compute the Kekkak256 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed Kekkak256
+        """
+        h = keccak.new(digest_bits=256)
+        h.update(AlgoUtils.Encode(data))
+        return h.digest()
 
     @staticmethod
     def Sha256(data: Union[bytes, str]) -> bytes:
@@ -49,6 +86,20 @@ class CryptoUtils:
             int: SHA256 digest size in bytes
         """
         return hashlib.sha256().digest_size
+
+    @staticmethod
+    def Sha512_256(data: Union[bytes, str]) -> bytes:
+        """ Compute the SHA512/256 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed SHA512/256
+        """
+        h = SHA512.new(truncate="256")
+        h.update(AlgoUtils.Encode(data))
+        return h.digest()
 
     @staticmethod
     def HmacSha512(key: Union[bytes, str],

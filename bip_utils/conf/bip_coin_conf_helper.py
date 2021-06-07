@@ -59,6 +59,9 @@ class CoinNames:
 class KeyNetVersions:
     """ Helper class for representing key net versions. """
 
+    # Length
+    LENGTH: int = 4
+
     def __init__(self,
                  pub_net_ver: bytes,
                  priv_net_ver: bytes) -> None:
@@ -70,6 +73,15 @@ class KeyNetVersions:
         """
         self.m_pub_net_ver = ConvUtils.HexStringToBytes(pub_net_ver)
         self.m_priv_net_ver = ConvUtils.HexStringToBytes(priv_net_ver)
+
+    @staticmethod
+    def Length() -> int:
+        """ Get the key net version length.
+
+        Returns:
+            int: Key net version length
+        """
+        return KeyNetVersions.LENGTH
 
     def Public(self) -> bytes:
         """ Get public net version.

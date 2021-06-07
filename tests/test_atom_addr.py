@@ -22,9 +22,10 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AtomAddr, Secp256k1
+from bip_utils import AtomAddr, Ed25519PublicKey, Secp256k1PublicKey
+from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY
 
-# Some keys randomly taken (verified with Cosmostation wallet)
+# Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"039cb22e5c6ce15e06b76d5725dcf084b87357d926dcdfeeb20d628d3d11ff543b",
@@ -88,20 +89,6 @@ TEST_VECT = [
     },
 ]
 
-# Tests for invalid keys
-TEST_VECT_KEY_INVALID = [
-    # Private key
-    b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
-    # Compressed public key with valid length but wrong version
-    b"019efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c70",
-    # Compressed public key with invalid length
-    b"029efbcb2db9ee44cb12739e9350e19e5f1ce4563351b770096f0e408f93400c7000",
-    # Uncompressed public key with valid length but wrong version
-    b"058ccab10df42f89efaf13ca23a96f8b2063d881601c195b354f6f49c3b5978dd4e17e3a1b1505fcb5e7d13b042fa5c8eff83c1efe17d8a56e3cf3fa9250cb80fe",
-    # Uncompressed public key with invalid length
-    b"04fd87569e9af6015d9d938c67c68fcdf5440d3c235eccbc1195a1924bba90e5e1954cb6d841054791ac227a8c11f79f77d24a20b238402c5424c8e436bb49",
-]
-
 
 #
 # Tests
@@ -113,10 +100,13 @@ class AtomAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], AtomAddr.ToAddress(key_bytes, test["hrp"]))
-            self.assertEqual(test["address"], AtomAddr.ToAddress(Secp256k1.PublicKeyFromBytes(key_bytes), test["hrp"]))
+            self.assertEqual(test["address"], AtomAddr.EncodeKey(key_bytes, test["hrp"]))
+            self.assertEqual(test["address"], AtomAddr.EncodeKey(Secp256k1PublicKey(key_bytes), test["hrp"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
-        for test in TEST_VECT_KEY_INVALID:
-            self.assertRaises(ValueError, AtomAddr.ToAddress, binascii.unhexlify(test), "cosmos")
+        # Test with invalid key type
+        self.assertRaises(TypeError, AtomAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "cosmos")
+        # Test vector
+        for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
+            self.assertRaises(ValueError, AtomAddr.EncodeKey, binascii.unhexlify(test), "cosmos")

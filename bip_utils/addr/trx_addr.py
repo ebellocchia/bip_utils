@@ -22,8 +22,8 @@
 # Imports
 import binascii
 from typing import Union
-from bip_utils.ecc import EcdsaPublicKey
 from bip_utils.addr.eth_addr import EthAddr
+from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.base58 import Base58Encoder
 
 
@@ -38,21 +38,22 @@ class TrxAddr:
     """ Tron address class. It allows the Tron address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Tron format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raised:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        addr = EthAddr.ToAddress(pub_key)[2:]
+        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Add prefix and encode
-        return Base58Encoder.CheckEncode(binascii.unhexlify(TrxAddrConst.PREFIX + addr))
+        return Base58Encoder.CheckEncode(binascii.unhexlify(TrxAddrConst.PREFIX + eth_addr))

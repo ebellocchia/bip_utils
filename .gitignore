@@ -4,6 +4,7 @@
 __pycache__
 .vs
 .coverage
+.mypy_cache
 htmlcov
 *.egg-info
 .idea

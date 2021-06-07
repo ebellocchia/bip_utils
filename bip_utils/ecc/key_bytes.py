@@ -50,3 +50,19 @@ class KeyBytes:
             str: Key bytes in hex format
         """
         return ConvUtils.BytesToHexString(self.m_key_bytes)
+
+    def __bytes__(self) -> bytes:
+        """ Get key bytes.
+
+        Returns:
+            bytes: Key bytes
+        """
+        return self.ToBytes()
+
+    def __str__(self) -> str:
+        """ Get key bytes as string.
+
+        Returns:
+            str: Key bytes as string
+        """
+        return self.ToHex()

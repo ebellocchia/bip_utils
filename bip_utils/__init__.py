@@ -27,20 +27,21 @@ from bip_utils.addr import (
     XrpAddr
 )
 # BIP39
-from bip_utils.bip import (
+from bip_utils.bip39 import (
     Bip39InvalidFileError, Bip39ChecksumError,
     Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
 )
 # BIP32
-from bip_utils.bip import (
+from bip_utils.bip32 import (
     Bip32KeyError, Bip32PathError,
+    Bip32KeyIndex,
+    Bip32PathParser, Bip32Path,
     Bip32Utils,
-    Bip32PathParser, Bip32PathElement, Bip32Path,
-    Bip32
+    Bip32Ed25519Slip, Bip32Secp256k1
 )
 # BIP44/49/84
-from bip_utils.bip import (
+from bip_utils.bip44 import (
     Bip44DepthError, Bip44CoinNotAllowedError,
     Bip44Changes, Bip44Coins, Bip44Levels,
     Bip44,
@@ -48,6 +49,10 @@ from bip_utils.bip import (
     Bip84
 )
 # ECC
-from bip_utils.ecc import EcdsaPublicKey, EcdsaPrivateKey, Secp256k1
+from bip_utils.ecc import (
+    EllipticCurveGetter, EllipticCurveTypes,
+    Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
+    Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+)
 # Coins configuration
 from bip_utils.conf import *

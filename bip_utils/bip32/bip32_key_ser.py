@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,10 @@
 # Imports
 from typing import Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.bip.bip32_ex import Bip32KeyError
+from bip_utils.bip32.bip32_ex import Bip32KeyError
+from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 from bip_utils.conf import KeyNetVersions
-from bip_utils.ecc import EcdsaPublicKey, EcdsaPrivateKey
+from bip_utils.ecc import IPublicKey, IPrivateKey
 from bip_utils.utils import ConvUtils
 
 
@@ -47,12 +48,9 @@ class Bip32KeyDeserializer:
         """
 
         self.m_key_str = key_str
-        self.m_depth = 0
-        self.m_fprint = b""
-        self.m_index = 0
-        self.m_chain = b""
         self.m_secret = b""
         self.m_is_public = False
+        self.m_key_data = None
 
     def DeserializeKey(self,
                        key_net_ver: KeyNetVersions) -> None:
@@ -70,27 +68,33 @@ class Bip32KeyDeserializer:
             raise Bip32KeyError("Invalid extended key (wrong length)")
 
         # Get if key is public/private depending on net version
-        if key_bytes[:4] == key_net_ver.Public():
+        key_net_ver_got = key_bytes[:KeyNetVersions.Length()]
+        if key_net_ver_got == key_net_ver.Public():
             self.m_is_public = True
-        elif key_bytes[:4] == key_net_ver.Private():
+        elif key_net_ver_got == key_net_ver.Private():
             self.m_is_public = False
         else:
             raise Bip32KeyError("Invalid extended key (wrong net version)")
 
         # De-serialize key
-        self.m_depth = key_bytes[4]
-        self.m_fprint = key_bytes[5:9]
-        self.m_index = ConvUtils.BytesToInteger(key_bytes[9:13])
-        self.m_chain = key_bytes[13:45]
+        depth = key_bytes[4]
+        fprint = key_bytes[5:9]
+        index = ConvUtils.BytesToInteger(key_bytes[9:13])
+        chain_code = key_bytes[13:45]
         self.m_secret = key_bytes[45:78]
+        self.m_key_data = Bip32KeyData(key_net_ver,
+                                       depth,
+                                       Bip32KeyIndex(index),
+                                       chain_code,
+                                       Bip32FingerPrint(fprint))
 
-    def GetKeyParts(self) -> Tuple[int, bytes, int, bytes, bytes]:
+    def GetKeyParts(self) -> Tuple[bytes, Bip32KeyData]:
         """ Get deserialized key parts.
 
         Returns:
             tuple: Deserialized key parts
         """
-        return self.m_depth, self.m_fprint, self.m_index, self.m_chain, self.m_secret
+        return self.m_secret, self.m_key_data
 
     def IsPublic(self) -> bool:
         """ Get if deserialized key is public.
@@ -105,62 +109,46 @@ class Bip32PrivateKeySerializer:
     """ BIP32 private key serializer class. It serializes private keys. """
 
     @staticmethod
-    def Serialize(priv_key: EcdsaPrivateKey,
-                  key_net_ver: KeyNetVersions,
-                  depth: int,
-                  fprint: bytes,
-                  index: int,
-                  chain: bytes) -> str:
+    def Serialize(priv_key: IPrivateKey,
+                  key_data: Bip32KeyData) -> str:
         """ Serialize a private key.
 
         Args:
-            priv_key (EcdsaPrivateKey object): EcdsaPrivateKey object
-            key_net_ver (KeyNetVersions)     : KeyNetVersions object
-            depth (int)                      : Key depth
-            fprint (bytes)                   : Key fingerprint
-            index (int)                      : Key index
-            chain (bytes)                    : Key chain code
+            priv_key (IPrivateKey object): IPrivateKey object
+            key_data (BipKeyData object) : Key data
 
         Returns:
             str: Serialized private key
         """
         return Bip32KeySerializer.Serialize(b"\x00" + priv_key.Raw().ToBytes(),
-                                            key_net_ver.Private(),
-                                            depth,
-                                            fprint,
-                                            index,
-                                            chain)
+                                            key_data.KeyNetVersions().Private(),
+                                            key_data.Depth(),
+                                            key_data.Index(),
+                                            key_data.ChainCode(),
+                                            key_data.ParentFingerPrint())
 
 
 class Bip32PublicKeySerializer:
     """ BIP32 public key serializer class. It serializes public keys. """
 
     @staticmethod
-    def Serialize(pub_key: EcdsaPublicKey,
-                  key_net_ver: KeyNetVersions,
-                  depth: int,
-                  fprint: bytes,
-                  index: int,
-                  chain: bytes) -> str:
+    def Serialize(pub_key: IPublicKey,
+                  key_data: Bip32KeyData) -> str:
         """ Serialize the a public key.
 
         Args:
-            pub_key (EcdsaPublicKey object): EcdsaPublicKey object
-            key_net_ver (KeyNetVersions)   : KeyNetVersions object
-            depth (int)                    : Key depth
-            fprint (bytes)                 : Key fingerprint
-            index (int)                    : Key index
-            chain (bytes)                  : Key chain code
+            pub_key (IPublicKey object) : IPublicKey object
+            key_data (BipKeyData object): Key data
 
         Returns:
             str: Serialized public key
         """
         return Bip32KeySerializer.Serialize(pub_key.RawCompressed().ToBytes(),
-                                            key_net_ver.Public(),
-                                            depth,
-                                            fprint,
-                                            index,
-                                            chain)
+                                            key_data.KeyNetVersions().Public(),
+                                            key_data.Depth(),
+                                            key_data.Index(),
+                                            key_data.ChainCode(),
+                                            key_data.ParentFingerPrint())
 
 
 class Bip32KeySerializer:
@@ -170,27 +158,27 @@ class Bip32KeySerializer:
     def Serialize(key_bytes: bytes,
                   key_net_ver: bytes,
                   depth: int,
-                  fprint: bytes,
-                  index: int,
-                  chain: bytes) -> str:
+                  index: Bip32KeyIndex,
+                  chain_code: bytes,
+                  fprint: Bip32FingerPrint) -> str:
         """ Serialize the specified key bytes.
 
         Args:
-            key_bytes (bytes)  : Key bytes
-            key_net_ver (bytes): Key net version
-            depth (int): Key depth
-            fprint (bytes): Key fingerprint
-            index (int): Key index
-            chain (bytes): Key chain code
+            key_bytes (bytes)               : Key bytes
+            key_net_ver (bytes)             : Key net version
+            depth (int)                     : Key depth
+            index (Bip32KeyIndex object)    : Key index
+            chain_code (bytes)              : Key chain code
+            fprint (Bip32FingerPrint object): Key fingerprint
 
         Returns:
             str: Serialized key
         """
 
         # Get bytes for serializing
-        depth = depth.to_bytes(1, "big")
-        index = index.to_bytes(4, "big")
+        depth_bytes = ConvUtils.IntegerToBytes(depth, bytes_num=1)
+        index_bytes = ConvUtils.IntegerToBytes(int(index), bytes_num=4)
         # Serialize key
-        ser_key = key_net_ver + depth + fprint + index + chain + key_bytes
+        ser_key = key_net_ver + depth_bytes + bytes(fprint) + index_bytes + chain_code + key_bytes
         # Encode it
         return Base58Encoder.CheckEncode(ser_key)

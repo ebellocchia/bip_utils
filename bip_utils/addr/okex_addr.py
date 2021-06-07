@@ -22,37 +22,32 @@
 # Imports
 import binascii
 from typing import Union
-from bip_utils.ecc import EcdsaPublicKey
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.bech32 import AtomBech32Encoder
-
-
-class OkexAddrConst:
-    """ Class container for OKEx Chain address constants. """
-
-    # Huma-readable part
-    HRP: str = "ex"
+from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.conf import OkexChainConf
 
 
 class OkexAddr:
     """ OKEx Chain address class. It allows the OKEx Chain address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, EcdsaPublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in OKEx Chain format.
 
         Args:
-            pub_key (bytes or EcdsaPublicKey): Public key bytes or object
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        addr = EthAddr.ToAddress(pub_key)[2:]
+        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Encode in Atom format
-        return AtomBech32Encoder.Encode(OkexAddrConst.HRP, binascii.unhexlify(addr))
+        return AtomBech32Encoder.Encode(OkexChainConf.ADDR_HRP.Main(), binascii.unhexlify(eth_addr))
