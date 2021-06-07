@@ -20,6 +20,7 @@
 
 
 # Imports
+import binascii
 import unittest
 from bip_utils import Bip32Nist256p1, Bip32Utils
 from .test_bip32_base import Bip32BaseTestHelper
@@ -189,6 +190,15 @@ TEST_VECT_PUBLIC_DER = {
     ],
 }
 
+# Test for seed that results in an invalid private key
+TEST_RETRY_SEED = {
+    "seed": b"a7305bc8df8d0951f0cb224c0e95d7707cbdf2c6ce7e8d481fec69c7ff5e9446",
+    "pub_key": b"0383619fadcde31063d8c5cb00dbfe1713f3e6fa169d8541a798752a1c1ca0cb20",
+    "priv_key": b"3b8c18469a4634517d6d0b65448f8e6c62091b45540a1743c5846be55d47d88f",
+    "chain_code": b"7762f9729fed06121fd13f326884c82f59aa95c57ac492ce8c9654e60efd130c",
+    "parent_fprint": b"00000000",
+}
+
 
 #
 # Bip32Nist256p1 tests
@@ -230,3 +240,12 @@ class Bip32Nist256p1Tests(unittest.TestCase):
     # Test invalid seed
     def test_invalid_seed(self):
         Bip32BaseTestHelper.test_invalid_seed(self, Bip32Nist256p1)
+
+    # Test retry seed
+    def test_retry_seed(self):
+        bip32_ctx = Bip32Nist256p1.FromSeed(binascii.unhexlify(TEST_RETRY_SEED["seed"]))
+
+        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["priv_key"]), bip32_ctx.PrivateKey().Raw().ToBytes())
+        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["pub_key"]), bip32_ctx.PublicKey().RawCompressed().ToBytes())
+        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["chain_code"]), bip32_ctx.ChainCode())
+        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["parent_fprint"]), bip32_ctx.ParentFingerPrint().ToBytes())
