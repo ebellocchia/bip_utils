@@ -766,6 +766,30 @@ TEST_VECT = [
             "5VCDybrepFCgPprUHUo9MByZpS7zsTkrBwQryKC8zakF",
         ],
     },
+    # Stellar
+    {
+        "coin": Bip44Coins.STELLAR,
+        "names": ("Stellar", "XLM"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6C8gKgafAtV8z4p53yvq2LEyzhgNX82JNiiPu4bxuGaRAb7H835cEcciVWKaVHuhksQGaamT4s9nz8XCWirjzYpjXDWTw8isKpnD2xx9zjg",
+            "ex_priv": "xprv9y9KvB3mLWvqmajbwxPpfCJFSfqt7fJT1Vno6gCMLw3SHnn8aVmMgpJEeK5V8QFuHWuPnSYZKerHY3bHi9RcNdRsrzCpFoUbbvUjLTikZc8",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6E5zfoYGfkexdFr7qpk2oV5r1DpFrwu9RKs61gVVY3qKTfWKNedf968ZfMgko5oARGqLVDWYPyPPv7dWucazWQk5noZE2oQQojoTxmnScuU",
+            "ex_priv": "xprvA16eGJ1NqP6fQmmejoD2SM97TBymTVBJ46wVDJ5syiJLasBAq7KQbHp5pAygXTDa9Dhv8ZpDMAdG6PPdr4qPy2JBx2mzqs336inRkXyk225",
+        },
+        "addresses": [
+            "GBAECME5H27NLRFYZLFF6SAF5NSFRPOWP72PNKGSRUWRMTGSAOCD3AYN",
+            "GCRKKQCMMYF433G7N3BVZIJ5EOF5XVUETH2JQHLAXY2BPXNTKOQLM5G4",
+            "GB5MODTP6KD7W3GPWCNYFZV5TGML5VPJEQPPOFQVQARTTSZHDAQ64ZNO",
+            "GAPNUERN7U4RSH252QTI2BHFUFEVPN7GLFSJZ6UZ3SQW4FFO33QTWDKS",
+            "GDRRNY7FDCTOXXZPAOOBUU6TFAPFKAA57XOVAURWRQBYZQZDWQMNU457",
+        ],
+    },
     # Terra
     {
         "coin": Bip44Coins.TERRA,
@@ -1277,6 +1301,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.SOLANA,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "GjJyeC1r2RgkuoCWMyPYkCWSGSGLcz266EaAkLA27AhL",
+    },
+    # Stellar
+    {
+        "coin": Bip44Coins.STELLAR,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "GB3JDWCQJCWMJ3IILWIGDTQJJC5567PGVEVXSCVPEQOTDN64VJBDQBYX",
     },
     # Terra
     {
