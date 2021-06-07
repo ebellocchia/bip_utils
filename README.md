@@ -27,7 +27,7 @@ In addition to this, the package allows to:
 - Encode/Decode Atom bech32
 
 Dependencies:
-- [pysha3](https://pypi.org/project/pysha3/) for keccak256
+- [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
 - [ecdsa](https://pypi.org/project/ecdsa/) for secp256k1 curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 
