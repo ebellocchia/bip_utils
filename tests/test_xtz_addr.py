@@ -40,11 +40,11 @@ TEST_VECT = [
         "address": "tz1ZNoP4tpSAHs1iLbobCvhF8t9DDaoCTzR8",
     },
     {
-        "pub_key": b"002ae8dfda6cfa73f759a84a328c0f1003541adf647e2d85f6c8c8f42f7045e217",
+        "pub_key": b"2ae8dfda6cfa73f759a84a328c0f1003541adf647e2d85f6c8c8f42f7045e217",
         "address": "tz1cTxNAJ2NvkeyjpZKp4WpeqqkRPYX7HgGY",
     },
     {
-        "pub_key": b"00804e68f00f2a25fe4abc55022757de59604c874f91cc0fb60da580ad4481992f",
+        "pub_key": b"804e68f00f2a25fe4abc55022757de59604c874f91cc0fb60da580ad4481992f",
         "address": "tz1NPgUeafMfD7VZbsKkzoJiR8pRynViiTE3",
     },
 ]
