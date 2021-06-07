@@ -27,6 +27,7 @@ In addition to this, the package allows to:
 - Encode/Decode Atom bech32
 
 Dependencies:
+- [crcmod](https://pypi.org/project/crcmod/) for CRC computation
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
 - [ecdsa](https://pypi.org/project/ecdsa/) for secp256k1 curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
@@ -56,6 +57,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Polygon
 - Ripple
 - Solana
+- Stellar
 - Terra
 - Tezos
 - Theta Network
@@ -483,6 +485,7 @@ Currently supported coins enumerative:
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
+|Stellar|*Bip44Coins.STELLAR*|-|
 |Terra|*Bip44Coins.TERRA*|-|
 |Tezos|*Bip44Coins.TEZOS*|-|
 |Theta Network|*Bip44Coins.THETA*|-|
@@ -595,7 +598,7 @@ These libraries are used internally by the other libraries, but they are availab
     import binascii
     from bip_utils import (
       P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EgldAddr, EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr, XtzAddr,
+      EgldAddr, EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
       Ed25519PublicKey, Secp256k1PublicKey
     )
 
@@ -649,6 +652,8 @@ These libraries are used internally by the other libraries, but they are availab
     addr = EgldAddr.EncodeKey(pub_key)
     # Solana address
     addr = SolAddr.EncodeKey(pub_key)
+    # Stellar address
+    addr = XlmAddr.EncodeKey(pub_key)
     # Tezos address
     addr = XtzAddr.EncodeKey(pub_key)
 
