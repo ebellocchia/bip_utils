@@ -454,13 +454,13 @@ class Bip44Base(ABC):
     @classmethod
     def _ChangeGeneric(cls,
                        bip_obj: Bip44Base,
-                       change_idx: Bip44Changes) -> Bip44Base:
+                       change_type: Bip44Changes) -> Bip44Base:
         """ Derive a child key from the specified chain type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It shall be called from a child class.
 
         Args:
             bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
-            change_idx (Bip44Changes) : change index, must a Bip44Changes enum
+            change_type (Bip44Changes): Change type, must a Bip44Changes enum
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -470,7 +470,7 @@ class Bip44Base(ABC):
             Bip44DepthError: If the current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        if not isinstance(change_idx, Bip44Changes):
+        if not isinstance(change_type, Bip44Changes):
             raise TypeError("Change index is not an enumerative of Bip44Changes")
 
         if not cls.IsLevel(bip_obj, Bip44Levels.ACCOUNT):
@@ -478,7 +478,9 @@ class Bip44Base(ABC):
 
         # Use hardened derivation if not-hardended is not supported
         if not bip_obj.m_bip32.IsPrivateUnhardenedDerivationSupported():
-            change_idx = Bip32Utils.HardenIndex(int(change_idx))
+            change_idx = Bip32Utils.HardenIndex(int(change_type))
+        else:
+            change_idx = int(change_type)
 
         return cls(bip_obj.m_bip32.ChildKey(change_idx), bip_obj.m_coin_type)
 
@@ -577,13 +579,12 @@ class Bip44Base(ABC):
 
     @abstractmethod
     def Change(self,
-               change_idx: Bip44Changes) -> Bip44Base:
-        """ Derive a child key from the specified account index and return
-        a new Bip object (e.g. BIP44, BIP49, BIP84).
+               change_type: Bip44Changes) -> Bip44Base:
+        """ Derive a child key from the specified change type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _ChangeGeneric method with the current object as parameter.
 
         Args:
-            change_idx (Bip44Changes): Change index, must a Bip44Changes enum
+            change_type (Bip44Changes): Change type, must a Bip44Changes enum
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -598,7 +599,7 @@ class Bip44Base(ABC):
     @abstractmethod
     def AddressIndex(self,
                      addr_idx: int) -> Bip44Base:
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """ Derive a child key from the specified address index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AddressIndexGeneric method with the current object as parameter.
 
         Args:

@@ -120,12 +120,12 @@ class Bip49(Bip44Base):
         return self._AccountGeneric(self, acc_idx)
 
     def Change(self,
-               change_idx: Bip44Changes) -> Bip44Base:
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+               change_type: Bip44Changes) -> Bip44Base:
+        """ Derive a child key from the specified change type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _ChangeGeneric method with the current object as parameter.
 
         Args:
-            change_idx (Bip44Changes): Change index, must a Bip44Changes enum
+            change_type (Bip44Changes): Change type, must a Bip44Changes enum
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -135,11 +135,11 @@ class Bip49(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._ChangeGeneric(self, change_idx)
+        return self._ChangeGeneric(self, change_type)
 
     def AddressIndex(self,
                      addr_idx: int) -> Bip44Base:
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """ Derive a child key from the specified address index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It calls the underlying _AddressIndexGeneric method with the current object as parameter.
 
         Args:
