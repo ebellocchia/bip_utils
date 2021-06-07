@@ -22,7 +22,8 @@
 # Imports
 import hashlib
 import hmac
-import sha3
+from Crypto.Hash import keccak
+from Crypto.Hash import SHA512
 from typing import Union
 from bip_utils.utils.algo import AlgoUtils
 
@@ -61,7 +62,9 @@ class CryptoUtils:
         Returns:
             bytes: Computed Kekkak256
         """
-        return sha3.keccak_256(AlgoUtils.Encode(data)).digest()
+        h = keccak.new(digest_bits=256)
+        h.update(AlgoUtils.Encode(data))
+        return h.digest()
 
     @staticmethod
     def Sha256(data: Union[bytes, str]) -> bytes:
@@ -92,9 +95,9 @@ class CryptoUtils:
             data (str or bytes): Data
 
         Returns:
-            bytes: Computed SHA256
+            bytes: Computed SHA512/256
         """
-        h = hashlib.new('sha512_256')
+        h = SHA512.new(truncate="256")
         h.update(AlgoUtils.Encode(data))
         return h.digest()
 
