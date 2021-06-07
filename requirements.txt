@@ -1,3 +1,4 @@
+crcmod
 ecdsa>=0.14
 pycryptodome
 pynacl
