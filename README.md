@@ -55,6 +55,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Litecoin (and related test net)
 - OKEx Chain (Ethereum and Cosmos addresses)
 - NEO
+- Ontology
 - Polygon
 - Ripple
 - Solana
@@ -489,6 +490,7 @@ Currently supported coins enumerative:
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
 |NEO|*Bip44Coins.NEO*|-|
+|Ontology|*Bip44Coins.ONTOLOGY*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
