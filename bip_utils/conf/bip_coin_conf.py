@@ -688,6 +688,22 @@ class StellarConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class NeoConf:
+    """ Class container for Neo configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Neo", "NEO")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 
