@@ -447,7 +447,7 @@ class Bip32Base(ABC):
 
         Args:
             seed_bytes (bytes)                           : Seed bytes
-            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
+            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
 
         Returns:
             Bip32 object: Bip32 object
@@ -469,7 +469,7 @@ class Bip32Base(ABC):
         Args:
             seed_bytes (bytes)                           : Seed bytes
             path (str)                                   : Path
-            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
+            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
 
         Returns:
             Bip32 object: Bip32 object
@@ -489,7 +489,7 @@ class Bip32Base(ABC):
 
         Args:
             key_str (str)                                : Extended key string
-            key_net_ver (KeyNetVersions object, optional): Key net version object (Bip32 main net version by default)
+            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
 
         Returns:
             Bip32 object: Bip32 object
