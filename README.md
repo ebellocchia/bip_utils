@@ -54,6 +54,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Kava
 - Litecoin (and related test net)
 - OKEx Chain (Ethereum and Cosmos addresses)
+- NEO
 - Polygon
 - Ripple
 - Solana
@@ -487,6 +488,7 @@ Currently supported coins enumerative:
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
+|NEO|*Bip44Coins.NEO*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
@@ -603,8 +605,8 @@ These libraries are used internally by the other libraries, but they are availab
     import binascii
     from bip_utils import (
       P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EgldAddr, EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
-      Ed25519PublicKey, Secp256k1PublicKey
+      EgldAddr, EthAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
+      Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
     )
 
     #
@@ -655,12 +657,24 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AlgoAddr.EncodeKey(pub_key)
     # Elrond address
     addr = EgldAddr.EncodeKey(pub_key)
+
     # Solana address
     addr = SolAddr.EncodeKey(pub_key)
     # Stellar address
     addr = XlmAddr.EncodeKey(pub_key)
     # Tezos address
     addr = XtzAddr.EncodeKey(pub_key)
+
+    #
+    # Coins that require a nist256p1 curve
+    #
+
+    # You can use public key bytes or a public key object
+    pub_key = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
+    pub_key = Nist256p1PublicKey(binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
+
+    # NEO address
+    addr = NeoAddr.EncodeKey(pub_key)
 
 ## WIF
 
