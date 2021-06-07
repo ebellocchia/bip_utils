@@ -30,6 +30,7 @@ bnb
 cosmos
 dash
 dogecoin
+elrond
 ethereum
 ethereum classic
 fantom opera
