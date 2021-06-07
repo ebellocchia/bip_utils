@@ -20,7 +20,6 @@
 
 
 # Imports
-import binascii
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.ecc import Ed25519PublicKey
