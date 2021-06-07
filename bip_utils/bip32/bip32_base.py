@@ -450,7 +450,7 @@ class Bip32Base(ABC):
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
 
         Returns:
-            Bip32 object: Bip32 object
+            Bip32Base object: Bip32Base object
 
         Raises:
             ValueError: If the seed is too short
@@ -472,7 +472,7 @@ class Bip32Base(ABC):
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
 
         Returns:
-            Bip32 object: Bip32 object
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32PathError: If the seed length is too short or the path is not valid
@@ -492,7 +492,7 @@ class Bip32Base(ABC):
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
 
         Returns:
-            Bip32 object: Bip32 object
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32KeyError: If the key is not valid
@@ -550,7 +550,7 @@ class Bip32Base(ABC):
             index (Bip32KeyIndex object): Key index
 
         Returns:
-            Bip32 object: Bip32 object constructed with the child parameters
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32KeyError: If the index results in an invalid key
@@ -567,7 +567,7 @@ class Bip32Base(ABC):
             index (Bip32KeyIndex object): Key index
 
         Returns:
-            Bip32 object: Bip32 object constructed with the child parameters
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32KeyError: If the index results in an invalid key
