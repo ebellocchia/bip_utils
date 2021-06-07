@@ -50,13 +50,13 @@ class Bip32BaseTestHelper:
 
             ut_class.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
             ut_class.assertEqual(test["master"]["pub_key"], str(bip32_ctx.PublicKey().RawCompressed()))
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode("utf-8")), bip32_ctx.PublicKey().RawCompressed().ToBytes())
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode("utf-8")), bytes(bip32_ctx.PublicKey().RawCompressed()))
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bip32_ctx.PublicKey().RawCompressed().ToBytes())
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bytes(bip32_ctx.PublicKey().RawCompressed()))
 
             ut_class.assertEqual(test["master"]["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
             ut_class.assertEqual(test["master"]["priv_key"], str(bip32_ctx.PrivateKey().Raw()))
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode("utf-8")), bip32_ctx.PrivateKey().Raw().ToBytes())
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode("utf-8")), bytes(bip32_ctx.PrivateKey().Raw()))
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bip32_ctx.PrivateKey().Raw().ToBytes())
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bytes(bip32_ctx.PrivateKey().Raw()))
 
             ut_class.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
             ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
