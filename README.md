@@ -43,6 +43,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Cosmos
 - Dash (and related test net)
 - Dogecoin (and related test net)
+- Elrond
 - Ethereum
 - Ethereum Classic
 - Fantom Opera
@@ -465,6 +466,7 @@ Currently supported coins enumerative:
 |Cosmos|*Bip44Coins.COSMOS*|-|
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
 |Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
+|Elrond|*Bip44Coins.ELROND*|-|
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
 |Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
 |Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
@@ -593,7 +595,7 @@ These libraries are used internally by the other libraries, but they are availab
     import binascii
     from bip_utils import (
       P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr, XtzAddr,
+      EgldAddr, EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr, XtzAddr,
       Ed25519PublicKey, Secp256k1PublicKey
     )
 
@@ -643,6 +645,8 @@ These libraries are used internally by the other libraries, but they are availab
 
     # Algorand address
     addr = AlgoAddr.EncodeKey(pub_key)
+    # Elrond address
+    addr = EgldAddr.EncodeKey(pub_key)
     # Solana address
     addr = SolAddr.EncodeKey(pub_key)
     # Tezos address
