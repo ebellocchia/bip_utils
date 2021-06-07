@@ -42,6 +42,7 @@ kava
 litecoin
 matic
 okex chain
+ontology
 neo
 polygon
 ripple
