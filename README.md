@@ -32,37 +32,37 @@ Dependencies:
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 
 The package currently supports the following coins (I try to add new ones from time to time):
+- Algorand
+- Avalanche (all the 3 chains)
+- Band Protocol
+- Binance Chain
+- Binance Smart Chain
 - Bitcoin (and related test net)
 - Bitcoin Cash (and related test net)
 - BitcoinSV (and related test net)
-- Litecoin (and related test net)
-- Dogecoin (and related test net)
+- Cosmos
 - Dash (and related test net)
-- Zcash (and related test net)
+- Dogecoin (and related test net)
 - Ethereum
 - Ethereum Classic
-- Tron
-- Ripple
-- VeChain
-- Cosmos
-- Band Protocol (Cosmos SDK)
-- Kava (Cosmos SDK)
-- IRIS Network (Cosmos SDK)
-- Terra (Cosmos SDK)
-- Binance Chain (Cosmos SDK)
-- Binance Smart Chain
-- Avalanche (all the 3 chains)
-- Polygon
 - Fantom Opera
 - Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
+- IRIS Network
+- Kava
+- Litecoin (and related test net)
 - OKEx Chain (Ethereum and Cosmos addresses)
-- Theta Network
-- Algorand
+- Polygon
+- Ripple
 - Solana
+- Terra
 - Tezos
+- Theta Network
+- Tron
+- VeChain
+- Zcash (and related test net)
 
-Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, Avalanche, ...), the generated addresses are valid for all the related tokens.
+Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, ...), the generated addresses are valid for all the related tokens.
 
 ## Install the package
 
@@ -452,41 +452,41 @@ Currently supported coins enumerative:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
+|Algorand|*Bip44Coins.ALGORAND*|-|
+|Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
+|Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
+|Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
+|Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
+|Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
+|Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
 |Bitcoin|*Bip44Coins.BITCOIN*|*Bip44Coins.BITCOIN_TESTNET*|
 |Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
 |BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
-|Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
-|Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
+|Cosmos|*Bip44Coins.COSMOS*|-|
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
-|Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
+|Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
 |Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
+|Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
+|Harmony One (Cosmos address)|*Bip44Coins.HARMONY_ONE_ATOM*|-|
+|Harmony One (Ethereum address)|*Bip44Coins.HARMONY_ONE_ETH*|-|
+|Harmony One (Metamask address)|*Bip44Coins.HARMONY_ONE_METAMASK*|-|
+|Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
+|IRIS Network|*Bip44Coins.IRIS_NET*|-|
+|Kava|*Bip44Coins.KAVA*|-|
+|Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
+|OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
+|OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
+|OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
+|Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
+|Solana|*Bip44Coins.SOLANA*|-|
+|Terra|*Bip44Coins.TERRA*|-|
+|Tezos|*Bip44Coins.TEZOS*|-|
+|Theta Network|*Bip44Coins.THETA*|-|
 |Tron|*Bip44Coins.TRON*|-|
 |VeChain|*Bip44Coins.VECHAIN*|-|
-|Cosmos|*Bip44Coins.COSMOS*|-|
-|Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
-|Kava|*Bip44Coins.KAVA*|-|
-|IRIS Network|*Bip44Coins.IRIS_NET*|-|
-|Terra|*Bip44Coins.TERRA*|-|
-|Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
-|Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
-|Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
-|Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
-|Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
-|Polygon|*Bip44Coins.POLYGON*|-|
-|Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
-|Harmony One (Metamask address)|*Bip44Coins.HARMONY_ONE_METAMASK*|-|
-|Harmony One (Ethereum address)|*Bip44Coins.HARMONY_ONE_ETH*|-|
-|Harmony One (Cosmos address)|*Bip44Coins.HARMONY_ONE_ATOM*|-|
-|Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
-|OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
-|OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
-|OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
-|Theta Network|*Bip44Coins.THETA*|-|
-|Algorand|*Bip44Coins.ALGORAND*|-|
-|Solana|*Bip44Coins.SOLANA*|-|
-|Tezos|*Bip44Coins.TEZOS*|-|
+|Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
 
 The library can be easily extended with other coins anyway.
 
