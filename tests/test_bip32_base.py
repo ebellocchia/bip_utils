@@ -24,6 +24,13 @@ import binascii
 from bip_utils import Bip32KeyError, Bip32Utils
 from bip_utils.bip32.bip32_base import Bip32BaseConst
 
+# Tests for invalid seeds
+TEST_VECT_SEED_ERR = [
+    b"000102030405060708090a0b0c0d0e",
+    b"000102030405060708090a0b0c0d",
+]
+
+
 #
 # Helper class for Bip32Base child classes, which share the same tests
 #
@@ -177,14 +184,14 @@ class Bip32BaseTestHelper:
                 bip32_ctx = bip32_ctx.ChildKey(test["index"])
                 ut_class.assertEqual(test["ex_pub"], bip32_ctx.PublicKey().ToExtended())
 
-    # Test invalid seed
-    @staticmethod
-    def test_invalid_seed(ut_class, bip32_class, test_vector):
-        for test in test_vector:
-            ut_class.assertRaises(ValueError, bip32_class.FromSeed, binascii.unhexlify(test))
-
     # Test invalid extended key
     @staticmethod
     def test_invalid_ex_key(ut_class, bip32_class, test_vector):
         for test in test_vector:
             ut_class.assertRaises(Bip32KeyError, bip32_class.FromExtendedKey, test)
+
+    # Test invalid seed
+    @staticmethod
+    def test_invalid_seed(ut_class, bip32_class):
+        for test in TEST_VECT_SEED_ERR:
+            ut_class.assertRaises(ValueError, bip32_class.FromSeed, binascii.unhexlify(test))
