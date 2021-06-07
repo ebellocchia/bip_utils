@@ -704,6 +704,22 @@ class NeoConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class OntologyConf:
+    """ Class container for Ontology configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Ontology", "ONT")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0/0"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 

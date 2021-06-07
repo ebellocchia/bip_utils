@@ -71,6 +71,7 @@ class Bip44Const:
             Bip44Coins.OKEX_CHAIN_ATOM: Bip44OkexChainAtom,
             Bip44Coins.OKEX_CHAIN_ATOM_OLD: Bip44OkexChainAtom,
             Bip44Coins.OKEX_CHAIN_ETH: Bip44OkexChainEth,
+            Bip44Coins.ONTOLOGY: Bip44Ontology,
             Bip44Coins.POLYGON: Bip44Polygon,
             Bip44Coins.RIPPLE: Bip44Ripple,
             Bip44Coins.SOLANA: Bip44Solana,

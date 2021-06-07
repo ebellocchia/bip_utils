@@ -395,6 +395,13 @@ Bip44Neo: Bip44Coin = Bip44Coin(
     bip32_cls=Bip32Nist256p1,
     addr_cls=NeoAddr)
 
+# Configuration for Ontology
+Bip44Ontology: Bip44Coin = Bip44Coin(
+    coin_conf=OntologyConf,
+    is_testnet=False,
+    bip32_cls=Bip32Nist256p1,
+    addr_cls=NeoAddr)
+
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(
     coin_conf=NineChroniclesGoldConf,
