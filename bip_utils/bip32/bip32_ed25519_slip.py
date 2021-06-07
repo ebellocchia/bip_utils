@@ -38,8 +38,9 @@ class Bip32Ed25519SlipConst:
 
 
 class Bip32Ed25519Slip(Bip32Base):
-    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation
-    using ed25519 curve based on SLIP-0010 specification.
+    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation using ed25519 curve.
+    The "Slip" in the class name is due to the fact that there are different derivation schemes using ed25519 curve and
+    this one is based on SLIP-0010.
     """
 
     #
@@ -57,7 +58,7 @@ class Bip32Ed25519Slip(Bip32Base):
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
 
         Returns:
-            Bip32 object: Bip32 object
+            Bip32Base object: Bip32Base object
 
         Raises:
             ValueError: If the seed is too short
@@ -81,7 +82,7 @@ class Bip32Ed25519Slip(Bip32Base):
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
 
         Returns:
-            Bip32 object: Bip32 object
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32PathError: If the seed length is too short or the path is not valid
@@ -104,7 +105,7 @@ class Bip32Ed25519Slip(Bip32Base):
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
 
         Returns:
-            Bip32 object: Bip32 object
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32KeyError: If the key is not valid
@@ -170,7 +171,7 @@ class Bip32Ed25519Slip(Bip32Base):
             index (Bip32KeyIndex object): Key index
 
         Returns:
-            Bip32 object: Bip32 object constructed with the child parameters
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32KeyError: If the index results in an invalid key
@@ -204,7 +205,7 @@ class Bip32Ed25519Slip(Bip32Base):
             index (Bip32KeyIndex object): Key index
 
         Returns:
-            Bip32 object: Bip32 object constructed with the child parameters
+            Bip32Base object: Bip32Base object
 
         Raises:
             Bip32KeyError: If the index results in an invalid key
