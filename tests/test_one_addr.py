@@ -22,8 +22,8 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import OneAddr, Ed25519PublicKey, Secp256k1PublicKey
-from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY
+from bip_utils import OneAddr, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
 
 # Some random public keys
 TEST_VECT = [
@@ -67,6 +67,8 @@ class OneAddrTests(unittest.TestCase):
     def test_invalid_keys(self):
         # Test with invalid key type
         self.assertRaises(TypeError, OneAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, OneAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
+
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
             self.assertRaises(ValueError, OneAddr.EncodeKey, binascii.unhexlify(test))
