@@ -29,7 +29,7 @@ from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip32.bip32_path import Bip32Path, Bip32PathParser
 from bip_utils.conf import Bip32Conf, KeyNetVersions
-from bip_utils.ecc import EllipticCurveTypes
+from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes
 from bip_utils.utils import CryptoUtils
 
 
@@ -75,13 +75,24 @@ class Bip32Base(ABC):
             ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
+        curve = EllipticCurveGetter.FromType(curve_type)
+        priv_key_cls = curve.PrivateKeyClass()
 
         # Check seed length
         if len(seed_bytes) * 8 < Bip32BaseConst.SEED_MIN_BIT_LEN:
             raise ValueError("Seed length is too small, it shall be at least %d bit" % Bip32BaseConst.SEED_MIN_BIT_LEN)
 
-        # Compute HMAC
-        hmac = CryptoUtils.HmacSha512(hmac_key_bytes, seed_bytes)
+        # Compute HMAC, retry if the resulting private key is not valid
+        hmac_data = seed_bytes
+        success = False
+
+        while not success:
+            hmac = CryptoUtils.HmacSha512(hmac_key_bytes, hmac_data)
+            # If private key is not valid, the new HMAC data is the current HMAC
+            success = priv_key_cls.IsValid(hmac[:Bip32BaseConst.HMAC_HALF_LEN])
+            if not success:
+                hmac_data = hmac
+
         # Create BIP32 by splitting the HMAC into two 32-byte sequences
         return cls(secret=hmac[:Bip32BaseConst.HMAC_HALF_LEN],
                    chain_code=hmac[Bip32BaseConst.HMAC_HALF_LEN:],
