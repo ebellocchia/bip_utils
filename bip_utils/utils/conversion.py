@@ -29,6 +29,20 @@ class ConvUtils:
     """ Class container for conversion utility functions. """
 
     @staticmethod
+    def ReverseBytes(data_bytes: bytes) -> bytes:
+        """ Reverse the specified bytes.
+
+        Args:
+            data_bytes (bytes): Data bytes
+
+        Returns:
+            bytes: Original bytes in the reverse order
+        """
+        tmp = bytearray(data_bytes)
+        tmp.reverse()
+        return bytes(tmp)
+
+    @staticmethod
     def BytesToInteger(data_bytes: bytes,
                        endianness: str = "big") -> int:
         """ Convert the specified bytes to integer.
