@@ -30,7 +30,7 @@ class SolAddr:
     """ Solana address class. It allows the Solana address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
         """ Get address in Solana format.
 
         Args:

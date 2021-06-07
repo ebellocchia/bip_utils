@@ -105,9 +105,9 @@ class BipCoinBase:
         """
         return self.m_coin_conf.NAMES if not self.m_is_testnet else self.m_coin_conf.TEST_NAMES
 
-    def ComputeAddress(self,
-                       pub_key: IPublicKey) -> str:
-        """ Compute address from public key.
+    def EncodeKey(self,
+                  pub_key: IPublicKey) -> str:
+        """ Get address from public key.
 
         Args:
             pub_key (IPublicKey object): IPublicKey object
@@ -127,26 +127,26 @@ class BipCoinBase:
             addr_ver = (self.m_coin_conf.P2PKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2PKH_NET_VER.Test())
-            return self.m_addr_cls.ToAddress(pub_key, addr_ver)
+            return self.m_addr_cls.EncodeKey(pub_key, addr_ver)
         # P2SH
         elif self.m_addr_cls is P2SH:
             addr_ver = (self.m_coin_conf.P2SH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2SH_NET_VER.Test())
-            return self.m_addr_cls.ToAddress(pub_key, addr_ver)
+            return self.m_addr_cls.EncodeKey(pub_key, addr_ver)
         # P2WPKH
         elif self.m_addr_cls is P2WPKH:
             addr_ver = (self.m_coin_conf.P2WPKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2WPKH_NET_VER.Test())
-            return self.m_addr_cls.ToAddress(pub_key, addr_ver)
+            return self.m_addr_cls.EncodeKey(pub_key, addr_ver)
         # AtomAddr
         elif self.m_addr_cls is AtomAddr:
-            return self.m_addr_cls.ToAddress(pub_key, self.m_coin_conf.ADDR_HRP.Main())
+            return self.m_addr_cls.EncodeKey(pub_key, self.m_coin_conf.ADDR_HRP.Main())
         # Others
         elif self.m_addr_cls in [AlgoAddr, AvaxPChainAddr, AvaxXChainAddr, EthAddr, OkexAddr,
                                  OneAddr, SolAddr, TrxAddr, XrpAddr, XtzAddr]:
-            return self.m_addr_cls.ToAddress(pub_key)
+            return self.m_addr_cls.EncodeKey(pub_key)
         # Invalid class
         else:
             raise RuntimeError("Invalid address class")

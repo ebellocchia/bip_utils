@@ -31,7 +31,7 @@ class AtomAddr:
     """ Atom address class. It allows the Atom address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
                   hrp: str) -> str:
         """ Get address in Atom format.
 

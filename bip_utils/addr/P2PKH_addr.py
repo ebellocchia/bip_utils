@@ -33,7 +33,7 @@ class P2PKH:
     """ P2PKH class. It allows the Pay-to-Public-Key-Hash address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
                   net_addr_ver: bytes = BitcoinConf.P2PKH_NET_VER.Main(),
                   base58_alph: Base58Alphabets = Base58Alphabets.BITCOIN) -> str:
         """ Get address in P2PKH format.
@@ -60,7 +60,7 @@ class BchP2PKH:
     """ Bitcoin Cash P2PKH class. It allows the Bitcoin Cash P2PKH generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
                   hrp: str,
                   net_addr_ver: bytes) -> str:
         """ Get address in Bitcoin Cash P2PKH format.

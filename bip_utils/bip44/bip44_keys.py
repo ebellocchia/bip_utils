@@ -51,7 +51,7 @@ class Bip44PublicKey(Bip32PublicKey):
         """
         super().__init__(key_bytes, key_data, curve_type)
         # Pre-compute address
-        self.m_addr = coin_conf.ComputeAddress(self.m_pub_key)
+        self.m_addr = coin_conf.EncodeKey(self.m_pub_key)
 
     def ToAddress(self) -> str:
         """ Return address correspondent to the public key.

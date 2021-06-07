@@ -31,7 +31,7 @@ class XrpAddr:
     """ Ripple address class. It allows the Ripple address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Ripple format.
 
         Args:
@@ -46,6 +46,6 @@ class XrpAddr:
         """
 
         # Ripple address is just a P2PKH address with a different Base58 alphabet
-        return P2PKH.ToAddress(pub_key,
+        return P2PKH.EncodeKey(pub_key,
                                RippleConf.P2PKH_NET_VER.Main(),
                                Base58Alphabets.RIPPLE)

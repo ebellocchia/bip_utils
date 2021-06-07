@@ -77,14 +77,14 @@ class P2WPKHTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"],
-                             P2WPKH.ToAddress(key_bytes, test["net_addr_ver"]))
+                             P2WPKH.EncodeKey(key_bytes, test["net_addr_ver"]))
             self.assertEqual(test["address"],
-                             P2WPKH.ToAddress(Secp256k1PublicKey(key_bytes), test["net_addr_ver"]))
+                             P2WPKH.EncodeKey(Secp256k1PublicKey(key_bytes), test["net_addr_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, P2WPKH.ToAddress, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, P2WPKH.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, P2WPKH.ToAddress, binascii.unhexlify(test))
+            self.assertRaises(ValueError, P2WPKH.EncodeKey, binascii.unhexlify(test))

@@ -60,13 +60,13 @@ class TrxAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], TrxAddr.ToAddress(key_bytes))
-            self.assertEqual(test["address"], TrxAddr.ToAddress(Secp256k1PublicKey(key_bytes)))
+            self.assertEqual(test["address"], TrxAddr.EncodeKey(key_bytes))
+            self.assertEqual(test["address"], TrxAddr.EncodeKey(Secp256k1PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, TrxAddr.ToAddress, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, TrxAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, TrxAddr.ToAddress, binascii.unhexlify(test))
+            self.assertRaises(ValueError, TrxAddr.EncodeKey, binascii.unhexlify(test))

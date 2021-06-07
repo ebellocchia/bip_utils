@@ -31,7 +31,7 @@ class AvaxXChainAddr:
     """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Atom format.
 
         Args:
@@ -54,7 +54,7 @@ class AvaxPChainAddr:
     """ Avax P-Chain address class. It allows the Avax P-Chain address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Atom format.
 
         Args:

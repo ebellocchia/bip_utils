@@ -43,7 +43,7 @@ class P2WPKH:
     """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
                   net_addr_ver: str = BitcoinConf.P2WPKH_NET_VER.Main()) -> str:
         """ Get address in P2WPKH format.
 

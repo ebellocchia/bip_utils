@@ -67,8 +67,8 @@ class Bip49Litecoin(Bip49Coin):
         else:
             return self.m_key_net_ver.Test()
 
-    def ComputeAddress(self,
-                       pub_key: IPublicKey) -> str:
+    def EncodeKey(self,
+                  pub_key: IPublicKey) -> str:
         """ Compute address from public key.
         Litecoin overrides the method because it can have 2 different address versions.
 
@@ -82,16 +82,16 @@ class Bip49Litecoin(Bip49Coin):
                     if not self.m_coin_conf.P2SH_DEPR_ADDR
                     else self.m_coin_conf.P2SH_DEPR_NET_VER)
         addr_ver = p2sh_ver.Main() if not self.m_is_testnet else p2sh_ver.Test()
-        return self.m_addr_cls.ToAddress(pub_key, addr_ver)
+        return self.m_addr_cls.EncodeKey(pub_key, addr_ver)
 
 
 class Bip49BitcoinCash(Bip49Coin):
     """ Bitcoin Cash BIP-0049 class.
-    It overrides ComputeAddress to return different addresses depending on the configuration.
+    It overrides EncodeKey to return different addresses depending on the configuration.
     """
 
-    def ComputeAddress(self,
-                       pub_key: IPublicKey) -> str:
+    def EncodeKey(self,
+                  pub_key: IPublicKey) -> str:
         """ Compute address from public key.
         Bitcoin Cash overrides the method because it can have 2 different addresses types
 
@@ -105,12 +105,12 @@ class Bip49BitcoinCash(Bip49Coin):
             addr_ver = (self.m_coin_conf.BCH_P2SH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.BCH_P2SH_NET_VER.Test())
-            return self.m_addr_cls["bch"].ToAddress(pub_key, addr_ver["hrp"], addr_ver["net_ver"])
+            return self.m_addr_cls["bch"].EncodeKey(pub_key, addr_ver["hrp"], addr_ver["net_ver"])
         else:
             addr_ver = (self.m_coin_conf.LEGACY_P2SH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.LEGACY_P2SH_NET_VER.Test())
-            return self.m_addr_cls["legacy"].ToAddress(pub_key, addr_ver)
+            return self.m_addr_cls["legacy"].EncodeKey(pub_key, addr_ver)
 
 
 # Configuration for Bitcoin main net

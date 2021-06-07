@@ -60,13 +60,13 @@ class EthAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], EthAddr.ToAddress(key_bytes))
-            self.assertEqual(test["address"], EthAddr.ToAddress(Secp256k1PublicKey(key_bytes)))
+            self.assertEqual(test["address"], EthAddr.EncodeKey(key_bytes))
+            self.assertEqual(test["address"], EthAddr.EncodeKey(Secp256k1PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, EthAddr.ToAddress, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, EthAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, EthAddr.ToAddress, binascii.unhexlify(test))
+            self.assertRaises(ValueError, EthAddr.EncodeKey, binascii.unhexlify(test))

@@ -61,15 +61,15 @@ class AvaxAddrTests(unittest.TestCase):
 
             # Test with bytes and public key object
             cls = AvaxXChainAddr if test["chain"] == AvaxChainTypes.AVAX_X_CHAIN else AvaxPChainAddr
-            self.assertEqual(test["address"], cls.ToAddress(key_bytes))
-            self.assertEqual(test["address"], cls.ToAddress(Secp256k1PublicKey(key_bytes)))
+            self.assertEqual(test["address"], cls.EncodeKey(key_bytes))
+            self.assertEqual(test["address"], cls.EncodeKey(Secp256k1PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, AvaxPChainAddr.ToAddress, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, AvaxXChainAddr.ToAddress, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, AvaxPChainAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, AvaxXChainAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, AvaxPChainAddr.ToAddress, binascii.unhexlify(test))
-            self.assertRaises(ValueError, AvaxXChainAddr.ToAddress, binascii.unhexlify(test))
+            self.assertRaises(ValueError, AvaxPChainAddr.EncodeKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, AvaxXChainAddr.EncodeKey, binascii.unhexlify(test))

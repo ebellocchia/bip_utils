@@ -60,13 +60,13 @@ class XtzAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], XtzAddr.ToAddress(key_bytes))
-            self.assertEqual(test["address"], XtzAddr.ToAddress(Ed25519PublicKey(key_bytes)))
+            self.assertEqual(test["address"], XtzAddr.EncodeKey(key_bytes))
+            self.assertEqual(test["address"], XtzAddr.EncodeKey(Ed25519PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, XtzAddr.ToAddress, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, XtzAddr.EncodeKey, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, XtzAddr.ToAddress, binascii.unhexlify(test))
+            self.assertRaises(ValueError, XtzAddr.EncodeKey, binascii.unhexlify(test))

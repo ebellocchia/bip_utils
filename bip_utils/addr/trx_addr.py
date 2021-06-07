@@ -38,7 +38,7 @@ class TrxAddr:
     """ Tron address class. It allows the Tron address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Tron format.
 
         Args:
@@ -53,7 +53,7 @@ class TrxAddr:
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        eth_addr = EthAddr.ToAddress(pub_key)[2:]
+        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Add prefix and encode
         return Base58Encoder.CheckEncode(binascii.unhexlify(TrxAddrConst.PREFIX + eth_addr))

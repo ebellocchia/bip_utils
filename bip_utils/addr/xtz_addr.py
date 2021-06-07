@@ -40,7 +40,7 @@ class XtzAddr:
     """ Tezos address class. It allows the Tezos address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
         """ Get address in Tezos format.
 
         Args:

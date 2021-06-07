@@ -60,13 +60,13 @@ class AlgoAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], AlgoAddr.ToAddress(key_bytes))
-            self.assertEqual(test["address"], AlgoAddr.ToAddress(Ed25519PublicKey(key_bytes)))
+            self.assertEqual(test["address"], AlgoAddr.EncodeKey(key_bytes))
+            self.assertEqual(test["address"], AlgoAddr.EncodeKey(Ed25519PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, AlgoAddr.ToAddress, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, AlgoAddr.EncodeKey, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, AlgoAddr.ToAddress, binascii.unhexlify(test))
+            self.assertRaises(ValueError, AlgoAddr.EncodeKey, binascii.unhexlify(test))

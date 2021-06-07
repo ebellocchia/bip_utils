@@ -62,7 +62,7 @@ class EthAddr:
     """ Ethereum address class. It allows the Ethereum address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Ethereum format.
 
         Args:

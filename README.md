@@ -606,32 +606,32 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Secp256k1PublicKey(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
     # P2PKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2PKH.ToAddress(pub_key)
+    addr = P2PKH.EncodeKey(pub_key)
     # P2SH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2SH.ToAddress(pub_key)
+    addr = P2SH.EncodeKey(pub_key)
     # P2WPKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2WPKH.ToAddress(pub_key)
+    addr = P2WPKH.EncodeKey(pub_key)
 
     # P2PKH address in Bitcoin Cash format
-    addr = BchP2PKH.ToAddress(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2PKH.EncodeKey(pub_key, "bitcoincash", b"\x00")
     # P2SH address in Bitcoin Cash format
-    addr = BchP2SH.ToAddress(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2SH.EncodeKey(pub_key, "bitcoincash", b"\x00")
 
     # Ethereum address
-    addr = EthAddr.ToAddress(pub_key)
+    addr = EthAddr.EncodeKey(pub_key)
     # Tron address
-    addr = TrxAddr.ToAddress(pub_key)
+    addr = TrxAddr.EncodeKey(pub_key)
     # AVAX address
-    addr = AvaxPChainAddr.ToAddress(pub_key)
-    addr = AvaxXChainAddr.ToAddress(pub_key)
+    addr = AvaxPChainAddr.EncodeKey(pub_key)
+    addr = AvaxXChainAddr.EncodeKey(pub_key)
     # Atom address
-    addr = AtomAddr.ToAddress(pub_key, "cosmos")
+    addr = AtomAddr.EncodeKey(pub_key, "cosmos")
     # OKEx Chain address
-    addr = OkexAddr.ToAddress(pub_key)
+    addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
-    addr = OneAddr.ToAddress(pub_key)
+    addr = OneAddr.EncodeKey(pub_key)
     # Ripple address
-    addr = XrpAddr.ToAddress(pub_key)
+    addr = XrpAddr.EncodeKey(pub_key)
 
     #
     # Coins that require a ed25519 curve
@@ -642,11 +642,11 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Ed25519PublicKey(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
 
     # Algorand address
-    addr = AlgoAddr.ToAddress(pub_key)
+    addr = AlgoAddr.EncodeKey(pub_key)
     # Solana address
-    addr = SolAddr.ToAddress(pub_key)
+    addr = SolAddr.EncodeKey(pub_key)
     # Tezos address
-    addr = XtzAddr.ToAddress(pub_key)
+    addr = XtzAddr.EncodeKey(pub_key)
 
 ## WIF
 

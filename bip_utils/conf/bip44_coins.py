@@ -74,11 +74,11 @@ class Bip44Litecoin(Bip44Coin):
 
 class Bip44BitcoinCash(Bip44Coin):
     """ Bitcoin Cash BIP-0044 class.
-    It overrides ComputeAddress to return different addresses depending on the configuration.
+    It overrides EncodeKey to return different addresses depending on the configuration.
     """
 
-    def ComputeAddress(self,
-                       pub_key: IPublicKey):
+    def EncodeKey(self,
+                  pub_key: IPublicKey):
         """ Compute address from public key.
         Bitcoin Cash overrides the method because it can have 2 different addresses types
 
@@ -92,12 +92,12 @@ class Bip44BitcoinCash(Bip44Coin):
             addr_ver = (self.m_coin_conf.BCH_P2PKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.BCH_P2PKH_NET_VER.Test())
-            return self.m_addr_cls["bch"].ToAddress(pub_key, addr_ver["hrp"], addr_ver["net_ver"])
+            return self.m_addr_cls["bch"].EncodeKey(pub_key, addr_ver["hrp"], addr_ver["net_ver"])
         else:
             addr_ver = (self.m_coin_conf.LEGACY_P2PKH_NET_VER.Main()
                         if not self.m_is_testnet
                         else self.m_coin_conf.LEGACY_P2PKH_NET_VER.Test())
-            return self.m_addr_cls["legacy"].ToAddress(pub_key, addr_ver)
+            return self.m_addr_cls["legacy"].EncodeKey(pub_key, addr_ver)
 
 
 # Configuration for Bitcoin main net

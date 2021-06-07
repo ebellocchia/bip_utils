@@ -32,7 +32,7 @@ class OneAddr:
     """ Harmony One address class. It allows the Harmony One address generation. """
 
     @staticmethod
-    def ToAddress(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
         """ Get address in Harmony One format.
 
         Args:
@@ -47,7 +47,7 @@ class OneAddr:
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        eth_addr = EthAddr.ToAddress(pub_key)[2:]
+        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Encode in Atom format
         return AtomBech32Encoder.Encode(HarmonyOneConf.ADDR_HRP.Main(), binascii.unhexlify(eth_addr))
