@@ -20,11 +20,10 @@
 
 
 # Imports
-import sha3
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.ecc import Secp256k1PublicKey
-from bip_utils.utils import AlgoUtils
+from bip_utils.utils import ConvUtils, CryptoUtils
 
 
 class EthAddrConst:
@@ -51,9 +50,9 @@ class EthAddrUtils:
         """
 
         # Compute address digest
-        addr_digest = sha3.keccak_256(AlgoUtils.Encode(addr)).hexdigest()
+        addr_hex_digest = ConvUtils.BytesToHexString(CryptoUtils.Kekkak256(addr))
         # Encode it
-        enc_addr = [c.upper() if (int(addr_digest[i], 16) >= 8) else c.lower() for i, c in enumerate(addr)]
+        enc_addr = [c.upper() if (int(addr_hex_digest[i], 16) >= 8) else c.lower() for i, c in enumerate(addr)]
 
         return "".join(enc_addr)
 
@@ -78,5 +77,6 @@ class EthAddr:
         pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         # First byte of the uncompressed key (i.e. 0x04) is not needed
-        addr = sha3.keccak_256(pub_key.RawUncompressed().ToBytes()[1:]).hexdigest()[EthAddrConst.START_BYTE:]
+        key_hex_digest = ConvUtils.BytesToHexString(CryptoUtils.Kekkak256(pub_key.RawUncompressed().ToBytes()[1:]))
+        addr = key_hex_digest[EthAddrConst.START_BYTE:]
         return EthAddrConst.PREFIX + EthAddrUtils.ChecksumEncode(addr)

@@ -22,6 +22,7 @@
 # Imports
 import hashlib
 import hmac
+import sha3
 from typing import Union
 from bip_utils.utils.algo import AlgoUtils
 
@@ -49,6 +50,18 @@ class CryptoUtils:
                                digest_size=digest_size,
                                key=key,
                                salt=salt).digest()
+
+    @staticmethod
+    def Kekkak256(data: Union[bytes, str]) -> bytes:
+        """ Compute the Kekkak256 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed Kekkak256
+        """
+        return sha3.keccak_256(AlgoUtils.Encode(data)).digest()
 
     @staticmethod
     def Sha256(data: Union[bytes, str]) -> bytes:
