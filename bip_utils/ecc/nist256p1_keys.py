@@ -21,26 +21,29 @@
 
 # Imports
 from __future__ import annotations
-from nacl import exceptions, signing
 from typing import Any, Optional, Union
+import ecdsa
+from ecdsa import curves, ellipticcurve, keys
+from ecdsa.ecdsa import curve_256
+from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
 
 
-class Ed25519KeysConst:
-    """ Class container for ed25519 keys constants. """
+class Nist256p1KeysConst:
+    """ Class container for nist256p1 keys constants. """
 
     # Compressed public key length
-    PUB_KEY_COMPRESSED_LEN = 33
+    PUB_KEY_COMPRESSED_LEN = EcdsaKeysConst.PUB_KEY_COMPRESSED_LEN
     # Uncompressed public key length
-    PUB_KEY_UNCOMPRESSED_LEN = 33
+    PUB_KEY_UNCOMPRESSED_LEN = EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_LEN
     # Private key length
-    PRIV_KEY_LEN = 32
+    PRIV_KEY_LEN = EcdsaKeysConst.PRIV_KEY_LEN
 
 
-class Ed25519Point(IPoint):
-    """ Ed25519 point class. """
+class Nist256p1Point(IPoint):
+    """ Nist256p1 point class. """
 
     def __init__(self,
                  x: int,
@@ -53,9 +56,7 @@ class Ed25519Point(IPoint):
             y (int): Y coordinate
             order (int): Order
         """
-        self.m_x = x
-        self.m_y = y
-        self.m_order = order or 0
+        self.m_point = ellipticcurve.PointJacobi.from_affine(ellipticcurve.Point(curve_256, x, y, order))
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -64,7 +65,7 @@ class Ed25519Point(IPoint):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.ED25519
+        return EllipticCurveTypes.NIST256P1
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -72,7 +73,7 @@ class Ed25519Point(IPoint):
         Returns:
            Any: Underlying object
         """
-        return None
+        return self.m_point
 
     def Order(self) -> int:
         """ Return the point order.
@@ -80,7 +81,7 @@ class Ed25519Point(IPoint):
         Returns:
             int: Point order
         """
-        return self.m_order
+        return self.m_point.order()
 
     def X(self) -> int:
         """ Get point X coordinate.
@@ -88,7 +89,7 @@ class Ed25519Point(IPoint):
         Returns:
            int: Point X coordinate
         """
-        return self.m_x
+        return self.m_point.x()
 
     def Y(self) -> int:
         """ Get point Y coordinate.
@@ -96,7 +97,7 @@ class Ed25519Point(IPoint):
         Returns:
            int: Point Y coordinate
         """
-        return self.m_y
+        return self.m_point.y()
 
     def __add__(self,
                 point: IPoint) -> IPoint:
@@ -108,9 +109,8 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
-        pass
+        new_point = (self.m_point + point.UnderlyingObject()).to_affine()
+        return Nist256p1Point(new_point.x(), new_point.y())
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -122,9 +122,7 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
-        pass
+        return self + point
 
     def __mul__(self,
                 scalar: int) -> IPoint:
@@ -136,9 +134,8 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
-        pass
+        new_point = (self.m_point * scalar).to_affine()
+        return Nist256p1Point(new_point.x(), new_point.y())
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
@@ -150,13 +147,11 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
-        pass
+        return self * scalar
 
 
-class Ed25519PublicKey(IPublicKey):
-    """ Ed25519 public key class. """
+class Nist256p1PublicKey(IPublicKey):
+    """ Nist256p1 public key class. """
 
     def __init__(self,
                  key_data: Union[bytes, IPoint]) -> None:
@@ -170,7 +165,8 @@ class Ed25519PublicKey(IPublicKey):
         """
         if isinstance(key_data, bytes):
             self.m_ver_key = self.__FromBytes(key_data)
-        # Creation from point not supported
+        elif isinstance(key_data, Nist256p1Point):
+            self.m_ver_key = self.__FromPoint(key_data)
         else:
             raise TypeError("Invalid public key data type")
 
@@ -181,7 +177,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.ED25519
+        return EllipticCurveTypes.NIST256P1
 
     @staticmethod
     def IsValid(key_data: Union[bytes, IPoint]) -> bool:
@@ -194,7 +190,7 @@ class Ed25519PublicKey(IPublicKey):
             bool: True if valid, false otherwise
         """
         try:
-            Ed25519PublicKey(key_data)
+            Nist256p1PublicKey(key_data)
             return True
         except ValueError:
             return False
@@ -206,7 +202,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_COMPRESSED_LEN
+        return Nist256p1KeysConst.PUB_KEY_COMPRESSED_LEN
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -215,7 +211,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_LEN
+        return Nist256p1KeysConst.PUB_KEY_UNCOMPRESSED_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -231,7 +227,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return KeyBytes(b"\x00" + bytes(self.m_ver_key))
+        return KeyBytes(self.m_ver_key.to_string("compressed"))
 
     def RawUncompressed(self) -> KeyBytes:
         """ Return raw uncompressed public key.
@@ -239,9 +235,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
             KeyBytes object: KeyBytes object
         """
-
-        # Same as compressed
-        return self.RawCompressed()
+        return KeyBytes(self.m_ver_key.to_string("uncompressed"))
 
     def Point(self) -> IPoint:
         """ Get public key point.
@@ -249,33 +243,43 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
-        pass
+        return Nist256p1Point(self.m_ver_key.pubkey.point.x(), self.m_ver_key.pubkey.point.y())
 
     @staticmethod
-    def __FromBytes(key_bytes: bytes) -> signing.VerifyKey:
+    def __FromBytes(key_bytes: bytes) -> ecdsa.VerifyingKey:
         """ Get public key from bytes.
 
         Args:
             key_bytes (bytes): key bytes
 
         Returns:
-            signing.VerifyKey: signing.VerifyKey object
+            ecdsa.VerifyingKey: ecdsa.VerifyingKey object
         """
-
-        # Remove the first 0x00 if present because nacl requires 32-byte length
-        if len(key_bytes) == Ed25519PublicKey.CompressedLength() and key_bytes[0] == 0:
-            key_bytes = key_bytes[1:]
-
         try:
-            return signing.VerifyKey(key_bytes)
-        except (exceptions.RuntimeError, exceptions.ValueError) as ex:
+            return ecdsa.VerifyingKey.from_string(key_bytes,
+                                                  curve=curves.NIST256p)
+        except keys.MalformedPointError as ex:
             raise ValueError("Invalid public key bytes") from ex
 
+    @staticmethod
+    def __FromPoint(point: IPoint) -> ecdsa.VerifyingKey:
+        """ Get public key from point.
 
-class Ed25519PrivateKey(IPrivateKey):
-    """ Ed25519 private key class. """
+        Args:
+            point (IPoint object): IPoint object
+
+        Returns:
+            ecdsa.VerifyingKey: ecdsa.VerifyingKey object
+        """
+        try:
+            return ecdsa.VerifyingKey.from_public_point(ellipticcurve.Point(curve_256, point.X(), point.Y()),
+                                                        curve=curves.NIST256p)
+        except keys.MalformedPointError as ex:
+            raise ValueError("Invalid public key point") from ex
+
+
+class Nist256p1PrivateKey(IPrivateKey):
+    """ Nist256p1 private key class. """
 
     def __init__(self,
                  key_bytes: bytes) -> None:
@@ -288,8 +292,8 @@ class Ed25519PrivateKey(IPrivateKey):
             ValueError: If key bytes are not valid
         """
         try:
-            self.m_sign_key = signing.SigningKey(key_bytes)
-        except (exceptions.RuntimeError, exceptions.ValueError) as ex:
+            self.m_sign_key = ecdsa.SigningKey.from_string(key_bytes, curve=curves.NIST256p)
+        except keys.MalformedPointError as ex:
             raise ValueError("Invalid private key bytes") from ex
 
     @staticmethod
@@ -299,7 +303,7 @@ class Ed25519PrivateKey(IPrivateKey):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.ED25519
+        return EllipticCurveTypes.NIST256P1
 
     @staticmethod
     def IsValid(key_bytes: bytes) -> bool:
@@ -312,7 +316,7 @@ class Ed25519PrivateKey(IPrivateKey):
             bool: True if valid, false otherwise
         """
         try:
-            Ed25519PrivateKey(key_bytes)
+            Nist256p1PrivateKey(key_bytes)
             return True
         except ValueError:
             return False
@@ -324,7 +328,7 @@ class Ed25519PrivateKey(IPrivateKey):
         Returns:
            int: Key length
         """
-        return Ed25519KeysConst.PRIV_KEY_LEN
+        return Nist256p1KeysConst.PRIV_KEY_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -340,7 +344,7 @@ class Ed25519PrivateKey(IPrivateKey):
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return KeyBytes(bytes(self.m_sign_key))
+        return KeyBytes(self.m_sign_key.to_string())
 
     def PublicKey(self) -> IPublicKey:
         """ Get the public key correspondent to the private one.
@@ -348,4 +352,4 @@ class Ed25519PrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Ed25519PublicKey(bytes(self.m_sign_key.verify_key))
+        return Nist256p1PublicKey(self.m_sign_key.get_verifying_key().to_string("uncompressed"))

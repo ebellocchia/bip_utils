@@ -24,6 +24,13 @@ import binascii
 from bip_utils import Bip32KeyError, Bip32Utils
 from bip_utils.bip32.bip32_base import Bip32BaseConst
 
+# Tests for invalid seeds
+TEST_VECT_SEED_ERR = [
+    b"000102030405060708090a0b0c0d0e",
+    b"000102030405060708090a0b0c0d",
+]
+
+
 #
 # Helper class for Bip32Base child classes, which share the same tests
 #
@@ -43,13 +50,13 @@ class Bip32BaseTestHelper:
 
             ut_class.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
             ut_class.assertEqual(test["master"]["pub_key"], str(bip32_ctx.PublicKey().RawCompressed()))
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode("utf-8")), bip32_ctx.PublicKey().RawCompressed().ToBytes())
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode("utf-8")), bytes(bip32_ctx.PublicKey().RawCompressed()))
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bip32_ctx.PublicKey().RawCompressed().ToBytes())
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bytes(bip32_ctx.PublicKey().RawCompressed()))
 
             ut_class.assertEqual(test["master"]["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
             ut_class.assertEqual(test["master"]["priv_key"], str(bip32_ctx.PrivateKey().Raw()))
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode("utf-8")), bip32_ctx.PrivateKey().Raw().ToBytes())
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode("utf-8")), bytes(bip32_ctx.PrivateKey().Raw()))
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bip32_ctx.PrivateKey().Raw().ToBytes())
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bytes(bip32_ctx.PrivateKey().Raw()))
 
             ut_class.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
             ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
@@ -177,14 +184,14 @@ class Bip32BaseTestHelper:
                 bip32_ctx = bip32_ctx.ChildKey(test["index"])
                 ut_class.assertEqual(test["ex_pub"], bip32_ctx.PublicKey().ToExtended())
 
-    # Test invalid seed
-    @staticmethod
-    def test_invalid_seed(ut_class, bip32_class, test_vector):
-        for test in test_vector:
-            ut_class.assertRaises(ValueError, bip32_class.FromSeed, binascii.unhexlify(test))
-
     # Test invalid extended key
     @staticmethod
     def test_invalid_ex_key(ut_class, bip32_class, test_vector):
         for test in test_vector:
             ut_class.assertRaises(Bip32KeyError, bip32_class.FromExtendedKey, test)
+
+    # Test invalid seed
+    @staticmethod
+    def test_invalid_seed(ut_class, bip32_class):
+        for test in TEST_VECT_SEED_ERR:
+            ut_class.assertRaises(ValueError, bip32_class.FromSeed, binascii.unhexlify(test))

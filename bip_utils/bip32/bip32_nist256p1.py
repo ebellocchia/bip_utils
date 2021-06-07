@@ -28,17 +28,17 @@ from bip_utils.conf import Bip32Conf, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
 
 
-class Bip32Secp256k1Const:
-    """ Class container for BIP32 secp256k1 constants. """
+class Bip32Nist256p1Const:
+    """ Class container for BIP32 nist256p1 constants. """
 
     # Elliptic curve type
-    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.SECP256K1
+    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.NIST256P1
     # HMAC key for generating master key
-    MASTER_KEY_HMAC_KEY: bytes = b"Bitcoin seed"
+    MASTER_KEY_HMAC_KEY: bytes = b"Nist256p1 seed"
 
 
-class Bip32Secp256k1(Bip32EcdsaBase):
-    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation using secp256k1 curve.
+class Bip32Nist256p1(Bip32EcdsaBase):
+    """ BIP32 nist256p1 class. It allows master key generation and children keys derivation using nist256p1 curve.
     """
 
     #
@@ -63,9 +63,9 @@ class Bip32Secp256k1(Bip32EcdsaBase):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeed(seed_bytes,
-                             Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY,
+                             Bip32Nist256p1Const.MASTER_KEY_HMAC_KEY,
                              key_net_ver,
-                             Bip32Secp256k1Const.CURVE_TYPE)
+                             Bip32Nist256p1Const.CURVE_TYPE)
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -87,10 +87,10 @@ class Bip32Secp256k1(Bip32EcdsaBase):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeedAndPath(seed_bytes,
-                                    Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY,
+                                    Bip32Nist256p1Const.MASTER_KEY_HMAC_KEY,
                                     path,
                                     key_net_ver,
-                                    Bip32Secp256k1Const.CURVE_TYPE)
+                                    Bip32Nist256p1Const.CURVE_TYPE)
 
     @classmethod
     def FromExtendedKey(cls,
@@ -110,7 +110,7 @@ class Bip32Secp256k1(Bip32EcdsaBase):
         """
         return cls._FromExtendedKey(key_str,
                                     key_net_ver,
-                                    Bip32Secp256k1Const.CURVE_TYPE)
+                                    Bip32Nist256p1Const.CURVE_TYPE)
 
     @classmethod
     def FromPrivateKey(cls,
@@ -132,7 +132,7 @@ class Bip32Secp256k1(Bip32EcdsaBase):
         """
         return cls._FromPrivateKey(key_bytes,
                                    key_net_ver,
-                                   Bip32Secp256k1Const.CURVE_TYPE)
+                                   Bip32Nist256p1Const.CURVE_TYPE)
 
     #
     # Private methods

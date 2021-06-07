@@ -25,7 +25,7 @@ import unittest
 from bip_utils import Bip32Ed25519Slip, Bip32KeyError, Bip32Utils
 from .test_bip32_base import Bip32BaseTestHelper
 
-# Tests from BIP32 and SLIP-0010 pages
+# Tests from SLIP-0010 pages
 TEST_VECT = [
     {
         "seed": b"000102030405060708090a0b0c0d0e0f",
@@ -167,10 +167,19 @@ TEST_VECT = [
     },
 ]
 
-# Tests for invalid seeds
-TEST_VECT_SEED_ERR = [
-    b"000102030405060708090a0b0c0d0e",
-    b"000102030405060708090a0b0c0d",
+# Tests for invalid extended key
+TEST_VECT_EX_KEY_ERR = [
+    # Private keys with invalid lengths (generated on purpose to have a correct checksum)
+    "DeaWiRvhTUWHmRFa63ZawWQy57DX4NvP62TfD46boXurKLAgyUEp5Xz59LLRSa4sse2nscJCmFC4DvmScVSuJSxfQAzFhxDc4RV85PtjgAwLMX",
+    "5FQFKc7mTW13jdERCczZfzcHum9pTkjqVdP6HZCVtfC2YAjAT8RnDG6Lmo583qUQx2toUpuxyEJFVgAp725tEfbUJqXEA1WCgm8Qm4BPft8otyZpr",
+    # Private key with invalid net version
+    "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+    # Private key with invalid secret byte (0x01 instead of 0x00, generated on purpose)
+    "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnListey6gETHL1FYgFnbGTHGh6bsXjp3w31igA2CuxhgLyGu6pvL45",
+    # Invalid master key (fingerprint is not valid)
+    "xprv9s21ZrQZgP7FPptNcV6ZuWeytnfAsNFoPXFUTMDdUQpc44ZhfkDAnctGeUuywWTKXEFwLFGRPGd9WcjbTDdjKU25eRw5REDTVxfiAxZFhrV",
+    # Invalid master key (index is not zero)
+    "xprv9s21ZrQH143K5p8oLYasVfWDcfK9E5HPajvc6vEmTG592KSs8jk4fb3vA6ZoueJM4oi7xTrbbfU5MyTPRLFPbXLr3TZjQw4rXFQ7v1sk7C4",
 ]
 
 
@@ -203,9 +212,13 @@ class Bip32Ed25519SlipTests(unittest.TestCase):
     def test_from_priv_key(self):
         Bip32BaseTestHelper.test_from_priv_key(self, Bip32Ed25519Slip, TEST_VECT)
 
+    # Test invalid extended key
+    def test_invalid_ex_key(self):
+        Bip32BaseTestHelper.test_invalid_ex_key(self, Bip32Ed25519Slip, TEST_VECT_EX_KEY_ERR)
+
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Ed25519Slip, TEST_VECT_SEED_ERR)
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Ed25519Slip)
 
     # Test invalid derivation
     def test_invalid_derivation(self):

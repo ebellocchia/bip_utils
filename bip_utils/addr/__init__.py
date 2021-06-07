@@ -7,6 +7,7 @@ from bip_utils.addr.avax_addr import AvaxPChainAddr, AvaxXChainAddr
 from bip_utils.addr.egld_addr import EgldAddr
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.addr.okex_addr import OkexAddr
+from bip_utils.addr.neo_addr import NeoAddr
 from bip_utils.addr.one_addr import OneAddr
 from bip_utils.addr.sol_addr import SolAddr
 from bip_utils.addr.trx_addr import TrxAddr

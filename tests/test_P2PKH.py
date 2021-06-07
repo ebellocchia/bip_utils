@@ -24,9 +24,9 @@ import binascii
 import unittest
 from bip_utils import (
     BitcoinConf, BitcoinCashConf, BitcoinSvConf, LitecoinConf, DogecoinConf, DashConf, ZcashConf,
-    P2PKH, BchP2PKH, Ed25519PublicKey, Secp256k1PublicKey
+    P2PKH, BchP2PKH, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 )
-from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY
+from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
 
 # Some random public keys
 TEST_VECT = [
@@ -183,7 +183,10 @@ class P2PKHTests(unittest.TestCase):
     def test_invalid_keys(self):
         # Test with invalid key type
         self.assertRaises(TypeError, P2PKH.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, P2PKH.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
         self.assertRaises(TypeError, BchP2PKH.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "", b"\x00")
+        self.assertRaises(TypeError, BchP2PKH.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "", b"\x00")
+
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
             self.assertRaises(ValueError, P2PKH.EncodeKey, binascii.unhexlify(test))

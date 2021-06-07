@@ -21,7 +21,7 @@
 
 # Imports
 from typing import Union
-from bip_utils.ecc import IPublicKey, Ed25519PublicKey, Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 
 
 class AddrUtils:
@@ -44,6 +44,26 @@ class AddrUtils:
             pub_key = Ed25519PublicKey(pub_key)
         elif not isinstance(pub_key, Ed25519PublicKey):
             raise TypeError("A ed25519 public key is required")
+
+        return pub_key
+
+    @staticmethod
+    def ValidateAndGetNist256p1Key(pub_key: Union[bytes, IPublicKey]) -> Nist256p1PublicKey:
+        """ Validate and get a nist256p1 public key.
+
+        Args:
+            pub_key (bytes or IPublicKey object): Public key bytes or object
+
+        Returns:
+            Nist256p1PublicKey object: Nist256p1PublicKey object
+
+        Raises:
+            TypeError: If the public key is not nist256p1
+        """
+        if isinstance(pub_key, bytes):
+            pub_key = Nist256p1PublicKey(pub_key)
+        elif not isinstance(pub_key, Nist256p1PublicKey):
+            raise TypeError("A nist256p1 public key is required")
 
         return pub_key
 

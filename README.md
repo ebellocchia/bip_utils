@@ -29,7 +29,7 @@ In addition to this, the package allows to:
 Dependencies:
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
-- [ecdsa](https://pypi.org/project/ecdsa/) for secp256k1 curve
+- [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 
 The package currently supports the following coins (I try to add new ones from time to time):
@@ -54,6 +54,8 @@ The package currently supports the following coins (I try to add new ones from t
 - Kava
 - Litecoin (and related test net)
 - OKEx Chain (Ethereum and Cosmos addresses)
+- NEO
+- Ontology
 - Polygon
 - Ripple
 - Solana
@@ -197,10 +199,11 @@ Also in this case, the language can be specified or automatically detected.
 
 The BIP-0032 library is wrapped inside the BIP-0044, BIP-0049 and BIP-0084 libraries, so there is no need to use it alone unless you need to derive some non-standard paths.\
 The library currently supports the following elliptic curves for key derivation:
-- Secp256k1: *Bip32Secp256k1* class
 - Ed25519 (based on SLIP-0010): *Bip32Ed25519Slip* class
+- Nist256p1 (based on SLIP-0010): *Bip32Nist256p1* class
+- Secp256k1: *Bip32Secp256k1* class
 
-They both inherit from the generic *Bip32Base* class, that can be used to implement new elliptic curves derivation.\
+They all inherit from the generic *Bip32Base* class, which can be extended to implement new elliptic curves derivation.\
 The specific curve depends on the specific coin and it's automatically selected if you use the *Bip44* library.
 
 ### Construction from a seed
@@ -339,7 +342,8 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     bip32_ctx = bip32_ctx.DerivePath("0'/1'")   # Derivation path: m/0'/1'
     bip32_ctx = bip32_ctx.DerivePath("2/3")     # Derivation path: m/0'/1'/2/3
 
-The *Bip32Ed25519Slip* class works exactly in the same way. The main differences are:
+The *Bip32Ed25519Slip* and *Bip32Nist256p1*  classes work exactly in the same way.\
+However, the *Bip32Ed25519Slip* class has some differences:
 - Not-hardened private key derivation is not supported
 - Public key derivation is not supported
 
@@ -354,6 +358,9 @@ For example:
     bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
     # Not-hardened private key derivation, Bip32KeyError is raised
     bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0/1")
+    # Public derivation, Bip32KeyError is raised
+    bip32_ctx = bip32_ctx.ConvertToPublic()
+    bip32_ctx.ChildKey(0)
 
 ### Parse path
 
@@ -389,7 +396,7 @@ In case of error, an empty list is returned.
 
 ## Bip-0044, BIP-0049, BIP-0084 libraries
 
-These libraries derives all from the same base class, so they are used exactly in the same way.\
+These libraries derive all from the same base class, so they are used exactly in the same way.\
 Therefore, the following code examples can be used with the Bip44, Bip49 or Bip84 class.\
 These classes automatically use the correct elliptic curve for key derivation depending on the coin.
 
@@ -482,6 +489,8 @@ Currently supported coins enumerative:
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
+|NEO|*Bip44Coins.NEO*|-|
+|Ontology|*Bip44Coins.ONTOLOGY*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
@@ -564,11 +573,11 @@ In the example above, Bip44 can be substituted with Bip49 or Bip84 without chang
 
 ### Default derivation paths
 
-Most of coins (especially the ones using the secp256k1 curve) use the complete BIP-0044 path to derive the address private key:
+Most of the coins (especially the ones using the secp256k1 curve) use the complete BIP-0044 path to derive the address private key:
 
     m / purpose' / coin_type' / account' / change / address_index
 
-But this doesn't apply all coins. For example, Solana uses the following path to derive the address private key: m/44'/501'/0'\
+However, this doesn't apply all coins. For example, Solana uses the following path to derive the address private key: m/44'/501'/0'\
 This can be derived manually, for example:
 
     # Derive m/44'/501'/0'
@@ -598,8 +607,8 @@ These libraries are used internally by the other libraries, but they are availab
     import binascii
     from bip_utils import (
       P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EgldAddr, EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
-      Ed25519PublicKey, Secp256k1PublicKey
+      EgldAddr, EthAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
+      Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
     )
 
     #
@@ -650,12 +659,24 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AlgoAddr.EncodeKey(pub_key)
     # Elrond address
     addr = EgldAddr.EncodeKey(pub_key)
+
     # Solana address
     addr = SolAddr.EncodeKey(pub_key)
     # Stellar address
     addr = XlmAddr.EncodeKey(pub_key)
     # Tezos address
     addr = XtzAddr.EncodeKey(pub_key)
+
+    #
+    # Coins that require a nist256p1 curve
+    #
+
+    # You can use public key bytes or a public key object
+    pub_key = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
+    pub_key = Nist256p1PublicKey(binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
+
+    # NEO address
+    addr = NeoAddr.EncodeKey(pub_key)
 
 ## WIF
 

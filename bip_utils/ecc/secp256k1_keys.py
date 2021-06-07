@@ -25,6 +25,7 @@ from typing import Any, Optional, Union
 import ecdsa
 from ecdsa import curves, ellipticcurve, keys
 from ecdsa.ecdsa import curve_secp256k1
+from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
@@ -34,11 +35,11 @@ class Secp256k1KeysConst:
     """ Class container for secp256k1 keys constants. """
 
     # Compressed public key length
-    PUB_KEY_COMPRESSED_LEN = 33
+    PUB_KEY_COMPRESSED_LEN = EcdsaKeysConst.PUB_KEY_COMPRESSED_LEN
     # Uncompressed public key length
-    PUB_KEY_UNCOMPRESSED_LEN = 65
+    PUB_KEY_UNCOMPRESSED_LEN = EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_LEN
     # Private key length
-    PRIV_KEY_LEN = 32
+    PRIV_KEY_LEN = EcdsaKeysConst.PRIV_KEY_LEN
 
 
 class Secp256k1Point(IPoint):
@@ -345,10 +346,10 @@ class Secp256k1PrivateKey(IPrivateKey):
         """
         return KeyBytes(self.m_sign_key.to_string())
 
-    def PublicKey(self) -> Secp256k1PublicKey:
+    def PublicKey(self) -> IPublicKey:
         """ Get the public key correspondent to the private one.
 
         Returns:
-            Secp256k1PublicKey object: Secp256k1PublicKey object
+            IPublicKey object: IPublicKey object
         """
         return Secp256k1PublicKey(self.m_sign_key.get_verifying_key().to_string("uncompressed"))

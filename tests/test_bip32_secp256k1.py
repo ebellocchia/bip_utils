@@ -213,12 +213,6 @@ TEST_VECT_PUBLIC_DER = {
     ],
 }
 
-# Tests for invalid seeds
-TEST_VECT_SEED_ERR = [
-    b"000102030405060708090a0b0c0d0e",
-    b"000102030405060708090a0b0c0d",
-]
-
 # Tests for invalid extended key
 TEST_VECT_EX_KEY_ERR = [
     # Private keys with invalid lengths (generated on purpose to have a correct checksum)
@@ -272,10 +266,10 @@ class Bip32Secp256k1Tests(unittest.TestCase):
     def test_public_derivation(self):
         Bip32BaseTestHelper.test_public_derivation(self, Bip32Secp256k1, TEST_VECT_PUBLIC_DER)
 
-    # Test invalid seed
-    def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Secp256k1, TEST_VECT_SEED_ERR)
-
     # Test invalid extended key
     def test_invalid_ex_key(self):
         Bip32BaseTestHelper.test_invalid_ex_key(self, Bip32Secp256k1, TEST_VECT_EX_KEY_ERR)
+
+    # Test invalid seed
+    def test_invalid_seed(self):
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Secp256k1)

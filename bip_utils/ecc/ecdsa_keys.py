@@ -19,14 +19,12 @@
 # THE SOFTWARE.
 
 
-# Imports
-from enum import Enum, auto, unique
+class EcdsaKeysConst:
+    """ Class container for ECDSA keys constants. """
 
-
-@unique
-class EllipticCurveTypes(Enum):
-    """ Enumerative for elliptic curve types. """
-
-    ED25519 = auto(),
-    NIST256P1 = auto(),
-    SECP256K1 = auto(),
+    # Compressed public key length
+    PUB_KEY_COMPRESSED_LEN = 33
+    # Uncompressed public key length
+    PUB_KEY_UNCOMPRESSED_LEN = 65
+    # Private key length
+    PRIV_KEY_LEN = 32
