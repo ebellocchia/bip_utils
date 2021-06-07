@@ -672,6 +672,22 @@ class ElrondConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class StellarConf:
+    """ Class container for Stellar configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Stellar", "XML")
+
+    # Default path
+    DEFAULT_PATH: str = "0'"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 

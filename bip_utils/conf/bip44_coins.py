@@ -23,7 +23,7 @@
 from typing import Type
 from bip_utils.addr import (
     P2PKH, BchP2PKH, AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-    EgldAddr, EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XrpAddr, XtzAddr
+    EgldAddr, EthAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr
 )
 from bip_utils.bip32 import Bip32Base, Bip32Ed25519Slip, Bip32Secp256k1
 from bip_utils.conf.bip_coin_base import BipCoinBase
@@ -380,6 +380,13 @@ Bip44Elrond: Bip44Coin = Bip44Coin(
     is_testnet=False,
     bip32_cls=Bip32Ed25519Slip,
     addr_cls=EgldAddr)
+
+# Configuration for Stellar
+Bip44Stellar: Bip44Coin = Bip44Coin(
+    coin_conf=StellarConf,
+    is_testnet=False,
+    bip32_cls=Bip32Ed25519Slip,
+    addr_cls=XlmAddr)
 
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(

@@ -73,6 +73,7 @@ class Bip44Const:
             Bip44Coins.POLYGON: Bip44Polygon,
             Bip44Coins.RIPPLE: Bip44Ripple,
             Bip44Coins.SOLANA: Bip44Solana,
+            Bip44Coins.STELLAR: Bip44Stellar,
             Bip44Coins.TERRA: Bip44Terra,
             Bip44Coins.TEZOS: Bip44Tezos,
             Bip44Coins.THETA: Bip44Theta,
