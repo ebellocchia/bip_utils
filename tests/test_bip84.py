@@ -77,6 +77,7 @@ TEST_VECT = [
             "ltc1q8mtg60wwrnh5wjver003uewy4drfm9sses95z2",
         ],
     },
+
     # Bitcoin test net
     {
         "coin": Bip44Coins.BITCOIN_TESTNET,
@@ -141,6 +142,7 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "ltc1qjmxnz78nmc8nq77wuxh25n2es7rzm5c2rkk4wh",
     },
+
     # Bitcoin test net
     {
         "coin": Bip44Coins.BITCOIN_TESTNET,

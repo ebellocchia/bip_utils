@@ -111,6 +111,54 @@ TEST_VECT = [
             "36tsqGBbuGkB7NLFXAQ6JPwu2bQjszFgYH",
         ],
     },
+    # Dash
+    {
+        "coin": Bip44Coins.DASH,
+        "names": ("Dash", "DASH"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+        "wif_master": "7qjXbkdi3WJ1SRu6pVnUcqQzk9RimTJB3cCUrw9V1HGFoqaB948",
+        "account": {
+            "ex_pub": "ypub6XfMrvptRS5DPon5Ncq6w9AKZRde7w4fPxMCmBioQFUZ8wJNY5gQy3KfG8wL6L111jDBVA4opQfq9J82uCGpaSrcmxKkwoZuRXpS1HdgjP8",
+            "ex_priv": "yprvAJg1TRHzb4WvBKhcGbJ6a1Db1Po9iULp2jRbxoKBquwaG8yDzYNARF1BQpkNqZHNUc5b3tT1Cgy7pA7L9SPH4UZrdF4cKvmHGjzWWP9VjZ4",
+        },
+        "chain_ext": {
+            "ex_pub": "ypub6ZQqzbH8PeLbg36yPKPeVquiSiZJZtRX2cab4HwvrUhwAC8FYJLznZoedn6jg71geRfVwEZvJ2agVgGjaMoSH5nMg83ZtnxHxcNAFJeg5MB",
+            "ex_priv": "yprvALRVb5kEZGnJTZ2WHHre8hxytgipARhffPezFuYKJ9AxHPo6zm2kEmVAnWu76MeK7LXZ54wKP1cFaXB4XzdcE79QfHoGB1n7oixVVxpfn2w",
+        },
+        "addresses": [
+            "7bG9yjGpzvKvffhHkCkDRsLLZ5iJxyDcX7",
+            "7WeB1MquavUF2AdQwiu5kiHNtSMA8RWKka",
+            "7cmSUivNKPsH6J6MmsMfYJrQS2p3GZzSm7",
+            "7mG6G6PEiS5qFxFXCvGw8E56tVizUP6zyW",
+            "7iWwAjC3qd3uBPkkAZsLjcjtQNP8maaBfB",
+        ],
+    },
+    # Dogecoin
+    {
+        "coin": Bip44Coins.DOGECOIN,
+        "names": ("Dogecoin", "DOGE"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "dgpv51eADS3spNJh98bWAfYnAW8K1gMy86HKmH1dpyT8kLsUKBqssT3jsLLFWyK4zbruL51UjejFDzrFzBcwjjA57rSv6D2978QigKG4xbCfJV6",
+        "wif_master": "6JKHV5zEqwBbEhAf7qEWk5qNcu6gs4XtrCwXe3WFH8xR7BcSCbr",
+        "account": {
+            "ex_pub": "dgub8rgNmp9pEE4teMZS2ooaWnN8PC3XwAdtjmPnKiBER8ZdTfNKQZ58dVc11NrMVNWJvaZBAzqjZiyNpJ4rNpJuniwHdbVDgBBUAXDsGRmjDBo",
+            "ex_priv": "dgpv57oMS8Dvg5QZMVuGzaBcPvpXvdfu73cBTAcaAbnFd1WcucFcznXMzCCMS8Tvjp3E5HzY3PKoXkwURyjUm6DhhychRQBXQpf3xFCEYMThwj6",
+        },
+        "chain_ext": {
+            "ex_pub": "dgub8t8oNKJryeExnXMktuGVuYytUUekFvyLRefyodU6F9njRD8twMxy8raotyHhxpKRfSfJoKBg5EPB4e5yWHVnfGs85tdkTnBqrgSnPT7S5Gr",
+            "ex_priv": "dgpv59Fn2dNyRVadVfhbrfeXnhSJ1vH7Rowd93tmeX57T2jisA2CXbRCVZBAKmrifgszhCPcyNmS16Azse2Tm5DmwEMTrvoH12n4eR8FYkeA4P9",
+        },
+        "addresses": [
+            "9xzLEaWbi3eVzRzv6YdGcXbXQMHydntSq7",
+            "ABxNotFnVaS85dcyXY76d2Fbr12qph6UTy",
+            "9wrexodMKHBmtjnf2XU7eXSThsynMzGE6A",
+            "AAqxBLjK4FdCehqRc12ZR4b7L2KsYVF8zc",
+            "A4wfuH4RwkkrwpRvB8zqaq1PA2rRXhap9T",
+        ],
+    },
     # Litecoin
     {
         "coin": Bip44Coins.LITECOIN,
@@ -147,54 +195,6 @@ TEST_VECT = [
             "MTRfjyjqpjpc9YVDWqypV5Vw96uLZcUajY",
         ],
     },
-    # Dogecoin
-    {
-        "coin": Bip44Coins.DOGECOIN,
-        "names": ("Dogecoin", "DOGE"),
-        "is_testnet": False,
-        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_master": "dgpv51eADS3spNJh98bWAfYnAW8K1gMy86HKmH1dpyT8kLsUKBqssT3jsLLFWyK4zbruL51UjejFDzrFzBcwjjA57rSv6D2978QigKG4xbCfJV6",
-        "wif_master": "6JKHV5zEqwBbEhAf7qEWk5qNcu6gs4XtrCwXe3WFH8xR7BcSCbr",
-        "account": {
-            "ex_pub": "dgub8rgNmp9pEE4teMZS2ooaWnN8PC3XwAdtjmPnKiBER8ZdTfNKQZ58dVc11NrMVNWJvaZBAzqjZiyNpJ4rNpJuniwHdbVDgBBUAXDsGRmjDBo",
-            "ex_priv": "dgpv57oMS8Dvg5QZMVuGzaBcPvpXvdfu73cBTAcaAbnFd1WcucFcznXMzCCMS8Tvjp3E5HzY3PKoXkwURyjUm6DhhychRQBXQpf3xFCEYMThwj6",
-        },
-        "chain_ext": {
-            "ex_pub": "dgub8t8oNKJryeExnXMktuGVuYytUUekFvyLRefyodU6F9njRD8twMxy8raotyHhxpKRfSfJoKBg5EPB4e5yWHVnfGs85tdkTnBqrgSnPT7S5Gr",
-            "ex_priv": "dgpv59Fn2dNyRVadVfhbrfeXnhSJ1vH7Rowd93tmeX57T2jisA2CXbRCVZBAKmrifgszhCPcyNmS16Azse2Tm5DmwEMTrvoH12n4eR8FYkeA4P9",
-        },
-        "addresses": [
-            "9xzLEaWbi3eVzRzv6YdGcXbXQMHydntSq7",
-            "ABxNotFnVaS85dcyXY76d2Fbr12qph6UTy",
-            "9wrexodMKHBmtjnf2XU7eXSThsynMzGE6A",
-            "AAqxBLjK4FdCehqRc12ZR4b7L2KsYVF8zc",
-            "A4wfuH4RwkkrwpRvB8zqaq1PA2rRXhap9T",
-        ],
-    },
-    # Dash
-    {
-        "coin": Bip44Coins.DASH,
-        "names": ("Dash", "DASH"),
-        "is_testnet": False,
-        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_master": "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
-        "wif_master": "7qjXbkdi3WJ1SRu6pVnUcqQzk9RimTJB3cCUrw9V1HGFoqaB948",
-        "account": {
-            "ex_pub": "ypub6XfMrvptRS5DPon5Ncq6w9AKZRde7w4fPxMCmBioQFUZ8wJNY5gQy3KfG8wL6L111jDBVA4opQfq9J82uCGpaSrcmxKkwoZuRXpS1HdgjP8",
-            "ex_priv": "yprvAJg1TRHzb4WvBKhcGbJ6a1Db1Po9iULp2jRbxoKBquwaG8yDzYNARF1BQpkNqZHNUc5b3tT1Cgy7pA7L9SPH4UZrdF4cKvmHGjzWWP9VjZ4",
-        },
-        "chain_ext": {
-            "ex_pub": "ypub6ZQqzbH8PeLbg36yPKPeVquiSiZJZtRX2cab4HwvrUhwAC8FYJLznZoedn6jg71geRfVwEZvJ2agVgGjaMoSH5nMg83ZtnxHxcNAFJeg5MB",
-            "ex_priv": "yprvALRVb5kEZGnJTZ2WHHre8hxytgipARhffPezFuYKJ9AxHPo6zm2kEmVAnWu76MeK7LXZ54wKP1cFaXB4XzdcE79QfHoGB1n7oixVVxpfn2w",
-        },
-        "addresses": [
-            "7bG9yjGpzvKvffhHkCkDRsLLZ5iJxyDcX7",
-            "7WeB1MquavUF2AdQwiu5kiHNtSMA8RWKka",
-            "7cmSUivNKPsH6J6MmsMfYJrQS2p3GZzSm7",
-            "7mG6G6PEiS5qFxFXCvGw8E56tVizUP6zyW",
-            "7iWwAjC3qd3uBPkkAZsLjcjtQNP8maaBfB",
-        ],
-    },
     # Zcash
     {
         "coin": Bip44Coins.ZCASH,
@@ -219,6 +219,7 @@ TEST_VECT = [
             "t3cYvaYasuzDan2FpZbY8k6bc7MQfv54zdZ",
         ],
     },
+
     # Bitcoin test net
     {
         "coin": Bip44Coins.BITCOIN_TESTNET,
@@ -298,6 +299,54 @@ TEST_VECT = [
             "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
         ],
     },
+    # Dash test net
+    {
+        "coin": Bip44Coins.DASH_TESTNET,
+        "names": ("Dash TestNet", "DASH"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "uprv8tXDerPXZ1QsVNjUJWTurs9kA1KGfKUAts74GCkcXtU8GwnH33GDRbNJpEqTvipfCyycARtQJhmdfWf8oKt41X9LL1zeD2pLsWmxEk3VAwd",
+        "wif_master": "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
+        "account": {
+            "ex_pub": "upub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY",
+            "ex_priv": "uprv91G7gZkzehuMVxDJTYE6tLivdF8e4rvzSu1LFfKw3b2Qx1Aj8vpoFnHdfUZ3hmi9jsvPifmZ24RTN2KhwB8BfMLTVqaBReibyaFFcTP1s9n",
+        },
+        "chain_ext": {
+            "ex_pub": "upub5F7X3ZAt1HsUyFLTFU9vhKeGULy77aDoJFhscvGBV91tm2mzQ5egFGpeP4nGskwERwbU48g14qREqXJ388X8XBiaLm7PWwk3S45Fe3WAvdK",
+            "ex_priv": "uprv928Ae3dzAvKBkmFz9ScvLBhXvK8ci7Vww2nGpXrZvoUutESqrYLRhUWAXpK5acXh517npKuCpJ7NXaoWnLs1dLB9w3MHe3KNUm7hPENqMzt",
+        },
+        "addresses": [
+            "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
+            "8rFznqz9Fv7zvxyNLDexvSREW8KcuNUAmR",
+            "8vWZYUPTextvkcYLFDMQE1wyvfH1FLALz4",
+            "8kfkwmWK1ESMt31yxFy34d1Yrwxd8sUL6R",
+            "8gVt8miJ2YPRir1cjuwxgcDs9EM98qVtNJ",
+        ],
+    },
+    # Dogecoin test net
+    {
+        "coin": Bip44Coins.DOGECOIN_TESTNET,
+        "names": ("Dogecoin TestNet", "DOGE"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "tgpv1aRS3XcGkbKXDbWwtRDZFYqUaCsEVXgkHt9m5mEjaWGGA18gaU1qZatwWCmjT66o2CmSNJmXkAvG29sYFXrz11WEaLwVrckr5LMkUrVeQmp",
+        "wif_master": "95f58LEtaFKPRnQCMwkSuhbedNDHpWUaAFpTtUbenXWc4oSGq5N",
+        "account": {
+            "ex_pub": "tgub5S3MQvudQSULX2ew5gbiPsxFW14EjCBH8WqFELD2tKsZP7dq688C35DuvftJvxQSZTnVqrndkHZFQRBc8YchoDC2fGtwdnRPUmJzBnYBr3w",
+            "ex_priv": "tgpv1hAL5EyjrHp1EAzn3SykH2Qf3Sgbu59Zqv435Dp46CpYq4X8gMaRPmpGMSVKE8zHZ6iDvYegTXa5ifY7PP77eqhMkAX35Ef7BPq3refCiHE",
+        },
+        "chain_ext": {
+            "ex_pub": "tgub5SuQNQncvetAmqhcmazXqivro54DNSkEcecBoCjfmYL4KLuwojdpUmSSnzcghwYMLjDjP7CGZzkqY5hMMm7pnsgFTcXXYSKjzqeV3Y1ww2o",
+            "ex_priv": "tgpv1i2P2irjNWDqUz3TjMNZisPGLWgaYKiXL3pye6LgyRH3mHoFPy63qU2oDnFM6yoptDud2CnLFmFztE1vEYqwcpY4BNJ9HdFsgahVdMq7Rbv",
+        },
+        "addresses": [
+            "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+            "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
+            "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
+            "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
+            "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+        ],
+    },
     # Litecoin test net
     {
         "coin": Bip44Coins.LITECOIN_TESTNET,
@@ -327,54 +376,6 @@ TEST_VECT = [
             "Qch5wi1hLzy6eWyiCaLq8uZfULKnxc7HnY",
             "QSrHM18YhGWXmwTMucxTyWdEQd1QxHjMPy",
             "QNgQY1LXiaTbckSzhGwPbVqYguPvq7FAU5",
-        ],
-    },
-    # Dogecoin test net
-    {
-        "coin": Bip44Coins.DOGECOIN_TESTNET,
-        "names": ("Dogecoin TestNet", "DOGE"),
-        "is_testnet": True,
-        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_master": "tgpv1aRS3XcGkbKXDbWwtRDZFYqUaCsEVXgkHt9m5mEjaWGGA18gaU1qZatwWCmjT66o2CmSNJmXkAvG29sYFXrz11WEaLwVrckr5LMkUrVeQmp",
-        "wif_master": "95f58LEtaFKPRnQCMwkSuhbedNDHpWUaAFpTtUbenXWc4oSGq5N",
-        "account": {
-            "ex_pub": "tgub5S3MQvudQSULX2ew5gbiPsxFW14EjCBH8WqFELD2tKsZP7dq688C35DuvftJvxQSZTnVqrndkHZFQRBc8YchoDC2fGtwdnRPUmJzBnYBr3w",
-            "ex_priv": "tgpv1hAL5EyjrHp1EAzn3SykH2Qf3Sgbu59Zqv435Dp46CpYq4X8gMaRPmpGMSVKE8zHZ6iDvYegTXa5ifY7PP77eqhMkAX35Ef7BPq3refCiHE",
-        },
-        "chain_ext": {
-            "ex_pub": "tgub5SuQNQncvetAmqhcmazXqivro54DNSkEcecBoCjfmYL4KLuwojdpUmSSnzcghwYMLjDjP7CGZzkqY5hMMm7pnsgFTcXXYSKjzqeV3Y1ww2o",
-            "ex_priv": "tgpv1i2P2irjNWDqUz3TjMNZisPGLWgaYKiXL3pye6LgyRH3mHoFPy63qU2oDnFM6yoptDud2CnLFmFztE1vEYqwcpY4BNJ9HdFsgahVdMq7Rbv",
-        },
-        "addresses": [
-            "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
-            "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
-            "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
-            "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
-            "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
-        ],
-    },
-    # Dash test net
-    {
-        "coin": Bip44Coins.DASH_TESTNET,
-        "names": ("Dash TestNet", "DASH"),
-        "is_testnet": True,
-        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_master": "uprv8tXDerPXZ1QsVNjUJWTurs9kA1KGfKUAts74GCkcXtU8GwnH33GDRbNJpEqTvipfCyycARtQJhmdfWf8oKt41X9LL1zeD2pLsWmxEk3VAwd",
-        "wif_master": "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
-        "account": {
-            "ex_pub": "upub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY",
-            "ex_priv": "uprv91G7gZkzehuMVxDJTYE6tLivdF8e4rvzSu1LFfKw3b2Qx1Aj8vpoFnHdfUZ3hmi9jsvPifmZ24RTN2KhwB8BfMLTVqaBReibyaFFcTP1s9n",
-        },
-        "chain_ext": {
-            "ex_pub": "upub5F7X3ZAt1HsUyFLTFU9vhKeGULy77aDoJFhscvGBV91tm2mzQ5egFGpeP4nGskwERwbU48g14qREqXJ388X8XBiaLm7PWwk3S45Fe3WAvdK",
-            "ex_priv": "uprv928Ae3dzAvKBkmFz9ScvLBhXvK8ci7Vww2nGpXrZvoUutESqrYLRhUWAXpK5acXh517npKuCpJ7NXaoWnLs1dLB9w3MHe3KNUm7hPENqMzt",
-        },
-        "addresses": [
-            "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
-            "8rFznqz9Fv7zvxyNLDexvSREW8KcuNUAmR",
-            "8vWZYUPTextvkcYLFDMQE1wyvfH1FLALz4",
-            "8kfkwmWK1ESMt31yxFy34d1Yrwxd8sUL6R",
-            "8gVt8miJ2YPRir1cjuwxgcDs9EM98qVtNJ",
         ],
     },
     # Zcash test net
@@ -423,11 +424,11 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "3DBZLGqauQhKR7CBM8fhi9gZANUp9EcA2F",
     },
-    # Litecoin
+    # Dash
     {
-        "coin": Bip44Coins.LITECOIN,
+        "coin": Bip44Coins.DASH,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "M7wtsL7wSHDBJVMWWhtQfTMSYYkyooAAXM",
+        "default_address": "7bG9yjGpzvKvffhHkCkDRsLLZ5iJxyDcX7",
     },
     # Dogecoin
     {
@@ -435,11 +436,11 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "9xzLEaWbi3eVzRzv6YdGcXbXQMHydntSq7",
     },
-    # Dash
+    # Litecoin
     {
-        "coin": Bip44Coins.DASH,
+        "coin": Bip44Coins.LITECOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "7bG9yjGpzvKvffhHkCkDRsLLZ5iJxyDcX7",
+        "default_address": "M7wtsL7wSHDBJVMWWhtQfTMSYYkyooAAXM",
     },
     # Zcash
     {
@@ -447,6 +448,7 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "t3WrebyH3US8WvEdS9yNEWJZGApy3beYdeL",
     },
+
     # Bitcoin test net
     {
         "coin": Bip44Coins.BITCOIN_TESTNET,
@@ -465,11 +467,11 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
     },
-    # Litecoin test net
+    # Dash test net
     {
-        "coin": Bip44Coins.LITECOIN_TESTNET,
+        "coin": Bip44Coins.DASH_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "QRHtkDQdVvNNwrVjEdeCGviCw7Ny3SNNiA",
+        "default_address": "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
     },
     # Dogecoin test net
     {
@@ -477,11 +479,11 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
     },
-    # Dash test net
+    # Litecoin test net
     {
-        "coin": Bip44Coins.DASH_TESTNET,
+        "coin": Bip44Coins.LITECOIN_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
+        "default_address": "QRHtkDQdVvNNwrVjEdeCGviCw7Ny3SNNiA",
     },
     # Zcash test net
     {
