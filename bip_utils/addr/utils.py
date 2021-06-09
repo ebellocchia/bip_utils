@@ -20,69 +20,81 @@
 
 
 # Imports
-from typing import Union
-from bip_utils.ecc import IPublicKey, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+from typing import Type, Union
+from bip_utils.ecc import EllipticCurveGetter, IPublicKey, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 
 
 class AddrUtils:
     """ Class container for address utility functions. """
 
     @staticmethod
-    def ValidateAndGetEd25519Key(pub_key: Union[bytes, IPublicKey]) -> Ed25519PublicKey:
+    def ValidateAndGetEd25519Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
         """ Validate and get a ed25519 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
 
         Returns:
-            Ed25519PublicKey object: Ed25519PublicKey object
+            IPublicKey object: IPublicKey object
 
         Raises:
             TypeError: If the public key is not ed25519
+            ValueError: If the public key is not valid
         """
-        if isinstance(pub_key, bytes):
-            pub_key = Ed25519PublicKey(pub_key)
-        elif not isinstance(pub_key, Ed25519PublicKey):
-            raise TypeError("A ed25519 public key is required")
-
-        return pub_key
+        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Ed25519PublicKey)
 
     @staticmethod
-    def ValidateAndGetNist256p1Key(pub_key: Union[bytes, IPublicKey]) -> Nist256p1PublicKey:
+    def ValidateAndGetNist256p1Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
         """ Validate and get a nist256p1 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
 
         Returns:
-            Nist256p1PublicKey object: Nist256p1PublicKey object
+            IPublicKey object: IPublicKey object
 
         Raises:
             TypeError: If the public key is not nist256p1
+            ValueError: If the public key is not valid
         """
-        if isinstance(pub_key, bytes):
-            pub_key = Nist256p1PublicKey(pub_key)
-        elif not isinstance(pub_key, Nist256p1PublicKey):
-            raise TypeError("A nist256p1 public key is required")
-
-        return pub_key
+        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Nist256p1PublicKey)
 
     @staticmethod
-    def ValidateAndGetSecp256k1Key(pub_key: Union[bytes, IPublicKey]) -> Secp256k1PublicKey:
+    def ValidateAndGetSecp256k1Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
         """ Validate and get a secp256k1 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
 
         Returns:
-            Secp256k1PublicKey object: Secp256k1PublicKey object
+            IPublicKey object: IPublicKey object
 
         Raises:
             TypeError: If the public key is not secp256k1
+            ValueError: If the public key is not valid
+        """
+        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Secp256k1PublicKey)
+
+    @staticmethod
+    def __ValidateAndGetGenericKey(pub_key: Union[bytes, IPublicKey],
+                                   pub_key_cls: Type[IPublicKey]) -> IPublicKey:
+        """ Validate and get a generic public key.
+
+        Args:
+            pub_key (bytes or IPublicKey object): Public key bytes or object
+            pub_key_cls (IPublicKey): Public key class type
+
+        Returns:
+            IPublicKey object: IPublicKey object
+
+        Raises:
+            TypeError: If the public key is not of the correct class type
+            ValueError: If the public key is not valid
         """
         if isinstance(pub_key, bytes):
-            pub_key = Secp256k1PublicKey(pub_key)
-        elif not isinstance(pub_key, Secp256k1PublicKey):
-            raise TypeError("A secp256k1 public key is required")
+            pub_key = pub_key_cls(pub_key)
+        elif not isinstance(pub_key, pub_key_cls):
+            curve = EllipticCurveGetter.FromType(pub_key_cls.CurveType())
+            raise TypeError("A %s public key is required" % curve.Name())
 
         return pub_key
