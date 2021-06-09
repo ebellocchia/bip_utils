@@ -74,9 +74,9 @@ class EthAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         # First byte of the uncompressed key (i.e. 0x04) is not needed
-        key_hex_digest = ConvUtils.BytesToHexString(CryptoUtils.Kekkak256(pub_key.RawUncompressed().ToBytes()[1:]))
+        key_hex_digest = ConvUtils.BytesToHexString(CryptoUtils.Kekkak256(pub_key_obj.RawUncompressed().ToBytes()[1:]))
         addr = key_hex_digest[EthAddrConst.START_BYTE:]
         return EthAddrConst.PREFIX + EthAddrUtils.ChecksumEncode(addr)

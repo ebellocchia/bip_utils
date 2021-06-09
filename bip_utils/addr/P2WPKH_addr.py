@@ -58,8 +58,8 @@ class P2WPKH:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return SegwitBech32Encoder.Encode(net_addr_ver,
                                           P2WPKHConst.WITNESS_VER,
-                                          CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()))
+                                          CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

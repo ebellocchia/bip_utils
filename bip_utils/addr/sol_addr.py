@@ -43,7 +43,6 @@ class SolAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-        # Skip first 0x00 byte
-        return Base58Encoder.Encode(pub_key.RawCompressed().ToBytes()[1:])
+        return Base58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:])

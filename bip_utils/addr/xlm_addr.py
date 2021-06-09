@@ -50,8 +50,8 @@ class XlmAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key = AddrUtils.ValidateAndGetEd25519Key(pub_key)
-        payload = XlmAddrConst.VERSION + pub_key.RawCompressed().ToBytes()[1:]
+        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        payload = XlmAddrConst.VERSION + pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
         checksum = ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload))

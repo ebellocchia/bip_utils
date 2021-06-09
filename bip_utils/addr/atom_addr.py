@@ -46,6 +46,6 @@ class AtomAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return AtomBech32Encoder.Encode(hrp, CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()))
+        return AtomBech32Encoder.Encode(hrp, CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

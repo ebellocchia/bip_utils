@@ -44,6 +44,6 @@ class EgldAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-        return AtomBech32Encoder.Encode(ElrondConf.ADDR_HRP.Main(), pub_key.RawCompressed().ToBytes()[1:])
+        return AtomBech32Encoder.Encode(ElrondConf.ADDR_HRP.Main(), pub_key_obj.RawCompressed().ToBytes()[1:])

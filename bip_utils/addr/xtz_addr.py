@@ -53,9 +53,9 @@ class XtzAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
         # Compute Blake2b and encode in Base58 with checksum
-        blake = CryptoUtils.Blake2b(pub_key.RawCompressed().ToBytes()[1:],
+        blake = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
                                     digest_size=XtzAddrConst.DIGEST_SIZE)
         return Base58Encoder.CheckEncode(XtzAddrConst.PREFIX + blake)

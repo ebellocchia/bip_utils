@@ -55,8 +55,9 @@ class NeoAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key = AddrUtils.ValidateAndGetNist256p1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetNist256p1Key(pub_key)
 
-        payload = NeoAddrConst.PREFIX + pub_key.RawCompressed().ToBytes() + NeoAddrConst.SUFFIX
-
+        # Get payload
+        payload = NeoAddrConst.PREFIX + pub_key_obj.RawCompressed().ToBytes() + NeoAddrConst.SUFFIX
+        # Encode
         return Base58Encoder.CheckEncode(NeoAddrConst.VERSION + CryptoUtils.Hash160(payload))

@@ -50,8 +50,8 @@ class AlgoAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key = AddrUtils.ValidateAndGetEd25519Key(pub_key)
-        pub_key_bytes = pub_key.RawCompressed().ToBytes()[1:]
+        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
         checksum = CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_LEN:]

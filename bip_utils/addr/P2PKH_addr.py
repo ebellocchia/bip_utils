@@ -50,9 +50,9 @@ class P2PKH:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return Base58Encoder.CheckEncode(net_addr_ver + CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()),
+        return Base58Encoder.CheckEncode(net_addr_ver + CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
                                          base58_alph)
 
 
@@ -77,8 +77,8 @@ class BchP2PKH:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return BchBech32Encoder.Encode(hrp,
                                        net_addr_ver,
-                                       CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes()))
+                                       CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

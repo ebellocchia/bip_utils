@@ -25,7 +25,7 @@ from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.conf import BitcoinConf
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
 from bip_utils.utils import ConvUtils, CryptoUtils
 
 
@@ -40,7 +40,7 @@ class P2SHUtils:
     """ Class container for P2SH utility functions. """
 
     @staticmethod
-    def AddScriptSig(pub_key: Secp256k1PublicKey) -> bytes:
+    def AddScriptSig(pub_key: IPublicKey) -> bytes:
         """ Add script signature to public key and get address bytes.
 
         Args:
@@ -76,10 +76,10 @@ class P2SH:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(net_addr_ver + P2SHUtils.AddScriptSig(pub_key))
+        return Base58Encoder.CheckEncode(net_addr_ver + P2SHUtils.AddScriptSig(pub_key_obj))
 
 
 class BchP2SH:
@@ -103,6 +103,6 @@ class BchP2SH:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return BchBech32Encoder.Encode(hrp, net_addr_ver, P2SHUtils.AddScriptSig(pub_key))
+        return BchBech32Encoder.Encode(hrp, net_addr_ver, P2SHUtils.AddScriptSig(pub_key_obj))
