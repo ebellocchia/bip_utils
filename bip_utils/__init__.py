@@ -16,16 +16,7 @@ from bip_utils.bech32 import (
 # WIF
 from bip_utils.wif import WifDecoder, WifEncoder
 # Address computation
-from bip_utils.addr import (
-    P2PKH, BchP2PKH, P2SH, BchP2SH, P2WPKH,
-    AtomAddr,
-    AvaxPChainAddr, AvaxXChainAddr,
-    OkexAddr,
-    OneAddr,
-    EthAddr,
-    TrxAddr,
-    XrpAddr
-)
+from bip_utils.addr import *
 # BIP39
 from bip_utils.bip39 import (
     Bip39InvalidFileError, Bip39ChecksumError,
