@@ -20,11 +20,11 @@
 
 
 # Imports
-import binascii
 from typing import Union
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.base58 import Base58Encoder
+from bip_utils.utils import ConvUtils
 
 
 class TrxAddrConst:
@@ -56,4 +56,4 @@ class TrxAddr:
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Add prefix and encode
-        return Base58Encoder.CheckEncode(binascii.unhexlify(TrxAddrConst.PREFIX + eth_addr))
+        return Base58Encoder.CheckEncode(ConvUtils.HexStringToBytes(TrxAddrConst.PREFIX + eth_addr))

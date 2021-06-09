@@ -20,14 +20,13 @@
 
 
 # Imports
-import binascii
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.conf import BitcoinConf
 from bip_utils.ecc import Secp256k1PublicKey
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils import ConvUtils, CryptoUtils
 
 
 class P2SHConst:
@@ -53,7 +52,7 @@ class P2SHUtils:
         # Key hash: Hash160(public_key)
         key_hash = CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes())
         # Script signature: 0x0014 | Hash160(public_key)
-        script_sig = binascii.unhexlify(P2SHConst.SCRIPT_BYTES) + key_hash
+        script_sig = ConvUtils.HexStringToBytes(P2SHConst.SCRIPT_BYTES) + key_hash
         # Address bytes = Hash160(script_signature)
         return CryptoUtils.Hash160(script_sig)
 
