@@ -603,3 +603,48 @@ class Bip39SeedGenerator:
                                            Bip39Const.SEED_PBKDF2_ROUNDS)
 
         return key[:Bip39Const.SEED_LEN]
+
+
+class Bip39SubstrateSeedGenerator:
+    """ BIP39 substrate seed generator class. It implements a variant for generating seed introduced by Polkadot.
+    Reference: https://github.com/paritytech/substrate-bip39
+    """
+
+    def __init__(self,
+                 mnemonic: Union[str, List[str]],
+                 lang: Optional[Bip39Languages] = None) -> None:
+        """ Construct the class from a specified mnemonic.
+
+        Args:
+            mnemonic (str or list): Mnemonic
+            lang (Bip39Languages, optional): Language, None for automatic detection
+
+        Raises:
+            ValueError: If the mnemonic is not valid
+        """
+
+        # Make sure that the given mnemonic is valid
+        mnemonic_validator = Bip39MnemonicValidator(mnemonic, lang)
+        mnemonic_validator.Validate()
+
+        self.m_entropy = mnemonic_validator.GetEntropy()
+
+    def Generate(self,
+                 passphrase: str = "") -> bytes:
+        """ Generate the seed using the specified passphrase.
+
+        Args:
+            passphrase (str, optional): Passphrase, empty if not specified
+
+        Returns:
+            bytes: Generated seed
+        """
+
+        # Get salt
+        salt = Bip39Utils.NormalizeString(Bip39Const.SEED_SALT_MOD + passphrase)
+        # Compute key
+        key = CryptoUtils.Pbkdf2HmacSha512(self.m_entropy,
+                                           salt,
+                                           Bip39Const.SEED_PBKDF2_ROUNDS)
+
+        return key[:Bip39Const.SEED_LEN]

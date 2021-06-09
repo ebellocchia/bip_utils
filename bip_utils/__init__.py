@@ -30,7 +30,7 @@ from bip_utils.addr import (
 from bip_utils.bip39 import (
     Bip39InvalidFileError, Bip39ChecksumError,
     Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
-    Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
+    Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator, Bip39SubstrateSeedGenerator
 )
 # BIP32
 from bip_utils.bip32 import (
