@@ -679,6 +679,8 @@ These libraries are used internally by the other libraries, but they are availab
     addr = SolAddr.EncodeKey(pub_key)
     # Stellar address
     addr = XlmAddr.EncodeKey(pub_key)
+    # Substrate address (SS58 encoding)
+    addr = SubstrateAddr.EncodeKey(pub_key, b"\x00")
     # Tezos address
     addr = XtzAddr.EncodeKey(pub_key)
 
