@@ -49,6 +49,7 @@ polygon
 ripple
 solana
 stellar
+substrate
 terra
 tezos
 theta
