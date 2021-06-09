@@ -8,6 +8,7 @@ hd-wallet
 slip10
 slip0010
 bip39
+bip39-substrate
 bip32
 bip44
 bip49
