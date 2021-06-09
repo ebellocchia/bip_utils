@@ -195,6 +195,21 @@ Also in this case, the language can be specified or automatically detected.
     # Generate specifying the language
     seed_bytes = Bip39SeedGenerator(mnemonic, Bip39Languages.CZECH).Generate()
 
+### Substrate seed generation
+
+Polkadot introduced a variant for generating seed, which computes the seed directly from the mnemonic entropy instead of the mnemonic string.\
+Reference: [substrate-bip39](https://github.com/paritytech/substrate-bip39)\
+For this purpose, the class *Bip39SubstrateSeedGenerator* can be used, which has the same usage of *Bip39SeedGenerator*.
+
+    from bip_utils import Bip39SubstrateSeedGenerator
+
+    # Generate with automatic language detection and passphrase (empty)
+    seed_bytes = Bip39SubstrateSeedGenerator(mnemonic).Generate()
+    # Generate with automatic language detection and custom passphrase
+    seed_bytes = Bip39SubstrateSeedGenerator(mnemonic).Generate("my_passphrase")
+    # Generate specifying the language
+    seed_bytes = Bip39SubstrateSeedGenerator(mnemonic, Bip39Languages.CZECH).Generate()
+
 ## BIP-0032 library
 
 The BIP-0032 library is wrapped inside the BIP-0044, BIP-0049 and BIP-0084 libraries, so there is no need to use it alone unless you need to derive some non-standard paths.\
