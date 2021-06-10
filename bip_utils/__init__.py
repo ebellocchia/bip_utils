@@ -5,6 +5,10 @@ from bip_utils.base58 import (
     Base58ChecksumError, Base58Alphabets,
     Base58Decoder, Base58Encoder
 )
+# SS58
+from bip_utils.ss58 import (
+    SS58ChecksumError, SS58Decoder, SS58Encoder
+)
 # Bech32
 from bip_utils.bech32 import (
     Bech32ChecksumError, Bech32FormatError,
