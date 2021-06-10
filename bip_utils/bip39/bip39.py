@@ -22,6 +22,7 @@
 # Imports
 import os
 import unicodedata
+from abc import ABC, abstractmethod
 from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union
 from bip_utils.bip39.bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
@@ -563,7 +564,30 @@ class Bip39MnemonicValidator:
         return None
 
 
-class Bip39SeedGenerator:
+class IBip39SeedGenerator(ABC):
+    """ BIP39 seed generator interface. """
+
+    @abstractmethod
+    def __init__(self,
+                 mnemonic: Union[str, List[str]],
+                 lang: Optional[Bip39Languages]) -> None:
+        pass
+
+    @abstractmethod
+    def Generate(self,
+                 passphrase: str = "") -> bytes:
+        """ Generate the seed using the specified passphrase.
+
+        Args:
+            passphrase (str, optional): Passphrase, empty if not specified
+
+        Returns:
+            bytes: Generated seed
+        """
+        pass
+
+
+class Bip39SeedGenerator(IBip39SeedGenerator):
     """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
 
     def __init__(self,
@@ -605,7 +629,7 @@ class Bip39SeedGenerator:
         return key[:Bip39Const.SEED_LEN]
 
 
-class Bip39SubstrateSeedGenerator:
+class Bip39SubstrateSeedGenerator(IBip39SeedGenerator):
     """ BIP39 substrate seed generator class. It implements a variant for generating seed introduced by Polkadot.
     Reference: https://github.com/paritytech/substrate-bip39
     """
