@@ -593,6 +593,30 @@ TEST_VECT = [
             "kava1n2eculyv945phq5y7cj4l0a6tkg2px7943ce0z",
         ],
     },
+    # Kusama (ed25519 SLIP-0010)
+    {
+        "coin": Bip44Coins.KUSAMA_ED25519_SLIP,
+        "names": ("Kusama", "KSM"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DDG9a79WtgKgGAhxAewwumqyz7MWrXDkvTS6Vuyop1h8PwqY91SFhsBGdcFFsFeCVvgSgq9DvYCTKfqveQet5np5h926BEfgyGkZpydKCe",
+            "ex_priv": "xprv9zDuk4aFgX82Tn6Er97wamq7RxGs7PoNPhXqJ7WNFUUiFbcgzbhBhuYhRRTWbK7hsqXkGMgsJcFVet7rmiPKK38nwamzouaNPuj5hLjHrge",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6E6cq4GXH8UdeeBPfdcXfLchJXr3eyGLkFPTiryKSkv2N8GPyPM48FPzxmhuPtYnjkFWH6yJAAv2Mf3v7DporUctKm7vEzjRMCF9rNdkcoR",
+            "ex_priv": "xprvA17GRYjdSkvLSA6vZc5XJCfxkW1ZFWYVP2TrvUZhtRP3VKwFRr2oaT5X7ZW2x3Giih7M8aGpyhGh8ncNmqapwsStrjFeZyVVNqU14Ssop2t",
+        },
+        "addresses": [
+            "FoTxsgYKH4AUngJAJNsqgmK85RzCc6cerkrsN18wiFfwBrn",
+            "ETSjrrKL2gkbZYJZQZoer8efTgKnKW2nv7iUY2eLqaqe7JF",
+            "CbdpcF5Q9MNGsSffiGivMWEb6754vqkpiLeQSxFVwxZ1G8S",
+            "J13cKG6JCiZoWGyEyfhJoy8j56SSuDTEtqbkj5Bfxi7be3N",
+            "DETciVX4dFXUDoUFM4oEShZ6c1biS3qSH3f7eRqAoAhoxE7",
+        ],
+    },
     # Litecoin
     {
         "coin": Bip44Coins.LITECOIN,
@@ -740,6 +764,30 @@ TEST_VECT = [
             "AHr4ACYEGD5uPmNFkqnJrvh1uq8vG23XE4",
             "ALxAERzk6hqA9oCjemC6Mi4idEWrakMQCx",
             "AWn55fzAcAKfDxkgzqLov3a5KieZXyzDJW",
+        ],
+    },
+    # Polkadot (ed25519 SLIP-0010)
+    {
+        "coin": Bip44Coins.POLKADOT_ED25519_SLIP,
+        "names": ("Polkadot", "DOT"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DDG9a79WtgKgGAhxAewwumqyz7MWrXDkvTS6Vuyop1h8PwqY91SFhsBGdcFFsFeCVvgSgq9DvYCTKfqveQet5np5h926BEfgyGkZpydKCe",
+            "ex_priv": "xprv9zDuk4aFgX82Tn6Er97wamq7RxGs7PoNPhXqJ7WNFUUiFbcgzbhBhuYhRRTWbK7hsqXkGMgsJcFVet7rmiPKK38nwamzouaNPuj5hLjHrge",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6E6cq4GXH8UdeeBPfdcXfLchJXr3eyGLkFPTiryKSkv2N8GPyPM48FPzxmhuPtYnjkFWH6yJAAv2Mf3v7DporUctKm7vEzjRMCF9rNdkcoR",
+            "ex_priv": "xprvA17GRYjdSkvLSA6vZc5XJCfxkW1ZFWYVP2TrvUZhtRP3VKwFRr2oaT5X7ZW2x3Giih7M8aGpyhGh8ncNmqapwsStrjFeZyVVNqU14Ssop2t",
+        },
+        "addresses": [
+            "14E9StbjYhJiAfsNMEcq5tETq79Q6EqaGyebdziY214hNWDH",
+            "12t8DsmWZSwJHSjNkLoku3boNVPjfxEzR31TFAk3R8Ps5JD8",
+            "12KJdAGdZbuxkdjreWgAYyPJ7pUxZaiSqEPB5feaEmaSr1v",
+            "16Rj6LBHXcy7VPU3RuueZ1SHS6orLXxQs1jLXMnakFX9326p",
+            "1f96jQiJ3W5A6zYSHJkUeAhodj1c4no4PwPtH9EF5yjFJsf",
         ],
     },
     # Polygon
@@ -1308,6 +1356,12 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "kava1vh8tr8ddf7g0gfep23t46yllmlvtqfjkkgejlg",
     },
+    # Kusama (ed25519 SLIP-0010)
+    {
+        "coin": Bip44Coins.KUSAMA_ED25519_SLIP,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "FoTxsgYKH4AUngJAJNsqgmK85RzCc6cerkrsN18wiFfwBrn",
+    },
     # Litecoin
     {
         "coin": Bip44Coins.LITECOIN,
@@ -1343,6 +1397,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.ONTOLOGY,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "AZMgu1jizeCvwKx89qtKq3Rd92iPXHJQ9W",
+    },
+    # Polkadot (ed25519 SLIP-0010)usdc
+    {
+        "coin": Bip44Coins.POLKADOT_ED25519_SLIP,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "14E9StbjYhJiAfsNMEcq5tETq79Q6EqaGyebdziY214hNWDH",
     },
     # Polygon
     {
@@ -1510,6 +1570,7 @@ TEST_VECT_COINS = {
         Bip44Coins.HUOBI_CHAIN,
         Bip44Coins.IRIS_NET,
         Bip44Coins.KAVA,
+        Bip44Coins.KUSAMA_ED25519_SLIP,
         Bip44Coins.LITECOIN,
         Bip44Coins.NEO,
         Bip44Coins.NINE_CHRONICLES_GOLD,
@@ -1517,6 +1578,7 @@ TEST_VECT_COINS = {
         Bip44Coins.OKEX_CHAIN_ATOM_OLD,
         Bip44Coins.OKEX_CHAIN_ETH,
         Bip44Coins.ONTOLOGY,
+        Bip44Coins.POLKADOT_ED25519_SLIP,
         Bip44Coins.POLYGON,
         Bip44Coins.RIPPLE,
         Bip44Coins.SOLANA,
