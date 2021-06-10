@@ -23,21 +23,11 @@
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.ecc import Ed25519PublicKey
-from bip_utils.base58 import Base58Encoder
-from bip_utils.utils import CryptoUtils
+from bip_utils.ss58 import SS58Encoder
 
 
-class SubstrateAddrConst:
-    """ Class container for Substrate address constants. """
-
-    # Checksum length
-    CHECKSUM_LEN: int = 2
-    # Prefix
-    PREFIX: bytes = b"SS58PRE"
-
-
-class SubstrateAddr:
-    """ Substrate address class. It allows the Substrate address generation (SS58 encoding). """
+class SubstrateEd25519Addr:
+    """ Substrate address class based on Ed25519 keys. It allows the Substrate address generation. """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey],
@@ -56,9 +46,4 @@ class SubstrateAddr:
         """
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-        # Add version
-        payload = version + pub_key_obj.RawCompressed().ToBytes()[1:]
-        # Compute checksum
-        checksum = CryptoUtils.Blake2b(SubstrateAddrConst.PREFIX + payload)[:SubstrateAddrConst.CHECKSUM_LEN]
-        # Encode
-        return Base58Encoder.Encode(payload + checksum)
+        return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], version)
