@@ -72,7 +72,7 @@ class Ed25519Point(IPoint):
         Returns:
            Any: Underlying object
         """
-        return None
+        pass
 
     def Order(self) -> int:
         """ Return the point order.
