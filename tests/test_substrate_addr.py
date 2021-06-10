@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import SubstrateAddr, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+from bip_utils import SubstrateEd25519Addr, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 from .test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_SECP256K1_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
 
 # Some random public keys
@@ -63,22 +63,22 @@ TEST_VECT = [
 #
 # Tests
 #
-class SubstrateAddrTests(unittest.TestCase):
+class SubstrateEd25519AddrTests(unittest.TestCase):
     # Run all tests in test vector
     def test_to_addr(self):
         for test in TEST_VECT:
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], SubstrateAddr.EncodeKey(key_bytes, test["version"]))
-            self.assertEqual(test["address"], SubstrateAddr.EncodeKey(Ed25519PublicKey(key_bytes), test["version"]))
+            self.assertEqual(test["address"], SubstrateEd25519Addr.EncodeKey(key_bytes, test["version"]))
+            self.assertEqual(test["address"], SubstrateEd25519Addr.EncodeKey(Ed25519PublicKey(key_bytes), test["version"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, SubstrateAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), b"\x00")
-        self.assertRaises(TypeError, SubstrateAddr.EncodeKey, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)), b"\x00")
+        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), b"\x00")
+        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)), b"\x00")
 
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, SubstrateAddr.EncodeKey, binascii.unhexlify(test), b"\x00")
+            self.assertRaises(ValueError, SubstrateEd25519Addr.EncodeKey, binascii.unhexlify(test), b"\x00")
