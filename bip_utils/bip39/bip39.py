@@ -575,7 +575,7 @@ class IBip39SeedGenerator(ABC):
 
     @abstractmethod
     def Generate(self,
-                 passphrase: str = "") -> bytes:
+                 passphrase: str) -> bytes:
         """ Generate the seed using the specified passphrase.
 
         Args:
