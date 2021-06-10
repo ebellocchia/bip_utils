@@ -23,7 +23,7 @@
 from typing import Type
 from bip_utils.addr import (
     P2PKH, BchP2PKH, AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EthAddr,
-    OkexAddr, NeoAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr
+    OkexAddr, NeoAddr, OneAddr, SolAddr, SubstrateEd25519Addr, TrxAddr, XlmAddr, XrpAddr, XtzAddr
 )
 from bip_utils.bip32 import Bip32Base, Bip32Ed25519Slip, Bip32Nist256p1, Bip32Secp256k1
 from bip_utils.conf.bip_coin_base import BipCoinBase
@@ -401,6 +401,20 @@ Bip44Ontology: Bip44Coin = Bip44Coin(
     is_testnet=False,
     bip32_cls=Bip32Nist256p1,
     addr_cls=NeoAddr)
+
+# Configuration for Polkadot (ed25519 SLIP-0010)
+Bip44PolkadotEd25519Slip: Bip44Coin = Bip44Coin(
+    coin_conf=PolkadotEd25519SlipConf,
+    is_testnet=False,
+    bip32_cls=Bip32Ed25519Slip,
+    addr_cls=SubstrateEd25519Addr)
+
+# Configuration for Kusama (ed25519 SLIP-0010)
+Bip44KusamaEd25519Slip: Bip44Coin = Bip44Coin(
+    coin_conf=KusamaEd25519SlipConf,
+    is_testnet=False,
+    bip32_cls=Bip32Ed25519Slip,
+    addr_cls=SubstrateEd25519Addr)
 
 # Configuration for NG
 Bip44NineChroniclesGold: Bip44Coin = Bip44Coin(

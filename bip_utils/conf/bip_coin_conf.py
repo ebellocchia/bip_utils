@@ -720,6 +720,44 @@ class OntologyConf:
     WIF_NET_VER: NetVersions = NetVersions()
 
 
+class KusamaEd25519SlipConf:
+    """ Class container for Kusama (ed25519 SLIP-0010) configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Kusama", "KSM")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0'/0'"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # Version
+    VERSION = b"\x02"
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
+class PolkadotEd25519SlipConf:
+    """ Class container for Polkadot (ed25519 SLIP-0010) configuration. """
+
+    # Names
+    NAMES: CoinNames = CoinNames("Polkadot", "DOT")
+
+    # Default path
+    DEFAULT_PATH: str = "0'/0'/0'"
+
+    # BIP44 net versions (same of Bitcoin)
+    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
+
+    # Version
+    VERSION = b"\x00"
+
+    # WIF not supported
+    WIF_NET_VER: NetVersions = NetVersions()
+
+
 class NineChroniclesGoldConf:
     """ Class container for NCG configuration. """
 

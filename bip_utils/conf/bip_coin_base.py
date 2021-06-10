@@ -23,7 +23,7 @@
 from typing import Type
 from bip_utils.addr import (
     P2PKH, P2SH, P2WPKH, AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EthAddr,
-    OkexAddr, NeoAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr
+    OkexAddr, NeoAddr, OneAddr, SolAddr, SubstrateEd25519Addr, TrxAddr, XlmAddr, XrpAddr, XtzAddr
 )
 from bip_utils.bip32 import Bip32Base
 from bip_utils.ecc import IPublicKey
@@ -143,6 +143,9 @@ class BipCoinBase:
         # AtomAddr
         elif self.m_addr_cls is AtomAddr:
             return self.m_addr_cls.EncodeKey(pub_key, self.m_coin_conf.ADDR_HRP.Main())
+        # Substrate
+        elif self.m_addr_cls is SubstrateEd25519Addr:
+            return self.m_addr_cls.EncodeKey(pub_key, self.m_coin_conf.VERSION)
         # Others
         elif self.m_addr_cls in [AlgoAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EthAddr,
                                  NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr]:
