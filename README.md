@@ -52,10 +52,12 @@ The package currently supports the following coins (I try to add new ones from t
 - Huobi Heco Chain
 - IRIS Network
 - Kava
+- Kusama (based on ed25519 SLIP-0010, like TrustWallet or Ledger, it won't generate the same addresses of Polkadot-JS)
 - Litecoin (and related test net)
 - OKEx Chain (Ethereum and Cosmos addresses)
 - NEO
 - Ontology
+- Polkadot (based on ed25519 SLIP-0010, like TrustWallet or Ledger, it won't generate the same addresses of Polkadot-JS)
 - Polygon
 - Ripple
 - Solana
@@ -209,6 +211,8 @@ For this purpose, the class *Bip39SubstrateSeedGenerator* can be used, which has
     seed_bytes = Bip39SubstrateSeedGenerator(mnemonic).Generate("my_passphrase")
     # Generate specifying the language
     seed_bytes = Bip39SubstrateSeedGenerator(mnemonic, Bip39Languages.CZECH).Generate()
+
+Please note that this is not used by all wallets supporting Polkadot. For example, TrustWallet or Ledger still use the standard BIP39 seed generation for Polkadot.
 
 ## BIP-0032 library
 
@@ -500,12 +504,14 @@ Currently supported coins enumerative:
 |Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
 |IRIS Network|*Bip44Coins.IRIS_NET*|-|
 |Kava|*Bip44Coins.KAVA*|-|
+|Kusama (ed25519 SLIP-0010)|*Bip44Coins.KUSAMA_ED25519_SLIP*|-|
 |Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
 |NEO|*Bip44Coins.NEO*|-|
 |Ontology|*Bip44Coins.ONTOLOGY*|-|
+|Polkadot (ed25519 SLIP-0010)|*Bip44Coins.POLKADOT_ED25519_SLIP*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
@@ -679,8 +685,8 @@ These libraries are used internally by the other libraries, but they are availab
     addr = SolAddr.EncodeKey(pub_key)
     # Stellar address
     addr = XlmAddr.EncodeKey(pub_key)
-    # Substrate address (SS58 encoding)
-    addr = SubstrateAddr.EncodeKey(pub_key, b"\x00")
+    # Substrate address
+    addr = SubstrateEd25519Addr.EncodeKey(pub_key, b"\x00")
     # Tezos address
     addr = XtzAddr.EncodeKey(pub_key)
 
@@ -774,6 +780,23 @@ This library is used internally by the other libraries, but it's available also 
     enc = AvaxBech32Encoder.Encode(data_bytes, AvaxChainTypes.AVAX_X_CHAIN)
     # Decode with AVAX
     chain_type, dec = AvaxBech32Decoder.Decode(enc)
+
+## SS58
+
+This library is used internally by the other libraries, but it's available also for external use.\
+It allows encoding/deconding in SS58 format (1-byte version, 2-byte checksum).
+
+**Code example**
+
+    import binascii
+    from bip_utils import SS58Decoder, SS58Encoder
+
+    data_bytes = binascii.unhexlify(b"e92b4b43a62fa66293f315486d66a67076e860e2aad76acb8e54f9bb7c925cd9")
+
+    # Encode
+    enc = SS58Encoder.Encode(data_bytes, b"\x00")
+    # Decode
+    version, dec = SS58Decoder.Decode(enc)
 
 ## Complete code example
 
