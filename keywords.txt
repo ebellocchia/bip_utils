@@ -40,11 +40,13 @@ huobi chain
 iris
 irisnet
 kava
+kusama
 litecoin
 matic
 okex chain
 ontology
 neo
+polkadot
 polygon
 ripple
 solana
