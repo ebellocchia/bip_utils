@@ -170,8 +170,8 @@ TEST_VECT_CHKSUM_INVALID = [
     "2W1Yd5Zu6WGyKVtHGMrJ",
 ]
 
-# Tests for base58 encoded strings with invalid encoding
-TEST_VECT_ENC_INVALID = [
+# Tests for base58 decode with invalid strings
+TEST_VECT_DEC_INVALID = [
     "237LSrYONUUar",
     "GwDDDeduj1jpykc27I",
     "2WlYd5Zu6WGyKVtHGMrJ",
@@ -223,9 +223,9 @@ class Base58Tests(unittest.TestCase):
         for test in TEST_VECT_CHKSUM_INVALID:
             self.assertRaises(Base58ChecksumError, Base58Decoder.CheckDecode, test)
 
-    # Test invalid encoding
-    def test_invalid_encoding(self):
-        for test in TEST_VECT_ENC_INVALID:
+    # Test invalid calls to decode
+    def test_invalid_decode(self):
+        for test in TEST_VECT_DEC_INVALID:
             self.assertRaises(ValueError, Base58Decoder.Decode, test)
 
     # Test invalid alphabet
