@@ -70,8 +70,10 @@ class ConvUtils:
         Returns:
             bytes: Bytes representation
         """
-        bytes_num = bytes_num or (data_int.bit_length() + 7) // 8
+        if data_int.__class__.__name__ == 'mpz':
+            data_int = int(data_int)
 
+        bytes_num = bytes_num or (data_int.bit_length() + 7) // 8
         return data_int.to_bytes(bytes_num, endianness)
 
     @staticmethod
