@@ -116,8 +116,6 @@ class SS58Decoder:
         # Check lengths
         if len(data_bytes) != SS58Const.DATA_BYTE_LEN:
             raise ValueError("Invalid data length (%d)" % len(data_bytes))
-        if len(version) != SS58Const.VERSION_BYTE_LEN:
-            raise ValueError("Invalid version length (%d)" % len(version))
 
         # Compute checksum
         comp_checksum = SS58Utils.ComputeChecksum(version + data_bytes)
