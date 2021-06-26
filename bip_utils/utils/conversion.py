@@ -70,6 +70,8 @@ class ConvUtils:
         Returns:
             bytes: Bytes representation
         """
+
+        # In case gmpy is used
         if data_int.__class__.__name__ == 'mpz':
             data_int = int(data_int)
 
