@@ -26,7 +26,7 @@ from enum import Enum, auto, unique
 from typing import Dict, List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.bech32.bech32_ex import Bech32FormatError
-from bip_utils.bech32.atom_bech32 import AtomBech32Decoder, AtomBech32Encoder
+from bip_utils.bech32.bech32 import Bech32Decoder, Bech32Encoder
 
 
 @unique
@@ -75,7 +75,7 @@ class AvaxBech32Encoder(Bech32EncoderBase):
         """
 
         # Same as Atom with prefix
-        return AvaxBech32Const.CHAIN_PREFIXES[chain_type] + AtomBech32Encoder.Encode(AvaxBech32Const.HRP, data)
+        return AvaxBech32Const.CHAIN_PREFIXES[chain_type] + Bech32Encoder.Encode(AvaxBech32Const.HRP, data)
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
@@ -120,7 +120,7 @@ class AvaxBech32Decoder(Bech32DecoderBase):
             raise Bech32FormatError("Invalid format (prefix not valid)")
 
         # Remove Avax prefix when decoding
-        return chain_type, AtomBech32Decoder.Decode(AvaxBech32Const.HRP, addr[AvaxBech32Const.PREFIX_LEN:])
+        return chain_type, Bech32Decoder.Decode(AvaxBech32Const.HRP, addr[AvaxBech32Const.PREFIX_LEN:])
 
     @staticmethod
     def _VerifyChecksum(hrp: str,

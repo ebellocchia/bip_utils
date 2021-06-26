@@ -22,7 +22,7 @@
 # Imports
 from typing import Union
 from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.bech32 import AtomBech32Encoder
+from bip_utils.bech32 import Bech32Encoder
 from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.conf import OkexChainConf
 from bip_utils.utils import ConvUtils
@@ -49,5 +49,5 @@ class OkexAddr:
         # Get address in Ethereum format (remove "0x" at the beginning)
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
-        # Encode in Atom format
-        return AtomBech32Encoder.Encode(OkexChainConf.ADDR_HRP.Main(), ConvUtils.HexStringToBytes(eth_addr))
+        # Encode in Bech32 format
+        return Bech32Encoder.Encode(OkexChainConf.ADDR_HRP.Main(), ConvUtils.HexStringToBytes(eth_addr))

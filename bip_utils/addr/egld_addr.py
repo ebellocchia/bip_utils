@@ -22,7 +22,7 @@
 # Imports
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.bech32 import AtomBech32Encoder
+from bip_utils.bech32 import Bech32Encoder
 from bip_utils.conf import ElrondConf
 from bip_utils.ecc import Ed25519PublicKey
 
@@ -46,4 +46,4 @@ class EgldAddr:
         """
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-        return AtomBech32Encoder.Encode(ElrondConf.ADDR_HRP.Main(), pub_key_obj.RawCompressed().ToBytes()[1:])
+        return Bech32Encoder.Encode(ElrondConf.ADDR_HRP.Main(), pub_key_obj.RawCompressed().ToBytes()[1:])

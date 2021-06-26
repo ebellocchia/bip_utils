@@ -22,7 +22,7 @@
 # Imports
 from typing import Type
 from bip_utils.addr import (
-    P2PKH, BchP2PKH, AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EthAddr,
+    P2PKH, BchP2PKH, AlgoAddr, AvaxPChainAddr, AvaxXChainAddr, Bech32Addr, EgldAddr, EthAddr,
     OkexAddr, NeoAddr, OneAddr, SolAddr, SubstrateEd25519Addr, TrxAddr, XlmAddr, XrpAddr, XtzAddr
 )
 from bip_utils.bip32 import Bip32Base, Bip32Ed25519Slip, Bip32Nist256p1, Bip32Secp256k1
@@ -230,42 +230,42 @@ Bip44Cosmos: Bip44Coin = Bip44Coin(
     coin_conf=CosmosConf,
     is_testnet=False,
     bip32_cls=Bip32Secp256k1,
-    addr_cls=AtomAddr)
+    addr_cls=Bech32Addr)
 
 # Configuration for Band Protocol
 Bip44BandProtocol: Bip44Coin = Bip44Coin(
     coin_conf=BandProtocolConf,
     is_testnet=False,
     bip32_cls=Bip32Secp256k1,
-    addr_cls=AtomAddr)
+    addr_cls=Bech32Addr)
 
 # Configuration for Kava
 Bip44Kava: Bip44Coin = Bip44Coin(
     coin_conf=KavaConf,
     is_testnet=False,
     bip32_cls=Bip32Secp256k1,
-    addr_cls=AtomAddr)
+    addr_cls=Bech32Addr)
 
 # Configuration for IRISnet
 Bip44IrisNet: Bip44Coin = Bip44Coin(
     coin_conf=IrisNetConf,
     is_testnet=False,
     bip32_cls=Bip32Secp256k1,
-    addr_cls=AtomAddr)
+    addr_cls=Bech32Addr)
 
 # Configuration for Terra
 Bip44Terra: Bip44Coin = Bip44Coin(
     coin_conf=TerraConf,
     is_testnet=False,
     bip32_cls=Bip32Secp256k1,
-    addr_cls=AtomAddr)
+    addr_cls=Bech32Addr)
 
 # Configuration for Binance Chain
 Bip44BinanceChain: Bip44Coin = Bip44Coin(
     coin_conf=BinanceChainConf,
     is_testnet=False,
     bip32_cls=Bip32Secp256k1,
-    addr_cls=AtomAddr)
+    addr_cls=Bech32Addr)
 # Configuration for Binance Smart Chain
 Bip44BinanceSmartChain: Bip44Coin = Bip44Coin(
     coin_conf=BinanceSmartChainConf,

@@ -22,18 +22,18 @@
 # Imports
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.bech32 import AtomBech32Encoder
+from bip_utils.bech32 import Bech32Encoder
 from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class AtomAddr:
-    """ Atom address class. It allows the Atom address generation. """
+class Bech32Addr:
+    """ Bech32 address class. It allows the Bech32 address generation. """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
                   hrp: str) -> str:
-        """ Get address in Atom format.
+        """ Get address in Bech32 format.
 
         Args:
             pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
@@ -48,4 +48,4 @@ class AtomAddr:
         """
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return AtomBech32Encoder.Encode(hrp, CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+        return Bech32Encoder.Encode(hrp, CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

@@ -22,7 +22,7 @@
 # Imports
 from typing import Type
 from bip_utils.addr import (
-    P2PKH, P2SH, P2WPKH, AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EthAddr,
+    P2PKH, P2SH, P2WPKH, AlgoAddr, AvaxPChainAddr, AvaxXChainAddr, Bech32Addr, EgldAddr, EthAddr,
     OkexAddr, NeoAddr, OneAddr, SolAddr, SubstrateEd25519Addr, TrxAddr, XlmAddr, XrpAddr, XtzAddr
 )
 from bip_utils.bip32 import Bip32Base
@@ -140,8 +140,8 @@ class BipCoinBase:
                         if not self.m_is_testnet
                         else self.m_coin_conf.P2WPKH_NET_VER.Test())
             return self.m_addr_cls.EncodeKey(pub_key, addr_ver)
-        # AtomAddr
-        elif self.m_addr_cls is AtomAddr:
+        # Bech32Addr
+        elif self.m_addr_cls is Bech32Addr:
             return self.m_addr_cls.EncodeKey(pub_key, self.m_coin_conf.ADDR_HRP.Main())
         # Substrate
         elif self.m_addr_cls is SubstrateEd25519Addr:

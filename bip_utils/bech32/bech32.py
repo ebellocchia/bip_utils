@@ -18,35 +18,106 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Specification: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
 from typing import List
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.segwit_bech32 import SegwitBech32Const, SegwitBech32Utils
 from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.utils import ConvUtils
 
 
-class AtomBech32Const:
-    """ Class container for Atom Bech32 constants. """
+class Bech32Const:
+    """ Class container for Bech32 constants. """
 
-    # Separator (same as Segwit)
-    SEPARATOR: str = SegwitBech32Const.SEPARATOR
-    # Checkum length (same as Segwit)
-    CHECKSUM_LEN: int = SegwitBech32Const.CHECKSUM_LEN
+    # Separator
+    SEPARATOR: str = "1"
+    # Checkum length
+    CHECKSUM_LEN: int = 6
     # Minimum data length
     DATA_MIN_LEN: int = 2
     # Maximum data length
     DATA_MAX_LEN: int = 40
 
 
-class AtomBech32Encoder(Bech32EncoderBase):
-    """ Atom Bech32 encoder class. It provides methods for encoding to Atom Bech32 format. """
+class Bech32Utils:
+    """ Class container for Bech32 utility functions. """
+
+    @staticmethod
+    def PolyMod(values: List[int]) -> int:
+        """ Computes the polynomial modulus.
+
+        Args:
+            values (list): List of polynomial coefficients
+
+        Returns:
+            int: Computed modulus
+        """
+
+        # Generator polynomial
+        generator = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3]
+
+        # Compute modulus
+        chk = 1
+        for value in values:
+            top = chk >> 25
+            chk = (chk & 0x1ffffff) << 5 ^ value
+            for i in range(5):
+                chk ^= generator[i] if ((top >> i) & 1) else 0
+        return chk
+
+    @staticmethod
+    def HrpExpand(hrp: str) -> List[int]:
+        """ Expand the HRP into values for checksum computation.
+
+        Args:
+            hrp (str): HRP
+
+        Returns:
+            list: Expanded HRP values
+        """
+        # [upper 3 bits of each character] + [0] + [lower 5 bits of each character]
+        return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 0x1f for x in hrp]
+
+    @staticmethod
+    def ComputeChecksum(hrp: str,
+                        data: List[int]) -> List[int]:
+        """ Compute the checksum from the specified HRP and data.
+
+        Args:
+            hrp (str)  : HRP
+            data (list): Data part
+
+        Returns:
+            list: Computed checksum
+        """
+
+        values = Bech32Utils.HrpExpand(hrp) + data
+        polymod = Bech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
+        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(Bech32Const.CHECKSUM_LEN)]
+
+    @staticmethod
+    def VerifyChecksum(hrp: str,
+                       data: List[int]) -> bool:
+        """ Verify the checksum from the specified HRP and converted data characters.
+
+        Args:
+            hrp  (str) : HRP
+            data (list): Data part
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        return Bech32Utils.PolyMod(Bech32Utils.HrpExpand(hrp) + data) == 1
+
+
+class Bech32Encoder(Bech32EncoderBase):
+    """  Bech32 encoder class. It provides methods for encoding to  Bech32 format. """
 
     @staticmethod
     def Encode(hrp: str,
                data: bytes) -> str:
-        """ Encode to Atom Bech32.
+        """ Encode to  Bech32.
 
         Args:
             hrp (str)   : HRP
@@ -59,7 +130,7 @@ class AtomBech32Encoder(Bech32EncoderBase):
             Bech32FormatError: If the data is not valid
         """
 
-        return AtomBech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(data), AtomBech32Const.SEPARATOR)
+        return Bech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(data), Bech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
@@ -75,16 +146,16 @@ class AtomBech32Encoder(Bech32EncoderBase):
         """
 
         # Same as Segwit
-        return SegwitBech32Utils.ComputeChecksum(hrp, data)
+        return Bech32Utils.ComputeChecksum(hrp, data)
 
 
-class AtomBech32Decoder(Bech32DecoderBase):
-    """ Atom Bech32 decoder class. It provides methods for decoding Atom Bech32 format. """
+class Bech32Decoder(Bech32DecoderBase):
+    """  Bech32 decoder class. It provides methods for decoding  Bech32 format. """
 
     @staticmethod
     def Decode(hrp: str,
                addr: str) -> bytes:
-        """ Decode from Atom Bech32.
+        """ Decode from  Bech32.
 
         Args:
             hrp (str) : Human readable part
@@ -99,7 +170,7 @@ class AtomBech32Decoder(Bech32DecoderBase):
         """
 
         # Decode string
-        hrpgot, data = AtomBech32Decoder._DecodeBech32(addr, AtomBech32Const.SEPARATOR, AtomBech32Const.CHECKSUM_LEN)
+        hrpgot, data = Bech32Decoder._DecodeBech32(addr, Bech32Const.SEPARATOR, Bech32Const.CHECKSUM_LEN)
 
         # Check HRP
         if hrpgot != hrp:
@@ -109,7 +180,7 @@ class AtomBech32Decoder(Bech32DecoderBase):
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
 
         # Check converted data
-        if len(conv_data) < AtomBech32Const.DATA_MIN_LEN or len(conv_data) > AtomBech32Const.DATA_MAX_LEN:
+        if len(conv_data) < Bech32Const.DATA_MIN_LEN or len(conv_data) > Bech32Const.DATA_MAX_LEN:
             raise Bech32FormatError("Invalid format (length not valid)")
 
         return ConvUtils.ListToBytes(conv_data)
@@ -128,4 +199,4 @@ class AtomBech32Decoder(Bech32DecoderBase):
         """
 
         # Same as Segwit
-        return SegwitBech32Utils.VerifyChecksum(hrp, data)
+        return Bech32Utils.VerifyChecksum(hrp, data)

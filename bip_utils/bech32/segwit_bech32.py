@@ -25,6 +25,7 @@
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.bech32.bech32_ex import Bech32FormatError
+from bip_utils.bech32.bech32 import Bech32Const, Bech32Utils
 from bip_utils.utils import ConvUtils
 
 
@@ -32,88 +33,17 @@ class SegwitBech32Const:
     """ Class container for Segwit Bech32 constants. """
 
     # Separator
-    SEPARATOR: str = "1"
+    SEPARATOR: str = Bech32Const.SEPARATOR
     # Checkum length
-    CHECKSUM_LEN: int = 6
+    CHECKSUM_LEN: int = Bech32Const.CHECKSUM_LEN
+    # Minimum data length
+    DATA_MIN_LEN: int = Bech32Const.DATA_MIN_LEN
+    # Maximum data length
+    DATA_MAX_LEN: int = Bech32Const.DATA_MAX_LEN
     # Witness version maximum value
     WITNESS_VER_MAX_VAL: int = 16
-    # Minimum data length
-    DATA_MIN_LEN: int = 2
-    # Maximum data length
-    DATA_MAX_LEN: int = 40
     # Accepted data lengths when witness version is zero
     WITNESS_VER_ZERO_DATA_LEN: Tuple[int, int] = (20, 32)
-
-
-class SegwitBech32Utils:
-    """ Class container for Segwit utility functions. """
-
-    @staticmethod
-    def PolyMod(values: List[int]) -> int:
-        """ Computes the polynomial modulus.
-
-        Args:
-            values (list): List of polynomial coefficients
-
-        Returns:
-            int: Computed modulus
-        """
-
-        # Generator polynomial
-        generator = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3]
-
-        # Compute modulus
-        chk = 1
-        for value in values:
-            top = chk >> 25
-            chk = (chk & 0x1ffffff) << 5 ^ value
-            for i in range(5):
-                chk ^= generator[i] if ((top >> i) & 1) else 0
-        return chk
-
-    @staticmethod
-    def HrpExpand(hrp: str) -> List[int]:
-        """ Expand the HRP into values for checksum computation.
-
-        Args:
-            hrp (str): HRP
-
-        Returns:
-            list: Expanded HRP values
-        """
-        # [upper 3 bits of each character] + [0] + [lower 5 bits of each character]
-        return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 0x1f for x in hrp]
-
-    @staticmethod
-    def ComputeChecksum(hrp: str,
-                        data: List[int]) -> List[int]:
-        """ Compute the checksum from the specified HRP and data.
-
-        Args:
-            hrp (str)  : HRP
-            data (list): Data part
-
-        Returns:
-            list: Computed checksum
-        """
-
-        values = SegwitBech32Utils.HrpExpand(hrp) + data
-        polymod = SegwitBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
-        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(SegwitBech32Const.CHECKSUM_LEN)]
-
-    @staticmethod
-    def VerifyChecksum(hrp: str,
-                       data: List[int]) -> bool:
-        """ Verify the checksum from the specified HRP and converted data characters.
-
-        Args:
-            hrp  (str) : HRP
-            data (list): Data part
-
-        Returns:
-            bool: True if valid, false otherwise
-        """
-        return SegwitBech32Utils.PolyMod(SegwitBech32Utils.HrpExpand(hrp) + data) == 1
 
 
 class SegwitBech32Encoder(Bech32EncoderBase):
@@ -153,7 +83,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
         Returns:
             list: Computed checksum
         """
-        return SegwitBech32Utils.ComputeChecksum(hrp, data)
+        return Bech32Utils.ComputeChecksum(hrp, data)
 
 
 class SegwitBech32Decoder(Bech32DecoderBase):
@@ -209,4 +139,4 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         Returns:
             bool: True if valid, false otherwise
         """
-        return SegwitBech32Utils.VerifyChecksum(hrp, data)
+        return Bech32Utils.VerifyChecksum(hrp, data)

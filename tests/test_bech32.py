@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    AtomBech32Decoder, AtomBech32Encoder, Bech32FormatError
+    Bech32Decoder, Bech32Encoder, Bech32FormatError
 )
 
 # Some keys randomly taken
@@ -46,7 +46,7 @@ TEST_VECT = [
     },
 ]
 
-# Tests for Atom encoded addresses
+# Tests for  encoded addresses
 # Few tests because most cases are already covered by Segwit tests
 TEST_VECT_ADDR_INVALID = [
     # Invalid human-readable part
@@ -70,13 +70,13 @@ TEST_VECT_ADDR_INVALID = [
 #
 # Tests
 #
-class AtomBech32Tests(unittest.TestCase):
+class Bech32Tests(unittest.TestCase):
     # Test decoder
     def test_decoder(self):
         for test in TEST_VECT:
             # Test decoder
             hrp = test["encode"][:test["encode"].find("1")]
-            dec = AtomBech32Decoder.Decode(hrp, test["encode"])
+            dec = Bech32Decoder.Decode(hrp, test["encode"])
             self.assertEqual(binascii.hexlify(dec), test["raw"])
 
     # Test encoder
@@ -84,10 +84,10 @@ class AtomBech32Tests(unittest.TestCase):
         for test in TEST_VECT:
             # Test encoder
             hrp = test["encode"][:test["encode"].find("1")]
-            enc = AtomBech32Encoder.Encode(hrp, binascii.unhexlify(test["raw"]))
+            enc = Bech32Encoder.Encode(hrp, binascii.unhexlify(test["raw"]))
             self.assertEqual(test["encode"], enc)
 
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(Bech32FormatError, AtomBech32Decoder.Decode, test["hrp"], test["addr"])
+            self.assertRaises(Bech32FormatError, Bech32Decoder.Decode, test["hrp"], test["addr"])

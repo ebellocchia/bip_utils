@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AtomAddr, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+from bip_utils import Bech32Addr, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
 
 # Some random public keys
@@ -93,22 +93,22 @@ TEST_VECT = [
 #
 # Tests
 #
-class AtomAddrTests(unittest.TestCase):
+class Bech32AddrTests(unittest.TestCase):
     # Run all tests in test vector
     def test_to_addr(self):
         for test in TEST_VECT:
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], AtomAddr.EncodeKey(key_bytes, test["hrp"]))
-            self.assertEqual(test["address"], AtomAddr.EncodeKey(Secp256k1PublicKey(key_bytes), test["hrp"]))
+            self.assertEqual(test["address"], Bech32Addr.EncodeKey(key_bytes, test["hrp"]))
+            self.assertEqual(test["address"], Bech32Addr.EncodeKey(Secp256k1PublicKey(key_bytes), test["hrp"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "cosmos")
+        self.assertRaises(TypeError, Bech32Addr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "cosmos")
+        self.assertRaises(TypeError, Bech32Addr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "cosmos")
 
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, AtomAddr.EncodeKey, binascii.unhexlify(test), "cosmos")
+            self.assertRaises(ValueError, Bech32Addr.EncodeKey, binascii.unhexlify(test), "cosmos")
