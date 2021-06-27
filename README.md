@@ -627,7 +627,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     import binascii
     from bip_utils import (
-      P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
+      P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, Bech32Addr, AvaxPChainAddr, AvaxXChainAddr,
       EgldAddr, EthAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
       Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
     )
@@ -659,8 +659,10 @@ These libraries are used internally by the other libraries, but they are availab
     # AVAX address
     addr = AvaxPChainAddr.EncodeKey(pub_key)
     addr = AvaxXChainAddr.EncodeKey(pub_key)
-    # Atom address
-    addr = AtomAddr.EncodeKey(pub_key, "cosmos")
+    # Bech32 address
+    addr = Bech32Addr.EncodeKey(pub_key, "cosmos")
+    addr = Bech32Addr.EncodeKey(pub_key, "band")
+    addr = Bech32Addr.EncodeKey(pub_key, "kava")
     # OKEx Chain address
     addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
