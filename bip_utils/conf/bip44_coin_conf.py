@@ -362,7 +362,7 @@ Bip44Ontology: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.NIST256P1,
-    addr_conf={},
+    addr_conf={"ver": b"\x17"},
     addr_type=AddrTypes.NEO)
 
 # Configuration for Neo
@@ -372,7 +372,7 @@ Bip44Neo: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.NIST256P1,
-    addr_conf={},
+    addr_conf={"ver": b"\x17"},
     addr_type=AddrTypes.NEO)
 
 # Configuration for NG
@@ -432,7 +432,7 @@ Bip44Stellar: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.ED25519_SLIP,
-    addr_conf={},
+    addr_conf={"ver": b"\x30"},
     addr_type=AddrTypes.XLM)
 
 # Configuration for Terra
@@ -452,7 +452,7 @@ Bip44Tezos: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.ED25519_SLIP,
-    addr_conf={},
+    addr_conf={"prefix": b"\x06\xa1\x9f"},
     addr_type=AddrTypes.XTZ)
 
 # Configuration for Theta
@@ -472,7 +472,7 @@ Bip44Tron: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.SECP256K1,
-    addr_conf={},
+    addr_conf={"prefix": "41"},
     addr_type=AddrTypes.TRX)
 
 # Configuration for VeChain

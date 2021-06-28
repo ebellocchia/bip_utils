@@ -104,9 +104,12 @@ class Bip44PublicKey(Bip32PublicKey):
         addr_type = coin_conf.AddrType()
         addr_cls = Bip44KeysConst.ADDR_TYPE_TO_CLASS[addr_type]
 
-        # P2PKH, P2SH, P2WPKH
-        if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH, AddrTypes.P2WPKH):
+        # P2PKH, P2SH
+        if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH):
             return addr_cls.EncodeKey(self.m_pub_key, addr_conf["net_ver"])
+        # P2WPKH
+        elif addr_type == AddrTypes.P2WPKH:
+            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["wit_ver"], addr_conf["net_ver"])
         # BCH P2PKH and P2SH
         elif addr_type in (AddrTypes.P2PKH_BCH, AddrTypes.P2SH_BCH):
             return addr_cls.EncodeKey(self.m_pub_key, addr_conf["hrp"], addr_conf["net_ver"])
@@ -116,6 +119,9 @@ class Bip44PublicKey(Bip32PublicKey):
         # Substrate
         elif addr_type == AddrTypes.SUBSTRATE:
             return addr_cls.EncodeKey(self.m_pub_key, addr_conf["ss58_ver"])
+        # NEO
+        elif addr_type == AddrTypes.NEO:
+            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["ver"])
         # Others
         else:
             return addr_cls.EncodeKey(self.m_pub_key)

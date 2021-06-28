@@ -22,16 +22,10 @@
 # Imports
 from typing import Union
 from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.base58 import Base58Encoder
+from bip_utils.conf import Bip44Tron
+from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import ConvUtils
-
-
-class TrxAddrConst:
-    """ Class container for Tron address constants. """
-
-    # Prefix
-    PREFIX: str = "41"
 
 
 class TrxAddr:
@@ -56,4 +50,4 @@ class TrxAddr:
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Add prefix and encode
-        return Base58Encoder.CheckEncode(ConvUtils.HexStringToBytes(TrxAddrConst.PREFIX + eth_addr))
+        return Base58Encoder.CheckEncode(ConvUtils.HexStringToBytes(Bip44Tron.AddrConfKey("prefix") + eth_addr))

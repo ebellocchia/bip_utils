@@ -23,6 +23,7 @@
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
+from bip_utils.conf import Bip44Neo
 from bip_utils.ecc import Nist256p1PublicKey
 from bip_utils.utils import CryptoUtils
 
@@ -34,15 +35,14 @@ class NeoAddrConst:
     PREFIX: bytes = b"\x21"
     # Suffix
     SUFFIX: bytes = b"\xac"
-    # Version
-    VERSION: bytes = b"\x17"
 
 
 class NeoAddr:
     """ Neo address class. It allows the Neo address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Nist256p1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, Nist256p1PublicKey],
+                  ver: bytes = Bip44Neo.AddrConfKey("ver")) -> str:
         """ Get address in Neo format.
 
         Args:
@@ -60,4 +60,4 @@ class NeoAddr:
         # Get payload
         payload = NeoAddrConst.PREFIX + pub_key_obj.RawCompressed().ToBytes() + NeoAddrConst.SUFFIX
         # Encode
-        return Base58Encoder.CheckEncode(NeoAddrConst.VERSION + CryptoUtils.Hash160(payload))
+        return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload))

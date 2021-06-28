@@ -23,6 +23,7 @@
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
+from bip_utils.conf import Bip44Tezos
 from bip_utils.ecc import Ed25519PublicKey
 from bip_utils.utils import CryptoUtils
 
@@ -32,8 +33,6 @@ class XtzAddrConst:
 
     # Digest size
     DIGEST_SIZE: int = 20
-    # Prefix
-    PREFIX: bytes = b"\x06\xa1\x9f"
 
 
 class XtzAddr:
@@ -58,4 +57,4 @@ class XtzAddr:
         # Compute Blake2b and encode in Base58 with checksum
         blake = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
                                     digest_size=XtzAddrConst.DIGEST_SIZE)
-        return Base58Encoder.CheckEncode(XtzAddrConst.PREFIX + blake)
+        return Base58Encoder.CheckEncode(Bip44Tezos.AddrConfKey("prefix") + blake)

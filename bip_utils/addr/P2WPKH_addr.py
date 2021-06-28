@@ -28,13 +28,6 @@ from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class P2WPKHAddrConst:
-    """ Class container for P2WPKH constants. """
-
-    # Witness version
-    WITNESS_VER: int = 0
-
-
 class P2WPKHAddr:
     """ P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation.
     Refer to:
@@ -44,11 +37,13 @@ class P2WPKHAddr:
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
+                  wit_ver: int = Bip84BitcoinMainNet.AddrConfKey("wit_ver"),
                   net_addr_ver: str = Bip84BitcoinMainNet.AddrConfKey("net_ver")) -> str:
         """ Get address in P2WPKH format.
 
         Args:
             pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            wit_ver (int, optional))             : Witness version
             net_addr_ver (str, optional)         : Net address version, default is Bitcoin main network
 
         Returns:
@@ -61,5 +56,5 @@ class P2WPKHAddr:
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return SegwitBech32Encoder.Encode(net_addr_ver,
-                                          P2WPKHAddrConst.WITNESS_VER,
+                                          wit_ver,
                                           CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

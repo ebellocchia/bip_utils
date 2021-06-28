@@ -22,15 +22,9 @@
 # Imports
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
+from bip_utils.conf import Bip44Stellar
 from bip_utils.ecc import Ed25519PublicKey
 from bip_utils.utils import Base32, AlgoUtils, ConvUtils, CryptoUtils
-
-
-class XlmAddrConst:
-    """ Class container for Stellar address constants. """
-
-    # Version
-    VERSION: bytes = b"\x30"
 
 
 class XlmAddr:
@@ -51,7 +45,7 @@ class XlmAddr:
             TypeError: If the public key is not ed25519
         """
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
-        payload = XlmAddrConst.VERSION + pub_key_obj.RawCompressed().ToBytes()[1:]
+        payload = Bip44Stellar.AddrConfKey("ver") + pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
         checksum = ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload))
