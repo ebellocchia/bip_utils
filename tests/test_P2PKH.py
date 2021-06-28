@@ -26,7 +26,8 @@ from bip_utils import (
     Bip44BitcoinMainNet, Bip44BitcoinTestNet, Bip44BitcoinSvMainNet, Bip44BitcoinSvTestNet, Bip44BitcoinCashMainNet, Bip44BitcoinCashTestNet,
     Bip44DashMainNet, Bip44DashTestNet, Bip44DogecoinMainNet, Bip44DogecoinTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
     Bip44ZcashMainNet, Bip44ZcashTestNet,
-    P2PKH, BchP2PKH, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+    P2PKHAddr, BchP2PKHAddr,
+    Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 )
 from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
 
@@ -168,9 +169,9 @@ class P2PKHTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"],
-                             P2PKH.EncodeKey(key_bytes, test["net_ver"]))
+                             P2PKHAddr.EncodeKey(key_bytes, test["net_ver"]))
             self.assertEqual(test["address"],
-                             P2PKH.EncodeKey(Secp256k1PublicKey(key_bytes), test["net_ver"]))
+                             P2PKHAddr.EncodeKey(Secp256k1PublicKey(key_bytes), test["net_ver"]))
 
         # Bitcoin Cash P2PKH
         for test in TEST_VECT_BCH:
@@ -178,19 +179,19 @@ class P2PKHTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"],
-                             BchP2PKH.EncodeKey(key_bytes, test["hrp"], test["net_ver"]))
+                             BchP2PKHAddr.EncodeKey(key_bytes, test["hrp"], test["net_ver"]))
             self.assertEqual(test["address"],
-                             BchP2PKH.EncodeKey(Secp256k1PublicKey(key_bytes), test["hrp"], test["net_ver"]))
+                             BchP2PKHAddr.EncodeKey(Secp256k1PublicKey(key_bytes), test["hrp"], test["net_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, P2PKH.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, P2PKH.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, BchP2PKH.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "", b"\x00")
-        self.assertRaises(TypeError, BchP2PKH.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "", b"\x00")
+        self.assertRaises(TypeError, P2PKHAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, P2PKHAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, BchP2PKHAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "", b"\x00")
+        self.assertRaises(TypeError, BchP2PKHAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "", b"\x00")
 
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, P2PKH.EncodeKey, binascii.unhexlify(test))
-            self.assertRaises(ValueError, BchP2PKH.EncodeKey, binascii.unhexlify(test), "", b"\x00")
+            self.assertRaises(ValueError, P2PKHAddr.EncodeKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, BchP2PKHAddr.EncodeKey, binascii.unhexlify(test), "", b"\x00")

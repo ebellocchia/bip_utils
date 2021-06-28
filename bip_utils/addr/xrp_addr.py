@@ -21,7 +21,7 @@
 
 # Imports
 from typing import Union
-from bip_utils.addr.P2PKH_addr import P2PKH
+from bip_utils.addr.P2PKH_addr import P2PKHAddr
 from bip_utils.base58 import Base58Alphabets
 from bip_utils.conf import Bip44Ripple
 from bip_utils.ecc import Secp256k1PublicKey
@@ -46,6 +46,6 @@ class XrpAddr:
         """
 
         # Ripple address is just a P2PKH address with a different Base58 alphabet
-        return P2PKH.EncodeKey(pub_key,
-                               Bip44Ripple.AddrConfKey("net_ver"),
-                               Base58Alphabets.RIPPLE)
+        return P2PKHAddr.EncodeKey(pub_key,
+                                   Bip44Ripple.AddrConfKey("net_ver"),
+                                   Base58Alphabets.RIPPLE)

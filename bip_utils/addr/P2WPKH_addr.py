@@ -28,14 +28,14 @@ from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class P2WPKHConst:
+class P2WPKHAddrConst:
     """ Class container for P2WPKH constants. """
 
     # Witness version
     WITNESS_VER: int = 0
 
 
-class P2WPKH:
+class P2WPKHAddr:
     """ P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation.
     Refer to:
     https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
@@ -61,5 +61,5 @@ class P2WPKH:
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return SegwitBech32Encoder.Encode(net_addr_ver,
-                                          P2WPKHConst.WITNESS_VER,
+                                          P2WPKHAddrConst.WITNESS_VER,
                                           CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

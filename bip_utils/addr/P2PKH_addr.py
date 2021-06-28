@@ -29,7 +29,7 @@ from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class P2PKH:
+class P2PKHAddr:
     """ P2PKH class. It allows the Pay-to-Public-Key-Hash address generation. """
 
     @staticmethod
@@ -56,7 +56,7 @@ class P2PKH:
                                          base58_alph)
 
 
-class BchP2PKH:
+class BchP2PKHAddr:
     """ Bitcoin Cash P2PKH class. It allows the Bitcoin Cash P2PKH generation. """
 
     @staticmethod

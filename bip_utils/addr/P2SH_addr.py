@@ -29,14 +29,14 @@ from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
 from bip_utils.utils import ConvUtils, CryptoUtils
 
 
-class P2SHConst:
+class P2SHAddrConst:
     """ Class container for P2SH constants. """
 
     # Script bytes
     SCRIPT_BYTES: bytes = b"0014"
 
 
-class P2SHUtils:
+class P2SHAddrUtils:
     """ Class container for P2SH utility functions. """
 
     @staticmethod
@@ -52,12 +52,12 @@ class P2SHUtils:
         # Key hash: Hash160(public_key)
         key_hash = CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes())
         # Script signature: 0x0014 | Hash160(public_key)
-        script_sig = ConvUtils.HexStringToBytes(P2SHConst.SCRIPT_BYTES) + key_hash
+        script_sig = ConvUtils.HexStringToBytes(P2SHAddrConst.SCRIPT_BYTES) + key_hash
         # Address bytes = Hash160(script_signature)
         return CryptoUtils.Hash160(script_sig)
 
 
-class P2SH:
+class P2SHAddr:
     """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
 
     @staticmethod
@@ -79,10 +79,10 @@ class P2SH:
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(net_addr_ver + P2SHUtils.AddScriptSig(pub_key_obj))
+        return Base58Encoder.CheckEncode(net_addr_ver + P2SHAddrUtils.AddScriptSig(pub_key_obj))
 
 
-class BchP2SH:
+class BchP2SHAddr:
     """ Bitcoin Cash P2SH class. It allows the Bitcoin Cash P2SH generation. """
 
     @staticmethod
@@ -105,4 +105,4 @@ class BchP2SH:
         """
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return BchBech32Encoder.Encode(hrp, net_addr_ver, P2SHUtils.AddScriptSig(pub_key_obj))
+        return BchBech32Encoder.Encode(hrp, net_addr_ver, P2SHAddrUtils.AddScriptSig(pub_key_obj))
