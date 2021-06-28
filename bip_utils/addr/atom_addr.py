@@ -27,13 +27,13 @@ from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class Bech32Addr:
-    """ Bech32 address class. It allows the Bech32 address generation. """
+class AtomAddr:
+    """ Atom address class. It allows the Atom address generation. """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
                   hrp: str) -> str:
-        """ Get address in Bech32 format.
+        """ Get address in Atom format.
 
         Args:
             pub_key (bytes or Secp256k1PublicKey): Public key bytes or object

@@ -1,5 +1,5 @@
 from bip_utils.addr.algo_addr import AlgoAddr
-from bip_utils.addr.bech32_addr import Bech32Addr
+from bip_utils.addr.atom_addr import AtomAddr
 from bip_utils.addr.avax_addr import AvaxPChainAddr, AvaxXChainAddr
 from bip_utils.addr.egld_addr import EgldAddr
 from bip_utils.addr.eth_addr import EthAddr

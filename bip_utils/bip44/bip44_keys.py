@@ -36,7 +36,7 @@ class Bip44KeysConst:
         AddrTypes.ALGO: AlgoAddr,
         AddrTypes.AVAX_P: AvaxPChainAddr,
         AddrTypes.AVAX_X: AvaxXChainAddr,
-        AddrTypes.ATOM: Bech32Addr,
+        AddrTypes.ATOM: AtomAddr,
         AddrTypes.EGLD: EgldAddr,
         AddrTypes.ETH: EthAddr,
         AddrTypes.NEO: NeoAddr,
@@ -113,7 +113,7 @@ class Bip44PublicKey(Bip32PublicKey):
         # BCH P2PKH and P2SH
         elif addr_type in (AddrTypes.P2PKH_BCH, AddrTypes.P2SH_BCH):
             return addr_cls.EncodeKey(self.m_pub_key, addr_conf["hrp"], addr_conf["net_ver"])
-        # Bech32Addr
+        # Atom
         elif addr_type == AddrTypes.ATOM:
             return addr_cls.EncodeKey(self.m_pub_key, addr_conf["hrp"])
         # Substrate
