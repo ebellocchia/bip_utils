@@ -80,25 +80,25 @@ class Bip44PublicKey(Bip32PublicKey):
         """
         super().__init__(key_bytes, key_data, curve_type)
         # Pre-compute address
-        self.m_addr = self._ComputeAddress(coin_conf)
+        self.m_addr = self.__ComputeAddress(coin_conf)
 
     def ToAddress(self) -> str:
         """ Return address correspondent to the public key.
 
         Returns:
-            str: Address
+            str: Address string
         """
         return self.m_addr
 
-    def _ComputeAddress(self,
-                        coin_conf: BipCoinConf) -> str:
+    def __ComputeAddress(self,
+                         coin_conf: BipCoinConf) -> str:
         """ Compute address.
 
         Args:
             coin_conf (BipCoinConf object) : BipCoinConf object
 
-        Raises:
-            Bip32KeyError: If the key constructed from the bytes is not valid
+        Returns:
+            str: Address string
         """
         addr_conf = coin_conf.AddrConf()
         addr_type = coin_conf.AddrType()
@@ -150,6 +150,7 @@ class Bip44PrivateKey(Bip32PrivateKey):
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
         super().__init__(key_bytes, key_data, curve_type)
+
         self.m_coin_conf = coin_conf
 
     def ToWif(self,
