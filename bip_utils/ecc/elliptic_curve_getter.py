@@ -29,7 +29,7 @@ from bip_utils.ecc.secp256k1 import Secp256k1
 
 
 class EllipticCurveGetterConst:
-    """ Class container for BIP44 base constants. """
+    """ Class container for elliptic curve getter constants. """
 
     # Elliptic curve type to instance
     TYPE_TO_INSTANCE: Dict[EllipticCurveTypes, EllipticCurve] = {
