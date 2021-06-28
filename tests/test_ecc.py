@@ -21,7 +21,7 @@
 
 # Imports
 import binascii
-import ecdsa, nacl
+import ecdsa
 import unittest
 from ecdsa.ecdsa import generator_256, generator_secp256k1
 from ecdsa import ellipticcurve

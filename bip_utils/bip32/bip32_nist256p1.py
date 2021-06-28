@@ -24,7 +24,7 @@ from __future__ import annotations
 from bip_utils.bip32.bip32_ecdsa_base import Bip32EcdsaBase
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_base import Bip32Base
-from bip_utils.conf import Bip32Conf, KeyNetVersions
+from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
 
 
@@ -48,7 +48,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
-                 key_net_ver: KeyNetVersions = Bip32Conf.KEY_NET_VER.Main()) -> Bip32Base:
+                 key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
 
         Args:
@@ -71,7 +71,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     def FromSeedAndPath(cls,
                         seed_bytes: bytes,
                         path: str,
-                        key_net_ver: KeyNetVersions = Bip32Conf.KEY_NET_VER.Main()) -> Bip32Base:
+                        key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
@@ -95,7 +95,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     @classmethod
     def FromExtendedKey(cls,
                         key_str: str,
-                        key_net_ver: KeyNetVersions = Bip32Conf.KEY_NET_VER.Main()) -> Bip32Base:
+                        key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
         """ Create a Bip32 object from the specified extended key.
 
         Args:
@@ -115,7 +115,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     @classmethod
     def FromPrivateKey(cls,
                        key_bytes: bytes,
-                       key_net_ver: KeyNetVersions = Bip32Conf.KEY_NET_VER.Main()) -> Bip32Base:
+                       key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
         """ Create a Bip32 object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.

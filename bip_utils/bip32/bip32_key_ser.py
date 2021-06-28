@@ -65,7 +65,7 @@ class Bip32KeyDeserializer:
 
         # Check length
         if len(key_bytes) != Bip32KeyDeserConst.EXTENDED_KEY_LEN:
-            raise Bip32KeyError("Invalid extended key (wrong length)")
+            raise Bip32KeyError("Invalid extended key (wrong length: %d)" % len(key_bytes))
 
         # Get if key is public/private depending on net version
         key_net_ver_got = key_bytes[:KeyNetVersions.Length()]
@@ -74,7 +74,7 @@ class Bip32KeyDeserializer:
         elif key_net_ver_got == key_net_ver.Private():
             self.m_is_public = False
         else:
-            raise Bip32KeyError("Invalid extended key (wrong net version)")
+            raise Bip32KeyError("Invalid extended key (wrong net version: %r)" % key_net_ver_got)
 
         # De-serialize key
         depth = key_bytes[4]

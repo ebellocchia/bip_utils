@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,32 +20,39 @@
 
 
 # Imports
-from typing import Union
-from bip_utils.addr.P2PKH_addr import P2PKH
-from bip_utils.base58 import Base58Alphabets
-from bip_utils.conf import Bip44Ripple
-from bip_utils.ecc import Secp256k1PublicKey
+from enum import Enum, auto, unique
 
 
-class XrpAddr:
-    """ Ripple address class. It allows the Ripple address generation. """
+@unique
+class AddrTypes(Enum):
+    """ Enumerative for address types. """
 
-    @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
-        """ Get address in Ripple format.
+    ALGO = auto(),
+    AVAX_P = auto(),
+    AVAX_X = auto(),
+    ATOM = auto(),
+    EGLD = auto(),
+    ETH = auto(),
+    NEO = auto(),
+    OKEX = auto(),
+    ONE = auto(),
+    P2PKH = auto(),
+    P2PKH_BCH = auto(),
+    P2SH = auto(),
+    P2SH_BCH = auto(),
+    P2WPKH = auto(),
+    SOL = auto(),
+    SUBSTRATE = auto(),
+    TRX = auto(),
+    XLM = auto()
+    XRP = auto(),
+    XTZ = auto(),
 
-        Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
 
-        Returns:
-            str: Address string
+@unique
+class Bip32Types(Enum):
+    """ Enumerative for BIP32 types. """
 
-        Raises:
-            ValueError: If the public key is not valid
-            TypeError: If the public key is not secp256k1
-        """
-
-        # Ripple address is just a P2PKH address with a different Base58 alphabet
-        return P2PKH.EncodeKey(pub_key,
-                               Bip44Ripple.AddrConfKey("net_ver"),
-                               Base58Alphabets.RIPPLE)
+    ED25519_SLIP = auto(),
+    NIST256P1 = auto(),
+    SECP256K1 = auto(),

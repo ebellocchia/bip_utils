@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,34 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
-# Imports
-from typing import Union
-from bip_utils.addr.P2PKH_addr import P2PKH
-from bip_utils.base58 import Base58Alphabets
-from bip_utils.conf import Bip44Ripple
-from bip_utils.ecc import Secp256k1PublicKey
-
-
-class XrpAddr:
-    """ Ripple address class. It allows the Ripple address generation. """
-
-    @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
-        """ Get address in Ripple format.
-
-        Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
-
-        Returns:
-            str: Address string
-
-        Raises:
-            ValueError: If the public key is not valid
-            TypeError: If the public key is not secp256k1
-        """
-
-        # Ripple address is just a P2PKH address with a different Base58 alphabet
-        return P2PKH.EncodeKey(pub_key,
-                               Bip44Ripple.AddrConfKey("net_ver"),
-                               Base58Alphabets.RIPPLE)
+# Hardened default path
+HARDENED_DEF_PATH: str = "0'/0'/0'"
+# Not hardened default path
+NOT_HARDENED_DEF_PATH: str = "0'/0/0"
+# Bitcoin WIF net version for main net
+BTC_WIF_NET_VER_MAIN: bytes = b"\x80"
+# Bitcoin WIF net version for test net
+BTC_WIF_NET_VER_TEST: bytes = b"\xef"

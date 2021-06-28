@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.ecc import Secp256k1PrivateKey
-from bip_utils.conf import BitcoinConf
+from bip_utils.conf import Bip44BitcoinMainNet
 from bip_utils.utils import ConvUtils
 
 
@@ -40,13 +40,13 @@ class WifEncoder:
     @staticmethod
     def Encode(priv_key: Union[bytes, Secp256k1PrivateKey],
                compr_pub_key: bool = True,
-               net_addr_ver: bytes = BitcoinConf.WIF_NET_VER.Main()) -> str:
+               net_ver: bytes = Bip44BitcoinMainNet.WifNetVersion()) -> str:
         """ Encode key bytes into a WIF string.
 
         Args:
             priv_key (bytes or Secp256k1PrivateKey object): Private key bytes or object
             compr_pub_key (bools, optional)               : True if private key corresponds to a compressed public key, false otherwise
-            net_addr_ver (bytes, optional)                : Net address version, default is Bitcoin main network
+            net_ver (bytes, optional)                     : Net version, default is Bitcoin main network
 
         Returns:
             str: WIF encoded string
@@ -68,7 +68,7 @@ class WifEncoder:
             priv_key += WifConst.COMPR_PUB_KEY_SUFFIX
 
         # Add net address version
-        priv_key = net_addr_ver + priv_key
+        priv_key = net_ver + priv_key
 
         # Encode key
         return Base58Encoder.CheckEncode(priv_key)
@@ -79,12 +79,12 @@ class WifDecoder:
 
     @staticmethod
     def Decode(wif_str: str,
-               net_addr_ver: bytes = BitcoinConf.WIF_NET_VER.Main()) -> bytes:
+               net_ver: bytes = Bip44BitcoinMainNet.WifNetVersion()) -> bytes:
         """ Decode key bytes from a WIF string.
 
         Args:
-            wif_str (str)                 : WIF string
-            net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
+            wif_str (str)            : WIF string
+            net_ver (bytes, optional): Net version, default is Bitcoin main network
 
         Returns:
             bytes: Key bytes
@@ -98,8 +98,8 @@ class WifDecoder:
         key_bytes = Base58Decoder.CheckDecode(wif_str)
 
         # Check net version
-        if key_bytes[0] != ord(net_addr_ver):
-            raise ValueError("Invalid net version (expected %x, got %x)" % (ord(net_addr_ver), key_bytes[0]))
+        if key_bytes[0] != ord(net_ver):
+            raise ValueError("Invalid net version (expected %x, got %x)" % (ord(net_ver), key_bytes[0]))
 
         # Remove net version
         key_bytes = key_bytes[1:]

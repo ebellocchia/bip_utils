@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,7 +20,6 @@
 
 
 # Imports
-from typing import Any, Optional
 from bip_utils.utils import ConvUtils
 
 
@@ -98,35 +97,3 @@ class KeyNetVersions:
             bytes: Private net version
         """
         return self.m_priv_net_ver
-
-
-class NetVersions:
-    """ Helper class for representing net versions. """
-
-    def __init__(self,
-                 main_net_ver: Optional[Any] = None,
-                 test_net_ver: Optional[Any] = None) -> None:
-        """ Construct class.
-
-        Args:
-            main_net_ver (object): Main net version, None by default
-            test_net_ver (object): Test net version, None by default
-        """
-        self.m_main_net_ver = main_net_ver
-        self.m_test_net_ver = test_net_ver
-
-    def Main(self) -> Any:
-        """ Get main net version.
-
-        Returns:
-            object: Main net version
-        """
-        return self.m_main_net_ver
-
-    def Test(self) -> Any:
-        """ Get test net version.
-
-        Returns:
-            object: Test net version
-        """
-        return self.m_test_net_ver

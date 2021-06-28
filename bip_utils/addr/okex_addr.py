@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.bech32 import Bech32Encoder
 from bip_utils.ecc import Secp256k1PublicKey
-from bip_utils.conf import OkexChainConf
+from bip_utils.conf import Bip44OkexChainAtom
 from bip_utils.utils import ConvUtils
 
 
@@ -50,4 +50,4 @@ class OkexAddr:
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Encode in Bech32 format
-        return Bech32Encoder.Encode(OkexChainConf.ADDR_HRP.Main(), ConvUtils.HexStringToBytes(eth_addr))
+        return Bech32Encoder.Encode(Bip44OkexChainAtom.AddrConfKey("hrp"), ConvUtils.HexStringToBytes(eth_addr))

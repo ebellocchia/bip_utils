@@ -21,7 +21,10 @@
 
 # Imports
 import unittest
-from bip_utils import Bip49, Bip44Coins
+from bip_utils import (
+    Bip49BitcoinCashMainNet, Bip49BitcoinCashTestNet, Bip49LitecoinMainNet, Bip49LitecoinTestNet,
+    Bip49, Bip44Coins
+)
 from .test_bip44_base import Bip44BaseTestHelper
 
 # Some seeds randomly taken from Ian Coleman web page
@@ -72,13 +75,16 @@ TEST_VECT = [
             "ex_pub": "ypub6YYwTNows1mBXUEKPiwjb59omko4q1L1xizLTHcf9jGnSpqEnMkqsCrvkfdMj7FiJM46V4Z8SXfMEXSddYM5GqUqaRZW2Vq9c1XHDqWh9sk",
             "ex_priv": "yprvAKZb3sH42eCtJz9rHhQjDwD5DixaRYcAbW4jeuD3bPjoa2W6EpSbKQYSuN5Jxs9Wr2swLny7koEo8FyteuemBvK85SG1ihwSo8MM3ZXaSU3",
         },
-        "addresses_legacy": [
-            "3Bwt6R3hEY2FoB3PMjGUbxKKeHM2tZGMkA",
-            "3QAXpUmNCMLRBfBHqZ4X2QtbvKpscf8XF8",
-            "3KPaWEXZ8UwhQ8CtxeHA4oUYfnWWHQaaMU",
-            "32vT3n51KZ14osw4BMiJX4Zf36x8SAVNgE",
-            "3QnzPDR9CLSoTotiDEWffkaGMfqawq8yAu",
-        ],
+        "addresses_legacy": {
+            "cls": Bip49BitcoinCashMainNet,
+            "addresses": [
+                "3Bwt6R3hEY2FoB3PMjGUbxKKeHM2tZGMkA",
+                "3QAXpUmNCMLRBfBHqZ4X2QtbvKpscf8XF8",
+                "3KPaWEXZ8UwhQ8CtxeHA4oUYfnWWHQaaMU",
+                "32vT3n51KZ14osw4BMiJX4Zf36x8SAVNgE",
+                "3QnzPDR9CLSoTotiDEWffkaGMfqawq8yAu",
+            ],
+        },
         "addresses": [
             "bitcoincash:ppcgpaskfreturznhcjdvmeunscff6ufu5kt8jx4qt",
             "bitcoincash:prmgdapr6x6dk8w3qhlmaxsavsq3jlvwgvfc2s2kqy",
@@ -166,6 +172,7 @@ TEST_VECT = [
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "ex_master": "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+        "ex_master_cls": Bip49LitecoinMainNet,
         "ex_master_alt": "Mtpv7L6Q8tPadPv8jY9X5qf2qdkW39MvWo7VyJDVMGib3ZZjW9p4vJh2GghWrqCpo55Xkf27EqvAJRtVCAEU5EX5qaF5kwjWrd9KkoeRrSjowo7",
         "wif_master": "6uJgfG4pBbMffTdMSGQVurdK6xBcZjhf1iDU2jtPAw5PzRdhx9m",
         "account": {
@@ -180,13 +187,16 @@ TEST_VECT = [
             "ex_pub_alt": "Mtub2v24yx2SwhTiqHGeXpi2YMAY3XfQV1otBoip9BqTVyr3RkCLvjc5YcwYr7eVpMHRWV9NFmTtWGPmS3bAcxSYwrgDoB1n69pXoga44kARLke",
             "ex_priv_alt": "Mtpv7UqjPAbuhYvmDQZpHDDeTmLKbxyDQmFE7HcnUD5AZo4SqP1GbpZeY1qHbjjphVtqpteVgG1Vn77QNJDcZWMw4MYetWYe1yjSqoay1B25d5b",
         },
-        "addresses_depr": [
-            "31jkZShyVAMkVz5cQpu4qp73DrAXtFP3rZ",
-            "32pqrhqZauSgZoFj9wK7pQKg5AHXYYvYCf",
-            "3CT62pXvCKF23eRgXQHXxoywFHf2ZGFgLd",
-            "36ELz7iJTw3wuMG9zrATo3Bk7CrXeMXBig",
-            "3MDXS6KsscyBM3DKQxzUfSFXpQJtdJT8na",
-        ],
+        "addresses_depr": {
+            "cls": Bip49LitecoinMainNet,
+            "addresses": [
+                "31jkZShyVAMkVz5cQpu4qp73DrAXtFP3rZ",
+                "32pqrhqZauSgZoFj9wK7pQKg5AHXYYvYCf",
+                "3CT62pXvCKF23eRgXQHXxoywFHf2ZGFgLd",
+                "36ELz7iJTw3wuMG9zrATo3Bk7CrXeMXBig",
+                "3MDXS6KsscyBM3DKQxzUfSFXpQJtdJT8na",
+            ],
+        },
         "addresses": [
             "M7wtsL7wSHDBJVMWWhtQfTMSYYkyooAAXM",
             "M92zAbFXY2J7NJXdFpJTe3a5PrsyZQhKZK",
@@ -260,13 +270,16 @@ TEST_VECT = [
             "ex_pub": "upub5F7X3ZAt1HsUyFLTFU9vhKeGULy77aDoJFhscvGBV91tm2mzQ5egFGpeP4nGskwERwbU48g14qREqXJ388X8XBiaLm7PWwk3S45Fe3WAvdK",
             "ex_priv": "uprv928Ae3dzAvKBkmFz9ScvLBhXvK8ci7Vww2nGpXrZvoUutESqrYLRhUWAXpK5acXh517npKuCpJ7NXaoWnLs1dLB9w3MHe3KNUm7hPENqMzt",
         },
-        "addresses_legacy": [
-            "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
-            "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
-            "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
-            "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
-            "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
-        ],
+        "addresses_legacy": {
+            "cls": Bip49BitcoinCashTestNet,
+            "addresses": [
+                "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+                "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
+                "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
+                "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
+                "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+            ],
+        },
         "addresses": [
             "bchtest:pqeke2snuz9evzq2x26asxx4nd9t8vm8ggd9ngnmpx",
             "bchtest:pzqawj7d8qxqtau3686vsxph2ew7exerfg60w5xcq0",
@@ -363,13 +376,16 @@ TEST_VECT = [
             "ex_pub": "ttub4eyBRdMdpb3vJ1NCEsZBozMiZ2ht5CyLGPUPMggcGvnzQDzApGQmCS2Y9Hvgxoens678GS22dGDcfKB2vmbmBzDLUprgdLDxk5CArPc8iLo",
             "ex_priv": "ttpv9Dnqpqw6aSWxg8fMzG4ojQXW7U1gzxQgBsNMghvKLk1Poro6VMNLBpvGtwUUsyVBq3o9X1WCgmy2EnSU5CqB6KFqjYAJPh6H6g6AkX8gtNN",
         },
-        "addresses_depr": [
-            "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
-            "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
-            "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
-            "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
-            "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
-        ],
+        "addresses_depr": {
+            "cls": Bip49LitecoinTestNet,
+            "addresses": [
+                "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+                "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
+                "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
+                "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
+                "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+            ],
+        },
         "addresses": [
             "QRHtkDQdVvNNwrVjEdeCGviCw7Ny3SNNiA",
             "QYSXC5cNwxCApsQkHaePqL2v3oNQftuzPX",

@@ -1,6 +1,3 @@
-from bip_utils.addr.P2PKH_addr import P2PKH, BchP2PKH
-from bip_utils.addr.P2SH_addr import P2SH, BchP2SH
-from bip_utils.addr.P2WPKH_addr import P2WPKH
 from bip_utils.addr.algo_addr import AlgoAddr
 from bip_utils.addr.bech32_addr import Bech32Addr
 from bip_utils.addr.avax_addr import AvaxPChainAddr, AvaxXChainAddr
@@ -9,6 +6,9 @@ from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.addr.okex_addr import OkexAddr
 from bip_utils.addr.neo_addr import NeoAddr
 from bip_utils.addr.one_addr import OneAddr
+from bip_utils.addr.P2PKH_addr import P2PKH, BchP2PKH
+from bip_utils.addr.P2SH_addr import P2SH, BchP2SH
+from bip_utils.addr.P2WPKH_addr import P2WPKH
 from bip_utils.addr.sol_addr import SolAddr
 from bip_utils.addr.substrate_addr import SubstrateEd25519Addr
 from bip_utils.addr.trx_addr import TrxAddr

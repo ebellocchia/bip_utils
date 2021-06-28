@@ -28,7 +28,7 @@ from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyIndex, Bip3
 from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip32.bip32_path import Bip32Path, Bip32PathParser
-from bip_utils.conf import Bip32Conf, KeyNetVersions
+from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes
 from bip_utils.utils import CryptoUtils
 
@@ -214,7 +214,7 @@ class Bip32Base(ABC):
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
                  fprint: Bip32FingerPrint = Bip32FingerPrint(),
                  is_public: bool = False,
-                 key_net_ver: KeyNetVersions = Bip32Conf.KEY_NET_VER.Main()) -> None:
+                 key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> None:
         """ Construct class from secret and chain code.
 
         Args:

@@ -25,8 +25,6 @@ from bip_utils import (
     Bip44Coins, Bip44Changes, Bip44Levels,
     Bip44DepthError, Bip44CoinNotAllowedError,
     Bip32KeyError,
-    BitcoinCashConf,
-    LitecoinConf,
 )
 
 #
@@ -44,7 +42,7 @@ class Bip44BaseTestHelper:
             # Test coin names and test net flag
             coin_names = bip_obj_ctx.CoinConf().CoinNames()
             ut_class.assertEqual(test["names"], (coin_names.Name(), coin_names.Abbreviation()))
-            ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinConf().IsTestNet())
+            #ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinConf().IsTestNet())
 
             # Test master key
             ut_class.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())
@@ -63,14 +61,14 @@ class Bip44BaseTestHelper:
             ut_class.assertEqual(test["chain_ext"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
 
             # Test addresses
-            for i in range(len(test["addresses"])):
-                bip_obj_addr_ctx = bip_obj_ctx.AddressIndex(i)
-                ut_class.assertEqual(test["addresses"][i], bip_obj_addr_ctx.PublicKey().ToAddress())
+            for idx, test_addr in enumerate(test["addresses"]):
+                bip_obj_addr_ctx = bip_obj_ctx.AddressIndex(idx)
+                ut_class.assertEqual(test_addr, bip_obj_addr_ctx.PublicKey().ToAddress())
 
             # Only for Litecoin: test extended keys with alternate versions
             if test["coin"] == Bip44Coins.LITECOIN and "ex_master_alt" in test:
                 # Set flag
-                LitecoinConf.EX_KEY_ALT = True
+                test["ex_master_cls"].UseAlternateKeyNetVersions(True)
                 # Create from seed
                 bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
                 # Test master key
@@ -87,28 +85,29 @@ class Bip44BaseTestHelper:
                 ut_class.assertEqual(test["chain_ext"]["ex_pub_alt"], bip_obj_ctx.PublicKey().ToExtended())
                 ut_class.assertEqual(test["chain_ext"]["ex_priv_alt"], bip_obj_ctx.PrivateKey().ToExtended())
                 # Reset flag
-                LitecoinConf.EX_KEY_ALT = False
+                test["ex_master_cls"].UseAlternateKeyNetVersions(False)
 
             # Only for Bitcoin Cash and Bitcoin Cash test net, test legacy addresses
             if test["coin"] in (Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
                 # Set flag
-                BitcoinCashConf.LEGACY_ADDR = True
+                test["addresses_legacy"]["cls"].UseLegacyAddress(True)
                 # Test addresses (bip_obj_ctx is already the external chain)
-                for i in range(len(test["addresses_legacy"])):
-                    ut_class.assertEqual(test["addresses_legacy"][i],
-                                         bip_obj_ctx.AddressIndex(i).PublicKey().ToAddress())
+                for idx, test_addr in enumerate(test["addresses_legacy"]["addresses"]):
+                    ut_class.assertEqual(test_addr,
+                                         bip_obj_ctx.AddressIndex(idx).PublicKey().ToAddress())
                 # Reset flag
-                BitcoinCashConf.LEGACY_ADDR = False
+                test["addresses_legacy"]["cls"].UseLegacyAddress(False)
 
             # Only for Litecoin and Litecoin test net, test deprecated addresses
             if test["coin"] in (Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET) and "addresses_depr" in test:
                 # Set flag
-                LitecoinConf.P2SH_DEPR_ADDR = True
+                test["addresses_depr"]["cls"].UseDeprecatedAddress(True)
                 # Test addresses (bip_obj_ctx is already the external chain)
-                for i in range(len(test["addresses_depr"])):
-                    ut_class.assertEqual(test["addresses_depr"][i], bip_obj_ctx.AddressIndex(i).PublicKey().ToAddress())
+                for idx, test_addr in enumerate(test["addresses_depr"]["addresses"]):
+                    ut_class.assertEqual(test_addr, bip_obj_ctx.AddressIndex(idx).PublicKey().ToAddress())
                 # Reset flag
-                LitecoinConf.P2SH_DEPR_ADDR = False
+                test["addresses_depr"]["cls"].UseDeprecatedAddress(False)
+
 
     # Run all tests in test vector using FromExtendedKey for construction
     @staticmethod

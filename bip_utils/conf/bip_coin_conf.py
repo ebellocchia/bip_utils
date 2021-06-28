@@ -1,4 +1,4 @@
-# Copyright (c) 2020 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,757 +18,236 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# It's not so easy to find this information, some references I used:
-# https://github.com/libbitcoin/libbitcoin-system/wiki/Altcoin-Version-Mappings#bip44-altcoin-version-mapping-table
-# https://github.com/satoshilabs/slips/blob/master/slip-0132.md
-
 
 # Imports
-from bip_utils.conf.bip_coin_conf_helper import *
-
-
-class Bip32Conf:
-    """ Class container for Bip32 configuration. """
-
-    # Key net versions (xpub / xprv) - (tpub / tprv)
-    KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"0488b21e", b"0488ade4"),
-                                           KeyNetVersions(b"043587cf", b"04358394"))
-
-
-class BitcoinConf:
-    """ Class container for Bitcoin configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Bitcoin", "BTC")
-    # Test names
-    TEST_NAMES: CoinNames = CoinNames("Bitcoin TestNet", "BTC")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of BIP32)
-    BIP44_KEY_NET_VER: NetVersions = Bip32Conf.KEY_NET_VER
-    # BIP49 net versions (ypub / yprv) - (upub / uprv)
-    BIP49_KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"049d7cb2", b"049d7878"),
-                                                 KeyNetVersions(b"044a5262", b"044a4e28"))
-    # BIP84 net versions (zpub / zprv) -  (vpub / vprv)
-    BIP84_KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"04b24746", b"04b2430c"),
-                                                 KeyNetVersions(b"045f1cf6", b"045f18bc"))
-
-    # Versions for P2PKH address
-    P2PKH_NET_VER: NetVersions = NetVersions(b"\x00", b"\x6f")
-    # Versions for P2SH address
-    P2SH_NET_VER: NetVersions = NetVersions(b"\x05", b"\xc4")
-    # Versions for P2WPKH address
-    P2WPKH_NET_VER: NetVersions = NetVersions("bc", "tb")
-    # WIF net version
-    WIF_NET_VER: NetVersions = NetVersions(b"\x80", b"\xef")
-
-
-class BitcoinCashConf:
-    """ Class container for Bitcoin Cash configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Bitcoin Cash", "BCH")
-    # Test names
-    TEST_NAMES: CoinNames = CoinNames("Bitcoin Cash TestNet", "BCH")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # False for using Bitcoin Cash addresses, True for using Bitcoin legacy addresses
-    LEGACY_ADDR: bool = False
-
-    # BIP44 net versions (same of BIP32)
-    BIP44_KEY_NET_VER: NetVersions = Bip32Conf.KEY_NET_VER
-    # BIP49 net versions (ypub / yprv) - (upub / uprv)
-    BIP49_KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"049d7cb2", b"049d7878"),
-                                                 KeyNetVersions(b"044a5262", b"044a4e28"))
-
-    # Versions for P2PKH address (Bitcoin Cash has HRP and net version)
-    BCH_P2PKH_NET_VER: NetVersions = NetVersions({"hrp": "bitcoincash", "net_ver": b"\x00"},
-                                                 {"hrp": "bchtest", "net_ver": b"\x00"})
-    # Versions for P2PKH legacy address (same of Bitcoin)
-    LEGACY_P2PKH_NET_VER: NetVersions = BitcoinConf.P2PKH_NET_VER
-    # Versions for P2SH address (Bitcoin Cash has HRP and net version)
-    BCH_P2SH_NET_VER: NetVersions = NetVersions({"hrp": "bitcoincash", "net_ver": b"\x08"},
-                                                {"hrp": "bchtest", "net_ver": b"\x08"})
-    # Versions for P2PKH legacy address (same of Bitcoin)
-    LEGACY_P2SH_NET_VER: NetVersions = BitcoinConf.P2SH_NET_VER
-    # WIF net version
-    WIF_NET_VER: NetVersions = NetVersions(b"\x80", b"\xef")
-
-
-class BitcoinSvConf:
-    """ Class container for BitcoinSV configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("BitcoinSV", "BSV")
-    # Test names
-    TEST_NAMES: CoinNames = CoinNames("BitcoinSV TestNet", "BSV")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of BIP32)
-    BIP44_KEY_NET_VER: NetVersions = Bip32Conf.KEY_NET_VER
-    # BIP49 net versions (ypub / yprv) - (upub / uprv)
-    BIP49_KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"049d7cb2", b"049d7878"),
-                                                 KeyNetVersions(b"044a5262", b"044a4e28"))
-
-    # Versions for P2PKH address (same of Bitcoin)
-    P2PKH_NET_VER: NetVersions = BitcoinConf.P2PKH_NET_VER
-    # Versions for P2SH address (same of Bitcoin)
-    P2SH_NET_VER: NetVersions = BitcoinConf.P2SH_NET_VER
-    # WIF net version (same of Bitcoin)
-    WIF_NET_VER: NetVersions = BitcoinConf.WIF_NET_VER
-
-
-class LitecoinConf:
-    """ Class container for Litecoin configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Litecoin", "LTC")
-    # Test names
-    TEST_NAMES: CoinNames = CoinNames("Litecoin TestNet", "LTC")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # False for using Bitcoin net versions for extended keys (xprv/xpub and similar)
-    # True for using the alternate ones (Ltpv/Ltub and similar)
-    EX_KEY_ALT: bool = False
-    # False for using P2SH deprecated addresses, true for the new addresses
-    P2SH_DEPR_ADDR: bool = False
-
-    # BIP44 net versions
-    # Litecoin can have 2 different main version: same of Bitcoin or (Ltpv / Ltub),
-    # whereas test net version is always (ttub / ttpv)
-    BIP44_KEY_NET_VER: NetVersions = NetVersions(
-        {"btc": BitcoinConf.BIP44_KEY_NET_VER.Main(), "alt": KeyNetVersions(b"019da462", b"019d9cfe")},
-        KeyNetVersions(b"0436f6e1", b"0436ef7d"))
-    # BIP49 net versions
-    # Litecoin can have 2 different main version: same of Bitcoin or (Mtpv / Mtub),
-    # whereas test net version is always (ttub / ttpv)
-    BIP49_KEY_NET_VER: NetVersions = NetVersions(
-        {"btc": BitcoinConf.BIP49_KEY_NET_VER.Main(), "alt": KeyNetVersions(b"01b26ef6", b"01b26792")},
-        KeyNetVersions(b"0436f6e1", b"0436ef7d"))
-    # BIP84 net versions (zpub / zprv) - (ttub / ttpv)
-    BIP84_KEY_NET_VER: NetVersions = NetVersions(BitcoinConf.BIP84_KEY_NET_VER.Main(),
-                                                 KeyNetVersions(b"0436f6e1", b"0436ef7d"))
-
-    # Versions for P2PKH address
-    P2PKH_NET_VER: NetVersions = NetVersions(b"\x30", b"\x6f")
-    # Deprecated versions for P2SH address (same of Bitcoin)
-    P2SH_DEPR_NET_VER: NetVersions = BitcoinConf.P2SH_NET_VER
-    # Versions for P2SH address
-    P2SH_NET_VER: NetVersions = NetVersions(b"\x32", b"\x3a")
-    # Versions for P2WPKH address
-    P2WPKH_NET_VER: NetVersions = NetVersions("ltc", "tltc")
-    # WIF net version
-    WIF_NET_VER: NetVersions = NetVersions(b"\xb0", b"\xef")
-
-
-class DogecoinConf:
-    """ Class container for Dogecoin configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Dogecoin", "DOGE")
-    # Test names
-    TEST_NAMES: CoinNames = CoinNames("Dogecoin TestNet", "DOGE")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (dgub / dgpv) - (tgub / tgpv)
-    BIP44_KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"02facafd", b"02fac398"),
-                                                 KeyNetVersions(b"0432a9a8", b"0432a243"))
-    # BIP49 net versions (dgub / dgpv) - (tgub / tgpv)
-    BIP49_KEY_NET_VER: NetVersions = NetVersions(KeyNetVersions(b"02facafd", b"02fac398"),
-                                                 KeyNetVersions(b"0432a9a8", b"0432a243"))
-
-    # Versions for P2PKH address
-    P2PKH_NET_VER: NetVersions = NetVersions(b"\x1e", b"\x71")
-    # Versions for P2SH address
-    P2SH_NET_VER: NetVersions = NetVersions(b"\x16", b"\xc4")
-    # WIF net version
-    WIF_NET_VER: NetVersions = NetVersions(b"\x9e", b"\xf1")
-
-
-class DashConf:
-    """ Class container for Dash configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Dash", "DASH")
-    # Test names
-    TEST_NAMES: CoinNames = CoinNames("Dash TestNet", "DASH")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-    # BIP49 net versions (same of Bitcoin)
-    BIP49_KEY_NET_VER: NetVersions = BitcoinConf.BIP49_KEY_NET_VER
-
-    # Versions for P2PKH address
-    P2PKH_NET_VER: NetVersions = NetVersions(b"\x4c", b"\x8c")
-    # Versions for P2SH address
-    P2SH_NET_VER: NetVersions = NetVersions(b"\x10", b"\x13")
-    # WIF net version
-    WIF_NET_VER: NetVersions = NetVersions(b"\xcc", b"\xef")
-
-
-class ZcashConf:
-    """ Class container for Zcash configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Zcash", "ZEC")
-    # Test names
-    TEST_NAMES: CoinNames = CoinNames("Zcash TestNet", "ZEC")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-    # BIP49 net versions (same of Bitcoin)
-    BIP49_KEY_NET_VER: NetVersions = BitcoinConf.BIP49_KEY_NET_VER
-
-    # Versions for P2PKH address
-    P2PKH_NET_VER: NetVersions = NetVersions(b"\x1c\xb8", b"\x1d\x25")
-    # Versions for P2SH address
-    P2SH_NET_VER: NetVersions = NetVersions(b"\x1c\xbd", b"\x1c\xba")
-    # WIF net version
-    WIF_NET_VER: NetVersions = BitcoinConf.WIF_NET_VER
-
-
-class EthereumConf:
-    """ Class container for Ethereum configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Ethereum", "ETH")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class EthereumClassicConf:
-    """ Class container for Ethereum Classic configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Ethereum Classic", "ETC")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class RippleConf:
-    """ Class container for Ripple configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Ripple", "XRP")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # Versions for P2PKH address, test net not supported
-    P2PKH_NET_VER: NetVersions = NetVersions(b"\x00")
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class TronConf:
-    """ Class container for Tron configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Tron", "TRX")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class VeChainConf:
-    """ Class container for VeChain configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("VeChain", "VET")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class CosmosConf:
-    """ Class container for Cosmos configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Cosmos", "ATOM")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("cosmos")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class BandProtocolConf:
-    """ Class container for Band Protocol configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Band Protocol", "BAND")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER: NetVersions = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("band")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class KavaConf:
-    """ Class container for Kava configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Kava", "KAVA")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("kava")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class IrisNetConf:
-    """ Class container for IRIS network configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("IRIS Network", "IRIS")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("iaa")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class TerraConf:
-    """ Class container for Terra configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Terra", "LUNA")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("terra")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class BinanceChainConf:
-    """ Class container for Binance Coin configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Binance Chain", "BNB")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("bnb")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class BinanceSmartChainConf:
-    """ Class container for Binance Smart Chain configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Binance Smart Chain", "BNB")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class AvaxCChainConf:
-    """ Class container for Avax C-Chain configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Avax C-Chain", "AVAX")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class AvaxXChainConf:
-    """ Class container for Avax X-Chain configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Avax X-Chain", "AVAX")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class AvaxPChainConf:
-    """ Class container for Avax P-Chain configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Avax P-Chain", "AVAX")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class PolygonConf:
-    """ Class container for Polygon configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Polygon", "MATIC")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class FantomOperaConf:
-    """ Class container for Fantom Opera configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Fantom Opera", "FTM")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class HarmonyOneConf:
-    """ Class container for Harmony One configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Harmony One", "ONE")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("one")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class HuobiChainConf:
-    """ Class container for Huobi Chain configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Huobi Token", "HT")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class OkexChainConf:
-    """ Class container for OKEx Chain configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("OKExChain", "OKT")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("ex")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class SolanaConf:
-    """ Class container for Solana configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Solana", "SOL")
-
-    # Default path
-    DEFAULT_PATH: str = "0'"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class TezosConf:
-    """ Class container for Tezos configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Tezos", "XTZ")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0'"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class ThetaConf:
-    """ Class container for Theta configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Theta Network", "THETA")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class AlgorandConf:
-    """ Class container for Algorand configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Algorand", "ALGO")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0'/0'"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class ElrondConf:
-    """ Class container for Elrond configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Elrond eGold", "eGLD")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0'/0'"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # HRP for address
-    ADDR_HRP: NetVersions = NetVersions("erd")
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class StellarConf:
-    """ Class container for Stellar configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Stellar", "XLM")
-
-    # Default path
-    DEFAULT_PATH: str = "0'"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class NeoConf:
-    """ Class container for Neo configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("NEO", "NEO")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class OntologyConf:
-    """ Class container for Ontology configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Ontology", "ONT")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class KusamaEd25519SlipConf:
-    """ Class container for Kusama (ed25519 SLIP-0010) configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Kusama", "KSM")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0'/0'"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # Version
-    VERSION = b"\x02"
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class PolkadotEd25519SlipConf:
-    """ Class container for Polkadot (ed25519 SLIP-0010) configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Polkadot", "DOT")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0'/0'"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # Version
-    VERSION = b"\x00"
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
-
-
-class NineChroniclesGoldConf:
-    """ Class container for NCG configuration. """
-
-    # Names
-    NAMES: CoinNames = CoinNames("Nine Chronicles Gold", "NCG")
-
-    # Default path
-    DEFAULT_PATH: str = "0'/0/0"
-
-    # BIP44 net versions (same of Bitcoin)
-    BIP44_KEY_NET_VER = BitcoinConf.BIP44_KEY_NET_VER
-
-    # WIF not supported
-    WIF_NET_VER: NetVersions = NetVersions()
+from typing import Dict, Optional, Union
+from bip_utils.conf.bip_coin_conf_enum import AddrTypes, Bip32Types
+from bip_utils.conf.bip_coin_conf_helper import CoinNames, KeyNetVersions
+
+
+class BipCoinConf:
+    """ Bip coin configuration class. It basically wraps the coin configuration allowing to get it through methods. """
+
+    def __init__(self,
+                 coin_name: CoinNames,
+                 def_path: str,
+                 key_net_ver: KeyNetVersions,
+                 wif_net_ver: Optional[bytes],
+                 bip32_type: Bip32Types,
+                 addr_conf: Dict[str, Union[bytes, str]],
+                 addr_type: Union[AddrTypes, Dict[str, AddrTypes]]) -> None:
+        """ Construct class.
+
+        Args:
+            coin_name (CoinNames object)       : Coin names
+            def_path (str)                     : Default path
+            key_net_ver (KeyNetVersions object): Key net versions
+            wif_net_ver (bytes)                : WIF net version, None if not supported
+            bip32_type (Bip32Types)            : Bip32 type
+            addr_conf (dict)                   : Address configuration
+            addr_type (AddrTypes)              : Address type
+        """
+        self.m_coin_name = coin_name
+        self.m_def_path = def_path
+        self.m_key_net_ver = key_net_ver
+        self.m_wif_net_ver = wif_net_ver
+        self.m_bip32_type = bip32_type
+        self.m_addr_conf = addr_conf
+        self.m_addr_type = addr_type
+
+    def CoinNames(self) -> CoinNames:
+        """ Get coin names.
+
+        Returns:
+            CoinNames object: CoinNames object
+        """
+        return self.m_coin_name
+
+    def DefaultPath(self) -> str:
+        """ Get the default derivation path.
+
+        Returns:
+            str: Default derivation path
+        """
+        return self.m_def_path
+
+    def KeyNetVersions(self) -> KeyNetVersions:
+        """ Get key net versions.
+
+        Returns:
+            KeyNetVersions object: KeyNetVersions object
+        """
+        return self.m_key_net_ver
+
+    def WifNetVersion(self) -> Optional[bytes]:
+        """ Get WIF net version.
+
+        Returns:
+            bytes: WIF net version bytes
+            None: If WIF is not supported
+        """
+        return self.m_wif_net_ver
+
+    def Bip32Type(self) -> Bip32Types:
+        """ Get the Bip32 type.
+
+        Returns:
+            Bip32Types: Bip32 type
+        """
+        return self.m_bip32_type
+
+    def AddrConf(self) -> Dict[str, Union[bytes, str]]:
+        """ Get the address configuration.
+
+        Returns:
+            dict: Address configuration
+        """
+        return self.m_addr_conf
+
+    def AddrConfKey(self,
+                    key: str) -> Union[bytes, str]:
+        """ Get the address configuration for the specified key.
+
+        Args:
+            key (str): Key
+
+        Returns:
+            bytes or str: Address configuration for the specified key
+        """
+        return self.AddrConf()[key]
+
+    def AddrType(self) -> AddrTypes:
+        """ Get the address type.
+
+        Returns:
+            AddrTypes: Address type
+        """
+        return self.m_addr_type
+
+
+class BipBitcoinCashConf(BipCoinConf):
+    """ Bitcoin Cash configuration class.
+    It allows to return different addresses depending on the configuration.
+    """
+
+    def __init__(self,
+                 coin_name: CoinNames,
+                 def_path: str,
+                 key_net_ver: KeyNetVersions,
+                 wif_net_ver: bytes,
+                 bip32_type: Bip32Types,
+                 addr_conf: Dict[str, Union[bytes, str]],
+                 addr_type: Union[AddrTypes, Dict[str, AddrTypes]]) -> None:
+        """ Construct class.
+
+        Args:
+            coin_name (CoinNames object)           : Coin names
+            def_path (str)                         : Default path
+            key_net_ver (KeyNetVersions object)    : Key net versions
+            wif_net_ver (bytes)                    : WIF net version
+            bip32_type (Bip32Types)                : Bip32 type
+            addr_conf (dict)                       : Address configuration
+            addr_type (AddrTypes)                  : Address type
+        """
+        super().__init__(coin_name, def_path, key_net_ver, wif_net_ver, bip32_type, addr_conf, addr_type)
+
+        self.m_use_legacy_addr = False
+
+    def UseLegacyAddress(self,
+                         value: bool) -> None:
+        """ Select if use the legacy address.
+
+        Args:
+            value (bool): True for using legacy address, false for using the standard one
+        """
+        self.m_use_legacy_addr = value
+
+    def AddrType(self) -> AddrTypes:
+        """ Get the address type. It overrides the method in BipCoinConf.
+
+        Returns:
+            AddrTypes: Address type
+        """
+        return self.m_addr_type["legacy"] if self.m_use_legacy_addr else self.m_addr_type["bch"]
+
+    def AddrConf(self):
+        """ Get the address configuration. It overrides the method in BipCoinConf.
+
+        Returns:
+            bytes or str: Address configuration
+        """
+        return ({"net_ver": self.m_addr_conf["legacy_net_ver"]}
+                if self.m_use_legacy_addr
+                else {"hrp": self.m_addr_conf["std_hrp"], "net_ver": self.m_addr_conf["std_net_ver"]})
+
+
+class BipLitecoinConf(BipCoinConf):
+    """ Litecoin configuration class.
+    It allows to return different addresses and key net versions depending on the configuration.
+    """
+
+    def __init__(self,
+                 coin_name: CoinNames,
+                 def_path: str,
+                 key_net_ver: KeyNetVersions,
+                 alt_key_net_ver: KeyNetVersions,
+                 wif_net_ver: bytes,
+                 bip32_type: Bip32Types,
+                 addr_conf: Dict[str, Union[bytes, str]],
+                 addr_type: Union[AddrTypes, Dict[str, AddrTypes]]) -> None:
+        """ Construct class.
+
+        Args:
+            coin_name (CoinNames object)           : Coin names
+            def_path (str)                         : Default path
+            key_net_ver (KeyNetVersions object)    : Key net versions
+            alt_key_net_ver (KeyNetVersions object): Key net versions (alternate)
+            wif_net_ver (bytes)                    : WIF net version
+            bip32_type (Bip32Types)                : Bip32 type
+            addr_conf (dict)                       : Address configuration
+            addr_type (AddrTypes)                  : Address type
+        """
+        super().__init__(coin_name, def_path, key_net_ver, wif_net_ver, bip32_type, addr_conf, addr_type)
+
+        self.m_alt_key_net_ver = alt_key_net_ver
+        self.m_use_alt_key_net_ver = False
+        self.m_use_depr_addr = False
+
+    def UseAlternateKeyNetVersions(self,
+                                   value: bool) -> None:
+        """ Select if use the alternate key net version.
+
+        Args:
+            value (bool): True for using alternate key net version, false for using the standard one
+        """
+        self.m_use_alt_key_net_ver = value
+
+    def UseDeprecatedAddress(self,
+                             value: bool) -> None:
+        """ Select if use the deprecated address.
+
+        Args:
+            value (bool): True for using deprecated address, false for using the standard one
+        """
+        self.m_use_depr_addr = value
+
+    def KeyNetVersions(self) -> KeyNetVersions:
+        """ Get key net versions. It overrides the method in BipCoinConf.
+        Litecoin overrides the method because it can have 2 different key net versions.
+
+        Returns:
+            KeyNetVersions object: KeyNetVersions object
+        """
+
+        # Get standard or alternate version depending on the configuration flag
+        return self.m_alt_key_net_ver if self.m_use_alt_key_net_ver else self.m_key_net_ver
+
+    def AddrConf(self):
+        """ Get the address configuration. It overrides the method in BipCoinConf.
+
+        Returns:
+            bytes or str: Address configuration
+        """
+        return ({"net_ver": self.m_addr_conf["depr_net_ver"]}
+                if self.m_use_depr_addr
+                else {"net_ver": self.m_addr_conf["std_net_ver"]})

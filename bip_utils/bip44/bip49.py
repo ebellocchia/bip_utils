@@ -35,7 +35,7 @@ class Bip49Const:
     # Purpose
     PURPOSE: int = Bip32Utils.HardenIndex(49)
     # Map from Bip44Coins to coin classes
-    COIN_TO_CLASS: Dict[Bip44Coins, Bip49Coin] = {
+    COIN_TO_CLASS: Dict[Bip44Coins, BipCoinConf] = {
             Bip44Coins.BITCOIN: Bip49BitcoinMainNet,
             Bip44Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
             Bip44Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
@@ -191,13 +191,13 @@ class Bip49(Bip44Base):
         return Bip49Const.PURPOSE
 
     @staticmethod
-    def _GetCoinConf(coin_type: Bip44Coins) -> Bip49Coin:
+    def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinConf:
         """ Get coin configuration.
 
         Args:
             coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
 
         Returns:
-            BipCoinBase child object: BipCoinBase child object
+            BipCoinConf child object: BipCoinConf child object
         """
         return Bip49Const.COIN_TO_CLASS[coin_type]

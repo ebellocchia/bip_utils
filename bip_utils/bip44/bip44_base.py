@@ -23,11 +23,11 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from enum import Enum, IntEnum, auto, unique
-from typing import Dict
-from bip_utils.bip32 import Bip32Base, Bip32Utils
+from typing import Dict, Type
+from bip_utils.bip32 import Bip32Base, Bip32Ed25519Slip, Bip32Nist256p1, Bip32Secp256k1, Bip32Utils
 from bip_utils.bip44.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
 from bip_utils.bip44.bip44_keys import Bip44PublicKey, Bip44PrivateKey
-from bip_utils.conf import BipCoinBase
+from bip_utils.conf import Bip32Types, BipCoinConf
 
 
 @unique
@@ -167,6 +167,13 @@ class Bip44BaseConst:
             Bip44Coins.ZCASH_TESTNET: 1,
         }
 
+    # BIP32 type to class
+    BIP32_TYPE_TO_CLASS: Dict[Bip32Types, Type[Bip32Base]] = {
+        Bip32Types.ED25519_SLIP: Bip32Ed25519Slip,
+        Bip32Types.NIST256P1: Bip32Nist256p1,
+        Bip32Types.SECP256K1: Bip32Secp256k1,
+    }
+
 
 class Bip44Base(ABC):
     """ BIP44 base class.
@@ -204,7 +211,7 @@ class Bip44Base(ABC):
             raise Bip44CoinNotAllowedError("Coin %s cannot derive from %s specification" % (coin_type, cls.SpecName()))
 
         coin_conf = cls._GetCoinConf(coin_type)
-        bip32_cls = coin_conf.Bip32Class()
+        bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromSeed(seed_bytes,
                                       coin_conf.KeyNetVersions()),
                    coin_type)
@@ -231,7 +238,7 @@ class Bip44Base(ABC):
             raise Bip44CoinNotAllowedError("Coin %s cannot derive from %s specification" % (coin_type, cls.SpecName()))
 
         coin_conf = cls._GetCoinConf(coin_type)
-        bip32_cls = coin_conf.Bip32Class()
+        bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromExtendedKey(key_str,
                                              coin_conf.KeyNetVersions()),
                    coin_type)
@@ -260,7 +267,7 @@ class Bip44Base(ABC):
             raise Bip44CoinNotAllowedError("Coin %s cannot derive from %s specification" % (coin_type, cls.SpecName()))
 
         coin_conf = cls._GetCoinConf(coin_type)
-        bip32_cls = coin_conf.Bip32Class()
+        bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromPrivateKey(key_bytes,
                                             key_net_ver=coin_conf.KeyNetVersions()),
                    coin_type)
@@ -331,11 +338,11 @@ class Bip44Base(ABC):
                                bip32_priv_key.CurveType(),
                                self.m_coin_conf)
 
-    def CoinConf(self) -> BipCoinBase:
+    def CoinConf(self) -> BipCoinConf:
         """ Get coin configuration.
 
         Returns:
-            BipCoinBase object: BipCoinBase object
+            BipCoinConf object: BipCoinConf object
         """
         return self.m_coin_conf
 
@@ -664,13 +671,13 @@ class Bip44Base(ABC):
 
     @staticmethod
     @abstractmethod
-    def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinBase:
+    def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinConf:
         """ Get coin configuration.
 
         Args:
             coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
 
         Returns:
-            BipCoinBase object: BipCoinBase object
+            BipCoinConf object: BipCoinConf object
         """
         pass
