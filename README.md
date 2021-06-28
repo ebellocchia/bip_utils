@@ -627,7 +627,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     import binascii
     from bip_utils import (
-      P2PKH, P2SH, P2WPKH, BchP2PKH, BchP2SH, Bech32Addr, AvaxPChainAddr, AvaxXChainAddr,
+      P2PKHAddr, P2SHAddr, P2WPKHAddr, BchP2PKHAddr, BchP2SHAddr, Bech32Addr, AvaxPChainAddr, AvaxXChainAddr,
       EgldAddr, EthAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
       Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
     )
@@ -641,16 +641,16 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Secp256k1PublicKey(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
     # P2PKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2PKH.EncodeKey(pub_key)
+    addr = P2PKHAddr.EncodeKey(pub_key)
     # P2SH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2SH.EncodeKey(pub_key)
+    addr = P2SHAddr.EncodeKey(pub_key)
     # P2WPKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2WPKH.EncodeKey(pub_key)
+    addr = P2WPKHAddr.EncodeKey(pub_key)
 
     # P2PKH address in Bitcoin Cash format
-    addr = BchP2PKH.EncodeKey(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2PKHAddr.EncodeKey(pub_key, "bitcoincash", b"\x00")
     # P2SH address in Bitcoin Cash format
-    addr = BchP2SH.EncodeKey(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2SHAddr.EncodeKey(pub_key, "bitcoincash", b"\x00")
 
     # Ethereum address
     addr = EthAddr.EncodeKey(pub_key)
