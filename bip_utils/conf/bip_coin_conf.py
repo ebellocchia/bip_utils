@@ -35,7 +35,7 @@ class BipCoinConf:
                  wif_net_ver: Optional[bytes],
                  bip32_type: Bip32Types,
                  addr_conf: Dict[str, Union[bytes, str, int]],
-                 addr_type: Union[AddrTypes, Dict[str, AddrTypes]]) -> None:
+                 addr_type: AddrTypes) -> None:
         """ Construct class.
 
         Args:
@@ -45,7 +45,7 @@ class BipCoinConf:
             wif_net_ver (bytes)                : WIF net version, None if not supported
             bip32_type (Bip32Types)            : Bip32 type
             addr_conf (dict)                   : Address configuration
-            addr_type (AddrTypes or dict)      : Address type
+            addr_type (AddrTypes)              : Address type
         """
         self.m_coin_name = coin_name
         self.m_def_path = def_path
@@ -137,20 +137,23 @@ class BipBitcoinCashConf(BipCoinConf):
                  wif_net_ver: bytes,
                  bip32_type: Bip32Types,
                  addr_conf: Dict[str, Union[bytes, str, int]],
-                 addr_type: Union[AddrTypes, Dict[str, AddrTypes]]) -> None:
+                 addr_type: AddrTypes,
+                 addr_type_legacy: AddrTypes) -> None:
         """ Construct class.
 
         Args:
-            coin_name (CoinNames object)           : Coin names
-            def_path (str)                         : Default path
-            key_net_ver (KeyNetVersions object)    : Key net versions
-            wif_net_ver (bytes)                    : WIF net version
-            bip32_type (Bip32Types)                : Bip32 type
-            addr_conf (dict)                       : Address configuration
-            addr_type (AddrTypes or dict)          : Address type
+            coin_name (CoinNames object)       : Coin names
+            def_path (str)                     : Default path
+            key_net_ver (KeyNetVersions object): Key net versions
+            wif_net_ver (bytes)                : WIF net version
+            bip32_type (Bip32Types)            : Bip32 type
+            addr_conf (dict)                   : Address configuration
+            addr_type (AddrTypes)              : Address type
+            addr_type_legacy (AddrTypes)       : Legacy ddress type
         """
         super().__init__(coin_name, def_path, key_net_ver, wif_net_ver, bip32_type, addr_conf, addr_type)
 
+        self.m_addr_type_legacy = addr_type_legacy
         self.m_use_legacy_addr = False
 
     def UseLegacyAddress(self,
@@ -168,7 +171,7 @@ class BipBitcoinCashConf(BipCoinConf):
         Returns:
             AddrTypes: Address type
         """
-        return self.m_addr_type["legacy"] if self.m_use_legacy_addr else self.m_addr_type["bch"]
+        return self.m_addr_type_legacy if self.m_use_legacy_addr else self.m_addr_type
 
     def AddrConf(self) -> Dict[str, Union[bytes, str, int]]:
         """ Get the address configuration. It overrides the method in BipCoinConf.
@@ -194,7 +197,7 @@ class BipLitecoinConf(BipCoinConf):
                  wif_net_ver: bytes,
                  bip32_type: Bip32Types,
                  addr_conf: Dict[str, Union[bytes, str, int]],
-                 addr_type: Union[AddrTypes, Dict[str, AddrTypes]]) -> None:
+                 addr_type: AddrTypes) -> None:
         """ Construct class.
 
         Args:
@@ -205,7 +208,7 @@ class BipLitecoinConf(BipCoinConf):
             wif_net_ver (bytes)                    : WIF net version
             bip32_type (Bip32Types)                : Bip32 type
             addr_conf (dict)                       : Address configuration
-            addr_type (AddrTypes or dict)          : Address type
+            addr_type (AddrTypes)                  : Address type
         """
         super().__init__(coin_name, def_path, key_net_ver, wif_net_ver, bip32_type, addr_conf, addr_type)
 

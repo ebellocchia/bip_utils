@@ -62,7 +62,8 @@ Bip49BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
     bip32_type=Bip32Types.SECP256K1,
     addr_conf={"std_net_ver": b"\x08", "std_hrp": "bitcoincash", "legacy_net_ver":  BIP49_BTC_P2SH_NET_VER_MAIN},
-    addr_type={"legacy": AddrTypes.P2SH, "bch": AddrTypes.P2SH_BCH})
+    addr_type=AddrTypes.P2SH_BCH,
+    addr_type_legacy=AddrTypes.P2SH)
 # Configuration for Bitcoin Cash test net
 Bip49BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
     coin_name=CoinNames("Bitcoin Cash TestNet", "BCH"),
@@ -71,7 +72,8 @@ Bip49BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_type=Bip32Types.SECP256K1,
     addr_conf={"std_net_ver": b"\x08", "std_hrp": "bchtest", "legacy_net_ver":  BIP49_BTC_P2SH_NET_VER_TEST},
-    addr_type={"legacy": AddrTypes.P2SH, "bch": AddrTypes.P2SH_BCH})
+    addr_type=AddrTypes.P2SH_BCH,
+    addr_type_legacy=AddrTypes.P2SH)
 
 # Configuration for BitcoinSV main net
 Bip49BitcoinSvMainNet: BipCoinConf = BipCoinConf(
