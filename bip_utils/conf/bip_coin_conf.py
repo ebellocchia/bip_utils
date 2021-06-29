@@ -30,6 +30,7 @@ class BipCoinConf:
 
     def __init__(self,
                  coin_name: CoinNames,
+                 is_testnet: bool,
                  def_path: str,
                  key_net_ver: KeyNetVersions,
                  wif_net_ver: Optional[bytes],
@@ -40,6 +41,7 @@ class BipCoinConf:
 
         Args:
             coin_name (CoinNames object)       : Coin names
+            is_testnet (bool)                  : Test net flag
             def_path (str)                     : Default path
             key_net_ver (KeyNetVersions object): Key net versions
             wif_net_ver (bytes)                : WIF net version, None if not supported
@@ -48,6 +50,7 @@ class BipCoinConf:
             addr_type (AddrTypes)              : Address type
         """
         self.m_coin_name = coin_name
+        self.m_is_testnet = is_testnet
         self.m_def_path = def_path
         self.m_key_net_ver = key_net_ver
         self.m_wif_net_ver = wif_net_ver
@@ -62,6 +65,14 @@ class BipCoinConf:
             CoinNames object: CoinNames object
         """
         return self.m_coin_name
+
+    def IsTestNet(self) -> bool:
+        """ Get if test net.
+
+        Returns:
+            bool: True if test net, false otherwise
+        """
+        return self.m_is_testnet
 
     def DefaultPath(self) -> str:
         """ Get the default derivation path.
@@ -132,6 +143,7 @@ class BipBitcoinCashConf(BipCoinConf):
 
     def __init__(self,
                  coin_name: CoinNames,
+                 is_testnet: bool,
                  def_path: str,
                  key_net_ver: KeyNetVersions,
                  wif_net_ver: bytes,
@@ -143,6 +155,7 @@ class BipBitcoinCashConf(BipCoinConf):
 
         Args:
             coin_name (CoinNames object)       : Coin names
+            is_testnet (bool)                  : Test net flag
             def_path (str)                     : Default path
             key_net_ver (KeyNetVersions object): Key net versions
             wif_net_ver (bytes)                : WIF net version
@@ -151,7 +164,14 @@ class BipBitcoinCashConf(BipCoinConf):
             addr_type (AddrTypes)              : Address type
             addr_type_legacy (AddrTypes)       : Legacy ddress type
         """
-        super().__init__(coin_name, def_path, key_net_ver, wif_net_ver, bip32_type, addr_conf, addr_type)
+        super().__init__(coin_name,
+                         is_testnet,
+                         def_path,
+                         key_net_ver,
+                         wif_net_ver,
+                         bip32_type,
+                         addr_conf,
+                         addr_type)
 
         self.m_addr_type_legacy = addr_type_legacy
         self.m_use_legacy_addr = False
@@ -191,6 +211,7 @@ class BipLitecoinConf(BipCoinConf):
 
     def __init__(self,
                  coin_name: CoinNames,
+                 is_testnet: bool,
                  def_path: str,
                  key_net_ver: KeyNetVersions,
                  alt_key_net_ver: KeyNetVersions,
@@ -202,6 +223,7 @@ class BipLitecoinConf(BipCoinConf):
 
         Args:
             coin_name (CoinNames object)           : Coin names
+            is_testnet (bool)                      : Test net flag
             def_path (str)                         : Default path
             key_net_ver (KeyNetVersions object)    : Key net versions
             alt_key_net_ver (KeyNetVersions object): Key net versions (alternate)
@@ -210,7 +232,14 @@ class BipLitecoinConf(BipCoinConf):
             addr_conf (dict)                       : Address configuration
             addr_type (AddrTypes)                  : Address type
         """
-        super().__init__(coin_name, def_path, key_net_ver, wif_net_ver, bip32_type, addr_conf, addr_type)
+        super().__init__(coin_name,
+                         is_testnet,
+                         def_path,
+                         key_net_ver,
+                         wif_net_ver,
+                         bip32_type,
+                         addr_conf,
+                         addr_type)
 
         self.m_alt_key_net_ver = alt_key_net_ver
         self.m_use_alt_key_net_ver = False

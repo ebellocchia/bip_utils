@@ -38,6 +38,7 @@ BIP49_BTC_P2SH_NET_VER_TEST: bytes = b"\xc4"
 # Configuration for Bitcoin main net
 Bip49BitcoinMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Bitcoin", "BTC"),
+    is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
@@ -47,6 +48,7 @@ Bip49BitcoinMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Bitcoin test net
 Bip49BitcoinTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Bitcoin TestNet", "BTC"),
+    is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_TEST,
     wif_net_ver=BTC_WIF_NET_VER_TEST,
@@ -57,6 +59,7 @@ Bip49BitcoinTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Bitcoin Cash main net
 Bip49BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
     coin_name=CoinNames("Bitcoin Cash", "BCH"),
+    is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
@@ -67,6 +70,7 @@ Bip49BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
 # Configuration for Bitcoin Cash test net
 Bip49BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
     coin_name=CoinNames("Bitcoin Cash TestNet", "BCH"),
+    is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_TEST,
     wif_net_ver=BTC_WIF_NET_VER_TEST,
@@ -78,6 +82,7 @@ Bip49BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
 # Configuration for BitcoinSV main net
 Bip49BitcoinSvMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("BitcoinSV", "BSV"),
+    is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
@@ -87,6 +92,7 @@ Bip49BitcoinSvMainNet: BipCoinConf = BipCoinConf(
 # Configuration for BitcoinSV test net
 Bip49BitcoinSvTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("BitcoinSV TestNet", "BSV"),
+    is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_TEST,
     wif_net_ver=BTC_WIF_NET_VER_TEST,
@@ -97,6 +103,7 @@ Bip49BitcoinSvTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Dash main net
 Bip49DashMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dash", "DASH"),
+    is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=b"\xcc",
@@ -106,6 +113,7 @@ Bip49DashMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Dash test net
 Bip49DashTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dash TestNet", "DASH"),
+    is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_TEST,
     wif_net_ver=BTC_WIF_NET_VER_TEST,
@@ -116,6 +124,7 @@ Bip49DashTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Dogecoin main net
 Bip49DogecoinMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dogecoin", "DOGE"),
+    is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"02facafd", b"02fac398"),   # dgub / dgpv
     wif_net_ver=b"\x9e",
@@ -125,6 +134,7 @@ Bip49DogecoinMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Dogecoin test net
 Bip49DogecoinTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dogecoin TestNet", "DOGE"),
+    is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"0432a9a8", b"0432a243"),   # tgub / tgpv
     wif_net_ver=b"\xf1",
@@ -135,6 +145,7 @@ Bip49DogecoinTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Litecoin main net
 Bip49LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
     coin_name=CoinNames("Litecoin", "LTC"),
+    is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_MAIN,
     alt_key_net_ver=KeyNetVersions(b"01b26ef6", b"01b26792"),   # Mtpv / Mtub
@@ -145,6 +156,7 @@ Bip49LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
 # Configuration for Litecoin test net
 Bip49LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
     coin_name=CoinNames("Litecoin TestNet", "LTC"),
+    is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"0436f6e1", b"0436ef7d"),       # ttub / ttpv
     alt_key_net_ver=KeyNetVersions(b"0436f6e1", b"0436ef7d"),   # ttub / ttpv
@@ -156,6 +168,7 @@ Bip49LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
 # Configuration for Zcash main net
 Bip49ZcashMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Zcash", "ZEC"),
+    is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
@@ -165,6 +178,7 @@ Bip49ZcashMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Zcash test net
 Bip49ZcashTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Zcash TestNet", "ZEC"),
+    is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP49_BTC_KEY_NET_VER_TEST,
     wif_net_ver=BTC_WIF_NET_VER_TEST,
