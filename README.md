@@ -68,6 +68,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Tron
 - VeChain
 - Zcash (and related test net)
+- Zilliqa
 
 Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, ...), the generated addresses are valid for all the related tokens.
 
@@ -522,6 +523,7 @@ Currently supported coins enumerative:
 |Tron|*Bip44Coins.TRON*|-|
 |VeChain|*Bip44Coins.VECHAIN*|-|
 |Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
+|Zilliqa|*Bip44Coins.ZILLIQA*|-|
 
 The library can be easily extended with other coins anyway.
 
@@ -669,6 +671,8 @@ These libraries are used internally by the other libraries, but they are availab
     addr = OneAddr.EncodeKey(pub_key)
     # Ripple address
     addr = XrpAddr.EncodeKey(pub_key)
+    # Zilliqa address
+    addr = ZilAddr.EncodeKey(pub_key)
 
     #
     # Coins that require a ed25519 curve
