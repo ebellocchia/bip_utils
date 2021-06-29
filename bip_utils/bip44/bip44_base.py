@@ -79,6 +79,7 @@ class Bip44Coins(Enum):
     TRON = auto(),
     VECHAIN = auto(),
     ZCASH = auto(),
+    ZILLIQA = auto(),
     # Test nets
     BITCOIN_CASH_TESTNET = auto(),
     BITCOIN_SV_TESTNET = auto(),
@@ -142,6 +143,7 @@ class Bip44BaseConst:
             Bip44Coins.POLKADOT_ED25519_SLIP: 354,
             Bip44Coins.BAND_PROTOCOL: 494,
             Bip44Coins.KAVA: 494,
+            Bip44Coins.ZILLIQA: 313,
             Bip44Coins.TERRA: 330,
             Bip44Coins.THETA: 500,
             Bip44Coins.SOLANA: 501,

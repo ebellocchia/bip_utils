@@ -47,6 +47,7 @@ class AddrTypes(Enum):
     XLM = auto()
     XRP = auto(),
     XTZ = auto(),
+    ZIL = auto(),
 
 
 @unique

@@ -554,13 +554,13 @@ Bip44ZcashTestNet: BipCoinConf = BipCoinConf(
     addr_conf={"net_ver": b"\x1d\x25"},
     addr_type=AddrTypes.P2PKH)
 
-
-
-
-
-
-
-
-
-
-
+# Configuration for Zilliqa
+Bip44Zilliqa: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("zilliqa", "ZIL"),
+    is_testnet=False,
+    def_path=NOT_HARDENED_DEF_PATH,
+    key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
+    wif_net_ver=None,
+    bip32_type=Bip32Types.SECP256K1,
+    addr_conf={"hrp": "zil"},
+    addr_type=AddrTypes.ZIL)

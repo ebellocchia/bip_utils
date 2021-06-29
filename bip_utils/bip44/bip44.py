@@ -85,6 +85,7 @@ class Bip44Const:
             Bip44Coins.VECHAIN: Bip44VeChain,
             Bip44Coins.ZCASH: Bip44ZcashMainNet,
             Bip44Coins.ZCASH_TESTNET: Bip44ZcashTestNet,
+            Bip44Coins.ZILLIQA: Bip44Zilliqa,
         }
 
 

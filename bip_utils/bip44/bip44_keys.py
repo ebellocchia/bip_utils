@@ -53,6 +53,7 @@ class Bip44KeysConst:
         AddrTypes.XLM: XlmAddr,
         AddrTypes.XRP: XrpAddr,
         AddrTypes.XTZ: XtzAddr,
+        AddrTypes.ZIL: ZilAddr,
     }
 
 
