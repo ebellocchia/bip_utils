@@ -237,6 +237,7 @@ TEST_VECT_COINS = {
         Bip44Coins.TRON,
         Bip44Coins.VECHAIN,
         Bip44Coins.ZCASH,
+        Bip44Coins.ZILLIQA,
 
         Bip44Coins.BITCOIN_CASH_TESTNET,
         Bip44Coins.BITCOIN_SV_TESTNET,

@@ -556,7 +556,7 @@ Bip44ZcashTestNet: BipCoinConf = BipCoinConf(
 
 # Configuration for Zilliqa
 Bip44Zilliqa: BipCoinConf = BipCoinConf(
-    coin_name=CoinNames("zilliqa", "ZIL"),
+    coin_name=CoinNames("Zilliqa", "ZIL"),
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,

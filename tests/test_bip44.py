@@ -1037,6 +1037,30 @@ TEST_VECT = [
             "t1QAU8388aa3G9DXnbGSverQoEoz3WeGEiy",
         ],
     },
+    # Zcash
+    {
+        "coin": Bip44Coins.ZILLIQA,
+        "names": ("Zilliqa", "ZIL"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DTx9qhc1XhEHMqwk1LyA5igoAAySsdKGpGFGPFPsDEKqbSecx6TkzuD1ZQd6Kp1QTvFwkAAR1oNYqYhon3NARKVzBSgZxVywPs4Pqx65ER",
+            "ex_priv": "xprv9zUbkLAiBA8w4smUdyoxnwmxF8LV3QuTubLeTzqnJshLxo7W5QnDDCajAJkMZZaay7p2ci7z1SpqsMD3KGWdnZ2MU3hkNfiUxCaUPc67qtg",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6E6wnYzenDvuyJvv5ht28SgPgDuQDwq6C8AwxiiFJvdvafuEXUEjnv3VFPPzn4p5xazvTAiW2H25tLj9LnpimpHMkp7HuVPwbTPcR5A1wm4",
+            "ex_priv": "xprvA17bP3TkwrNckprSygM1mJjf8C4upV7EpuFMALJdkb6whsa5yvvVF7j1Q7EFBy83rKTEYByip8DLpu6NWPsSeMSpv8LaPsXzJqWAEwuRVTU",
+        },
+        "addresses": [
+            "zil1y8cv5w9u3l4nz4vxga3a8uuafyu0xn387npzy7",
+            "zil15xvgngyagn08hswpyazgcfe2sz385n3zda0tcl",
+            "zil16yjqdug74ygdgt6n6dd57k2l4hegfh24yknj3k",
+            "zil1xydwg7m86fyg92gavfgxy0xmvcskcv4nx5hgsy",
+            "zil1u4czr4q7vgv3xuzdul2nx5zl7m8u3w5d5a28ka",
+        ],
+    },
 
     #
     # Test nets
@@ -1474,6 +1498,12 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "t1XVXWCvpMgBvUaed4XDqWtgQgJSu1Ghz7F",
     },
+    # Zilliqa
+    {
+        "coin": Bip44Coins.ZILLIQA,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "zil1y8cv5w9u3l4nz4vxga3a8uuafyu0xn387npzy7",
+    },
 
     #
     # Test nets
@@ -1599,6 +1629,7 @@ TEST_VECT_COINS = {
         Bip44Coins.TRON,
         Bip44Coins.VECHAIN,
         Bip44Coins.ZCASH,
+        Bip44Coins.ZILLIQA,
 
         Bip44Coins.BITCOIN_CASH_TESTNET,
         Bip44Coins.BITCOIN_SV_TESTNET,

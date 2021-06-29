@@ -594,6 +594,7 @@ TEST_VECT_COINS = {
         Bip44Coins.THETA,
         Bip44Coins.TRON,
         Bip44Coins.VECHAIN,
+        Bip44Coins.ZILLIQA,
     ],
 }
 
