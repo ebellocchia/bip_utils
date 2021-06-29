@@ -47,6 +47,7 @@ class NeoAddr:
 
         Args:
             pub_key (bytes or Nist256p1PublicKey): Public key bytes or object
+            ver (bytes)                          : Version
 
         Returns:
             str: Address string
