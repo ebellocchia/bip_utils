@@ -27,6 +27,7 @@ from bip_utils import (
     Bip32KeyError,
 )
 
+
 #
 # Helper class for Bip44Base child classes, which share the same tests
 #
@@ -107,7 +108,6 @@ class Bip44BaseTestHelper:
                     ut_class.assertEqual(test_addr, bip_obj_ctx.AddressIndex(idx).PublicKey().ToAddress())
                 # Reset flag
                 test["addresses_depr"]["cls"].UseDeprecatedAddress(False)
-
 
     # Run all tests in test vector using FromExtendedKey for construction
     @staticmethod
