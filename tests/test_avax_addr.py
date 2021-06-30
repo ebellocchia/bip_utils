@@ -22,29 +22,29 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AvaxChainTypes, AvaxPChainAddr, AvaxXChainAddr, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+from bip_utils import AvaxPChainAddr, AvaxXChainAddr, Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
 
 # Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"02add530ea489143b936d2430e8412182984cdb26c020ce18ddc34dbf24a442b7d",
-        "chain": AvaxChainTypes.AVAX_X_CHAIN,
+        "chain": "X",
         "address": "X-avax123ghjvxx49h87g0vk26c97ca8x3v44g5n9mzha",
     },
     {
         "pub_key": b"03465789245ff8a454efc9a72608521f30bcc49e35f1bf26272d0a6cb7a7b91876",
-        "chain": AvaxChainTypes.AVAX_X_CHAIN,
+        "chain": "X",
         "address": "X-avax164klxn22zr2g4q4m3k03zy8skrpgrt36sqm5r4",
     },
     {
         "pub_key": b"03a90de501b386356e40d9800431f06698241414590498903b80f0aeb184dfa537",
-        "chain": AvaxChainTypes.AVAX_P_CHAIN,
+        "chain": "P",
         "address": "P-avax14q4ugdl65sagjx4as20fuqf37ecaeadcqm96zt",
     },
     {
         "pub_key": b"0317e4b698b4e370ced9fec7c02bfd5c56055e07db49fdc623b1545eb7a61a1287",
-        "chain": AvaxChainTypes.AVAX_P_CHAIN,
+        "chain": "P",
         "address": "P-avax1e4wshkjvqpfcuu86acl69xad8sl7zsgg723xu3",
     },
 ]
@@ -60,9 +60,9 @@ class AvaxAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            cls = AvaxXChainAddr if test["chain"] == AvaxChainTypes.AVAX_X_CHAIN else AvaxPChainAddr
-            self.assertEqual(test["address"], cls.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], cls.EncodeKey(Secp256k1PublicKey(key_bytes)))
+            addr_cls = AvaxXChainAddr if test["chain"] == "X" else AvaxPChainAddr
+            self.assertEqual(test["address"], addr_cls.EncodeKey(key_bytes))
+            self.assertEqual(test["address"], addr_cls.EncodeKey(Secp256k1PublicKey(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):

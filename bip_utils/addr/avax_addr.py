@@ -22,32 +22,10 @@
 # Imports
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.bech32 import AvaxChainTypes, AvaxBech32Encoder
+from bip_utils.bech32 import Bech32Encoder
+from bip_utils.conf import Bip44AvaxPChain, Bip44AvaxXChain
 from bip_utils.ecc import Secp256k1PublicKey
 from bip_utils.utils import CryptoUtils
-
-
-class AvaxXChainAddr:
-    """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
-
-    @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
-        """ Get address in Atom format.
-
-        Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
-
-        Returns:
-            str: Address string
-
-        Raises:
-            ValueError: If the public key is not valid
-            TypeError: If the public key is not secp256k1
-        """
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
-
-        return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
-                                        AvaxChainTypes.AVAX_X_CHAIN)
 
 
 class AvaxPChainAddr:
@@ -68,6 +46,32 @@ class AvaxPChainAddr:
             TypeError: If the public key is not secp256k1
         """
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        prefix = Bip44AvaxPChain.AddrConfKey("prefix")
 
-        return AvaxBech32Encoder.Encode(CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
-                                        AvaxChainTypes.AVAX_P_CHAIN)
+        return prefix + Bech32Encoder.Encode(Bip44AvaxPChain.AddrConfKey("hrp"),
+                                             CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+
+
+
+class AvaxXChainAddr:
+    """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
+
+    @staticmethod
+    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+        """ Get address in Atom format.
+
+        Args:
+            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1
+        """
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        prefix = Bip44AvaxXChain.AddrConfKey("prefix")
+
+        return prefix + Bech32Encoder.Encode(Bip44AvaxXChain.AddrConfKey("hrp"),
+                                             CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

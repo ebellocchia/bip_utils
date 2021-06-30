@@ -64,7 +64,7 @@ Bip44AvaxPChain: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.SECP256K1,
-    addr_conf={},
+    addr_conf={"hrp": "avax", "prefix": "P-"},
     addr_type=AddrTypes.AVAX_P)
 # Configuration for Avax X-Chain
 Bip44AvaxXChain: BipCoinConf = BipCoinConf(
@@ -74,7 +74,7 @@ Bip44AvaxXChain: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.SECP256K1,
-    addr_conf={},
+    addr_conf={"hrp": "avax", "prefix": "X-"},
     addr_type=AddrTypes.AVAX_X)
 
 # Configuration for Band Protocol
