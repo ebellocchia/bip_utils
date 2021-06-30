@@ -21,23 +21,23 @@
 
 # Imports
 from bip_utils.bip32.bip32_base import Bip32Base
-from bip_utils.bip32.bip32_ecdsa_base import Bip32EcdsaBase
+from bip_utils.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
 
 
-class Bip32Secp256k1Const:
-    """ Class container for BIP32 secp256k1 constants. """
+class Bip32Ed25519Blake2bSlipConst:
+    """ Class container for BIP32 ed25519 constants. """
 
     # Elliptic curve type
-    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.SECP256K1
-    # HMAC key for generating master key
-    MASTER_KEY_HMAC_KEY: bytes = b"Bitcoin seed"
+    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.ED25519_BLAKE2B
 
 
-class Bip32Secp256k1(Bip32EcdsaBase):
-    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation using secp256k1 curve.
+class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
+    """ BIP32 ed25519-blake2b class. It allows master key generation and children keys derivation
+    using ed25519-blake2b curve.
+    Derivation based on SLIP-0010.
     """
 
     #
@@ -62,9 +62,9 @@ class Bip32Secp256k1(Bip32EcdsaBase):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeed(seed_bytes,
-                             Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY,
+                             Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
                              key_net_ver,
-                             Bip32Secp256k1Const.CURVE_TYPE)
+                             Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -86,10 +86,10 @@ class Bip32Secp256k1(Bip32EcdsaBase):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeedAndPath(seed_bytes,
-                                    Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY,
+                                    Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
                                     path,
                                     key_net_ver,
-                                    Bip32Secp256k1Const.CURVE_TYPE)
+                                    Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
 
     @classmethod
     def FromExtendedKey(cls,
@@ -109,7 +109,7 @@ class Bip32Secp256k1(Bip32EcdsaBase):
         """
         return cls._FromExtendedKey(key_str,
                                     key_net_ver,
-                                    Bip32Secp256k1Const.CURVE_TYPE)
+                                    Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
 
     @classmethod
     def FromPrivateKey(cls,
@@ -131,7 +131,7 @@ class Bip32Secp256k1(Bip32EcdsaBase):
         """
         return cls._FromPrivateKey(key_bytes,
                                    key_net_ver,
-                                   Bip32Secp256k1Const.CURVE_TYPE)
+                                   Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
 
     #
     # Protected methods
@@ -140,6 +140,7 @@ class Bip32Secp256k1(Bip32EcdsaBase):
     def _CkdPriv(self,
                  index: Bip32KeyIndex) -> Bip32Base:
         """ Create a child key of the specified index using private derivation.
+        It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
             index (Bip32KeyIndex object): Key index
@@ -150,19 +151,4 @@ class Bip32Secp256k1(Bip32EcdsaBase):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        return self._CkdPrivEcdsa(self, index)
-
-    def _CkdPub(self,
-                index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using public derivation.
-
-        Args:
-            index (Bip32KeyIndex object): Key index
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the index results in an invalid key
-        """
-        return self._CkdPubEcdsa(self, index)
+        return self._CkdPrivEd25519Slip(self, index)

@@ -20,22 +20,27 @@
 
 
 # Imports
-from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_base import Bip32Base
-from bip_utils.ecc import EllipticCurveGetter
 from bip_utils.utils import ConvUtils
 
 
-class Bip32EcdsaBase(Bip32Base):
-    """ BIP32 ECDSA base class. It implements the generic key derivation for ECDSA curves (e.g. secp256k1),
-    since they share the same derivation scheme.
-    It shall be derived by the specific ECDSA curve.
+class Bip32Ed25519SlipBaseConst:
+    """ Class container for BIP32 ed25519 constants. """
+
+    # HMAC key for generating master key
+    MASTER_KEY_HMAC_KEY: bytes = b"ed25519 seed"
+
+
+class Bip32Ed25519SlipBase(Bip32Base):
+    """ BIP32 ed25519 base class. It allows master key generation and children keys derivation using ed25519 curve.
+    The "Slip" in the class name is due to the fact that there are different derivation schemes using ed25519 curve and
+    this one is based on SLIP-0010.
+    It shall be derived by the specific ed25519 curve.
     """
 
     #
     # Public methods
-    # Not-hardened private derivation and public derivation are always supported
     #
 
     @staticmethod
@@ -45,7 +50,7 @@ class Bip32EcdsaBase(Bip32Base):
         Returns:
             bool: True if supported, false otherwise.
         """
-        return True
+        return False
 
     @staticmethod
     def IsPrivateUnhardenedDerivationSupported() -> bool:
@@ -54,17 +59,18 @@ class Bip32EcdsaBase(Bip32Base):
         Returns:
             bool: True if supported, false otherwise.
         """
-        return True
+        return False
 
     #
     # Protected methods
     #
 
     @classmethod
-    def _CkdPrivEcdsa(cls,
-                      bip32_obj: Bip32Base,
-                      index: Bip32KeyIndex) -> Bip32Base:
+    def _CkdPrivEd25519Slip(cls,
+                            bip32_obj: Bip32Base,
+                            index: Bip32KeyIndex) -> Bip32Base:
         """ Create a child key of the specified index using private derivation.
+        It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
             bip32_obj (Bip32Base object): Bip32Base object
@@ -76,31 +82,18 @@ class Bip32EcdsaBase(Bip32Base):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        curve = EllipticCurveGetter.FromType(bip32_obj.CurveType())
 
         # Index as bytes
         index_bytes = ConvUtils.IntegerToBytes(int(index), bytes_num=4)
 
         # Data for HMAC
-        if index.IsHardened():
-            data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + index_bytes
-        else:
-            data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + index_bytes
+        data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + index_bytes
 
         # Compute HMAC halves
         i_l, i_r = bip32_obj._HmacHalves(data)
 
-        # Construct new key secret from i_l and current private key
-        i_l_int = ConvUtils.BytesToInteger(i_l)
-        key_int = ConvUtils.BytesToInteger(bip32_obj.m_priv_key.Raw().ToBytes())
-        new_key_int = (i_l_int + key_int) % curve.Order()
-
-        # Convert to string and left pad with zeros
-        secret = ConvUtils.IntegerToBytes(new_key_int)
-        secret = b"\x00" * (curve.PrivateKeyClass().Length() - len(secret)) + secret
-
         # Construct and return a new Bip32 object
-        return cls(secret=secret,
+        return cls(secret=i_l,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth() + 1,
@@ -109,14 +102,12 @@ class Bip32EcdsaBase(Bip32Base):
                    is_public=False,
                    key_net_ver=bip32_obj.KeyNetVersions())
 
-    @classmethod
-    def _CkdPubEcdsa(cls,
-                     bip32_obj: Bip32Base,
-                     index: Bip32KeyIndex) -> Bip32Base:
+    def _CkdPub(self,
+                index: Bip32KeyIndex) -> Bip32Base:
         """ Create a child key of the specified index using public derivation.
+        It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
-            bip32_obj (Bip32Base object): Bip32Base object
             index (Bip32KeyIndex object): Key index
 
         Returns:
@@ -125,27 +116,6 @@ class Bip32EcdsaBase(Bip32Base):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        curve = EllipticCurveGetter.FromType(bip32_obj.CurveType())
 
-        # Data for HMAC, same of __CkdPriv() for public child key
-        data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + ConvUtils.IntegerToBytes(int(index), bytes_num=4)
-
-        # Get HMAC of data
-        i_l, i_r = bip32_obj._HmacHalves(data)
-
-        # Try to construct a new public key from the curve point: pub_key_point + G*i_l
-        try:
-            new_point = bip32_obj.m_pub_key.Point() + (curve.Generator() * ConvUtils.BytesToInteger(i_l))
-            pub_key = curve.PublicKeyClass()(new_point)
-        except ValueError as ex:
-            raise Bip32KeyError("Computed public child key is not valid, very unlucky index") from ex
-
-        # Construct and return a new Bip32 object
-        return cls(secret=pub_key.RawCompressed().ToBytes(),
-                   chain_code=i_r,
-                   curve_type=bip32_obj.CurveType(),
-                   depth=bip32_obj.Depth() + 1,
-                   index=index,
-                   fprint=bip32_obj.m_pub_key.FingerPrint(),
-                   is_public=True,
-                   key_net_ver=bip32_obj.KeyNetVersions())
+        # Not supported by Ed25519 SLIP-0010
+        pass

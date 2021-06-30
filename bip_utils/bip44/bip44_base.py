@@ -24,7 +24,9 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from enum import Enum, IntEnum, auto, unique
 from typing import Dict, Type
-from bip_utils.bip32 import Bip32Base, Bip32Ed25519Slip, Bip32Nist256p1, Bip32Secp256k1, Bip32Utils
+from bip_utils.bip32 import (
+    Bip32Base, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1, Bip32Utils
+)
 from bip_utils.bip44.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
 from bip_utils.bip44.bip44_keys import Bip44PublicKey, Bip44PrivateKey
 from bip_utils.conf import Bip32Types, BipCoinConf
@@ -172,6 +174,7 @@ class Bip44BaseConst:
     # BIP32 type to class
     BIP32_TYPE_TO_CLASS: Dict[Bip32Types, Type[Bip32Base]] = {
         Bip32Types.ED25519_SLIP: Bip32Ed25519Slip,
+        Bip32Types.ED25519_BLAKE2B_SLIP: Bip32Ed25519Blake2bSlip,
         Bip32Types.NIST256P1: Bip32Nist256p1,
         Bip32Types.SECP256K1: Bip32Secp256k1,
     }

@@ -28,5 +28,6 @@ class EllipticCurveTypes(Enum):
     """ Enumerative for elliptic curve types. """
 
     ED25519 = auto(),
+    ED25519_BLAKE2B = auto(),
     NIST256P1 = auto(),
     SECP256K1 = auto(),

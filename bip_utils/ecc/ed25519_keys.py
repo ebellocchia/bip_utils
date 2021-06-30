@@ -20,23 +20,25 @@
 
 
 # Imports
-from __future__ import annotations
 from nacl import exceptions, signing
 from typing import Any, Optional, Union
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.key_bytes import KeyBytes
+from bip_utils.utils import ConvUtils
 
 
 class Ed25519KeysConst:
     """ Class container for ed25519 keys constants. """
 
+    # Public key prefix
+    PUB_KEY_PREFIX: bytes = b"\x00"
     # Compressed public key length
-    PUB_KEY_COMPRESSED_LEN = 33
+    PUB_KEY_COMPRESSED_LEN: int = 33
     # Uncompressed public key length
-    PUB_KEY_UNCOMPRESSED_LEN = 33
+    PUB_KEY_UNCOMPRESSED_LEN: int = 33
     # Private key length
-    PRIV_KEY_LEN = 32
+    PRIV_KEY_LEN: int = 32
 
 
 class Ed25519Point(IPoint):
@@ -56,15 +58,6 @@ class Ed25519Point(IPoint):
         self.m_x = x
         self.m_y = y
         self.m_order = order or 0
-
-    @staticmethod
-    def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
-
-        Returns:
-           EllipticCurveTypes: Elliptic curve type
-        """
-        return EllipticCurveTypes.ED25519
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -231,7 +224,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return KeyBytes(b"\x00" + bytes(self.m_ver_key))
+        return KeyBytes(Ed25519KeysConst.PUB_KEY_PREFIX + bytes(self.m_ver_key))
 
     def RawUncompressed(self) -> KeyBytes:
         """ Return raw uncompressed public key.
@@ -264,8 +257,9 @@ class Ed25519PublicKey(IPublicKey):
             signing.VerifyKey: signing.VerifyKey object
         """
 
-        # Remove the first 0x00 if present because nacl requires 32-byte length
-        if len(key_bytes) == Ed25519PublicKey.CompressedLength() and key_bytes[0] == 0:
+        # Remove the prefix if present because nacl requires 32-byte length
+        if (len(key_bytes) == Ed25519PublicKey.CompressedLength() and
+                key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
 
         try:

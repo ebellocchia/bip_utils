@@ -20,12 +20,11 @@
 
 
 # Imports
-from __future__ import annotations
-from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_base import Bip32Base
+from bip_utils.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
+from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
-from bip_utils.utils import ConvUtils
 
 
 class Bip32Ed25519SlipConst:
@@ -33,14 +32,11 @@ class Bip32Ed25519SlipConst:
 
     # Elliptic curve type
     CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.ED25519
-    # HMAC key for generating master key
-    MASTER_KEY_HMAC_KEY: bytes = b"ed25519 seed"
 
 
-class Bip32Ed25519Slip(Bip32Base):
-    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation using ed25519 curve.
-    The "Slip" in the class name is due to the fact that there are different derivation schemes using ed25519 curve and
-    this one is based on SLIP-0010.
+class Bip32Ed25519Slip(Bip32Ed25519SlipBase):
+    """ BIP32 ed25519 class. It allows master key generation and children keys derivation using ed25519 curve.
+    Derivation based on SLIP-0010.
     """
 
     #
@@ -65,7 +61,7 @@ class Bip32Ed25519Slip(Bip32Base):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeed(seed_bytes,
-                             Bip32Ed25519SlipConst.MASTER_KEY_HMAC_KEY,
+                             Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
                              key_net_ver,
                              Bip32Ed25519SlipConst.CURVE_TYPE)
 
@@ -89,7 +85,7 @@ class Bip32Ed25519Slip(Bip32Base):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeedAndPath(seed_bytes,
-                                    Bip32Ed25519SlipConst.MASTER_KEY_HMAC_KEY,
+                                    Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
                                     path,
                                     key_net_ver,
                                     Bip32Ed25519SlipConst.CURVE_TYPE)
@@ -137,29 +133,7 @@ class Bip32Ed25519Slip(Bip32Base):
                                    Bip32Ed25519SlipConst.CURVE_TYPE)
 
     #
-    # Public methods
-    #
-
-    @staticmethod
-    def IsPublicDerivationSupported() -> bool:
-        """ Get if public derivation is supported.
-
-        Returns:
-            bool: True if supported, false otherwise.
-        """
-        return False
-
-    @staticmethod
-    def IsPrivateUnhardenedDerivationSupported() -> bool:
-        """ Get if private derivation with not-hardened indexes is supported.
-
-        Returns:
-            bool: True if supported, false otherwise.
-        """
-        return False
-
-    #
-    # Private methods
+    # Protected methods
     #
 
     def _CkdPriv(self,
@@ -176,40 +150,4 @@ class Bip32Ed25519Slip(Bip32Base):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-
-        # Index as bytes
-        index_bytes = ConvUtils.IntegerToBytes(int(index), bytes_num=4)
-
-        # Data for HMAC
-        data = b"\x00" + self.m_priv_key.Raw().ToBytes() + index_bytes
-
-        # Compute HMAC halves
-        i_l, i_r = self._HmacHalves(data)
-
-        # Construct and return a new Bip32 object
-        return Bip32Ed25519Slip(secret=i_l,
-                                chain_code=i_r,
-                                curve_type=self.CurveType(),
-                                depth=self.Depth() + 1,
-                                index=index,
-                                fprint=self.m_pub_key.FingerPrint(),
-                                is_public=False,
-                                key_net_ver=self.KeyNetVersions())
-
-    def _CkdPub(self,
-                index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using public derivation.
-        It shall be implemented by children classes depending on the elliptic curve.
-
-        Args:
-            index (Bip32KeyIndex object): Key index
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the index results in an invalid key
-        """
-
-        # Not supported by Ed25519 SLIP-0010
-        pass
+        return self._CkdPrivEd25519Slip(self, index)

@@ -20,10 +20,9 @@
 
 
 # Imports
-from __future__ import annotations
+from bip_utils.bip32.bip32_base import Bip32Base
 from bip_utils.bip32.bip32_ecdsa_base import Bip32EcdsaBase
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
-from bip_utils.bip32.bip32_base import Bip32Base
 from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
 
@@ -135,13 +134,12 @@ class Bip32Nist256p1(Bip32EcdsaBase):
                                    Bip32Nist256p1Const.CURVE_TYPE)
 
     #
-    # Private methods
+    # Protected methods
     #
 
     def _CkdPriv(self,
                  index: Bip32KeyIndex) -> Bip32Base:
         """ Create a child key of the specified index using private derivation.
-        It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
             index (Bip32KeyIndex object): Key index
@@ -157,7 +155,6 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     def _CkdPub(self,
                 index: Bip32KeyIndex) -> Bip32Base:
         """ Create a child key of the specified index using public derivation.
-        It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
             index (Bip32KeyIndex object): Key index

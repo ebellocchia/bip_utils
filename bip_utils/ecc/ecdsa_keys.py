@@ -23,8 +23,8 @@ class EcdsaKeysConst:
     """ Class container for ECDSA keys constants. """
 
     # Compressed public key length
-    PUB_KEY_COMPRESSED_LEN = 33
+    PUB_KEY_COMPRESSED_LEN: int = 33
     # Uncompressed public key length
-    PUB_KEY_UNCOMPRESSED_LEN = 65
+    PUB_KEY_UNCOMPRESSED_LEN: int = 65
     # Private key length
-    PRIV_KEY_LEN = 32
+    PRIV_KEY_LEN: int = 32

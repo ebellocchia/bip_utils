@@ -20,7 +20,6 @@
 
 
 # Imports
-from __future__ import annotations
 from typing import Any, Optional, Union
 import ecdsa
 from ecdsa import curves, ellipticcurve, keys
@@ -35,11 +34,11 @@ class Secp256k1KeysConst:
     """ Class container for secp256k1 keys constants. """
 
     # Compressed public key length
-    PUB_KEY_COMPRESSED_LEN = EcdsaKeysConst.PUB_KEY_COMPRESSED_LEN
+    PUB_KEY_COMPRESSED_LEN: int = EcdsaKeysConst.PUB_KEY_COMPRESSED_LEN
     # Uncompressed public key length
-    PUB_KEY_UNCOMPRESSED_LEN = EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_LEN
+    PUB_KEY_UNCOMPRESSED_LEN: int = EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_LEN
     # Private key length
-    PRIV_KEY_LEN = EcdsaKeysConst.PRIV_KEY_LEN
+    PRIV_KEY_LEN: int = EcdsaKeysConst.PRIV_KEY_LEN
 
 
 class Secp256k1Point(IPoint):
@@ -57,15 +56,6 @@ class Secp256k1Point(IPoint):
             order (int): Order
         """
         self.m_point = ellipticcurve.PointJacobi.from_affine(ellipticcurve.Point(curve_secp256k1, x, y, order))
-
-    @staticmethod
-    def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
-
-        Returns:
-           EllipticCurveTypes: Elliptic curve type
-        """
-        return EllipticCurveTypes.SECP256K1
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.

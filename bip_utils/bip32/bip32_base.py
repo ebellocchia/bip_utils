@@ -43,7 +43,8 @@ class Bip32BaseConst:
 
 
 class Bip32Base(ABC):
-    """ BIP32 base class. It allows master key generation and children keys derivation in according to BIP-0032/SLIP-0010.
+    """ BIP32 base class. It allows master key generation and children keys derivation in according
+    to BIP-0032/SLIP-0010.
     It shall be derived to implement derivation for a specific elliptic curve.
     BIP-0032 specifications: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
     SLIP-0010 specifications: https://github.com/satoshilabs/slips/blob/master/slip-0010.md

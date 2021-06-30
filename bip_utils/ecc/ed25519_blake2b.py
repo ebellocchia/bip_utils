@@ -20,31 +20,27 @@
 
 
 # Imports
-from ecdsa.ecdsa import generator_secp256k1
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.secp256k1_keys import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+from bip_utils.ecc.ed25519 import Ed25519Const
+from bip_utils.ecc.ed25519_keys import Ed25519Point
+from bip_utils.ecc.ed25519_blake2b_keys import Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey
 
 
-class Secp256k1Const:
-    """ Class container for Secp256k1 constants. """
+class Ed25519Blake2bConst:
+    """ Class container for Ed25519-Blake2b constants. """
 
     # Curve name
-    NAME: str = "Secp256k1"
+    NAME: str = "Ed25519-Blake2b"
     # Curve order
-    CURVE_ORDER: int = generator_secp256k1.order()
+    CURVE_ORDER: int = Ed25519Const.CURVE_ORDER
     # Curve generator point
-    # Defining it like this will be less efficient than using generator_secp256k1 directly,
-    # because it doesn't precompute the multiplication table.
-    # However, this is only used in public children derivation so it won't have a big impact.
-    GENERATOR: Secp256k1Point = Secp256k1Point(generator_secp256k1.x(),
-                                               generator_secp256k1.y(),
-                                               generator_secp256k1.order())
+    GENERATOR: Ed25519Point = Ed25519Const.GENERATOR
 
 
-# Secp256k1 curve definition
-Secp256k1: EllipticCurve = EllipticCurve(Secp256k1Const.NAME,
-                                         Secp256k1Const.CURVE_ORDER,
-                                         Secp256k1Const.GENERATOR,
-                                         Secp256k1Point,
-                                         Secp256k1PublicKey,
-                                         Secp256k1PrivateKey)
+# Ed25519-Blake2b curve definition
+Ed25519Blake2b: EllipticCurve = EllipticCurve(Ed25519Blake2bConst.NAME,
+                                              Ed25519Blake2bConst.CURVE_ORDER,
+                                              Ed25519Blake2bConst.GENERATOR,
+                                              Ed25519Point,
+                                              Ed25519Blake2bPublicKey,
+                                              Ed25519Blake2bPrivateKey)

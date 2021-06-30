@@ -1,4 +1,5 @@
 crcmod
 ecdsa>=0.14
+ed25519-blake2b
 pycryptodome
 pynacl
