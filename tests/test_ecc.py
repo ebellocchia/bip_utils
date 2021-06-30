@@ -22,6 +22,7 @@
 # Imports
 import binascii
 import ecdsa
+import ed25519_blake2b
 import unittest
 from ecdsa.ecdsa import generator_256, generator_secp256k1
 from ecdsa import ellipticcurve
@@ -29,6 +30,7 @@ from nacl import signing
 from bip_utils import (
     EllipticCurveGetter, EllipticCurveTypes,
     Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
+    Ed25519Blake2b, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
     Nist256p1, Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey,
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
 )
@@ -109,7 +111,6 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Ed25519.PublicKeyClass() is Ed25519PublicKey)
         self.assertTrue(Ed25519.PrivateKeyClass() is Ed25519PrivateKey)
 
-        self.assertEqual(Ed25519Point.CurveType(), EllipticCurveTypes.ED25519)
         self.assertEqual(Ed25519PublicKey.CurveType(), EllipticCurveTypes.ED25519)
         self.assertEqual(Ed25519PrivateKey.CurveType(), EllipticCurveTypes.ED25519)
 
@@ -120,6 +121,28 @@ class EccTests(unittest.TestCase):
         self.assertTrue(isinstance(Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(), signing.VerifyKey))
         self.assertTrue(isinstance(Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(), signing.VerifyKey))
         self.assertTrue(isinstance(Ed25519PrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(), signing.SigningKey))
+
+    # Test Ed25519-Blake2b class
+    def test_ed25519_blake2b(self):
+        self.assertEqual(Ed25519Blake2b.Name(), "Ed25519-Blake2b")
+        self.assertEqual(Ed25519Blake2b.Order(), 0x1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED)
+        self.assertEqual(Ed25519Blake2b.Generator().X(), 15112221349535400772501151409588531511454012693041857206046113283949847762202)
+        self.assertEqual(Ed25519Blake2b.Generator().Y(), 46316835694926478169428394003475163141307993866256225615783033603165251855960)
+        self.assertEqual(Ed25519Blake2b.Generator().Order(), 0x1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED)
+        self.assertTrue(Ed25519Blake2b.PointClass() is Ed25519Point)
+        self.assertTrue(Ed25519Blake2b.PublicKeyClass() is Ed25519Blake2bPublicKey)
+        self.assertTrue(Ed25519Blake2b.PrivateKeyClass() is Ed25519Blake2bPrivateKey)
+
+        self.assertEqual(Ed25519Blake2bPublicKey.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
+        self.assertEqual(Ed25519Blake2bPrivateKey.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
+
+        self.assertEqual(Ed25519Blake2bPublicKey.CompressedLength(), 33)
+        self.assertEqual(Ed25519Blake2bPublicKey.UncompressedLength(), 33)
+        self.assertEqual(Ed25519Blake2bPrivateKey.Length(), 32)
+
+        self.assertTrue(isinstance(Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(), ed25519_blake2b.VerifyingKey))
+        self.assertTrue(isinstance(Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(), ed25519_blake2b.VerifyingKey))
+        self.assertTrue(isinstance(Ed25519Blake2bPrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(), ed25519_blake2b.SigningKey))
 
     # Test Nist256p1 class
     def test_nist256p1(self):
@@ -132,7 +155,6 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Nist256p1.PublicKeyClass() is Nist256p1PublicKey)
         self.assertTrue(Nist256p1.PrivateKeyClass() is Nist256p1PrivateKey)
 
-        self.assertEqual(Nist256p1Point.CurveType(), EllipticCurveTypes.NIST256P1)
         self.assertEqual(Nist256p1PublicKey.CurveType(), EllipticCurveTypes.NIST256P1)
         self.assertEqual(Nist256p1PrivateKey.CurveType(), EllipticCurveTypes.NIST256P1)
 
@@ -156,7 +178,6 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Secp256k1.PublicKeyClass() is Secp256k1PublicKey)
         self.assertTrue(Secp256k1.PrivateKeyClass() is Secp256k1PrivateKey)
 
-        self.assertEqual(Secp256k1Point.CurveType(), EllipticCurveTypes.SECP256K1)
         self.assertEqual(Secp256k1PublicKey.CurveType(), EllipticCurveTypes.SECP256K1)
         self.assertEqual(Secp256k1PrivateKey.CurveType(), EllipticCurveTypes.SECP256K1)
 
@@ -173,7 +194,9 @@ class EccTests(unittest.TestCase):
     def test_invalid_pub_keys(self):
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
             self.assertRaises(ValueError, Ed25519PublicKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, Ed25519Blake2bPublicKey, binascii.unhexlify(test))
             self.assertFalse(Ed25519PublicKey.IsValid(binascii.unhexlify(test)))
+            self.assertFalse(Ed25519Blake2bPublicKey.IsValid(binascii.unhexlify(test)))
 
         for test in TEST_VECT_NIST256P1_PUB_KEY_INVALID:
             self.assertRaises(ValueError, Nist256p1PublicKey, binascii.unhexlify(test))
@@ -187,7 +210,9 @@ class EccTests(unittest.TestCase):
     def test_invalid_priv_keys(self):
         for test in TEST_VECT_ED25519_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Ed25519PrivateKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, Ed25519Blake2bPrivateKey, binascii.unhexlify(test))
             self.assertFalse(Ed25519PrivateKey.IsValid(binascii.unhexlify(test)))
+            self.assertFalse(Ed25519Blake2bPrivateKey.IsValid(binascii.unhexlify(test)))
 
         for test in TEST_VECT_NIST256P1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Nist256p1PrivateKey, binascii.unhexlify(test))
