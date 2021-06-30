@@ -22,9 +22,9 @@ In addition to this, the package allows to:
 - Generate addresses for all the supported coins
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
+- Encode/Decode [ss58](https://polkadot.js.org/docs/keyring/start/ss58/)
 - Encode/Decode [segwit bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
 - Encode/Decode Bitcoin Cash bech32
-- Encode/Decode Atom bech32
 
 Dependencies:
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
@@ -629,7 +629,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     import binascii
     from bip_utils import (
-      P2PKHAddr, P2SHAddr, P2WPKHAddr, BchP2PKHAddr, BchP2SHAddr, Bech32Addr, AvaxPChainAddr, AvaxXChainAddr,
+      P2PKHAddr, P2SHAddr, P2WPKHAddr, BchP2PKHAddr, BchP2SHAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
       EgldAddr, EthAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
       Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
     )
@@ -661,10 +661,10 @@ These libraries are used internally by the other libraries, but they are availab
     # AVAX address
     addr = AvaxPChainAddr.EncodeKey(pub_key)
     addr = AvaxXChainAddr.EncodeKey(pub_key)
-    # Bech32 address
-    addr = Bech32Addr.EncodeKey(pub_key, "cosmos")
-    addr = Bech32Addr.EncodeKey(pub_key, "band")
-    addr = Bech32Addr.EncodeKey(pub_key, "kava")
+    # Atom addresses
+    addr = AtomAddr.EncodeKey(pub_key, "cosmos")
+    addr = AtomAddr.EncodeKey(pub_key, "band")
+    addr = AtomAddr.EncodeKey(pub_key, "kava")
     # OKEx Chain address
     addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
@@ -761,31 +761,25 @@ This library is used internally by the other libraries, but it's available also 
 
     import binascii
     from bip_utils import (
-        AtomBech32Decoder, AtomBech32Encoder, AvaxChainTypes, AvaxBech32Decoder, AvaxBech32Encoder
-        BchBech32Encoder, BchBech32Decoder, SegwitBech32Decoder, SegwitBech32Encoder
+        Bech32Decoder, Bech32Encoder BchBech32Encoder, BchBech32Decoder, SegwitBech32Decoder, SegwitBech32Encoder
     )
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
 
-    # Encode with segwit
+    # Encode with bech32
+    enc = Bech32Encoder.Encode("cosmos", data_bytes)
+    # Decode with bech32
+    dec = Bech32Decoder.Decode("cosmos", enc)
+
+    # Encode with segwit bech32
     enc = SegwitBech32Encoder.Encode("bc", 0, data_bytes)
-    # Decode with segwit
+    # Decode with segwit bech32
     wit_ver, wit_prog = SegwitBech32Decoder.Decode("bc", enc)
 
-    # Encode with BCH
+    # Encode with BCH bech32
     enc = BchBech32Encoder.Encode("bitcoincash", b"\x00", data_bytes)
-    # Decode with BCH
+    # Decode with BCH bech32
     net_ver, dec = BchBech32Decoder.Decode("bitcoincash", enc)
-
-    # Encode with ATOM
-    enc = AtomBech32Encoder.Encode("cosmos", data_bytes)
-    # Decode with ATOM
-    dec = AtomBech32Decoder.Decode("cosmos", enc)
-
-    # Encode with AVAX
-    enc = AvaxBech32Encoder.Encode(data_bytes, AvaxChainTypes.AVAX_X_CHAIN)
-    # Decode with AVAX
-    chain_type, dec = AvaxBech32Decoder.Decode(enc)
 
 ## SS58
 
