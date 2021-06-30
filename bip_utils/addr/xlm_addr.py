@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.conf import Bip44Stellar
 from bip_utils.ecc import Ed25519PublicKey
-from bip_utils.utils import Base32, AlgoUtils, ConvUtils, CryptoUtils
+from bip_utils.utils import Base32, ConvUtils, CryptoUtils
 
 
 class XlmAddr:
@@ -50,4 +50,4 @@ class XlmAddr:
         # Compute checksum
         checksum = ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload))
         # Encode to Base32
-        return AlgoUtils.Decode(Base32.EncodeNoPadding(payload + checksum))
+        return Base32.EncodeNoPadding(payload + checksum)

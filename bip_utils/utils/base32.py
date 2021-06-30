@@ -21,45 +21,48 @@
 
 # Imports
 import base64
-from typing import Union
+from typing import Optional, Union
 from bip_utils.utils.algo import AlgoUtils
+
+
+class Base32Const:
+    """ Class container for Base32 constants. """
+
+    # Alphabet
+    ALPHABET: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 
 
 class Base32:
     """ Class container for Base32 deconding/encoding. """
 
     @staticmethod
-    def Encode(data: Union[bytes, str]) -> bytes:
+    def Encode(data: Union[bytes, str],
+               custom_alphabet: Optional[str] = None) -> str:
         """ Encode to Base32.
 
         Args:
-            data (str or bytes): Data
+            data (str or bytes)            : Data
+            custom_alphabet (str, optional): Custom alphabet string
 
         Returns:
-            bytes: Encoded bytes
+            str: Encoded string
         """
-        return base64.b32encode(AlgoUtils.Encode(data))
+        b32_enc = AlgoUtils.Decode(base64.b32encode(AlgoUtils.Encode(data)))
+        if custom_alphabet is not None:
+            b32_enc = b32_enc.translate(str.maketrans(Base32Const.ALPHABET, custom_alphabet))
+
+        return b32_enc
 
     @staticmethod
-    def EncodeNoPadding(data: Union[bytes, str]) -> bytes:
+    def EncodeNoPadding(data: Union[bytes, str],
+                        custom_alphabet: Optional[str] = None) -> str:
         """ Encode to Base32 by removing the final padding.
 
         Args:
-            data (str or bytes): Data
+            data (str or bytes)            : Data
+            custom_alphabet (str, optional): Custom alphabet string
 
         Returns:
-            bytes: Encoded bytes
+            str: Encoded string
         """
-        return Base32.Encode(data).rstrip(b"=")
-
-    @staticmethod
-    def Decode(data: Union[bytes, str]) -> bytes:
-        """ Decode from Base32.
-
-        Args:
-            data (str or bytes): Data
-
-        Returns:
-            bytes: Decoded bytes
-        """
-        return base64.b32decode(data)
+        return Base32.Encode(data, custom_alphabet).rstrip("=")
