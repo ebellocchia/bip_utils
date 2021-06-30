@@ -20,6 +20,7 @@
 
 
 # Imports
+from functools import lru_cache
 from typing import Any, Dict
 from bip_utils.addr import *
 from bip_utils.bip32 import Bip32KeyData, Bip32PublicKey, Bip32PrivateKey
@@ -81,29 +82,26 @@ class Bip44PublicKey(Bip32PublicKey):
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
         super().__init__(key_bytes, key_data, curve_type)
-        # Pre-compute address
-        self.m_addr = self.__ComputeAddress(coin_conf)
 
+        self.m_coin_conf = coin_conf
+
+    @lru_cache
     def ToAddress(self) -> str:
         """ Return address correspondent to the public key.
 
         Returns:
             str: Address string
         """
-        return self.m_addr
+        return self.__ComputeAddress()
 
-    def __ComputeAddress(self,
-                         coin_conf: BipCoinConf) -> str:
+    def __ComputeAddress(self) -> str:
         """ Compute address.
-
-        Args:
-            coin_conf (BipCoinConf object) : BipCoinConf object
 
         Returns:
             str: Address string
         """
-        addr_conf = coin_conf.AddrConf()
-        addr_type = coin_conf.AddrType()
+        addr_conf = self.m_coin_conf.AddrConf()
+        addr_type = self.m_coin_conf.AddrType()
         addr_cls = Bip44KeysConst.ADDR_TYPE_TO_CLASS[addr_type]
 
         # P2PKH, P2SH
@@ -155,6 +153,7 @@ class Bip44PrivateKey(Bip32PrivateKey):
 
         self.m_coin_conf = coin_conf
 
+    @lru_cache
     def ToWif(self,
               compr_pub_key: bool = True) -> str:
         """ Return key in WIF format.

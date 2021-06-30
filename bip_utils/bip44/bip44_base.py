@@ -23,6 +23,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from enum import Enum, IntEnum, auto, unique
+from functools import lru_cache
 from typing import Dict, Type
 from bip_utils.bip32 import (
     Bip32Base, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1, Bip32Utils
@@ -315,6 +316,7 @@ class Bip44Base(ABC):
         self.m_coin_type = coin_type
         self.m_coin_conf = self._GetCoinConf(coin_type)
 
+    @lru_cache
     def PublicKey(self) -> Bip44PublicKey:
         """ Return the public key.
 
@@ -330,6 +332,7 @@ class Bip44Base(ABC):
                               bip32_pub_key.CurveType(),
                               self.m_coin_conf)
 
+    @lru_cache
     def PrivateKey(self) -> Bip44PrivateKey:
         """ Return the private key.
 

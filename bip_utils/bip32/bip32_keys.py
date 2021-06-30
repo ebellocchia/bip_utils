@@ -20,6 +20,7 @@
 
 
 # Imports
+from functools import lru_cache
 from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
 from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
@@ -48,10 +49,6 @@ class Bip32PublicKey:
         """
         self.m_pub_key = self.__KeyFromBytes(key_bytes, curve_type)
         self.m_key_data = key_data
-        # Pre-compute serialized key and key identifier
-        self.m_ser_key = Bip32PublicKeySerializer.Serialize(self.m_pub_key,
-                                                            key_data)
-        self.m_key_ident = CryptoUtils.Hash160(self.m_pub_key.RawCompressed().ToBytes())
 
     def CurveType(self) -> EllipticCurveTypes:
         """ Return key elliptic curve type.
@@ -101,21 +98,24 @@ class Bip32PublicKey:
         """
         return Bip32FingerPrint(self.KeyIdentifier())
 
+    @lru_cache
     def KeyIdentifier(self) -> bytes:
         """ Get key identifier.
 
         Returns:
             bytes: Key identifier bytes
         """
-        return self.m_key_ident
+        return CryptoUtils.Hash160(self.m_pub_key.RawCompressed().ToBytes())
 
+    @lru_cache
     def ToExtended(self) -> str:
         """ Return key in serialized extended format.
 
         Returns:
             str: Key in serialized extended format
         """
-        return self.m_ser_key
+        return Bip32PublicKeySerializer.Serialize(self.m_pub_key,
+                                                  self.m_key_data)
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes,
@@ -160,11 +160,6 @@ class Bip32PrivateKey:
         """
         self.m_priv_key = self.__KeyFromBytes(key_bytes, curve_type)
         self.m_key_data = key_data
-        self.m_pub_key = Bip32PublicKey(self.m_priv_key.PublicKey().RawCompressed().ToBytes(),
-                                        key_data,
-                                        curve_type)
-        # Pre-compute serialized key
-        self.m_ser_key = Bip32PrivateKeySerializer.Serialize(self.m_priv_key, key_data)
 
     def CurveType(self) -> EllipticCurveTypes:
         """ Return key elliptic curve type.
@@ -190,21 +185,26 @@ class Bip32PrivateKey:
         """
         return self.m_priv_key.Raw()
 
+    @lru_cache
     def PublicKey(self) -> Bip32PublicKey:
         """ Get the public key correspondent to the private one.
 
         Returns:
             BipPublicKey object: BipPublicKey object
         """
-        return self.m_pub_key
+        return Bip32PublicKey(self.m_priv_key.PublicKey().RawCompressed().ToBytes(),
+                              self.m_key_data,
+                              self.CurveType())
 
+    @lru_cache
     def ToExtended(self) -> str:
         """ Return key in serialized extended format.
 
         Returns:
             str: Key in serialized extended format
         """
-        return self.m_ser_key
+        return Bip32PrivateKeySerializer.Serialize(self.m_priv_key,
+                                                   self.m_key_data)
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes,
