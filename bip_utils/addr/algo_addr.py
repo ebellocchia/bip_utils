@@ -56,4 +56,4 @@ class AlgoAddr:
         # Compute checksum
         checksum = CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_LEN:]
         # Encode to Base32
-        return AlgoUtils.Decode(Base32.Encode(pub_key_bytes + checksum)).rstrip("=")
+        return AlgoUtils.Decode(Base32.EncodeNoPadding(pub_key_bytes + checksum))

@@ -41,6 +41,18 @@ class Base32:
         return base64.b32encode(AlgoUtils.Encode(data))
 
     @staticmethod
+    def EncodeNoPadding(data: Union[bytes, str]) -> bytes:
+        """ Encode to Base32 by removing the final padding.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Encoded bytes
+        """
+        return Base32.Encode(data).rstrip(b"=")
+
+    @staticmethod
     def Decode(data: Union[bytes, str]) -> bytes:
         """ Decode from Base32.
 

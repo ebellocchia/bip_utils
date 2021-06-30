@@ -50,4 +50,4 @@ class XlmAddr:
         # Compute checksum
         checksum = ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload))
         # Encode to Base32
-        return AlgoUtils.Decode(Base32.Encode(payload + checksum)).rstrip("=")
+        return AlgoUtils.Decode(Base32.EncodeNoPadding(payload + checksum))
