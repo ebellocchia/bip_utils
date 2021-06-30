@@ -58,3 +58,4 @@ theta
 tron
 vechain
 zcash
+zilliqa
