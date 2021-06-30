@@ -401,6 +401,17 @@ Bip44Ontology: BipCoinConf = BipCoinConf(
     addr_conf={"ver": b"\x17"},
     addr_type=AddrTypes.NEO)
 
+# Configuration for Nano
+Bip44Nano: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("Nano", "NANO"),
+    is_testnet=False,
+    def_path="0'",
+    key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
+    wif_net_ver=None,
+    bip32_type=Bip32Types.ED25519_BLAKE2B_SLIP,
+    addr_conf={"prefix": "nano_"},
+    addr_type=AddrTypes.NANO)
+
 # Configuration for Neo
 Bip44Neo: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("NEO", "NEO"),

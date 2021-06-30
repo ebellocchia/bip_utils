@@ -39,6 +39,7 @@ class Bip44KeysConst:
         AddrTypes.ATOM: AtomAddr,
         AddrTypes.EGLD: EgldAddr,
         AddrTypes.ETH: EthAddr,
+        AddrTypes.NANO: NanoAddr,
         AddrTypes.NEO: NeoAddr,
         AddrTypes.OKEX: OkexAddr,
         AddrTypes.ONE: OneAddr,
