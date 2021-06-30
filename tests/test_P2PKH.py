@@ -27,7 +27,7 @@ from bip_utils import (
     Bip44DashMainNet, Bip44DashTestNet, Bip44DogecoinMainNet, Bip44DogecoinTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
     Bip44ZcashMainNet, Bip44ZcashTestNet,
     P2PKHAddr, BchP2PKHAddr,
-    Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 )
 from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
 
@@ -187,8 +187,10 @@ class P2PKHTests(unittest.TestCase):
     def test_invalid_keys(self):
         # Test with invalid key type
         self.assertRaises(TypeError, P2PKHAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, P2PKHAddr.EncodeKey, Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         self.assertRaises(TypeError, P2PKHAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
         self.assertRaises(TypeError, BchP2PKHAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "", b"\x00")
+        self.assertRaises(TypeError, BchP2PKHAddr.EncodeKey, Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "", b"\x00")
         self.assertRaises(TypeError, BchP2PKHAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "", b"\x00")
 
         # Test vector

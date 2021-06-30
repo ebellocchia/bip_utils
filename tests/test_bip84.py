@@ -220,6 +220,7 @@ TEST_VECT_COINS = {
         Bip44Coins.IRIS_NET,
         Bip44Coins.KAVA,
         Bip44Coins.KUSAMA_ED25519_SLIP,
+        Bip44Coins.NANO,
         Bip44Coins.NEO,
         Bip44Coins.NINE_CHRONICLES_GOLD,
         Bip44Coins.OKEX_CHAIN_ATOM,
