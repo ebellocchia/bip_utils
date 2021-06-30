@@ -181,7 +181,7 @@ class Bip32Ed25519Blake2bSlipTests(unittest.TestCase):
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_from_seed_with_child_key(self):
         Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
-"""
+
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_from_seed_with_derive_path(self):
         Bip32BaseTestHelper.test_from_seed_with_derive_path(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
@@ -219,4 +219,3 @@ class Bip32Ed25519Blake2bSlipTests(unittest.TestCase):
         # Public derivation
         bip32_ctx.ConvertToPublic()
         self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, 0)
-"""
