@@ -30,6 +30,7 @@ Dependencies:
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
 - [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves
+- [ed25519-blake2b](https://pypi.org/project/ed25519-blake2b/) for ed25519-blake2b curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 
 The package currently supports the following coins (I try to add new ones from time to time):
@@ -54,8 +55,9 @@ The package currently supports the following coins (I try to add new ones from t
 - Kava
 - Kusama (based on ed25519 SLIP-0010, like TrustWallet or Ledger, it won't generate the same addresses of Polkadot-JS)
 - Litecoin (and related test net)
-- OKEx Chain (Ethereum and Cosmos addresses)
+- Nano
 - NEO
+- OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology
 - Polkadot (based on ed25519 SLIP-0010, like TrustWallet or Ledger, it won't generate the same addresses of Polkadot-JS)
 - Polygon
@@ -220,6 +222,7 @@ Please note that this is not used by all wallets supporting Polkadot. For exampl
 The BIP-0032 library is wrapped inside the BIP-0044, BIP-0049 and BIP-0084 libraries, so there is no need to use it alone unless you need to derive some non-standard paths.\
 The library currently supports the following elliptic curves for key derivation:
 - Ed25519 (based on SLIP-0010): *Bip32Ed25519Slip* class
+- Ed25519-Blake2b (based on SLIP-0010): *Bip32Ed25519Blake2bSlip* class
 - Nist256p1 (based on SLIP-0010): *Bip32Nist256p1* class
 - Secp256k1: *Bip32Secp256k1* class
 
@@ -362,25 +365,33 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     bip32_ctx = bip32_ctx.DerivePath("0'/1'")   # Derivation path: m/0'/1'
     bip32_ctx = bip32_ctx.DerivePath("2/3")     # Derivation path: m/0'/1'/2/3
 
-The *Bip32Ed25519Slip* and *Bip32Nist256p1*  classes work exactly in the same way.\
-However, the *Bip32Ed25519Slip* class has some differences:
+The other BIP32 classes work exactly in the same way.\
+However, the *Bip32Ed25519Slip* and *Bip32Ed25519Blake2bSlip* classes have some differences:
 - Not-hardened private key derivation is not supported
 - Public key derivation is not supported
 
 For example:
 
     import binascii
-    from bip_utils import Bip32Ed25519Slip
+    from bip_utils import Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Only hardened private key derivation, it's ok
     bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
-    # Not-hardened private key derivation, Bip32KeyError is raised
-    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0/1")
+
     # Public derivation, Bip32KeyError is raised
+    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
     bip32_ctx = bip32_ctx.ConvertToPublic()
     bip32_ctx.ChildKey(0)
+    # Same as before
+    bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0'/1'")
+    bip32_ctx = bip32_ctx.ConvertToPublic()
+    bip32_ctx.ChildKey(0)
+
+    # Not-hardened private key derivation, Bip32KeyError is raised
+    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0/1")
+    bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0/1")
 
 ### Parse path
 
@@ -507,10 +518,11 @@ Currently supported coins enumerative:
 |Kava|*Bip44Coins.KAVA*|-|
 |Kusama (ed25519 SLIP-0010)|*Bip44Coins.KUSAMA_ED25519_SLIP*|-|
 |Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
+|Nano|*Bip44Coins.NANO*|-|
+|NEO|*Bip44Coins.NEO*|-|
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
-|NEO|*Bip44Coins.NEO*|-|
 |Ontology|*Bip44Coins.ONTOLOGY*|-|
 |Polkadot (ed25519 SLIP-0010)|*Bip44Coins.POLKADOT_ED25519_SLIP*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
@@ -630,12 +642,12 @@ These libraries are used internally by the other libraries, but they are availab
     import binascii
     from bip_utils import (
       P2PKHAddr, P2SHAddr, P2WPKHAddr, BchP2PKHAddr, BchP2SHAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EgldAddr, EthAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
-      Ed25519PublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+      EgldAddr, EthAddr, NanoAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
+      Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
     )
 
     #
-    # Coins that require a secp256k1 curve
+    # Addresses that require a secp256k1 curve
     #
 
     # You can use public key bytes or a public key object
@@ -664,7 +676,7 @@ These libraries are used internally by the other libraries, but they are availab
     # Atom addresses
     addr = AtomAddr.EncodeKey(pub_key, "cosmos")
     addr = AtomAddr.EncodeKey(pub_key, "band")
-    addr = AtomAddr.EncodeKey(pub_key, "kava")
+    addr = AtomAddr.EncodeKey(pub_key, "bnb")
     # OKEx Chain address
     addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
@@ -675,7 +687,7 @@ These libraries are used internally by the other libraries, but they are availab
     addr = ZilAddr.EncodeKey(pub_key)
 
     #
-    # Coins that require a ed25519 curve
+    # Addresses that require a ed25519 curve
     #
 
     # You can use public key bytes or a public key object
@@ -697,7 +709,18 @@ These libraries are used internally by the other libraries, but they are availab
     addr = XtzAddr.EncodeKey(pub_key)
 
     #
-    # Coins that require a nist256p1 curve
+    # Addresses that require a ed25519-blake2b curve
+    #
+
+    # You can use public key bytes or a public key object
+    pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
+    pub_key = Ed25519Blake2bPublicKey(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
+
+    # Nano address
+    addr = NanoAddr.EncodeKey(pub_key)
+
+    #
+    # Addresses that require a nist256p1 curve
     #
 
     # You can use public key bytes or a public key object
