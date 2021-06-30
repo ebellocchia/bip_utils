@@ -52,7 +52,6 @@ class AvaxPChainAddr:
                                              CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
 
 
-
 class AvaxXChainAddr:
     """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
 
