@@ -25,9 +25,10 @@ import unittest
 from bip_utils import (
     Bip44BitcoinMainNet, Bip44BitcoinTestNet, Bip44DashMainNet, Bip44DashTestNet,
     Bip44DogecoinMainNet, Bip44DogecoinTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
-    WifDecoder, WifEncoder, Base58ChecksumError, Ed25519PrivateKey, Secp256k1PrivateKey
+    WifDecoder, WifEncoder, Base58ChecksumError,
+    Ed25519PrivateKey, Ed25519Blake2bPrivateKey, Nist256p1PrivateKey, Secp256k1PrivateKey
 )
-from .test_ecc import TEST_ED25519_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID
+from .test_ecc import TEST_ED25519_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID
 
 # Some keys randomly generated from:
 # https://gobittest.appspot.com/PrivateKey
@@ -192,6 +193,7 @@ class WifTests(unittest.TestCase):
                              WifEncoder.Encode(Secp256k1PrivateKey(key_bytes),
                                                test["compr_pub_key"],
                                                test["net_addr_ver"]))
+
     # Test invalid checksum
     def test_invalid_checksum(self):
         for test in TEST_VECT_CHKSUM_INVALID:
@@ -209,6 +211,8 @@ class WifTests(unittest.TestCase):
     # Test invalid keys for encoding
     def test_enc_invalid_keys(self):
         self.assertRaises(TypeError, WifEncoder.Encode, Ed25519PrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
+        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519Blake2bPrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
+        self.assertRaises(TypeError, WifEncoder.Encode, Nist256p1PrivateKey(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)))
 
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))
