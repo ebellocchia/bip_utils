@@ -45,6 +45,7 @@ litecoin
 matic
 okex chain
 ontology
+nano
 neo
 polkadot
 polygon
