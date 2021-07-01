@@ -136,7 +136,7 @@ class Bip32EcdsaBase(Bip32Base):
         # Try to construct a new public key from the curve point: pub_key_point + G*i_l
         try:
             new_point = bip32_obj.m_pub_key.Point() + (curve.Generator() * ConvUtils.BytesToInteger(i_l))
-            pub_key = curve.PublicKeyClass()(new_point)
+            pub_key = curve.PublicKeyClass().FromPoint(new_point)
         except ValueError as ex:
             raise Bip32KeyError("Computed public child key is not valid, very unlucky index") from ex
 

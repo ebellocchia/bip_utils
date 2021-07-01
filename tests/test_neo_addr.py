@@ -66,14 +66,14 @@ class NeoAddrTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"], NeoAddr.EncodeKey(key_bytes, test["version"]))
-            self.assertEqual(test["address"], NeoAddr.EncodeKey(Nist256p1PublicKey(key_bytes), test["version"]))
+            self.assertEqual(test["address"], NeoAddr.EncodeKey(Nist256p1PublicKey.FromBytes(key_bytes), test["version"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
 
         # Test vector
         for test in TEST_VECT_NIST256P1_PUB_KEY_INVALID:

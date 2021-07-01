@@ -57,7 +57,7 @@ class WifEncoder:
 
         # Convert to private key to check if bytes are valid
         if isinstance(priv_key, bytes):
-            priv_key = Secp256k1PrivateKey(priv_key)
+            priv_key = Secp256k1PrivateKey.FromBytes(priv_key)
         elif not isinstance(priv_key, Secp256k1PrivateKey):
             raise TypeError("A secp256k1 private key is required")
 
@@ -105,14 +105,14 @@ class WifDecoder:
         key_bytes = key_bytes[1:]
 
         # Remove suffix if correspond to a compressed public key
-        if Secp256k1PrivateKey.IsValid(key_bytes[:-1]):
+        if Secp256k1PrivateKey.IsValidBytes(key_bytes[:-1]):
             # Check the compressed public key suffix
             if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
                 raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" %
                                  (ord(WifConst.COMPR_PUB_KEY_SUFFIX), key_bytes[-1]))
             # Remove it
             key_bytes = key_bytes[:-1]
-        elif not Secp256k1PrivateKey.IsValid(key_bytes):
+        elif not Secp256k1PrivateKey.IsValidBytes(key_bytes):
             raise ValueError("Invalid decoded key (%s)" % ConvUtils.BytesToHexString(key_bytes))
 
         return key_bytes

@@ -61,14 +61,14 @@ class EgldAddrTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"], EgldAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], EgldAddr.EncodeKey(Ed25519PublicKey(key_bytes)))
+            self.assertEqual(test["address"], EgldAddr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, EgldAddr.EncodeKey, Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, EgldAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, EgldAddr.EncodeKey, Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, EgldAddr.EncodeKey, Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, EgldAddr.EncodeKey, Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, EgldAddr.EncodeKey, Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
 
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:

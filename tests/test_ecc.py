@@ -119,9 +119,15 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Ed25519PublicKey.UncompressedLength(), 33)
         self.assertEqual(Ed25519PrivateKey.Length(), 32)
 
-        self.assertTrue(isinstance(Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(), signing.VerifyKey))
-        self.assertTrue(isinstance(Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(), signing.VerifyKey))
-        self.assertTrue(isinstance(Ed25519PrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(), signing.SigningKey))
+        self.assertTrue(isinstance(Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(),
+                                   signing.VerifyKey))
+        self.assertTrue(isinstance(Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(),
+                                   signing.VerifyKey))
+        self.assertTrue(isinstance(Ed25519PrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(),
+                                   signing.SigningKey))
+
+        self.assertRaises(TypeError, Ed25519PublicKey, 0)
+        self.assertRaises(TypeError, Ed25519PrivateKey, 0)
 
     # Test Ed25519-Blake2b class
     def test_ed25519_blake2b(self):
@@ -141,9 +147,15 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Ed25519Blake2bPublicKey.UncompressedLength(), 33)
         self.assertEqual(Ed25519Blake2bPrivateKey.Length(), 32)
 
-        self.assertTrue(isinstance(Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(), ed25519_blake2b.VerifyingKey))
-        self.assertTrue(isinstance(Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(), ed25519_blake2b.VerifyingKey))
-        self.assertTrue(isinstance(Ed25519Blake2bPrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(), ed25519_blake2b.SigningKey))
+        self.assertTrue(isinstance(Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(),
+                                   ed25519_blake2b.VerifyingKey))
+        self.assertTrue(isinstance(Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(),
+                                   ed25519_blake2b.VerifyingKey))
+        self.assertTrue(isinstance(Ed25519Blake2bPrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(),
+                                   ed25519_blake2b.SigningKey))
+
+        self.assertRaises(TypeError, Ed25519Blake2bPublicKey, 0)
+        self.assertRaises(TypeError, Ed25519Blake2bPrivateKey, 0)
 
     # Test Nist256p1 class
     def test_nist256p1(self):
@@ -164,9 +176,15 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Nist256p1PrivateKey.Length(), 32)
 
         self.assertTrue(isinstance(Nist256p1.Generator().UnderlyingObject(), ellipticcurve.PointJacobi))
-        self.assertTrue(isinstance(Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)).UnderlyingObject(), ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY)).UnderlyingObject(), ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Nist256p1PrivateKey(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)).UnderlyingObject(), ecdsa.SigningKey))
+        self.assertTrue(isinstance(Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)).UnderlyingObject(),
+                                   ecdsa.VerifyingKey))
+        self.assertTrue(isinstance(Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY)).UnderlyingObject(),
+                                   ecdsa.VerifyingKey))
+        self.assertTrue(isinstance(Nist256p1PrivateKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)).UnderlyingObject(),
+                                   ecdsa.SigningKey))
+
+        self.assertRaises(TypeError, Nist256p1PublicKey, 0)
+        self.assertRaises(TypeError, Nist256p1PrivateKey, 0)
 
     # Test Secp256k1 class
     def test_secp256k1(self):
@@ -187,38 +205,44 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Secp256k1PrivateKey.Length(), 32)
 
         self.assertTrue(isinstance(Secp256k1.Generator().UnderlyingObject(), ellipticcurve.PointJacobi))
-        self.assertTrue(isinstance(Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)).UnderlyingObject(), ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Secp256k1PublicKey(binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY)).UnderlyingObject(), ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Secp256k1PrivateKey(binascii.unhexlify(TEST_SECP256K1_PRIV_KEY)).UnderlyingObject(), ecdsa.SigningKey))
+        self.assertTrue(isinstance(Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)).UnderlyingObject(),
+                                   ecdsa.VerifyingKey))
+        self.assertTrue(isinstance(Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY)).UnderlyingObject(),
+                                   ecdsa.VerifyingKey))
+        self.assertTrue(isinstance(Secp256k1PrivateKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_PRIV_KEY)).UnderlyingObject(),
+                                   ecdsa.SigningKey))
+
+        self.assertRaises(TypeError, Secp256k1PublicKey, 0)
+        self.assertRaises(TypeError, Secp256k1PrivateKey, 0)
 
     # Test invalid public keys
     def test_invalid_pub_keys(self):
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, Ed25519PublicKey, binascii.unhexlify(test))
-            self.assertRaises(ValueError, Ed25519Blake2bPublicKey, binascii.unhexlify(test))
-            self.assertFalse(Ed25519PublicKey.IsValid(binascii.unhexlify(test)))
-            self.assertFalse(Ed25519Blake2bPublicKey.IsValid(binascii.unhexlify(test)))
+            self.assertRaises(ValueError, Ed25519PublicKey.FromBytes, binascii.unhexlify(test))
+            self.assertRaises(ValueError, Ed25519Blake2bPublicKey.FromBytes, binascii.unhexlify(test))
+            self.assertFalse(Ed25519PublicKey.IsValidBytes(binascii.unhexlify(test)))
+            self.assertFalse(Ed25519Blake2bPublicKey.IsValidBytes(binascii.unhexlify(test)))
 
         for test in TEST_VECT_NIST256P1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, Nist256p1PublicKey, binascii.unhexlify(test))
-            self.assertFalse(Nist256p1PublicKey.IsValid(binascii.unhexlify(test)))
+            self.assertRaises(ValueError, Nist256p1PublicKey.FromBytes, binascii.unhexlify(test))
+            self.assertFalse(Nist256p1PublicKey.IsValidBytes(binascii.unhexlify(test)))
 
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, Secp256k1PublicKey, binascii.unhexlify(test))
-            self.assertFalse(Secp256k1PublicKey.IsValid(binascii.unhexlify(test)))
+            self.assertRaises(ValueError, Secp256k1PublicKey.FromBytes, binascii.unhexlify(test))
+            self.assertFalse(Secp256k1PublicKey.IsValidBytes(binascii.unhexlify(test)))
 
     # Test invalid private keys
     def test_invalid_priv_keys(self):
         for test in TEST_VECT_ED25519_PRIV_KEY_INVALID:
-            self.assertRaises(ValueError, Ed25519PrivateKey, binascii.unhexlify(test))
-            self.assertRaises(ValueError, Ed25519Blake2bPrivateKey, binascii.unhexlify(test))
-            self.assertFalse(Ed25519PrivateKey.IsValid(binascii.unhexlify(test)))
-            self.assertFalse(Ed25519Blake2bPrivateKey.IsValid(binascii.unhexlify(test)))
+            self.assertRaises(ValueError, Ed25519PrivateKey.FromBytes, binascii.unhexlify(test))
+            self.assertRaises(ValueError, Ed25519Blake2bPrivateKey.FromBytes, binascii.unhexlify(test))
+            self.assertFalse(Ed25519PrivateKey.IsValidBytes(binascii.unhexlify(test)))
+            self.assertFalse(Ed25519Blake2bPrivateKey.IsValidBytes(binascii.unhexlify(test)))
 
         for test in TEST_VECT_NIST256P1_PRIV_KEY_INVALID:
-            self.assertRaises(ValueError, Nist256p1PrivateKey, binascii.unhexlify(test))
-            self.assertFalse(Nist256p1PrivateKey.IsValid(binascii.unhexlify(test)))
+            self.assertRaises(ValueError, Nist256p1PrivateKey.FromBytes, binascii.unhexlify(test))
+            self.assertFalse(Nist256p1PrivateKey.IsValidBytes(binascii.unhexlify(test)))
 
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
-            self.assertRaises(ValueError, Secp256k1PrivateKey, binascii.unhexlify(test))
-            self.assertFalse(Secp256k1PrivateKey.IsValid(binascii.unhexlify(test)))
+            self.assertRaises(ValueError, Secp256k1PrivateKey.FromBytes, binascii.unhexlify(test))
+            self.assertFalse(Secp256k1PrivateKey.IsValidBytes(binascii.unhexlify(test)))

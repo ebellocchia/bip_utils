@@ -91,7 +91,7 @@ class Bip32Base(ABC):
         while not success:
             hmac = CryptoUtils.HmacSha512(hmac_key_bytes, hmac_data)
             # If private key is not valid, the new HMAC data is the current HMAC
-            success = priv_key_cls.IsValid(hmac[:Bip32BaseConst.HMAC_HALF_LEN])
+            success = priv_key_cls.IsValidBytes(hmac[:Bip32BaseConst.HMAC_HALF_LEN])
             if not success:
                 hmac_data = hmac
 

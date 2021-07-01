@@ -91,7 +91,7 @@ class Bip44PublicKey:
         Returns:
             str: Key in serialized extended format
         """
-        return self.Bip32Key().ToExtended()
+        return self.m_pub_key.ToExtended()
 
     def RawCompressed(self) -> KeyBytes:
         """ Return raw compressed public key.
@@ -99,7 +99,7 @@ class Bip44PublicKey:
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return self.Bip32Key().RawCompressed()
+        return self.m_pub_key.RawCompressed()
 
     def RawUncompressed(self) -> KeyBytes:
         """ Return raw uncompressed public key.
@@ -107,7 +107,7 @@ class Bip44PublicKey:
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return self.Bip32Key().RawUncompressed()
+        return self.m_pub_key.RawUncompressed()
 
     @lru_cache()
     def ToAddress(self) -> str:
@@ -185,7 +185,7 @@ class Bip44PrivateKey:
         Returns:
             str: Key in serialized extended format
         """
-        return self.Bip32Key().ToExtended()
+        return self.m_priv_key.ToExtended()
 
     def Raw(self) -> KeyBytes:
         """ Return raw compressed public key.
@@ -193,7 +193,7 @@ class Bip44PrivateKey:
         Returns:
             KeyBytes object: KeyBytes object
         """
-        return self.Bip32Key().Raw()
+        return self.m_priv_key.Raw()
 
     @lru_cache()
     def ToWif(self,
@@ -208,4 +208,4 @@ class Bip44PrivateKey:
         """
         wif_net_ver = self.m_coin_conf.WifNetVersion()
 
-        return WifEncoder.Encode(self.Bip32Key().Raw().ToBytes(), compr_pub_key, wif_net_ver) if wif_net_ver is not None else ""
+        return WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), compr_pub_key, wif_net_ver) if wif_net_ver is not None else ""

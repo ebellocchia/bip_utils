@@ -110,7 +110,7 @@ class AddrUtils:
             ValueError: If the public key is not valid
         """
         if isinstance(pub_key, bytes):
-            pub_key = pub_key_cls(pub_key)
+            pub_key = pub_key_cls.FromBytes(pub_key)
         elif not isinstance(pub_key, pub_key_cls):
             curve = EllipticCurveGetter.FromType(pub_key_cls.CurveType())
             raise TypeError("A %s public key is required" % curve.Name())

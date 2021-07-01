@@ -190,7 +190,7 @@ class WifTests(unittest.TestCase):
                                                test["compr_pub_key"],
                                                test["net_addr_ver"]))
             self.assertEqual(test["encode"],
-                             WifEncoder.Encode(Secp256k1PrivateKey(key_bytes),
+                             WifEncoder.Encode(Secp256k1PrivateKey.FromBytes(key_bytes),
                                                test["compr_pub_key"],
                                                test["net_addr_ver"]))
 
@@ -210,9 +210,9 @@ class WifTests(unittest.TestCase):
 
     # Test invalid keys for encoding
     def test_enc_invalid_keys(self):
-        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519PrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
-        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519Blake2bPrivateKey(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
-        self.assertRaises(TypeError, WifEncoder.Encode, Nist256p1PrivateKey(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)))
+        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519PrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
+        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519Blake2bPrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
+        self.assertRaises(TypeError, WifEncoder.Encode, Nist256p1PrivateKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)))
 
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))

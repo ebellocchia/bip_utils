@@ -143,22 +143,60 @@ class Secp256k1Point(IPoint):
 class Secp256k1PublicKey(IPublicKey):
     """ Secp256k1 public key class. """
 
-    def __init__(self,
-                 key_data: Union[bytes, IPoint]) -> None:
-        """ Construct class from key bytes or point and curve.
+    @classmethod
+    def FromBytes(cls,
+                  key_bytes: bytes) -> IPublicKey:
+        """ Construct class from key bytes.
 
         Args:
-            key_data (bytes or IPoint object): key bytes or point
+            key_bytes (bytes): Key bytes
+
+        Returns:
+            IPublicKey: IPublicKey object
 
         Raises:
-            ValueError: If key data is not valid
+            ValueError: If key bytes are not valid
         """
-        if isinstance(key_data, bytes):
-            self.m_ver_key = self.__FromBytes(key_data)
-        elif isinstance(key_data, Secp256k1Point):
-            self.m_ver_key = self.__FromPoint(key_data)
+        try:
+            return cls(ecdsa.VerifyingKey.from_string(key_bytes,
+                                                      curve=curves.SECP256k1))
+        except keys.MalformedPointError as ex:
+            raise ValueError("Invalid public key bytes") from ex
+
+    @classmethod
+    def FromPoint(cls,
+                  key_point: IPoint) -> IPublicKey:
+        """ Construct class from key point.
+
+        Args:
+            key_point (IPoint object): Key point
+
+        Returns:
+            IPublicKey: IPublicKey object
+
+        Raises:
+            ValueError: If key point is not valid
+        """
+        try:
+            return cls(ecdsa.VerifyingKey.from_public_point(ellipticcurve.Point(curve_secp256k1, key_point.X(), key_point.Y()),
+                                                            curve=curves.SECP256k1))
+        except keys.MalformedPointError as ex:
+            raise ValueError("Invalid public key point") from ex
+
+    def __init__(self,
+                 key_obj: Any) -> None:
+        """ Construct class from key object.
+
+        Args:
+            key_obj (class): Key object
+
+        Raises:
+            TypeError: If key object is not of the correct type
+        """
+        if isinstance(key_obj, ecdsa.VerifyingKey):
+            self.m_ver_key = key_obj
         else:
-            raise TypeError("Invalid public key data type")
+            raise TypeError("Invalid public key object type")
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -168,22 +206,6 @@ class Secp256k1PublicKey(IPublicKey):
            EllipticCurveTypes: Elliptic curve type
         """
         return EllipticCurveTypes.SECP256K1
-
-    @staticmethod
-    def IsValid(key_data: Union[bytes, IPoint]) -> bool:
-        """ Return if the specified data represents a valid public key.
-
-        Args:
-            key_data (bytes or IPoint object): key bytes or point
-
-        Returns:
-            bool: True if valid, false otherwise
-        """
-        try:
-            Secp256k1PublicKey(key_data)
-            return True
-        except ValueError:
-            return False
 
     @staticmethod
     def CompressedLength() -> int:
@@ -235,56 +257,44 @@ class Secp256k1PublicKey(IPublicKey):
         """
         return Secp256k1Point(self.m_ver_key.pubkey.point.x(), self.m_ver_key.pubkey.point.y())
 
-    @staticmethod
-    def __FromBytes(key_bytes: bytes) -> ecdsa.VerifyingKey:
-        """ Get public key from bytes.
-
-        Args:
-            key_bytes (bytes): key bytes
-
-        Returns:
-            ecdsa.VerifyingKey: ecdsa.VerifyingKey object
-        """
-        try:
-            return ecdsa.VerifyingKey.from_string(key_bytes,
-                                                  curve=curves.SECP256k1)
-        except keys.MalformedPointError as ex:
-            raise ValueError("Invalid public key bytes") from ex
-
-    @staticmethod
-    def __FromPoint(point: IPoint) -> ecdsa.VerifyingKey:
-        """ Get public key from point.
-
-        Args:
-            point (IPoint object): IPoint object
-
-        Returns:
-            ecdsa.VerifyingKey: ecdsa.VerifyingKey object
-        """
-        try:
-            return ecdsa.VerifyingKey.from_public_point(ellipticcurve.Point(curve_secp256k1, point.X(), point.Y()),
-                                                        curve=curves.SECP256k1)
-        except keys.MalformedPointError as ex:
-            raise ValueError("Invalid public key point") from ex
-
 
 class Secp256k1PrivateKey(IPrivateKey):
     """ Secp256k1 private key class. """
 
-    def __init__(self,
-                 key_bytes: bytes) -> None:
-        """ Construct class from key bytes and curve.
+    @classmethod
+    def FromBytes(cls,
+                  key_bytes: bytes) -> IPrivateKey:
+        """ Construct class from key bytes.
 
         Args:
-            key_bytes (bytes): key bytes
+            key_bytes (bytes): Key bytes
+
+        Returns:
+            IPrivateKey: IPrivateKey object
 
         Raises:
             ValueError: If key bytes are not valid
         """
         try:
-            self.m_sign_key = ecdsa.SigningKey.from_string(key_bytes, curve=curves.SECP256k1)
+            return cls(ecdsa.SigningKey.from_string(key_bytes,
+                                                    curve=curves.SECP256k1))
         except keys.MalformedPointError as ex:
             raise ValueError("Invalid private key bytes") from ex
+
+    def __init__(self,
+                 key_obj: Any) -> None:
+        """ Construct class from key object.
+
+        Args:
+            key_obj (class): Key object
+
+        Raises:
+            TypeError: If key object is not of the correct type
+        """
+        if isinstance(key_obj, ecdsa.SigningKey):
+            self.m_sign_key = key_obj
+        else:
+            raise TypeError("Invalid private key object type")
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -294,22 +304,6 @@ class Secp256k1PrivateKey(IPrivateKey):
            EllipticCurveTypes: Elliptic curve type
         """
         return EllipticCurveTypes.SECP256K1
-
-    @staticmethod
-    def IsValid(key_bytes: bytes) -> bool:
-        """ Return if the specified bytes represent a valid private key.
-
-        Args:
-            key_bytes (bytes): key bytes
-
-        Returns:
-            bool: True if valid, false otherwise
-        """
-        try:
-            Secp256k1PrivateKey(key_bytes)
-            return True
-        except ValueError:
-            return False
 
     @staticmethod
     def Length() -> int:
@@ -342,4 +336,4 @@ class Secp256k1PrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Secp256k1PublicKey(self.m_sign_key.get_verifying_key().to_string("uncompressed"))
+        return Secp256k1PublicKey(self.m_sign_key.get_verifying_key())

@@ -61,14 +61,14 @@ class XrpAddrTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"], XrpAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], XrpAddr.EncodeKey(Secp256k1PublicKey(key_bytes)))
+            self.assertEqual(test["address"], XrpAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, Ed25519PublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, Ed25519Blake2bPublicKey(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, Nist256p1PublicKey(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, XrpAddr.EncodeKey, Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, XrpAddr.EncodeKey, Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, XrpAddr.EncodeKey, Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
 
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
             self.assertRaises(ValueError, XrpAddr.EncodeKey, binascii.unhexlify(test))

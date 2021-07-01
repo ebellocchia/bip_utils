@@ -138,16 +138,50 @@ class IPublicKey(ABC):
     Verify method is missing because not needed.
     """
 
+    @classmethod
     @abstractmethod
-    def __init__(self,
-                 key_data: Union[bytes, IPoint]) -> None:
-        """ Construct class from key bytes or point and curve.
+    def FromBytes(cls,
+                  key_bytes: bytes) -> IPublicKey:
+        """ Construct class from key bytes.
 
         Args:
-            key_data (bytes or IPoint object): key bytes or point
+            key_bytes (bytes): Key bytes
+
+        Returns:
+            IPublicKey: IPublicKey object
 
         Raises:
-            ValueError: If key data is not valid
+            ValueError: If key bytes are not valid
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def FromPoint(cls,
+                  key_point: IPoint) -> IPublicKey:
+        """ Construct class from key point.
+
+        Args:
+            key_point (IPoint object): Key point
+
+        Returns:
+            IPublicKey: IPublicKey object
+
+        Raises:
+            ValueError: If key point is not valid
+        """
+        pass
+
+    @abstractmethod
+    def __init__(self,
+                 key_obj: Any) -> None:
+        """ Construct class from key object.
+
+        Args:
+            key_obj (class): Key object
+
+        Raises:
+            TypeError: If key object is not of the correct type
         """
         pass
 
@@ -161,18 +195,39 @@ class IPublicKey(ABC):
         """
         pass
 
-    @staticmethod
-    @abstractmethod
-    def IsValid(key_data: Union[bytes, IPoint]) -> bool:
-        """ Return if the specified data represents a valid public key.
+    @classmethod
+    def IsValidBytes(cls,
+                     key_bytes: bytes) -> bool:
+        """ Return if the specified bytes represents a valid public key.
 
         Args:
-            key_data (bytes or IPoint object): key bytes or point
+            key_bytes (bytes): Key bytes
 
         Returns:
             bool: True if valid, false otherwise
         """
-        pass
+        try:
+            cls.FromBytes(key_bytes)
+            return True
+        except ValueError:
+            return False
+
+    @classmethod
+    def IsValidPoint(cls,
+                     key_point: IPoint) -> bool:
+        """ Return if the specified point represents a valid public key.
+
+        Args:
+            key_point (IPoint object): Key point
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        try:
+            cls.FromPoint(key_point)
+            return True
+        except ValueError:
+            return False
 
     @staticmethod
     @abstractmethod
@@ -236,16 +291,33 @@ class IPrivateKey(ABC):
     Sign method is missing because not needed.
     """
 
+    @classmethod
     @abstractmethod
-    def __init__(self,
-                 key_bytes: bytes) -> None:
-        """ Construct class from key bytes and curve.
+    def FromBytes(cls,
+                  key_bytes: bytes) -> IPrivateKey:
+        """ Construct class from key bytes.
 
         Args:
-            key_bytes (bytes): key bytes
+            key_bytes (bytes): Key bytes
+
+        Returns:
+            IPrivateKey: IPrivateKey object
 
         Raises:
             ValueError: If key bytes are not valid
+        """
+        pass
+
+    @abstractmethod
+    def __init__(self,
+                 key_obj: Any) -> None:
+        """ Construct class from key object.
+
+        Args:
+            key_obj (class): Key object
+
+        Raises:
+            TypeError: If key object is not of the correct type
         """
         pass
 
@@ -259,9 +331,9 @@ class IPrivateKey(ABC):
         """
         pass
 
-    @staticmethod
-    @abstractmethod
-    def IsValid(key_bytes: bytes) -> bool:
+    @classmethod
+    def IsValidBytes(cls,
+                     key_bytes: bytes) -> bool:
         """ Return if the specified bytes represent a valid private key.
 
         Args:
@@ -270,7 +342,11 @@ class IPrivateKey(ABC):
         Returns:
             bool: True if valid, false otherwise
         """
-        pass
+        try:
+            cls.FromBytes(key_bytes)
+            return True
+        except ValueError:
+            return False
 
     @staticmethod
     @abstractmethod

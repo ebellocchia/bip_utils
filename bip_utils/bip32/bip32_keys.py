@@ -158,7 +158,7 @@ class Bip32PublicKey:
         """
         try:
             curve = EllipticCurveGetter.FromType(curve_type)
-            return curve.PublicKeyClass()(key_bytes)
+            return curve.PublicKeyClass().FromBytes(key_bytes)
         except ValueError as ex:
             raise Bip32KeyError("Invalid public key") from ex
 
@@ -268,6 +268,6 @@ class Bip32PrivateKey:
         """
         try:
             curve = EllipticCurveGetter.FromType(curve_type)
-            return curve.PrivateKeyClass()(key_bytes)
+            return curve.PrivateKeyClass().FromBytes(key_bytes)
         except ValueError as ex:
             raise Bip32KeyError("Invalid private key") from ex
