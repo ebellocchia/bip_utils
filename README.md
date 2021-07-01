@@ -49,6 +49,7 @@ The package currently supports the following coins (I try to add new ones from t
 - Ethereum
 - Ethereum Classic
 - Fantom Opera
+- Filecoin
 - Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
 - IRIS Network
@@ -510,6 +511,7 @@ Currently supported coins enumerative:
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
 |Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
 |Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
+|Filecoin|*Bip44Coins.FILECOIN*|-|
 |Harmony One (Cosmos address)|*Bip44Coins.HARMONY_ONE_ATOM*|-|
 |Harmony One (Ethereum address)|*Bip44Coins.HARMONY_ONE_ETH*|-|
 |Harmony One (Metamask address)|*Bip44Coins.HARMONY_ONE_METAMASK*|-|
@@ -642,7 +644,7 @@ These libraries are used internally by the other libraries, but they are availab
     import binascii
     from bip_utils import (
       P2PKHAddr, P2SHAddr, P2WPKHAddr, BchP2PKHAddr, BchP2SHAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr,
-      EgldAddr, EthAddr, NanoAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
+      EgldAddr, EthAddr, FilAddr, NanoAddr, NeoAddr, OkexAddr, OneAddr, SolAddr, TrxAddr, XlmAddr, XrpAddr, XtzAddr,
       Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
     )
 
@@ -677,6 +679,8 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AtomAddr.EncodeKey(pub_key, "cosmos")
     addr = AtomAddr.EncodeKey(pub_key, "band")
     addr = AtomAddr.EncodeKey(pub_key, "bnb")
+    # Filecoin address
+    addr = FilAddr.EncodeKey(pub_key)
     # OKEx Chain address
     addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
