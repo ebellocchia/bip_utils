@@ -33,6 +33,7 @@ class AddrTypes(Enum):
     ATOM = auto(),
     EGLD = auto(),
     ETH = auto(),
+    FIL = auto(),
     NANO = auto(),
     NEO = auto(),
     OKEX = auto(),

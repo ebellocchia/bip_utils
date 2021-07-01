@@ -270,6 +270,17 @@ Bip44FantomOpera: BipCoinConf = BipCoinConf(
     addr_conf={},
     addr_type=AddrTypes.ETH)
 
+# Configuration for Filecoin
+Bip44Filecoin: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("Filecoin", "FIL"),
+    is_testnet=False,
+    def_path=NOT_HARDENED_DEF_PATH,
+    key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
+    wif_net_ver=None,
+    bip32_type=Bip32Types.SECP256K1,
+    addr_conf={"prefix": "f", "type": "1"},
+    addr_type=AddrTypes.FIL)
+
 # Configuration for Harmony One (Metamask address)
 Bip44HarmonyOneMetamask: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Harmony One", "ONE"),

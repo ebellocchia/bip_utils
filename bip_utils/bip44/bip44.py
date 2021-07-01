@@ -57,6 +57,7 @@ class Bip44Const:
             Bip44Coins.ETHEREUM: Bip44Ethereum,
             Bip44Coins.ETHEREUM_CLASSIC: Bip44EthereumClassic,
             Bip44Coins.FANTOM_OPERA: Bip44FantomOpera,
+            Bip44Coins.FILECOIN: Bip44Filecoin,
             Bip44Coins.HARMONY_ONE_ATOM: Bip44HarmonyOneAtom,
             Bip44Coins.HARMONY_ONE_ETH: Bip44HarmonyOneEth,
             Bip44Coins.HARMONY_ONE_METAMASK: Bip44HarmonyOneMetamask,
