@@ -652,7 +652,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     # You can use public key bytes or a public key object
     pub_key = binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
-    pub_key = Secp256k1PublicKey(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
+    pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
     # P2PKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
     addr = P2PKHAddr.EncodeKey(pub_key)
@@ -692,7 +692,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     # You can use public key bytes or a public key object
     pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
-    pub_key = Ed25519PublicKey(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
+    pub_key = Ed25519PublicKey.FromBytes(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
 
     # Algorand address
     addr = AlgoAddr.EncodeKey(pub_key)
@@ -714,7 +714,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     # You can use public key bytes or a public key object
     pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
-    pub_key = Ed25519Blake2bPublicKey(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
+    pub_key = Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
 
     # Nano address
     addr = NanoAddr.EncodeKey(pub_key)
@@ -725,7 +725,7 @@ These libraries are used internally by the other libraries, but they are availab
 
     # You can use public key bytes or a public key object
     pub_key = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
-    pub_key = Nist256p1PublicKey(binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
+    pub_key = Nist256p1PublicKey.FromBytes(binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
 
     # NEO address
     addr = NeoAddr.EncodeKey(pub_key)
@@ -737,11 +737,11 @@ This library is used internally by the other libraries, but it's available also 
 **Code example**
 
     import binascii
-    from bip_utils import Secp256k1PublicKey, WifDecoder, WifEncoder
+    from bip_utils import Secp256k1PrivateKey, WifDecoder, WifEncoder
 
     # You can use private key bytes or a private key object
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
-    priv_key = Secp256k1PublicKey(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
+    priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
     # Encode
     enc = WifEncoder.Encode(priv_key)
