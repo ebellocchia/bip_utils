@@ -33,12 +33,12 @@ class Base32Const:
 
 
 class Base32:
-    """ Class container for Base32 deconding/encoding. """
+    """ Class container for base32 decoding/encoding. """
 
     @staticmethod
     def Encode(data: Union[bytes, str],
                custom_alphabet: Optional[str] = None) -> str:
-        """ Encode to Base32.
+        """ Encode to base32.
 
         Args:
             data (str or bytes)            : Data
@@ -56,7 +56,7 @@ class Base32:
     @staticmethod
     def EncodeNoPadding(data: Union[bytes, str],
                         custom_alphabet: Optional[str] = None) -> str:
-        """ Encode to Base32 by removing the final padding.
+        """ Encode to base32 by removing the final padding.
 
         Args:
             data (str or bytes)            : Data

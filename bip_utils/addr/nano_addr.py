@@ -30,12 +30,12 @@ from bip_utils.utils import Base32, ConvUtils, CryptoUtils
 class NanoAddrConst:
     """ Class container for Nano address constants. """
 
-    # Alphabet for Base32
+    # Alphabet for base32
     BASE32_ALPHABET: str = "13456789abcdefghijkmnopqrstuwxyz"
-    # Padding
-    PADDING: bytes = b"\x00\x00\x00"
+    # Payload padding
+    PAYLOAD_PADDING: bytes = b"\x00\x00\x00"
     # Encoded padding length
-    ENC_PADDING_LEN: int = 4
+    ENC_PAYLOAD_PADDING_LEN: int = 4
     # Digest size
     DIGEST_SIZE: int = 5
 
@@ -62,9 +62,9 @@ class NanoAddr:
 
         # Compute checksum
         chksum = ConvUtils.ReverseBytes(CryptoUtils.Blake2b(pub_key_bytes, digest_size=NanoAddrConst.DIGEST_SIZE))
-        # Encode to Base32
-        payload = NanoAddrConst.PADDING + pub_key_bytes + chksum
-        b32_enc = Base32.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)[NanoAddrConst.ENC_PADDING_LEN:]
+        # Encode to base32
+        payload = NanoAddrConst.PAYLOAD_PADDING + pub_key_bytes + chksum
+        b32_enc = Base32.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)[NanoAddrConst.ENC_PAYLOAD_PADDING_LEN:]
 
         # Add prefix
         return Bip44Nano.AddrConfKey("prefix") + b32_enc

@@ -49,5 +49,5 @@ class XlmAddr:
 
         # Compute checksum
         checksum = ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload))
-        # Encode to Base32
+        # Encode to base32
         return Base32.EncodeNoPadding(payload + checksum)
