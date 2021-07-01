@@ -234,15 +234,15 @@ class Bip32Base(ABC):
             Bip32KeyError: If the key constructed from the secret is not valid
         """
         if not is_public:
-            self.m_priv_key = Bip32PrivateKey(secret,
-                                              Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
-                                              curve_type)
+            self.m_priv_key = Bip32PrivateKey.FromBytes(secret,
+                                                        Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
+                                                        curve_type)
             self.m_pub_key = self.m_priv_key.PublicKey()
         else:
             self.m_priv_key = None
-            self.m_pub_key = Bip32PublicKey(secret,
-                                            Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
-                                            curve_type)
+            self.m_pub_key = Bip32PublicKey.FromBytes(secret,
+                                                      Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
+                                                      curve_type)
 
     def ChildKey(self,
                  index: Union[int, Bip32KeyIndex]) -> Bip32Base:

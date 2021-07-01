@@ -316,7 +316,7 @@ class Bip44Base(ABC):
         self.m_coin_type = coin_type
         self.m_coin_conf = self._GetCoinConf(coin_type)
 
-    @lru_cache
+    @lru_cache()
     def PublicKey(self) -> Bip44PublicKey:
         """ Return the public key.
 
@@ -326,13 +326,11 @@ class Bip44Base(ABC):
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        bip32_pub_key = self.m_bip32.PublicKey()
-        return Bip44PublicKey(bip32_pub_key.RawCompressed().ToBytes(),
-                              bip32_pub_key.Data(),
-                              bip32_pub_key.CurveType(),
+        return Bip44PublicKey(self.m_bip32.PublicKey().KeyObject(),
+                              self.m_bip32.PublicKey().Data(),
                               self.m_coin_conf)
 
-    @lru_cache
+    @lru_cache()
     def PrivateKey(self) -> Bip44PrivateKey:
         """ Return the private key.
 
@@ -342,10 +340,8 @@ class Bip44Base(ABC):
         Raises:
             Bip32KeyError: If the Bip32 object is public-only or the constructed key is not valid
         """
-        bip32_priv_key = self.m_bip32.PrivateKey()
-        return Bip44PrivateKey(bip32_priv_key.Raw().ToBytes(),
-                               bip32_priv_key.Data(),
-                               bip32_priv_key.CurveType(),
+        return Bip44PrivateKey(self.m_bip32.PrivateKey().KeyObject(),
+                               self.m_bip32.PrivateKey().Data(),
                                self.m_coin_conf)
 
     def CoinConf(self) -> BipCoinConf:

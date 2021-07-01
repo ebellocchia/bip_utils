@@ -20,6 +20,7 @@
 
 
 # Imports
+from __future__ import annotations
 from functools import lru_cache
 from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
@@ -33,11 +34,12 @@ class Bip32PublicKey:
     It represents a public key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
 
-    def __init__(self,
-                 key_bytes: bytes,
-                 key_data: Bip32KeyData,
-                 curve_type: EllipticCurveTypes) -> None:
-        """ Construct class.
+    @classmethod
+    def FromBytes(cls,
+                  key_bytes: bytes,
+                  key_data: Bip32KeyData,
+                  curve_type: EllipticCurveTypes) -> Bip32PublicKey:
+        """ Create from bytes.
 
         Args:
             key_bytes (bytes)              : Key bytes
@@ -47,7 +49,19 @@ class Bip32PublicKey:
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        self.m_pub_key = self.__KeyFromBytes(key_bytes, curve_type)
+        return cls(cls.__KeyFromBytes(key_bytes, curve_type),
+                   key_data)
+
+    def __init__(self,
+                 pub_key: IPublicKey,
+                 key_data: Bip32KeyData) -> None:
+        """ Construct class.
+
+        Args:
+            pub_key (IPublicKey object)   : Key object
+            key_data (Bip32KeyData object): Key data
+        """
+        self.m_pub_key = pub_key
         self.m_key_data = key_data
 
     def CurveType(self) -> EllipticCurveTypes:
@@ -58,6 +72,14 @@ class Bip32PublicKey:
         """
         return self.m_pub_key.CurveType()
 
+    def KeyObject(self) -> IPublicKey:
+        """ Return the key object.
+
+        Returns:
+            IPublicKey object: Key object
+        """
+        return self.m_pub_key
+
     def Data(self) -> Bip32KeyData:
         """ Return key data.
 
@@ -66,6 +88,7 @@ class Bip32PublicKey:
         """
         return self.m_key_data
 
+    @lru_cache()
     def RawCompressed(self) -> KeyBytes:
         """ Return raw compressed public key.
 
@@ -74,6 +97,7 @@ class Bip32PublicKey:
         """
         return self.m_pub_key.RawCompressed()
 
+    @lru_cache()
     def RawUncompressed(self) -> KeyBytes:
         """ Return raw uncompressed public key.
 
@@ -98,7 +122,7 @@ class Bip32PublicKey:
         """
         return Bip32FingerPrint(self.KeyIdentifier())
 
-    @lru_cache
+    @lru_cache()
     def KeyIdentifier(self) -> bytes:
         """ Get key identifier.
 
@@ -107,7 +131,7 @@ class Bip32PublicKey:
         """
         return CryptoUtils.Hash160(self.m_pub_key.RawCompressed().ToBytes())
 
-    @lru_cache
+    @lru_cache()
     def ToExtended(self) -> str:
         """ Return key in serialized extended format.
 
@@ -144,11 +168,12 @@ class Bip32PrivateKey:
     It represents a private key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
 
-    def __init__(self,
-                 key_bytes: bytes,
-                 key_data: Bip32KeyData,
-                 curve_type: EllipticCurveTypes) -> None:
-        """ Construct class.
+    @classmethod
+    def FromBytes(cls,
+                  key_bytes: bytes,
+                  key_data: Bip32KeyData,
+                  curve_type: EllipticCurveTypes) -> Bip32PrivateKey:
+        """ Create from bytes.
 
         Args:
             key_bytes (bytes)              : Key bytes
@@ -158,7 +183,19 @@ class Bip32PrivateKey:
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        self.m_priv_key = self.__KeyFromBytes(key_bytes, curve_type)
+        return cls(cls.__KeyFromBytes(key_bytes, curve_type),
+                   key_data)
+
+    def __init__(self,
+                 priv_key: IPrivateKey,
+                 key_data: Bip32KeyData) -> None:
+        """ Construct class.
+
+        Args:
+            priv_key (IPrivateKey object) : Key object
+            key_data (Bip32KeyData object): Key data
+        """
+        self.m_priv_key = priv_key
         self.m_key_data = key_data
 
     def CurveType(self) -> EllipticCurveTypes:
@@ -169,6 +206,14 @@ class Bip32PrivateKey:
         """
         return self.m_priv_key.CurveType()
 
+    def KeyObject(self) -> IPrivateKey:
+        """ Return the key object.
+
+        Returns:
+            IPrivateKey object: Key object
+        """
+        return self.m_priv_key
+
     def Data(self) -> Bip32KeyData:
         """ Return key data.
 
@@ -177,6 +222,7 @@ class Bip32PrivateKey:
         """
         return self.m_key_data
 
+    @lru_cache()
     def Raw(self) -> KeyBytes:
         """ Return raw private key.
 
@@ -185,18 +231,17 @@ class Bip32PrivateKey:
         """
         return self.m_priv_key.Raw()
 
-    @lru_cache
+    @lru_cache()
     def PublicKey(self) -> Bip32PublicKey:
         """ Get the public key correspondent to the private one.
 
         Returns:
             BipPublicKey object: BipPublicKey object
         """
-        return Bip32PublicKey(self.m_priv_key.PublicKey().RawCompressed().ToBytes(),
-                              self.m_key_data,
-                              self.CurveType())
+        return Bip32PublicKey(self.m_priv_key.PublicKey(),
+                              self.m_key_data)
 
-    @lru_cache
+    @lru_cache()
     def ToExtended(self) -> str:
         """ Return key in serialized extended format.
 

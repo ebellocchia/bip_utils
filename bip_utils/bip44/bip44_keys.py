@@ -25,7 +25,7 @@ from typing import Any, Dict
 from bip_utils.addr import *
 from bip_utils.bip32 import Bip32KeyData, Bip32PublicKey, Bip32PrivateKey
 from bip_utils.conf import AddrTypes, BipCoinConf
-from bip_utils.ecc import EllipticCurveTypes
+from bip_utils.ecc import EllipticCurveTypes, IPublicKey, IPrivateKey
 from bip_utils.wif import WifEncoder
 
 
@@ -66,26 +66,21 @@ class Bip44PublicKey(Bip32PublicKey):
     """
 
     def __init__(self,
-                 key_bytes: bytes,
+                 pub_key: IPublicKey,
                  key_data: Bip32KeyData,
-                 curve_type: EllipticCurveTypes,
                  coin_conf: BipCoinConf) -> None:
         """ Construct class.
 
         Args:
-            key_bytes (bytes)              : Key bytes
-            key_data (Bip32KeyData object) : Key data
-            curve_type (EllipticCurveTypes): Elliptic curve type
-            coin_conf (BipCoinConf object) : BipCoinConf object
-
-        Raises:
-            Bip32KeyError: If the key constructed from the bytes is not valid
+            pub_key (IPublicKey object)   : Key object
+            key_data (Bip32KeyData object): Key data
+            coin_conf (BipCoinConf object): BipCoinConf object
         """
-        super().__init__(key_bytes, key_data, curve_type)
+        super().__init__(pub_key, key_data)
 
         self.m_coin_conf = coin_conf
 
-    @lru_cache
+    @lru_cache()
     def ToAddress(self) -> str:
         """ Return address correspondent to the public key.
 
@@ -134,26 +129,21 @@ class Bip44PrivateKey(Bip32PrivateKey):
     """
 
     def __init__(self,
-                 key_bytes: bytes,
+                 priv_key: IPrivateKey,
                  key_data: Bip32KeyData,
-                 curve_type: EllipticCurveTypes,
                  coin_conf: BipCoinConf) -> None:
         """ Construct class.
 
         Args:
-            key_bytes (bytes)              : Key bytes
-            key_data (Bip32KeyData object) : Key data
-            curve_type (EllipticCurveTypes): Elliptic curve type
-            coin_conf (BipCoinConf object) : BipCoinConf object
-
-        Raises:
-            Bip32KeyError: If the key constructed from the bytes is not valid
+            priv_key (IPrivateKey object) : Key object
+            key_data (Bip32KeyData object): Key data
+            coin_conf (BipCoinConf object): BipCoinConf object
         """
-        super().__init__(key_bytes, key_data, curve_type)
+        super().__init__(priv_key, key_data)
 
         self.m_coin_conf = coin_conf
 
-    @lru_cache
+    @lru_cache()
     def ToWif(self,
               compr_pub_key: bool = True) -> str:
         """ Return key in WIF format.
