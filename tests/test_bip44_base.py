@@ -53,7 +53,9 @@ class Bip44BaseTestHelper:
             bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)
             # Test account keys
             ut_class.assertEqual(test["account"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
+            ut_class.assertEqual(test["account"]["ex_pub"], bip_obj_ctx.PublicKey().Bip32Key().ToExtended())
             ut_class.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
+            ut_class.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().Bip32Key().ToExtended())
 
             # Derive external chain
             bip_obj_ctx = bip_obj_ctx.Change(Bip44Changes.CHAIN_EXT)

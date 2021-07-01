@@ -326,8 +326,7 @@ class Bip44Base(ABC):
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        return Bip44PublicKey(self.m_bip32.PublicKey().KeyObject(),
-                              self.m_bip32.PublicKey().Data(),
+        return Bip44PublicKey(self.m_bip32.PublicKey(),
                               self.m_coin_conf)
 
     @lru_cache()
@@ -340,8 +339,7 @@ class Bip44Base(ABC):
         Raises:
             Bip32KeyError: If the Bip32 object is public-only or the constructed key is not valid
         """
-        return Bip44PrivateKey(self.m_bip32.PrivateKey().KeyObject(),
-                               self.m_bip32.PrivateKey().Data(),
+        return Bip44PrivateKey(self.m_bip32.PrivateKey(),
                                self.m_coin_conf)
 
     def CoinConf(self) -> BipCoinConf:

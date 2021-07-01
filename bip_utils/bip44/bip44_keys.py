@@ -23,9 +23,9 @@
 from functools import lru_cache
 from typing import Any, Dict
 from bip_utils.addr import *
-from bip_utils.bip32 import Bip32KeyData, Bip32PublicKey, Bip32PrivateKey
+from bip_utils.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.conf import AddrTypes, BipCoinConf
-from bip_utils.ecc import EllipticCurveTypes, IPublicKey, IPrivateKey
+from bip_utils.ecc import KeyBytes
 from bip_utils.wif import WifEncoder
 
 
@@ -59,26 +59,55 @@ class Bip44KeysConst:
     }
 
 
-class Bip44PublicKey(Bip32PublicKey):
+class Bip44PublicKey:
     """ BIP44 public key class.
-    It extends Bip32PublicKey by adding the possibility to compute the address
+    It contains Bip32PublicKey and add the possibility to compute the address
     from the coin type.
     """
 
     def __init__(self,
-                 pub_key: IPublicKey,
-                 key_data: Bip32KeyData,
+                 pub_key: Bip32PublicKey,
                  coin_conf: BipCoinConf) -> None:
         """ Construct class.
 
         Args:
-            pub_key (IPublicKey object)   : Key object
-            key_data (Bip32KeyData object): Key data
-            coin_conf (BipCoinConf object): BipCoinConf object
+            pub_key (Bip32PublicKey object): Bip32PublicKey object
+            coin_conf (BipCoinConf object) : BipCoinConf object
         """
-        super().__init__(pub_key, key_data)
-
+        self.m_pub_key = pub_key
         self.m_coin_conf = coin_conf
+
+    def Bip32Key(self) -> Bip32PublicKey:
+        """ Return the BIP32 key object.
+
+        Returns:
+            Bip32PublicKey object: BIP32 key object
+        """
+        return self.m_pub_key
+
+    def ToExtended(self) -> str:
+        """ Return key in serialized extended format.
+
+        Returns:
+            str: Key in serialized extended format
+        """
+        return self.Bip32Key().ToExtended()
+
+    def RawCompressed(self) -> KeyBytes:
+        """ Return raw compressed public key.
+
+        Returns:
+            KeyBytes object: KeyBytes object
+        """
+        return self.Bip32Key().RawCompressed()
+
+    def RawUncompressed(self) -> KeyBytes:
+        """ Return raw uncompressed public key.
+
+        Returns:
+            KeyBytes object: KeyBytes object
+        """
+        return self.Bip32Key().RawUncompressed()
 
     @lru_cache()
     def ToAddress(self) -> str:
@@ -97,51 +126,74 @@ class Bip44PublicKey(Bip32PublicKey):
         """
         addr_conf = self.m_coin_conf.AddrConf()
         addr_type = self.m_coin_conf.AddrType()
+        pub_key_obj = self.Bip32Key().KeyObject()
+
         addr_cls = Bip44KeysConst.ADDR_TYPE_TO_CLASS[addr_type]
 
         # P2PKH, P2SH
         if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH):
-            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["net_ver"])
+            return addr_cls.EncodeKey(pub_key_obj, addr_conf["net_ver"])
         # P2WPKH
         elif addr_type == AddrTypes.P2WPKH:
-            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["wit_ver"], addr_conf["net_ver"])
+            return addr_cls.EncodeKey(pub_key_obj, addr_conf["wit_ver"], addr_conf["net_ver"])
         # BCH P2PKH and P2SH
         elif addr_type in (AddrTypes.P2PKH_BCH, AddrTypes.P2SH_BCH):
-            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["hrp"], addr_conf["net_ver"])
+            return addr_cls.EncodeKey(pub_key_obj, addr_conf["hrp"], addr_conf["net_ver"])
         # Atom
         elif addr_type == AddrTypes.ATOM:
-            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["hrp"])
+            return addr_cls.EncodeKey(pub_key_obj, addr_conf["hrp"])
         # Substrate
         elif addr_type == AddrTypes.SUBSTRATE:
-            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["ss58_ver"])
+            return addr_cls.EncodeKey(pub_key_obj, addr_conf["ss58_ver"])
         # NEO
         elif addr_type == AddrTypes.NEO:
-            return addr_cls.EncodeKey(self.m_pub_key, addr_conf["ver"])
+            return addr_cls.EncodeKey(pub_key_obj, addr_conf["ver"])
         # Others
         else:
-            return addr_cls.EncodeKey(self.m_pub_key)
+            return addr_cls.EncodeKey(pub_key_obj)
 
 
-class Bip44PrivateKey(Bip32PrivateKey):
+class Bip44PrivateKey:
     """ BIP44 private key class.
-    It extends Bip32PrivateKey by adding the possibility to compute the WIF
+    It contains Bip32PrivateKey and add the possibility to compute the WIF
     from the coin type.
     """
 
     def __init__(self,
-                 priv_key: IPrivateKey,
-                 key_data: Bip32KeyData,
+                 priv_key: Bip32PrivateKey,
                  coin_conf: BipCoinConf) -> None:
         """ Construct class.
 
         Args:
-            priv_key (IPrivateKey object) : Key object
-            key_data (Bip32KeyData object): Key data
-            coin_conf (BipCoinConf object): BipCoinConf object
+            priv_key (Bip32PrivateKey object): Bip32PrivateKey object
+            coin_conf (BipCoinConf object)   : BipCoinConf object
         """
-        super().__init__(priv_key, key_data)
-
+        self.m_priv_key = priv_key
         self.m_coin_conf = coin_conf
+
+    def Bip32Key(self) -> Bip32PrivateKey:
+        """ Return the BIP32 key object.
+
+        Returns:
+            Bip32PublicKey object: BIP32 key object
+        """
+        return self.m_priv_key
+
+    def ToExtended(self) -> str:
+        """ Return key in serialized extended format.
+
+        Returns:
+            str: Key in serialized extended format
+        """
+        return self.Bip32Key().ToExtended()
+
+    def Raw(self) -> KeyBytes:
+        """ Return raw compressed public key.
+
+        Returns:
+            KeyBytes object: KeyBytes object
+        """
+        return self.Bip32Key().Raw()
 
     @lru_cache()
     def ToWif(self,
@@ -156,4 +208,4 @@ class Bip44PrivateKey(Bip32PrivateKey):
         """
         wif_net_ver = self.m_coin_conf.WifNetVersion()
 
-        return WifEncoder.Encode(self.Raw().ToBytes(), compr_pub_key, wif_net_ver) if wif_net_ver is not None else ""
+        return WifEncoder.Encode(self.Bip32Key().Raw().ToBytes(), compr_pub_key, wif_net_ver) if wif_net_ver is not None else ""
