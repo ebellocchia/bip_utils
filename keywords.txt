@@ -35,6 +35,7 @@ elrond
 ethereum
 ethereum classic
 fantom opera
+filecoin
 harmony one
 huobi chain
 iris
