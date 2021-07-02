@@ -109,8 +109,8 @@ class Bip39Const:
     SEED_SALT_MOD: str = "mnemonic"
     # PBKDF2 round for seed generation
     SEED_PBKDF2_ROUNDS: int = 2048
-    # Seed length
-    SEED_LEN: int = 64
+    # Seed length in bytes
+    SEED_BYTE_LEN: int = 64
 
 
 class Bip39Utils:
@@ -626,7 +626,7 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
                                            salt,
                                            Bip39Const.SEED_PBKDF2_ROUNDS)
 
-        return key[:Bip39Const.SEED_LEN]
+        return key[:Bip39Const.SEED_BYTE_LEN]
 
 
 class Bip39SubstrateSeedGenerator(IBip39SeedGenerator):
@@ -671,4 +671,4 @@ class Bip39SubstrateSeedGenerator(IBip39SeedGenerator):
                                            salt,
                                            Bip39Const.SEED_PBKDF2_ROUNDS)
 
-        return key[:Bip39Const.SEED_LEN]
+        return key[:Bip39Const.SEED_BYTE_LEN]

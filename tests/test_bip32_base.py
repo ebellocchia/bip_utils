@@ -136,7 +136,7 @@ class Bip32BaseTestHelper:
     # Run all tests in test vector using FromPrivateKey for construction
     @staticmethod
     def test_from_priv_key(ut_class, bip32_class, test_vector):
-        zero_chain_code = b"\x00" * Bip32BaseConst.HMAC_HALF_LEN
+        zero_chain_code = b"\x00" * Bip32BaseConst.HMAC_HALF_BYTE_LEN
 
         for test in test_vector:
             # Create from private key

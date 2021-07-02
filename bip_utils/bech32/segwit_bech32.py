@@ -34,16 +34,16 @@ class SegwitBech32Const:
 
     # Separator
     SEPARATOR: str = Bech32Const.SEPARATOR
-    # Checkum length
-    CHECKSUM_LEN: int = Bech32Const.CHECKSUM_LEN
-    # Minimum data length
-    DATA_MIN_LEN: int = Bech32Const.DATA_MIN_LEN
-    # Maximum data length
-    DATA_MAX_LEN: int = Bech32Const.DATA_MAX_LEN
+    # Checkum length in bytes
+    CHECKSUM_BYTE_LEN: int = Bech32Const.CHECKSUM_BYTE_LEN
+    # Minimum data length in bytes
+    DATA_MIN_BYTE_LEN: int = Bech32Const.DATA_MIN_BYTE_LEN
+    # Maximum data length in bytes
+    DATA_MAX_BYTE_LEN: int = Bech32Const.DATA_MAX_BYTE_LEN
     # Witness version maximum value
     WITNESS_VER_MAX_VAL: int = 16
     # Accepted data lengths when witness version is zero
-    WITNESS_VER_ZERO_DATA_LEN: Tuple[int, int] = (20, 32)
+    WITNESS_VER_ZERO_DATA_BYTE_LEN: Tuple[int, int] = (20, 32)
 
 
 class SegwitBech32Encoder(Bech32EncoderBase):
@@ -109,7 +109,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         # Decode string
         hrpgot, data = SegwitBech32Decoder._DecodeBech32(addr,
                                                          SegwitBech32Const.SEPARATOR,
-                                                         SegwitBech32Const.CHECKSUM_LEN)
+                                                         SegwitBech32Const.CHECKSUM_BYTE_LEN)
         # Check HRP
         if hrpgot != hrp:
             raise Bech32FormatError("Invalid format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
@@ -118,11 +118,12 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         conv_data = Bech32BaseUtils.ConvertFromBase32(data[1:])
 
         # Check converted data
-        if len(conv_data) < SegwitBech32Const.DATA_MIN_LEN or len(conv_data) > SegwitBech32Const.DATA_MAX_LEN:
+        if (len(conv_data) < SegwitBech32Const.DATA_MIN_BYTE_LEN or
+                len(conv_data) > SegwitBech32Const.DATA_MAX_BYTE_LEN):
             raise Bech32FormatError("Invalid format (length not valid)")
         elif data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
             raise Bech32FormatError("Invalid format (witness version not valid)")
-        elif data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_LEN:
+        elif data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
             raise Bech32FormatError("Invalid format (length not valid)")
 
         return data[0], ConvUtils.ListToBytes(conv_data)

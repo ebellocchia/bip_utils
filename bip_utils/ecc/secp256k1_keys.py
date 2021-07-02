@@ -33,12 +33,12 @@ from bip_utils.ecc.key_bytes import KeyBytes
 class Secp256k1KeysConst:
     """ Class container for secp256k1 keys constants. """
 
-    # Compressed public key length
-    PUB_KEY_COMPRESSED_LEN: int = EcdsaKeysConst.PUB_KEY_COMPRESSED_LEN
-    # Uncompressed public key length
-    PUB_KEY_UNCOMPRESSED_LEN: int = EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_LEN
-    # Private key length
-    PRIV_KEY_LEN: int = EcdsaKeysConst.PRIV_KEY_LEN
+    # Compressed public key length in bytes
+    PUB_KEY_COMPRESSED_BYTE_LEN: int = EcdsaKeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
+    # Uncompressed public key length in bytes
+    PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
+    # Private key length in bytes
+    PRIV_KEY_BYTE_LEN: int = EcdsaKeysConst.PRIV_KEY_BYTE_LEN
 
 
 class Secp256k1Point(IPoint):
@@ -214,7 +214,7 @@ class Secp256k1PublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Secp256k1KeysConst.PUB_KEY_COMPRESSED_LEN
+        return Secp256k1KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -223,7 +223,7 @@ class Secp256k1PublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Secp256k1KeysConst.PUB_KEY_UNCOMPRESSED_LEN
+        return Secp256k1KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -312,7 +312,7 @@ class Secp256k1PrivateKey(IPrivateKey):
         Returns:
            int: Key length
         """
-        return Secp256k1KeysConst.PRIV_KEY_LEN
+        return Secp256k1KeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.

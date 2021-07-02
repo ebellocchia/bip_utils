@@ -31,8 +31,8 @@ from bip_utils.utils import CryptoUtils
 class XtzAddrConst:
     """ Class container for Tezos address constants. """
 
-    # Digest size
-    DIGEST_SIZE: int = 20
+    # Digest length in bytes
+    DIGEST_BYTE_LEN: int = 20
 
 
 class XtzAddr:
@@ -56,5 +56,5 @@ class XtzAddr:
 
         # Compute Blake2b and encode in Base58 with checksum
         blake = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
-                                    digest_size=XtzAddrConst.DIGEST_SIZE)
+                                    digest_size=XtzAddrConst.DIGEST_BYTE_LEN)
         return Base58Encoder.CheckEncode(Bip44Tezos.AddrConfKey("prefix") + blake)

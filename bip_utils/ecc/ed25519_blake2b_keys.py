@@ -105,7 +105,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_COMPRESSED_LEN
+        return Ed25519KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -114,7 +114,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_LEN
+        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -206,7 +206,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Returns:
            int: Key length
         """
-        return Ed25519KeysConst.PRIV_KEY_LEN
+        return Ed25519KeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.

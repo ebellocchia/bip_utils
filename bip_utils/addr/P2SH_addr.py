@@ -33,7 +33,7 @@ class P2SHAddrConst:
     """ Class container for P2SH constants. """
 
     # Script bytes
-    SCRIPT_BYTES: bytes = b"0014"
+    SCRIPT_BYTES: bytes = b"\x00\x14"
 
 
 class P2SHAddrUtils:
@@ -52,7 +52,7 @@ class P2SHAddrUtils:
         # Key hash: Hash160(public_key)
         key_hash = CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes())
         # Script signature: 0x0014 | Hash160(public_key)
-        script_sig = ConvUtils.HexStringToBytes(P2SHAddrConst.SCRIPT_BYTES) + key_hash
+        script_sig = P2SHAddrConst.SCRIPT_BYTES + key_hash
         # Address bytes = Hash160(script_signature)
         return CryptoUtils.Hash160(script_sig)
 

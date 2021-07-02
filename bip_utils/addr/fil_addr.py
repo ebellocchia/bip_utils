@@ -32,10 +32,10 @@ class FilAddrConst:
 
     # Alphabet for base32
     BASE32_ALPHABET: str = "abcdefghijklmnopqrstuvwxyz234567"
-    # Hash size
-    HASH_SIZE: int = 20
-    # Checksum size
-    CHECKSUM_SIZE: int = 4
+    # Digest length in bytes
+    DIGEST_BYTE_LEN: int = 20
+    # Checksum length in bytes
+    CHECKSUM_BYTE_LEN: int = 4
 
 
 class FilAddr:
@@ -63,8 +63,10 @@ class FilAddr:
         addr_type_byte = ConvUtils.IntegerToBytes(ord(addr_type_str) - ord("0"))
 
         # Compute public key hash and checksum
-        pub_key_hash = CryptoUtils.Blake2b(pub_key_bytes, digest_size=FilAddrConst.HASH_SIZE)
-        chksum = CryptoUtils.Blake2b(addr_type_byte + pub_key_hash, digest_size=FilAddrConst.CHECKSUM_SIZE)
+        pub_key_hash = CryptoUtils.Blake2b(pub_key_bytes,
+                                           digest_size=FilAddrConst.DIGEST_BYTE_LEN)
+        chksum = CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
+                                     digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
         # Encode to base32
         b32_enc = Base32.EncodeNoPadding(pub_key_hash + chksum, FilAddrConst.BASE32_ALPHABET)
 

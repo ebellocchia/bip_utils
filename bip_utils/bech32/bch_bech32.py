@@ -33,12 +33,12 @@ class BchBech32Const:
 
     # Separator
     SEPARATOR: str = ":"
-    # Checkum length
-    CHECKSUM_LEN: int = 8
-    # Minimum data length
-    DATA_MIN_LEN: int = 2
-    # Maximum data length
-    DATA_MAX_LEN: int = 40
+    # Checkum length in bytes
+    CHECKSUM_BYTE_LEN: int = 8
+    # Minimum data length in bytes
+    DATA_MIN_BYTE_LEN: int = 2
+    # Maximum data length in bytes
+    DATA_MAX_BYTE_LEN: int = 40
 
 
 class BchBech32Utils:
@@ -102,7 +102,7 @@ class BchBech32Utils:
 
         values = BchBech32Utils.HrpExpand(hrp) + data
         polymod = BchBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0, 0, 0])
-        return [(polymod >> 5 * (7 - i)) & 0x1f for i in range(BchBech32Const.CHECKSUM_LEN)]
+        return [(polymod >> 5 * (7 - i)) & 0x1f for i in range(BchBech32Const.CHECKSUM_BYTE_LEN)]
 
     @staticmethod
     def VerifyChecksum(hrp: str,
@@ -180,7 +180,7 @@ class BchBech32Decoder(Bech32DecoderBase):
         """
 
         # Decode string
-        hrpgot, data = BchBech32Decoder._DecodeBech32(addr, BchBech32Const.SEPARATOR, BchBech32Const.CHECKSUM_LEN)
+        hrpgot, data = BchBech32Decoder._DecodeBech32(addr, BchBech32Const.SEPARATOR, BchBech32Const.CHECKSUM_BYTE_LEN)
 
         # Check HRP
         if hrpgot != hrp:
@@ -190,7 +190,8 @@ class BchBech32Decoder(Bech32DecoderBase):
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
 
         # Check converted data
-        if len(conv_data) < BchBech32Const.DATA_MIN_LEN or len(conv_data) > BchBech32Const.DATA_MAX_LEN:
+        if (len(conv_data) < BchBech32Const.DATA_MIN_BYTE_LEN or
+                len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
             raise Bech32FormatError("Invalid format (length not valid)")
 
         return conv_data[0], ConvUtils.ListToBytes(conv_data[1:])

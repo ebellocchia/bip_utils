@@ -31,8 +31,8 @@ from bip_utils.utils import CryptoUtils
 class ZilAddrConst:
     """ Class container for Zilliqa address constants. """
 
-    # Digest size
-    DIGEST_SIZE: int = 20
+    # Digest length in bytes
+    DIGEST_BYTE_LEN: int = 20
 
 
 class ZilAddr:
@@ -55,4 +55,4 @@ class ZilAddr:
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return Bech32Encoder.Encode(Bip44Zilliqa.AddrConfKey("hrp"),
-                                    CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())[-ZilAddrConst.DIGEST_SIZE:])
+                                    CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())[-ZilAddrConst.DIGEST_BYTE_LEN:])

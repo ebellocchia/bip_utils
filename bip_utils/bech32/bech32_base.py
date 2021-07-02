@@ -31,10 +31,10 @@ class Bech32BaseConst:
 
     # Character set
     CHARSET: str = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
-    # Maximum string length
-    MAX_STR_LEN: int = 90
-    # Data part minimum length
-    MIN_DATA_PART_LEN: int = 7
+    # Maximum string length in bytes
+    MAX_STR_BYTE_LEN: int = 90
+    # Data part minimum length in bytes
+    MIN_DATA_PART_BYTE_LEN: int = 7
 
 
 class Bech32BaseUtils:
@@ -145,7 +145,7 @@ class Bech32DecoderBase(ABC):
         """
 
         # Check string length and case
-        if len(bech_str) > Bech32BaseConst.MAX_STR_LEN or AlgoUtils.IsStringMixed(bech_str):
+        if len(bech_str) > Bech32BaseConst.MAX_STR_BYTE_LEN or AlgoUtils.IsStringMixed(bech_str):
             raise Bech32FormatError("Invalid bech32 format (length not valid)")
 
         # Lower string
@@ -163,7 +163,7 @@ class Bech32DecoderBase(ABC):
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
-        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_LEN or
+        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_BYTE_LEN or
                 not all(x in Bech32BaseConst.CHARSET for x in data_part)):
             raise Bech32FormatError("Invalid bech32 format (data part not valid)")
 

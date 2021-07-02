@@ -26,6 +26,7 @@ from bip_utils.ecc import (
     Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
 )
 
+
 class AddrUtils:
     """ Class container for address utility functions. """
 

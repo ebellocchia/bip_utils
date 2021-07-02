@@ -32,8 +32,8 @@ from bip_utils.utils import ConvUtils
 class Bip32KeyDeserConst:
     """ Class container for BIP32 key serialize constants. """
 
-    # Extended key length
-    EXTENDED_KEY_LEN: int = 78
+    # Extended key length in bytes
+    EXTENDED_KEY_BYTE_LEN: int = 78
 
 
 class Bip32KeyDeserializer:
@@ -64,7 +64,7 @@ class Bip32KeyDeserializer:
         key_bytes = Base58Decoder.CheckDecode(self.m_key_str)
 
         # Check length
-        if len(key_bytes) != Bip32KeyDeserConst.EXTENDED_KEY_LEN:
+        if len(key_bytes) != Bip32KeyDeserConst.EXTENDED_KEY_BYTE_LEN:
             raise Bip32KeyError("Invalid extended key (wrong length: %d)" % len(key_bytes))
 
         # Get if key is public/private depending on net version

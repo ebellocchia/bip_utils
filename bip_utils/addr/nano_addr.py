@@ -33,11 +33,11 @@ class NanoAddrConst:
     # Alphabet for base32
     BASE32_ALPHABET: str = "13456789abcdefghijkmnopqrstuwxyz"
     # Payload padding
-    PAYLOAD_PADDING: bytes = b"\x00\x00\x00"
-    # Encoded padding length
-    ENC_PAYLOAD_PADDING_LEN: int = 4
-    # Digest size
-    DIGEST_SIZE: int = 5
+    PAYLOAD_PAD: bytes = b"\x00\x00\x00"
+    # Encoded padding length in bytes
+    ENC_PAYLOAD_PAD_BYTE_LEN: int = 4
+    # Digest length in bytes
+    DIGEST_BYTE_LEN: int = 5
 
 
 class NanoAddr:
@@ -61,10 +61,11 @@ class NanoAddr:
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
-        chksum = ConvUtils.ReverseBytes(CryptoUtils.Blake2b(pub_key_bytes, digest_size=NanoAddrConst.DIGEST_SIZE))
+        chksum = ConvUtils.ReverseBytes(CryptoUtils.Blake2b(pub_key_bytes,
+                                                            digest_size=NanoAddrConst.DIGEST_BYTE_LEN))
         # Encode to base32
-        payload = NanoAddrConst.PAYLOAD_PADDING + pub_key_bytes + chksum
-        b32_enc = Base32.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)[NanoAddrConst.ENC_PAYLOAD_PADDING_LEN:]
+        payload = NanoAddrConst.PAYLOAD_PAD + pub_key_bytes + chksum
+        b32_enc = Base32.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)[NanoAddrConst.ENC_PAYLOAD_PAD_BYTE_LEN:]
 
         # Add prefix
         return Bip44Nano.AddrConfKey("prefix") + b32_enc

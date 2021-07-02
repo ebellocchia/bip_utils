@@ -29,8 +29,8 @@ from bip_utils.utils import Base32, CryptoUtils
 class AlgoAddrConst:
     """ Class container for Algorand address constants. """
 
-    # Checksum length
-    CHECKSUM_LEN: int = 4
+    # Checksum length in bytes
+    CHECKSUM_BYTE_LEN: int = 4
 
 
 class AlgoAddr:
@@ -54,6 +54,6 @@ class AlgoAddr:
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
-        checksum = CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_LEN:]
+        checksum = CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
         # Encode to base32
         return Base32.EncodeNoPadding(pub_key_bytes + checksum)
