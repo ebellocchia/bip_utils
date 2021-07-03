@@ -83,11 +83,8 @@ class Bip32Ed25519SlipBase(Bip32Base):
             Bip32KeyError: If the index results in an invalid key
         """
 
-        # Index as bytes
-        index_bytes = ConvUtils.IntegerToBytes(int(index), bytes_num=4)
-
         # Data for HMAC
-        data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + index_bytes
+        data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + bytes(index)
 
         # Compute HMAC halves
         i_l, i_r = bip32_obj._HmacHalves(data)
