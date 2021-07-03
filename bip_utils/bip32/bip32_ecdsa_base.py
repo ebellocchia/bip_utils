@@ -78,14 +78,11 @@ class Bip32EcdsaBase(Bip32Base):
         """
         curve = EllipticCurveGetter.FromType(bip32_obj.CurveType())
 
-        # Index as bytes
-        index_bytes = ConvUtils.IntegerToBytes(int(index), bytes_num=4)
-
         # Data for HMAC
         if index.IsHardened():
-            data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + index_bytes
+            data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + bytes(index)
         else:
-            data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + index_bytes
+            data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
 
         # Compute HMAC halves
         i_l, i_r = bip32_obj._HmacHalves(data)
@@ -95,9 +92,8 @@ class Bip32EcdsaBase(Bip32Base):
         key_int = ConvUtils.BytesToInteger(bip32_obj.m_priv_key.Raw().ToBytes())
         new_key_int = (i_l_int + key_int) % curve.Order()
 
-        # Convert to string and left pad with zeros
-        secret = ConvUtils.IntegerToBytes(new_key_int)
-        secret = b"\x00" * (curve.PrivateKeyClass().Length() - len(secret)) + secret
+        # Convert to string and pad with zeros
+        secret = ConvUtils.IntegerToBytes(new_key_int).rjust(curve.PrivateKeyClass().Length(), b"\x00")
 
         # Construct and return a new Bip32 object
         return cls(secret=secret,
@@ -128,7 +124,7 @@ class Bip32EcdsaBase(Bip32Base):
         curve = EllipticCurveGetter.FromType(bip32_obj.CurveType())
 
         # Data for HMAC, same of __CkdPriv() for public child key
-        data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + ConvUtils.IntegerToBytes(int(index), bytes_num=4)
+        data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
 
         # Get HMAC of data
         i_l, i_r = bip32_obj._HmacHalves(data)
