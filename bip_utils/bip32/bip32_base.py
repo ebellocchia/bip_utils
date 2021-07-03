@@ -288,7 +288,7 @@ class Bip32Base(ABC):
         bip32_obj = self
         # Derive children keys
         for path_elem in path:
-            bip32_obj = bip32_obj.ChildKey(int(path_elem))
+            bip32_obj = bip32_obj.ChildKey(path_elem)
 
         return bip32_obj
 
