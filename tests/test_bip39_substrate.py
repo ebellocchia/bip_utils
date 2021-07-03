@@ -146,6 +146,7 @@ TEST_VECT = [
 # Tests substrate passphrase
 TEST_PASSPHRASE = "Substrate"
 
+
 #
 # Tests
 #

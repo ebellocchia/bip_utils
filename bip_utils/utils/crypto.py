@@ -154,6 +154,6 @@ class CryptoUtils:
         Returns:
             bytes: Computed XMODEM-CRC
         """
-        crc_fct = crcmod.predefined.Crc('xmodem')
+        crc_fct = crcmod.predefined.Crc("xmodem")
         crc_fct.update(AlgoUtils.Encode(data))
         return crc_fct.digest()
