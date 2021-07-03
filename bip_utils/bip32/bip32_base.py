@@ -316,7 +316,7 @@ class Bip32Base(ABC):
         """ Return private key object.
 
         Returns:
-            BipPrivateKey object: BipPrivateKey object
+            Bip32PrivateKey object: Bip32PrivateKey object
 
         Raises:
             Bip32KeyError: If internal key is public-only
@@ -329,7 +329,7 @@ class Bip32Base(ABC):
         """ Return public key object.
 
         Returns:
-            BipPublicKey object: BipPublicKey object
+            Bip32PublicKey object: Bip32PublicKey object
         """
         return self.m_pub_key
 

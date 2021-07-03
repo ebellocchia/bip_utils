@@ -237,7 +237,7 @@ class Bip32PrivateKey:
         """ Get the public key correspondent to the private one.
 
         Returns:
-            BipPublicKey object: BipPublicKey object
+            Bip32PublicKey object: Bip32PublicKey object
         """
         return Bip32PublicKey(self.m_priv_key.PublicKey(),
                               self.m_key_data)
