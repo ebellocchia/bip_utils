@@ -345,8 +345,13 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     print(bip32_ctx.Index().IsHardened())
     print(bip32_ctx.Index().ToInt())
     print(int(bip32_ctx.Index()))
+    print(bip32_ctx.Index().ToBytes())
+    print(bytes(bip32_ctx.Index()))
 
-    print(bip32_ctx.Depth())
+    print(bip32_ctx.Depth().ToInt())
+    print(int(bip32_ctx.Depth()))
+    print(bip32_ctx.Depth().ToBytes())
+    print(bytes(bip32_ctx.Depth()))
     print(bip32_ctx.ChainCode())
 
     print(bip32_ctx.FingerPrint().IsMasterKey())
