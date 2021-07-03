@@ -23,7 +23,7 @@
 from typing import Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
+from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyData
 from bip_utils.conf import KeyNetVersions
 from bip_utils.ecc import IPublicKey, IPrivateKey
 from bip_utils.utils import ConvUtils
@@ -83,7 +83,7 @@ class Bip32KeyDeserializer:
         chain_code = key_bytes[13:45]
         self.m_secret = key_bytes[45:78]
         self.m_key_data = Bip32KeyData(key_net_ver,
-                                       depth,
+                                       Bip32Depth(depth),
                                        Bip32KeyIndex(index),
                                        chain_code,
                                        Bip32FingerPrint(fprint))
@@ -157,7 +157,7 @@ class Bip32KeySerializer:
     @staticmethod
     def Serialize(key_bytes: bytes,
                   key_net_ver: bytes,
-                  depth: int,
+                  depth: Bip32Depth,
                   index: Bip32KeyIndex,
                   chain_code: bytes,
                   fprint: Bip32FingerPrint) -> str:
@@ -166,7 +166,7 @@ class Bip32KeySerializer:
         Args:
             key_bytes (bytes)               : Key bytes
             key_net_ver (bytes)             : Key net version
-            depth (int)                     : Key depth
+            depth (Bip32Depth object)       : Key depth
             index (Bip32KeyIndex object)    : Key index
             chain_code (bytes)              : Key chain code
             fprint (Bip32FingerPrint object): Key fingerprint
@@ -175,10 +175,7 @@ class Bip32KeySerializer:
             str: Serialized key
         """
 
-        # Get bytes for serializing
-        depth_bytes = ConvUtils.IntegerToBytes(depth, bytes_num=1)
-        index_bytes = ConvUtils.IntegerToBytes(int(index), bytes_num=4)
         # Serialize key
-        ser_key = key_net_ver + depth_bytes + bytes(fprint) + index_bytes + chain_code + key_bytes
+        ser_key = key_net_ver + bytes(depth) + bytes(fprint) + bytes(index) + chain_code + key_bytes
         # Encode it
         return Base58Encoder.CheckEncode(ser_key)

@@ -96,7 +96,7 @@ class Bip32Ed25519SlipBase(Bip32Base):
         return cls(secret=i_l,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
-                   depth=bip32_obj.Depth() + 1,
+                   depth=bip32_obj.Depth().Increase(),
                    index=index,
                    fprint=bip32_obj.m_pub_key.FingerPrint(),
                    is_public=False,

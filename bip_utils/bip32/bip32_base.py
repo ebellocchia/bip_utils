@@ -24,7 +24,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Union, Tuple
 from bip_utils.bip32.bip32_ex import Bip32KeyError, Bip32PathError
-from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
+from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip32.bip32_path import Bip32Path, Bip32PathParser
@@ -159,7 +159,7 @@ class Bip32Base(ABC):
         if key_data.Depth() == 0:
             if not key_data.ParentFingerPrint().IsMasterKey():
                 raise Bip32KeyError("Invalid extended master key (wrong fingerprint)")
-            if key_data.Index().ToInt() != 0:
+            if key_data.Index() != 0:
                 raise Bip32KeyError("Invalid extended master key (wrong child index)")
 
         # If private key, the first byte shall be zero and shall be removed
@@ -211,7 +211,7 @@ class Bip32Base(ABC):
                  secret: bytes,
                  chain_code: bytes,
                  curve_type: EllipticCurveTypes,
-                 depth: int = 0,
+                 depth: Bip32Depth = Bip32Depth(0),
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
                  fprint: Bip32FingerPrint = Bip32FingerPrint(),
                  is_public: bool = False,
@@ -222,10 +222,10 @@ class Bip32Base(ABC):
             secret (bytes)                               : Source bytes to generate the keypair
             chain_code (bytes)                           : 32-byte representation of the chain code
             curve_type (EllipticCurveTypes)              : Elliptic curve type
-            depth (int, optional)                        : Child depth, parent increments its own by one when
+            depth (Bip32Depth object, optional)          : Child depth, parent increments its own by one when
                                                            assigning this (default: 0)
             index (Bip32KeyIndex object, optional)       : Child index (default: 0)
-            fprint (Bip32FingerPrint, optional)          : Parent fingerprint (default: master key)
+            fprint (Bip32FingerPrint object, optional)   : Parent fingerprint (default: master key)
             is_public (bool, optional)                   : If true, this keypair will only contain a public key and can
                                                            only create a public key chain  (default: false)
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net by default)
@@ -268,7 +268,7 @@ class Bip32Base(ABC):
         """ Derive children keys from the specified path.
 
         Args:
-            path (str): Path
+            path (str or Bip32Path object): Path
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -341,11 +341,11 @@ class Bip32Base(ABC):
         """
         return self.m_pub_key.Data().KeyNetVersions()
 
-    def Depth(self) -> int:
+    def Depth(self) -> Bip32Depth:
         """ Get current depth.
 
         Returns:
-            int: Current depth
+            Bip32Depth object: Current depth
         """
         return self.m_pub_key.Data().Depth()
 
@@ -353,7 +353,7 @@ class Bip32Base(ABC):
         """ Get current index.
 
         Returns:
-            Bip32KeyIndex: Current index
+            Bip32KeyIndex object: Current index
         """
         return self.m_pub_key.Data().Index()
 
@@ -377,7 +377,7 @@ class Bip32Base(ABC):
         """ Get parent fingerprint.
 
         Returns:
-            bytes: Parent fingerprint bytes
+            Bip32FingerPrint object: Parent fingerprint bytes
         """
         return self.m_pub_key.Data().ParentFingerPrint()
 
@@ -394,7 +394,7 @@ class Bip32Base(ABC):
             index (Bip32KeyIndex object): Key index
 
         Returns:
-            Bip32 object: Bip32 object constructed with the child parameters
+            Bip32Base object: Bip32 object constructed with the child parameters
 
         Raises:
             Bip32KeyError: If the index results in an invalid key
@@ -415,7 +415,7 @@ class Bip32Base(ABC):
             index (Bip32KeyIndex object): Key index
 
         Returns:
-            Bip32 object: Bip32 object constructed with the child parameters
+            Bip32Base object: Bip32 object constructed with the child parameters
 
         Raises:
             Bip32KeyError: If the index results in an invalid key

@@ -299,19 +299,19 @@ class Bip44Base(ABC):
             Bip44DepthError: If the Bip32 object depth is not valid
         """
 
+        depth = bip32_obj.Depth()
+
         # If the Bip32 is public-only, the depth shall start from the account level because hardened derivation is
         # used below it, which is not possible with public keys
         if bip32_obj.IsPublicOnly():
-            if bip32_obj.Depth() < Bip44Levels.ACCOUNT or bip32_obj.Depth() > Bip44Levels.ADDRESS_INDEX:
+            if depth < Bip44Levels.ACCOUNT or depth > Bip44Levels.ADDRESS_INDEX:
                 raise Bip44DepthError(
-                    "Depth of the public-only Bip32 object (%d) is below account level or beyond address index level" %
-                    bip32_obj.Depth())
+                    "Depth of the public-only Bip32 object (%d) is below account level or beyond address index level" % depth)
         # If the Bip32 object is not public-only, any depth is fine as long as it is not greater
         # than address index level
         else:
-            if bip32_obj.Depth() > Bip44Levels.ADDRESS_INDEX:
-                raise Bip44DepthError(
-                    "Depth of the Bip32 object (%d) is beyond address index level" % bip32_obj.Depth())
+            if depth > Bip44Levels.ADDRESS_INDEX:
+                raise Bip44DepthError("Depth of the Bip32 object (%d) is beyond address index level" % depth)
 
         # Finally, initialize class
         self.m_bip32 = bip32_obj
@@ -399,7 +399,7 @@ class Bip44Base(ABC):
             Bip32KeyError: If the derivation results in an invalid key
         """
         if not cls.IsLevel(bip_obj, Bip44Levels.MASTER):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving purpose" % bip_obj.m_bip32.Depth())
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving purpose" % bip_obj.m_bip32.Depth().ToInt())
 
         # Derive purpose and coin by default
         bip_obj = cls._PurposeGeneric(bip_obj)
@@ -425,7 +425,7 @@ class Bip44Base(ABC):
             Bip32KeyError: If the derivation results in an invalid key
         """
         if not cls.IsLevel(bip_obj, Bip44Levels.MASTER):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving purpose" % bip_obj.m_bip32.Depth())
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving purpose" % bip_obj.m_bip32.Depth().ToInt())
 
         return cls(bip_obj.m_bip32.ChildKey(cls._GetPurpose()), bip_obj.m_coin_type)
 
@@ -447,7 +447,7 @@ class Bip44Base(ABC):
             Bip32KeyError: If the derivation results in an invalid key
         """
         if not cls.IsLevel(bip_obj, Bip44Levels.PURPOSE):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving coin" % bip_obj.m_bip32.Depth())
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving coin" % bip_obj.m_bip32.Depth().ToInt())
 
         coin_idx = Bip44BaseConst.COIN_TO_IDX[bip_obj.m_coin_type]
 
@@ -472,7 +472,7 @@ class Bip44Base(ABC):
             Bip32KeyError: If the derivation results in an invalid key
         """
         if not cls.IsLevel(bip_obj, Bip44Levels.COIN):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving account" % bip_obj.m_bip32.Depth())
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving account" % bip_obj.m_bip32.Depth().ToInt())
 
         return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(acc_idx)), bip_obj.m_coin_type)
 
@@ -499,7 +499,7 @@ class Bip44Base(ABC):
             raise TypeError("Change index is not an enumerative of Bip44Changes")
 
         if not cls.IsLevel(bip_obj, Bip44Levels.ACCOUNT):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving change" % bip_obj.m_bip32.Depth())
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving change" % bip_obj.m_bip32.Depth().ToInt())
 
         # Use hardened derivation if not-hardended is not supported
         if not bip_obj.m_bip32.IsPrivateUnhardenedDerivationSupported():
@@ -528,7 +528,7 @@ class Bip44Base(ABC):
             Bip32KeyError: If the derivation results in an invalid key
         """
         if not cls.IsLevel(bip_obj, Bip44Levels.CHANGE):
-            raise Bip44DepthError("Current depth (%d) is not suitable for deriving address" % bip_obj.m_bip32.Depth())
+            raise Bip44DepthError("Current depth (%d) is not suitable for deriving address" % bip_obj.m_bip32.Depth().ToInt())
 
         # Use hardened derivation if not-hardended is not supported
         if not bip_obj.m_bip32.IsPrivateUnhardenedDerivationSupported():

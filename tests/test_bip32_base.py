@@ -43,7 +43,7 @@ class Bip32BaseTestHelper:
             # Create from seed
             bip32_ctx = bip32_class.FromSeed(binascii.unhexlify(test["seed"]))
             # Test master key
-            ut_class.assertEqual(test["master"]["index"], int(bip32_ctx.Index()))
+            ut_class.assertEqual(test["master"]["index"], bip32_ctx.Index())
 
             ut_class.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
@@ -67,7 +67,7 @@ class Bip32BaseTestHelper:
                 # Update context
                 bip32_ctx = bip32_ctx.ChildKey(chain["index"])
                 # Test keys
-                ut_class.assertEqual(chain["index"], int(bip32_ctx.Index()))
+                ut_class.assertEqual(chain["index"], bip32_ctx.Index())
 
                 ut_class.assertEqual(chain["ex_pub"], bip32_ctx.PublicKey().ToExtended())
                 ut_class.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())

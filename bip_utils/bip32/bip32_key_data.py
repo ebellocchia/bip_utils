@@ -20,13 +20,20 @@
 
 
 # Imports
+from __future__ import annotations
+from typing import Union
 from bip_utils.bip32.bip32_utils import Bip32Utils
 from bip_utils.conf import KeyNetVersions
+from bip_utils.utils import ConvUtils
 
 
 class Bip32KeyDataConst:
     """ Class container for BIP32 key data constants. """
 
+    # Depth length in bytes
+    DEPTH_BYTE_LEN: int = 1
+    # Key index length in bytes
+    KEY_INDEX_BYTE_LEN: int = 4
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN: int = 4
     # Fingerprint of master key
@@ -70,6 +77,104 @@ class Bip32FingerPrint:
         return self.ToBytes()
 
 
+class Bip32Depth:
+    """ BIP32 depth class. It represents a BIP32 depth. """
+
+    def __init__(self,
+                 depth: int) -> None:
+        """ Construct class.
+
+        Args:
+            depth (int): Depth
+        """
+        self.m_depth = depth
+
+    def Increase(self) -> Bip32Depth:
+        """ Get a new object with increased depth.
+
+        Returns:
+            Bip32Depth object: Bip32Depth object
+        """
+        return Bip32Depth(self.m_depth + 1)
+
+    def ToBytes(self) -> bytes:
+        """ Get the depth as bytes.
+
+        Returns:
+            bytes: Depth bytes
+        """
+        return ConvUtils.IntegerToBytes(self.m_depth, bytes_num=Bip32KeyDataConst.DEPTH_BYTE_LEN)
+
+    def ToInt(self) -> int:
+        """ Get the depth as integer.
+
+        Returns:
+            int: Depth index
+        """
+        return int(self.m_depth)
+
+    def __int__(self) -> int:
+        """ Get the depth as integer.
+
+        Returns:
+            int: Depth index
+        """
+        return self.ToInt()
+
+    def __bytes__(self) -> bytes:
+        """ Get the depth as bytes.
+
+        Returns:
+            bytes: Depth bytes
+        """
+        return self.ToBytes()
+
+    def __eq__(self,
+               other: Union[int, Bip32Depth]) -> bool:
+        """ Equality operator.
+
+        Args:
+            other (int or Bip32Depth object): Other value to compare
+
+        Returns:
+            bool: True if equal false otherwise
+        """
+        if isinstance(other, int):
+            return self.m_depth == other
+        else:
+            return self.m_depth == other.m_depth
+
+    def __gt__(self,
+               other: Union[int, Bip32Depth]) -> bool:
+        """ Greater than operator.
+
+        Args:
+            other (int or Bip32Depth object): Other value to compare
+
+        Returns:
+            bool: True if greater false otherwise
+        """
+        if isinstance(other, int):
+            return self.m_depth > other
+        else:
+            return self.m_depth > other.m_depth
+
+    def __lt__(self,
+               other: Union[int, Bip32Depth]) -> bool:
+        """ Lower than operator.
+
+        Args:
+            other (int or Bip32Depth object): Other value to compare
+
+        Returns:
+            bool: True if lower false otherwise
+        """
+        if isinstance(other, int):
+            return self.m_depth < other
+        else:
+            return self.m_depth < other.m_depth
+
+
 class Bip32KeyIndex:
     """ BIP32 key index class. It represents a BIP32 key index. """
 
@@ -90,6 +195,14 @@ class Bip32KeyIndex:
         """
         return Bip32Utils.IsHardenedIndex(self.m_elem)
 
+    def ToBytes(self) -> bytes:
+        """ Get the key index as bytes.
+
+        Returns:
+            bytes: Key bytes
+        """
+        return ConvUtils.IntegerToBytes(self.m_elem, bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
+
     def ToInt(self) -> int:
         """ Get the key index as integer.
 
@@ -106,6 +219,29 @@ class Bip32KeyIndex:
         """
         return self.ToInt()
 
+    def __bytes__(self) -> bytes:
+        """ Get the key index as bytes.
+
+        Returns:
+            bytes: Key bytes
+        """
+        return self.ToBytes()
+
+    def __eq__(self,
+               other: Union[int, Bip32KeyIndex]) -> bool:
+        """ Equality operator.
+
+        Args:
+            other (int or Bip32KeyIndex object): Other value to compare
+
+        Returns:
+            bool: True if equal false otherwise
+        """
+        if isinstance(other, int):
+            return self.m_elem == other
+        else:
+            return self.m_elem == other.m_elem
+
 
 class Bip32KeyData:
     """ BIP32 key data class.
@@ -114,7 +250,7 @@ class Bip32KeyData:
 
     def __init__(self,
                  key_net_ver: KeyNetVersions,
-                 depth: int,
+                 depth: Bip32Depth,
                  index: Bip32KeyIndex,
                  chain_code: bytes,
                  parent_fprint: Bip32FingerPrint) -> None:
@@ -122,7 +258,7 @@ class Bip32KeyData:
 
         Args:
             key_net_ver (KeyNetVersions object)    : KeyNetVersions object
-            depth (int)                            : Key depth
+            depth (Bip32Depth object)              : Key depth
             index (Bip32KeyIndex object)           : Key index
             chain_code (bytes)                     : Key chain code
             parent_fprint (Bip32FingerPrint object): Key parent fingerprint
@@ -141,11 +277,11 @@ class Bip32KeyData:
         """
         return self.m_key_net_ver
 
-    def Depth(self) -> int:
+    def Depth(self) -> Bip32Depth:
         """ Get current depth.
 
         Returns:
-            int: Current depth
+            Bip32Depth object: Current depth
         """
         return self.m_depth
 

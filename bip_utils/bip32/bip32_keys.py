@@ -114,6 +114,7 @@ class Bip32PublicKey:
         """
         return self.m_pub_key.Point()
 
+    @lru_cache()
     def FingerPrint(self) -> Bip32FingerPrint:
         """ Get key fingerprint.
 
