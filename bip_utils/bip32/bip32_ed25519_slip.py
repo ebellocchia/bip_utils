@@ -20,9 +20,11 @@
 
 
 # Imports
+from typing import Union
 from bip_utils.bip32.bip32_base import Bip32Base
 from bip_utils.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip32.bip32_path import Bip32Path
 from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
 
@@ -68,20 +70,21 @@ class Bip32Ed25519Slip(Bip32Ed25519SlipBase):
     @classmethod
     def FromSeedAndPath(cls,
                         seed_bytes: bytes,
-                        path: str,
+                        path: Union[str, Bip32Path],
                         key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
             seed_bytes (bytes)                           : Seed bytes
-            path (str)                                   : Path
+            path (str or Bip32Path object)               : Path
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
 
         Returns:
             Bip32Base object: Bip32Base object
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            ValueError: If the seed length is too short
+            Bip32PathError: If the path is not valid
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeedAndPath(seed_bytes,

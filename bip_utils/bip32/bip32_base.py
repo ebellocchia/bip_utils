@@ -105,7 +105,7 @@ class Bip32Base(ABC):
     def _FromSeedAndPath(cls,
                          seed_bytes: bytes,
                          hmac_key_bytes: bytes,
-                         path: str,
+                         path: Union[str, Bip32Path],
                          key_net_ver: KeyNetVersions,
                          curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
@@ -113,7 +113,7 @@ class Bip32Base(ABC):
         Args:
             seed_bytes (bytes)                 : Seed bytes
             hmac_key_bytes (bytes)             : Key for HMAC computation
-            path (str)                         : Path
+            path (str or Bip32Path object)     : Path
             curve_type (EllipticCurveTypes)    : Elliptic curve type
             key_net_ver (KeyNetVersions object): KeyNetVersions object
 
@@ -121,7 +121,8 @@ class Bip32Base(ABC):
             Bip32Base object: Bip32Base object
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            ValueError: If the seed length is too short
+            Bip32PathError: If the path is not valid
             Bip32KeyError: If the seed is not suitable for master key generation
         """
 

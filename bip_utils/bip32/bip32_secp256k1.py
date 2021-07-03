@@ -20,9 +20,11 @@
 
 
 # Imports
+from typing import Union
 from bip_utils.bip32.bip32_base import Bip32Base
 from bip_utils.bip32.bip32_ecdsa_base import Bip32EcdsaBase
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip32.bip32_path import Bip32Path
 from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes
 
@@ -69,13 +71,13 @@ class Bip32Secp256k1(Bip32EcdsaBase):
     @classmethod
     def FromSeedAndPath(cls,
                         seed_bytes: bytes,
-                        path: str,
+                        path: Union[str, Bip32Path],
                         key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
             seed_bytes (bytes)                           : Seed bytes
-            path (str)                                   : Path
+            path (str or Bip32Path object)               : Path
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
 
         Returns:
