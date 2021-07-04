@@ -22,13 +22,14 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32Ed25519Slip, Bip32KeyError, Bip32Utils
+from bip_utils import Bip32Ed25519Slip, Bip32KeyError, Bip32Utils, EllipticCurveTypes
 from .test_bip32_base import Bip32BaseTestHelper
 
 # Tests from SLIP-0010 pages
 TEST_VECT = [
     {
         "seed": b"000102030405060708090a0b0c0d0e0f",
+        "curve_type": EllipticCurveTypes.ED25519,
         "master": {
             "index": 0,
             "ex_pub": "xpub661MyMwAqRbcFybaNRzmKwjLEeQdU4ciWTZ1zPxvvN683xNT57Gr2k7Ybe5sLdMAtszjE1cd1Q1Wmb82QjvjtYomxGdbfLN5wnDyCpd3t6e",
@@ -98,6 +99,7 @@ TEST_VECT = [
     },
     {
         "seed": b"fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542",
+        "curve_type": EllipticCurveTypes.ED25519,
         "master": {
             "index": 0,
             "ex_pub": "xpub661MyMwAqRbcGvhV67CLpH9pkuL15VmcXENpThobsvTXHrSRZ9cq4oRJS3sTEY93ZJeoRxEdEofbMdPYQRWixwx2aFSWV51s3n2NQbe4oqt",

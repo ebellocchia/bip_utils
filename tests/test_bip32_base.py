@@ -21,7 +21,7 @@
 
 # Imports
 import binascii
-from bip_utils import Bip32KeyError, Bip32Utils
+from bip_utils import Bip32KeyError, Bip32Utils, EllipticCurveGetter
 from bip_utils.bip32.bip32_base import Bip32BaseConst
 
 # Tests for invalid seeds
@@ -44,6 +44,12 @@ class Bip32BaseTestHelper:
             bip32_ctx = bip32_class.FromSeed(binascii.unhexlify(test["seed"]))
             # Test master key
             ut_class.assertEqual(test["master"]["index"], bip32_ctx.Index())
+
+            ut_class.assertEqual(test["curve_type"], bip32_ctx.PublicKey().CurveType())
+            ut_class.assertEqual(test["curve_type"], bip32_ctx.PrivateKey().CurveType())
+
+            ut_class.assertTrue(isinstance(bip32_ctx.PublicKey().KeyObject(), EllipticCurveGetter.FromType(test["curve_type"]).PublicKeyClass()))
+            ut_class.assertTrue(isinstance(bip32_ctx.PrivateKey().KeyObject(), EllipticCurveGetter.FromType(test["curve_type"]).PrivateKeyClass()))
 
             ut_class.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
@@ -68,6 +74,8 @@ class Bip32BaseTestHelper:
                 bip32_ctx = bip32_ctx.ChildKey(chain["index"])
                 # Test keys
                 ut_class.assertEqual(chain["index"], bip32_ctx.Index())
+                ut_class.assertEqual(chain["index"], bip32_ctx.PublicKey().Data().Index())
+                ut_class.assertEqual(chain["index"], bip32_ctx.PrivateKey().Data().Index())
 
                 ut_class.assertEqual(chain["ex_pub"], bip32_ctx.PublicKey().ToExtended())
                 ut_class.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())

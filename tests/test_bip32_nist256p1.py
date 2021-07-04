@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32Nist256p1, Bip32Utils
+from bip_utils import Bip32Nist256p1, Bip32Utils, EllipticCurveTypes
 from .test_bip32_base import Bip32BaseTestHelper
 from .test_bip32_secp256k1 import TEST_VECT_EX_KEY_ERR
 
@@ -30,6 +30,7 @@ from .test_bip32_secp256k1 import TEST_VECT_EX_KEY_ERR
 TEST_VECT = [
     {
         "seed": b"000102030405060708090a0b0c0d0e0f",
+        "curve_type": EllipticCurveTypes.NIST256P1,
         "master": {
             "index": 0,
             "ex_pub": "xpub661MyMwAqRbcGSgS16avaQy74dApLYNUmG6oEuQdx6Kpt2VFxGUowawWaozRLQSe46f7nbyC5ZY8Tvvnc32WSiL3LSxFNvPgG84QVAyvBAw",
@@ -99,6 +100,7 @@ TEST_VECT = [
     },
     {
         "seed": b"fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542",
+        "curve_type": EllipticCurveTypes.NIST256P1,
         "master": {
             "index": 0,
             "ex_pub": "xpub661MyMwAqRbcG3WogcdvnYjkerPwRhXFiwqpKD4kiBX8sVng6fM3CJa5G4dUWuNtddwAc6hZTk5Mxzrr4YhLzryEpcGqcbqKPCmkV89g3j6",

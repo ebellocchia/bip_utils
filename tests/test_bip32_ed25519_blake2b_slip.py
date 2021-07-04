@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32Ed25519Blake2bSlip, Bip32KeyError, Bip32Utils
+from bip_utils import Bip32Ed25519Blake2bSlip, Bip32KeyError, Bip32Utils, EllipticCurveTypes
 from .test_bip32_base import Bip32BaseTestHelper
 from .test_bip32_ed25519_slip import TEST_VECT_EX_KEY_ERR
 
@@ -30,6 +30,7 @@ from .test_bip32_ed25519_slip import TEST_VECT_EX_KEY_ERR
 TEST_VECT = [
     {
         "seed": b"000102030405060708090a0b0c0d0e0f",
+        "curve_type": EllipticCurveTypes.ED25519_BLAKE2B,
         "master": {
             "index": 0,
             "ex_pub": "xpub661MyMwAqRbcFybaNRzmKwjLEeQdU4ciWTZ1zPxvvN683xNT57Gr2k7YbdqBz5N5NdqeCEhiZLvSmZE721EUipgYL2v1QEGunyEs8JviJ6x",
@@ -99,6 +100,7 @@ TEST_VECT = [
     },
     {
         "seed": b"fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542",
+        "curve_type": EllipticCurveTypes.ED25519_BLAKE2B,
         "master": {
             "index": 0,
             "ex_pub": "xpub661MyMwAqRbcGvhV67CLpH9pkuL15VmcXENpThobsvTXHrSRZ9cq4oRJS3H86voPmhYqF5fzJTjiHzzofWTNsaoFRwkghnBetQnGtCadpHR",

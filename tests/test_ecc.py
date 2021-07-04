@@ -79,16 +79,25 @@ TEST_ED25519_COMPR_PUB_KEY = b"007d5ea03ab150169176f66df6f6f67afe70b4d9e8b06fa6b
 TEST_ED25519_UNCOMPR_PUB_KEY = b"007d5ea03ab150169176f66df6f6f67afe70b4d9e8b06fa6b46cd74bab1ca5e75c"
 TEST_ED25519_PRIV_KEY = b"63326e09d412622906496bdde342b4a60410b3f48db5e74a27bfc1b0b044f80b"
 
-# Some valid secp256k1 keys
+# Some valid secp256k1 keys and points
 TEST_SECP256K1_COMPR_PUB_KEY = b"02c3d01cb07697dc5105013bea2e73a896b6019ec3c5ea2b97dba14ae4456439f4"
 TEST_SECP256K1_UNCOMPR_PUB_KEY = b"04c3d01cb07697dc5105013bea2e73a896b6019ec3c5ea2b97dba14ae4456439f4ec9654b17e30a8a5232078201ecf5cc702dfbb70266aecf16b1f81d85e6b9942"
 TEST_SECP256K1_PRIV_KEY = b"e1d36931d581b4dcae0bb03929adcfb5ab0cdc0f4886ff6c5098591636ace214"
+TEST_SECP256K1_POINT = {"x": 88568707669548495476516508095445138344657010992834487537871095020828542384628,
+                        "y": 107011443857260681605663973889402727500845015180707970416758298978829074143554}
+TEST_SECP256K1_POINT_ADD = {"x": 36055427468220068554092197997262360511679559617381195682414059417211150654731,
+                            "y": 35614013837322639151401845680153599308855232143046454444952007884320857835400}
+TEST_SECP256K1_POINT_MUL = TEST_SECP256K1_POINT_ADD
 
-# Some valid nist256p1 keys
+# Some valid nist256p1 keys and points
 TEST_NIST256P1_COMPR_PUB_KEY = b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"
 TEST_NIST256P1_UNCOMPR_PUB_KEY = b"048ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b465656d4dd23293a66bbbd3cc07cf6e5b1cd3b81d8e3da4eed050ac0ab2094b9"
 TEST_NIST256P1_PRIV_KEY = b"e44c51393e98a691439f74c2060138fa2bcefae59ab277bd81907c93fb16fce1"
-
+TEST_NIST256P1_POINT = {"x": 64511146437640532869164237123971144495620316712208575072439516305921182895195,
+                        "y": 31814447537382586537576639307337099269020393742089100496617531967175387026617}
+TEST_NIST256P1_POINT_ADD = {"x": 101370444989464769337019234113187919586549255451863198632358447242825043882751,
+                            "y": 96679656738774927550763413778994915607472627190911082265431331813273377117362}
+TEST_NIST256P1_POINT_MUL = TEST_NIST256P1_POINT_ADD
 
 #
 # Tests
@@ -103,6 +112,7 @@ class EccTests(unittest.TestCase):
 
     # Test Ed25519 class
     def test_ed25519(self):
+        # Curve
         self.assertEqual(Ed25519.Name(), "Ed25519")
         self.assertEqual(Ed25519.Order(), 0x1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED)
         self.assertEqual(Ed25519.Generator().X(), 15112221349535400772501151409588531511454012693041857206046113283949847762202)
@@ -112,25 +122,41 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Ed25519.PublicKeyClass() is Ed25519PublicKey)
         self.assertTrue(Ed25519.PrivateKeyClass() is Ed25519PrivateKey)
 
+        # Public key
+        self.assertRaises(TypeError, Ed25519PublicKey, 0)
+        self.assertTrue(Ed25519PublicKey.FromPoint(Ed25519Point(0, 0)) is None)
         self.assertEqual(Ed25519PublicKey.CurveType(), EllipticCurveTypes.ED25519)
-        self.assertEqual(Ed25519PrivateKey.CurveType(), EllipticCurveTypes.ED25519)
-
         self.assertEqual(Ed25519PublicKey.CompressedLength(), 33)
         self.assertEqual(Ed25519PublicKey.UncompressedLength(), 33)
+
+        pub_key = Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), signing.VerifyKey))
+        self.assertTrue(pub_key.Point() is None)
+
+        # Private key
+        self.assertRaises(TypeError, Ed25519PrivateKey, 0)
+        self.assertEqual(Ed25519PrivateKey.CurveType(), EllipticCurveTypes.ED25519)
         self.assertEqual(Ed25519PrivateKey.Length(), 32)
 
-        self.assertTrue(isinstance(Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(),
-                                   signing.VerifyKey))
-        self.assertTrue(isinstance(Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(),
-                                   signing.VerifyKey))
-        self.assertTrue(isinstance(Ed25519PrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(),
-                                   signing.SigningKey))
+        priv_key = Ed25519PrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY))
+        self.assertTrue(isinstance(priv_key.UnderlyingObject(), signing.SigningKey))
+        self.assertEqual(priv_key.Raw().ToBytes(), binascii.unhexlify(TEST_ED25519_PRIV_KEY))
 
-        self.assertRaises(TypeError, Ed25519PublicKey, 0)
-        self.assertRaises(TypeError, Ed25519PrivateKey, 0)
+        # Point
+        point = Ed25519Point(0, 1, 2)
+        self.assertTrue(point.UnderlyingObject() is None)
+        self.assertEqual(point.X(), 0)
+        self.assertEqual(point.Y(), 1)
+        self.assertEqual(point.Order(), 2)
+        self.assertTrue((point + point) is None)
+        self.assertTrue((point * 1) is None)
+        self.assertTrue((1 * point) is None)
 
     # Test Ed25519-Blake2b class
     def test_ed25519_blake2b(self):
+        # Curve
         self.assertEqual(Ed25519Blake2b.Name(), "Ed25519-Blake2b")
         self.assertEqual(Ed25519Blake2b.Order(), 0x1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED)
         self.assertEqual(Ed25519Blake2b.Generator().X(), 15112221349535400772501151409588531511454012693041857206046113283949847762202)
@@ -140,25 +166,31 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Ed25519Blake2b.PublicKeyClass() is Ed25519Blake2bPublicKey)
         self.assertTrue(Ed25519Blake2b.PrivateKeyClass() is Ed25519Blake2bPrivateKey)
 
+        # Public key
+        self.assertRaises(TypeError, Ed25519Blake2bPublicKey, 0)
+        self.assertTrue(Ed25519Blake2bPublicKey.FromPoint(Ed25519Point(0, 0)) is None)
         self.assertEqual(Ed25519Blake2bPublicKey.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
-        self.assertEqual(Ed25519Blake2bPrivateKey.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
-
         self.assertEqual(Ed25519Blake2bPublicKey.CompressedLength(), 33)
         self.assertEqual(Ed25519Blake2bPublicKey.UncompressedLength(), 33)
+
+        pub_key = Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), ed25519_blake2b.VerifyingKey))
+        self.assertTrue(pub_key.Point() is None)
+
+        # Private key
+        self.assertRaises(TypeError, Ed25519Blake2bPrivateKey, 0)
+        self.assertEqual(Ed25519Blake2bPrivateKey.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
         self.assertEqual(Ed25519Blake2bPrivateKey.Length(), 32)
 
-        self.assertTrue(isinstance(Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)).UnderlyingObject(),
-                                   ed25519_blake2b.VerifyingKey))
-        self.assertTrue(isinstance(Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_UNCOMPR_PUB_KEY)).UnderlyingObject(),
-                                   ed25519_blake2b.VerifyingKey))
-        self.assertTrue(isinstance(Ed25519Blake2bPrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)).UnderlyingObject(),
-                                   ed25519_blake2b.SigningKey))
-
-        self.assertRaises(TypeError, Ed25519Blake2bPublicKey, 0)
-        self.assertRaises(TypeError, Ed25519Blake2bPrivateKey, 0)
+        priv_key = Ed25519Blake2bPrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY))
+        self.assertTrue(isinstance(priv_key.UnderlyingObject(), ed25519_blake2b.SigningKey))
+        self.assertEqual(priv_key.Raw().ToBytes(), binascii.unhexlify(TEST_ED25519_PRIV_KEY))
 
     # Test Nist256p1 class
     def test_nist256p1(self):
+        # Curve
         self.assertEqual(Nist256p1.Name(), "Nist256p1")
         self.assertEqual(Nist256p1.Order(), generator_256.order())
         self.assertEqual(Nist256p1.Generator().X(), generator_256.x())
@@ -168,26 +200,52 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Nist256p1.PublicKeyClass() is Nist256p1PublicKey)
         self.assertTrue(Nist256p1.PrivateKeyClass() is Nist256p1PrivateKey)
 
+        # Public key
+        self.assertRaises(TypeError, Nist256p1PublicKey, 0)
         self.assertEqual(Nist256p1PublicKey.CurveType(), EllipticCurveTypes.NIST256P1)
-        self.assertEqual(Nist256p1PrivateKey.CurveType(), EllipticCurveTypes.NIST256P1)
-
         self.assertEqual(Nist256p1PublicKey.CompressedLength(), 33)
         self.assertEqual(Nist256p1PublicKey.UncompressedLength(), 65)
+
+        pub_key = Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
+
+        pub_key = Nist256p1PublicKey.FromPoint(Nist256p1Point(TEST_NIST256P1_POINT["x"], TEST_NIST256P1_POINT["y"]))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY))
+
+        # Private key
+        self.assertRaises(TypeError, Nist256p1PrivateKey, 0)
+        self.assertEqual(Nist256p1PrivateKey.CurveType(), EllipticCurveTypes.NIST256P1)
         self.assertEqual(Nist256p1PrivateKey.Length(), 32)
 
-        self.assertTrue(isinstance(Nist256p1.Generator().UnderlyingObject(), ellipticcurve.PointJacobi))
-        self.assertTrue(isinstance(Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)).UnderlyingObject(),
-                                   ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY)).UnderlyingObject(),
-                                   ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Nist256p1PrivateKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)).UnderlyingObject(),
-                                   ecdsa.SigningKey))
+        priv_key = Nist256p1PrivateKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY))
+        self.assertTrue(isinstance(priv_key.UnderlyingObject(), ecdsa.SigningKey))
+        self.assertEqual(priv_key.Raw().ToBytes(), binascii.unhexlify(TEST_NIST256P1_PRIV_KEY))
 
-        self.assertRaises(TypeError, Nist256p1PublicKey, 0)
-        self.assertRaises(TypeError, Nist256p1PrivateKey, 0)
+        # Point
+        point = pub_key.Point()
+        self.assertTrue(isinstance(point.UnderlyingObject(), ellipticcurve.PointJacobi))
+        self.assertEqual(point.X(), TEST_NIST256P1_POINT["x"])
+        self.assertEqual(point.Y(), TEST_NIST256P1_POINT["y"])
+        self.assertTrue(point.Order() is None)
+
+        point_add = point + point
+        self.assertEqual(point_add.X(), TEST_NIST256P1_POINT_ADD["x"])
+        self.assertEqual(point_add.Y(), TEST_NIST256P1_POINT_ADD["y"])
+
+        point_mul = point * 2
+        self.assertEqual(point_mul.X(), TEST_NIST256P1_POINT_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_NIST256P1_POINT_MUL["y"])
+
+        point_mul = 2 * point
+        self.assertEqual(point_mul.X(), TEST_NIST256P1_POINT_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_NIST256P1_POINT_MUL["y"])
 
     # Test Secp256k1 class
     def test_secp256k1(self):
+        # Curve
         self.assertEqual(Secp256k1.Name(), "Secp256k1")
         self.assertEqual(Secp256k1.Order(), generator_secp256k1.order())
         self.assertEqual(Secp256k1.Generator().X(), generator_secp256k1.x())
@@ -197,23 +255,48 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Secp256k1.PublicKeyClass() is Secp256k1PublicKey)
         self.assertTrue(Secp256k1.PrivateKeyClass() is Secp256k1PrivateKey)
 
+        # Public key
+        self.assertRaises(TypeError, Secp256k1PublicKey, 0)
         self.assertEqual(Secp256k1PublicKey.CurveType(), EllipticCurveTypes.SECP256K1)
-        self.assertEqual(Secp256k1PrivateKey.CurveType(), EllipticCurveTypes.SECP256K1)
-
         self.assertEqual(Secp256k1PublicKey.CompressedLength(), 33)
         self.assertEqual(Secp256k1PublicKey.UncompressedLength(), 65)
+
+        pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
+
+        pub_key = Secp256k1PublicKey.FromPoint(Secp256k1Point(TEST_SECP256K1_POINT["x"], TEST_SECP256K1_POINT["y"]))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY))
+
+        # Private key
+        self.assertRaises(TypeError, Secp256k1PrivateKey, 0)
+        self.assertEqual(Secp256k1PrivateKey.CurveType(), EllipticCurveTypes.SECP256K1)
         self.assertEqual(Secp256k1PrivateKey.Length(), 32)
 
-        self.assertTrue(isinstance(Secp256k1.Generator().UnderlyingObject(), ellipticcurve.PointJacobi))
-        self.assertTrue(isinstance(Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)).UnderlyingObject(),
-                                   ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY)).UnderlyingObject(),
-                                   ecdsa.VerifyingKey))
-        self.assertTrue(isinstance(Secp256k1PrivateKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_PRIV_KEY)).UnderlyingObject(),
-                                   ecdsa.SigningKey))
+        priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_PRIV_KEY))
+        self.assertTrue(isinstance(priv_key.UnderlyingObject(), ecdsa.SigningKey))
+        self.assertEqual(priv_key.Raw().ToBytes(), binascii.unhexlify(TEST_SECP256K1_PRIV_KEY))
 
-        self.assertRaises(TypeError, Secp256k1PublicKey, 0)
-        self.assertRaises(TypeError, Secp256k1PrivateKey, 0)
+        # Point
+        point = pub_key.Point()
+        self.assertTrue(isinstance(point.UnderlyingObject(), ellipticcurve.PointJacobi))
+        self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
+        self.assertEqual(point.Y(), TEST_SECP256K1_POINT["y"])
+        self.assertTrue(point.Order() is None)
+
+        point_add = point + point
+        self.assertEqual(point_add.X(), TEST_SECP256K1_POINT_ADD["x"])
+        self.assertEqual(point_add.Y(), TEST_SECP256K1_POINT_ADD["y"])
+
+        point_mul = point * 2
+        self.assertEqual(point_mul.X(), TEST_SECP256K1_POINT_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_SECP256K1_POINT_MUL["y"])
+
+        point_mul = 2 * point
+        self.assertEqual(point_mul.X(), TEST_SECP256K1_POINT_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_SECP256K1_POINT_MUL["y"])
 
     # Test invalid public keys
     def test_invalid_pub_keys(self):
