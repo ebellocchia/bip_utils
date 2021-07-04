@@ -23,7 +23,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Union, Tuple
-from bip_utils.bip32.bip32_ex import Bip32KeyError, Bip32PathError
+from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip32.bip32_key_ser import Bip32KeyDeserializer
@@ -281,10 +281,6 @@ class Bip32Base(ABC):
         # Parse path
         if isinstance(path, str):
             path = Bip32PathParser.Parse(path)
-
-        # Check result
-        if not path.IsValid():
-            raise Bip32PathError("The specified path is not valid")
 
         bip32_obj = self
         # Derive children keys

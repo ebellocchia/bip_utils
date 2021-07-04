@@ -20,7 +20,8 @@
 
 
 # Import
-from typing import Iterator, List, Optional, Tuple
+from typing import Iterator, List, Tuple, Union
+from bip_utils.bip32.bip32_ex import Bip32PathError
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_utils import Bip32Utils
 
@@ -38,14 +39,13 @@ class Bip32Path:
     """ BIP32 path class. It represents a BIP-0032 path. """
 
     def __init__(self,
-                 elems: List[Optional[int]]) -> None:
+                 elems: List[Union[int, Bip32KeyIndex]]) -> None:
         """ Construct class by specifying the path elements.
 
         Args:
             elems (list): Path elements
         """
-        self.m_is_valid = all(elem is not None for elem in elems)
-        self.m_elems = [] if not self.m_is_valid else [Bip32KeyIndex(elem) for elem in elems]
+        self.m_elems = [Bip32KeyIndex(elem) if isinstance(elem, int) else elem for elem in elems]
 
     def Length(self) -> int:
         """ Get the number of elements of the path.
@@ -54,14 +54,6 @@ class Bip32Path:
             int: Number of elements
         """
         return len(self.m_elems)
-
-    def IsValid(self) -> bool:
-        """ Get if the path is valid.
-
-        Returns:
-            bool: True if valid, false otherwise
-        """
-        return self.m_is_valid
 
     def ToList(self) -> List[int]:
         """ Get the path as a list of integers.
@@ -127,6 +119,9 @@ class Bip32PathParser:
 
         Returns:
             Bip32Path: Bip32Path object
+
+        Raises:
+            Bip32PathError: If the seed length is too short or the path is not valid
         """
 
         # Remove trailing "/" if any
@@ -145,6 +140,9 @@ class Bip32PathParser:
 
         Returns:
             Bip32Path: Bip32Path object
+
+        Raises:
+            Bip32PathError: If the seed length is too short or the path is not valid
         """
 
         # Remove the initial "m" character if any
@@ -156,7 +154,7 @@ class Bip32PathParser:
         return Bip32Path(parsed_elems)
 
     @staticmethod
-    def __ParseElem(path_elem: str) -> Optional[int]:
+    def __ParseElem(path_elem: str) -> int:
         """ Parse path element and get the correspondent index.
 
         Args:
@@ -164,6 +162,9 @@ class Bip32PathParser:
 
         Returns:
             int: Index of the element, None if the element is not a valid index
+
+        Raises:
+            Bip32PathError: If the seed length is too short or the path is not valid
         """
 
         # Strip spaces
@@ -178,6 +179,6 @@ class Bip32PathParser:
 
         # The remaining string shall be numeric
         if not path_elem.isnumeric():
-            return None
+            raise Bip32PathError("Path element not valid (%s)" % path_elem)
 
         return int(path_elem) if not is_hardened else Bip32Utils.HardenIndex(int(path_elem))
