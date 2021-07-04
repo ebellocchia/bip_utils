@@ -406,19 +406,20 @@ In case of error, an empty list is returned.
 
 **Code example**
 
-    from bip_utils import Bip32PathParser
+    from bip_utils import Bip32Path, Bip32PathParser, Bip32Utils
 
-    # Parse path
+    # Parse path, Bip32PathError is raised in case of errors
     path = Bip32PathParser.Parse("0'/1'/2")
     # 'p' can be used as an alternative character instead of '
     path = Bip32PathParser.Parse("0p/1p/2")
     # "m" can be added at the beginning
     path = Bip32PathParser.Parse("m/0'/1'/2")
-    # Get if valid
-    print(path.IsValid())
+    # Or construct directly from a list of indexes
+    path = Bip32Path([0, 1, Bip32Utils.HardenIndex(2)])
+
     # Get length
     print(path.Length())
-    # Convert to string
+    # Get as string
     print(path.ToStr())
     print(str(path))
     # Print elements info and value
