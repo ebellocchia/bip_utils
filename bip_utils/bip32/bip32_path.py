@@ -82,7 +82,7 @@ class Bip32Path:
         """ Get the path as a string.
 
         Returns:
-            str: Path as a list of integers
+            str: Path as a string
         """
         return self.ToStr()
 
@@ -94,7 +94,7 @@ class Bip32Path:
             idx (int): Element index
 
         Returns:
-            int or str: Element at the specified index
+            Bip32KeyIndex object: Bip32KeyIndex object
         """
         return self.m_elems[idx]
 
@@ -108,7 +108,7 @@ class Bip32Path:
 
 
 class Bip32PathParser:
-    """ BIP32 path parser class. It parses a BIP-0032 path and return a Bip32Path object. """
+    """ BIP32 path parser class. It parses a BIP-0032 path and returns a Bip32Path object. """
 
     @staticmethod
     def Parse(path: str) -> Bip32Path:
@@ -121,7 +121,7 @@ class Bip32PathParser:
             Bip32Path: Bip32Path object
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            Bip32PathError: If the path is not valid
         """
 
         # Remove trailing "/" if any
@@ -142,7 +142,7 @@ class Bip32PathParser:
             Bip32Path: Bip32Path object
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            Bip32PathError: If the path is not valid
         """
 
         # Remove the initial "m" character if any
@@ -164,7 +164,7 @@ class Bip32PathParser:
             int: Index of the element, None if the element is not a valid index
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            Bip32PathError: If the path is not valid
         """
 
         # Strip spaces
@@ -179,6 +179,6 @@ class Bip32PathParser:
 
         # The remaining string shall be numeric
         if not path_elem.isnumeric():
-            raise Bip32PathError("Path element not valid (%s)" % path_elem)
+            raise Bip32PathError("Invalid path element (%s)" % path_elem)
 
         return int(path_elem) if not is_hardened else Bip32Utils.HardenIndex(int(path_elem))

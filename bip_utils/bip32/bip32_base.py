@@ -275,7 +275,7 @@ class Bip32Base(ABC):
             Bip32Base object: Bip32Base object
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            Bip32PathError: If the path is not valid
         """
 
         # Parse path
@@ -485,7 +485,7 @@ class Bip32Base(ABC):
             Bip32Base object: Bip32Base object
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            Bip32PathError: If the path is not valid
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         pass

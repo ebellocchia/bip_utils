@@ -84,7 +84,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
             Bip32Base object: Bip32Base object
 
         Raises:
-            Bip32PathError: If the seed length is too short or the path is not valid
+            Bip32PathError: If the path is not valid
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         return cls._FromSeedAndPath(seed_bytes,
