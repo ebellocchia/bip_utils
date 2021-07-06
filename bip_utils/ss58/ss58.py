@@ -18,23 +18,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58)
 
 # Imports
 from typing import Tuple
 from bip_utils.ss58.ss58_ex import SS58ChecksumError
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils import ConvUtils, CryptoUtils
 
 
 class SS58Const:
     """ Class container for SS58 constants. """
 
-    # Checksum length in bytes
-    CHECKSUM_BYTE_LEN: int = 2
+    # Max format for simple account
+    SIMPLE_ACCOUNT_FORMAT_MAX_VAL: int = 63
+    # Format maximum value
+    FORMAT_MAX_VAL: int = 16383
+    # Reserved formats
+    RESERVED_FORMATS: Tuple[int, int] = (46, 47)
+
+
     # Data length in bytes
     DATA_BYTE_LEN: int = 32
-    # Version length in bytes
-    VERSION_BYTE_LEN: int = 1
+
+    # Checksum length in bytes
+    CHECKSUM_BYTE_LEN: int = 2
     # Checksum prefix
     CHECKSUM_PREFIX: bytes = b"SS58PRE"
 
@@ -60,28 +68,41 @@ class SS58Encoder:
 
     @staticmethod
     def Encode(data_bytes: bytes,
-               version: bytes) -> str:
+               ss58_format: int) -> str:
         """ Encode bytes into a SS58 string.
 
         Args:
             data_bytes (bytes): Data bytes (32-byte length)
-            version (bytes)   : Version byte (1-byte length)
+            ss58_format (int) : SS58 format
 
         Returns:
             str: SS58 encoded string
 
         Raises:
-            ValueError: If the parameters are not valid
+            ValueError: If parameters are not valid
         """
 
-        # Check lengths
+        # Check parameters
         if len(data_bytes) != SS58Const.DATA_BYTE_LEN:
             raise ValueError("Invalid data length (%d)" % len(data_bytes))
-        if len(version) != SS58Const.VERSION_BYTE_LEN:
-            raise ValueError("Invalid version length (%d)" % len(version))
+        if ss58_format < 0 or ss58_format > SS58Const.FORMAT_MAX_VAL:
+            raise ValueError("Invalid SS58 format (%d)" % ss58_format)
+        if ss58_format in SS58Const.RESERVED_FORMATS:
+            raise ValueError("Invalid SS58 format (%d)" % ss58_format)
+
+        # Simple account
+        if ss58_format <= SS58Const.SIMPLE_ACCOUNT_FORMAT_MAX_VAL:
+            ss58_format = ConvUtils.IntegerToBytes(ss58_format)
+        # Full address
+        else:
+            # 0b00HHHHHH_MMLLLLLL -> (0b01LLLLLL, 0bHHHHHHMM)
+            ss58_format = bytes([
+                ((ss58_format & 0x00FC) >> 2) | 0x0040,
+                (ss58_format >> 8) | ((ss58_format & 0x0003) << 6)
+            ])
 
         # Get payload
-        payload = version + data_bytes
+        payload = ss58_format + data_bytes
         # Compute checksum
         checksum = SS58Utils.ComputeChecksum(payload)
         # Encode
@@ -92,36 +113,50 @@ class SS58Decoder:
     """ SS58 decoder class. It provides methods for decoding SS58 format. """
 
     @staticmethod
-    def Decode(data_str: str) -> Tuple[bytes, bytes]:
+    def Decode(data_str: str) -> Tuple[int, bytes]:
         """ Decode bytes from a SS58 string.
 
         Args:
             data_str (string): Data string
 
         Returns:
-            tuple: version and data bytes
+            tuple: SS58 format and data bytes
 
         Raises:
             SS58ChecksumError: If checksum is not valid
-            ValueError: If the string is not a valid Base58 format
+            ValueError: If the string is not a valid SS58 format
         """
 
         # Decode string
         dec_bytes = Base58Decoder.Decode(data_str)
-        # Get back all the parts
-        version = dec_bytes[:SS58Const.VERSION_BYTE_LEN]
-        data_bytes = dec_bytes[SS58Const.VERSION_BYTE_LEN:-SS58Const.CHECKSUM_BYTE_LEN]
+
+        # Full address
+        if dec_bytes[0] & 0x40:
+            ss58_format_len = 2
+            ss58_format = ((dec_bytes[0] & 0x3F) << 2) | (dec_bytes[1] >> 6) | \
+                          ((dec_bytes[1] & 0x3F) << 8)
+        # Simple account
+        else:
+            ss58_format_len = 1
+            ss58_format = dec_bytes[0]
+
+        # Check format
+        if ss58_format in SS58Const.RESERVED_FORMATS:
+            raise ValueError("Invalid SS58 format (%d)" % ss58_format)
+
+        # Get back data and checksum
+        data_bytes = dec_bytes[ss58_format_len:-SS58Const.CHECKSUM_BYTE_LEN]
         checksum_bytes = dec_bytes[-SS58Const.CHECKSUM_BYTE_LEN:]
 
-        # Check lengths
+        # Check data length
         if len(data_bytes) != SS58Const.DATA_BYTE_LEN:
             raise ValueError("Invalid data length (%d)" % len(data_bytes))
 
         # Compute checksum
-        comp_checksum = SS58Utils.ComputeChecksum(version + data_bytes)
+        comp_checksum = SS58Utils.ComputeChecksum(dec_bytes[:-SS58Const.CHECKSUM_BYTE_LEN])
 
         # Verify checksum
         if checksum_bytes != comp_checksum:
             raise SS58ChecksumError("Invalid checksum (expected %r, got %r)" % (comp_checksum, checksum_bytes))
 
-        return version, data_bytes
+        return ss58_format, data_bytes
