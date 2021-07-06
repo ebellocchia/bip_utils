@@ -353,7 +353,7 @@ Bip44KusamaEd25519Slip: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.ED25519_SLIP,
-    addr_conf={"ss58_ver": b"\x02"},
+    addr_conf={"ss58_format": 2},
     addr_type=AddrTypes.SUBSTRATE)
 
 # Configuration for Litecoin main net
@@ -453,7 +453,7 @@ Bip44PolkadotEd25519Slip: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.ED25519_SLIP,
-    addr_conf={"ss58_ver": b"\x00"},
+    addr_conf={"ss58_format": 0},
     addr_type=AddrTypes.SUBSTRATE)
 
 # Configuration for Polygon

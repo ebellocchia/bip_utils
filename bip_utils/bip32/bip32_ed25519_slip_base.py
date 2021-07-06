@@ -22,7 +22,6 @@
 # Imports
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_base import Bip32Base
-from bip_utils.utils import ConvUtils
 
 
 class Bip32Ed25519SlipBaseConst:

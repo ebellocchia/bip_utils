@@ -26,7 +26,7 @@ from bip_utils.conf.bip_coin_conf_helper import CoinNames, KeyNetVersions
 
 
 class BipCoinConf:
-    """ Bip coin configuration class. It basically wraps the coin configuration allowing to get it through methods. """
+    """ Bip coin configuration class. """
 
     def __init__(self,
                  coin_name: CoinNames,

@@ -26,7 +26,7 @@ from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.conf import Bip49BitcoinMainNet
 from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
-from bip_utils.utils import ConvUtils, CryptoUtils
+from bip_utils.utils import CryptoUtils
 
 
 class P2SHAddrConst:

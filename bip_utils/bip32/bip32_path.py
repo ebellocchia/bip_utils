@@ -118,7 +118,7 @@ class Bip32PathParser:
             path (str): Path
 
         Returns:
-            Bip32Path: Bip32Path object
+            Bip32Path object: Bip32Path object
 
         Raises:
             Bip32PathError: If the path is not valid
@@ -139,7 +139,7 @@ class Bip32PathParser:
             path_elems (list): Path elements
 
         Returns:
-            Bip32Path: Bip32Path object
+            Bip32Path object: Bip32Path object
 
         Raises:
             Bip32PathError: If the path is not valid

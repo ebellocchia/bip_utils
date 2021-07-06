@@ -18,8 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Specifications:
-# https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
+# Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
 
 # Imports
 from typing import List, Tuple

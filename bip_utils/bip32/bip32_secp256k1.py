@@ -39,8 +39,7 @@ class Bip32Secp256k1Const:
 
 
 class Bip32Secp256k1(Bip32EcdsaBase):
-    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation using secp256k1 curve.
-    """
+    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation using secp256k1 curve. """
 
     #
     # Class methods for construction

@@ -18,13 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# BIP-0032 reference: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+# SLIP-0010 reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Union, Tuple
 from bip_utils.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyData
+from bip_utils.bip32.bip32_key_data import Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip32.bip32_path import Bip32Path, Bip32PathParser
@@ -46,8 +48,6 @@ class Bip32Base(ABC):
     """ BIP32 base class. It allows master key generation and children keys derivation in according
     to BIP-0032/SLIP-0010.
     It shall be derived to implement derivation for a specific elliptic curve.
-    BIP-0032 specifications: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
-    SLIP-0010 specifications: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
     """
 
     #
@@ -247,11 +247,11 @@ class Bip32Base(ABC):
 
     def ChildKey(self,
                  index: Union[int, Bip32KeyIndex]) -> Bip32Base:
-        """ Create and return a child key of the current one at the specified index.
+        """ Create and return a child key of the current one with the specified index.
         The index shall be hardened using HardenIndex method to use the private derivation algorithm.
 
         Args:
-            index (int, Bip32KeyIndex object): Index
+            index (int or Bip32KeyIndex object): Index
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -277,8 +277,6 @@ class Bip32Base(ABC):
         Raises:
             Bip32PathError: If the path is not valid
         """
-
-        # Parse path
         if isinstance(path, str):
             path = Bip32PathParser.Parse(path)
 

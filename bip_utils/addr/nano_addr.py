@@ -65,7 +65,7 @@ class NanoAddr:
                                                             digest_size=NanoAddrConst.DIGEST_BYTE_LEN))
         # Encode to base32
         payload = NanoAddrConst.PAYLOAD_PAD + pub_key_bytes + chksum
-        b32_enc = Base32.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)[NanoAddrConst.ENC_PAYLOAD_PAD_BYTE_LEN:]
+        b32_enc = Base32.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)
 
         # Add prefix
-        return Bip44Nano.AddrConfKey("prefix") + b32_enc
+        return Bip44Nano.AddrConfKey("prefix") + b32_enc[NanoAddrConst.ENC_PAYLOAD_PAD_BYTE_LEN:]

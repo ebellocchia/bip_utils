@@ -18,8 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Specifications:
-# https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
+# Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
 
 # Imports
 from typing import List, Tuple

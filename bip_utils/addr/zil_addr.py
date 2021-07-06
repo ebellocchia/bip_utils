@@ -54,5 +54,6 @@ class ZilAddr:
         """
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
+        key_hash = CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())
         return Bech32Encoder.Encode(Bip44Zilliqa.AddrConfKey("hrp"),
-                                    CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())[-ZilAddrConst.DIGEST_BYTE_LEN:])
+                                    key_hash[-ZilAddrConst.DIGEST_BYTE_LEN:])

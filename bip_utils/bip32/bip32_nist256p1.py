@@ -39,8 +39,7 @@ class Bip32Nist256p1Const:
 
 
 class Bip32Nist256p1(Bip32EcdsaBase):
-    """ BIP32 nist256p1 class. It allows master key generation and children keys derivation using nist256p1 curve.
-    """
+    """ BIP32 nist256p1 class. It allows master key generation and children keys derivation using nist256p1 curve. """
 
     #
     # Class methods for construction

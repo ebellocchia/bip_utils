@@ -31,12 +31,12 @@ class SubstrateEd25519Addr:
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey],
-                  version: bytes) -> str:
+                  ss58_format: int) -> str:
         """ Get address in Substrate format.
 
         Args:
             pub_key (bytes or public key object): Public key bytes or object
-            version (bytes): Version byte
+            ss58_format (int)                   : SS58 format
 
         Returns:
             str: Address string
@@ -46,4 +46,4 @@ class SubstrateEd25519Addr:
         """
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-        return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], version)
+        return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], ss58_format)
