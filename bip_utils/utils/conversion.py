@@ -75,7 +75,7 @@ class ConvUtils:
         if data_int.__class__.__name__ == 'mpz':
             data_int = int(data_int)
 
-        bytes_num = bytes_num or (data_int.bit_length() + 7) // 8
+        bytes_num = bytes_num or ((data_int.bit_length() if data_int > 0 else 1) + 7) // 8
         return data_int.to_bytes(bytes_num, endianness)
 
     @staticmethod
