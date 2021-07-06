@@ -37,7 +37,6 @@ class SS58Const:
     # Reserved formats
     RESERVED_FORMATS: Tuple[int, int] = (46, 47)
 
-
     # Data length in bytes
     DATA_BYTE_LEN: int = 32
 
