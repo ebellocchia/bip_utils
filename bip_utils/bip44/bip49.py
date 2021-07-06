@@ -33,8 +33,8 @@ class Bip49Const:
     SPEC_NAME: str = "BIP-0049"
     # Purpose
     PURPOSE: int = Bip32Utils.HardenIndex(49)
-    # Map from Bip44Coins to coin classes
-    COIN_TO_CLASS: Dict[Bip44Coins, BipCoinConf] = {
+    # Map from Bip44Coins to configuration classes
+    COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
             Bip44Coins.BITCOIN: Bip49BitcoinMainNet,
             Bip44Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
             Bip44Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
@@ -54,7 +54,7 @@ class Bip49Const:
 
 class Bip49(Bip44Base):
     """ BIP49 class. It allows master key generation and children keys derivation in according to BIP-0049.
-    BIP-0049 specifications: https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
+    BIP-0049 reference: https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
     """
 
     #
@@ -178,7 +178,7 @@ class Bip49(Bip44Base):
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin is not an enumerative of Bip44Coins")
 
-        return coin_type in Bip49Const.COIN_TO_CLASS
+        return coin_type in Bip49Const.COIN_TO_CONF
 
     @staticmethod
     def _GetPurpose() -> int:
@@ -199,4 +199,4 @@ class Bip49(Bip44Base):
         Returns:
             BipCoinConf child object: BipCoinConf child object
         """
-        return Bip49Const.COIN_TO_CLASS[coin_type]
+        return Bip49Const.COIN_TO_CONF[coin_type]
