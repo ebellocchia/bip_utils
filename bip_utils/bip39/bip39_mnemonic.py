@@ -18,14 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
 import os
-import unicodedata
-from abc import ABC, abstractmethod
 from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union
 from bip_utils.bip39.bip39_ex import Bip39InvalidFileError, Bip39ChecksumError
+from bip_utils.bip39.bip39_utils import Bip39Utils
 from bip_utils.utils import AlgoUtils, ConvUtils, CryptoUtils
 
 
@@ -104,61 +104,6 @@ class Bip39Const:
     WORDS_LIST_NUM: int = 2048
     # Bits of a single word
     WORD_BITS: int = 11
-
-    # Salt modifier for seed generation
-    SEED_SALT_MOD: str = "mnemonic"
-    # PBKDF2 round for seed generation
-    SEED_PBKDF2_ROUNDS: int = 2048
-    # Seed length in bytes
-    SEED_BYTE_LEN: int = 64
-
-
-class Bip39Utils:
-    """ Class container for BIP39 utility functions. """
-
-    @staticmethod
-    def NormalizeString(data_str: Union[str, List[str]]) -> Union[str, List[str]]:
-        """ Normalize string using NFKD.
-
-        Args:
-            data_str (str or list): Input string or list of strings
-
-        Returns:
-            str or list: Normalized string or list of strings
-
-        Raises:
-            TypeError: If input data type is not valid
-        """
-        if isinstance(data_str, str):
-            return unicodedata.normalize("NFKD", data_str)
-        elif isinstance(data_str, list):
-            return list(map(lambda s: unicodedata.normalize("NFKD", s), data_str))
-        else:
-            raise TypeError("Invalid data type")
-
-    @staticmethod
-    def MnemonicToList(mnemonic: Union[str, List[str]]) -> List[str]:
-        """ Convert a mnemonic to list.
-
-        Args:
-            mnemonic (str or list): Mnemonic
-
-        Returns:
-            list: Mnemonic list
-        """
-        return mnemonic.split(" ") if not isinstance(mnemonic, list) else mnemonic
-
-    @staticmethod
-    def MnemonicToString(mnemonic: Union[str, List[str]]) -> str:
-        """ Convert a mnemonic to string.
-
-        Args:
-            mnemonic (str or list): Mnemonic
-
-        Returns:
-            str: Mnemonic string
-        """
-        return " ".join(mnemonic) if isinstance(mnemonic, list) else mnemonic
 
 
 class Bip39EntropyGenerator:
@@ -276,7 +221,6 @@ class MnemonicFileReader:
 class Bip39MnemonicGenerator:
     """ BIP39 mnemonic generator class. It generates the mnemonic in according to BIP39.
     Mnemonic can be generated randomly or from a specified entropy.
-    BIP-0039 specifications: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
     """
 
     def __init__(self,
@@ -388,7 +332,7 @@ class Bip39MnemonicValidator:
             mnemonic (str or list): Mnemonic
             lang (Bip39Languages, optional): Language, None for automatic detection
         """
-        self.m_mnemonic = Bip39Utils.MnemonicToList(Bip39Utils.NormalizeString(mnemonic))
+        self.m_mnemonic = Bip39Utils.MnemonicToList(Bip39Utils.NormalizeNfkd(mnemonic))
         self.m_mnemonic_reader = (self.__GetMnemonicReader(self.m_mnemonic)
                                   if lang is None
                                   else MnemonicFileReader(lang))
@@ -551,7 +495,8 @@ class Bip39MnemonicValidator:
         """
 
         for lang in Bip39Languages:
-            # We search for each word because some languages have words in common (e.g. 'fatigue' both in English and French)
+            # We search for each word because some languages have words in common
+            # (e.g. 'fatigue' both in English and French)
             # It's more time consuming, but considering only the first word can detect the wrong language sometimes
             try:
                 mnemonic_reader = MnemonicFileReader(lang)
@@ -562,113 +507,3 @@ class Bip39MnemonicValidator:
                 continue
 
         return None
-
-
-class IBip39SeedGenerator(ABC):
-    """ BIP39 seed generator interface. """
-
-    @abstractmethod
-    def __init__(self,
-                 mnemonic: Union[str, List[str]],
-                 lang: Optional[Bip39Languages]) -> None:
-        pass
-
-    @abstractmethod
-    def Generate(self,
-                 passphrase: str) -> bytes:
-        """ Generate the seed using the specified passphrase.
-
-        Args:
-            passphrase (str, optional): Passphrase, empty if not specified
-
-        Returns:
-            bytes: Generated seed
-        """
-        pass
-
-
-class Bip39SeedGenerator(IBip39SeedGenerator):
-    """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
-
-    def __init__(self,
-                 mnemonic: Union[str, List[str]],
-                 lang: Optional[Bip39Languages] = None) -> None:
-        """ Construct the class from a specified mnemonic.
-
-        Args:
-            mnemonic (str or list): Mnemonic
-            lang (Bip39Languages, optional): Language, None for automatic detection
-
-        Raises:
-            ValueError: If the mnemonic is not valid
-        """
-
-        # Make sure that the given mnemonic is valid
-        Bip39MnemonicValidator(mnemonic, lang).Validate()
-
-        self.m_mnemonic = Bip39Utils.MnemonicToString(Bip39Utils.NormalizeString(mnemonic))
-
-    def Generate(self,
-                 passphrase: str = "") -> bytes:
-        """ Generate the seed using the specified passphrase.
-
-        Args:
-            passphrase (str, optional): Passphrase, empty if not specified
-
-        Returns:
-            bytes: Generated seed
-        """
-
-        # Get salt
-        salt = Bip39Utils.NormalizeString(Bip39Const.SEED_SALT_MOD + passphrase)
-        # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic,
-                                           salt,
-                                           Bip39Const.SEED_PBKDF2_ROUNDS)
-
-        return key[:Bip39Const.SEED_BYTE_LEN]
-
-
-class Bip39SubstrateSeedGenerator(IBip39SeedGenerator):
-    """ BIP39 substrate seed generator class. It implements a variant for generating seed introduced by Polkadot.
-    Reference: https://github.com/paritytech/substrate-bip39
-    """
-
-    def __init__(self,
-                 mnemonic: Union[str, List[str]],
-                 lang: Optional[Bip39Languages] = None) -> None:
-        """ Construct the class from a specified mnemonic.
-
-        Args:
-            mnemonic (str or list): Mnemonic
-            lang (Bip39Languages, optional): Language, None for automatic detection
-
-        Raises:
-            ValueError: If the mnemonic is not valid
-        """
-
-        # Make sure that the given mnemonic is valid
-        mnemonic_validator = Bip39MnemonicValidator(mnemonic, lang)
-        mnemonic_validator.Validate()
-
-        self.m_entropy = mnemonic_validator.GetEntropy()
-
-    def Generate(self,
-                 passphrase: str = "") -> bytes:
-        """ Generate the seed using the specified passphrase.
-
-        Args:
-            passphrase (str, optional): Passphrase, empty if not specified
-
-        Returns:
-            bytes: Generated seed
-        """
-
-        # Get salt
-        salt = Bip39Utils.NormalizeString(Bip39Const.SEED_SALT_MOD + passphrase)
-        # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(self.m_entropy,
-                                           salt,
-                                           Bip39Const.SEED_PBKDF2_ROUNDS)
-
-        return key[:Bip39Const.SEED_BYTE_LEN]
