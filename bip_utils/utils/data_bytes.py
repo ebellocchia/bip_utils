@@ -23,8 +23,8 @@
 from bip_utils.utils.conversion import ConvUtils
 
 
-class KeyBytes:
-    """ Key bytes class. It allows to get key bytes in different formats. """
+class DataBytes:
+    """ Bytes class. It allows to get bytes in different formats. """
 
     def __init__(self,
                  key_bytes: bytes) -> None:

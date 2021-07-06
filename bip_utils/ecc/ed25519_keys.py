@@ -21,11 +21,10 @@
 
 # Imports
 from nacl import exceptions, signing
-from typing import Any, Optional, Union
+from typing import Any, Optional
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.ecc.key_bytes import KeyBytes
-from bip_utils.utils import ConvUtils
+from bip_utils.utils import ConvUtils, DataBytes
 
 
 class Ed25519KeysConst:
@@ -244,19 +243,19 @@ class Ed25519PublicKey(IPublicKey):
         """
         return self.m_ver_key
 
-    def RawCompressed(self) -> KeyBytes:
+    def RawCompressed(self) -> DataBytes:
         """ Return raw compressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
-        return KeyBytes(Ed25519KeysConst.PUB_KEY_PREFIX + bytes(self.m_ver_key))
+        return DataBytes(Ed25519KeysConst.PUB_KEY_PREFIX + bytes(self.m_ver_key))
 
-    def RawUncompressed(self) -> KeyBytes:
+    def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
 
         # Same as compressed
@@ -336,13 +335,13 @@ class Ed25519PrivateKey(IPrivateKey):
         """
         return self.m_sign_key
 
-    def Raw(self) -> KeyBytes:
+    def Raw(self) -> DataBytes:
         """ Return raw private key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
-        return KeyBytes(bytes(self.m_sign_key))
+        return DataBytes(bytes(self.m_sign_key))
 
     def PublicKey(self) -> IPublicKey:
         """ Get the public key correspondent to the private one.

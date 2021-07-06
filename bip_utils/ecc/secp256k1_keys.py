@@ -20,14 +20,14 @@
 
 
 # Imports
-from typing import Any, Optional, Union
+from typing import Any, Optional
 import ecdsa
 from ecdsa import curves, ellipticcurve, keys
 from ecdsa.ecdsa import curve_secp256k1
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.ecc.key_bytes import KeyBytes
+from bip_utils.utils import DataBytes
 
 
 class Secp256k1KeysConst:
@@ -178,7 +178,9 @@ class Secp256k1PublicKey(IPublicKey):
             ValueError: If key point is not valid
         """
         try:
-            return cls(ecdsa.VerifyingKey.from_public_point(ellipticcurve.Point(curve_secp256k1, key_point.X(), key_point.Y()),
+            return cls(ecdsa.VerifyingKey.from_public_point(ellipticcurve.Point(curve_secp256k1,
+                                                                                key_point.X(),
+                                                                                key_point.Y()),
                                                             curve=curves.SECP256k1))
         except keys.MalformedPointError as ex:
             raise ValueError("Invalid public key point") from ex
@@ -233,21 +235,21 @@ class Secp256k1PublicKey(IPublicKey):
         """
         return self.m_ver_key
 
-    def RawCompressed(self) -> KeyBytes:
+    def RawCompressed(self) -> DataBytes:
         """ Return raw compressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
-        return KeyBytes(self.m_ver_key.to_string("compressed"))
+        return DataBytes(self.m_ver_key.to_string("compressed"))
 
-    def RawUncompressed(self) -> KeyBytes:
+    def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
-        return KeyBytes(self.m_ver_key.to_string("uncompressed"))
+        return DataBytes(self.m_ver_key.to_string("uncompressed"))
 
     def Point(self) -> IPoint:
         """ Get public key point.
@@ -322,13 +324,13 @@ class Secp256k1PrivateKey(IPrivateKey):
         """
         return self.m_sign_key
 
-    def Raw(self) -> KeyBytes:
+    def Raw(self) -> DataBytes:
         """ Return raw private key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
-        return KeyBytes(self.m_sign_key.to_string())
+        return DataBytes(self.m_sign_key.to_string())
 
     def PublicKey(self) -> IPublicKey:
         """ Get the public key correspondent to the private one.

@@ -25,8 +25,8 @@ from functools import lru_cache
 from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
 from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
-from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, KeyBytes, IPoint, IPrivateKey, IPublicKey
-from bip_utils.utils import CryptoUtils
+from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPoint, IPrivateKey, IPublicKey
+from bip_utils.utils import CryptoUtils, DataBytes
 
 
 class Bip32PublicKey:
@@ -89,20 +89,20 @@ class Bip32PublicKey:
         return self.m_key_data
 
     @lru_cache()
-    def RawCompressed(self) -> KeyBytes:
+    def RawCompressed(self) -> DataBytes:
         """ Return raw compressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         return self.m_pub_key.RawCompressed()
 
     @lru_cache()
-    def RawUncompressed(self) -> KeyBytes:
+    def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         return self.m_pub_key.RawUncompressed()
 
@@ -224,11 +224,11 @@ class Bip32PrivateKey:
         return self.m_key_data
 
     @lru_cache()
-    def Raw(self) -> KeyBytes:
+    def Raw(self) -> DataBytes:
         """ Return raw private key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         return self.m_priv_key.Raw()
 

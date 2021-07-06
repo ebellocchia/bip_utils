@@ -22,9 +22,9 @@
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Any, Optional, Union
+from typing import Any, Optional
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.key_bytes import KeyBytes
+from bip_utils.utils import DataBytes
 
 
 class IPoint(ABC):
@@ -259,20 +259,20 @@ class IPublicKey(ABC):
         pass
 
     @abstractmethod
-    def RawCompressed(self) -> KeyBytes:
+    def RawCompressed(self) -> DataBytes:
         """ Return raw compressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         pass
 
     @abstractmethod
-    def RawUncompressed(self) -> KeyBytes:
+    def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         pass
 
@@ -368,11 +368,11 @@ class IPrivateKey(ABC):
         pass
 
     @abstractmethod
-    def Raw(self) -> KeyBytes:
+    def Raw(self) -> DataBytes:
         """ Return raw private key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         pass
 

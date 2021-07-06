@@ -25,7 +25,7 @@ from typing import Any, Dict
 from bip_utils.addr import *
 from bip_utils.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.conf import AddrTypes, BipCoinConf
-from bip_utils.ecc import KeyBytes
+from bip_utils.utils import DataBytes
 from bip_utils.wif import WifEncoder
 
 
@@ -94,25 +94,25 @@ class Bip44PublicKey:
         """
         return self.m_pub_key.ToExtended()
 
-    def RawCompressed(self) -> KeyBytes:
+    def RawCompressed(self) -> DataBytes:
         """ Return raw compressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         return self.m_pub_key.RawCompressed()
 
-    def RawUncompressed(self) -> KeyBytes:
+    def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         return self.m_pub_key.RawUncompressed()
 
     @lru_cache()
     def ToAddress(self) -> str:
-        """ Return address correspondent to the public key.
+        """ Return the address correspondent to the public key.
 
         Returns:
             str: Address string
@@ -145,7 +145,7 @@ class Bip44PublicKey:
             return addr_cls.EncodeKey(pub_key_obj, addr_conf["hrp"])
         # Substrate
         elif addr_type == AddrTypes.SUBSTRATE:
-            return addr_cls.EncodeKey(pub_key_obj, addr_conf["ss58_ver"])
+            return addr_cls.EncodeKey(pub_key_obj, addr_conf["ss58_format"])
         # NEO
         elif addr_type == AddrTypes.NEO:
             return addr_cls.EncodeKey(pub_key_obj, addr_conf["ver"])
@@ -188,11 +188,11 @@ class Bip44PrivateKey:
         """
         return self.m_priv_key.ToExtended()
 
-    def Raw(self) -> KeyBytes:
+    def Raw(self) -> DataBytes:
         """ Return raw compressed public key.
 
         Returns:
-            KeyBytes object: KeyBytes object
+            DataBytes object: DataBytes object
         """
         return self.m_priv_key.Raw()
 
@@ -209,4 +209,6 @@ class Bip44PrivateKey:
         """
         wif_net_ver = self.m_coin_conf.WifNetVersion()
 
-        return WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), compr_pub_key, wif_net_ver) if wif_net_ver is not None else ""
+        return (WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), compr_pub_key, wif_net_ver)
+                if wif_net_ver is not None
+                else "")
