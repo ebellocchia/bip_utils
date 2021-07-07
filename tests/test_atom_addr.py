@@ -22,8 +22,14 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AtomAddr, Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
-from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
+from bip_utils import (
+    AtomAddr,
+    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
+)
+from .test_ecc import (
+    TEST_VECT_SECP256K1_PUB_KEY_INVALID,
+    TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY, TEST_SR25519_COMPR_PUB_KEY
+)
 
 # Some random public keys
 TEST_VECT = [
@@ -109,6 +115,7 @@ class AtomAddrTests(unittest.TestCase):
         self.assertRaises(TypeError, AtomAddr.EncodeKey, Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "cosmos")
         self.assertRaises(TypeError, AtomAddr.EncodeKey, Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "cosmos")
         self.assertRaises(TypeError, AtomAddr.EncodeKey, Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "cosmos")
+        self.assertRaises(TypeError, AtomAddr.EncodeKey, Sr25519PublicKey.FromBytes(binascii.unhexlify(TEST_SR25519_COMPR_PUB_KEY)), "cosmos")
 
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:

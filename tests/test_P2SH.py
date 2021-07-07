@@ -27,9 +27,12 @@ from bip_utils import (
     Bip49DashMainNet, Bip49DashTestNet, Bip49DogecoinMainNet, Bip49DogecoinTestNet, Bip49LitecoinMainNet, Bip49LitecoinTestNet,
     Bip49ZcashMainNet, Bip49ZcashTestNet,
     P2SHAddr, BchP2SHAddr,
-    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
 )
-from .test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY
+from .test_ecc import (
+    TEST_VECT_SECP256K1_PUB_KEY_INVALID,
+    TEST_ED25519_COMPR_PUB_KEY, TEST_NIST256P1_COMPR_PUB_KEY, TEST_SR25519_COMPR_PUB_KEY
+)
 
 # Some random public keys
 TEST_VECT = [
@@ -185,13 +188,17 @@ class P2SHTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key type
+        # Test with invalid key types
         self.assertRaises(TypeError, P2SHAddr.EncodeKey, Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         self.assertRaises(TypeError, P2SHAddr.EncodeKey, Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         self.assertRaises(TypeError, P2SHAddr.EncodeKey, Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, P2SHAddr.EncodeKey, Sr25519PublicKey.FromBytes(binascii.unhexlify(TEST_SR25519_COMPR_PUB_KEY)))
+
         self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "", b"\x00")
         self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)), "", b"\x00")
         self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY)), "", b"\x00")
+        self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, Sr25519PublicKey.FromBytes(binascii.unhexlify(TEST_SR25519_COMPR_PUB_KEY)), "", b"\x00")
+
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
             self.assertRaises(ValueError, P2SHAddr.EncodeKey, binascii.unhexlify(test))

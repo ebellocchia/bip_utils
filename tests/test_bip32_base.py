@@ -24,12 +24,10 @@ import binascii
 from bip_utils import Bip32KeyError, Bip32Utils, EllipticCurveGetter
 from bip_utils.bip32.bip32_base import Bip32BaseConst
 
-# Tests for invalid seeds
-TEST_VECT_SEED_ERR = [
-    b"000102030405060708090a0b0c0d0e",
-    b"000102030405060708090a0b0c0d",
-]
-
+# Invalid seed
+TEST_SEED_ERR = b"000102030405060708090a0b0c0d0e"
+# Generic seed
+TEST_SEED = b"000102030405060708090a0b0c0d0e0f"
 
 #
 # Helper class for Bip32Base child classes, which share the same tests
@@ -42,50 +40,51 @@ class Bip32BaseTestHelper:
         for test in test_vector:
             # Create from seed
             bip32_ctx = bip32_class.FromSeed(binascii.unhexlify(test["seed"]))
-            # Test master key
-            ut_class.assertEqual(test["master"]["index"], bip32_ctx.Index())
 
+            # Test index
+            ut_class.assertEqual(test["master"]["index"], bip32_ctx.Index())
+            # Test curve type
             ut_class.assertEqual(test["curve_type"], bip32_ctx.PublicKey().CurveType())
             ut_class.assertEqual(test["curve_type"], bip32_ctx.PrivateKey().CurveType())
-
+            # Test key objects
             ut_class.assertTrue(isinstance(bip32_ctx.PublicKey().KeyObject(), EllipticCurveGetter.FromType(test["curve_type"]).PublicKeyClass()))
             ut_class.assertTrue(isinstance(bip32_ctx.PrivateKey().KeyObject(), EllipticCurveGetter.FromType(test["curve_type"]).PrivateKeyClass()))
-
+            # Test extended keys
             ut_class.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
-
+            # Test public key
             ut_class.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
             ut_class.assertEqual(test["master"]["pub_key"], str(bip32_ctx.PublicKey().RawCompressed()))
             ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bip32_ctx.PublicKey().RawCompressed().ToBytes())
             ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bytes(bip32_ctx.PublicKey().RawCompressed()))
-
+            # Test private key
             ut_class.assertEqual(test["master"]["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
             ut_class.assertEqual(test["master"]["priv_key"], str(bip32_ctx.PrivateKey().Raw()))
             ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bip32_ctx.PrivateKey().Raw().ToBytes())
             ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bytes(bip32_ctx.PrivateKey().Raw()))
-
+            # Test chain code
             ut_class.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
             ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
             ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
 
             # Test derivation paths
-            for chain in test["der_paths"]:
+            for der_path in test["der_paths"]:
                 # Update context
-                bip32_ctx = bip32_ctx.ChildKey(chain["index"])
+                bip32_ctx = bip32_ctx.ChildKey(der_path["index"])
                 # Test keys
-                ut_class.assertEqual(chain["index"], bip32_ctx.Index())
-                ut_class.assertEqual(chain["index"], bip32_ctx.PublicKey().Data().Index())
-                ut_class.assertEqual(chain["index"], bip32_ctx.PrivateKey().Data().Index())
+                ut_class.assertEqual(der_path["index"], bip32_ctx.Index())
+                ut_class.assertEqual(der_path["index"], bip32_ctx.PublicKey().Data().Index())
+                ut_class.assertEqual(der_path["index"], bip32_ctx.PrivateKey().Data().Index())
 
-                ut_class.assertEqual(chain["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-                ut_class.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_pub"], bip32_ctx.PublicKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
-                ut_class.assertEqual(chain["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
-                ut_class.assertEqual(chain["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
+                ut_class.assertEqual(der_path["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
+                ut_class.assertEqual(der_path["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
 
-                ut_class.assertEqual(chain["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
-                ut_class.assertEqual(chain["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
-                ut_class.assertEqual(chain["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
+                ut_class.assertEqual(der_path["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
+                ut_class.assertEqual(der_path["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
+                ut_class.assertEqual(der_path["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     @staticmethod
@@ -98,12 +97,12 @@ class Bip32BaseTestHelper:
             ut_class.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
             # Test derivation paths
-            for chain in test["der_paths"]:
+            for der_path in test["der_paths"]:
                 # Update context
-                bip32_from_path = bip32_ctx.DerivePath(chain["path"][2:])
+                bip32_from_path = bip32_ctx.DerivePath(der_path["path"])
                 # Test keys
-                ut_class.assertEqual(chain["ex_pub"], bip32_from_path.PublicKey().ToExtended())
-                ut_class.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_pub"], bip32_from_path.PublicKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromSeedAndPath for construction
     @staticmethod
@@ -116,12 +115,12 @@ class Bip32BaseTestHelper:
             ut_class.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
             # Test derivation paths
-            for chain in test["der_paths"]:
+            for der_path in test["der_paths"]:
                 # Try to build from path and test again
-                bip32_from_path = bip32_class.FromSeedAndPath(binascii.unhexlify(test["seed"]), chain["path"])
+                bip32_from_path = bip32_class.FromSeedAndPath(binascii.unhexlify(test["seed"]), der_path["path"])
                 # Test keys
-                ut_class.assertEqual(chain["ex_pub"], bip32_from_path.PublicKey().ToExtended())
-                ut_class.assertEqual(chain["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_pub"], bip32_from_path.PublicKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_priv"], bip32_from_path.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromExtendedKey for construction
     @staticmethod
@@ -134,12 +133,12 @@ class Bip32BaseTestHelper:
             ut_class.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
             # Same test for derivation paths
-            for chain in test["der_paths"]:
+            for der_path in test["der_paths"]:
                 # Create from private extended key
-                bip32_ctx = bip32_class.FromExtendedKey(chain["ex_priv"])
+                bip32_ctx = bip32_class.FromExtendedKey(der_path["ex_priv"])
                 # Test keys
-                ut_class.assertEqual(chain["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-                ut_class.assertEqual(chain["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_pub"], bip32_ctx.PublicKey().ToExtended())
+                ut_class.assertEqual(der_path["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromPrivateKey for construction
     @staticmethod
@@ -157,12 +156,12 @@ class Bip32BaseTestHelper:
             ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
             # Same test for derivation paths
-            for chain in test["der_paths"]:
+            for der_path in test["der_paths"]:
                 # Create from private key
-                bip32_ctx = bip32_class.FromPrivateKey(binascii.unhexlify(chain["priv_key"]))
+                bip32_ctx = bip32_class.FromPrivateKey(binascii.unhexlify(der_path["priv_key"]))
                 # Test keys
-                ut_class.assertEqual(chain["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
-                ut_class.assertEqual(chain["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
+                ut_class.assertEqual(der_path["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
+                ut_class.assertEqual(der_path["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
                 ut_class.assertEqual(0, bip32_ctx.Depth())
                 ut_class.assertEqual(zero_chain_code, bip32_ctx.ChainCode())
                 ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
@@ -201,5 +200,4 @@ class Bip32BaseTestHelper:
     # Test invalid seed
     @staticmethod
     def test_invalid_seed(ut_class, bip32_class):
-        for test in TEST_VECT_SEED_ERR:
-            ut_class.assertRaises(ValueError, bip32_class.FromSeed, binascii.unhexlify(test))
+        ut_class.assertRaises(ValueError, bip32_class.FromSeed, binascii.unhexlify(TEST_SEED_ERR))

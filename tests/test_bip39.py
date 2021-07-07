@@ -26,7 +26,7 @@ from bip_utils import (
     Bip39ChecksumError, Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
 )
-from bip_utils.bip39.bip39 import Bip39Utils
+from bip_utils.bip39 import Bip39Utils
 
 # Tests from BIP39 page
 # https://github.com/trezor/python-mnemonic/blob/master/vectors.json

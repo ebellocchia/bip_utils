@@ -25,6 +25,7 @@ from bip_utils import (
     Bip49BitcoinCashMainNet, Bip49BitcoinCashTestNet, Bip49LitecoinMainNet, Bip49LitecoinTestNet,
     Bip49, Bip44Coins
 )
+from .test_bip44 import TEST_SEED
 from .test_bip44_base import Bip44BaseTestHelper
 
 # Some seeds randomly taken from Ian Coleman web page
@@ -597,9 +598,6 @@ TEST_VECT_COINS = {
         Bip44Coins.ZILLIQA,
     ],
 }
-
-# Seed for generic tests that need them
-TEST_SEED = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
 
 #

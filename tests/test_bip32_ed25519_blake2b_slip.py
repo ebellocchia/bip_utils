@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import Bip32Ed25519Blake2bSlip, Bip32KeyError, Bip32Utils, EllipticCurveTypes
-from .test_bip32_base import Bip32BaseTestHelper
+from .test_bip32_base import Bip32BaseTestHelper, TEST_SEED
 from .test_bip32_ed25519_slip import TEST_VECT_EX_KEY_ERR
 
 # Tests
@@ -210,7 +210,7 @@ class Bip32Ed25519Blake2bSlipTests(unittest.TestCase):
 
     # Test invalid derivation
     def test_invalid_derivation(self):
-        seed_bytes = binascii.unhexlify(b"000102030405060708090a0b0c0d0e0f")
+        seed_bytes = binascii.unhexlify(TEST_SEED)
         bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeed(seed_bytes)
 
         # Not-hardened private derivation

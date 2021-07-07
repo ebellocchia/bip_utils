@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    Bip32PathError, Bip32PathParser, Bip32Path, Bip32KeyIndex, Bip32Utils,
+    Bip32PathError, Bip32PathParser, Bip32Path, Bip32Utils,
     Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1,
 )
 
@@ -122,12 +122,16 @@ class Bip32PathTests(unittest.TestCase):
 
         for test in TEST_VECT_PATH_INVALID:
             self.assertRaises(Bip32PathError, Bip32PathParser.Parse, test)
+
             self.assertRaises(Bip32PathError, Bip32Ed25519Slip.FromSeed(seed).DerivePath, test)
             self.assertRaises(Bip32PathError, Bip32Ed25519Slip.FromSeedAndPath, seed, test)
+
             self.assertRaises(Bip32PathError, Bip32Ed25519Blake2bSlip.FromSeed(seed).DerivePath, test)
             self.assertRaises(Bip32PathError, Bip32Ed25519Blake2bSlip.FromSeedAndPath, seed, test)
+
             self.assertRaises(Bip32PathError, Bip32Nist256p1.FromSeed(seed).DerivePath, test)
             self.assertRaises(Bip32PathError, Bip32Nist256p1.FromSeedAndPath, seed, test)
+
             self.assertRaises(Bip32PathError, Bip32Secp256k1.FromSeed(seed).DerivePath, test)
             self.assertRaises(Bip32PathError, Bip32Secp256k1.FromSeedAndPath, seed, test)
 
@@ -147,6 +151,7 @@ class Bip32PathTests(unittest.TestCase):
             self.assertEqual(test_elem, int(path[idx]))
             self.assertEqual(test_elem, elem.ToInt())
             self.assertEqual(Bip32Utils.IsHardenedIndex(test_elem), elem.IsHardened())
+
         # Check by converting to list
         for idx, elem in enumerate(path.ToList()):
             self.assertEqual(test["parsed"][idx], elem)

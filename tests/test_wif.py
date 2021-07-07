@@ -26,9 +26,11 @@ from bip_utils import (
     Bip44BitcoinMainNet, Bip44BitcoinTestNet, Bip44DashMainNet, Bip44DashTestNet,
     Bip44DogecoinMainNet, Bip44DogecoinTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
     WifDecoder, WifEncoder, Base58ChecksumError,
-    Ed25519PrivateKey, Ed25519Blake2bPrivateKey, Nist256p1PrivateKey, Secp256k1PrivateKey
+    Ed25519PrivateKey, Ed25519Blake2bPrivateKey, Nist256p1PrivateKey, Secp256k1PrivateKey, Sr25519PrivateKey
 )
-from .test_ecc import TEST_ED25519_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID
+from .test_ecc import (
+    TEST_ED25519_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID, TEST_SR25519_PRIV_KEY
+)
 
 # Some keys randomly generated from:
 # https://gobittest.appspot.com/PrivateKey
@@ -213,6 +215,7 @@ class WifTests(unittest.TestCase):
         self.assertRaises(TypeError, WifEncoder.Encode, Ed25519PrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
         self.assertRaises(TypeError, WifEncoder.Encode, Ed25519Blake2bPrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
         self.assertRaises(TypeError, WifEncoder.Encode, Nist256p1PrivateKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)))
+        self.assertRaises(TypeError, WifEncoder.Encode, Sr25519PrivateKey.FromBytes(binascii.unhexlify(TEST_SR25519_PRIV_KEY)))
 
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))

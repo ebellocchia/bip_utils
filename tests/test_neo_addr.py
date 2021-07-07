@@ -22,8 +22,14 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import NeoAddr, Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
-from .test_ecc import TEST_VECT_NIST256P1_PUB_KEY_INVALID, TEST_ED25519_COMPR_PUB_KEY, TEST_SECP256K1_COMPR_PUB_KEY
+from bip_utils import (
+    NeoAddr,
+    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
+)
+from .test_ecc import (
+    TEST_VECT_NIST256P1_PUB_KEY_INVALID,
+    TEST_ED25519_COMPR_PUB_KEY, TEST_SECP256K1_COMPR_PUB_KEY, TEST_SR25519_COMPR_PUB_KEY
+)
 
 # Some random public keys
 TEST_VECT = [
@@ -70,10 +76,11 @@ class NeoAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key type
+        # Test with invalid key types
         self.assertRaises(TypeError, NeoAddr.EncodeKey, Ed25519PublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         self.assertRaises(TypeError, NeoAddr.EncodeKey, Ed25519Blake2bPublicKey.FromBytes(binascii.unhexlify(TEST_ED25519_COMPR_PUB_KEY)))
         self.assertRaises(TypeError, NeoAddr.EncodeKey, Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY)))
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, Sr25519PublicKey.FromBytes(binascii.unhexlify(TEST_SR25519_COMPR_PUB_KEY)))
 
         # Test vector
         for test in TEST_VECT_NIST256P1_PUB_KEY_INVALID:
