@@ -715,7 +715,9 @@ However, in order to avoid remembering the default path for each coin, the *Deri
 
 The Substrate library allows to derive keys for coins of the Polkadot ecosystem, since they don't follow BIP44.\
 The module generates the same keys and addresses of Polkadot-JS and uses sr25519 curve for derivation.\
-The synthax of the module is similar to BIP32/BIP44 module.
+With respect to BIP32, Substrate paths are not numbers but strings with a prefix:
+- "/" for not-hardened derivation (e.g. "/soft")
+- "//" for hardened derivation (e.g. "//hard")
 
 ### Coin types
 
@@ -872,7 +874,7 @@ In case of a public-only object, only public derivation will be supported (only 
 ### Parse path
 
 The Substrate module allows also to parse derivation paths.\
-Please note that, if a a path contains only numbers (e.g. //123), it'll be considered as an integer and not as a string of ASCII characters.
+Please note that, if a path contains only numbers (e.g. "//123"), it'll be considered as an integer and not as a string of ASCII characters.
 
 **Code example**
 
