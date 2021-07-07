@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip39SubstrateSeedGenerator
+from bip_utils import SubstrateBip39SeedGenerator
 
 # Tests for substrate variant
 # https://github.com/paritytech/substrate-bip39/blob/master/src/lib.rs
@@ -154,5 +154,5 @@ class Bip39TestsSubstrate(unittest.TestCase):
     # Run all tests in substrate test vector for seed generation
     def test_vector(self):
         for test in TEST_VECT:
-            seed = Bip39SubstrateSeedGenerator(test["mnemonic"]).Generate(TEST_PASSPHRASE)
+            seed = SubstrateBip39SeedGenerator(test["mnemonic"]).Generate(TEST_PASSPHRASE)
             self.assertEqual(test["seed"], binascii.hexlify(seed))

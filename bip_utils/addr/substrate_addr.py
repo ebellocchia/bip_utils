@@ -22,12 +22,12 @@
 # Imports
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.ecc import Ed25519PublicKey
+from bip_utils.ecc import Ed25519PublicKey, Sr25519PublicKey
 from bip_utils.ss58 import SS58Encoder
 
 
 class SubstrateEd25519Addr:
-    """ Substrate address class based on Ed25519 keys. It allows the Substrate address generation. """
+    """ Substrate address class based on ed25519 keys. It allows the Substrate address generation. """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey],
@@ -47,3 +47,26 @@ class SubstrateEd25519Addr:
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], ss58_format)
+
+
+class SubstrateSr25519Addr:
+    """ Substrate address class based on sr25519 keys. It allows the Substrate address generation. """
+
+    @staticmethod
+    def EncodeKey(pub_key: Union[bytes, Sr25519PublicKey],
+                  ss58_format: int) -> str:
+        """ Get address in Substrate format.
+
+        Args:
+            pub_key (bytes or public key object): Public key bytes or object
+            ss58_format (int)                   : SS58 format
+
+        Returns:
+            str: Address string
+
+        Raised:
+            ValueError: If the public key is not valid
+        """
+        pub_key_obj = AddrUtils.ValidateAndGetSr25519Key(pub_key)
+
+        return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes(), ss58_format)

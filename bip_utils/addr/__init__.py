@@ -12,7 +12,7 @@ from bip_utils.addr.P2PKH_addr import P2PKHAddr, BchP2PKHAddr
 from bip_utils.addr.P2SH_addr import P2SHAddr, BchP2SHAddr
 from bip_utils.addr.P2WPKH_addr import P2WPKHAddr
 from bip_utils.addr.sol_addr import SolAddr
-from bip_utils.addr.substrate_addr import SubstrateEd25519Addr
+from bip_utils.addr.substrate_addr import SubstrateEd25519Addr, SubstrateSr25519Addr
 from bip_utils.addr.trx_addr import TrxAddr
 from bip_utils.addr.xlm_addr import XlmAddr
 from bip_utils.addr.xrp_addr import XrpAddr

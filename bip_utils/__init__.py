@@ -23,14 +23,15 @@ from bip_utils.addr import *
 # BIP39
 from bip_utils.bip39 import (
     Bip39InvalidFileError, Bip39ChecksumError,
-    Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
-    Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator, Bip39SubstrateSeedGenerator
+    Bip39EntropyBitLen, Bip39Languages, Bip39WordsNum,
+    Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
 )
 # BIP32
 from bip_utils.bip32 import (
     Bip32KeyError, Bip32PathError,
     Bip32KeyIndex,
-    Bip32PathParser, Bip32Path,
+    Bip32Path, Bip32PathParser,
+    Bip32PublicKey, Bip32PrivateKey,
     Bip32Utils,
     Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
@@ -38,9 +39,18 @@ from bip_utils.bip32 import (
 from bip_utils.bip44 import (
     Bip44DepthError, Bip44CoinNotAllowedError,
     Bip44Changes, Bip44Coins, Bip44Levels,
+    Bip44PublicKey, Bip44PrivateKey,
     Bip44,
     Bip49,
     Bip84
+)
+# Substrate
+from bip_utils.substrate import (
+    SubstrateKeyError, SubstratePathError,
+    SubstratePublicKey, SubstratePrivateKey,
+    SubstratePathElem, SubstratePath, SubstratePathParser,
+    SubstrateBip39SeedGenerator,
+    SubstrateCoins, Substrate
 )
 # ECC
 from bip_utils.ecc import (
@@ -48,7 +58,8 @@ from bip_utils.ecc import (
     Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
     Ed25519Blake2b, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
     Nist256p1, Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey,
-    Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+    Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
+    Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
 # Coins configuration
 from bip_utils.conf import *
