@@ -4,3 +4,4 @@ from bip_utils.conf.bip_coin_conf import BipCoinConf
 from bip_utils.conf.bip44_coin_conf import *
 from bip_utils.conf.bip49_coin_conf import *
 from bip_utils.conf.bip84_coin_conf import *
+from bip_utils.conf.substrate_coin_conf import *
