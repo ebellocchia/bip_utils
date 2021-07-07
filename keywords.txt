@@ -1,8 +1,11 @@
 python
 cryptography
 ecdsa
-secp256k1
 ed25519
+ed25519-blake2b
+nist256p1
+secp256k1
+sr25519
 wallet
 hd-wallet
 slip10
@@ -15,6 +18,7 @@ bip49
 bip84
 bech32
 segwit
+substrate
 
 # Coins
 algorand
@@ -41,14 +45,12 @@ huobi chain
 iris
 irisnet
 kava
-kusama
 litecoin
 matic
 okex chain
 ontology
 nano
 neo
-polkadot
 polygon
 ripple
 solana
@@ -61,3 +63,18 @@ tron
 vechain
 zcash
 zilliqa
+
+# Substrate
+acala
+bifrost
+chainx
+edgeware
+karura
+kusama
+moonbeam
+moonriver
+phala
+plasm
+sora
+stafi
+polkadot
