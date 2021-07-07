@@ -23,7 +23,7 @@
 from typing import Type, Union
 from bip_utils.ecc import (
     EllipticCurveGetter, IPublicKey,
-    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey
+    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
 )
 
 
@@ -93,6 +93,22 @@ class AddrUtils:
             ValueError: If the public key is not valid
         """
         return AddrUtils.__ValidateAndGetGenericKey(pub_key, Secp256k1PublicKey)
+
+    @staticmethod
+    def ValidateAndGetSr25519Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
+        """ Validate and get a sr25519 public key.
+
+        Args:
+            pub_key (bytes or IPublicKey object): Public key bytes or object
+
+        Returns:
+            IPublicKey object: IPublicKey object
+
+        Raises:
+            TypeError: If the public key is not sr25519
+            ValueError: If the public key is not valid
+        """
+        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Sr25519PublicKey)
 
     @staticmethod
     def __ValidateAndGetGenericKey(pub_key: Union[bytes, IPublicKey],
