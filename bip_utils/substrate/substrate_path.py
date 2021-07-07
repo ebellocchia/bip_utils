@@ -78,7 +78,7 @@ class SubstratePathElem:
         """
         return not self.IsHard()
 
-    @lru_cache
+    @lru_cache()
     def ChainCode(self) -> bytes:
         """ Return the chain code.
 
