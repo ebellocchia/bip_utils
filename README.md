@@ -11,13 +11,13 @@ This package contains an implementation of some BIP (Bitcoin Improvement Proposa
 - Generate a secure seed from the mnemonic string
 - Use the seed to generate the master key of the wallet and derive the children keys (HD-wallet), including address encoding
 
-Moreover, it allows to generate seed and derive keys for Substrate (Polkadot ecosystem).
-
 The implemented BIP specifications are the following:
 - [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) for mnemonic and seed generation
 - [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) for master key generation (from the secure seed) and children keys derivation
 - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) and [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki) for the hierarchy of deterministic wallets, based on BIP-0032 specification
 - [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md) for BIP-0032 derivation with ed25519 and nist256p1 curves
+
+Moreover, it allows to generate seeds and derive keys for Substrate (Polkadot ecosystem).
 
 Other functionalities:
 - Parse BIP-0032 derivation paths
