@@ -382,7 +382,7 @@ class Bip32Base(ABC):
 
     def _ValidateAndCkdPriv(self,
                             index: Bip32KeyIndex) -> Bip32Base:
-        """ Check the key index and create a child key of the specified index
+        """ Check the key index validity and create a child key of the specified index
         using private derivation.
 
         Args:
@@ -403,7 +403,7 @@ class Bip32Base(ABC):
 
     def _ValidateAndCkdPub(self,
                            index: Bip32KeyIndex) -> Bip32Base:
-        """ Check the key index validaity and create a child key of the specified index
+        """ Check the key index validity and create a child key of the specified index
         using public derivation.
 
         Args:
