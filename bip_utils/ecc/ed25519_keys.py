@@ -22,6 +22,7 @@
 # Imports
 from nacl import exceptions, signing
 from typing import Any, Optional
+from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.utils import ConvUtils, DataBytes
@@ -40,111 +41,9 @@ class Ed25519KeysConst:
     PRIV_KEY_BYTE_LEN: int = 32
 
 
-class Ed25519Point(IPoint):
-    """ Ed25519 point class. """
-
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 order: Optional[int] = None) -> None:
-        """ Construct class from point coordinates.
-
-        Args:
-            x (int): X coordinate
-            y (int): Y coordinate
-            order (int): Order
-        """
-        self.m_x = x
-        self.m_y = y
-        self.m_order = order or 0
-
-    def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
-
-        Returns:
-           Any: Underlying object
-        """
-        pass
-
-    def Order(self) -> int:
-        """ Return the point order.
-
-        Returns:
-            int: Point order
-        """
-        return self.m_order
-
-    def X(self) -> int:
-        """ Get point X coordinate.
-
-        Returns:
-           int: Point X coordinate
-        """
-        return self.m_x
-
-    def Y(self) -> int:
-        """ Get point Y coordinate.
-
-        Returns:
-           int: Point Y coordinate
-        """
-        return self.m_y
-
-    def __add__(self,
-                point: IPoint) -> IPoint:
-        """ Add point to another point.
-
-        Args:
-            point (IPoint object): IPoint object
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-        # Not needed
-        pass
-
-    def __radd__(self,
-                 point: IPoint) -> IPoint:
-        """ Add point to another point.
-
-        Args:
-            point (IPoint object): IPoint object
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-        # Not needed
-        pass
-
-    def __mul__(self,
-                scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
-
-        Args:
-            scalar (int): scalar
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-        # Not needed
-        pass
-
-    def __rmul__(self,
-                 scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
-
-        Args:
-            scalar (int): scalar
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-        # Not needed
-        pass
+class Ed25519Point(DummyPoint):
+    """ Ed25519 point class. Dummy class since not needed. """
+    pass
 
 
 class Ed25519PublicKey(IPublicKey):
@@ -166,7 +65,7 @@ class Ed25519PublicKey(IPublicKey):
         """
 
         # Remove the prefix if present because nacl requires 32-byte length
-        if (len(key_bytes) == Ed25519PublicKey.CompressedLength() and
+        if (len(key_bytes) == cls.CompressedLength() and
                 key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
 

@@ -20,16 +20,32 @@
 
 
 # Imports
-import ed25519_blake2b
-from typing import Any
+import sr25519
+from typing import Any, Optional
+from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519_keys import Ed25519KeysConst
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils import ConvUtils, DataBytes
+from bip_utils.utils import DataBytes
 
 
-class Ed25519Blake2bPublicKey(IPublicKey):
-    """ Ed25519-Blake2b public key class. """
+class Sr25519KeysConst:
+    """ Class container for ed25519 keys constants. """
+
+    # Compressed public key length in bytes
+    PUB_KEY_COMPRESSED_BYTE_LEN: int = 32
+    # Uncompressed public key length in bytes
+    PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 32
+    # Private key length in bytes
+    PRIV_KEY_BYTE_LEN: int = 64
+
+
+class Sr25519Point(DummyPoint):
+    """ Sr25519 point class. Dummy class since not needed. """
+    pass
+
+
+class Sr25519PublicKey(IPublicKey):
+    """ Sr25519 public key class. """
 
     @classmethod
     def FromBytes(cls,
@@ -46,15 +62,11 @@ class Ed25519Blake2bPublicKey(IPublicKey):
             ValueError: If key bytes are not valid
         """
 
-        # Remove the first 0x00 if present because nacl requires 32-byte length
-        if (len(key_bytes) == cls.CompressedLength() and
-                key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
-            key_bytes = key_bytes[1:]
         # Check here because the library does not raise any exception
-        elif len(key_bytes) != cls.CompressedLength() - 1:
+        if len(key_bytes) != cls.CompressedLength():
             raise ValueError("Invalid public key bytes")
 
-        return cls(ed25519_blake2b.VerifyingKey(key_bytes))
+        return cls(key_bytes)
 
     @classmethod
     def FromPoint(cls,
@@ -84,7 +96,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, ed25519_blake2b.VerifyingKey):
+        if isinstance(key_obj, bytes):
             self.m_ver_key = key_obj
         else:
             raise TypeError("Invalid public key object type")
@@ -96,7 +108,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.ED25519_BLAKE2B
+        return EllipticCurveTypes.SR25519
 
     @staticmethod
     def CompressedLength() -> int:
@@ -105,7 +117,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
+        return Sr25519KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -114,7 +126,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
+        return Sr25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -130,7 +142,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(Ed25519KeysConst.PUB_KEY_PREFIX + self.m_ver_key.to_bytes())
+        return DataBytes(self.m_ver_key)
 
     def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
@@ -153,8 +165,8 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         pass
 
 
-class Ed25519Blake2bPrivateKey(IPrivateKey):
-    """ Ed25519-Blake2b private key class. """
+class Sr25519PrivateKey(IPrivateKey):
+    """ Sr25519 private key class. """
 
     @classmethod
     def FromBytes(cls,
@@ -170,10 +182,12 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-        try:
-            return cls(ed25519_blake2b.SigningKey(key_bytes))
-        except ValueError as ex:
-            raise ValueError("Invalid private key bytes") from ex
+
+        # Check here because the library does not raise any exception
+        if len(key_bytes) != cls.Length():
+            raise ValueError("Invalid private key bytes")
+
+        return cls(key_bytes)
 
     def __init__(self,
                  key_obj: Any) -> None:
@@ -185,7 +199,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, ed25519_blake2b.SigningKey):
+        if isinstance(key_obj, bytes):
             self.m_sign_key = key_obj
         else:
             raise TypeError("Invalid private key object type")
@@ -197,7 +211,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.ED25519_BLAKE2B
+        return EllipticCurveTypes.SR25519
 
     @staticmethod
     def Length() -> int:
@@ -206,7 +220,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Returns:
            int: Key length
         """
-        return Ed25519KeysConst.PRIV_KEY_BYTE_LEN
+        return Sr25519KeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -222,7 +236,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_sign_key.to_bytes())
+        return DataBytes(self.m_sign_key)
 
     def PublicKey(self) -> IPublicKey:
         """ Get the public key correspondent to the private one.
@@ -230,4 +244,4 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Ed25519Blake2bPublicKey(self.m_sign_key.get_verifying_key())
+        return Sr25519PublicKey(sr25519.public_from_secret_key(self.m_sign_key))

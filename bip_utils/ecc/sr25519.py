@@ -20,15 +20,25 @@
 
 
 # Imports
-from enum import Enum, auto, unique
+from bip_utils.ecc.elliptic_curve import EllipticCurve
+from bip_utils.ecc.sr25519_keys import Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 
 
-@unique
-class EllipticCurveTypes(Enum):
-    """ Enumerative for elliptic curve types. """
+class Sr25519Const:
+    """ Class container for Sr25519 constants. """
 
-    ED25519 = auto(),
-    ED25519_BLAKE2B = auto(),
-    NIST256P1 = auto(),
-    SECP256K1 = auto(),
-    SR25519 = auto(),
+    # Curve name
+    NAME: str = "Sr25519"
+    # Curve order (not needed)
+    CURVE_ORDER: int = 0
+    # Curve generator point (not needed)
+    GENERATOR: Sr25519Point = Sr25519Point(0, 0, 0)
+
+
+# Sr25519 curve definition
+Sr25519: EllipticCurve = EllipticCurve(Sr25519Const.NAME,
+                                       Sr25519Const.CURVE_ORDER,
+                                       Sr25519Const.GENERATOR,
+                                       Sr25519Point,
+                                       Sr25519PublicKey,
+                                       Sr25519PrivateKey)
