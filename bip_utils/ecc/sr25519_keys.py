@@ -21,7 +21,7 @@
 
 # Imports
 import sr25519
-from typing import Any, Optional
+from typing import Any
 from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
