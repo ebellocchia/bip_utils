@@ -1,5 +1,7 @@
 crcmod
-ecdsa>=0.14
+ecdsa~=0.14
 ed25519-blake2b
 pycryptodome
 pynacl
+py-sr25519-bindings
+scalecodec
