@@ -89,7 +89,7 @@ class SubstratePublicKey:
         """
         return self.m_pub_key.RawUncompressed()
 
-    @lru_cache
+    @lru_cache()
     def ToAddress(self) -> str:
         """ Return the address correspondent to the public key.
 
