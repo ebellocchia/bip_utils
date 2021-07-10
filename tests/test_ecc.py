@@ -222,11 +222,19 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Nist256p1PublicKey.CompressedLength(), 33)
         self.assertEqual(Nist256p1PublicKey.UncompressedLength(), 65)
 
+        # From compressed
         pub_key = Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY))
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY))
         self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
 
+        # From uncompressed
+        pub_key = Nist256p1PublicKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
+
+        # From point
         pub_key = Nist256p1PublicKey.FromPoint(Nist256p1Point(TEST_NIST256P1_POINT["x"], TEST_NIST256P1_POINT["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_COMPR_PUB_KEY))
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_NIST256P1_UNCOMPR_PUB_KEY))
@@ -277,11 +285,19 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Secp256k1PublicKey.CompressedLength(), 33)
         self.assertEqual(Secp256k1PublicKey.UncompressedLength(), 65)
 
+        # From compressed
         pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY))
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY))
         self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
 
+        # From uncompressed
+        pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY))
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
+
+        # From point
         pub_key = Secp256k1PublicKey.FromPoint(Secp256k1Point(TEST_SECP256K1_POINT["x"], TEST_SECP256K1_POINT["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY))
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY))
