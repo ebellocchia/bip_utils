@@ -96,10 +96,9 @@ class Sr25519PublicKey(IPublicKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, bytes):
-            self.m_ver_key = key_obj
-        else:
+        if not isinstance(key_obj, bytes):
             raise TypeError("Invalid public key object type")
+        self.m_ver_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -199,10 +198,9 @@ class Sr25519PrivateKey(IPrivateKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, bytes):
-            self.m_sign_key = key_obj
-        else:
+        if not isinstance(key_obj, bytes):
             raise TypeError("Invalid private key object type")
+        self.m_sign_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:

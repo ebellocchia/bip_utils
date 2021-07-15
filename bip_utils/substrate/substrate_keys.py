@@ -59,7 +59,10 @@ class SubstratePublicKey:
 
         Raises:
             SubstrateKeyError: If the bytes length is not valid
+            TypeError: If the key is not a Sr25519PublicKey object
         """
+        if not isinstance(pub_key, Sr25519PublicKey):
+            raise TypeError("Invalid private key object type")
         self.m_pub_key = pub_key
         self.m_coin_conf = coin_conf
 
@@ -148,7 +151,10 @@ class SubstratePrivateKey:
 
         Raises:
             SubstrateKeyError: If the bytes length is not valid
+            TypeError: If the key is not a Sr25519PrivateKey object
         """
+        if not isinstance(priv_key, Sr25519PrivateKey):
+            raise TypeError("Invalid private key object type")
         self.m_priv_key = priv_key
         self.m_coin_conf = coin_conf
 

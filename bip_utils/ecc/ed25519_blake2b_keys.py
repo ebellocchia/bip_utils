@@ -84,10 +84,9 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, ed25519_blake2b.VerifyingKey):
-            self.m_ver_key = key_obj
-        else:
+        if not isinstance(key_obj, ed25519_blake2b.VerifyingKey):
             raise TypeError("Invalid public key object type")
+        self.m_ver_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -185,10 +184,9 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, ed25519_blake2b.SigningKey):
-            self.m_sign_key = key_obj
-        else:
+        if not isinstance(key_obj, ed25519_blake2b.SigningKey):
             raise TypeError("Invalid private key object type")
+        self.m_sign_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:

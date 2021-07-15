@@ -195,10 +195,9 @@ class Nist256p1PublicKey(IPublicKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, ecdsa.VerifyingKey):
-            self.m_ver_key = key_obj
-        else:
+        if not isinstance(key_obj, ecdsa.VerifyingKey):
             raise TypeError("Invalid public key object type")
+        self.m_ver_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -293,10 +292,9 @@ class Nist256p1PrivateKey(IPrivateKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if isinstance(key_obj, ecdsa.SigningKey):
-            self.m_sign_key = key_obj
-        else:
+        if not isinstance(key_obj, ecdsa.SigningKey):
             raise TypeError("Invalid private key object type")
+        self.m_sign_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
