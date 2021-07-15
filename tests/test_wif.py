@@ -29,7 +29,8 @@ from bip_utils import (
     Ed25519PrivateKey, Ed25519Blake2bPrivateKey, Nist256p1PrivateKey, Secp256k1PrivateKey, Sr25519PrivateKey
 )
 from .test_ecc import (
-    TEST_ED25519_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID, TEST_SR25519_PRIV_KEY
+    TEST_VECT_SECP256K1_PRIV_KEY_INVALID,
+    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SR25519_PRIV_KEY
 )
 
 # Some keys randomly generated from:
@@ -212,10 +213,10 @@ class WifTests(unittest.TestCase):
 
     # Test invalid keys for encoding
     def test_enc_invalid_keys(self):
-        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519PrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
-        self.assertRaises(TypeError, WifEncoder.Encode, Ed25519Blake2bPrivateKey.FromBytes(binascii.unhexlify(TEST_ED25519_PRIV_KEY)))
-        self.assertRaises(TypeError, WifEncoder.Encode, Nist256p1PrivateKey.FromBytes(binascii.unhexlify(TEST_NIST256P1_PRIV_KEY)))
-        self.assertRaises(TypeError, WifEncoder.Encode, Sr25519PrivateKey.FromBytes(binascii.unhexlify(TEST_SR25519_PRIV_KEY)))
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_ED25519_PRIV_KEY)
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_ED25519_BLAKE2B_PRIV_KEY)
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_NIST256P1_PRIV_KEY)
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_SR25519_PRIV_KEY)
 
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))

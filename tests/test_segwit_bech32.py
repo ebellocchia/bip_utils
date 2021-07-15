@@ -26,7 +26,7 @@ from bip_utils import (
     SegwitBech32Decoder, SegwitBech32Encoder, Bech32ChecksumError, Bech32FormatError
 )
 
-# Some random public keys (verified with https://iancoleman.io/bip39/)
+# Some random public keys
 TEST_VECT = [
     {
         "raw": b"751e76e8199196d454941c45d1b3a323f1433bd6",

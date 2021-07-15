@@ -23,12 +23,16 @@
 import binascii
 import unittest
 from bip_utils import (
-    SubstrateKeyError, SubstrateCoins, SubstratePathElem, Substrate,
+    Ed25519PrivateKey, Ed25519Blake2bPrivateKey, Nist256p1PrivateKey, Secp256k1PrivateKey,
+    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey,
+    SubstrateKeyError, SubstrateCoins, SubstratePublicKey, SubstratePrivateKey, SubstratePathElem, Substrate,
     Sr25519PrivateKey, Sr25519PublicKey
 )
 from .test_ecc import (
+    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
+    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY,
     TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID,
-    TEST_SR25519_PRIV_KEY, TEST_SR25519_COMPR_PUB_KEY
+    TEST_SR25519_PRIV_KEY_BYTES, TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY
 )
 
 # Test vector
@@ -621,8 +625,18 @@ class SubstrateTests(unittest.TestCase):
         # Invalid types
         self.assertRaises(TypeError, Substrate.FromSeed, binascii.unhexlify(TEST_SEED), 0)
         self.assertRaises(TypeError, Substrate.FromSeedAndPath, binascii.unhexlify(TEST_SEED), 0)
-        self.assertRaises(TypeError, Substrate.FromPrivateKey, binascii.unhexlify(TEST_SR25519_PRIV_KEY), 0)
-        self.assertRaises(TypeError, Substrate.FromPublicKey, binascii.unhexlify(TEST_SR25519_COMPR_PUB_KEY), 0)
+        self.assertRaises(TypeError, Substrate.FromPrivateKey, TEST_SR25519_PRIV_KEY_BYTES, 0)
+
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_PRIV_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_NIST256P1_PRIV_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_SECP256K1_PRIV_KEY, SubstrateCoins.POLKADOT)
+
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_PUB_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_BLAKE2B_PUB_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_NIST256P1_PUB_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_SECP256K1_PUB_KEY, SubstrateCoins.POLKADOT)
+
         # Invalid keys
         for test in TEST_VECT_SR25519_PUB_KEY_INVALID:
             self.assertRaises(SubstrateKeyError, Substrate.FromPublicKey, binascii.unhexlify(test), SubstrateCoins.POLKADOT)
