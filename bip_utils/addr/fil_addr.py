@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.conf import Bip44Filecoin
 from bip_utils.ecc import Secp256k1PublicKey
-from bip_utils.utils import Base32, ConvUtils, CryptoUtils
+from bip_utils.utils import Base32Encoder, ConvUtils, CryptoUtils
 
 
 class FilAddrConst:
@@ -68,6 +68,6 @@ class FilAddr:
         chksum = CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
                                      digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
         # Encode to base32
-        b32_enc = Base32.EncodeNoPadding(pub_key_hash + chksum, FilAddrConst.BASE32_ALPHABET)
+        b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + chksum, FilAddrConst.BASE32_ALPHABET)
 
         return Bip44Filecoin.AddrConfKey("prefix") + addr_type_str + b32_enc

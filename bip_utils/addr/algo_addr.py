@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.ecc import Ed25519PublicKey
-from bip_utils.utils import Base32, CryptoUtils
+from bip_utils.utils import Base32Encoder, CryptoUtils
 
 
 class AlgoAddrConst:
@@ -56,4 +56,4 @@ class AlgoAddr:
         # Compute checksum
         checksum = CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
         # Encode to base32
-        return Base32.EncodeNoPadding(pub_key_bytes + checksum)
+        return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum)

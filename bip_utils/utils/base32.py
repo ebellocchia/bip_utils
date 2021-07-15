@@ -30,10 +30,12 @@ class Base32Const:
 
     # Alphabet
     ALPHABET: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
+    # Padding character
+    PADDING_CHAR: str = "="
 
 
-class Base32:
-    """ Class container for base32 decoding/encoding. """
+class Base32Encoder:
+    """ Base32 encoder class. It provides methods for encoding to Base32 format. """
 
     @staticmethod
     def Encode(data: Union[bytes, str],
@@ -65,4 +67,4 @@ class Base32:
         Returns:
             str: Encoded string
         """
-        return Base32.Encode(data, custom_alphabet).rstrip("=")
+        return Base32Encoder.Encode(data, custom_alphabet).rstrip(Base32Const.PADDING_CHAR)

@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.conf import Bip44Nano
 from bip_utils.ecc import Ed25519Blake2bPublicKey
-from bip_utils.utils import Base32, ConvUtils, CryptoUtils
+from bip_utils.utils import Base32Encoder, ConvUtils, CryptoUtils
 
 
 class NanoAddrConst:
@@ -65,7 +65,7 @@ class NanoAddr:
                                                             digest_size=NanoAddrConst.DIGEST_BYTE_LEN))
         # Encode to base32
         payload = NanoAddrConst.PAYLOAD_PAD + pub_key_bytes + chksum
-        b32_enc = Base32.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)
+        b32_enc = Base32Encoder.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)
 
         # Add prefix
         return Bip44Nano.AddrConfKey("prefix") + b32_enc[NanoAddrConst.ENC_PAYLOAD_PAD_BYTE_LEN:]
