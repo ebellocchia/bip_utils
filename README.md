@@ -1130,6 +1130,11 @@ Example from mnemonic generation to wallet addresses.
         print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PrivateKey().ToExtended()))
         print("%d. Address: %s" % (i, bip_obj_addr.PublicKey().ToAddress()))
 
+# Future steps
+
+- Add Cardano support
+- Add Monero support
+
 # Donations
 
 If you'd like to donate something:
