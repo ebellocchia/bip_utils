@@ -45,7 +45,8 @@ class WifEncoder:
 
         Args:
             priv_key (bytes or Secp256k1PrivateKey object): Private key bytes or object
-            compr_pub_key (bools, optional)               : True if private key corresponds to a compressed public key, false otherwise
+            compr_pub_key (bools, optional)               : True if private key corresponds to a compressed public key,
+                                                            false otherwise
             net_ver (bytes, optional)                     : Net version, default is Bitcoin main network
 
         Returns:
