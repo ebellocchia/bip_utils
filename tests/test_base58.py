@@ -28,6 +28,11 @@ from bip_utils import Base58Decoder, Base58Encoder, Base58ChecksumError, Base58A
 # https://github.com/bitcoin/bitcoin/blob/master/src/test/data/base58_encode_decode.json
 TEST_VECT_BTC = [
     {
+        "raw": b"",
+        "encode": "",
+        "check_encode": "3QJmnh"
+    },
+    {
         "raw": b"61",
         "encode": "2g",
         "check_encode": "C2dGTwc"
@@ -96,6 +101,11 @@ TEST_VECT_BTC = [
 
 # Same as before but for Ripple alphabet
 TEST_VECT_XRP = [
+    {
+        "raw": b"",
+        "encode": "",
+        "check_encode": "sQJm86"
+    },
     {
         "raw": b"61",
         "encode": "pg",
@@ -197,8 +207,10 @@ class Base58Tests(unittest.TestCase):
             raw_bytes = binascii.unhexlify(test["raw"])
 
             # Test encoder
-            self.assertEqual(test["encode"], Base58Encoder.Encode(raw_bytes, Base58Alphabets.BITCOIN))
-            self.assertEqual(test["check_encode"], Base58Encoder.CheckEncode(raw_bytes, Base58Alphabets.BITCOIN))
+            self.assertEqual(test["encode"],
+                             Base58Encoder.Encode(raw_bytes, Base58Alphabets.BITCOIN))
+            self.assertEqual(test["check_encode"],
+                             Base58Encoder.CheckEncode(raw_bytes, Base58Alphabets.BITCOIN))
 
     # Test decoder for Ripple alphabet
     def test_decoder_xrp(self):
@@ -215,8 +227,10 @@ class Base58Tests(unittest.TestCase):
             raw_bytes = binascii.unhexlify(test["raw"])
 
             # Test encoder
-            self.assertEqual(test["encode"], Base58Encoder.Encode(raw_bytes, Base58Alphabets.RIPPLE))
-            self.assertEqual(test["check_encode"], Base58Encoder.CheckEncode(raw_bytes, Base58Alphabets.RIPPLE))
+            self.assertEqual(test["encode"],
+                             Base58Encoder.Encode(raw_bytes, Base58Alphabets.RIPPLE))
+            self.assertEqual(test["check_encode"],
+                             Base58Encoder.CheckEncode(raw_bytes, Base58Alphabets.RIPPLE))
 
     # Test invalid checksum
     def test_invalid_checksum(self):
