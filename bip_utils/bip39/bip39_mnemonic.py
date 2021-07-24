@@ -55,18 +55,18 @@ class Bip39EntropyBitLen(IntEnum):
 class Bip39Languages(Enum):
     """ Enumerative for BIP-0039 languages. """
 
-    ENGLISH = auto(),
-    ITALIAN = auto(),
-    FRENCH = auto(),
-    SPANISH = auto(),
-    PORTUGUESE = auto(),
-    CZECH = auto(),
     CHINESE_SIMPLIFIED = auto(),
     CHINESE_TRADITIONAL = auto(),
+    CZECH = auto(),
+    ENGLISH = auto(),
+    FRENCH = auto(),
+    ITALIAN = auto(),
     KOREAN = auto(),
+    PORTUGUESE = auto(),
+    SPANISH = auto(),
 
 
-class Bip39Const:
+class Bip39MnemonicConst:
     """ Class container for BIP39 constants. """
 
     # Accepted entropy lengths in bit
@@ -175,11 +175,10 @@ class MnemonicFileReader:
         # Use binary search when possible
         if self.m_lang in self.BIN_SEARCH_LANG:
             idx = AlgoUtils.BinarySearch(self.m_words_list, word)
+            if idx == -1:
+                raise ValueError("Word '%s' is not existent in word list" % word)
         else:
             idx = self.m_words_list.index(word)
-        # Check index
-        if idx == -1:
-            raise ValueError("Word '%s' is not existent in word list" % word)
 
         return idx
 
@@ -207,14 +206,14 @@ class MnemonicFileReader:
         """
 
         # Get file path
-        file_name = Bip39Const.LANGUAGE_FILES[lang]
+        file_name = Bip39MnemonicConst.LANGUAGE_FILES[lang]
         file_path = os.path.join(os.path.dirname(__file__), file_name)
         # Read file
         with open(file_path, "r", encoding="utf-8") as fin:
             self.m_words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
 
         # Check words list length
-        if len(self.m_words_list) != Bip39Const.WORDS_LIST_NUM:
+        if len(self.m_words_list) != Bip39MnemonicConst.WORDS_LIST_NUM:
             raise Bip39InvalidFileError("Number of loaded words list (%d) is not valid" % len(self.m_words_list))
 
 
@@ -251,7 +250,7 @@ class Bip39MnemonicGenerator:
         """
 
         # Check words number
-        if words_num not in Bip39Const.MNEMONIC_WORD_LEN:
+        if words_num not in Bip39MnemonicConst.MNEMONIC_WORD_LEN:
             raise ValueError("Words number for mnemonic (%d) is not valid" % words_num)
 
         # Get entropy length in bit from words number
@@ -277,7 +276,7 @@ class Bip39MnemonicGenerator:
 
         # Check entropy length in bits
         entropy_bit_len = len(entropy_bytes) * 8
-        if entropy_bit_len not in Bip39Const.ENTROPY_BIT_LEN:
+        if entropy_bit_len not in Bip39MnemonicConst.ENTROPY_BIT_LEN:
             raise ValueError("Entropy length in bits (%d) is not valid" % entropy_bit_len)
 
         # Compute entropy hash
@@ -295,9 +294,9 @@ class Bip39MnemonicGenerator:
 
         # Get mnemonic from entropy
         mnemonic = []
-        for i in range(len(mnemonic_entropy_bin) // Bip39Const.WORD_BITS):
+        for i in range(len(mnemonic_entropy_bin) // Bip39MnemonicConst.WORD_BITS):
             # Get current word index
-            word_idx = int(mnemonic_entropy_bin[i * Bip39Const.WORD_BITS: (i + 1) * Bip39Const.WORD_BITS], 2)
+            word_idx = int(mnemonic_entropy_bin[i * Bip39MnemonicConst.WORD_BITS: (i + 1) * Bip39MnemonicConst.WORD_BITS], 2)
             # Get word at given index
             mnemonic.append(self.m_mnemonic_reader.GetWordAtIdx(word_idx))
 
@@ -313,7 +312,7 @@ class Bip39MnemonicGenerator:
         Returns:
             int: Correspondent entropy length
         """
-        return (words_num * Bip39Const.WORD_BITS) - (words_num // 3)
+        return (words_num * Bip39MnemonicConst.WORD_BITS) - (words_num // 3)
 
 
 class Bip39MnemonicValidator:
@@ -406,12 +405,12 @@ class Bip39MnemonicValidator:
         """
 
         # Check mnemonic length
-        if len(self.m_mnemonic) not in Bip39Const.MNEMONIC_WORD_LEN:
+        if len(self.m_mnemonic) not in Bip39MnemonicConst.MNEMONIC_WORD_LEN:
             raise ValueError("Mnemonic length (%d) is not valid" % len(self.m_mnemonic))
 
         # Convert each word to its index in binary format
         mnemonic_bin = map(lambda word: ConvUtils.IntegerToBinaryStr(self.m_mnemonic_reader.GetWordIdx(word),
-                                                                     Bip39Const.WORD_BITS),
+                                                                     Bip39MnemonicConst.WORD_BITS),
                            self.m_mnemonic)
 
         # Join the elements to get the complete binary string
