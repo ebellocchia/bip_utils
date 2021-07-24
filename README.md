@@ -1034,25 +1034,29 @@ It supports both normal encode/decode and check_encode/check_decode with Bitcoin
 **Code example**
 
     import binascii
-    from bip_utils import Base58Decoder, Base58Encoder, Base58Alphabets
+    from bip_utils import Base58ChecksumError, Base58Alphabets, Base58Decoder, Base58Encoder, Base58XmrDecoder, Base58XmrEncoder
 
     data_bytes = binascii.unhexlify(b"636363")
 
     # Normal encode
-    enc     = Base58Encoder.Encode(data_bytes)
+    enc = Base58Encoder.Encode(data_bytes)
     # Check encode
     chk_enc = Base58Encoder.CheckEncode(data_bytes)
 
     # Normal decode
-    dec     = Base58Decoder.Decode(enc)
-    # Check decode, RuntimeError is raised if checksum verification fails
+    dec = Base58Decoder.Decode(enc)
+    # Check decode, Base58ChecksumError is raised if checksum verification fails
     chk_dec = Base58Decoder.CheckDecode(chk_enc)
 
     # Same as before with Ripple alphabet
-    enc     = Base58Encoder.Encode(data_bytes, Base58Alphabets.RIPPLE)
+    enc = Base58Encoder.Encode(data_bytes, Base58Alphabets.RIPPLE)
     chk_enc = Base58Encoder.CheckEncode(data_bytes, Base58Alphabets.RIPPLE)
-    dec     = Base58Decoder.Decode(enc, Base58Alphabets.RIPPLE)
+    dec = Base58Decoder.Decode(enc, Base58Alphabets.RIPPLE)
     chk_dec = Base58Decoder.CheckDecode(chk_enc, Base58Alphabets.RIPPLE)
+
+    # Encode/Decode using Monero variation
+    enc = Base58XmrEncoder.Encode(data_bytes)
+    dec = Base58XmrDecoder.Decode(enc)
 
 ## Bech32
 
