@@ -77,7 +77,7 @@ class Base58Encoder:
             alph_idx (Base58Alphabets, optional): Alphabet index, Bitcoin by default
 
         Returns:
-            str: Base58 encoded string
+            str: Encoded string
 
         Raises:
             TypeError: If alphabet index is not a Base58Alphabets enumerative
@@ -113,7 +113,7 @@ class Base58Encoder:
             alph_idx (Base58Alphabets, optional): Alphabet index, Bitcoin by default
 
         Returns:
-            str: Base58 encoded string with checksum
+            str: Encoded string with checksum
 
         Raises:
             TypeError: If alphabet index is not a Base58Alphabets enumerative
@@ -132,11 +132,11 @@ class Base58Decoder:
         """ Decode bytes from a Base58 string.
 
         Args:
-            data_str (string)                   : Data string
+            data_str (str)                      : Data string
             alph_idx (Base58Alphabets, optional): Alphabet index, Bitcoin by default
 
         Returns:
-            bytes: Base58 decoded bytes
+            bytes: Decoded bytes
 
         Raises:
             TypeError: If alphabet index is not a Base58Alphabets enumerative
@@ -154,7 +154,7 @@ class Base58Decoder:
 
         dec = bytearray()
         while val > 0:
-            val, mod = divmod(val, 256)
+            val, mod = divmod(val, 2**8)
             dec.append(mod)
 
         # Get padding length
@@ -172,7 +172,7 @@ class Base58Decoder:
             alph_idx (Base58Alphabets, optional): Alphabet index, Bitcoin by default
 
         Returns:
-            bytes: Base58 decoded bytes (checksum removed)
+            bytes: Decoded bytes (checksum removed)
 
         Raises:
             ValueError: If the string is not a valid Base58 format

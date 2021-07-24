@@ -3,7 +3,8 @@ from bip_utils._version import __version__
 # Base58
 from bip_utils.base58 import (
     Base58ChecksumError, Base58Alphabets,
-    Base58Decoder, Base58Encoder
+    Base58Decoder, Base58Encoder,
+    Base58XmrDecoder, Base58XmrEncoder
 )
 # SS58
 from bip_utils.ss58 import (
