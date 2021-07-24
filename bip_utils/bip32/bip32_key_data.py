@@ -34,6 +34,8 @@ class Bip32KeyDataConst:
     DEPTH_BYTE_LEN: int = 1
     # Key index length in bytes
     KEY_INDEX_BYTE_LEN: int = 4
+    # Key index maximum value
+    KEY_INDEX_MAX_VAL: int = 2**32 - 1
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN: int = 4
     # Fingerprint of master key
@@ -87,6 +89,8 @@ class Bip32Depth:
         Args:
             depth (int): Depth
         """
+        if depth < 0:
+            raise ValueError("Invalid depth (%d)" % depth)
         self.m_depth = depth
 
     def Increase(self) -> Bip32Depth:
@@ -103,7 +107,8 @@ class Bip32Depth:
         Returns:
             bytes: Depth bytes
         """
-        return ConvUtils.IntegerToBytes(self.m_depth, bytes_num=Bip32KeyDataConst.DEPTH_BYTE_LEN)
+        return ConvUtils.IntegerToBytes(self.m_depth,
+                                        bytes_num=Bip32KeyDataConst.DEPTH_BYTE_LEN)
 
     def ToInt(self) -> int:
         """ Get the depth as integer.
@@ -179,13 +184,15 @@ class Bip32KeyIndex:
     """ BIP32 key index class. It represents a BIP32 key index. """
 
     def __init__(self,
-                 elem: int) -> None:
+                 idx: int) -> None:
         """ Construct class.
 
         Args:
-            elem (int): Key index
+            idx (int): Key index
         """
-        self.m_elem = elem
+        if idx < 0 or idx > Bip32KeyDataConst.KEY_INDEX_MAX_VAL:
+            raise ValueError("Invalid key index (%d)" % idx)
+        self.m_idx = idx
 
     def IsHardened(self) -> bool:
         """ Get if the key index is hardened.
@@ -193,7 +200,7 @@ class Bip32KeyIndex:
         Returns:
             bool: True if hardened, false otherwise
         """
-        return Bip32Utils.IsHardenedIndex(self.m_elem)
+        return Bip32Utils.IsHardenedIndex(self.m_idx)
 
     def ToBytes(self) -> bytes:
         """ Get the key index as bytes.
@@ -201,7 +208,7 @@ class Bip32KeyIndex:
         Returns:
             bytes: Key bytes
         """
-        return ConvUtils.IntegerToBytes(self.m_elem, bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
+        return ConvUtils.IntegerToBytes(self.m_idx, bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
 
     def ToInt(self) -> int:
         """ Get the key index as integer.
@@ -209,7 +216,7 @@ class Bip32KeyIndex:
         Returns:
             int: Key index
         """
-        return int(self.m_elem)
+        return int(self.m_idx)
 
     def __int__(self) -> int:
         """ Get the key index as integer.
@@ -238,9 +245,9 @@ class Bip32KeyIndex:
             bool: True if equal false otherwise
         """
         if isinstance(other, int):
-            return self.m_elem == other
+            return self.m_idx == other
         else:
-            return self.m_elem == other.m_elem
+            return self.m_idx == other.m_idx
 
 
 class Bip32KeyData:

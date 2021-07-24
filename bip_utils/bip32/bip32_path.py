@@ -45,7 +45,10 @@ class Bip32Path:
         Args:
             elems (list): Path elements
         """
-        self.m_elems = [Bip32KeyIndex(elem) if isinstance(elem, int) else elem for elem in elems]
+        try:
+            self.m_elems = [Bip32KeyIndex(elem) if isinstance(elem, int) else elem for elem in elems]
+        except ValueError as ex:
+            raise Bip32PathError("The path contains some invalid key indexes") from ex
 
     def Length(self) -> int:
         """ Get the number of elements of the path.
