@@ -293,7 +293,7 @@ class EccTests(unittest.TestCase):
         self.assertTrue(isinstance(point.UnderlyingObject(), ellipticcurve.PointJacobi))
         self.assertEqual(point.X(), TEST_NIST256P1_POINT["x"])
         self.assertEqual(point.Y(), TEST_NIST256P1_POINT["y"])
-        self.assertEqual(point.ToBytes().ToHex(), TEST_NIST256P1_POINT_BYTES)
+        self.assertEqual(point.Raw().ToHex(), TEST_NIST256P1_POINT_BYTES)
 
         # Addition
         point_add = point + point
@@ -314,7 +314,7 @@ class EccTests(unittest.TestCase):
         point = Nist256p1Point.FromBytes(binascii.unhexlify(TEST_NIST256P1_POINT_BYTES))
         self.assertEqual(point.X(), TEST_NIST256P1_POINT["x"])
         self.assertEqual(point.Y(), TEST_NIST256P1_POINT["y"])
-        self.assertEqual(point.ToBytes().ToHex(), TEST_NIST256P1_POINT_BYTES)
+        self.assertEqual(point.Raw().ToHex(), TEST_NIST256P1_POINT_BYTES)
 
     # Test Secp256k1 class
     def test_secp256k1(self):
@@ -372,7 +372,7 @@ class EccTests(unittest.TestCase):
         self.assertTrue(isinstance(point.UnderlyingObject(), ellipticcurve.PointJacobi))
         self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
         self.assertEqual(point.Y(), TEST_SECP256K1_POINT["y"])
-        self.assertEqual(point.ToBytes().ToHex(), TEST_SECP256K1_POINT_BYTES)
+        self.assertEqual(point.Raw().ToHex(), TEST_SECP256K1_POINT_BYTES)
 
         # Addition
         point_add = point + point
@@ -393,7 +393,7 @@ class EccTests(unittest.TestCase):
         point = Secp256k1Point.FromBytes(binascii.unhexlify(TEST_SECP256K1_POINT_BYTES))
         self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
         self.assertEqual(point.Y(), TEST_SECP256K1_POINT["y"])
-        self.assertEqual(point.ToBytes().ToHex(), TEST_SECP256K1_POINT_BYTES)
+        self.assertEqual(point.Raw().ToHex(), TEST_SECP256K1_POINT_BYTES)
 
     # Test Sr25519 class
     def test_sr25519(self):
@@ -488,7 +488,7 @@ class EccTests(unittest.TestCase):
         self.assertTrue(point.UnderlyingObject() is None)
         self.assertEqual(point.X(), 1)
         self.assertEqual(point.Y(), 2)
-        self.assertTrue(point.ToBytes() is None)
+        self.assertTrue(point.Raw() is None)
         self.assertTrue((point + point) is None)
         self.assertTrue((point * 1) is None)
         self.assertTrue((1 * point) is None)

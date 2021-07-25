@@ -110,8 +110,8 @@ class Secp256k1Point(IPoint):
         """
         return self.m_point.y()
 
-    def ToBytes(self) -> DataBytes:
-        """ Return the point encoded to bytes.
+    def Raw(self) -> DataBytes:
+        """ Return the point encoded to raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
