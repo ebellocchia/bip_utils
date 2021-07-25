@@ -32,7 +32,7 @@ class Sr25519Const:
     # Curve order (not needed)
     CURVE_ORDER: int = 0
     # Curve generator point (not needed)
-    GENERATOR: Sr25519Point = Sr25519Point(0, 0, 0)
+    GENERATOR: Sr25519Point = Sr25519Point.FromCoordinates(0, 0)
 
 
 # Sr25519 curve definition

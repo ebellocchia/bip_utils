@@ -33,10 +33,7 @@ class Nist256p1Const:
     # Curve order
     CURVE_ORDER: int = generator_256.order()
     # Curve generator point
-    # Defining it like this will be less efficient than using generator_256 directly,
-    # because it doesn't precompute the multiplication table.
-    # However, this is only used in public children derivation so it won't have a big impact.
-    GENERATOR: Nist256p1Point = Nist256p1Point(generator_256.x(), generator_256.y(), generator_256.order())
+    GENERATOR: Nist256p1Point = Nist256p1Point(generator_256)
 
 
 # Nist256p1 curve definition

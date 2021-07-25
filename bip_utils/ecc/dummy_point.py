@@ -22,25 +22,54 @@
 # Imports
 from typing import Any, Optional
 from bip_utils.ecc.ikeys import IPoint
+from bip_utils.utils import DataBytes
 
 
 class DummyPoint(IPoint):
     """ Dummy point class. """
 
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 order: Optional[int] = None) -> None:
+    @classmethod
+    def FromBytes(cls,
+                  point_bytes: bytes) -> IPoint:
+        """ Construct class from point bytes.
+
+        Args:
+            point_bytes (bytes): Point bytes
+
+        Returns:
+            IPoint: IPoint object
+        """
+        pass
+
+    @classmethod
+    def FromCoordinates(cls,
+                        x: int,
+                        y: int) -> IPoint:
         """ Construct class from point coordinates.
 
         Args:
-            x (int): X coordinate
-            y (int): Y coordinate
-            order (int): Order
+            x (int): X coordinate of the point
+            y (int): Y coordinate of the point
+
+        Returns:
+            IPoint: IPoint object
         """
-        self.m_x = x
-        self.m_y = y
-        self.m_order = order or 0
+        return cls((x, y))
+
+    def __init__(self,
+                 point_obj: Any) -> None:
+        """ Construct class from point object.
+
+        Args:
+            point_obj (class): Point object
+
+        Raises:
+            TypeError: If point object is not of the correct type
+        """
+        if not isinstance(point_obj, tuple):
+            raise TypeError("Invalid point object type")
+        self.m_x = point_obj[0]
+        self.m_y = point_obj[1]
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -49,14 +78,6 @@ class DummyPoint(IPoint):
            Any: Underlying object
         """
         pass
-
-    def Order(self) -> int:
-        """ Return the point order.
-
-        Returns:
-            int: Point order
-        """
-        return self.m_order
 
     def X(self) -> int:
         """ Get point X coordinate.
@@ -74,6 +95,14 @@ class DummyPoint(IPoint):
         """
         return self.m_y
 
+    def ToBytes(self) -> DataBytes:
+        """ Return the point encoded to bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        pass
+
     def __add__(self,
                 point: IPoint) -> IPoint:
         """ Add point to another point.
@@ -84,8 +113,6 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
         pass
 
     def __radd__(self,
@@ -98,8 +125,6 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
         pass
 
     def __mul__(self,
@@ -112,8 +137,6 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
         pass
 
     def __rmul__(self,
@@ -126,6 +149,4 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-
-        # Not needed
         pass

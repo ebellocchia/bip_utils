@@ -44,18 +44,47 @@ class Secp256k1KeysConst:
 class Secp256k1Point(IPoint):
     """ Secp256k1 point class. """
 
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 order: Optional[int] = None) -> None:
+    @classmethod
+    def FromBytes(cls,
+                  point_bytes: bytes) -> IPoint:
+        """ Construct class from point bytes.
+
+        Args:
+            point_bytes (bytes): Point bytes
+
+        Returns:
+            IPoint: IPoint object
+        """
+        return cls(ellipticcurve.PointJacobi.from_bytes(curve_secp256k1, point_bytes))
+
+    @classmethod
+    def FromCoordinates(cls,
+                        x: int,
+                        y: int) -> IPoint:
         """ Construct class from point coordinates.
 
         Args:
-            x (int): X coordinate
-            y (int): Y coordinate
-            order (int): Order
+            x (int): X coordinate of the point
+            y (int): Y coordinate of the point
+
+        Returns:
+            IPoint: IPoint object
         """
-        self.m_point = ellipticcurve.PointJacobi.from_affine(ellipticcurve.Point(curve_secp256k1, x, y, order))
+        return cls(ellipticcurve.PointJacobi.from_affine(ellipticcurve.Point(curve_secp256k1, x, y)))
+
+    def __init__(self,
+                 point_obj: Any) -> None:
+        """ Construct class from point object.
+
+        Args:
+            point_obj (class): Point object
+
+        Raises:
+            TypeError: If point object is not of the correct type
+        """
+        if not isinstance(point_obj, ellipticcurve.PointJacobi):
+            raise TypeError("Invalid point object type")
+        self.m_point = point_obj
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -64,14 +93,6 @@ class Secp256k1Point(IPoint):
            Any: Underlying object
         """
         return self.m_point
-
-    def Order(self) -> int:
-        """ Return the point order.
-
-        Returns:
-            int: Point order
-        """
-        return self.m_point.order()
 
     def X(self) -> int:
         """ Get point X coordinate.
@@ -89,6 +110,14 @@ class Secp256k1Point(IPoint):
         """
         return self.m_point.y()
 
+    def ToBytes(self) -> DataBytes:
+        """ Return the point encoded to bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        return DataBytes(self.m_point.to_bytes())
+
     def __add__(self,
                 point: IPoint) -> IPoint:
         """ Add point to another point.
@@ -99,8 +128,7 @@ class Secp256k1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        new_point = (self.m_point + point.UnderlyingObject()).to_affine()
-        return Secp256k1Point(new_point.x(), new_point.y())
+        return Secp256k1Point(self.m_point + point.UnderlyingObject())
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -124,8 +152,7 @@ class Secp256k1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        new_point = (self.m_point * scalar).to_affine()
-        return Secp256k1Point(new_point.x(), new_point.y())
+        return Secp256k1Point(self.m_point * scalar)
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
@@ -256,7 +283,7 @@ class Secp256k1PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1Point(self.m_ver_key.pubkey.point.x(), self.m_ver_key.pubkey.point.y())
+        return Secp256k1Point(self.m_ver_key.pubkey.point)
 
 
 class Secp256k1PrivateKey(IPrivateKey):

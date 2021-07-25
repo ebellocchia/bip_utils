@@ -43,7 +43,7 @@ TEST_VECT = [
     {
         "coin": SubstrateCoins.KUSAMA,
         "names": ("Kusama", "KSM"),
-        "seed": "4ed8d4b17698ddeaa1f1559f152f87b5d472f725ca86d341bd0276f1b61197e21dd5a391f9f5ed7340ff4d4513aab9cce44f9497a5e7ed85fd818876b6eb402e",
+        "seed": b"4ed8d4b17698ddeaa1f1559f152f87b5d472f725ca86d341bd0276f1b61197e21dd5a391f9f5ed7340ff4d4513aab9cce44f9497a5e7ed85fd818876b6eb402e",
         "master": {
             "path": "",
             "pub_key": "66933bd1f37070ef87bd1198af3dacceb095237f803f3d32b173e6b425ed7972",

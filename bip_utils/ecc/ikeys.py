@@ -30,17 +30,46 @@ from bip_utils.utils import DataBytes
 class IPoint(ABC):
     """ Interface for a generic elliptic curve point. """
 
+    @classmethod
     @abstractmethod
-    def __init__(self,
-                 x: int,
-                 y: int,
-                 order: Optional[int]) -> None:
+    def FromBytes(cls,
+                  point_bytes: bytes) -> IPoint:
+        """ Construct class from point bytes.
+
+        Args:
+            point_bytes (bytes): Point bytes
+
+        Returns:
+            IPoint: IPoint object
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def FromCoordinates(cls,
+                        x: int,
+                        y: int) -> IPoint:
         """ Construct class from point coordinates.
 
         Args:
-            x (int): X coordinate
-            y (int): Y coordinate
-            order (int): Order
+            x (int): X coordinate of the point
+            y (int): Y coordinate of the point
+
+        Returns:
+            IPoint: IPoint object
+        """
+        pass
+
+    @abstractmethod
+    def __init__(self,
+                 point_obj: Any) -> None:
+        """ Construct class from point object.
+
+        Args:
+            point_obj (class): Point object
+
+        Raises:
+            TypeError: If point object is not of the correct type
         """
         pass
 
@@ -50,15 +79,6 @@ class IPoint(ABC):
 
         Returns:
            Any: Underlying object
-        """
-        pass
-
-    @abstractmethod
-    def Order(self) -> int:
-        """ Return the point order.
-
-        Returns:
-            int: Point order
         """
         pass
 
@@ -77,6 +97,15 @@ class IPoint(ABC):
 
         Returns:
             int: Y coordinate of the point
+        """
+        pass
+
+    @abstractmethod
+    def ToBytes(self) -> DataBytes:
+        """ Return the point encoded to bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
         """
         pass
 
