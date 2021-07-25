@@ -46,7 +46,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
             ValueError: If key bytes are not valid
         """
 
-        # Remove the first 0x00 if present because nacl requires 32-byte length
+        # Remove the first 0x00 if present
         if (len(key_bytes) == cls.CompressedLength() and
                 key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
