@@ -51,6 +51,18 @@ class DataBytes:
         """
         return ConvUtils.BytesToHexString(self.m_key_bytes)
 
+    def ToInt(self,
+              endianness: str = "big") -> int:
+        """ Get key bytes as an integer.
+
+        Args:
+            endianness (str, optional): Endianness
+
+        Returns:
+            int: Key bytes as an integer
+        """
+        return ConvUtils.BytesToInteger(self.m_key_bytes, endianness)
+
     def __bytes__(self) -> bytes:
         """ Get key bytes.
 
