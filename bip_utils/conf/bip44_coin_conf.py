@@ -379,6 +379,28 @@ Bip44LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
     addr_conf={"std_net_ver": b"\x6f", "depr_net_ver": BIP44_BTC_P2PKH_NET_VER_TEST},
     addr_type=AddrTypes.P2PKH)
 
+# Configuration for Monero (ed25519 SLIP-0010)
+Bip44MoneroEd25519Slip: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("Monero", "XMR"),
+    is_testnet=False,
+    def_path=HARDENED_DEF_PATH,
+    key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
+    wif_net_ver=None,
+    bip32_type=Bip32Types.ED25519_SLIP,
+    addr_conf={},
+    addr_type=AddrTypes.XMR)
+
+# Configuration for Monero (secp256k1)
+Bip44MoneroSecp256k1: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("Monero", "XMR"),
+    is_testnet=False,
+    def_path=NOT_HARDENED_DEF_PATH,
+    key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
+    wif_net_ver=None,
+    bip32_type=Bip32Types.SECP256K1,
+    addr_conf={},
+    addr_type=AddrTypes.XMR)
+
 # Configuration for OKEx Chain (Ethereum address)
 Bip44OkexChainEth: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("OKExChain", "OKT"),
@@ -431,7 +453,7 @@ Bip44Neo: BipCoinConf = BipCoinConf(
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_type=Bip32Types.NIST256P1,
-    addr_conf={"ver": b"\x17"},
+    addr_conf={"ver": b"\x17", "prefix": b"\x21", "suffix": b"\xac"},
     addr_type=AddrTypes.NEO)
 
 # Configuration for NG

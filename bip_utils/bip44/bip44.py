@@ -67,6 +67,8 @@ class Bip44Const:
             Bip44Coins.KUSAMA_ED25519_SLIP: Bip44KusamaEd25519Slip,
             Bip44Coins.LITECOIN: Bip44LitecoinMainNet,
             Bip44Coins.LITECOIN_TESTNET: Bip44LitecoinTestNet,
+            Bip44Coins.MONERO_ED25519_SLIP: Bip44MoneroEd25519Slip,
+            Bip44Coins.MONERO_SECP256K1: Bip44MoneroSecp256k1,
             Bip44Coins.NANO: Bip44Nano,
             Bip44Coins.NEO: Bip44Neo,
             Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,

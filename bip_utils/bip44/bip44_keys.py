@@ -131,6 +131,10 @@ class Bip44PublicKey:
 
         addr_cls = Bip44KeysConst.ADDR_TYPE_TO_CLASS[addr_type]
 
+        # Exception for Monero
+        if addr_type == AddrTypes.XMR:
+            raise ValueError("Use the MoneroKeys class to get Monero addresses")
+
         # P2PKH, P2SH
         if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH):
             return addr_cls.EncodeKey(pub_key_obj, addr_conf["net_ver"])

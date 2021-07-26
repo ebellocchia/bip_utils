@@ -47,6 +47,7 @@ class AddrTypes(Enum):
     SUBSTRATE = auto(),
     TRX = auto(),
     XLM = auto()
+    XMR = auto(),
     XRP = auto(),
     XTZ = auto(),
     ZIL = auto(),
