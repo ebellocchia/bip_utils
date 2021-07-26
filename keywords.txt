@@ -47,6 +47,7 @@ irisnet
 kava
 litecoin
 matic
+monero
 okex chain
 ontology
 nano
