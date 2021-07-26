@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.conf import Bip44Filecoin
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import Base32Encoder, ConvUtils, CryptoUtils
 
 
@@ -42,11 +42,11 @@ class FilAddr:
     """ Filecoin address class. It allows the Filecoin address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
         """ Get address in Filecoin format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Returns:
             str: Address string

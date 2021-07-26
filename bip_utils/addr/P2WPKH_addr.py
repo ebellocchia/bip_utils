@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import SegwitBech32Encoder
 from bip_utils.conf import Bip84BitcoinMainNet
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -36,15 +36,15 @@ class P2WPKHAddr:
     """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   wit_ver: int = Bip84BitcoinMainNet.AddrConfKey("wit_ver"),
                   net_addr_ver: str = Bip84BitcoinMainNet.AddrConfKey("net_ver")) -> str:
         """ Get address in P2WPKH format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
-            wit_ver (int, optional))             : Witness version
-            net_addr_ver (str, optional)         : Net address version, default is Bitcoin main network
+            pub_key (bytes or IPublicKey): Public key bytes or object
+            wit_ver (int, optional))     : Witness version
+            net_addr_ver (str, optional) : Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string

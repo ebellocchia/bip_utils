@@ -22,7 +22,7 @@
 # Imports
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.ecc import Ed25519PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import Base32Encoder, CryptoUtils
 
 
@@ -37,11 +37,11 @@ class AlgoAddr:
     """ Algorand address class. It allows the Algorand address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
         """ Get address in Algorand format.
 
         Args:
-            pub_key (bytes or Ed25519PublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Returns:
             str: Address string

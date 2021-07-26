@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.conf import Bip44Nano
-from bip_utils.ecc import Ed25519Blake2bPublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import Base32Encoder, ConvUtils, CryptoUtils
 
 
@@ -44,11 +44,11 @@ class NanoAddr:
     """ Nano address class. It allows the Nano address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Ed25519Blake2bPublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
         """ Get address in Nano format.
 
         Args:
-            pub_key (bytes or Ed25519Blake2bPublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Returns:
             str: Address string

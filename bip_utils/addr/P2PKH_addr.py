@@ -25,7 +25,7 @@ from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder, Base58Alphabets
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.conf import Bip44BitcoinMainNet
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -33,13 +33,13 @@ class P2PKHAddr:
     """ P2PKH class. It allows the Pay-to-Public-Key-Hash address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   net_addr_ver: bytes = Bip44BitcoinMainNet.AddrConfKey("net_ver"),
                   base58_alph: Base58Alphabets = Base58Alphabets.BITCOIN) -> str:
         """ Get address in P2PKH format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey)  : Public key bytes or object
+            pub_key (bytes or IPublicKey)          : Public key bytes or object
             net_addr_ver (bytes, optional)         : Net address version, default is Bitcoin main network
             base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin by default
 
@@ -60,15 +60,15 @@ class BchP2PKHAddr:
     """ Bitcoin Cash P2PKH class. It allows the Bitcoin Cash P2PKH generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   hrp: str,
                   net_addr_ver: bytes) -> str:
         """ Get address in Bitcoin Cash P2PKH format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
-            hrp (str)                            : HRP
-            net_addr_ver (bytes)                 : Net address version
+            pub_key (bytes or IPublicKey): Public key bytes or object
+            hrp (str)                    : HRP
+            net_addr_ver (bytes)         : Net address version
 
         Returns:
             str: Address string

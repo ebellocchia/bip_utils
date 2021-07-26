@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32Encoder
 from bip_utils.conf import Bip44Zilliqa
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -39,11 +39,11 @@ class ZilAddr:
     """ Zilliqa address class. It allows the Zilliqa address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
         """ Get address in Zilliqa format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Returns:
             str: Address string

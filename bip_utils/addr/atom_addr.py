@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32Encoder
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -31,13 +31,13 @@ class AtomAddr:
     """ Atom address class. It allows the Atom address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey],
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   hrp: str) -> str:
         """ Get address in Atom format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
-            hrp (str)                            : HRP
+            pub_key (bytes or IPublicKey): Public key bytes or object
+            hrp (str)                    : HRP
 
         Returns:
             str: Address string

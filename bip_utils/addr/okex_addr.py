@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.bech32 import Bech32Encoder
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.conf import Bip44OkexChainAtom
 from bip_utils.utils import ConvUtils
 
@@ -32,11 +32,11 @@ class OkexAddr:
     """ OKEx Chain address class. It allows the OKEx Chain address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
         """ Get address in OKEx Chain format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Returns:
             str: Address string

@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.base58 import Base58Encoder
 from bip_utils.conf import Bip44Tron
-from bip_utils.ecc import Secp256k1PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import ConvUtils
 
 
@@ -32,11 +32,11 @@ class TrxAddr:
     """ Tron address class. It allows the Tron address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Secp256k1PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
         """ Get address in Tron format.
 
         Args:
-            pub_key (bytes or Secp256k1PublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Returns:
             str: Address string

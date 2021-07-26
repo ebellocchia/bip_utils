@@ -24,7 +24,7 @@ from typing import Union
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.conf import Bip44Tezos
-from bip_utils.ecc import Ed25519PublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
@@ -39,11 +39,11 @@ class XtzAddr:
     """ Tezos address class. It allows the Tezos address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, Ed25519PublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
         """ Get address in Tezos format.
 
         Args:
-            pub_key (bytes or Ed25519PublicKey): Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Returns:
             str: Address string
