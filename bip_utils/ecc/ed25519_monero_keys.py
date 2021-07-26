@@ -23,9 +23,19 @@
 from typing import Any
 import bip_utils.ecc.lib.ed25519_monero_lib as ed25519_monero_lib
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519_keys import Ed25519KeysConst
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils import ConvUtils, DataBytes
+from bip_utils.utils import DataBytes
+
+
+class Ed25519MoneroKeysConst:
+    """ Class container for ed25519-monero keys constants. """
+
+    # Compressed public key length in bytes
+    PUB_KEY_COMPRESSED_BYTE_LEN: int = 32
+    # Uncompressed public key length in bytes
+    PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 32
+    # Private key length in bytes
+    PRIV_KEY_BYTE_LEN: int = 32
 
 
 class Ed25519MoneroPoint(IPoint):
@@ -171,15 +181,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-
-        # Remove the first 0x00 if present
-        if (len(key_bytes) == cls.CompressedLength() and
-                key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
-            key_bytes = key_bytes[1:]
-        # Check here because the library does not raise any exception
-        elif len(key_bytes) != cls.CompressedLength() - 1:
+        if not ed25519_monero_lib.is_valid_pub_key(key_bytes):
             raise ValueError("Invalid public key bytes")
-
         return cls(key_bytes)
 
     @classmethod
@@ -228,7 +231,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
+        return Ed25519MoneroKeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -237,7 +240,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
+        return Ed25519MoneroKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -253,7 +256,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(Ed25519KeysConst.PUB_KEY_PREFIX + self.m_ver_key)
+        return DataBytes(self.m_ver_key)
 
     def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
@@ -291,11 +294,8 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-
-        # Check here because the library does not raise any exception
         if not ed25519_monero_lib.is_valid_priv_key(key_bytes):
             raise ValueError("Invalid private key bytes")
-
         return cls(key_bytes)
 
     def __init__(self,
@@ -328,7 +328,7 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         Returns:
            int: Key length
         """
-        return Ed25519KeysConst.PRIV_KEY_BYTE_LEN
+        return Ed25519MoneroKeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.

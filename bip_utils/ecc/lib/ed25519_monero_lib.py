@@ -250,3 +250,9 @@ def decodexy(x, y):
 # Added
 def is_valid_priv_key(k):
     return len(k) == 32 and ConvUtils.BytesToInteger(k, endianness="little") < l
+
+
+# Added
+def is_valid_pub_key(k):
+    # Check length and that point lies on curve
+    return len(k) == 32 and decodepoint(k)
