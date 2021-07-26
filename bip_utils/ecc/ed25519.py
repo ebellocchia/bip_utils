@@ -21,7 +21,7 @@
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.ed25519_keys import Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey
+from bip_utils.ecc.ed25519_keys import Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey, IPoint
 
 
 class Ed25519Const:
@@ -32,8 +32,8 @@ class Ed25519Const:
     # Curve order
     CURVE_ORDER: int = 2**252 + 27742317777372353535851937790883648493
     # Curve generator point
-    GENERATOR: Ed25519Point = Ed25519Point.FromCoordinates(15112221349535400772501151409588531511454012693041857206046113283949847762202,
-                                                           46316835694926478169428394003475163141307993866256225615783033603165251855960)
+    GENERATOR: IPoint = Ed25519Point.FromCoordinates(15112221349535400772501151409588531511454012693041857206046113283949847762202,
+                                                     46316835694926478169428394003475163141307993866256225615783033603165251855960)
 
 
 # Ed25519 curve definition

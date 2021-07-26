@@ -29,6 +29,7 @@ class EllipticCurveTypes(Enum):
 
     ED25519 = auto(),
     ED25519_BLAKE2B = auto(),
+    ED25519_MONERO = auto(),
     NIST256P1 = auto(),
     SECP256K1 = auto(),
     SR25519 = auto(),

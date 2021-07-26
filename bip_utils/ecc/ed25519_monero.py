@@ -22,25 +22,26 @@
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
 from bip_utils.ecc.ed25519 import Ed25519Const
-from bip_utils.ecc.ed25519_keys import Ed25519Point
-from bip_utils.ecc.ed25519_blake2b_keys import Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey, IPoint
+from bip_utils.ecc.ed25519_monero_keys import Ed25519MoneroPoint, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey, IPoint
 
 
-class Ed25519Blake2bConst:
-    """ Class container for Ed25519-Blake2b constants. """
+class Ed25519MoneroConst:
+    """ Class container for Ed25519-Monero constants. """
 
     # Curve name
-    NAME: str = "Ed25519-Blake2b"
+    NAME: str = "Ed25519-Monero"
     # Curve order
     CURVE_ORDER: int = Ed25519Const.CURVE_ORDER
     # Curve generator point
-    GENERATOR: IPoint = Ed25519Const.GENERATOR
+    GENERATOR: IPoint = Ed25519MoneroPoint.FromCoordinates(Ed25519Const.GENERATOR.X(),
+                                                           Ed25519Const.GENERATOR.Y())
 
 
-# Ed25519-Blake2b curve definition
-Ed25519Blake2b: EllipticCurve = EllipticCurve(Ed25519Blake2bConst.NAME,
-                                              Ed25519Blake2bConst.CURVE_ORDER,
-                                              Ed25519Blake2bConst.GENERATOR,
-                                              Ed25519Point,
-                                              Ed25519Blake2bPublicKey,
-                                              Ed25519Blake2bPrivateKey)
+
+# Ed25519-Monero curve definition
+Ed25519Monero: EllipticCurve = EllipticCurve(Ed25519MoneroConst.NAME,
+                                             Ed25519MoneroConst.CURVE_ORDER,
+                                             Ed25519MoneroConst.GENERATOR,
+                                             Ed25519MoneroPoint,
+                                             Ed25519MoneroPublicKey,
+                                             Ed25519MoneroPrivateKey)

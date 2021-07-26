@@ -25,6 +25,7 @@ from bip_utils.ecc.elliptic_curve import EllipticCurve
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519 import Ed25519
 from bip_utils.ecc.ed25519_blake2b import Ed25519Blake2b
+from bip_utils.ecc.ed25519_monero import Ed25519Monero
 from bip_utils.ecc.nist256p1 import Nist256p1
 from bip_utils.ecc.secp256k1 import Secp256k1
 from bip_utils.ecc.sr25519 import Sr25519
@@ -37,6 +38,7 @@ class EllipticCurveGetterConst:
     TYPE_TO_INSTANCE: Dict[EllipticCurveTypes, EllipticCurve] = {
         EllipticCurveTypes.ED25519: Ed25519,
         EllipticCurveTypes.ED25519_BLAKE2B: Ed25519Blake2b,
+        EllipticCurveTypes.ED25519_MONERO: Ed25519Monero,
         EllipticCurveTypes.NIST256P1: Nist256p1,
         EllipticCurveTypes.SECP256K1: Secp256k1,
         EllipticCurveTypes.SR25519: Sr25519,
