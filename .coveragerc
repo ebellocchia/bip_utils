@@ -2,3 +2,7 @@
 exclude_lines =
     pragma: no cover
     @abstract
+
+[run]
+omit =
+    bip_utils\ecc\lib\ed25519_monero_lib.py
