@@ -91,17 +91,17 @@ class SS58Encoder:
 
         # Simple account
         if ss58_format <= SS58Const.SIMPLE_ACCOUNT_FORMAT_MAX_VAL:
-            ss58_format = ConvUtils.IntegerToBytes(ss58_format)
+            ss58_format_bytes = ConvUtils.IntegerToBytes(ss58_format)
         # Full address
         else:
             # 0b00HHHHHH_MMLLLLLL -> (0b01LLLLLL, 0bHHHHHHMM)
-            ss58_format = bytes([
+            ss58_format_bytes = bytes([
                 ((ss58_format & 0x00FC) >> 2) | 0x0040,
                 (ss58_format >> 8) | ((ss58_format & 0x0003) << 6)
             ])
 
         # Get payload
-        payload = ss58_format + data_bytes
+        payload = ss58_format_bytes + data_bytes
         # Compute checksum
         checksum = SS58Utils.ComputeChecksum(payload)
         # Encode
