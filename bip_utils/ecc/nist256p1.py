@@ -22,7 +22,7 @@
 # Imports
 from ecdsa.ecdsa import generator_256
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.nist256p1_keys import Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey
+from bip_utils.ecc.nist256p1_keys import Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey, IPoint
 
 
 class Nist256p1Const:
@@ -33,7 +33,7 @@ class Nist256p1Const:
     # Curve order
     CURVE_ORDER: int = generator_256.order()
     # Curve generator point
-    GENERATOR: Nist256p1Point = Nist256p1Point(generator_256)
+    GENERATOR: IPoint = Nist256p1Point(generator_256)
 
 
 # Nist256p1 curve definition

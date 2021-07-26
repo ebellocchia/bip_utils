@@ -22,7 +22,7 @@
 # Imports
 from ecdsa.ecdsa import generator_secp256k1
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.secp256k1_keys import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+from bip_utils.ecc.secp256k1_keys import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey, IPoint
 
 
 class Secp256k1Const:
@@ -33,7 +33,7 @@ class Secp256k1Const:
     # Curve order
     CURVE_ORDER: int = generator_secp256k1.order()
     # Curve generator point
-    GENERATOR: Secp256k1Point = Secp256k1Point(generator_secp256k1)
+    GENERATOR: IPoint = Secp256k1Point(generator_secp256k1)
 
 
 # Secp256k1 curve definition

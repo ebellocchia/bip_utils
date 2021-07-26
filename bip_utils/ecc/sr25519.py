@@ -21,7 +21,7 @@
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.sr25519_keys import Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
+from bip_utils.ecc.sr25519_keys import Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey, IPoint
 
 
 class Sr25519Const:
@@ -32,7 +32,7 @@ class Sr25519Const:
     # Curve order (not needed)
     CURVE_ORDER: int = 0
     # Curve generator point (not needed)
-    GENERATOR: Sr25519Point = Sr25519Point.FromCoordinates(0, 0)
+    GENERATOR: IPoint = Sr25519Point.FromCoordinates(0, 0)
 
 
 # Sr25519 curve definition
