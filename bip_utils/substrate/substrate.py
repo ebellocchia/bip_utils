@@ -25,6 +25,7 @@ import sr25519
 from enum import Enum, auto, unique
 from typing import Dict, Optional, Union
 from bip_utils.conf import *
+from bip_utils.ecc import IPrivateKey, IPublicKey
 from bip_utils.substrate.substrate_ex import SubstrateKeyError
 from bip_utils.substrate.substrate_keys import SubstratePublicKey, SubstratePrivateKey
 from bip_utils.substrate.substrate_path import SubstratePathElem, SubstratePath, SubstratePathParser
@@ -104,9 +105,9 @@ class Substrate:
             raise ValueError("Seed length is too small, it shall be at least %d bytes" % SubstrateConst.SEED_BYTE_LEN)
 
         pub_key_bytes, priv_key_bytes = sr25519.pair_from_seed(seed_bytes[:SubstrateConst.SEED_BYTE_LEN])
-        return cls(priv_key_bytes=priv_key_bytes,
-                   pub_key_bytes=pub_key_bytes,
-                   path=SubstratePath([]),
+        return cls(priv_key=priv_key_bytes,
+                   pub_key=pub_key_bytes,
+                   path=SubstratePath(),
                    coin_conf=SubstrateConst.COIN_TO_CONF[coin_type])
 
     @classmethod
@@ -134,13 +135,13 @@ class Substrate:
 
     @classmethod
     def FromPrivateKey(cls,
-                       key_bytes: bytes,
+                       priv_key: Union[bytes, IPrivateKey],
                        coin_type: SubstrateCoins) -> Substrate:
         """ Create a Substrate object from the specified private key.
 
         Args:
-            key_bytes (bytes)         : Key bytes
-            coin_type (SubstrateCoins): Coin type
+            priv_key (bytes or IPrivateKey): Private key
+            coin_type (SubstrateCoins)     : Coin type
 
         Returns:
             Substrate object: Substrate object
@@ -152,20 +153,20 @@ class Substrate:
         if not isinstance(coin_type, SubstrateCoins):
             raise TypeError("Coin is not an enumerative of SubstrateCoins")
 
-        return cls(priv_key_bytes=key_bytes,
-                   pub_key_bytes=None,
-                   path=SubstratePath([]),
+        return cls(priv_key=priv_key,
+                   pub_key=None,
+                   path=SubstratePath(),
                    coin_conf=SubstrateConst.COIN_TO_CONF[coin_type])
 
     @classmethod
     def FromPublicKey(cls,
-                      key_bytes: bytes,
+                      pub_key: Union[bytes, IPublicKey],
                       coin_type: SubstrateCoins) -> Substrate:
         """ Create a Substrate object from the specified public key.
 
         Args:
-            key_bytes (bytes)         : Key bytes
-            coin_type (SubstrateCoins): Coin type
+            pub_key (bytes or IPublicKey): Public key
+            coin_type (SubstrateCoins)   : Coin type
 
         Returns:
             Substrate object: Substrate object
@@ -177,9 +178,9 @@ class Substrate:
         if not isinstance(coin_type, SubstrateCoins):
             raise TypeError("Coin is not an enumerative of SubstrateCoins")
 
-        return cls(priv_key_bytes=None,
-                   pub_key_bytes=key_bytes,
-                   path=SubstratePath([]),
+        return cls(priv_key=None,
+                   pub_key=pub_key,
+                   path=SubstratePath(),
                    coin_conf=SubstrateConst.COIN_TO_CONF[coin_type])
 
     #
@@ -187,29 +188,37 @@ class Substrate:
     #
 
     def __init__(self,
-                 priv_key_bytes: Optional[bytes],
-                 pub_key_bytes: Optional[bytes],
+                 priv_key: Optional[Union[bytes, IPrivateKey]],
+                 pub_key: Optional[Union[bytes, IPublicKey]],
                  path: SubstratePath,
                  coin_conf: SubstrateCoinConf) -> None:
         """ Construct class from keys.
 
         Args:
-            priv_key_bytes (bytes)              : Private key bytes, if None a public-only object will be created
-            pub_key_bytes (bytes)               : Public key bytes
+            priv_key (bytes or IPrivateKey)     : Private key bytes, if None a public-only object will be created
+            pub_key (bytes or IPublicKey)       : Public key bytes
             path (SubstratePath object)         : Path
             coin_conf (SubstrateCoinConf object): SubstrateCoinConf object
 
         Raises:
             SubstrateKeyError: If one of the key is not valid
         """
-        if priv_key_bytes is not None:
-            self.m_priv_key = SubstratePrivateKey.FromBytes(priv_key_bytes, coin_conf)
-            self.m_pub_key = (SubstratePublicKey.FromBytes(pub_key_bytes, coin_conf)
-                              if pub_key_bytes is not None
-                              else self.m_priv_key.PublicKey())
+        if priv_key is not None:
+            self.m_priv_key = (SubstratePrivateKey.FromBytes(priv_key, coin_conf)
+                               if isinstance(priv_key, bytes)
+                               else SubstratePrivateKey(priv_key, coin_conf))
+
+            if pub_key is None:
+                self.m_pub_key = self.m_priv_key.PublicKey()
+            else:
+                self.m_pub_key = (SubstratePublicKey.FromBytes(pub_key, coin_conf)
+                                  if isinstance(pub_key, bytes)
+                                  else SubstratePublicKey(pub_key, coin_conf))
         else:
             self.m_priv_key = None
-            self.m_pub_key = SubstratePublicKey.FromBytes(pub_key_bytes, coin_conf)
+            self.m_pub_key = (SubstratePublicKey.FromBytes(pub_key, coin_conf)
+                              if isinstance(pub_key, bytes)
+                              else SubstratePublicKey(pub_key, coin_conf))
 
         self.m_path = path
         self.m_coin_conf = coin_conf
@@ -325,8 +334,8 @@ class Substrate:
         else:
             _, pub_key_bytes, priv_key_bytes = sr25519.derive_keypair(ex_key_pair, b"")
 
-        return Substrate(priv_key_bytes=priv_key_bytes,
-                         pub_key_bytes=pub_key_bytes,
+        return Substrate(priv_key=priv_key_bytes,
+                         pub_key=pub_key_bytes,
                          path=self.m_path.AddElem(path_elem),
                          coin_conf=self.m_coin_conf)
 
@@ -350,7 +359,7 @@ class Substrate:
 
         _, pub_key_bytes = sr25519.derive_pubkey(ex_key_pair, b"")
 
-        return Substrate(priv_key_bytes=None,
-                         pub_key_bytes=pub_key_bytes,
+        return Substrate(priv_key=None,
+                         pub_key=pub_key_bytes,
                          path=self.m_path.AddElem(path_elem),
                          coin_conf=self.m_coin_conf)
