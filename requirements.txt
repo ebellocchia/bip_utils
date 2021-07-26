@@ -5,3 +5,4 @@ pycryptodome
 pynacl
 py-sr25519-bindings
 scalecodec
+six>=1.12.0
