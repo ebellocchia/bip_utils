@@ -293,7 +293,7 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         """
 
         # Check here because the library does not raise any exception
-        if len(key_bytes) != cls.Length():
+        if not ed25519_monero_lib.is_valid_priv_key(key_bytes):
             raise ValueError("Invalid private key bytes")
 
         return cls(key_bytes)
