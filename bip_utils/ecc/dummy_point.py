@@ -20,7 +20,7 @@
 
 
 # Imports
-from typing import Any, Optional
+from typing import Any
 from bip_utils.ecc.ikeys import IPoint
 from bip_utils.utils import DataBytes
 

@@ -20,7 +20,7 @@
 
 
 # Imports
-from typing import Any, Optional
+from typing import Any
 import ecdsa
 from ecdsa import curves, ellipticcurve, keys
 from ecdsa.ecdsa import curve_secp256k1

@@ -22,7 +22,7 @@
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Any, Optional
+from typing import Any
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.utils import DataBytes
 

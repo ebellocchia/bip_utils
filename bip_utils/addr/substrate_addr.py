@@ -22,7 +22,7 @@
 # Imports
 from typing import Union
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.ecc import IPublicKey, IPublicKey
+from bip_utils.ecc import IPublicKey
 from bip_utils.ss58 import SS58Encoder
 
 
