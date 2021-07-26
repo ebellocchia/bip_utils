@@ -62,7 +62,7 @@ class SubstratePublicKey:
             TypeError: If the key is not a Sr25519PublicKey object
         """
         if not isinstance(pub_key, Sr25519PublicKey):
-            raise TypeError("Invalid private key object type")
+            raise TypeError("Invalid public key object type")
         self.m_pub_key = pub_key
         self.m_coin_conf = coin_conf
 

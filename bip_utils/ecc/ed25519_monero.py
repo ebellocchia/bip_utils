@@ -37,7 +37,6 @@ class Ed25519MoneroConst:
                                                            Ed25519Const.GENERATOR.Y())
 
 
-
 # Ed25519-Monero curve definition
 Ed25519Monero: EllipticCurve = EllipticCurve(Ed25519MoneroConst.NAME,
                                              Ed25519MoneroConst.CURVE_ORDER,
