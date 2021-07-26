@@ -26,7 +26,7 @@ from bip_utils.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, B
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_path import Bip32Path
 from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
-from bip_utils.ecc import EllipticCurveTypes
+from bip_utils.ecc import EllipticCurveTypes, IPrivateKey
 
 
 class Bip32Ed25519SlipConst:
@@ -115,14 +115,14 @@ class Bip32Ed25519Slip(Bip32Ed25519SlipBase):
 
     @classmethod
     def FromPrivateKey(cls,
-                       key_bytes: bytes,
+                       priv_key: Union[bytes, IPrivateKey],
                        key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
         """ Create a Bip32 object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
         Args:
-            key_bytes (bytes)                            : Key bytes
+            priv_key (bytes or IPrivateKey)              : Private key
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
 
         Returns:
@@ -131,7 +131,7 @@ class Bip32Ed25519Slip(Bip32Ed25519SlipBase):
         Raises:
             Bip32KeyError: If the key is not valid
         """
-        return cls._FromPrivateKey(key_bytes,
+        return cls._FromPrivateKey(priv_key,
                                    key_net_ver,
                                    Bip32Ed25519SlipConst.CURVE_TYPE)
 

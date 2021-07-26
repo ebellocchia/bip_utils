@@ -89,7 +89,7 @@ class Bip32Ed25519SlipBase(Bip32Base):
         i_l, i_r = bip32_obj._HmacHalves(data)
 
         # Construct and return a new Bip32 object
-        return cls(secret=i_l,
+        return cls(key_data=i_l,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),

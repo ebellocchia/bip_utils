@@ -93,10 +93,10 @@ class Bip32EcdsaBase(Bip32Base):
         new_key_int = (i_l_int + key_int) % curve.Order()
 
         # Convert to string and pad with zeros
-        secret = ConvUtils.IntegerToBytes(new_key_int).rjust(curve.PrivateKeyClass().Length(), b"\x00")
+        new_priv_key_bytes = ConvUtils.IntegerToBytes(new_key_int).rjust(curve.PrivateKeyClass().Length(), b"\x00")
 
         # Construct and return a new Bip32 object
-        return cls(secret=secret,
+        return cls(key_data=new_priv_key_bytes,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),
@@ -135,9 +135,8 @@ class Bip32EcdsaBase(Bip32Base):
             pub_key = curve.PublicKeyClass().FromPoint(new_point)
         except ValueError as ex:
             raise Bip32KeyError("Computed public child key is not valid, very unlucky index") from ex
-
         # Construct and return a new Bip32 object
-        return cls(secret=pub_key.RawCompressed().ToBytes(),
+        return cls(key_data=pub_key,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),
