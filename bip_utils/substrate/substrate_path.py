@@ -24,7 +24,7 @@ from __future__ import annotations
 import re
 from functools import lru_cache
 from scalecodec import ScaleDecoder
-from typing import Iterator, List, Union
+from typing import Iterator, List, Sequence, Union
 from bip_utils.substrate.substrate_ex import SubstratePathError
 from bip_utils.utils import CryptoUtils
 
@@ -167,7 +167,7 @@ class SubstratePath:
     """ Substrate path. It represents a Substrate path. """
 
     def __init__(self,
-                 elems: List[Union[str, SubstratePathElem]]) -> None:
+                 elems: Sequence[Union[str, SubstratePathElem]] = []) -> None:
         """ Construct class by specifying the path elements.
 
         Args:

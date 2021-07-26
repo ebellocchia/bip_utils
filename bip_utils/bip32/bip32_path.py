@@ -39,7 +39,7 @@ class Bip32Path:
     """ BIP32 path class. It represents a BIP-0032 path. """
 
     def __init__(self,
-                 elems: List[Union[int, Bip32KeyIndex]]) -> None:
+                 elems: List[Union[int, Bip32KeyIndex]] = []) -> None:
         """ Construct class by specifying the path elements.
 
         Args:
