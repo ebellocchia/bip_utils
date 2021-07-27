@@ -165,7 +165,7 @@ Supported languages (if not specified, the default is English):
 **Code example**
 
     import binascii
-    from bip_utils import Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39Languages
+    from bip_utils import Bip39EntropyBitLen, Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39Languages
 
     # Generate a random mnemonic string of 12 words with default language (English)
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
@@ -194,7 +194,7 @@ Automatic detection takes more time, so if you know the mnemonic language in adv
     from bip_utils import Bip39ChecksumError, Bip39Languages, Bip39MnemonicValidator
 
     # Get back the original entropy from a mnemonic string, specifying the language
-    entropy_bytes = Bip39MnemonicValidator(mnemonic, Bip39Languages.SPANISH).GetEntropy()
+    entropy_bytes = Bip39MnemonicValidator(mnemonic, Bip39Languages.ENGLISH).GetEntropy()
     # Like before with automatic language detection
     entropy_bytes = Bip39MnemonicValidator(mnemonic).GetEntropy()
     # Get if a mnemonic string is valid, return bool
@@ -279,7 +279,11 @@ In addition to a seed, it's also possible to specify a derivation path.
 
 **Code example**
 
+    import binascii
+    from bip_utils import Bip32Secp256k1
+
     # Derivation path returned: m/0'/1'/2
+    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     bip32_ctx = Bip32Secp256k1.FromSeedAndPath(seed_bytes, "m/0'/1'/2")
     # Print private key for derivation path m/0'/1'/2 in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
@@ -329,11 +333,11 @@ Therefore, the returned object will have a depth equal to zero, a zero chain cod
     # Or key object directly (the curve shall match the one of the Bip32 class, otherwise a Bip32KeyError will be raised)
     bip32_ctx = Bip32Secp256k1.FromPrivateKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes))
     # Print keys and data
-    print(bip32_ctx.PrivateKey().Raw().ToBytes())
-    print(bip32_ctx.PublicKey().RawCompressed().ToBytes())
+    print(bip32_ctx.PrivateKey().Raw().ToHex())
+    print(bip32_ctx.PublicKey().RawCompressed().ToHex())
     print(bip32_ctx.Depth().ToInt())
     print(bip32_ctx.ChainCode())
-    print(bip32_ctx.ParentFingerPrint().ToBytes())
+    print(bip32_ctx.ParentFingerPrint().ToHex())
 
 ### Keys derivation
 
@@ -397,11 +401,11 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     print(bytes(bip32_ctx.ParentFingerPrint()))
 
     # Alternative: use DerivePath method
-    bip32_ctx = Bip32.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
     bip32_ctx = bip32_ctx.DerivePath("0'/1'/2/3")
 
     # DerivePath derives from the current depth, so it can be split
-    bip32_ctx = Bip32.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
     bip32_ctx = bip32_ctx.DerivePath("0'/1'")   # Derivation path: m/0'/1'
     bip32_ctx = bip32_ctx.DerivePath("2/3")     # Derivation path: m/0'/1'/2/3
 
@@ -413,6 +417,8 @@ In case of a public-only object, only public derivation will be supported (only 
 
 **Code example**
 
+    from bip_utils import Bip32Secp256k1
+
     # Derive from a public extended key
     key_str = "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"
     bip32_ctx = Bip32Secp256k1.FromExtendedKey(key_str)
@@ -420,15 +426,15 @@ In case of a public-only object, only public derivation will be supported (only 
     # Return true
     print(bip32_ctx.IsPublicOnly())
     # Print public key
-    print(bip32_ctx.PublicKey().Raw().ToHex())
+    print(bip32_ctx.PublicKey().RawCompressed().ToHex())
 
     # Public derivation is used to derive a child key
     bip32_ctx = bip32_ctx.ChildKey(0)
     bip32_ctx = bip32_ctx.DerivePath("1/2")
     # Print key
-    print(bip32_ctx.PublicKey().Raw().ToHex())
+    print(bip32_ctx.PublicKey().RawCompressed().ToHex())
 
-    # Printing the private key will raise a Bip32KeyError
+    # Getting the private key will raise a Bip32KeyError
     print(bip32_ctx.PrivateKey().Raw().ToHex())
     # Deriving with hardened indexes will raise a Bip32KeyError
     bip32_ctx = bip32_ctx.ChildKey(Bip32Utils.HardenIndex(0))
@@ -458,11 +464,11 @@ For example:
 
     # Public derivation, Bip32KeyError is raised
     bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
-    bip32_ctx = bip32_ctx.ConvertToPublic()
+    bip32_ctx.ConvertToPublic()
     bip32_ctx.ChildKey(0)
     # Same as before
     bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0'/1'")
-    bip32_ctx = bip32_ctx.ConvertToPublic()
+    bip32_ctx.ConvertToPublic()
     bip32_ctx.ChildKey(0)
 
     # Not-hardened private key derivation, Bip32KeyError is raised
@@ -590,7 +596,7 @@ A Bip class can be constructed from a seed, like *Bip32*. The seed can be specif
     # Specify seed manually
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Derivation path returned: m
-    bip44_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
+    bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
 
 ### Construction from extended key
 
@@ -604,7 +610,7 @@ The returned Bip object will be at the same depth of the specified key.
     # Private extended key
     key_str = "xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi"
     # Construct from extended key
-    bip44_ctx = Bip44.FromExtendedKey(key_str, Bip44Coins.BITCOIN)
+    bip44_mst_ctx = Bip44.FromExtendedKey(key_str, Bip44Coins.BITCOIN)
 
 ### Construction from private key
 
@@ -618,9 +624,9 @@ Therefore, the returned object will have a depth equal to zero, a zero chain cod
 
     # Construct from private key bytes
     priv_key_bytes = binascii.unhexlify(b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35")
-    bip44_ctx = Bip44.FromPrivateKey(priv_key_bytes, Bip44Coins.BITCOIN)
+    bip44_mst_ctx = Bip44.FromPrivateKey(priv_key_bytes, Bip44Coins.BITCOIN)
     # Or key object directly (the key type shall match the curve used by the coin, otherwise Bip32KeyError will be raised)
-    bip44_ctx = Bip44.FromPrivateKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes), Bip44Coins.BITCOIN)
+    bip44_mst_ctx = Bip44.FromPrivateKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes), Bip44Coins.BITCOIN)
 
 ### Keys derivation
 
@@ -639,56 +645,56 @@ The private and public extended keys can be printed at any level.
 **Code example**
 
     import binascii
-    from bip_utils import Bip44Changes, Bip44Coins, Bip44
+    from bip_utils import Bip44Changes, Bip44Coins, Bip44Levels, Bip44
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Create from seed
-    bip44_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
+    bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
 
     # Print master key in extended format
-    print(bip44_mst.PrivateKey().ToExtended())
+    print(bip44_mst_ctx.PrivateKey().ToExtended())
     # Print master key in hex format
-    print(bip44_mst.PrivateKey().Raw().ToHex())
+    print(bip44_mst_ctx.PrivateKey().Raw().ToHex())
 
     # Print public key in extended format
-    print(bip44_mst.PublicKey().ToExtended())
+    print(bip44_mst_ctx.PublicKey().ToExtended())
     # Print public key in raw uncompressed format
-    print(bip44_mst.PublicKey().RawUncompressed().ToHex())
+    print(bip44_mst_ctx.PublicKey().RawUncompressed().ToHex())
     # Print public key in raw compressed format
-    print(bip44_mst.PublicKey().RawCompressed().ToHex())
+    print(bip44_mst_ctx.PublicKey().RawCompressed().ToHex())
 
     # Print the master key in WIF
-    print(bip44_mst.IsMasterLevel())
-    print(bip44_mst.PrivateKey().ToWif())
+    print(bip44_mst_ctx.IsLevel(Bip44Levels.MASTER))
+    print(bip44_mst_ctx.PrivateKey().ToWif())
 
     # Derive account 0 for Bitcoin: m/44'/0'/0'
-    bip44_acc = bip44_mst.Purpose() \
-                         .Coin()    \
-                         .Account(0)
+    bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
     # Print keys in extended format
-    print(bip44_acc.IsAccountLevel())
-    print(bip44_acc.PrivateKey().ToExtended())
-    print(bip44_acc.PublicKey().ToExtended())
+    print(bip44_acc_ctx.IsLevel(Bip44Levels.ACCOUNT))
+    print(bip44_acc_ctx.PrivateKey().ToExtended())
+    print(bip44_acc_ctx.PublicKey().ToExtended())
     # Address of account level
-    print(bip44_acc.PublicKey().ToAddress())
+    print(bip44_acc_ctx.PublicKey().ToAddress())
 
     # Derive the external chain: m/44'/0'/0'/0
-    bip44_change = bip44_acc.Change(Bip44Changes.CHAIN_EXT)
+    bip44_chg_ctx = bip44_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
     # Print again keys in extended format
-    print(bip44_change.IsChangeLevel())
-    print(bip44_change.PrivateKey().ToExtended())
-    print(bip44_change.PublicKey().ToExtended())
+    print(bip44_chg_ctx.IsLevel(Bip44Levels.CHANGE))
+    print(bip44_chg_ctx.PrivateKey().ToExtended())
+    print(bip44_chg_ctx.PublicKey().ToExtended())
     # Address of change level
-    print(bip44_change.PublicKey().ToAddress())
+    print(bip44_chg_ctx.PublicKey().ToAddress())
 
     # Derive the first 20 addresses of the external chain: m/44'/0'/0'/0/i
     for i in range(20):
-        bip44_addr = bip44_change.AddressIndex(i)
+        bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)
+
+        print(bip44_addr_ctx.IsLevel(Bip44Levels.ADDRESS_INDEX))
         # Print extended keys and address
-        print(bip44_addr.PrivateKey().ToExtended())
-        print(bip44_addr.PublicKey().ToExtended())
-        print(bip44_addr.PublicKey().ToAddress())
+        print(bip44_addr_ctx.PrivateKey().ToExtended())
+        print(bip44_addr_ctx.PublicKey().ToExtended())
+        print(bip44_addr_ctx.PublicKey().ToAddress())
 
 In the example above, Bip44 can be substituted with Bip49 or Bip84 without changing the code.
 
@@ -702,22 +708,22 @@ However, this doesn't apply all coins. For example, Solana uses the following pa
 This can be derived manually, for example:
 
     # Derive m/44'/501'/0'
-    bip44_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA)
-    bip44_acc = bip44_mst.Purpose().Coin().Account(0)
+    bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA)
+    bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
     # Default address generated by the wallet (e.g. TrustWallet): m/44'/501'/0'
-    print(bip44_acc.PublicKey().ToAddress())
+    print(bip44_acc_ctx.PublicKey().ToAddress())
 
 However, in order to avoid remembering the default path for each coin, the *DeriveDefaultPath* method can be used to automatically derive the default path:
 
     # Automatically derive m/44'/501'/0'
-    bip44_def = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).DeriveDefaultPath()
+    bip44_def_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).DeriveDefaultPath()
     # Same as before
-    print(bip44_def.PublicKey().ToAddress())
+    print(bip44_def_ctx.PublicKey().ToAddress())
 
     # Automatically derive m/44'/3'/0'/0/0
-    bip44_def = Bip44.FromSeed(seed_bytes, Bip44Coins.DOGECOIN).DeriveDefaultPath()
+    bip44_def_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.DOGECOIN).DeriveDefaultPath()
     # Same as before
-    print(bip44_def.PublicKey().ToAddress())
+    print(bip44_def_ctx.PublicKey().ToAddress())
 
 ### Polkadot/Kusama addresses generation
 
@@ -752,10 +758,10 @@ Whatever implementation you choose, the Monero private spend key is computed fro
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
 
     # Create BIP44 object and derive default path
-    bip44_def = Bip44.FromSeed(seed_bytes, Bip44Coins.MONERO_ED25519_SLIP).DeriveDefaultPath()
+    bip44_def_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.MONERO_ED25519_SLIP).DeriveDefaultPath()
 
     # Create Monero object from the BIP44 private key -> monero_priv_spend_key = sc_reduce(kekkak256(bip44_priv_key))
-    monero = Monero.FromBip44PrivateKey(bip44_def.PrivateKey().Raw().ToBytes())
+    monero = Monero.FromBip44PrivateKey(bip44_def_ctx.PrivateKey().Raw().ToBytes())
 
     # Print keys
     print(monero.PrivateSpendKey().Raw().ToHex())
@@ -874,16 +880,16 @@ The usage is similar to *Bip32*/*Bip44* module.
     print(substrate_ctx.PrivateKey().Raw().ToBytes())
     print(bytes(substrate_ctx.PrivateKey().Raw()))
     print(substrate_ctx.PrivateKey().Raw().ToHex())
-    print(substrate_ctx.PublicKey().Raw().ToBytes())
-    print(bytes(substrate_ctx.PublicKey().Raw()))
-    print(substrate_ctx.PublicKey().Raw().ToHex())
+    print(substrate_ctx.PublicKey().RawCompressed().ToBytes())
+    print(bytes(substrate_ctx.PublicKey().RawCompressed()))
+    print(substrate_ctx.PublicKey().RawCompressed().ToHex())
     print(substrate_ctx.PublicKey().ToAddress())
 
     # Derive a child key
     substrate_ctx = substrate_ctx.ChildKey("//hard")
     # Print derived keys and address
     print(substrate_ctx.PrivateKey().Raw().ToHex())
-    print(substrate_ctx.PublicKey().Raw().ToHex())
+    print(substrate_ctx.PublicKey().RawCompressed().ToHex())
     print(substrate_ctx.PublicKey().ToAddress())
     # Print path
     print(substrate_ctx.Path().ToStr())
@@ -893,7 +899,7 @@ The usage is similar to *Bip32*/*Bip44* module.
     substrate_ctx = substrate_ctx.DerivePath("//0/1")       # Path: //hard/soft//0/1
     # Print derived keys and address
     print(substrate_ctx.PrivateKey().Raw().ToHex())
-    print(substrate_ctx.PublicKey().Raw().ToHex())
+    print(substrate_ctx.PublicKey().RawCompressed().ToHex())
     print(substrate_ctx.PublicKey().ToAddress())
     # Print path
     print(substrate_ctx.Path().ToStr())
@@ -915,20 +921,20 @@ In case of a public-only object, only public derivation will be supported (only 
     # Return true
     print(substrate_ctx.IsPublicOnly())
     # Print key and address
-    print(substrate_ctx.PublicKey().Raw().ToHex())
+    print(substrate_ctx.PublicKey().RawCompressed().ToHex())
     print(substrate_ctx.PublicKey().ToAddress())
 
     # Public derivation is used to derive a child key
     substrate_ctx = substrate_ctx.ChildKey("/soft")
     # Print key and address
-    print(substrate_ctx.PublicKey().Raw().ToHex())
+    print(substrate_ctx.PublicKey().RawCompressed().ToHex())
     print(substrate_ctx.PublicKey().ToAddress())
     # Print path
     print(substrate_ctx.Path().ToStr())
     # Public derivation is used to derive a path
     substrate_ctx = substrate_ctx.DerivePath("/0/1")
 
-    # Printing the private key will raise a SubstrateKeyError
+    # Getting the private key will raise a SubstrateKeyError
     print(substrate_ctx.PrivateKey().Raw().ToHex())
     # Deriving a hard path will raise a SubstrateKeyError
     substrate_ctx = substrate_ctx.ChildKey("//hard")
@@ -1036,6 +1042,8 @@ A watch-only class can be constructed from the private view key and the public s
                                   Ed25519MoneroPublicKey.FromBytes(pub_skey_bytes))
     # Return true
     print(monero.IsWatchOnly())
+    # Getting the private spend key will raise a MoneroKeyError
+    print(substrate_ctx.PrivateKey().Raw().ToHex())
 
 ### Example of usage
 
@@ -1157,12 +1165,12 @@ These libraries are used internally by the other libraries, but they are availab
     #
 
     # Public key bytes or a public key object can be used
-    pub_skey = binascii.unhexlify(b"00a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422")
-    pub_skey = Ed25519MoneroPublicKey.FromBytes(binascii.unhexlify(b"00a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422"))
-    pub_vkey = binascii.unhexlify(b"00dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5")
-    pub_vkey = Ed25519MoneroPublicKey.FromBytes(binascii.unhexlify(b"00dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5"))
+    pub_skey = binascii.unhexlify(b"a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422")
+    pub_skey = Ed25519MoneroPublicKey.FromBytes(binascii.unhexlify(b"a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422"))
+    pub_vkey = binascii.unhexlify(b"dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5")
+    pub_vkey = Ed25519MoneroPublicKey.FromBytes(binascii.unhexlify(b"dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5"))
 
-    # Nano address
+    # Monero address
     addr = XmrAddr.EncodeKey(pub_skey, pub_vkey, b"\x12")
 
     #
@@ -1196,7 +1204,7 @@ This library is used internally by the other modules, but it's available also fo
     import binascii
     from bip_utils import Secp256k1PrivateKey, WifDecoder, WifEncoder
 
-    # You can use private key bytes or a private key object
+    # Private key bytes or a private key object can be used
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
     priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
@@ -1213,7 +1221,7 @@ It supports both normal encode/decode and check_encode/check_decode with Bitcoin
 **Code example**
 
     import binascii
-    from bip_utils import Base58ChecksumError, Base58Alphabets, Base58Decoder, Base58Encoder, Base58XmrDecoder, Base58XmrEncoder
+    from bip_utils import Base58Alphabets, Base58Decoder, Base58Encoder, Base58XmrDecoder, Base58XmrEncoder
 
     data_bytes = binascii.unhexlify(b"636363")
 
@@ -1237,6 +1245,23 @@ It supports both normal encode/decode and check_encode/check_decode with Bitcoin
     enc = Base58XmrEncoder.Encode(data_bytes)
     dec = Base58XmrDecoder.Decode(enc)
 
+## SS58
+
+This library is used internally by the other modules, but it's available also for external use.\
+It allows encoding/deconding in SS58 format (2-byte checksum).
+
+**Code example**
+
+    import binascii
+    from bip_utils import SS58Decoder, SS58Encoder
+
+    data_bytes = binascii.unhexlify(b"e92b4b43a62fa66293f315486d66a67076e860e2aad76acb8e54f9bb7c925cd9")
+
+    # Encode
+    enc = SS58Encoder.Encode(data_bytes, 0)
+    # Decode
+    ss58_format, dec = SS58Decoder.Decode(enc)
+
 ## Bech32
 
 This library is used internally by the other modules, but it's available also for external use.
@@ -1245,7 +1270,7 @@ This library is used internally by the other modules, but it's available also fo
 
     import binascii
     from bip_utils import (
-        Bech32Decoder, Bech32Encoder BchBech32Encoder, BchBech32Decoder, SegwitBech32Decoder, SegwitBech32Encoder
+        Bech32Decoder, Bech32Encoder, BchBech32Encoder, BchBech32Decoder, SegwitBech32Decoder, SegwitBech32Encoder
     )
 
     data_bytes = binascii.unhexlify(b'9c90f934ea51fa0f6504177043e0908da6929983')
@@ -1265,53 +1290,140 @@ This library is used internally by the other modules, but it's available also fo
     # Decode with BCH bech32
     net_ver, dec = BchBech32Decoder.Decode("bitcoincash", enc)
 
-## SS58
+## Code examples
 
-This library is used internally by the other modules, but it's available also for external use.\
-It allows encoding/deconding in SS58 format (2-byte checksum).
+Some examples from mnemonic generation to wallet addresses.
 
-**Code example**
+**BIP44**
 
-    import binascii
-    from bip_utils import SS58Decoder, SS58Encoder
-
-    data_bytes = binascii.unhexlify(b"e92b4b43a62fa66293f315486d66a67076e860e2aad76acb8e54f9bb7c925cd9")
-
-    # Encode
-    enc = SS58Encoder.Encode(data_bytes, 0)
-    # Decode
-    ss58_format, dec = SS58Decoder.Decode(enc)
-
-## Complete code example
-
-Example from mnemonic generation to wallet addresses.
-
-    from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip44Coins, Bip44
+    from bip_utils import (
+        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip44Coins, Bip44
+    )
 
     # Generate random mnemonic
-    mnemonic = Bip39MnemonicGenerator.FromWordsNumber(12)
+    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
     print("Mnemonic string: %s" % mnemonic)
     # Generate seed from mnemonic
     seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
-    # Generate BIP44 master keys
-    bip_obj_mst = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
+    # Construct from seed
+    bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
     # Print master key
-    print("Master key (bytes): %s" % bip_obj_mst.PrivateKey().Raw().ToHex())
-    print("Master key (extended): %s" % bip_obj_mst.PrivateKey().ToExtended())
-    print("Master key (WIF): %s" % bip_obj_mst.PrivateKey().ToWif())
+    print("Master key (bytes): %s" % bip44_mst_ctx.PrivateKey().Raw().ToHex())
+    print("Master key (extended): %s" % bip44_mst_ctx.PrivateKey().ToExtended())
+    print("Master key (WIF): %s" % bip44_mst_ctx.PrivateKey().ToWif())
 
     # Generate BIP44 account keys: m/44'/0'/0'
-    bip_obj_acc = bip_obj_mst.Purpose().Coin().Account(0)
+    bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
     # Generate BIP44 chain keys: m/44'/0'/0'/0
-    bip_obj_chain = bip_obj_acc.Change(Bip44Changes.CHAIN_EXT)
+    bip44_chg_ctx = bip44_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
 
-    # Generate the address pool (first 20 addresses): m/44'/0'/0'/0/i
-    for i in range(20):
-        bip_obj_addr = bip_obj_chain.AddressIndex(i)
-        print("%d. Address public key (extended): %s" % (i, bip_obj_addr.PublicKey().ToExtended()))
-        print("%d. Address private key (extended): %s" % (i, bip_obj_addr.PrivateKey().ToExtended()))
-        print("%d. Address: %s" % (i, bip_obj_addr.PublicKey().ToAddress()))
+    # Generate the first 10 addresses: m/44'/0'/0'/0/i
+    for i in range(10):
+        bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)
+        print("%d. Address public key (extended): %s" % (i, bip44_addr_ctx.PublicKey().ToExtended()))
+        print("%d. Address private key (extended): %s" % (i, bip44_addr_ctx.PrivateKey().ToExtended()))
+        print("%d. Address: %s" % (i, bip44_addr_ctx.PublicKey().ToAddress()))
+
+**Substrate based on BIP44**
+
+    from bip_utils import (
+        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip44Coins, Bip44
+    )
+
+    # Generate random mnemonic
+    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+    print("Mnemonic string: %s" % mnemonic)
+    # Generate seed from mnemonic
+    seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
+
+    # Construct from seed
+    bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.POLKADOT_ED25519_SLIP)
+    # Print master key
+    print("Master key (bytes): %s" % bip44_mst_ctx.PrivateKey().Raw().ToHex())
+    print("Master key (extended): %s" % bip44_mst_ctx.PrivateKey().ToExtended())
+
+    # Derive default path
+    bip_obj_def = bip44_mst_ctx.DeriveDefaultPath()
+    # Print default keys and address
+    print("Default public key (extended): %s" % bip_obj_def.PublicKey().ToExtended())
+    print("Default private key (extended): %s" % bip_obj_def.PrivateKey().ToExtended())
+    print("Default address: %s" % bip_obj_def.PublicKey().ToAddress())
+
+**Substrate**
+
+    import binascii
+    from bip_utils import (
+        Bip39WordsNum, Bip39MnemonicGenerator, SubstrateBip39SeedGenerator, SubstrateCoins, Substrate
+    )
+
+    # Generate random mnemonic
+    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+    print("Mnemonic string: %s" % mnemonic)
+    # Generate seed from mnemonic
+    seed_bytes = SubstrateBip39SeedGenerator(mnemonic).Generate()
+
+    # Construct from seed
+    substrate_ctx = Substrate.FromSeed(seed_bytes, SubstrateCoins.POLKADOT)
+    # Print master keys and address
+    print("Master private key (bytes): %s" % substrate_ctx.PrivateKey().Raw().ToHex())
+    print("Master public  key (bytes): %s" % substrate_ctx.PublicKey().RawCompressed().ToHex())
+    print("Address: %s" % substrate_ctx.PublicKey().ToAddress())
+
+    # Derive a child key
+    substrate_ctx = substrate_ctx.ChildKey("//hard")
+    # Print derived keys and address
+    print("Derived private key (bytes): %s" % substrate_ctx.PrivateKey().Raw().ToHex())
+    print("Derived public  key (bytes): %s" % substrate_ctx.PublicKey().RawCompressed().ToHex())
+    print("Derived address: %s" % substrate_ctx.PublicKey().ToAddress())
+    # Print path
+    print("Path: %s" % substrate_ctx.Path().ToStr())
+
+    # Derive a path
+    substrate_ctx = substrate_ctx.DerivePath("//0/1")
+    # Print derived keys and address
+    print("Derived private key (bytes): %s" % substrate_ctx.PrivateKey().Raw().ToHex())
+    print("Derived public  key (bytes): %s" % substrate_ctx.PublicKey().RawCompressed().ToHex())
+    print("Derived address: %s" % substrate_ctx.PublicKey().ToAddress())
+    # Print path
+    print("Path: %s" % substrate_ctx.Path().ToStr())
+
+**Monero based on BIP44**
+
+    from bip_utils import (
+        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip44Coins, Bip44, Monero
+    )
+
+    # Generate random mnemonic
+    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+    print("Mnemonic string: %s" % mnemonic)
+    # Generate seed from mnemonic
+    seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
+
+    # Construct from seed
+    bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.MONERO_ED25519_SLIP)
+    # Print master key
+    print("Master key (bytes): %s" % bip44_mst_ctx.PrivateKey().Raw().ToHex())
+    print("Master key (extended): %s" % bip44_mst_ctx.PrivateKey().ToExtended())
+
+    # Derive default path
+    bip44_def_ctx = bip44_mst_ctx.DeriveDefaultPath()
+
+    # Create Monero object from the BIP44 private key
+    monero = Monero.FromBip44PrivateKey(bip44_def_ctx.PrivateKey().Raw().ToBytes())
+
+    # Print keys
+    print("Monero private spend key: %s" % monero.PrivateSpendKey().Raw().ToHex())
+    print("Monero private view key: %s" % monero.PrivateViewKey().Raw().ToHex())
+    print("Monero public spend key: %s" % monero.PublicSpendKey().RawCompressed().ToHex())
+    print("Monero public view key: %s" % monero.PublicViewKey().RawCompressed().ToHex())
+
+    # Print primary address
+    print("Monero primary address: %s" % monero.PrimaryAddress())
+    # Print the first 5 subaddresses for account 0 and 1
+    for acc_idx in range(2):
+        for subaddr_idx in range(5):
+            print("Subaddress (account: %d, %d): %s" % (acc_idx, subaddr_idx, monero.SubAddress(subaddr_idx, acc_idx)))
 
 # Future steps
 
