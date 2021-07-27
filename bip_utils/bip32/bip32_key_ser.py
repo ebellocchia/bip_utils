@@ -48,7 +48,7 @@ class Bip32KeyDeserializer:
         """
 
         self.m_key_str = key_str
-        self.m_secret = b""
+        self.m_key_bytes = b""
         self.m_is_public = False
         self.m_key_data = None
 
@@ -61,14 +61,14 @@ class Bip32KeyDeserializer:
         """
 
         # Decode key
-        key_bytes = Base58Decoder.CheckDecode(self.m_key_str)
+        ex_key_bytes = Base58Decoder.CheckDecode(self.m_key_str)
 
         # Check length
-        if len(key_bytes) != Bip32KeyDeserConst.EXTENDED_KEY_BYTE_LEN:
-            raise Bip32KeyError("Invalid extended key (wrong length: %d)" % len(key_bytes))
+        if len(ex_key_bytes) != Bip32KeyDeserConst.EXTENDED_KEY_BYTE_LEN:
+            raise Bip32KeyError("Invalid extended key (wrong length: %d)" % len(ex_key_bytes))
 
         # Get if key is public/private depending on net version
-        key_net_ver_got = key_bytes[:KeyNetVersions.Length()]
+        key_net_ver_got = ex_key_bytes[:KeyNetVersions.Length()]
         if key_net_ver_got == key_net_ver.Public():
             self.m_is_public = True
         elif key_net_ver_got == key_net_ver.Private():
@@ -77,11 +77,11 @@ class Bip32KeyDeserializer:
             raise Bip32KeyError("Invalid extended key (wrong net version: %r)" % key_net_ver_got)
 
         # De-serialize key
-        depth = key_bytes[4]
-        fprint = key_bytes[5:9]
-        index = ConvUtils.BytesToInteger(key_bytes[9:13])
-        chain_code = key_bytes[13:45]
-        self.m_secret = key_bytes[45:78]
+        depth = ex_key_bytes[4]
+        fprint = ex_key_bytes[5:9]
+        index = ConvUtils.BytesToInteger(ex_key_bytes[9:13])
+        chain_code = ex_key_bytes[13:45]
+        self.m_key_bytes = ex_key_bytes[45:78]
         self.m_key_data = Bip32KeyData(key_net_ver,
                                        Bip32Depth(depth),
                                        Bip32KeyIndex(index),
@@ -94,7 +94,7 @@ class Bip32KeyDeserializer:
         Returns:
             tuple: Deserialized key parts
         """
-        return self.m_secret, self.m_key_data
+        return self.m_key_bytes, self.m_key_data
 
     def IsPublic(self) -> bool:
         """ Get if deserialized key is public.
