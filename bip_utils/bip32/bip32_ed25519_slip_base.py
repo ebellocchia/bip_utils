@@ -89,13 +89,13 @@ class Bip32Ed25519SlipBase(Bip32Base):
         i_l, i_r = bip32_obj._HmacHalves(data)
 
         # Construct and return a new Bip32 object
-        return cls(key_data=i_l,
+        return cls(priv_key=i_l,
+                   pub_key=None,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),
                    index=index,
                    fprint=bip32_obj.m_pub_key.FingerPrint(),
-                   is_public=False,
                    key_net_ver=bip32_obj.KeyNetVersions())
 
     def _CkdPub(self,

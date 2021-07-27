@@ -22,6 +22,7 @@
 # Imports
 from __future__ import annotations
 from functools import lru_cache
+from typing import Union
 from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
 from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
@@ -33,6 +34,28 @@ class Bip32PublicKey:
     """ BIP32 public key class.
     It represents a public key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
+
+    @classmethod
+    def FromBytesOrKeyObject(cls,
+                             pub_key: Union[bytes, IPublicKey],
+                             key_data: Bip32KeyData,
+                             curve_type: EllipticCurveTypes) -> Bip32PublicKey:
+        """ Get the public key from key bytes or object.
+
+        Args:
+            pub_key (bytes or IPublicKey)  : Public key
+            key_data (Bip32KeyData object) : Key data
+            curve_type (EllipticCurveTypes): Elliptic curve type
+
+        Returns:
+            Bip32PublicKey object: Bip32PublicKey object
+
+        Raises:
+            Bip32KeyError: If the key constructed from the bytes is not valid
+        """
+        return (cls.FromBytes(pub_key, key_data, curve_type)
+                if isinstance(pub_key, bytes)
+                else cls(pub_key, key_data))
 
     @classmethod
     def FromBytes(cls,
@@ -168,6 +191,28 @@ class Bip32PrivateKey:
     """ BIP32 private key class.
     It represents a private key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
+
+    @classmethod
+    def FromBytesOrKeyObject(cls,
+                             priv_key: Union[bytes, IPrivateKey],
+                             key_data: Bip32KeyData,
+                             curve_type: EllipticCurveTypes) -> Bip32PrivateKey:
+        """ Get the public key from key bytes or object.
+
+        Args:
+            priv_key (bytes or IPrivateKey): Private key
+            key_data (Bip32KeyData object) : Key data
+            curve_type (EllipticCurveTypes): Elliptic curve type
+
+        Returns:
+            Bip32PrivateKey object: Bip32PrivateKey object
+
+        Raises:
+            Bip32KeyError: If the key constructed from the bytes is not valid
+        """
+        return (cls.FromBytes(priv_key, key_data, curve_type)
+                if isinstance(priv_key, bytes)
+                else cls(priv_key, key_data))
 
     @classmethod
     def FromBytes(cls,

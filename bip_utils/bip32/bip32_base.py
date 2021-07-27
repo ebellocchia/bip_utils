@@ -24,7 +24,7 @@
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Union, Tuple
+from typing import Optional, Union, Tuple
 from bip_utils.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip32.bip32_key_data import Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
@@ -96,7 +96,8 @@ class Bip32Base(ABC):
                 hmac_data = hmac
 
         # Create BIP32 by splitting the HMAC into two 32-byte sequences
-        return cls(key_data=hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN],
+        return cls(priv_key=hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN],
+                   pub_key=None,
                    chain_code=hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:],
                    curve_type=curve_type,
                    key_net_ver=key_net_ver)
@@ -153,7 +154,7 @@ class Bip32Base(ABC):
         key_deser = Bip32KeyDeserializer(key_str)
         key_deser.DeserializeKey(key_net_ver)
         # Get key parts
-        secret, key_data = key_deser.GetKeyParts()
+        key_bytes, key_data = key_deser.GetKeyParts()
         is_public = key_deser.IsPublic()
 
         # If depth is zero, fingerprint shall be the master one and child index shall be zero
@@ -165,17 +166,20 @@ class Bip32Base(ABC):
 
         # If private key, the first byte shall be zero and shall be removed
         if not is_public:
-            if secret[0] != 0:
-                raise Bip32KeyError("Invalid extended key (wrong secret)")
-            secret = secret[1:]
+            if key_bytes[0] != 0:
+                raise Bip32KeyError("Invalid extended private key (wrong secret)")
+            key_bytes = key_bytes[1:]
 
-        return cls(key_data=secret,
+        priv_key_bytes = key_bytes if not is_public else None
+        pub_key_bytes = key_bytes if is_public else None
+
+        return cls(priv_key=priv_key_bytes,
+                   pub_key=pub_key_bytes,
                    chain_code=key_data.ChainCode(),
                    curve_type=curve_type,
                    depth=key_data.Depth(),
                    index=key_data.Index(),
                    fprint=key_data.ParentFingerPrint(),
-                   is_public=is_public,
                    key_net_ver=key_data.KeyNetVersions())
 
     @classmethod
@@ -198,10 +202,10 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
-        return cls(key_data=priv_key,
+        return cls(priv_key=priv_key,
+                   pub_key=None,
                    chain_code=b"\x00" * Bip32BaseConst.HMAC_HALF_BYTE_LEN,
                    curve_type=curve_type,
-                   is_public=False,
                    key_net_ver=key_net_ver)
 
     #
@@ -209,60 +213,56 @@ class Bip32Base(ABC):
     #
 
     def __init__(self,
-                 key_data: Union[bytes, IPrivateKey, IPublicKey],
+                 priv_key: Optional[Union[bytes, IPrivateKey]],
+                 pub_key: Optional[Union[bytes, IPublicKey]],
                  chain_code: bytes,
                  curve_type: EllipticCurveTypes,
                  depth: Bip32Depth = Bip32Depth(0),
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
                  fprint: Bip32FingerPrint = Bip32FingerPrint(),
-                 is_public: bool = False,
                  key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> None:
         """ Construct class.
 
         Args:
-            key_data (bytes or IPrivateKey or IPublicKey): Key data
+            priv_key (bytes or IPrivateKey)              : Private key (if None, a public-only object will be created)
+            pub_key (bytes or IPublicKey)                : Public key (only needed for a public-only object)
+                                                           If priv_key is not None, it'll be discarded
             chain_code (bytes)                           : 32-byte representation of the chain code
             curve_type (EllipticCurveTypes)              : Elliptic curve type
             depth (Bip32Depth object, optional)          : Child depth, parent increments its own by one when
                                                            assigning this (default: 0)
             index (Bip32KeyIndex object, optional)       : Child index (default: 0)
             fprint (Bip32FingerPrint object, optional)   : Parent fingerprint (default: master key)
-            is_public (bool, optional)                   : If true, this keypair will only contain a public key and can
-                                                           only create a public key chain  (default: false)
             key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net by default)
 
         Raises:
             Bip32KeyError: If the constructed key is not valid
         """
+        curve = EllipticCurveGetter.FromType(curve_type)
 
-        # Check key type if a key object is provided
-        if not isinstance(key_data, bytes):
-            curve = EllipticCurveGetter.FromType(curve_type)
-            if not is_public and not isinstance(key_data, curve.PrivateKeyClass()):
+        # Check that key type matches the Bip curve, if a key object is provided
+        if priv_key is not None:
+            if not isinstance(priv_key, bytes) and not isinstance(priv_key, curve.PrivateKeyClass()):
                 raise Bip32KeyError("Invalid private key class, a %s key is required" % curve.Name())
-            elif is_public and not isinstance(key_data, curve.PublicKeyClass()):
+        if pub_key is not None:
+            if not isinstance(pub_key, bytes) and not isinstance(pub_key, curve.PublicKeyClass()):
                 raise Bip32KeyError("Invalid public key class, a %s key is required" % curve.Name())
 
-        # Construct class
-        if not is_public:
-            if isinstance(key_data, bytes):
-                self.m_priv_key = Bip32PrivateKey.FromBytes(key_data,
-                                                            Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
-                                                            curve_type)
-            else:
-                self.m_priv_key = Bip32PrivateKey(key_data,
-                                                  Bip32KeyData(key_net_ver, depth, index, chain_code, fprint))
+        # Key data
+        key_data = Bip32KeyData(key_net_ver, depth, index, chain_code, fprint)
+
+        # Private key object
+        if priv_key is not None:
+            self.m_priv_key = Bip32PrivateKey.FromBytesOrKeyObject(priv_key,
+                                                                   key_data,
+                                                                   curve_type)
             self.m_pub_key = self.m_priv_key.PublicKey()
+        # Public-only object
         else:
             self.m_priv_key = None
-
-            if isinstance(key_data, bytes):
-                self.m_pub_key = Bip32PublicKey.FromBytes(key_data,
-                                                          Bip32KeyData(key_net_ver, depth, index, chain_code, fprint),
-                                                          curve_type)
-            else:
-                self.m_pub_key = Bip32PublicKey(key_data,
-                                                Bip32KeyData(key_net_ver, depth, index, chain_code, fprint))
+            self.m_pub_key = Bip32PublicKey.FromBytesOrKeyObject(pub_key,
+                                                                 key_data,
+                                                                 curve_type)
 
     def ChildKey(self,
                  index: Union[int, Bip32KeyIndex]) -> Bip32Base:

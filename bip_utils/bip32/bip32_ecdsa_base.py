@@ -96,13 +96,13 @@ class Bip32EcdsaBase(Bip32Base):
         new_priv_key_bytes = ConvUtils.IntegerToBytes(new_key_int).rjust(curve.PrivateKeyClass().Length(), b"\x00")
 
         # Construct and return a new Bip32 object
-        return cls(key_data=new_priv_key_bytes,
+        return cls(priv_key=new_priv_key_bytes,
+                   pub_key=None,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),
                    index=index,
                    fprint=bip32_obj.m_pub_key.FingerPrint(),
-                   is_public=False,
                    key_net_ver=bip32_obj.KeyNetVersions())
 
     @classmethod
@@ -136,11 +136,11 @@ class Bip32EcdsaBase(Bip32Base):
         except ValueError as ex:
             raise Bip32KeyError("Computed public child key is not valid, very unlucky index") from ex
         # Construct and return a new Bip32 object
-        return cls(key_data=pub_key,
+        return cls(priv_key=None,
+                   pub_key=pub_key,
                    chain_code=i_r,
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),
                    index=index,
                    fprint=bip32_obj.m_pub_key.FingerPrint(),
-                   is_public=True,
                    key_net_ver=bip32_obj.KeyNetVersions())
