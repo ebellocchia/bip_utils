@@ -172,7 +172,7 @@ TEST_VECT = [
 
 
 #
-# Bip32Ed25519Blake2bSlip tests
+# Tests
 #
 class Bip32Ed25519Blake2bSlipTests(unittest.TestCase):
     # Tets supported derivation

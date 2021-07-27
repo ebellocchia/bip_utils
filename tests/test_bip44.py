@@ -676,6 +676,54 @@ TEST_VECT = [
             "LiNDwbwBhX9djY7tb3gWvrXjuWQNerLjnP",
         ],
     },
+    # Monero (ed25519 SLIP-0010)
+    {
+        "coin": Bip44Coins.MONERO_ED25519_SLIP,
+        "names": ("Monero", "XMR"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CCZuih1gfVKndnKAYqdsJPUYkDBmpP4M28UmEJP9j121M6c82dcvPddRhESuNfwrVF545JHzysHeNeSmqfC9A33w8TsnghkWwEADUq1n9p",
+            "ex_priv": "xprv9yDDWDA7rHw2a9hr4XJdWASjziNhNMfCyoCsxqtmbPU38YmTaVKNNbK9aWnR9DznrjqPwy9bQVNJdG6Vw772wHqP8Fs4imvyuXEu3icrEvV",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6F8c8xNKr6W8NBjeC1eu4E1gYQEJpQY4ZX3HLdqXmuqPJ7jeqgKtRawN7sAdi8fEL1yBXYQ2Lvpoa4gacZ2x6X3o1ZEavuh3Mr8UdtJ1fW6",
+            "ex_priv": "xprvA29FjSqS1iwq9hfB5z7th64wzNPpQwpDCJ7gYFRvDaJQRKQWJ91dsnctGhEhoYFmgxwtoY4nUWHBbjiZLc3ptcqdAr9vyYBKcAvq2PSuxsA",
+        },
+        "addresses": [
+            "48wpY5S7Ksq18DtvSaomPqEkFHueWCXcK7Cj2iiKRDXP65BWToZKj1ZgVzhG5Ngusy53b8q5xYwYaXepz4WXPTQ5ChJAe9n",
+            "43kepnmL2XnCe9NaMKNx9WSSbwVaDXsQGLpuTzppH5cXcSvLvckQ12tffpyht12F79aJhWU4mAmEmDQCyh6Pccid4A5d1d2",
+            "4551j15NFTQJkVKBHZdFQaMz1nDZHtTPZ683SHmXa4NUjn1bty9zfXfUTqsmByvZ7K6rSXPwXkTaEAK54tb3rvYC2KLVaL8",
+            "46vXBjvxdbM78LRncwPpsLbFR3Qnyf8kUEsu2MSf899eaU9pTKkEiknhCsXCp3u3zfECmMBqYL87uEvnoA4M6hX9QywR61A",
+            "48X4rKu5aeKFvLqrv3KmRV3XK7k9CdekAWvduncUoUXnGXEmjtESoG6aVtDHTkUU4pBN6WKbVjhrk5SVjCChH1iqSoWLs9W",
+        ],
+    },
+    # Monero (secp256k1)
+    {
+        "coin": Bip44Coins.MONERO_SECP256K1,
+        "names": ("Monero", "XMR"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CfKT2U2oQBrL46KxcvSqN68vocGJYBaCr9eErhXNjaBnWG8GDSjtsZCkkxfqTrJyRvefgAN1mUwZ6jTbdEZJZJVc19zvgk2N3FfoJ7xt79",
+            "ex_priv": "xprv9yfy3Ww8y2dZ7a1rrbPSUE9QNmmmu5TiqdE3SUHupQ3Cuhvyig8VM5EiuSsqmH2chuL5ftifzieRdRPpgGm69UzGJnJKW1RTcJC1S2AN8KX",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6ESWbwNkHZkTnFEHEmoqK9NwNw3sJRgdP8dgDAnVdwrr198h2x3cc4qE6JX9i6SX4T1k5n7YxpGNmXBCdKHF2Af5arpBwdqzeZk3CtAudSe",
+            "ex_priv": "xprvA1TACRqrTCCAZm9p8kGpx1SCpuDNtxxn1ui5QnNt5cKs8LoYVQjN4GWkF2LimJRvk9U4zDh62CoJiw73MAZ7rfTycXxLnH7m5kZrsD88tyS",
+        },
+        "addresses": [
+            "49vDbkSo7eve3J41sBdjvjaBUyz8qHohsQcGtRf63qEUTMBvmA45fpp5pSacMdSg7A3b71RejLzB8EkGbfjp5PELVF2N4Zn",
+            "43zMkXAq58qSDPMgrQUmoJ95nZrBC8fxXfLFxzx3VNwUeVBDFAKFthSNYb6SdHunWJGGpDupzi8u4d26oVvLXyGw8wwC8A4",
+            "43saSi9Dks9YV8YyacmZQQJdMBKY9nbEsRvaK3roJB4LPgJUNviVCoH1WBYLCuoxBsFJjsrPf5h4GHCdhVVVbWCJQdscKeN",
+            "4ATV7ushExTh5jmdJcAUEo8WS7BcpZp93WG4mGebJgfscE4WCizMCFWSad27gXmAyJGTXdwnyPQ2URHuo9UrTuV4SxFoLtA",
+            "45owUkS3J6B5mYs6knc7ZBBG4fCiiX672BgrK2AA75zEAMryFmKnz7s63eHA96fo8aVAUigtmRj7Z4V9bK4fkAab23QGme3",
+        ],
+    },
     # Nano
     {
         "coin": Bip44Coins.NANO,
@@ -1084,7 +1132,7 @@ TEST_VECT = [
             "t1QAU8388aa3G9DXnbGSverQoEoz3WeGEiy",
         ],
     },
-    # Zcash
+    # Zilliqa
     {
         "coin": Bip44Coins.ZILLIQA,
         "names": ("Zilliqa", "ZIL"),
@@ -1454,6 +1502,18 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.LITECOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "LUWPbpM43E2p7ZSh8cyTBEkvpHmr3cB8Ez",
+    },
+    # Monero (ed25519 SLIP-0010)
+    {
+        "coin": Bip44Coins.MONERO_ED25519_SLIP,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "48wpY5S7Ksq18DtvSaomPqEkFHueWCXcK7Cj2iiKRDXP65BWToZKj1ZgVzhG5Ngusy53b8q5xYwYaXepz4WXPTQ5ChJAe9n",
+    },
+    # Monero (secp256k1)
+    {
+        "coin": Bip44Coins.MONERO_SECP256K1,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "49vDbkSo7eve3J41sBdjvjaBUyz8qHohsQcGtRf63qEUTMBvmA45fpp5pSacMdSg7A3b71RejLzB8EkGbfjp5PELVF2N4Zn",
     },
     # Nano
     {

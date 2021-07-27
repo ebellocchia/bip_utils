@@ -186,7 +186,7 @@ TEST_VECT_EX_KEY_ERR = [
 
 
 #
-# Bip32Ed25519Slip tests
+# Tests
 #
 class Bip32Ed25519SlipTests(unittest.TestCase):
     # Tets supported derivation

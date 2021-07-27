@@ -237,7 +237,7 @@ TEST_VECT_EX_KEY_ERR = [
 
 
 #
-# Bip32Secp256k1 tests
+# Tests
 #
 class Bip32Secp256k1Tests(unittest.TestCase):
     # Tets supported derivation

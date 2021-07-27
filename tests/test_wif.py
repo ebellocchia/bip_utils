@@ -26,7 +26,7 @@ from bip_utils import (
     Bip44BitcoinMainNet, Bip44BitcoinTestNet, Bip44DashMainNet, Bip44DashTestNet,
     Bip44DogecoinMainNet, Bip44DogecoinTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
     WifDecoder, WifEncoder, Base58ChecksumError,
-    Ed25519PrivateKey, Ed25519Blake2bPrivateKey, Nist256p1PrivateKey, Secp256k1PrivateKey, Sr25519PrivateKey
+    Secp256k1PrivateKey
 )
 from .test_ecc import (
     TEST_VECT_SECP256K1_PRIV_KEY_INVALID,

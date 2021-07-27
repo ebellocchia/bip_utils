@@ -22,13 +22,11 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import (
-    TrxAddr,
-    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
-)
+from bip_utils import TrxAddr, Secp256k1PublicKey
 from .test_ecc import (
     TEST_VECT_SECP256K1_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
+    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
+    TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
 )
 
 # Some random public keys
@@ -74,6 +72,7 @@ class TrxAddrTests(unittest.TestCase):
         # Test with invalid key types
         self.assertRaises(TypeError, TrxAddr.EncodeKey, TEST_ED25519_PUB_KEY)
         self.assertRaises(TypeError, TrxAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
+        self.assertRaises(TypeError, TrxAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
         self.assertRaises(TypeError, TrxAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
         self.assertRaises(TypeError, TrxAddr.EncodeKey, TEST_SR25519_PUB_KEY)
 

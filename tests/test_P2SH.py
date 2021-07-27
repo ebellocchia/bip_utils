@@ -26,12 +26,12 @@ from bip_utils import (
     Bip49BitcoinMainNet, Bip49BitcoinTestNet, Bip49BitcoinSvMainNet, Bip49BitcoinSvTestNet, Bip49BitcoinCashMainNet, Bip49BitcoinCashTestNet,
     Bip49DashMainNet, Bip49DashTestNet, Bip49DogecoinMainNet, Bip49DogecoinTestNet, Bip49LitecoinMainNet, Bip49LitecoinTestNet,
     Bip49ZcashMainNet, Bip49ZcashTestNet,
-    P2SHAddr, BchP2SHAddr,
-    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
+    P2SHAddr, BchP2SHAddr, Secp256k1PublicKey
 )
 from .test_ecc import (
     TEST_VECT_SECP256K1_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
+    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
+    TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
 )
 
 # Some random public keys
@@ -191,11 +191,13 @@ class P2SHTests(unittest.TestCase):
         # Test with invalid key types
         self.assertRaises(TypeError, P2SHAddr.EncodeKey, TEST_ED25519_PUB_KEY)
         self.assertRaises(TypeError, P2SHAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
+        self.assertRaises(TypeError, P2SHAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
         self.assertRaises(TypeError, P2SHAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
         self.assertRaises(TypeError, P2SHAddr.EncodeKey, TEST_SR25519_PUB_KEY)
 
         self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, TEST_ED25519_PUB_KEY, "", b"\x00")
         self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, "", b"\x00")
+        self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, "", b"\x00")
         self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, "", b"\x00")
         self.assertRaises(TypeError, BchP2SHAddr.EncodeKey, TEST_SR25519_PUB_KEY, "", b"\x00")
 

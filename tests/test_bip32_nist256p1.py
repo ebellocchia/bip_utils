@@ -203,7 +203,7 @@ TEST_RETRY_SEED = {
 
 
 #
-# Bip32Nist256p1 tests
+# Tests
 #
 class Bip32Nist256p1Tests(unittest.TestCase):
     # Tets supported derivation

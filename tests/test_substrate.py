@@ -23,16 +23,13 @@
 import binascii
 import unittest
 from bip_utils import (
-    Ed25519PrivateKey, Ed25519Blake2bPrivateKey, Nist256p1PrivateKey, Secp256k1PrivateKey,
-    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey,
     SubstrateKeyError, SubstrateCoins, SubstratePublicKey, SubstratePrivateKey, SubstratePathElem, Substrate,
     Sr25519PrivateKey, Sr25519PublicKey
 )
 from .test_ecc import (
-    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY,
-    TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID,
-    TEST_SR25519_PRIV_KEY_BYTES, TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY
+    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
+    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY,
+    TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID, TEST_SR25519_PRIV_KEY
 )
 
 # Test vector
@@ -521,6 +518,9 @@ class SubstrateTests(unittest.TestCase):
             coin_names = substrate_ctx.CoinConf().CoinNames()
             self.assertEqual(test["names"], (coin_names.Name(), coin_names.Abbreviation()))
 
+            # Test public-only
+            self.assertFalse(substrate_ctx.IsPublicOnly())
+
             # Test key objects
             self.assertTrue(isinstance(substrate_ctx.PublicKey().KeyObject(), Sr25519PublicKey))
             self.assertTrue(isinstance(substrate_ctx.PrivateKey().KeyObject(), Sr25519PrivateKey))
@@ -574,26 +574,23 @@ class SubstrateTests(unittest.TestCase):
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_private_key(self):
         for test in TEST_VECT:
-            # Create from key
-            substrate_ctx = Substrate.FromPrivateKey(binascii.unhexlify(test["master"]["priv_key"]), test["coin"])
+            priv_key_bytes = binascii.unhexlify(test["master"]["priv_key"])
 
-            # Test master key
-            self.assertEqual(test["master"]["path"], substrate_ctx.Path().ToStr())
-            self.assertEqual(test["master"]["pub_key"], substrate_ctx.PublicKey().RawCompressed().ToHex())
-            self.assertEqual(test["master"]["priv_key"], substrate_ctx.PrivateKey().Raw().ToHex())
-            self.assertEqual(test["master"]["address"], substrate_ctx.PublicKey().ToAddress())
-
-            # Test derivation paths
-            for der_path in test["der_paths"]:
-                substrate_ctx = substrate_ctx.DerivePath(der_path["path_elem"])
-                self.__test_derived_path(der_path, substrate_ctx)
+            # Test both from bytes and key object
+            self.__test_from_private_key(test, priv_key_bytes)
+            self.__test_from_private_key(test, Sr25519PrivateKey(priv_key_bytes))
 
     # Test public derivation
     def test_public_derivation(self):
         test_vect = TEST_VECT_PUBLIC_DER
 
         # Create from public key
-        substrate_ctx = Substrate.FromPublicKey(binascii.unhexlify(test_vect["pub_key"]), test_vect["coin"])
+        pub_key_bytes = binascii.unhexlify(test_vect["pub_key"])
+        # Bytes
+        substrate_ctx = Substrate.FromPublicKey(pub_key_bytes, test_vect["coin"])
+        self.__test_public_derivation(test_vect, substrate_ctx)
+        # Key object
+        substrate_ctx = Substrate.FromPublicKey(Sr25519PublicKey(pub_key_bytes), test_vect["coin"])
         self.__test_public_derivation(test_vect, substrate_ctx)
 
         # Create from private key and convert to public
@@ -625,15 +622,17 @@ class SubstrateTests(unittest.TestCase):
         # Invalid types
         self.assertRaises(TypeError, Substrate.FromSeed, binascii.unhexlify(TEST_SEED), 0)
         self.assertRaises(TypeError, Substrate.FromSeedAndPath, binascii.unhexlify(TEST_SEED), 0)
-        self.assertRaises(TypeError, Substrate.FromPrivateKey, TEST_SR25519_PRIV_KEY_BYTES, 0)
+        self.assertRaises(TypeError, Substrate.FromPrivateKey, TEST_SR25519_PRIV_KEY, 0)
 
         self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_PRIV_KEY, SubstrateCoins.POLKADOT)
         self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_MONERO_PRIV_KEY, SubstrateCoins.POLKADOT)
         self.assertRaises(TypeError, SubstratePrivateKey, TEST_NIST256P1_PRIV_KEY, SubstrateCoins.POLKADOT)
         self.assertRaises(TypeError, SubstratePrivateKey, TEST_SECP256K1_PRIV_KEY, SubstrateCoins.POLKADOT)
 
         self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_PUB_KEY, SubstrateCoins.POLKADOT)
         self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_BLAKE2B_PUB_KEY, SubstrateCoins.POLKADOT)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_MONERO_PUB_KEY, SubstrateCoins.POLKADOT)
         self.assertRaises(TypeError, SubstratePublicKey, TEST_NIST256P1_PUB_KEY, SubstrateCoins.POLKADOT)
         self.assertRaises(TypeError, SubstratePublicKey, TEST_SECP256K1_PUB_KEY, SubstrateCoins.POLKADOT)
 
@@ -642,6 +641,22 @@ class SubstrateTests(unittest.TestCase):
             self.assertRaises(SubstrateKeyError, Substrate.FromPublicKey, binascii.unhexlify(test), SubstrateCoins.POLKADOT)
         for test in TEST_VECT_SR25519_PRIV_KEY_INVALID:
             self.assertRaises(SubstrateKeyError, Substrate.FromPrivateKey, binascii.unhexlify(test), SubstrateCoins.POLKADOT)
+
+    # Test from private key
+    def __test_from_private_key(self, test, priv_key):
+        # Create from key
+        substrate_ctx = Substrate.FromPrivateKey(priv_key, test["coin"])
+
+        # Test master key
+        self.assertEqual(test["master"]["path"], substrate_ctx.Path().ToStr())
+        self.assertEqual(test["master"]["pub_key"], substrate_ctx.PublicKey().RawCompressed().ToHex())
+        self.assertEqual(test["master"]["priv_key"], substrate_ctx.PrivateKey().Raw().ToHex())
+        self.assertEqual(test["master"]["address"], substrate_ctx.PublicKey().ToAddress())
+
+        # Test derivation paths
+        for der_path in test["der_paths"]:
+            substrate_ctx = substrate_ctx.DerivePath(der_path["path_elem"])
+            self.__test_derived_path(der_path, substrate_ctx)
 
     # Test derived path
     def __test_derived_path(self, test, substrate_ctx):
@@ -657,6 +672,7 @@ class SubstrateTests(unittest.TestCase):
     # Test public derivation
     def __test_public_derivation(self, test, substrate_ctx):
         self.assertEqual(test["address"], substrate_ctx.PublicKey().ToAddress())
+        self.assertTrue(substrate_ctx.IsPublicOnly())
         self.assertRaises(SubstrateKeyError, substrate_ctx.PrivateKey)
 
         # Test derivation paths

@@ -103,11 +103,12 @@ TEST_VECT_PATH_INVALID = [
     "0/a/1",
     "0//1/1",
     "0/1/4294967296",
+    "0/1/-1",
 ]
 
 
 #
-# Bip32 path tests
+# Tests
 #
 class Bip32PathTests(unittest.TestCase):
     # Run all tests in test vector

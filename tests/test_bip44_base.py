@@ -24,7 +24,7 @@ import binascii
 from bip_utils import (
     Bip44Coins, Bip44Changes, Bip44Levels,
     Bip44DepthError, Bip44CoinNotAllowedError,
-    Bip32KeyError,
+    Bip32KeyError, Monero
 )
 
 
@@ -66,7 +66,14 @@ class Bip44BaseTestHelper:
             # Test addresses
             for idx, test_addr in enumerate(test["addresses"]):
                 bip_obj_addr_ctx = bip_obj_ctx.AddressIndex(idx)
-                ut_class.assertEqual(test_addr, bip_obj_addr_ctx.PublicKey().ToAddress())
+
+                if test["coin"] in (Bip44Coins.MONERO_ED25519_SLIP, Bip44Coins.MONERO_SECP256K1):
+                    monero = Monero.FromBip44PrivateKey(bip_obj_addr_ctx.PrivateKey().Bip32Key().KeyObject())
+                    addr = monero.PrimaryAddress()
+                else:
+                    addr = bip_obj_addr_ctx.PublicKey().ToAddress()
+
+                ut_class.assertEqual(test_addr, addr)
 
             # Only for Litecoin: test extended keys with alternate versions
             if test["coin"] == Bip44Coins.LITECOIN and "ex_master_alt" in test:
@@ -178,7 +185,14 @@ class Bip44BaseTestHelper:
             # Create from seed
             bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"]).DeriveDefaultPath()
             # Test addresses
-            ut_class.assertEqual(test["default_address"], bip_obj_ctx.PublicKey().ToAddress())
+            if test["coin"] in (Bip44Coins.MONERO_ED25519_SLIP, Bip44Coins.MONERO_SECP256K1):
+                ut_class.assertRaises(ValueError, bip_obj_ctx.PublicKey().ToAddress)
+
+                monero = Monero.FromBip44PrivateKey(bip_obj_ctx.PrivateKey().Raw().ToBytes())
+                def_addr = monero.PrimaryAddress()
+            else:
+                def_addr = bip_obj_ctx.PublicKey().ToAddress()
+            ut_class.assertEqual(test["default_address"], def_addr)
 
     # Test for IsLevel method
     @staticmethod
