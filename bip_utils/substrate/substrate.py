@@ -195,30 +195,28 @@ class Substrate:
         """ Construct class from keys.
 
         Args:
-            priv_key (bytes or IPrivateKey)     : Private key bytes, if None a public-only object will be created
-            pub_key (bytes or IPublicKey)       : Public key bytes
+            priv_key (bytes or IPrivateKey)     : Private key, if None a public-only object will be created
+            pub_key (bytes or IPublicKey)       : Public key
             path (SubstratePath object)         : Path
             coin_conf (SubstrateCoinConf object): SubstrateCoinConf object
 
         Raises:
             SubstrateKeyError: If one of the key is not valid
         """
-        if priv_key is not None:
-            self.m_priv_key = (SubstratePrivateKey.FromBytes(priv_key, coin_conf)
-                               if isinstance(priv_key, bytes)
-                               else SubstratePrivateKey(priv_key, coin_conf))
 
-            if pub_key is None:
-                self.m_pub_key = self.m_priv_key.PublicKey()
-            else:
-                self.m_pub_key = (SubstratePublicKey.FromBytes(pub_key, coin_conf)
-                                  if isinstance(pub_key, bytes)
-                                  else SubstratePublicKey(pub_key, coin_conf))
+        # Private key object
+        if priv_key is not None:
+            self.m_priv_key = SubstratePrivateKey.FromBytesOrKeyObject(priv_key, coin_conf)
+            # Use the provided public key if any. This is done because se25519 library returns both the
+            # derived private and public keys, so we can avoid to compute the public key from the private key
+            # that takes time
+            self.m_pub_key = (SubstratePublicKey.FromBytesOrKeyObject(pub_key, coin_conf)
+                              if pub_key is not None
+                              else self.m_priv_key.PublicKey())
+        # Public-only object
         else:
             self.m_priv_key = None
-            self.m_pub_key = (SubstratePublicKey.FromBytes(pub_key, coin_conf)
-                              if isinstance(pub_key, bytes)
-                              else SubstratePublicKey(pub_key, coin_conf))
+            self.m_pub_key = SubstratePublicKey.FromBytesOrKeyObject(pub_key, coin_conf)
 
         self.m_path = path
         self.m_coin_conf = coin_conf

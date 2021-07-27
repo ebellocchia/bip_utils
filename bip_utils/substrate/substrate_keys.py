@@ -22,6 +22,7 @@
 # Imports
 from __future__ import annotations
 from functools import lru_cache
+from typing import Union
 from bip_utils.addr import SubstrateSr25519Addr
 from bip_utils.conf import SubstrateCoinConf
 from bip_utils.ecc import IPrivateKey, IPublicKey, Sr25519PrivateKey, Sr25519PublicKey
@@ -31,6 +32,26 @@ from bip_utils.utils import DataBytes
 
 class SubstratePublicKey:
     """ Substrate public key class. """
+
+    @classmethod
+    def FromBytesOrKeyObject(cls,
+                             pub_key: Union[bytes, IPublicKey],
+                             coin_conf: SubstrateCoinConf) -> SubstratePublicKey:
+        """ Get the public key from key bytes or object.
+
+        Args:
+            pub_key (bytes or IPublicKey)       : Public key
+            coin_conf (SubstrateCoinConf object): SubstrateCoinConf object
+
+        Returns:
+            SubstratePublicKey object: SubstratePublicKey object
+
+        Raises:
+            SubstrateKeyError: If the key constructed from the bytes is not valid
+        """
+        return (cls.FromBytes(pub_key, coin_conf)
+                if isinstance(pub_key, bytes)
+                else cls(pub_key, coin_conf))
 
     @classmethod
     def FromBytes(cls,
@@ -123,6 +144,26 @@ class SubstratePublicKey:
 
 class SubstratePrivateKey:
     """ Substrate private key class. """
+
+    @classmethod
+    def FromBytesOrKeyObject(cls,
+                             priv_key: Union[bytes, IPrivateKey],
+                             coin_conf: SubstrateCoinConf) -> SubstratePrivateKey:
+        """ Get the private key from key bytes or object.
+
+        Args:
+            priv_key (bytes or IPrivateKey)     : Private key
+            coin_conf (SubstrateCoinConf object): SubstrateCoinConf object
+
+        Returns:
+            SubstratePrivateKey object: SubstratePrivateKey object
+
+        Raises:
+            SubstrateKeyError: If the key constructed from the bytes is not valid
+        """
+        return (cls.FromBytes(priv_key, coin_conf)
+                if isinstance(priv_key, bytes)
+                else cls(priv_key, coin_conf))
 
     @classmethod
     def FromBytes(cls,
