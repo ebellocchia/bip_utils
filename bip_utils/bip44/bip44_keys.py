@@ -127,13 +127,13 @@ class Bip44PublicKey:
         """
         addr_conf = self.m_coin_conf.AddrConf()
         addr_type = self.m_coin_conf.AddrType()
-        pub_key_obj = self.Bip32Key().KeyObject()
-
-        addr_cls = Bip44KeysConst.ADDR_TYPE_TO_CLASS[addr_type]
 
         # Exception for Monero
         if addr_type == AddrTypes.XMR:
             raise ValueError("Use the MoneroKeys class to get Monero addresses")
+
+        pub_key_obj = self.Bip32Key().KeyObject()
+        addr_cls = Bip44KeysConst.ADDR_TYPE_TO_CLASS[addr_type]
 
         # P2PKH, P2SH
         if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH):
