@@ -256,3 +256,8 @@ def is_valid_priv_key(k):
 def is_valid_pub_key(k):
     # Check length and that point lies on curve
     return len(k) == 32 and decodepoint(k)
+
+
+# Added
+def is_generator_point(P):
+    return P == B

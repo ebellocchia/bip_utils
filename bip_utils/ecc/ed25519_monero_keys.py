@@ -149,7 +149,12 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult(self.m_point, scalar))
+
+        # Use scalarmult_B for generator point, which is more efficient
+        if ed25519_monero_lib.is_generator_point(self.m_point):
+            return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult_B(scalar))
+        else:
+            return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult(self.m_point, scalar))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
