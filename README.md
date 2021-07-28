@@ -745,8 +745,9 @@ Since there is no specification that states how to implement Monero using BIP44,
 - *Bip44Coins.MONERO_ED25519_SLIP* uses the ed25519 curve (like Monero itself) with the SLIP-0010 derivation scheme and the default derivation path is m/44'/128'/0'/0'/0'
 - *Bip44Coins.MONERO_SECP256K1* uses the secp256k1 curve (like Bitcoin) and the default derivation path is m/44'/128'/0'/0/0 (like the Ledger implementation)
 
-Whatever implementation you choose, the Monero private spend key is computed from the Bip44 private key as follows:
-- perform keccak256 of the key
+Of course, you are free to derive other paths if you want.\
+Whatever implementation or path you choose, the Monero private spend key is computed from the *Bip44* private key as follows:
+- perform keccak256 of the key bytes
 - apply *sc_reduce* to the result to get a valid Monero private key
 
 **Code example**
@@ -765,13 +766,9 @@ Whatever implementation you choose, the Monero private spend key is computed fro
 
     # Print keys
     print(monero.PrivateSpendKey().Raw().ToHex())
-    print(monero.PrivateSpendKey().Raw().ToBytes())
     print(monero.PrivateViewKey().Raw().ToHex())
-    print(monero.PrivateViewKey().Raw().ToBytes())
     print(monero.PublicSpendKey().RawCompressed().ToHex())
-    print(monero.PublicSpendKey().RawCompressed().ToBytes())
     print(monero.PublicViewKey().RawCompressed().ToHex())
-    print(monero.PublicViewKey().RawCompressed().ToBytes())
 
     # Print primary address
     print(monero.PrimaryAddress())
@@ -781,7 +778,25 @@ Whatever implementation you choose, the Monero private spend key is computed fro
     print(monero.SubAddress(0, 1))      # Account 1, SubAddress 0
     print(monero.SubAddress(1, 1))      # Account 1, SubAddress 1
 
-If you want to get the same keys and addresses of the official Monero wallets, use the *Monero* module without *Bip44* by constructing it from seed (see the related paragraph).
+If you prefer not to perform the kekkak256 of the key bytes, you can just use the *Bip44* private key directly as a Monero seed:
+
+**Code example**
+
+    import binascii
+    from bip_utils import Bip44Coins, Bip44, Monero
+
+    # Seed bytes
+    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
+
+    # Create BIP44 object and derive default path
+    bip44_def_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.MONERO_ED25519_SLIP).DeriveDefaultPath()
+
+    # Create Monero object using the BIP44 private key as seed -> monero_priv_spend_key = sc_reduce(bip44_priv_key)
+    monero = Monero.FromSeed(bip44_def_ctx.PrivateKey().Raw().ToBytes())
+    # Same as before...
+
+Please note that, if the seed is generated from a Monero mnemonic phrase, you'll get the same keys and addresses of the official Monero wallets.\
+For the usage of the *Monero* module alone, see the related paragraph.
 
 ## Substrate library
 
