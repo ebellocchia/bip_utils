@@ -31,7 +31,8 @@ disclose data to an attacker.  We rely on Python's long-integer
 arithmetic, so we cannot handle secrets without risking their disclosure.
 """
 
-# From with little changes: https://github.com/monero-ecosystem/monero-python/blob/master/monero/ed25519.py
+# Copied from: https://github.com/monero-ecosystem/monero-python/blob/master/monero/ed25519.py
+# With some little changes and additions
 
 import six
 import sys
@@ -230,7 +231,7 @@ def decodepoint(s):
     if x & 1 != bit(s, b-1):
         x = q - x
     # Added
-    return decodexy(x, y)
+    return decodepointxy(x, y)
 
 
 def public_from_secret(k):
@@ -240,7 +241,7 @@ def public_from_secret(k):
 
 
 # Added
-def decodexy(x, y):
+def decodepointxy(x, y):
     P = (x, y, 1, (x*y) % q)
     if not isoncurve(P):
         raise ValueError("decoding point that is not on curve")
@@ -249,6 +250,7 @@ def decodexy(x, y):
 
 # Added
 def is_valid_priv_key(k):
+    # Check length and that is lower than curve order
     return len(k) == 32 and ConvUtils.BytesToInteger(k, endianness="little") < l
 
 

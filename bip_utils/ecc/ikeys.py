@@ -211,6 +211,7 @@ class IPublicKey(ABC):
 
         Raises:
             TypeError: If key object is not of the correct type
+            ValueError: If key is not valid (optional)
         """
         pass
 
@@ -347,6 +348,7 @@ class IPrivateKey(ABC):
 
         Raises:
             TypeError: If key object is not of the correct type
+            ValueError: If key is not valid (optional)
         """
         pass
 

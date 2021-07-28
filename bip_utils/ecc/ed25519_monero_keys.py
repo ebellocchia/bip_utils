@@ -67,7 +67,7 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        return cls(ed25519_monero_lib.decodexy(x, y))
+        return cls(ed25519_monero_lib.decodepointxy(x, y))
 
     def __init__(self,
                  point_obj: Any) -> None:
@@ -186,8 +186,6 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-        if not ed25519_monero_lib.is_valid_pub_key(key_bytes):
-            raise ValueError("Invalid public key bytes")
         return cls(key_bytes)
 
     @classmethod
@@ -215,9 +213,13 @@ class Ed25519MoneroPublicKey(IPublicKey):
 
         Raises:
             TypeError: If key object is not of the correct type
+            ValueError: If key is not valid
         """
         if not isinstance(key_obj, bytes):
             raise TypeError("Invalid public key object type")
+        if not ed25519_monero_lib.is_valid_pub_key(key_obj):
+            raise ValueError("Invalid public key")
+
         self.m_ver_key = key_obj
 
     @staticmethod
@@ -299,8 +301,6 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-        if not ed25519_monero_lib.is_valid_priv_key(key_bytes):
-            raise ValueError("Invalid private key bytes")
         return cls(key_bytes)
 
     def __init__(self,
@@ -312,9 +312,13 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
 
         Raises:
             TypeError: If key object is not of the correct type
+            ValueError: If key is not valid
         """
         if not isinstance(key_obj, bytes):
             raise TypeError("Invalid private key object type")
+        if not ed25519_monero_lib.is_valid_priv_key(key_obj):
+            raise ValueError("Invalid private key")
+
         self.m_sign_key = key_obj
 
     @staticmethod

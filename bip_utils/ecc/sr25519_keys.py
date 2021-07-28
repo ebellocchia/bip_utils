@@ -61,11 +61,6 @@ class Sr25519PublicKey(IPublicKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-
-        # Check here because the library does not raise any exception
-        if len(key_bytes) != cls.CompressedLength():
-            raise ValueError("Invalid public key bytes")
-
         return cls(key_bytes)
 
     @classmethod
@@ -95,9 +90,13 @@ class Sr25519PublicKey(IPublicKey):
 
         Raises:
             TypeError: If key object is not of the correct type
+            ValueError: If key is not valid
         """
         if not isinstance(key_obj, bytes):
             raise TypeError("Invalid public key object type")
+        if len(key_obj) != self.CompressedLength():
+            raise ValueError("Invalid public key")
+
         self.m_ver_key = key_obj
 
     @staticmethod
@@ -181,11 +180,6 @@ class Sr25519PrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-
-        # Check here because the library does not raise any exception
-        if len(key_bytes) != cls.Length():
-            raise ValueError("Invalid private key bytes")
-
         return cls(key_bytes)
 
     def __init__(self,
@@ -197,9 +191,13 @@ class Sr25519PrivateKey(IPrivateKey):
 
         Raises:
             TypeError: If key object is not of the correct type
+            ValueError: If key is not valid
         """
         if not isinstance(key_obj, bytes):
             raise TypeError("Invalid private key object type")
+        if len(key_obj) != self.Length():
+            raise ValueError("Invalid private key")
+
         self.m_sign_key = key_obj
 
     @staticmethod
