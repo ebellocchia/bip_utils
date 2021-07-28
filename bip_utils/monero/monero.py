@@ -24,7 +24,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Optional, Union
 from bip_utils.addr import XmrAddr
-from bip_utils.ecc import Ed25519Monero, IPrivateKey, IPublicKey
+from bip_utils.ecc import Ed25519Monero, Ed25519MoneroPrivateKey, IPrivateKey, IPublicKey
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.utils import ConvUtils, CryptoUtils
@@ -32,9 +32,6 @@ from bip_utils.utils import ConvUtils, CryptoUtils
 
 class MoneroConst:
     """ Class container for Monero keys constants. """
-
-    # Default seed length in bytes
-    SEED_DEF_BYTE_LEN: int = 32
 
     # Address main net version
     ADDR_MAIN_NET_VER: bytes = b"\x12"
@@ -84,7 +81,7 @@ class Monero:
             Monero object: Monero object
         """
         priv_skey_bytes = (seed_bytes
-                           if len(seed_bytes) == MoneroConst.SEED_DEF_BYTE_LEN
+                           if len(seed_bytes) == Ed25519MoneroPrivateKey.Length()
                            else CryptoUtils.Kekkak256(seed_bytes))
         return cls.FromPrivateSpendKey(MoneroUtils.ScReduce(priv_skey_bytes))
 
