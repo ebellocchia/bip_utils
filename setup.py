@@ -56,7 +56,7 @@ setuptools.setup(
     license="MIT",
     test_suite="tests",
     install_requires=install_requires,
-    packages=setuptools.find_packages(exclude=['tests']),
+    packages=setuptools.find_namespace_packages(exclude=['tests']),
     package_data={
         "bip_utils": [
             "bip39/bip39_words/english.txt",
