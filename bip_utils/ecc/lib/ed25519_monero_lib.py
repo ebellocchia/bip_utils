@@ -251,7 +251,7 @@ def decodepointxy(x, y):
 # Added
 def is_valid_priv_key(k):
     # Check length and that is lower than curve order
-    return len(k) == 32 and ConvUtils.BytesToInteger(k, endianness="little") < l
+    return len(k) == 32 and decodeint(k) < l
 
 
 # Added
