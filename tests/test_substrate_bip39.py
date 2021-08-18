@@ -156,3 +156,7 @@ class Bip39TestsSubstrate(unittest.TestCase):
         for test in TEST_VECT:
             seed = SubstrateBip39SeedGenerator(test["mnemonic"]).Generate(TEST_PASSPHRASE)
             self.assertEqual(test["seed"], binascii.hexlify(seed))
+
+    # Tests invalid parameters
+    def test_invalid_params(self):
+        self.assertRaises(TypeError, SubstrateBip39SeedGenerator, "", 0)

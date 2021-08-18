@@ -20,10 +20,10 @@
 
 
 # Imports
-from typing import List, Optional, Union
-from bip_utils.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39MnemonicValidator, Bip39Utils
+from typing import Optional, Union
+from bip_utils.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39Mnemonic, Bip39MnemonicEncoder
 from bip_utils.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils import ConvUtils, CryptoUtils
 
 
 class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
@@ -32,23 +32,18 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
     """
 
     def __init__(self,
-                 mnemonic: Union[str, List[str]],
+                 mnemonic: Union[str, Bip39Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
         """ Construct the class from a specified mnemonic.
 
         Args:
-            mnemonic (str or list): Mnemonic
-            lang (Bip39Languages, optional): Language, None for automatic detection
+            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            lang (Bip39Languages, optional)       : Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
-
-        # Make sure that the given mnemonic is valid
-        mnemonic_validator = Bip39MnemonicValidator(mnemonic, lang)
-        mnemonic_validator.Validate()
-
-        self.m_entropy = mnemonic_validator.GetEntropy()
+        self.m_entropy = Bip39MnemonicEncoder(lang).Encode(mnemonic)
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
@@ -62,7 +57,7 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
         """
 
         # Get salt
-        salt = Bip39Utils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
+        salt = ConvUtils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
         # Compute key
         key = CryptoUtils.Pbkdf2HmacSha512(self.m_entropy,
                                            salt,

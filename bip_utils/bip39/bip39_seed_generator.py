@@ -18,13 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
-from typing import List, Optional, Union
+from typing import Optional, Union
 from bip_utils.bip39.ibip39_seed_generator import IBip39SeedGenerator
-from bip_utils.bip39.bip39_mnemonic import Bip39Languages, Bip39MnemonicValidator
-from bip_utils.bip39.bip39_utils import Bip39Utils
-from bip_utils.utils import CryptoUtils
+from bip_utils.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic
+from bip_utils.bip39.bip39_mnemonic_validator import Bip39MnemonicValidator
+from bip_utils.utils import ConvUtils, CryptoUtils
 
 
 class Bip39SeedGeneratorConst:
@@ -42,22 +43,24 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
     """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
 
     def __init__(self,
-                 mnemonic: Union[str, List[str]],
+                 mnemonic: Union[str, Bip39Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
-        """ Construct the class from a specified mnemonic.
+        """ Construct the class.
 
         Args:
-            mnemonic (str or list): Mnemonic
-            lang (Bip39Languages, optional): Language, None for automatic detection
+            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            lang (Bip39Languages, optional)       : Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
 
         # Make sure that the given mnemonic is valid
-        Bip39MnemonicValidator(mnemonic, lang).Validate()
+        Bip39MnemonicValidator(lang).Validate(mnemonic)
 
-        self.m_mnemonic = Bip39Utils.MnemonicToString(Bip39Utils.NormalizeNfkd(mnemonic))
+        self.m_mnemonic = (mnemonic
+                           if isinstance(mnemonic, str)
+                           else mnemonic.ToStr())
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
@@ -71,7 +74,7 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
         """
 
         # Get salt
-        salt = Bip39Utils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
+        salt = ConvUtils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
         # Compute key
         key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic,
                                            salt,

@@ -19,11 +19,6 @@
 # THE SOFTWARE.
 
 
-class Bip39InvalidFileError(Exception):
-    """ Exception in case of invalid words list file. """
-    pass
-
-
 class Bip39ChecksumError(Exception):
     """ Exception in case of checksum error. """
     pass

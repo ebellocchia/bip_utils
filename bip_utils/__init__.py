@@ -23,8 +23,9 @@ from bip_utils.wif import WifDecoder, WifEncoder
 from bip_utils.addr import *
 # BIP39
 from bip_utils.bip39 import (
-    Bip39InvalidFileError, Bip39ChecksumError,
+    Bip39ChecksumError,
     Bip39EntropyBitLen, Bip39Languages, Bip39WordsNum,
+    Bip39Mnemonic, Bip39MnemonicDecoder, Bip39MnemonicEncoder,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
 )
 # BIP32

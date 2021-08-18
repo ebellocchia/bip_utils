@@ -21,8 +21,8 @@
 
 # Imports
 from abc import ABC, abstractmethod
-from typing import List, Optional, Union
-from bip_utils.bip39.bip39_mnemonic import Bip39Languages
+from typing import Optional, Union
+from bip_utils.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic
 
 
 class IBip39SeedGenerator(ABC):
@@ -30,8 +30,17 @@ class IBip39SeedGenerator(ABC):
 
     @abstractmethod
     def __init__(self,
-                 mnemonic: Union[str, List[str]],
+                 mnemonic: Union[str, Bip39Mnemonic],
                  lang: Optional[Bip39Languages]) -> None:
+        """ Construct the class.
+
+        Args:
+            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            lang (Bip39Languages, optional)       : Language, None for automatic detection
+
+        Raises:
+            ValueError: If the mnemonic is not valid
+        """
         pass
 
     @abstractmethod
