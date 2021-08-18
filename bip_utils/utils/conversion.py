@@ -21,6 +21,7 @@
 
 # Imports
 import binascii
+import unicodedata
 from typing import List, Optional, Union
 from bip_utils.utils.algo import AlgoUtils
 
@@ -93,6 +94,18 @@ class ConvUtils:
         return ConvUtils.IntegerToBinaryStr(ConvUtils.BytesToInteger(data_bytes), zero_pad)
 
     @staticmethod
+    def BinaryStrToInteger(data: Union[bytes, str]) -> int:
+        """ Convert the specified binary string to integer.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            int: Integer representation
+        """
+        return int(AlgoUtils.Encode(data), 2)
+
+    @staticmethod
     def BinaryStrToBytes(data: Union[bytes, str],
                          zero_pad: int = 0) -> bytes:
         """ Convert the specified binary string to bytes.
@@ -104,7 +117,7 @@ class ConvUtils:
         Returns:
             bytes: Bytes representation
         """
-        return binascii.unhexlify(hex(int(AlgoUtils.Encode(data), 2))[2:].zfill(zero_pad))
+        return binascii.unhexlify(hex(ConvUtils.BinaryStrToInteger(data))[2:].zfill(zero_pad))
 
     @staticmethod
     def BytesToHexString(data_bytes: bytes,
@@ -145,6 +158,18 @@ class ConvUtils:
             bytes: Hex string converted to bytes
         """
         return binascii.unhexlify(AlgoUtils.Encode(data))
+
+    @staticmethod
+    def NormalizeNfkd(data_str: str) -> str:
+        """ Normalize string using NFKD.
+
+        Args:
+            data_str (str): Input string
+
+        Returns:
+            str: Normalized string
+        """
+        return unicodedata.normalize("NFKD", data_str)
 
     @staticmethod
     def ListToBytes(data_list: List) -> bytes:
