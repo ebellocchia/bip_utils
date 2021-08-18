@@ -23,7 +23,7 @@
 from __future__ import annotations
 import re
 from functools import lru_cache
-from scalecodec import ScaleDecoder
+from scalecodec.base import ScaleDecoder
 from typing import Iterator, List, Sequence, Union
 from bip_utils.substrate.substrate_ex import SubstratePathError
 from bip_utils.utils import CryptoUtils
