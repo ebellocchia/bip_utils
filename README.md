@@ -201,11 +201,11 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
 **Code example**
 
     from bip_utils import (
-        Bip39ChecksumError, Bip39Languages, Bip39WordsNum, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39MnemonicEncoder
+        Bip39ChecksumError, Bip39Languages, Bip39WordsNum, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39MnemonicDecoder
     )
 
     # Mnemonic can be generated with Bip39MnemonicGenerator
-    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
+    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
     # Or it can be a string
     mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
 
@@ -222,10 +222,13 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
         # Invalid length or language...
         pass
 
-    # Use Bip39MnemonicEncoder to get back the original entropy from a mnemonic, specifying the language
-    entropy_bytes = Bip39MnemonicEncoder(Bip39Languages.ENGLISH).Encode(mnemonic)
+    # Use Bip39MnemonicDecoder to get back the entropy bytes from a mnemonic, specifying the language
+    entropy_bytes = Bip39MnemonicDecoder(Bip39Languages.ENGLISH).Decode(mnemonic)
     # Like before with automatic language detection
-    entropy_bytes = Bip39MnemonicEncoder().Encode(mnemonic)
+    entropy_bytes = Bip39MnemonicDecoder().Decode(mnemonic)
+
+    # Alternatively, it's possible to get back the entropy bytes with the computed checksum
+    entropy_chksum_bytes = Bip39MnemonicDecoder(Bip39Languages.ENGLISH).DecodeWithChecksum(mnemonic)
 
 ### Seed generation
 
