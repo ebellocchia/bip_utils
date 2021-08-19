@@ -49,7 +49,7 @@ class MoneroConst:
 
 
 class MoneroUtils:
-    """ Class container for Monero keys utility functions. """
+    """ Class container for Monero utility functions. """
 
     @staticmethod
     def ScReduce(data_bytes: bytes) -> bytes:
@@ -67,7 +67,7 @@ class MoneroUtils:
 
 
 class Monero:
-    """ Monero keys class. It allows to compute Monero keys and addresses. """
+    """ Monero class. It allows to compute Monero keys and addresses/subaddresses. """
 
     @classmethod
     def FromSeed(cls,
