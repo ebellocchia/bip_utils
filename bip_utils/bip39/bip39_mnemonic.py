@@ -356,8 +356,8 @@ class _Bip39WordsListFinder:
         raise ValueError("Invalid language for mnemonic '%s'" % mnemonic.ToStr())
 
 
-class Bip39MnemonicDecoder:
-    """ BIP39 mnemonic decoder class. It decodes entropy bytes to the mnemonic phrase. """
+class Bip39MnemonicEncoder:
+    """ BIP39 mnemonic encoder class. It encodes bytes to the mnemonic phrase. """
 
     def __init__(self,
                  lang: Bip39Languages) -> None:
@@ -375,18 +375,18 @@ class Bip39MnemonicDecoder:
 
         self.m_words_list = _Bip39WordsListGetter.Instance().GetByLanguage(lang)
 
-    def Decode(self,
+    def Encode(self,
                entropy_bytes: bytes) -> Bip39Mnemonic:
-        """ Decode entropy bytes to mnemonic phrase.
+        """ Encode bytes to mnemonic phrase.
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 160, 192, 224, 256)
 
         Returns:
-            Bip39Mnemonic object: Decoded mnemonic
+            Bip39Mnemonic object: Encoded mnemonic
 
         Raises:
-            ValueError: If entropy length is not valid
+            ValueError: If bytes length is not valid
         """
 
         # Check entropy length
@@ -414,8 +414,8 @@ class Bip39MnemonicDecoder:
         return Bip39Mnemonic.FromList(mnemonic)
 
 
-class Bip39MnemonicEncoder:
-    """ BIP39 mnemonic encoder class. It encodes a mnemonic phrase to entropy bytes. """
+class Bip39MnemonicDecoder:
+    """ BIP39 mnemonic decoder class. It decodes a mnemonic phrase to bytes. """
 
     #
     # Public methods
@@ -439,15 +439,57 @@ class Bip39MnemonicEncoder:
                              if lang is not None
                              else None)
 
-    def Encode(self,
+    def Decode(self,
                mnemonic: Union[str, Bip39Mnemonic]) -> bytes:
-        """ Encode mnemonic phrase to entropy bytes.
+        """ Decode a mnemonic phrase to bytes (no checksum).
 
         Args:
             mnemonic (str or Bip39Mnemonic object): Mnemonic
 
         Returns:
-            bytes: Entropy bytes
+            bytes: Decoded bytes (no checksum)
+
+        Raises:
+            Bip39ChecksumError: If checksum is not valid
+            ValueError: If mnemonic is not valid
+        """
+        mnemonic_bin_str = self.__DecodeAndVerifyBinaryStr(mnemonic)
+
+        return self.__EntropyBytesFromBinaryStr(mnemonic_bin_str)
+
+    def DecodeWithChecksum(self,
+                           mnemonic: Union[str, Bip39Mnemonic]) -> bytes:
+        """ Decode a mnemonic phrase to bytes (with checksum).
+
+        Args:
+            mnemonic (str or Bip39Mnemonic object): Mnemonic
+
+        Returns:
+            bytes: Decoded bytes (with checksum)
+
+        Raises:
+            Bip39ChecksumError: If checksum is not valid
+            ValueError: If mnemonic is not valid
+        """
+        mnemonic_bin_str = self.__DecodeAndVerifyBinaryStr(mnemonic)
+
+        # Compute pad bit length
+        mnemonic_bit_len = len(mnemonic_bin_str)
+        pad_bit_len = (mnemonic_bit_len
+                       if mnemonic_bit_len % 8 == 0
+                       else mnemonic_bit_len + (8 - mnemonic_bit_len % 8))
+
+        return ConvUtils.BinaryStrToBytes(mnemonic_bin_str, pad_bit_len // 4)
+
+    def __DecodeAndVerifyBinaryStr(self,
+                                   mnemonic: Union[str, Bip39Mnemonic]) -> str:
+        """ Decode a mnemonic phrase to its mnemonic binary string by verifying the checksum.
+
+        Args:
+            mnemonic (str or Bip39Mnemonic object): Mnemonic
+
+        Returns:
+            str: Mnemonic binary string
 
         Raises:
             Bip39ChecksumError: If checksum is not valid
@@ -466,22 +508,41 @@ class Bip39MnemonicEncoder:
                       else self.m_words_list)
 
         # Get back mnemonic binary string
-        mnemonic_bin_str = self.__GetMnemonicBinaryStr(mnemonic, words_list)
+        mnemonic_bin_str = self.__MnemonicToBinaryStr(mnemonic, words_list)
 
         # Verify checksum
         checksum_bin_str = mnemonic_bin_str[-self.__GetChecksumLen(mnemonic_bin_str):]
         comp_checksum_bin_str = self.__ComputeChecksumBinaryStr(mnemonic_bin_str)
 
         if checksum_bin_str != comp_checksum_bin_str:
-            raise Bip39ChecksumError("Invalid checksum when getting entropy (expected %s, got %s)" %
+            raise Bip39ChecksumError("Invalid checksum (expected %s, got %s)" %
                                      (checksum_bin_str, comp_checksum_bin_str))
 
-        # Get entropy bytes from binary string
-        return self.__GetEntropyBytes(mnemonic_bin_str)
+        return mnemonic_bin_str
 
-    def __GetEntropyBytes(self,
-                          mnemonic_bin_str: str) -> bytes:
-        """ Get entropy from mnemonic binary string.
+    def __ComputeChecksumBinaryStr(self,
+                                   mnemonic_bin_str: str) -> str:
+        """ Compute checksum from mnemonic binary string.
+
+        Args:
+            mnemonic_bin_str (str): Mnemonic binary string
+
+        Returns:
+           str: Computed checksum binary string
+        """
+
+        # Get entropy bytes
+        entropy_bytes = self.__EntropyBytesFromBinaryStr(mnemonic_bin_str)
+        # Convert entropy hash to binary string
+        entropy_hash_bin_str = ConvUtils.BytesToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
+                                                          CryptoUtils.Sha256DigestSize() * 8)
+
+        # Return checksum
+        return entropy_hash_bin_str[:self.__GetChecksumLen(mnemonic_bin_str)]
+
+    def __EntropyBytesFromBinaryStr(self,
+                                    mnemonic_bin_str: str) -> bytes:
+        """ Get entropy bytes from mnemonic binary string.
 
         Args:
             mnemonic_bin_str (str): Mnemonic binary string
@@ -498,29 +559,9 @@ class Bip39MnemonicEncoder:
         # Get entropy bytes from binary string
         return ConvUtils.BinaryStrToBytes(entropy_bin_str, checksum_len * 8)
 
-    def __ComputeChecksumBinaryStr(self,
-                                   mnemonic_bin_str: str) -> str:
-        """ Compute checksum from mnemonic binary string.
-
-        Args:
-            mnemonic_bin_str (str): Mnemonic binary string
-
-        Returns:
-           str: Computed checksum binary string
-        """
-
-        # Get entropy bytes
-        entropy_bytes = self.__GetEntropyBytes(mnemonic_bin_str)
-        # Convert entropy hash to binary string
-        entropy_hash_bin_str = ConvUtils.BytesToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
-                                                          CryptoUtils.Sha256DigestSize() * 8)
-
-        # Return checksum
-        return entropy_hash_bin_str[:self.__GetChecksumLen(mnemonic_bin_str)]
-
     @staticmethod
-    def __GetMnemonicBinaryStr(mnemonic: Bip39Mnemonic,
-                               words_list: Bip39WordsList) -> str:
+    def __MnemonicToBinaryStr(mnemonic: Bip39Mnemonic,
+                              words_list: _Bip39WordsList) -> str:
         """ Get mnemonic binary string from mnemonic phrase.
 
         Args:
@@ -531,7 +572,7 @@ class Bip39MnemonicEncoder:
            str: Mnemonic binary string
 
         Raises:
-            ValueError: If the mnemonic is not valid
+            ValueError: If the one of the mnemonic word is not valid
         """
 
         # Convert each word to its index in binary format

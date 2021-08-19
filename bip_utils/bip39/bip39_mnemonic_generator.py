@@ -23,7 +23,7 @@
 # Imports
 from typing import Union
 from bip_utils.bip39.bip39_mnemonic import (
-    Bip39MnemonicConst, Bip39Languages, Bip39WordsNum, Bip39Mnemonic, Bip39MnemonicDecoder
+    Bip39MnemonicConst, Bip39Languages, Bip39WordsNum, Bip39Mnemonic, Bip39MnemonicEncoder
 )
 from bip_utils.bip39.bip39_entropy_generator import Bip39EntropyGenerator
 
@@ -44,7 +44,7 @@ class Bip39MnemonicGenerator:
             TypeError: If the language is not a Bip39Languages enum
             ValueError: If language words list is not valid
         """
-        self.m_mnemonic_decoder = Bip39MnemonicDecoder(lang)
+        self.m_mnemonic_encoder = Bip39MnemonicEncoder(lang)
 
     def FromWordsNumber(self,
                         words_num: Union[int, Bip39WordsNum]) -> Bip39Mnemonic:
@@ -84,7 +84,7 @@ class Bip39MnemonicGenerator:
         Raises:
             ValueError: If entropy byte length is not valid
         """
-        return self.m_mnemonic_decoder.Decode(entropy_bytes)
+        return self.m_mnemonic_encoder.Encode(entropy_bytes)
 
     @staticmethod
     def __EntropyBitLenFromWordsNum(words_num: int) -> int:

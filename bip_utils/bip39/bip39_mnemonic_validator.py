@@ -23,7 +23,7 @@
 # Imports
 from typing import Optional, Union
 from bip_utils.bip39.bip39_ex import Bip39ChecksumError
-from bip_utils.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicEncoder
+from bip_utils.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicDecoder
 
 
 class Bip39MnemonicValidator:
@@ -40,7 +40,7 @@ class Bip39MnemonicValidator:
         Args:
             lang (Bip39Languages, optional): Language, None for automatic detection
         """
-        self.m_mnemonic_encoder = Bip39MnemonicEncoder(lang)
+        self.m_mnemonic_decoder = Bip39MnemonicDecoder(lang)
 
     def Validate(self,
                  mnemonic: Union[str, Bip39Mnemonic]) -> None:
@@ -55,7 +55,7 @@ class Bip39MnemonicValidator:
         """
 
         # Just get entropy bytes without returning it, since it will validate the mnemonic
-        self.m_mnemonic_encoder.Encode(mnemonic)
+        self.m_mnemonic_decoder.Decode(mnemonic)
 
     def IsValid(self,
                 mnemonic: Union[str, Bip39Mnemonic]) -> bool:

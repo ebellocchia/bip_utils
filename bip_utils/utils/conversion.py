@@ -81,17 +81,17 @@ class ConvUtils:
 
     @staticmethod
     def BytesToBinaryStr(data_bytes: bytes,
-                         zero_pad: int = 0) -> str:
+                         zero_pad_bit_len: int = 0) -> str:
         """ Convert the specified bytes to a binary string.
 
         Args:
-            data_bytes (bytes)      : Data bytes
-            zero_pad (int, optional): Zero padding, 0 if not specified
+            data_bytes (bytes)              : Data bytes
+            zero_pad_bit_len (int, optional): Zero pad length in bits, 0 if not specified
 
         Returns:
             str: Binary string
         """
-        return ConvUtils.IntegerToBinaryStr(ConvUtils.BytesToInteger(data_bytes), zero_pad)
+        return ConvUtils.IntegerToBinaryStr(ConvUtils.BytesToInteger(data_bytes), zero_pad_bit_len)
 
     @staticmethod
     def BinaryStrToInteger(data: Union[bytes, str]) -> int:
@@ -107,17 +107,17 @@ class ConvUtils:
 
     @staticmethod
     def BinaryStrToBytes(data: Union[bytes, str],
-                         zero_pad: int = 0) -> bytes:
+                         zero_pad_byte_len: int = 0) -> bytes:
         """ Convert the specified binary string to bytes.
 
         Args:
-            data (str or bytes)     : Data
-            zero_pad (int, optional): Zero padding, 0 if not specified
+            data (str or bytes)              : Data
+            zero_pad_byte_len (int, optional): Zero pad length in bytes, 0 if not specified
 
         Returns:
             bytes: Bytes representation
         """
-        return binascii.unhexlify(hex(ConvUtils.BinaryStrToInteger(data))[2:].zfill(zero_pad))
+        return binascii.unhexlify(hex(ConvUtils.BinaryStrToInteger(data))[2:].zfill(zero_pad_byte_len))
 
     @staticmethod
     def BytesToHexString(data_bytes: bytes,
@@ -135,17 +135,17 @@ class ConvUtils:
 
     @staticmethod
     def IntegerToBinaryStr(data_int: int,
-                           zero_pad: int = 0) -> str:
+                           zero_pad_bit_len: int = 0) -> str:
         """ Convert the specified integer to a binary string.
 
         Args:
-            data_int (int)          : Data integer
-            zero_pad (int, optional): Zero padding, 0 if not specified
+            data_int (int)                  : Data integer
+            zero_pad_bit_len (int, optional): Zero pad length in bits, 0 if not specified
 
         Returns:
             str: Binary string
         """
-        return bin(data_int)[2:].zfill(zero_pad)
+        return bin(data_int)[2:].zfill(zero_pad_bit_len)
 
     @staticmethod
     def HexStringToBytes(data: Union[bytes, str]) -> bytes:

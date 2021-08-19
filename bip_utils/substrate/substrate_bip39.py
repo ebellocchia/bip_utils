@@ -21,7 +21,7 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39Mnemonic, Bip39MnemonicEncoder
+from bip_utils.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39Mnemonic, Bip39MnemonicDecoder
 from bip_utils.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
 from bip_utils.utils import ConvUtils, CryptoUtils
 
@@ -43,7 +43,7 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        self.m_entropy = Bip39MnemonicEncoder(lang).Encode(mnemonic)
+        self.m_entropy = Bip39MnemonicDecoder(lang).Decode(mnemonic)
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
