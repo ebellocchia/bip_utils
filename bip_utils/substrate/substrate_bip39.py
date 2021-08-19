@@ -43,7 +43,7 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        self.m_entropy = Bip39MnemonicDecoder(lang).Decode(mnemonic)
+        self.m_entropy_bytes = Bip39MnemonicDecoder(lang).Decode(mnemonic)
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
@@ -59,7 +59,7 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
         # Get salt
         salt = ConvUtils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
         # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(self.m_entropy,
+        key = CryptoUtils.Pbkdf2HmacSha512(self.m_entropy_bytes,
                                            salt,
                                            Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)
 
