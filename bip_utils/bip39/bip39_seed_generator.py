@@ -58,9 +58,9 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
         # Make sure that the given mnemonic is valid
         Bip39MnemonicValidator(lang).Validate(mnemonic)
 
-        self.m_mnemonic = (mnemonic
+        self.m_mnemonic = (Bip39Mnemonic.FromString(mnemonic)
                            if isinstance(mnemonic, str)
-                           else mnemonic.ToStr())
+                           else mnemonic)
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
@@ -76,7 +76,7 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
         # Get salt
         salt = ConvUtils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
         # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic,
+        key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic.ToStr(),
                                            salt,
                                            Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)
 
