@@ -83,11 +83,11 @@ class SS58Encoder:
 
         # Check parameters
         if len(data_bytes) != SS58Const.DATA_BYTE_LEN:
-            raise ValueError("Invalid data length (%d)" % len(data_bytes))
+            raise ValueError(f"Invalid data length ({len(data_bytes)})")
         if ss58_format < 0 or ss58_format > SS58Const.FORMAT_MAX_VAL:
-            raise ValueError("Invalid SS58 format (%d)" % ss58_format)
+            raise ValueError(f"Invalid SS58 format ({ss58_format})")
         if ss58_format in SS58Const.RESERVED_FORMATS:
-            raise ValueError("Invalid SS58 format (%d)" % ss58_format)
+            raise ValueError(f"Invalid SS58 format ({ss58_format})")
 
         # Simple account
         if ss58_format <= SS58Const.SIMPLE_ACCOUNT_FORMAT_MAX_VAL:
@@ -141,7 +141,7 @@ class SS58Decoder:
 
         # Check format
         if ss58_format in SS58Const.RESERVED_FORMATS:
-            raise ValueError("Invalid SS58 format (%d)" % ss58_format)
+            raise ValueError(f"Invalid SS58 format ({ss58_format})")
 
         # Get back data and checksum
         data_bytes = dec_bytes[ss58_format_len:-SS58Const.CHECKSUM_BYTE_LEN]
@@ -149,13 +149,16 @@ class SS58Decoder:
 
         # Check data length
         if len(data_bytes) != SS58Const.DATA_BYTE_LEN:
-            raise ValueError("Invalid data length (%d)" % len(data_bytes))
+            raise ValueError(f"Invalid data length ({len(data_bytes)})")
 
         # Compute checksum
         comp_checksum = SS58Utils.ComputeChecksum(dec_bytes[:-SS58Const.CHECKSUM_BYTE_LEN])
 
         # Verify checksum
         if checksum_bytes != comp_checksum:
-            raise SS58ChecksumError("Invalid checksum (expected %r, got %r)" % (comp_checksum, checksum_bytes))
+            raise SS58ChecksumError(
+                f"Invalid checksum (expected {ConvUtils.BytesToHexString(comp_checksum)}, "
+                f"got {ConvUtils.BytesToHexString(checksum_bytes)})"
+            )
 
         return ss58_format, data_bytes

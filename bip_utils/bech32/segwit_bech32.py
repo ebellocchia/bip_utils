@@ -111,7 +111,9 @@ class SegwitBech32Decoder(Bech32DecoderBase):
                                                          SegwitBech32Const.CHECKSUM_BYTE_LEN)
         # Check HRP
         if hrpgot != hrp:
-            raise Bech32FormatError("Invalid format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+            raise Bech32FormatError(
+                f"Invalid format (HRP not valid, expected {hrp}, got {hrpgot})"
+            )
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data[1:])
@@ -119,11 +121,11 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         # Check converted data
         if (len(conv_data) < SegwitBech32Const.DATA_MIN_BYTE_LEN or
                 len(conv_data) > SegwitBech32Const.DATA_MAX_BYTE_LEN):
-            raise Bech32FormatError("Invalid format (length not valid)")
+            raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
         elif data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
-            raise Bech32FormatError("Invalid format (witness version not valid)")
+            raise Bech32FormatError(f"Invalid format (witness version not valid: {data[0]})")
         elif data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
-            raise Bech32FormatError("Invalid format (length not valid)")
+            raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return data[0], ConvUtils.ListToBytes(conv_data)
 

@@ -174,7 +174,7 @@ class Bech32Decoder(Bech32DecoderBase):
 
         # Check HRP
         if hrpgot != hrp:
-            raise Bech32FormatError("Invalid format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+            raise Bech32FormatError(f"Invalid format (HRP not valid, expected {hrp}, got {hrpgot})")
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)

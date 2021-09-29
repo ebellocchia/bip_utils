@@ -100,7 +100,9 @@ class WifDecoder:
 
         # Check net version
         if key_bytes[0] != ord(net_ver):
-            raise ValueError("Invalid net version (expected %x, got %x)" % (ord(net_ver), key_bytes[0]))
+            raise ValueError(
+                f"Invalid net version (expected {ord(net_ver):X}, got {key_bytes[0]:X})"
+            )
 
         # Remove net version
         key_bytes = key_bytes[1:]
@@ -109,11 +111,13 @@ class WifDecoder:
         if Secp256k1PrivateKey.IsValidBytes(key_bytes[:-1]):
             # Check the compressed public key suffix
             if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
-                raise ValueError("Invalid compressed public key suffix (expected %x, got %x)" %
-                                 (ord(WifConst.COMPR_PUB_KEY_SUFFIX), key_bytes[-1]))
+                raise ValueError(
+                    f"Invalid compressed public key suffix (expected {ord(WifConst.COMPR_PUB_KEY_SUFFIX):X}, "
+                    f"got {key_bytes[-1]:X})"
+                )
             # Remove it
             key_bytes = key_bytes[:-1]
         elif not Secp256k1PrivateKey.IsValidBytes(key_bytes):
-            raise ValueError("Invalid decoded key (%s)" % ConvUtils.BytesToHexString(key_bytes))
+            raise ValueError(f"Invalid decoded key ({ConvUtils.BytesToHexString(key_bytes)})")
 
         return key_bytes

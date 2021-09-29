@@ -62,7 +62,7 @@ class Bip39MnemonicGenerator:
 
         # Check words number
         if words_num not in Bip39MnemonicConst.MNEMONIC_WORD_LEN:
-            raise ValueError("Words number for mnemonic (%d) is not valid" % words_num)
+            raise ValueError(f"Words number for mnemonic ({words_num}) is not valid")
 
         # Get entropy length in bit from words number
         entropy_bit_len = self.__EntropyBitLenFromWordsNum(words_num)

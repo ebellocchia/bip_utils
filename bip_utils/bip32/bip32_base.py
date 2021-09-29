@@ -81,7 +81,7 @@ class Bip32Base(ABC):
 
         # Check seed length
         if len(seed_bytes) * 8 < Bip32BaseConst.SEED_MIN_BIT_LEN:
-            raise ValueError("Seed length is too small, it shall be at least %d bit" % Bip32BaseConst.SEED_MIN_BIT_LEN)
+            raise ValueError(f"Seed length is too small, it shall be at least {Bip32BaseConst.SEED_MIN_BIT_LEN} bit")
 
         # Compute HMAC, retry if the resulting private key is not valid
         hmac = b""
@@ -243,10 +243,10 @@ class Bip32Base(ABC):
         # Check that key type matches the Bip curve, if a key object is provided
         if priv_key is not None:
             if not isinstance(priv_key, bytes) and not isinstance(priv_key, curve.PrivateKeyClass()):
-                raise Bip32KeyError("Invalid private key class, a %s key is required" % curve.Name())
+                raise Bip32KeyError(f"Invalid private key class, a {curve.Name()} key is required")
         if pub_key is not None:
             if not isinstance(pub_key, bytes) and not isinstance(pub_key, curve.PublicKeyClass()):
-                raise Bip32KeyError("Invalid public key class, a %s key is required" % curve.Name())
+                raise Bip32KeyError(f"Invalid public key class, a {curve.Name()} key is required")
 
         # Key data
         key_data = Bip32KeyData(key_net_ver, depth, index, chain_code, fprint)

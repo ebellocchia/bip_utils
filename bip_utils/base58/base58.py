@@ -191,6 +191,9 @@ class Base58Decoder:
 
         # Verify checksum
         if checksum_bytes != comp_checksum:
-            raise Base58ChecksumError("Invalid checksum (expected %r, got %r)" % (comp_checksum, checksum_bytes))
+            raise Base58ChecksumError(
+                f"Invalid checksum (expected {ConvUtils.BytesToHexString(comp_checksum)}, "
+                f"got {ConvUtils.BytesToHexString(checksum_bytes)})"
+            )
 
         return data_bytes

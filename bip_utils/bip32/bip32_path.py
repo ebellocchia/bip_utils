@@ -182,6 +182,6 @@ class Bip32PathParser:
 
         # The remaining string shall be numeric
         if not path_elem.isnumeric():
-            raise Bip32PathError("Invalid path element (%s)" % path_elem)
+            raise Bip32PathError(f"Invalid path element ({path_elem})")
 
         return int(path_elem) if not is_hardened else Bip32Utils.HardenIndex(int(path_elem))

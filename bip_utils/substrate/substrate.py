@@ -102,7 +102,9 @@ class Substrate:
         if not isinstance(coin_type, SubstrateCoins):
             raise TypeError("Coin is not an enumerative of SubstrateCoins")
         if len(seed_bytes) < SubstrateConst.SEED_BYTE_LEN:
-            raise ValueError("Seed length is too small, it shall be at least %d bytes" % SubstrateConst.SEED_BYTE_LEN)
+            raise ValueError(
+                f"Seed length is too small, it shall be at least {SubstrateConst.SEED_BYTE_LEN} bytes"
+            )
 
         pub_key_bytes, priv_key_bytes = sr25519.pair_from_seed(seed_bytes[:SubstrateConst.SEED_BYTE_LEN])
         return cls(priv_key=priv_key_bytes,

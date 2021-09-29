@@ -183,7 +183,7 @@ class BchBech32Decoder(Bech32DecoderBase):
 
         # Check HRP
         if hrpgot != hrp:
-            raise Bech32FormatError("Invalid format (HRP not valid, expected %s, got %s)" % (hrp, hrpgot))
+            raise Bech32FormatError(f"Invalid format (HRP not valid, expected {hrp}, got {hrpgot})")
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
@@ -191,7 +191,7 @@ class BchBech32Decoder(Bech32DecoderBase):
         # Check converted data
         if (len(conv_data) < BchBech32Const.DATA_MIN_BYTE_LEN or
                 len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
-            raise Bech32FormatError("Invalid format (length not valid)")
+            raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return conv_data[0], ConvUtils.ListToBytes(conv_data[1:])
 

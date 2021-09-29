@@ -237,9 +237,9 @@ class Monero:
             ValueError: If one of the indexes is not valid
         """
         if minor_idx < 0 or minor_idx > MoneroConst.SUBADDR_MAX_IDX:
-            raise ValueError("Invalid minor index (%d)" % minor_idx)
+            raise ValueError(f"Invalid minor index ({minor_idx})")
         if major_idx < 0 or major_idx > MoneroConst.SUBADDR_MAX_IDX:
-            raise ValueError("Invalid major index (%d)" % major_idx)
+            raise ValueError(f"Invalid major index ({major_idx})")
 
         return self.__ComputeSubAddress(minor_idx, major_idx)
 

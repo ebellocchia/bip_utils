@@ -63,7 +63,7 @@ class Bip39EntropyGenerator:
             ValueError: If the bit length is not valid
         """
         if not self.IsValidEntropyBitLen(bits_len):
-            raise ValueError("Entropy bit length is not valid (%d)" % bits_len)
+            raise ValueError(f"Entropy bit length is not valid ({bits_len})")
         self.m_bits_len = bits_len
 
     def Generate(self) -> bytes:

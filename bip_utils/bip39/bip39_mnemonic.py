@@ -198,7 +198,7 @@ class _Bip39WordsList:
         if not isinstance(lang, Bip39Languages):
             raise TypeError("Language is not an enumerative of Bip39Languages")
         if len(words_list) != Bip39MnemonicConst.WORDS_LIST_NUM:
-            raise ValueError("Number of words list (%d) is not valid" % len(words_list))
+            raise ValueError(f"Number of words list ({len(words_list)}) is not valid")
 
         self.m_lang = lang
         self.m_words_list = words_list
@@ -229,7 +229,7 @@ class _Bip39WordsList:
         if self.m_lang in Bip39MnemonicConst.LANGUAGE_BIN_SEARCH:
             idx = AlgoUtils.BinarySearch(self.m_words_list, word)
             if idx == -1:
-                raise ValueError("Word '%s' is not existent in word list" % word)
+                raise ValueError(f"Word '{word}' is not existent in word list")
         else:
             idx = self.m_words_list.index(word)
 
@@ -358,7 +358,7 @@ class _Bip39WordsListFinder:
                 continue
 
         # Language not found
-        raise ValueError("Invalid language for mnemonic '%s'" % mnemonic.ToStr())
+        raise ValueError(f"Invalid language for mnemonic '{mnemonic.ToStr()}'")
 
 
 class Bip39MnemonicEncoder:
@@ -394,7 +394,7 @@ class Bip39MnemonicEncoder:
         # Check entropy length
         entropy_byte_len = len(entropy_bytes)
         if not Bip39EntropyGenerator.IsValidEntropyByteLen(entropy_byte_len):
-            raise ValueError("Entropy byte length (%d) is not valid" % entropy_byte_len)
+            raise ValueError(f"Entropy byte length ({entropy_byte_len}) is not valid")
 
         # Convert entropy to binary string
         entropy_bin_str = ConvUtils.BytesToBinaryStr(entropy_bytes, entropy_byte_len * 8)
@@ -499,7 +499,7 @@ class Bip39MnemonicDecoder:
 
         # Check mnemonic length
         if mnemonic.WordsCount() not in Bip39MnemonicConst.MNEMONIC_WORD_LEN:
-            raise ValueError("Mnemonic words count is not valid (%d)" % mnemonic.WordsCount())
+            raise ValueError(f"Mnemonic words count is not valid ({mnemonic.WordsCount()})")
 
         # Detect language if it was not specified at construction
         words_list = (_Bip39WordsListFinder.FindLanguage(mnemonic)
@@ -514,8 +514,9 @@ class Bip39MnemonicDecoder:
         comp_checksum_bin_str = self.__ComputeChecksumBinaryStr(mnemonic_bin_str)
 
         if checksum_bin_str != comp_checksum_bin_str:
-            raise Bip39ChecksumError("Invalid checksum (expected %s, got %s)" %
-                                     (checksum_bin_str, comp_checksum_bin_str))
+            raise Bip39ChecksumError(
+                f"Invalid checksum (expected {checksum_bin_str}, got {comp_checksum_bin_str})"
+            )
 
         return mnemonic_bin_str
 

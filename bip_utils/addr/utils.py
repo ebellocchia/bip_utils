@@ -147,6 +147,6 @@ class AddrUtils:
             pub_key = pub_key_cls.FromBytes(pub_key)
         elif not isinstance(pub_key, pub_key_cls):
             curve = EllipticCurveGetter.FromType(pub_key_cls.CurveType())
-            raise TypeError("A %s public key is required" % curve.Name())
+            raise TypeError(f"A {curve.Name()} public key is required")
 
         return pub_key

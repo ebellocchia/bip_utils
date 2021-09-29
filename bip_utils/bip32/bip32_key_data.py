@@ -90,7 +90,7 @@ class Bip32Depth:
             depth (int): Depth
         """
         if depth < 0:
-            raise ValueError("Invalid depth (%d)" % depth)
+            raise ValueError(f"Invalid depth ({depth})")
         self.m_depth = depth
 
     def Increase(self) -> Bip32Depth:
@@ -191,7 +191,7 @@ class Bip32KeyIndex:
             idx (int): Key index
         """
         if idx < 0 or idx > Bip32KeyDataConst.KEY_INDEX_MAX_VAL:
-            raise ValueError("Invalid key index (%d)" % idx)
+            raise ValueError(f"Invalid key index ({idx})")
         self.m_idx = idx
 
     def IsHardened(self) -> bool:

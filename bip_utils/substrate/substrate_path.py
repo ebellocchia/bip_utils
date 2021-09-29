@@ -57,7 +57,7 @@ class SubstratePathElem:
             SubstratePathError: If the path element is not valid
         """
         if not self.__IsElemValid(elem):
-            raise SubstratePathError("Invalid path element (%s)" % elem)
+            raise SubstratePathError(f"Invalid path element ({elem})")
 
         self.m_elem = elem.replace("/", "")
         self.m_is_hard = elem.startswith(SubstratePathConst.HARD_PATH_PREFIX)
@@ -127,7 +127,7 @@ class SubstratePathElem:
             elif bit_len <= 256:
                 path_scale = ScaleDecoder.get_decoder_class("U256")
             else:
-                raise SubstratePathError("Invalid integer bit length (%d)" % bit_len)
+                raise SubstratePathError(f"Invalid integer bit length ({bit_len})")
         # String
         else:
             path_scale = ScaleDecoder.get_decoder_class("Bytes")
@@ -265,7 +265,7 @@ class SubstratePathParser:
             SubstratePathError: If the path element is not valid
         """
         if len(path) > 0 and not path.startswith("/"):
-            raise SubstratePathError("Invalid path (%s)" % path)
+            raise SubstratePathError(f"Invalid path ({path})")
 
         paths = re.findall(SubstratePathConst.RE_PATH, path)
         return SubstratePath([path for path in paths])
