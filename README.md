@@ -1480,7 +1480,7 @@ Some examples from mnemonic generation to wallet addresses.
 
 If you'd like to donate something:
 - BTC: bc1qxr3camglhmrcl5uhs2m5hmaxmrxf47krs3fzpm
-- ETH: 0xd059eA7259367512fFC7269B9beD4A45f13bb40b
+- ETH: 0xf84e4898E5E10bf1fBe9ffA3EEC845e82e364b5B
 
 Thank you very much in advance for your support.
 
