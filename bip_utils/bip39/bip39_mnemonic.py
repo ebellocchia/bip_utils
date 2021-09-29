@@ -192,10 +192,11 @@ class _Bip39WordsList:
             lang (Bip39Languages): Language
 
         Raises:
+            TypeError: If the language is not a Bip39Languages enum
             ValueError: If loaded words list is not valid
         """
-
-        # Check words list length
+        if not isinstance(lang, Bip39Languages):
+            raise TypeError("Language is not an enumerative of Bip39Languages")
         if len(words_list) != Bip39MnemonicConst.WORDS_LIST_NUM:
             raise ValueError("Number of words list (%d) is not valid" % len(words_list))
 
@@ -258,11 +259,14 @@ class _Bip39WordsListFileReader:
             lang (Bip39Languages): Language
 
         Returns:
-            _Bip39WordsList: Loaded words list from mnemonic file
+            _Bip39WordsList: _Bip39WordsList object
 
         Raises:
+            TypeError: If the language is not a Bip39Languages enum
             ValueError: If loaded words list is not valid
         """
+        if not isinstance(lang, Bip39Languages):
+            raise TypeError("Language is not an enumerative of Bip39Languages")
 
         # Get file path
         file_name = Bip39MnemonicConst.LANGUAGE_FILES[lang]
@@ -280,7 +284,7 @@ class _Bip39WordsListGetter:
     """
 
     # Global instance
-    instance = None
+    __instance = None
 
     def __init__(self):
         """ Construct class. """
@@ -295,9 +299,10 @@ class _Bip39WordsListGetter:
             lang (Bip39Languages): Language
 
         Returns:
-            _Bip39WordsList object: Words list
+            _Bip39WordsList object: _Bip39WordsList object
 
         Raises:
+            TypeError: If the language is not a Bip39Languages enum
             ValueError: If loaded words list is not valid
         """
 
@@ -315,9 +320,9 @@ class _Bip39WordsListGetter:
         Returns:
             _Bip39WordsListGetter object: _Bip39WordsListGetter object
         """
-        if cls.instance is None:
-            cls.instance = _Bip39WordsListGetter()
-        return cls.instance
+        if cls.__instance is None:
+            cls.__instance = _Bip39WordsListGetter()
+        return cls.__instance
 
 
 class _Bip39WordsListFinder:
@@ -370,9 +375,6 @@ class Bip39MnemonicEncoder:
             TypeError: If the language is not a Bip39Languages enum
             ValueError: If loaded words list is not valid
         """
-        if not isinstance(lang, Bip39Languages):
-            raise TypeError("Language is not an enumerative of Bip39Languages")
-
         self.m_words_list = _Bip39WordsListGetter.Instance().GetByLanguage(lang)
 
     def Encode(self,
@@ -432,9 +434,6 @@ class Bip39MnemonicDecoder:
             TypeError: If the language is not a Bip39Languages enum
             ValueError: If loaded words list is not valid
         """
-        if lang is not None and not isinstance(lang, Bip39Languages):
-            raise TypeError("Language is not an enumerative of Bip39Languages")
-
         self.m_words_list = (_Bip39WordsListGetter.Instance().GetByLanguage(lang)
                              if lang is not None
                              else None)
@@ -565,8 +564,8 @@ class Bip39MnemonicDecoder:
         """ Get mnemonic binary string from mnemonic phrase.
 
         Args:
-            mnemonic (Bip39Mnemonic object)   : Mnemonic object
-            words_list (Bip39WordsList object): Words list
+            mnemonic (Bip39Mnemonic object)    : Mnemonic object
+            words_list (_Bip39WordsList object): Words list object
 
         Returns:
            str: Mnemonic binary string

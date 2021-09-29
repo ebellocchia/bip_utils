@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import binascii
 import unittest
@@ -474,6 +473,7 @@ class Bip39Tests(unittest.TestCase):
     def test_invalid_params(self):
         self.assertRaises(ValueError, _Bip39WordsList, (Bip39MnemonicConst.WORDS_LIST_NUM - 1) * ["test"], Bip39Languages.ENGLISH)
         self.assertRaises(ValueError, _Bip39WordsList, (Bip39MnemonicConst.WORDS_LIST_NUM + 1) * ["test"], Bip39Languages.ENGLISH)
+        self.assertRaises(TypeError, _Bip39WordsList, Bip39MnemonicConst.WORDS_LIST_NUM * ["test"], 0)
         self.assertRaises(TypeError, Bip39MnemonicGenerator, 0)
         self.assertRaises(TypeError, Bip39MnemonicValidator, 0)
         self.assertRaises(TypeError, Bip39SeedGenerator, "", 0)
