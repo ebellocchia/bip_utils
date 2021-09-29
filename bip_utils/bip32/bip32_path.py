@@ -20,7 +20,7 @@
 
 
 # Import
-from typing import Iterator, List, Tuple, Union
+from typing import Iterator, List, Optional, Tuple, Union
 from bip_utils.bip32.bip32_ex import Bip32PathError
 from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip32.bip32_utils import Bip32Utils
@@ -39,12 +39,15 @@ class Bip32Path:
     """ BIP32 path class. It represents a BIP-0032 path. """
 
     def __init__(self,
-                 elems: List[Union[int, Bip32KeyIndex]] = []) -> None:
+                 elems: Optional[List[Union[int, Bip32KeyIndex]]] = None) -> None:
         """ Construct class by specifying the path elements.
 
         Args:
             elems (list): Path elements
         """
+        if elems is None:
+            elems = []
+
         try:
             self.m_elems = [Bip32KeyIndex(elem) if isinstance(elem, int) else elem for elem in elems]
         except ValueError as ex:
