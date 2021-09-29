@@ -1349,16 +1349,16 @@ Some examples from mnemonic generation to wallet addresses.
 
     # Generate random mnemonic
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
-    print("Mnemonic string: %s" % mnemonic)
+    print(f"Mnemonic string: {mnemonic}")
     # Generate seed from mnemonic
     seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
     # Construct from seed
     bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
     # Print master key
-    print("Master key (bytes): %s" % bip44_mst_ctx.PrivateKey().Raw().ToHex())
-    print("Master key (extended): %s" % bip44_mst_ctx.PrivateKey().ToExtended())
-    print("Master key (WIF): %s" % bip44_mst_ctx.PrivateKey().ToWif())
+    print(f"Master key (bytes): {bip44_mst_ctx.PrivateKey().Raw().ToHex()}")
+    print(f"Master key (extended): {bip44_mst_ctx.PrivateKey().ToExtended()}")
+    print(f"Master key (WIF): {bip44_mst_ctx.PrivateKey().ToWif()}")
 
     # Generate BIP44 account keys: m/44'/0'/0'
     bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
@@ -1368,9 +1368,9 @@ Some examples from mnemonic generation to wallet addresses.
     # Generate the first 10 addresses: m/44'/0'/0'/0/i
     for i in range(10):
         bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)
-        print("%d. Address public key (extended): %s" % (i, bip44_addr_ctx.PublicKey().ToExtended()))
-        print("%d. Address private key (extended): %s" % (i, bip44_addr_ctx.PrivateKey().ToExtended()))
-        print("%d. Address: %s" % (i, bip44_addr_ctx.PublicKey().ToAddress()))
+        print(f"{i}. Address public key (extended): {bip44_addr_ctx.PublicKey().ToExtended()}")
+        print(f"{i}. Address private key (extended): {bip44_addr_ctx.PrivateKey().ToExtended()}")
+        print(f"{i}. Address: {bip44_addr_ctx.PublicKey().ToAddress()}")
 
 **Substrate based on BIP44**
 
@@ -1380,22 +1380,21 @@ Some examples from mnemonic generation to wallet addresses.
 
     # Generate random mnemonic
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
-    print("Mnemonic string: %s" % mnemonic)
+    print(f"Mnemonic string: {mnemonic}")
     # Generate seed from mnemonic
     seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
     # Construct from seed
     bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.POLKADOT_ED25519_SLIP)
     # Print master key
-    print("Master key (bytes): %s" % bip44_mst_ctx.PrivateKey().Raw().ToHex())
-    print("Master key (extended): %s" % bip44_mst_ctx.PrivateKey().ToExtended())
+    print(f"Master key (bytes): {bip44_mst_ctx.PrivateKey().Raw().ToHex()}")
 
     # Derive default path
     bip_obj_def = bip44_mst_ctx.DeriveDefaultPath()
     # Print default keys and address
-    print("Default public key (extended): %s" % bip_obj_def.PublicKey().ToExtended())
-    print("Default private key (extended): %s" % bip_obj_def.PrivateKey().ToExtended())
-    print("Default address: %s" % bip_obj_def.PublicKey().ToAddress())
+    print(f"Default public key (hex): {bip_obj_def.PublicKey().RawCompressed().ToHex()}")
+    print(f"Default private key (hex): {bip_obj_def.PrivateKey().Raw().ToHex()}")
+    print(f"Default address: {bip_obj_def.PublicKey().ToAddress()}")
 
 **Substrate**
 
@@ -1406,34 +1405,34 @@ Some examples from mnemonic generation to wallet addresses.
 
     # Generate random mnemonic
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
-    print("Mnemonic string: %s" % mnemonic)
+    print(f"Mnemonic string: {mnemonic}")
     # Generate seed from mnemonic
     seed_bytes = SubstrateBip39SeedGenerator(mnemonic).Generate()
 
     # Construct from seed
     substrate_ctx = Substrate.FromSeed(seed_bytes, SubstrateCoins.POLKADOT)
     # Print master keys and address
-    print("Master private key (bytes): %s" % substrate_ctx.PrivateKey().Raw().ToHex())
-    print("Master public  key (bytes): %s" % substrate_ctx.PublicKey().RawCompressed().ToHex())
-    print("Address: %s" % substrate_ctx.PublicKey().ToAddress())
+    print(f"Master private key (bytes): {substrate_ctx.PrivateKey().Raw().ToHex()}")
+    print(f"Master public  key (bytes): {substrate_ctx.PublicKey().RawCompressed().ToHex()}")
+    print(f"Address: {substrate_ctx.PublicKey().ToAddress()}")
 
     # Derive a child key
     substrate_ctx = substrate_ctx.ChildKey("//hard")
     # Print derived keys and address
-    print("Derived private key (bytes): %s" % substrate_ctx.PrivateKey().Raw().ToHex())
-    print("Derived public  key (bytes): %s" % substrate_ctx.PublicKey().RawCompressed().ToHex())
-    print("Derived address: %s" % substrate_ctx.PublicKey().ToAddress())
+    print(f"Derived private key (bytes): {substrate_ctx.PrivateKey().Raw().ToHex()}")
+    print(f"Derived public  key (bytes): {substrate_ctx.PublicKey().RawCompressed().ToHex()}")
+    print(f"Derived address: {substrate_ctx.PublicKey().ToAddress()}")
     # Print path
-    print("Path: %s" % substrate_ctx.Path().ToStr())
+    print(f"Path: {substrate_ctx.Path().ToStr()}")
 
     # Derive a path
     substrate_ctx = substrate_ctx.DerivePath("//0/1")
     # Print derived keys and address
-    print("Derived private key (bytes): %s" % substrate_ctx.PrivateKey().Raw().ToHex())
-    print("Derived public  key (bytes): %s" % substrate_ctx.PublicKey().RawCompressed().ToHex())
-    print("Derived address: %s" % substrate_ctx.PublicKey().ToAddress())
+    print(f"Derived private key (bytes): {substrate_ctx.PrivateKey().Raw().ToHex()}")
+    print(f"Derived public  key (bytes): {substrate_ctx.PublicKey().RawCompressed().ToHex()}")
+    print(f"Derived address: {substrate_ctx.PublicKey().ToAddress()}")
     # Print path
-    print("Path: %s" % substrate_ctx.Path().ToStr())
+    print(f"Path: {substrate_ctx.Path().ToStr()}")
 
 **Monero based on BIP44**
 
@@ -1443,15 +1442,15 @@ Some examples from mnemonic generation to wallet addresses.
 
     # Generate random mnemonic
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
-    print("Mnemonic string: %s" % mnemonic)
+    print(f"Mnemonic string: {mnemonic}")
     # Generate seed from mnemonic
     seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
     # Construct from seed
     bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.MONERO_ED25519_SLIP)
     # Print master key
-    print("Master key (bytes): %s" % bip44_mst_ctx.PrivateKey().Raw().ToHex())
-    print("Master key (extended): %s" % bip44_mst_ctx.PrivateKey().ToExtended())
+    print(f"Master key (bytes): {bip44_mst_ctx.PrivateKey().Raw().ToHex()}")
+    print(f"Master key (extended): {bip44_mst_ctx.PrivateKey().ToExtended()}")
 
     # Derive default path
     bip44_def_ctx = bip44_mst_ctx.DeriveDefaultPath()
@@ -1460,21 +1459,17 @@ Some examples from mnemonic generation to wallet addresses.
     monero = Monero.FromBip44PrivateKey(bip44_def_ctx.PrivateKey().Raw().ToBytes())
 
     # Print keys
-    print("Monero private spend key: %s" % monero.PrivateSpendKey().Raw().ToHex())
-    print("Monero private view key: %s" % monero.PrivateViewKey().Raw().ToHex())
-    print("Monero public spend key: %s" % monero.PublicSpendKey().RawCompressed().ToHex())
-    print("Monero public view key: %s" % monero.PublicViewKey().RawCompressed().ToHex())
+    print(f"Monero private spend key: {monero.PrivateSpendKey().Raw().ToHex()}")
+    print(f"Monero private view key: {monero.PrivateViewKey().Raw().ToHex()}")
+    print(f"Monero public spend key: {monero.PublicSpendKey().RawCompressed().ToHex()}")
+    print(f"Monero public view key: {monero.PublicViewKey().RawCompressed().ToHex()}")
 
     # Print primary address
-    print("Monero primary address: %s" % monero.PrimaryAddress())
+    print(f"Monero primary address: {monero.PrimaryAddress()}")
     # Print the first 5 subaddresses for account 0 and 1
     for acc_idx in range(2):
         for subaddr_idx in range(5):
-            print("Subaddress (account: %d, %d): %s" % (acc_idx, subaddr_idx, monero.SubAddress(subaddr_idx, acc_idx)))
-
-# Future steps
-
-- Add Cardano support
+            print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.SubAddress(subaddr_idx, acc_idx)}")
 
 # Donations
 
