@@ -26,38 +26,32 @@ from bip_utils.utils import EntropyGenerator
 
 
 @unique
-class Bip39EntropyBitLen(IntEnum):
-    """ Enumerative for BIP39 entropy bit lengths. """
+class MoneroEntropyBitLen(IntEnum):
+    """ Enumerative for Monero entropy bit lengths. """
 
     BIT_LEN_128 = 128,
-    BIT_LEN_160 = 160,
-    BIT_LEN_192 = 192,
-    BIT_LEN_224 = 224,
     BIT_LEN_256 = 256,
 
 
-class Bip39EntropyGeneratorConst:
-    """ Class container for BIP39 entropy generator constants. """
+class MoneroEntropyGeneratorConst:
+    """ Class container for Monero entropy generator constants. """
 
     # Accepted entropy lengths in bit
-    ENTROPY_BIT_LEN: List[Bip39EntropyBitLen] = [
-        Bip39EntropyBitLen.BIT_LEN_128,
-        Bip39EntropyBitLen.BIT_LEN_160,
-        Bip39EntropyBitLen.BIT_LEN_192,
-        Bip39EntropyBitLen.BIT_LEN_224,
-        Bip39EntropyBitLen.BIT_LEN_256,
+    ENTROPY_BIT_LEN: List[MoneroEntropyBitLen] = [
+        MoneroEntropyBitLen.BIT_LEN_128,
+        MoneroEntropyBitLen.BIT_LEN_256,
     ]
 
 
-class Bip39EntropyGenerator(EntropyGenerator):
+class MoneroEntropyGenerator(EntropyGenerator):
     """ Entropy generator class. It generates random entropy bytes with the specified length. """
 
     def __init__(self,
-                 bits_len: Union[int, Bip39EntropyBitLen]) -> None:
+                 bits_len: Union[int, MoneroEntropyBitLen]) -> None:
         """ Construct class by specifying the bits length.
 
         Args:
-            bits_len (int or Bip39EntropyBitLen): Entropy length in bits
+            bits_len (int or MoneroEntropyBitLen): Entropy length in bits
 
         Raises:
             ValueError: If the bit length is not valid
@@ -67,16 +61,16 @@ class Bip39EntropyGenerator(EntropyGenerator):
         super().__init__(bits_len // 8)
 
     @staticmethod
-    def IsValidEntropyBitLen(bits_len: Union[int, Bip39EntropyBitLen]) -> bool:
+    def IsValidEntropyBitLen(bits_len: Union[int, MoneroEntropyBitLen]) -> bool:
         """ Get if the specified entropy bit length is valid.
 
         Args:
-            bits_len (int or Bip39EntropyBitLen): Entropy length in bits
+            bits_len (int or MoneroEntropyBitLen): Entropy length in bits
 
         Returns:
             bool: True if valid, false otherwise
         """
-        return bits_len in Bip39EntropyGeneratorConst.ENTROPY_BIT_LEN
+        return bits_len in MoneroEntropyGeneratorConst.ENTROPY_BIT_LEN
 
     @staticmethod
     def IsValidEntropyByteLen(bytes_len: int) -> bool:
@@ -88,4 +82,4 @@ class Bip39EntropyGenerator(EntropyGenerator):
         Returns:
             bool: True if valid, false otherwise
         """
-        return Bip39EntropyGenerator.IsValidEntropyBitLen(bytes_len * 8)
+        return MoneroEntropyGenerator.IsValidEntropyBitLen(bytes_len * 8)

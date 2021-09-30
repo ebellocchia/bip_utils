@@ -27,12 +27,15 @@ from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union
 from bip_utils.bip39.bip39_ex import Bip39ChecksumError
 from bip_utils.bip39.bip39_entropy_generator import Bip39EntropyGenerator
-from bip_utils.utils import AlgoUtils, ConvUtils, CryptoUtils
+from bip_utils.utils import (
+    ConvUtils, CryptoUtils,
+    Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+)
 
 
 @unique
 class Bip39WordsNum(IntEnum):
-    """ Enumerative for BIP-0039 words number. """
+    """ Enumerative for BIP39 words number. """
 
     WORDS_NUM_12 = 12,
     WORDS_NUM_15 = 15,
@@ -43,7 +46,7 @@ class Bip39WordsNum(IntEnum):
 
 @unique
 class Bip39Languages(Enum):
-    """ Enumerative for BIP-0039 languages. """
+    """ Enumerative for BIP39 languages. """
 
     CHINESE_SIMPLIFIED = auto(),
     CHINESE_TRADITIONAL = auto(),
@@ -59,8 +62,8 @@ class Bip39Languages(Enum):
 class Bip39MnemonicConst:
     """ Class container for BIP39 constants. """
 
-    # Accepted mnemonic word lengths
-    MNEMONIC_WORD_LEN: List[Bip39WordsNum] = [
+    # Accepted mnemonic word numbers
+    MNEMONIC_WORD_NUM: List[Bip39WordsNum] = [
         Bip39WordsNum.WORDS_NUM_12,
         Bip39WordsNum.WORDS_NUM_15,
         Bip39WordsNum.WORDS_NUM_18,
@@ -81,13 +84,18 @@ class Bip39MnemonicConst:
         Bip39Languages.KOREAN: "bip39_words/korean.txt",
     }
 
-    # Languages supporting binary search
-    LANGUAGE_BIN_SEARCH: List[Bip39Languages] = [
-        Bip39Languages.ENGLISH,
-        Bip39Languages.ITALIAN,
-        Bip39Languages.PORTUGUESE,
-        Bip39Languages.CZECH
-    ]
+    # Languages binary search support
+    LANGUAGE_BIN_SEARCH: Dict[Bip39Languages, bool] = {
+        Bip39Languages.ENGLISH: True,
+        Bip39Languages.ITALIAN: True,
+        Bip39Languages.FRENCH: False,
+        Bip39Languages.SPANISH: False,
+        Bip39Languages.PORTUGUESE: False,
+        Bip39Languages.CZECH: True,
+        Bip39Languages.CHINESE_SIMPLIFIED: False,
+        Bip39Languages.CHINESE_TRADITIONAL: False,
+        Bip39Languages.KOREAN: False,
+    }
 
     # Total number of words
     WORDS_LIST_NUM: int = 2048
@@ -95,36 +103,8 @@ class Bip39MnemonicConst:
     WORD_BIT_LEN: int = 11
 
 
-class Bip39Mnemonic:
-    """ BIP39 mnemonic class. It represents a generic mnemonic phrase.
-    It acts as a simple container with some helper functions, so it doesn't validate the given mnemonic.
-    """
-
-    @classmethod
-    def FromString(cls,
-                   mnemonic_str: str) -> Bip39Mnemonic:
-        """ Create a class from mnemonic string.
-
-        Args:
-            mnemonic_str (str): Mnemonic string
-
-        Returns:
-            Bip39Mnemonic: Mnemonic object
-        """
-        return cls.FromList(mnemonic_str.split(" "))
-
-    @classmethod
-    def FromList(cls,
-                 mnemonic_list: List[str]) -> Bip39Mnemonic:
-        """ Create a class from mnemonic list.
-
-        Args:
-            mnemonic_list (list): Mnemonic list
-
-        Returns:
-            Bip39Mnemonic: Mnemonic object
-        """
-        return cls(mnemonic_list)
+class Bip39Mnemonic(Mnemonic):
+    """ BIP39 mnemonic class. It adds NFKD normalization to mnemonic. """
 
     def __init__(self,
                  mnemonic_list: List[str]) -> None:
@@ -133,39 +113,7 @@ class Bip39Mnemonic:
         Args:
             mnemonic_list (list): Mnemonic list
         """
-        self.m_mnemonic_list = self.__NormalizeNfkd(mnemonic_list)
-
-    def WordsCount(self) -> int:
-        """ Get the words count.
-
-        Returns:
-            int: Words count
-        """
-        return len(self.m_mnemonic_list)
-
-    def ToList(self) -> List[str]:
-        """ Get the mnemonic as a list.
-
-        Returns:
-            list: Mnemonic as a list
-        """
-        return self.m_mnemonic_list
-
-    def ToStr(self) -> str:
-        """ Get the mnemonic as a string.
-
-        Returns:
-            str: Mnemonic as a string
-        """
-        return " ".join(self.m_mnemonic_list)
-
-    def __str__(self) -> str:
-        """ Get the mnemonic as a string.
-
-        Returns:
-            str: Mnemonic as a string
-        """
-        return self.ToStr()
+        super().__init__(self.__NormalizeNfkd(mnemonic_list))
 
     @staticmethod
     def __NormalizeNfkd(mnemonic_list: List[str]) -> List[str]:
@@ -180,118 +128,13 @@ class Bip39Mnemonic:
         return list(map(lambda s: ConvUtils.NormalizeNfkd(s), mnemonic_list))
 
 
-class _Bip39WordsList:
-    """ BIP39 words list class. """
-
-    def __init__(self,
-                 words_list: List[str],
-                 lang: Bip39Languages) -> None:
-        """ Construct class by reading the words list from file.
-
-        Args:
-            lang (Bip39Languages): Language
-
-        Raises:
-            TypeError: If the language is not a Bip39Languages enum
-            ValueError: If loaded words list is not valid
-        """
-        if not isinstance(lang, Bip39Languages):
-            raise TypeError("Language is not an enumerative of Bip39Languages")
-        if len(words_list) != Bip39MnemonicConst.WORDS_LIST_NUM:
-            raise ValueError(f"Number of words list ({len(words_list)}) is not valid")
-
-        self.m_lang = lang
-        self.m_words_list = words_list
-
-    def Language(self) -> Bip39Languages:
-        """ Get words list language.
-
-        Returns:
-            Bip39Languages: Language
-        """
-        return self.m_lang
-
-    def GetWordIdx(self,
-                   word: str) -> int:
-        """ Get the index of the specified word, by searching it in the list.
-
-        Args:
-            word (str): Word to be searched
-
-        Returns:
-            int: Word index
-
-        Raises:
-            ValueError: If the word is not found
-        """
-
-        # Use binary search when possible
-        if self.m_lang in Bip39MnemonicConst.LANGUAGE_BIN_SEARCH:
-            idx = AlgoUtils.BinarySearch(self.m_words_list, word)
-            if idx == -1:
-                raise ValueError(f"Word '{word}' is not existent in word list")
-        else:
-            idx = self.m_words_list.index(word)
-
-        return idx
-
-    def GetWordAtIdx(self,
-                     word_idx: int) -> str:
-        """ Get the word at the specified index.
-
-        Args:
-            word_idx (int): Word index
-
-        Returns:
-            str: Word at the specified index
-        """
-        return self.m_words_list[word_idx]
-
-
-class _Bip39WordsListFileReader:
-    """ BIP39 words list file reader class. It reads the words list from a file. """
-
-    @staticmethod
-    def LoadFile(lang: Bip39Languages) -> _Bip39WordsList:
-        """ Load words list file correspondent to the specified language.
-
-        Args:
-            lang (Bip39Languages): Language
-
-        Returns:
-            _Bip39WordsList: _Bip39WordsList object
-
-        Raises:
-            TypeError: If the language is not a Bip39Languages enum
-            ValueError: If loaded words list is not valid
-        """
-        if not isinstance(lang, Bip39Languages):
-            raise TypeError("Language is not an enumerative of Bip39Languages")
-
-        # Get file path
-        file_name = Bip39MnemonicConst.LANGUAGE_FILES[lang]
-        file_path = os.path.join(os.path.dirname(__file__), file_name)
-        # Read file
-        with open(file_path, "r", encoding="utf-8") as fin:
-            words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
-
-        return _Bip39WordsList(words_list, lang)
-
-
-class _Bip39WordsListGetter:
+class _Bip39WordsListGetter(MnemonicWordsListGetterBase):
     """ BIP39 words list getter class. It allows to get words list by language so that
     they are loaded from file only once per language (i.e. on the first request).
     """
 
-    # Global instance
-    __instance = None
-
-    def __init__(self):
-        """ Construct class. """
-        self.m_words_lists = {}
-
     def GetByLanguage(self,
-                      lang: Bip39Languages) -> _Bip39WordsList:
+                      lang: Bip39Languages) -> MnemonicWordsList:
         """ Get words list by language.
         Words list of a specific language are loaded from file only the first time they are requested.
 
@@ -299,30 +142,26 @@ class _Bip39WordsListGetter:
             lang (Bip39Languages): Language
 
         Returns:
-            _Bip39WordsList object: _Bip39WordsList object
+            MnemonicWordsList object: MnemonicWordsList object
 
         Raises:
             TypeError: If the language is not a Bip39Languages enum
             ValueError: If loaded words list is not valid
         """
+        if not isinstance(lang, Bip39Languages):
+            raise TypeError("Language is not an enumerative of Bip39Languages")
 
         # Only load words list for a specific language the first time it is requested
         try:
             return self.m_words_lists[lang]
         except KeyError:
-            self.m_words_lists[lang] = _Bip39WordsListFileReader.LoadFile(lang)
+            file_name = os.path.join(os.path.dirname(__file__), Bip39MnemonicConst.LANGUAGE_FILES[lang])
+            words_num = Bip39MnemonicConst.WORDS_LIST_NUM
+            bin_search = Bip39MnemonicConst.LANGUAGE_BIN_SEARCH[lang]
+
+            self.m_words_lists[lang] = self._LoadWordsList(file_name, words_num, bin_search)
+
             return self.m_words_lists[lang]
-
-    @classmethod
-    def Instance(cls) -> _Bip39WordsListGetter:
-        """ Get the global class instance.
-
-        Returns:
-            _Bip39WordsListGetter object: _Bip39WordsListGetter object
-        """
-        if cls.__instance is None:
-            cls.__instance = _Bip39WordsListGetter()
-        return cls.__instance
 
 
 class _Bip39WordsListFinder:
@@ -331,15 +170,15 @@ class _Bip39WordsListFinder:
     """
 
     @staticmethod
-    def FindLanguage(mnemonic: Bip39Mnemonic) -> _Bip39WordsList:
+    def FindLanguage(mnemonic: Bip39Mnemonic) -> MnemonicWordsList:
         """ Automatically find the language of the specified mnemonic and
-        get the correct _Bip39WordsList class for it.
+        get the correct MnemonicWordsList class for it.
 
         Args:
-            mnemonic (Bip39Mnemonic object): Mnemonic object
+            mnemonic (Bip39Mnemonic object): Bip39Mnemonic object
 
         Returns:
-           _Bip39WordsList object: _Bip39WordsList object
+           MnemonicWordsList object: MnemonicWordsList object
 
         Raises:
             ValueError: If the mnemonic language cannot be found
@@ -443,7 +282,7 @@ class Bip39MnemonicDecoder:
         """ Decode a mnemonic phrase to bytes (no checksum).
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            mnemonic (str or Bip39Mnemonic object): Bip39Mnemonic
 
         Returns:
             bytes: Decoded bytes (no checksum)
@@ -461,7 +300,7 @@ class Bip39MnemonicDecoder:
         """ Decode a mnemonic phrase to bytes (with checksum).
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            mnemonic (str or Bip39Mnemonic object): Bip39Mnemonic
 
         Returns:
             bytes: Decoded bytes (with checksum)
@@ -485,7 +324,7 @@ class Bip39MnemonicDecoder:
         """ Decode a mnemonic phrase to its mnemonic binary string by verifying the checksum.
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            mnemonic (str or Bip39Mnemonic object): Bip39Mnemonic
 
         Returns:
             str: Mnemonic binary string
@@ -498,7 +337,7 @@ class Bip39MnemonicDecoder:
             mnemonic = Bip39Mnemonic.FromString(mnemonic)
 
         # Check mnemonic length
-        if mnemonic.WordsCount() not in Bip39MnemonicConst.MNEMONIC_WORD_LEN:
+        if mnemonic.WordsCount() not in Bip39MnemonicConst.MNEMONIC_WORD_NUM:
             raise ValueError(f"Mnemonic words count is not valid ({mnemonic.WordsCount()})")
 
         # Detect language if it was not specified at construction
@@ -561,12 +400,12 @@ class Bip39MnemonicDecoder:
 
     @staticmethod
     def __MnemonicToBinaryStr(mnemonic: Bip39Mnemonic,
-                              words_list: _Bip39WordsList) -> str:
+                              words_list: MnemonicWordsList) -> str:
         """ Get mnemonic binary string from mnemonic phrase.
 
         Args:
-            mnemonic (Bip39Mnemonic object)    : Mnemonic object
-            words_list (_Bip39WordsList object): Words list object
+            mnemonic (Bip39Mnemonic object)      : Bip39Mnemonic object
+            words_list (MnemonicWordsList object): Words list object
 
         Returns:
            str: Mnemonic binary string

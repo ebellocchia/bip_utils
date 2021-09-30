@@ -59,6 +59,7 @@ setuptools.setup(
     packages=setuptools.find_packages(exclude=['tests']),
     package_data={
         "bip_utils": [
+            # BIP39
             "bip39/bip39_words/english.txt",
             "bip39/bip39_words/italian.txt",
             "bip39/bip39_words/french.txt",
@@ -67,7 +68,18 @@ setuptools.setup(
             "bip39/bip39_words/czech.txt",
             "bip39/bip39_words/chinese_simplified.txt",
             "bip39/bip39_words/chinese_traditional.txt",
-            "bip39/bip39_words/korean.txt"
+            "bip39/bip39_words/korean.txt",
+            # Monero
+            "monero_mnemonic/monero_words/chinese_simplified.txt",
+            "monero_mnemonic/monero_words/dutch.txt",
+            "monero_mnemonic/monero_words/english.txt",
+            "monero_mnemonic/monero_words/french.txt",
+            "monero_mnemonic/monero_words/german.txt",
+            "monero_mnemonic/monero_words/italian.txt",
+            "monero_mnemonic/monero_words/japanese.txt",
+            "monero_mnemonic/monero_words/portuguese.txt",
+            "monero_mnemonic/monero_words/russian.txt",
+            "monero_mnemonic/monero_words/spanish.txt",
         ]
     },
     keywords=keywords,
