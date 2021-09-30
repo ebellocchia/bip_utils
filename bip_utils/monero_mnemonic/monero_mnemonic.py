@@ -23,13 +23,12 @@
 # Imports
 from __future__ import annotations
 import os
-from binascii import crc32
 from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple
 from bip_utils.monero_mnemonic.monero_mnemonic_ex import MoneroChecksumError
 from bip_utils.monero_mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.utils import (
-    AlgoUtils, ConvUtils, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+    ConvUtils, CryptoUtils, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
 )
 
 
@@ -107,7 +106,6 @@ class MoneroMnemonicConst:
     # Languages supporting binary search
     LANGUAGE_BIN_SEARCH: Dict[MoneroLanguages, bool] = {
         MoneroLanguages.CHINESE_SIMPLIFIED: False,
-        MoneroLanguages.GERMAN: False,
         MoneroLanguages.DUTCH: True,
         MoneroLanguages.ENGLISH: True,
         MoneroLanguages.FRENCH: False,
@@ -220,7 +218,7 @@ class _MoneroMnemonicUtils:
         # Join the prefix of all words together
         prefixes = "".join(word[:unique_prefix_len] for word in mnemonic)
 
-        return mnemonic[crc32(AlgoUtils.Encode(prefixes)) % len(mnemonic)]
+        return mnemonic[CryptoUtils.Crc32(prefixes) % len(mnemonic)]
 
 
 class MoneroMnemonicEncoder:

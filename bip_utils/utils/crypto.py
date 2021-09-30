@@ -20,6 +20,7 @@
 
 
 # Imports
+import binascii
 import hashlib
 import hmac
 import crcmod.predefined
@@ -143,6 +144,18 @@ class CryptoUtils:
             bytes: Computed Hash-160
         """
         return hashlib.new("ripemd160", CryptoUtils.Sha256(data)).digest()
+
+    @staticmethod
+    def Crc32(data: Union[bytes, str]) -> int:
+        """ Compute the CRC32 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            int: Computed CRC32
+        """
+        return binascii.crc32(AlgoUtils.Encode(data))
 
     @staticmethod
     def XModemCrc(data: Union[bytes, str]) -> bytes:
