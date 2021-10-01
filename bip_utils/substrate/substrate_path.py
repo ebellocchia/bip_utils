@@ -23,7 +23,7 @@
 from __future__ import annotations
 import re
 from functools import lru_cache
-from scalecodec.base import ScaleDecoder
+from scalecodec.base import RuntimeConfigurationObject
 from typing import Iterator, List, Optional, Union
 from bip_utils.substrate.substrate_ex import SubstratePathError
 from bip_utils.utils import CryptoUtils
@@ -115,22 +115,22 @@ class SubstratePathElem:
         if self.m_elem.isnumeric():
             bit_len = int(self.m_elem).bit_length()
             if bit_len <= 8:
-                path_scale = ScaleDecoder.get_decoder_class("U8")
+                path_scale = RuntimeConfigurationObject().create_scale_object("U8")
             elif bit_len <= 16:
-                path_scale = ScaleDecoder.get_decoder_class("U16")
+                path_scale = RuntimeConfigurationObject().create_scale_object("U16")
             elif bit_len <= 32:
-                path_scale = ScaleDecoder.get_decoder_class("U32")
+                path_scale = RuntimeConfigurationObject().create_scale_object("U32")
             elif bit_len <= 64:
-                path_scale = ScaleDecoder.get_decoder_class("U64")
+                path_scale = RuntimeConfigurationObject().create_scale_object("U64")
             elif bit_len <= 128:
-                path_scale = ScaleDecoder.get_decoder_class("U128")
+                path_scale = RuntimeConfigurationObject().create_scale_object("U128")
             elif bit_len <= 256:
-                path_scale = ScaleDecoder.get_decoder_class("U256")
+                path_scale = RuntimeConfigurationObject().create_scale_object("U256")
             else:
                 raise SubstratePathError(f"Invalid integer bit length ({bit_len})")
         # String
         else:
-            path_scale = ScaleDecoder.get_decoder_class("Bytes")
+            path_scale = RuntimeConfigurationObject().create_scale_object("Bytes")
 
         # Encode element
         path_scale.encode(self.m_elem)
