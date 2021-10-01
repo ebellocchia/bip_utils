@@ -112,8 +112,8 @@ class WifDecoder:
             # Check the compressed public key suffix
             if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
                 raise ValueError(
-                    f"Invalid compressed public key suffix (expected {ord(WifConst.COMPR_PUB_KEY_SUFFIX):X}, "
-                    f"got {key_bytes[-1]:X})"
+                    f"Invalid compressed public key suffix (expected 0x{ord(WifConst.COMPR_PUB_KEY_SUFFIX):02X}, "
+                    f"got 0x{key_bytes[-1]:X})"
                 )
             # Remove it
             key_bytes = key_bytes[:-1]
