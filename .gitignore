@@ -11,3 +11,4 @@ htmlcov
 build
 dist
 venv
+my_tests
