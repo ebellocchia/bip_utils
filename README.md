@@ -1657,7 +1657,7 @@ Some examples from mnemonic generation to wallet addresses.
 
 You know, I'm italian and I love drinking coffee (especially while coding :D). So, if you'd like to buy me one:
 - BTC: bc1qxr3camglhmrcl5uhs2m5hmaxmrxf47krs3fzpm
-- ETH: 0xf84e4898E5E10bf1fBe9ffA3EEC845e82e364b5B
+- ETH: 0xf84e4898E5E10bf1fBe9ffA3EEC845e82e364b5B (both ERC20 and BEP20 tokens are fine)
 
 Thank you very much for your support.
 
