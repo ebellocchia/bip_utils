@@ -33,6 +33,7 @@ Other functionalities:
 Dependencies:
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
+- [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
 - [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves
 - [ed25519-blake2b](https://pypi.org/project/ed25519-blake2b/) for ed25519-blake2b curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
@@ -103,18 +104,28 @@ I tried to add more coins from time to time. If you have some suggestions, feel 
 
 ## Install the package
 
-The package requires Python 3, it is not compatible with Python 2.\
-To install it:
-- Using *setuptools*:
+For the secp256k1 curve, it's possible to use either the *coincurve* or the *ecdsa* library. *coincurve* is much faster since it's a Python wrapper to the secp256k1 C library, while *ecdsa* is a pure Python implementation.\
+By default, *coincurve* will be used but it's possible to disable it when installing.
 
-        python setup.py install
+To install the package:
+- Default installation (*coincurve* will be used for secp256k1)
+    - Using *setuptools*:
 
-- Using *pip*:
+            python setup.py install
 
-        pip install bip_utils
+    - Using *pip*:
+
+            pip install bip_utils
+- Use *ecdsa* for secp256k1:
+    - Using *setuptools*:
+
+            python setup.py install --coincurve=0
+
+    - Using *pip*:
+
+            pip install bip_utils --install-option="--coincurve=0"
 
 To run the tests:
-
 - Without code coverage
 
         python -m unittest discover
