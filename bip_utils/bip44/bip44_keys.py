@@ -21,7 +21,7 @@
 
 # Imports
 from functools import lru_cache
-from typing import Any, Dict
+from typing import Any, Dict, Type
 from bip_utils.addr import *
 from bip_utils.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.conf import AddrTypes, BipCoinConf
@@ -33,7 +33,7 @@ class Bip44KeysConst:
     """ Class container for BIP44 keys constants. """
 
     # Address type to class
-    ADDR_TYPE_TO_CLASS: Dict[AddrTypes, Any] = {
+    ADDR_TYPE_TO_CLASS: Dict[AddrTypes, Type[IAddrEncoder]] = {
         AddrTypes.ALGO: AlgoAddr,
         AddrTypes.AVAX_P: AvaxPChainAddr,
         AddrTypes.AVAX_X: AvaxXChainAddr,
@@ -137,22 +137,30 @@ class Bip44PublicKey:
 
         # P2PKH, P2SH
         if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH):
-            return addr_cls.EncodeKey(pub_key_obj, addr_conf["net_ver"])
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      net_addr_ver=addr_conf["net_ver"])
         # P2WPKH
         elif addr_type == AddrTypes.P2WPKH:
-            return addr_cls.EncodeKey(pub_key_obj, addr_conf["wit_ver"], addr_conf["net_ver"])
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      wit_ver=addr_conf["wit_ver"],
+                                      net_addr_ver=addr_conf["net_ver"])
         # BCH P2PKH and P2SH
         elif addr_type in (AddrTypes.P2PKH_BCH, AddrTypes.P2SH_BCH):
-            return addr_cls.EncodeKey(pub_key_obj, addr_conf["hrp"], addr_conf["net_ver"])
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      hrp=addr_conf["hrp"],
+                                      net_addr_ver=addr_conf["net_ver"])
         # Atom
         elif addr_type == AddrTypes.ATOM:
-            return addr_cls.EncodeKey(pub_key_obj, addr_conf["hrp"])
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      hrp=addr_conf["hrp"])
         # Substrate
         elif addr_type == AddrTypes.SUBSTRATE:
-            return addr_cls.EncodeKey(pub_key_obj, addr_conf["ss58_format"])
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      ss58_format=addr_conf["ss58_format"])
         # NEO
         elif addr_type == AddrTypes.NEO:
-            return addr_cls.EncodeKey(pub_key_obj, addr_conf["ver"])
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      ver=addr_conf["ver"])
         # Others
         else:
             return addr_cls.EncodeKey(pub_key_obj)

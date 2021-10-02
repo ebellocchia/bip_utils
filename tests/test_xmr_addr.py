@@ -76,30 +76,32 @@ class XmrAddrTests(unittest.TestCase):
             vkey_bytes = binascii.unhexlify(test["pub_vkey"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], XmrAddr.EncodeKey(skey_bytes, vkey_bytes, test["net_ver"]))
-            self.assertEqual(test["address"], XmrAddr.EncodeKey(Ed25519MoneroPublicKey.FromBytes(skey_bytes),
-                                                                vkey_bytes,
-                                                                test["net_ver"]))
             self.assertEqual(test["address"], XmrAddr.EncodeKey(skey_bytes,
-                                                                Ed25519MoneroPublicKey.FromBytes(vkey_bytes),
-                                                                test["net_ver"]))
+                                                                pub_view_key=vkey_bytes,
+                                                                net_ver=test["net_ver"]))
+            self.assertEqual(test["address"], XmrAddr.EncodeKey(Ed25519MoneroPublicKey.FromBytes(skey_bytes),
+                                                                pub_view_key=vkey_bytes,
+                                                                net_ver=test["net_ver"]))
+            self.assertEqual(test["address"], XmrAddr.EncodeKey(skey_bytes,
+                                                                pub_view_key=Ed25519MoneroPublicKey.FromBytes(vkey_bytes),
+                                                                net_ver=test["net_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key types
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_SECP256K1_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_SR25519_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_PUB_KEY, pub_view_key=TEST_ED25519_MONERO_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, pub_view_key=TEST_ED25519_MONERO_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, pub_view_key=TEST_ED25519_MONERO_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_SECP256K1_PUB_KEY, pub_view_key=TEST_ED25519_MONERO_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_SR25519_PUB_KEY, pub_view_key=TEST_ED25519_MONERO_PUB_KEY, net_ver=b"")
 
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, TEST_ED25519_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, TEST_NIST256P1_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, TEST_SECP256K1_PUB_KEY, b"")
-        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, TEST_SR25519_PUB_KEY, b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, pub_view_key=TEST_ED25519_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, pub_view_key=TEST_ED25519_BLAKE2B_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, pub_view_key=TEST_NIST256P1_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, pub_view_key=TEST_SECP256K1_PUB_KEY, net_ver=b"")
+        self.assertRaises(TypeError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, pub_view_key=TEST_SR25519_PUB_KEY, net_ver=b"")
 
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, XmrAddr.EncodeKey, binascii.unhexlify(test), TEST_ED25519_MONERO_PUB_KEY, b"")
-            self.assertRaises(ValueError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, binascii.unhexlify(test), b"")
+            self.assertRaises(ValueError, XmrAddr.EncodeKey, binascii.unhexlify(test), pub_view_key=TEST_ED25519_MONERO_PUB_KEY, net_ver=b"")
+            self.assertRaises(ValueError, XmrAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, pub_view_key=binascii.unhexlify(test), net_ver=b"")

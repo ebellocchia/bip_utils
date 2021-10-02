@@ -77,33 +77,37 @@ class SubstrateAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], SubstrateEd25519Addr.EncodeKey(key_bytes, test["ss58_format"]))
-            self.assertEqual(test["address"], SubstrateEd25519Addr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes), test["ss58_format"]))
+            self.assertEqual(test["address"], SubstrateEd25519Addr.EncodeKey(key_bytes,
+                                                                             ss58_format=test["ss58_format"]))
+            self.assertEqual(test["address"], SubstrateEd25519Addr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes),
+                                                                             ss58_format=test["ss58_format"]))
 
             # Remove prefix
             key_bytes = key_bytes[1:] if len(key_bytes) == 33 else key_bytes
-            self.assertEqual(test["address"], SubstrateSr25519Addr.EncodeKey(key_bytes, test["ss58_format"]))
-            self.assertEqual(test["address"], SubstrateSr25519Addr.EncodeKey(Sr25519PublicKey.FromBytes(key_bytes), test["ss58_format"]))
+            self.assertEqual(test["address"], SubstrateSr25519Addr.EncodeKey(key_bytes,
+                                                                             ss58_format=test["ss58_format"]))
+            self.assertEqual(test["address"], SubstrateSr25519Addr.EncodeKey(Sr25519PublicKey.FromBytes(key_bytes),
+                                                                             ss58_format=test["ss58_format"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key types
-        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_NIST256P1_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_SECP256K1_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_SR25519_PUB_KEY, 0)
+        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_NIST256P1_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_SECP256K1_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateEd25519Addr.EncodeKey, TEST_SR25519_PUB_KEY, ss58_format=0)
 
-        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_ED25519_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_NIST256P1_PUB_KEY, 0)
-        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_SECP256K1_PUB_KEY, 0)
+        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_ED25519_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_NIST256P1_PUB_KEY, ss58_format=0)
+        self.assertRaises(TypeError, SubstrateSr25519Addr.EncodeKey, TEST_SECP256K1_PUB_KEY, ss58_format=0)
 
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, SubstrateEd25519Addr.EncodeKey, binascii.unhexlify(test), 0)
+            self.assertRaises(ValueError, SubstrateEd25519Addr.EncodeKey, binascii.unhexlify(test), ss58_format=0)
 
         # Test vector
         for test in TEST_VECT_SR25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, SubstrateSr25519Addr.EncodeKey, binascii.unhexlify(test), 0)
+            self.assertRaises(ValueError, SubstrateSr25519Addr.EncodeKey, binascii.unhexlify(test), ss58_format=0)

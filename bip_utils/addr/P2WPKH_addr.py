@@ -20,7 +20,8 @@
 
 
 # Imports
-from typing import Union
+from typing import Any, Union
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import SegwitBech32Encoder
 from bip_utils.conf import Bip84BitcoinMainNet
@@ -28,7 +29,7 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class P2WPKHAddr:
+class P2WPKHAddr(IAddrEncoder):
     """ P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation.
     Refer to:
     https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
@@ -37,12 +38,13 @@ class P2WPKHAddr:
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
-                  wit_ver: int = Bip84BitcoinMainNet.AddrConfKey("wit_ver"),
-                  net_addr_ver: str = Bip84BitcoinMainNet.AddrConfKey("net_ver")) -> str:
+                  **kwargs: Any) -> str:
         """ Get address in P2WPKH format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
+
+        Other Parameters:
             wit_ver (int, optional))     : Witness version
             net_addr_ver (str, optional) : Net address version, default is Bitcoin main network
 
@@ -53,6 +55,9 @@ class P2WPKHAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
+        wit_ver = kwargs.get("wit_ver", Bip84BitcoinMainNet.AddrConfKey("wit_ver"))
+        net_addr_ver = kwargs.get("net_addr_ver", Bip84BitcoinMainNet.AddrConfKey("net_ver"))
+
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return SegwitBech32Encoder.Encode(net_addr_ver,

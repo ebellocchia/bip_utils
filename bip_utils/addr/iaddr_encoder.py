@@ -20,55 +20,29 @@
 
 
 # Imports
+from abc import ABC, abstractmethod
 from typing import Any, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
-from bip_utils.conf import Bip44Nano
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import Base32Encoder, ConvUtils, CryptoUtils
 
 
-class NanoAddrConst:
-    """ Class container for Nano address constants. """
-
-    # Alphabet for base32
-    BASE32_ALPHABET: str = "13456789abcdefghijkmnopqrstuwxyz"
-    # Payload padding
-    PAYLOAD_PAD: bytes = b"\x00\x00\x00"
-    # Encoded padding length in bytes
-    ENC_PAYLOAD_PAD_BYTE_LEN: int = 4
-    # Digest length in bytes
-    DIGEST_BYTE_LEN: int = 5
-
-
-class NanoAddr(IAddrEncoder):
-    """ Nano address class. It allows the Nano address generation. """
+class IAddrEncoder(ABC):
+    """ Address encoder interface. """
 
     @staticmethod
+    @abstractmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Nano format.
+        """ Encode public key to address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs: Arbitrary arguments depending on the address type
 
         Returns:
             str: Address string
 
-        Raises:
+        Raised:
             ValueError: If the public key is not valid
-            TypeError: If the public key is not ed25519-blake2b
+            TypeError: If the public key is not of the correct type (it depends on the address type)
         """
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Blake2bKey(pub_key)
-        pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
-
-        # Compute checksum
-        chksum = ConvUtils.ReverseBytes(CryptoUtils.Blake2b(pub_key_bytes,
-                                                            digest_size=NanoAddrConst.DIGEST_BYTE_LEN))
-        # Encode to base32
-        payload = NanoAddrConst.PAYLOAD_PAD + pub_key_bytes + chksum
-        b32_enc = Base32Encoder.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)
-
-        # Add prefix
-        return Bip44Nano.AddrConfKey("prefix") + b32_enc[NanoAddrConst.ENC_PAYLOAD_PAD_BYTE_LEN:]
+        pass

@@ -69,8 +69,10 @@ class NeoAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], NeoAddr.EncodeKey(key_bytes, test["version"]))
-            self.assertEqual(test["address"], NeoAddr.EncodeKey(Nist256p1PublicKey.FromBytes(key_bytes), test["version"]))
+            self.assertEqual(test["address"], NeoAddr.EncodeKey(key_bytes,
+                                                                ver=test["version"]))
+            self.assertEqual(test["address"], NeoAddr.EncodeKey(Nist256p1PublicKey.FromBytes(key_bytes),
+                                                                ver=test["version"]))
 
     # Test invalid keys
     def test_invalid_keys(self):

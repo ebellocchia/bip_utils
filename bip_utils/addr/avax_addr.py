@@ -20,7 +20,8 @@
 
 
 # Imports
-from typing import Union
+from typing import Any, Union
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32Encoder
 from bip_utils.conf import Bip44AvaxPChain, Bip44AvaxXChain
@@ -28,15 +29,17 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class AvaxPChainAddr:
+class AvaxPChainAddr(IAddrEncoder):
     """ Avax P-Chain address class. It allows the Avax P-Chain address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                  **kwargs: Any) -> str:
         """ Get address in Atom format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
+            **kwargs: Not used
 
         Returns:
             str: Address string
@@ -52,11 +55,12 @@ class AvaxPChainAddr:
                                              CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
 
 
-class AvaxXChainAddr:
+class AvaxXChainAddr(IAddrEncoder):
     """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                  **kwargs: Any) -> str:
         """ Get address in Atom format.
 
         Args:

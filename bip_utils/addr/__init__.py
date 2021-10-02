@@ -1,3 +1,4 @@
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.algo_addr import AlgoAddr
 from bip_utils.addr.atom_addr import AtomAddr
 from bip_utils.addr.avax_addr import AvaxPChainAddr, AvaxXChainAddr

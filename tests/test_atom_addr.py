@@ -104,18 +104,20 @@ class AtomAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], AtomAddr.EncodeKey(key_bytes, test["hrp"]))
-            self.assertEqual(test["address"], AtomAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes), test["hrp"]))
+            self.assertEqual(test["address"], AtomAddr.EncodeKey(key_bytes,
+                                                                 hrp=test["hrp"]))
+            self.assertEqual(test["address"], AtomAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes),
+                                                                 hrp=test["hrp"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key type
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_PUB_KEY, "cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, "cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, "cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, "cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_SR25519_PUB_KEY, "cosmos")
+        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_PUB_KEY, hrp="cosmos")
+        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, hrp="cosmos")
+        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, hrp="cosmos")
+        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, hrp="cosmos")
+        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_SR25519_PUB_KEY, hrp="cosmos")
 
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, AtomAddr.EncodeKey, binascii.unhexlify(test), "cosmos")
+            self.assertRaises(ValueError, AtomAddr.EncodeKey, binascii.unhexlify(test), hrp="cosmos")

@@ -20,7 +20,8 @@
 
 
 # Imports
-from typing import Union
+from typing import Any, Union
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.conf import Bip44Neo
@@ -28,17 +29,19 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
 
-class NeoAddr:
+class NeoAddr(IAddrEncoder):
     """ Neo address class. It allows the Neo address generation. """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
-                  ver: bytes = Bip44Neo.AddrConfKey("ver")) -> str:
+                  **kwargs: Any) -> str:
         """ Get address in Neo format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            ver (bytes)                  : Version
+
+        Other Parameters:
+            ver (bytes): Version
 
         Returns:
             str: Address string
@@ -47,9 +50,13 @@ class NeoAddr:
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
+        ver = kwargs.get("ver", Bip44Neo.AddrConfKey("ver"))
+
         pub_key_obj = AddrUtils.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
-        payload = Bip44Neo.AddrConfKey("prefix") + pub_key_obj.RawCompressed().ToBytes() + Bip44Neo.AddrConfKey("suffix")
+        payload = (Bip44Neo.AddrConfKey("prefix") +
+                   pub_key_obj.RawCompressed().ToBytes() +
+                   Bip44Neo.AddrConfKey("suffix"))
         # Encode
         return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload))

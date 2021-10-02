@@ -217,8 +217,8 @@ class Monero:
             str: Primary address string
         """
         return XmrAddr.EncodeKey(self.m_pub_skey.KeyObject(),
-                                 self.m_pub_vkey.KeyObject(),
-                                 MoneroConst.ADDR_MAIN_NET_VER)
+                                 pub_view_key=self.m_pub_vkey.KeyObject(),
+                                 net_ver=MoneroConst.ADDR_MAIN_NET_VER)
 
     @lru_cache()
     def SubAddress(self,
@@ -281,8 +281,8 @@ class Monero:
 
         # Encode subaddress
         return XmrAddr.EncodeKey(subaddr_pub_skey.Raw().ToBytes(),
-                                 subaddr_pub_vkey.Raw().ToBytes(),
-                                 MoneroConst.SUBADDR_MAIN_NET_VER)
+                                 pub_view_key=subaddr_pub_vkey.Raw().ToBytes(),
+                                 net_ver=MoneroConst.SUBADDR_MAIN_NET_VER)
 
     @staticmethod
     def __ViewFromSpendKey(priv_skey: MoneroPrivateKey) -> MoneroPrivateKey:

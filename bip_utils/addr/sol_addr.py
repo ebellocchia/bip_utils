@@ -20,21 +20,24 @@
 
 
 # Imports
-from typing import Union
+from typing import Any, Union
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.ecc import IPublicKey
 
 
-class SolAddr:
+class SolAddr(IAddrEncoder):
     """ Solana address class. It allows the Solana address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                  **kwargs: Any) -> str:
         """ Get address in Solana format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
+            **kwargs: Not used
 
         Returns:
             str: Address string

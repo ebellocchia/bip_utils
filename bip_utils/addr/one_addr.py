@@ -20,7 +20,8 @@
 
 
 # Imports
-from typing import Union
+from typing import Any, Union
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.ecc import IPublicKey
 from bip_utils.bech32 import Bech32Encoder
@@ -28,15 +29,17 @@ from bip_utils.conf import Bip44HarmonyOneAtom
 from bip_utils.utils import ConvUtils
 
 
-class OneAddr:
+class OneAddr(IAddrEncoder):
     """ Harmony One address class. It allows the Harmony One address generation. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, IPublicKey]) -> str:
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                  **kwargs: Any) -> str:
         """ Get address in Harmony One format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
+            **kwargs: Not used
 
         Returns:
             str: Address string

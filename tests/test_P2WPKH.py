@@ -90,9 +90,13 @@ class P2WPKHTests(unittest.TestCase):
 
             # Test with bytes and public key object
             self.assertEqual(test["address"],
-                             P2WPKHAddr.EncodeKey(key_bytes, test["wit_ver"], test["net_ver"]))
+                             P2WPKHAddr.EncodeKey(key_bytes,
+                                                  wit_ver=test["wit_ver"],
+                                                  net_addr_ver=test["net_ver"]))
             self.assertEqual(test["address"],
-                             P2WPKHAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes), test["wit_ver"], test["net_ver"]))
+                             P2WPKHAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes),
+                                                  wit_ver=test["wit_ver"],
+                                                  net_addr_ver=test["net_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
