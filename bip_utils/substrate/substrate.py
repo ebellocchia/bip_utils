@@ -77,6 +77,7 @@ class SubstrateConst:
 
 
 class Substrate:
+    """ Substrate class. It allows to compute Substrate keys and addresses. """
 
     #
     # Construction methods
