@@ -1291,9 +1291,13 @@ These libraries are used internally by the other libraries, but they are availab
     addr = P2WPKHAddr.EncodeKey(pub_key)
 
     # P2PKH address in Bitcoin Cash format
-    addr = BchP2PKHAddr.EncodeKey(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2PKHAddr.EncodeKey(pub_key,
+                                  hrp="bitcoincash",
+                                  net_addr_ver=b"\x00")
     # P2SH address in Bitcoin Cash format
-    addr = BchP2SHAddr.EncodeKey(pub_key, "bitcoincash", b"\x00")
+    addr = BchP2SHAddr.EncodeKey(pub_key,
+                                 hrp="bitcoincash",
+                                 net_addr_ver=b"\x00")
 
     # Ethereum address
     addr = EthAddr.EncodeKey(pub_key)
@@ -1303,9 +1307,12 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AvaxPChainAddr.EncodeKey(pub_key)
     addr = AvaxXChainAddr.EncodeKey(pub_key)
     # Atom addresses
-    addr = AtomAddr.EncodeKey(pub_key, "cosmos")
-    addr = AtomAddr.EncodeKey(pub_key, "band")
-    addr = AtomAddr.EncodeKey(pub_key, "bnb")
+    addr = AtomAddr.EncodeKey(pub_key,
+                              hrp="cosmos")
+    addr = AtomAddr.EncodeKey(pub_key,
+                              hrp="band")
+    addr = AtomAddr.EncodeKey(pub_key,
+                              hrp="bnb")
     # Filecoin address
     addr = FilAddr.EncodeKey(pub_key)
     # OKEx Chain address
@@ -1335,7 +1342,8 @@ These libraries are used internally by the other libraries, but they are availab
     # Stellar address
     addr = XlmAddr.EncodeKey(pub_key)
     # Substrate address
-    addr = SubstrateEd25519Addr.EncodeKey(pub_key, 0)
+    addr = SubstrateEd25519Addr.EncodeKey(pub_key,
+                                          ss58_format=0)
     # Tezos address
     addr = XtzAddr.EncodeKey(pub_key)
 
@@ -1361,7 +1369,9 @@ These libraries are used internally by the other libraries, but they are availab
     pub_vkey = Ed25519MoneroPublicKey.FromBytes(binascii.unhexlify(b"dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5"))
 
     # Monero address
-    addr = XmrAddr.EncodeKey(pub_skey, pub_vkey, b"\x12")
+    addr = XmrAddr.EncodeKey(pub_skey,
+                             pub_view_key=pub_vkey,
+                             net_ver=b"\x12")
 
     #
     # Addresses that require a nist256p1 curve
@@ -1383,7 +1393,8 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Sr25519PublicKey.FromBytes(binascii.unhexlify(b"dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
 
     # Substrate address
-    addr = SubstrateSr25519Addr.EncodeKey(pub_key, 0)
+    addr = SubstrateSr25519Addr.EncodeKey(pub_key,
+                                          ss58_format=0)
 
 ## WIF
 
@@ -1642,13 +1653,13 @@ Some examples from mnemonic generation to wallet addresses.
         for subaddr_idx in range(5):
             print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.SubAddress(subaddr_idx, acc_idx)}")
 
-# Donations
+# Buy me a coffee
 
-If you'd like to donate something:
+You know, I'm italian and I love drinking coffee (especially while coding :D). So, if you'd like to buy me one:
 - BTC: bc1qxr3camglhmrcl5uhs2m5hmaxmrxf47krs3fzpm
 - ETH: 0xf84e4898E5E10bf1fBe9ffA3EEC845e82e364b5B
 
-Thank you very much in advance for your support.
+Thank you very much for your support.
 
 # License
 
