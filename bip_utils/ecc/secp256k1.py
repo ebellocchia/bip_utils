@@ -20,9 +20,24 @@
 
 
 # Imports
-from ecdsa.ecdsa import generator_secp256k1
+from bip_utils.ecc.conf import EccConf
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.secp256k1_keys import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey, IPoint
+from bip_utils.ecc.ikeys import IPoint
+
+
+# Select the correct curve order and generator
+if EccConf.USE_COINCURVE:
+    from bip_utils.ecc.secp256k1_keys_coincurve import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+
+    _CURVE_ORDER: int = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
+    _GENERATOR: IPoint = Secp256k1Point.FromCoordinates(0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798,
+                                                        0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8)
+else:
+    from ecdsa.ecdsa import generator_secp256k1
+    from bip_utils.ecc.secp256k1_keys_ecdsa import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+
+    _CURVE_ORDER: int = generator_secp256k1.order()
+    _GENERATOR: IPoint = Secp256k1Point(generator_secp256k1)
 
 
 class Secp256k1Const:
@@ -31,9 +46,9 @@ class Secp256k1Const:
     # Curve name
     NAME: str = "Secp256k1"
     # Curve order
-    CURVE_ORDER: int = generator_secp256k1.order()
+    CURVE_ORDER: int = _CURVE_ORDER
     # Curve generator point
-    GENERATOR: IPoint = Secp256k1Point(generator_secp256k1)
+    GENERATOR: IPoint = _GENERATOR
 
 
 # Secp256k1 curve definition

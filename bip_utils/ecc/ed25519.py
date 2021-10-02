@@ -21,7 +21,8 @@
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.ed25519_keys import Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey, IPoint
+from bip_utils.ecc.ed25519_keys import Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey
+from bip_utils.ecc.ikeys import IPoint
 
 
 class Ed25519Const:

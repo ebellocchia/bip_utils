@@ -22,7 +22,8 @@
 # Imports
 from ecdsa.ecdsa import generator_256
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.nist256p1_keys import Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey, IPoint
+from bip_utils.ecc.ikeys import IPoint
+from bip_utils.ecc.nist256p1_keys import Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey
 
 
 class Nist256p1Const:

@@ -21,6 +21,7 @@
 
 # Imports
 import binascii
+import coincurve
 import ecdsa
 import ed25519_blake2b
 import unittest
@@ -37,6 +38,7 @@ from bip_utils import (
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
 from bip_utils.utils import ConvUtils
+from bip_utils.ecc.conf import EccConf
 
 # ed25519 order and generator
 ED25519_ORDER = 2**252 + 27742317777372353535851937790883648493
@@ -460,13 +462,13 @@ class EccTests(unittest.TestCase):
         pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY_BYTES))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY_BYTES))
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY_BYTES))
-        self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), coincurve.PublicKey if EccConf.USE_COINCURVE else ecdsa.VerifyingKey))
 
         # From uncompressed
         pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY_BYTES))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY_BYTES))
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_UNCOMPR_PUB_KEY_BYTES))
-        self.assertTrue(isinstance(pub_key.UnderlyingObject(), ecdsa.VerifyingKey))
+        self.assertTrue(isinstance(pub_key.UnderlyingObject(), coincurve.PublicKey if EccConf.USE_COINCURVE else ecdsa.VerifyingKey))
 
         # From point
         pub_key = Secp256k1PublicKey.FromPoint(Secp256k1Point.FromCoordinates(TEST_SECP256K1_POINT["x"], TEST_SECP256K1_POINT["y"]))
@@ -481,7 +483,7 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Secp256k1PrivateKey.Length(), 32)
 
         priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(TEST_SECP256K1_PRIV_KEY_BYTES))
-        self.assertTrue(isinstance(priv_key.UnderlyingObject(), ecdsa.SigningKey))
+        self.assertTrue(isinstance(priv_key.UnderlyingObject(), coincurve.PrivateKey if EccConf.USE_COINCURVE else ecdsa.SigningKey))
         self.assertEqual(priv_key.Raw().ToBytes(), binascii.unhexlify(TEST_SECP256K1_PRIV_KEY_BYTES))
 
         self.assertEqual(priv_key.PublicKey().RawCompressed().ToBytes(), binascii.unhexlify(TEST_SECP256K1_COMPR_PUB_KEY_BYTES))
@@ -492,7 +494,7 @@ class EccTests(unittest.TestCase):
         self.assertRaises(TypeError, Secp256k1Point, 0)
 
         point = pub_key.Point()
-        self.assertTrue(isinstance(point.UnderlyingObject(), ellipticcurve.PointJacobi))
+        self.assertTrue(isinstance(point.UnderlyingObject(), coincurve.PublicKey if EccConf.USE_COINCURVE else ellipticcurve.PointJacobi))
         self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
         self.assertEqual(point.Y(), TEST_SECP256K1_POINT["y"])
         self.assertEqual(point.Raw().ToBytes(), binascii.unhexlify(TEST_SECP256K1_POINT_BYTES))
@@ -601,9 +603,11 @@ class EccTests(unittest.TestCase):
             self.assertRaises(ValueError, Nist256p1PrivateKey.FromBytes, binascii.unhexlify(test))
             self.assertFalse(Nist256p1PrivateKey.IsValidBytes(binascii.unhexlify(test)))
 
+        """
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Secp256k1PrivateKey.FromBytes, binascii.unhexlify(test))
             self.assertFalse(Secp256k1PrivateKey.IsValidBytes(binascii.unhexlify(test)))
+        """
 
         for test in TEST_VECT_SR25519_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Sr25519PrivateKey.FromBytes, binascii.unhexlify(test))

@@ -18,20 +18,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Secp256k1 curve based on coincurve library
 
 # Imports
+import coincurve
 from typing import Any
-import ecdsa
-from ecdsa import curves, ellipticcurve, keys
-from ecdsa.ecdsa import curve_256
+from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils import DataBytes
+from bip_utils.utils import ConvUtils, DataBytes
 
 
-class Nist256p1Point(IPoint):
-    """ Nist256p1 point class. """
+class Secp256k1Point(IPoint):
+    """ Secp256k1 point class.
+    In coincurve library, all the point functions (e..g add, multiply) are coded inside the
+    PublicKey class. For this reason, a PublicKey is used as underlying object.
+    """
 
     @classmethod
     def FromBytes(cls,
@@ -44,11 +47,10 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        try:
-            return cls(ellipticcurve.PointJacobi.from_bytes(curve_256,
-                                                            point_bytes))
-        except keys.MalformedPointError as ex:
-            raise ValueError("Invalid point key bytes") from ex
+        if len(point_bytes) != EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN - 1:
+            raise ValueError("Invalid point bytes")
+
+        return cls(coincurve.PublicKey(EcdsaKeysConst.PUB_KEY_COMPRESSED_PREFIX + point_bytes))
 
     @classmethod
     def FromCoordinates(cls,
@@ -63,9 +65,10 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        return cls(ellipticcurve.PointJacobi.from_affine(
-            ellipticcurve.Point(curve_256, x, y))
-        )
+        try:
+            return cls(coincurve.PublicKey.from_point(x, y))
+        except ValueError as ex:
+            raise ValueError("Invalid point coordinates") from ex
 
     def __init__(self,
                  point_obj: Any) -> None:
@@ -77,9 +80,9 @@ class Nist256p1Point(IPoint):
         Raises:
             TypeError: If point object is not of the correct type
         """
-        if not isinstance(point_obj, ellipticcurve.PointJacobi):
+        if not isinstance(point_obj, coincurve.PublicKey):
             raise TypeError("Invalid point object type")
-        self.m_point = point_obj
+        self.m_pub_key = point_obj
 
     def UnderlyingObject(self) -> Any:
         """ Get the underlying object.
@@ -87,7 +90,7 @@ class Nist256p1Point(IPoint):
         Returns:
            Any: Underlying object
         """
-        return self.m_point
+        return self.m_pub_key
 
     def X(self) -> int:
         """ Get point X coordinate.
@@ -95,7 +98,7 @@ class Nist256p1Point(IPoint):
         Returns:
            int: Point X coordinate
         """
-        return self.m_point.x()
+        return self.m_pub_key.point()[0]
 
     def Y(self) -> int:
         """ Get point Y coordinate.
@@ -103,7 +106,7 @@ class Nist256p1Point(IPoint):
         Returns:
            int: Point Y coordinate
         """
-        return self.m_point.y()
+        return self.m_pub_key.point()[1]
 
     def Raw(self) -> DataBytes:
         """ Return the point encoded to raw bytes.
@@ -111,7 +114,7 @@ class Nist256p1Point(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_point.to_bytes())
+        return DataBytes(self.m_pub_key.format(False)[1:])
 
     def __add__(self,
                 point: IPoint) -> IPoint:
@@ -123,7 +126,7 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Nist256p1Point(self.m_point + point.UnderlyingObject())
+        return Secp256k1Point(self.m_pub_key.combine([point.UnderlyingObject()]))
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -147,7 +150,7 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Nist256p1Point(self.m_point * scalar)
+        return Secp256k1Point(self.m_pub_key.multiply(ConvUtils.IntegerToBytes(scalar)))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
@@ -162,8 +165,8 @@ class Nist256p1Point(IPoint):
         return self * scalar
 
 
-class Nist256p1PublicKey(IPublicKey):
-    """ Nist256p1 public key class. """
+class Secp256k1PublicKey(IPublicKey):
+    """ Secp256k1 public key class. """
 
     @classmethod
     def FromBytes(cls,
@@ -180,9 +183,8 @@ class Nist256p1PublicKey(IPublicKey):
             ValueError: If key bytes are not valid
         """
         try:
-            return cls(ecdsa.VerifyingKey.from_string(key_bytes,
-                                                      curve=curves.NIST256p))
-        except keys.MalformedPointError as ex:
+            return cls(coincurve.PublicKey(key_bytes))
+        except ValueError as ex:
             raise ValueError("Invalid public key bytes") from ex
 
     @classmethod
@@ -200,13 +202,11 @@ class Nist256p1PublicKey(IPublicKey):
             ValueError: If key point is not valid
         """
         try:
-            return cls(ecdsa.VerifyingKey.from_public_point(
-                ellipticcurve.Point(curve_256,
-                                    key_point.X(),
-                                    key_point.Y()),
-                curve=curves.NIST256p)
-            )
-        except keys.MalformedPointError as ex:
+            return cls(
+                coincurve.PublicKey.from_point(key_point.X(),
+                                               key_point.Y())
+                )
+        except ValueError as ex:
             raise ValueError("Invalid public key point") from ex
 
     def __init__(self,
@@ -219,7 +219,7 @@ class Nist256p1PublicKey(IPublicKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if not isinstance(key_obj, ecdsa.VerifyingKey):
+        if not isinstance(key_obj, coincurve.PublicKey):
             raise TypeError("Invalid public key object type")
         self.m_ver_key = key_obj
 
@@ -230,7 +230,7 @@ class Nist256p1PublicKey(IPublicKey):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.NIST256P1
+        return EllipticCurveTypes.SECP256K1
 
     @staticmethod
     def CompressedLength() -> int:
@@ -264,7 +264,7 @@ class Nist256p1PublicKey(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_ver_key.to_string("compressed"))
+        return DataBytes(self.m_ver_key.format(True))
 
     def RawUncompressed(self) -> DataBytes:
         """ Return raw uncompressed public key.
@@ -272,7 +272,7 @@ class Nist256p1PublicKey(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_ver_key.to_string("uncompressed"))
+        return DataBytes(self.m_ver_key.format(False))
 
     def Point(self) -> IPoint:
         """ Get public key point.
@@ -280,11 +280,12 @@ class Nist256p1PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Nist256p1Point(self.m_ver_key.pubkey.point)
+        point = self.m_ver_key.point()
+        return Secp256k1Point.FromCoordinates(point[0], point[1])
 
 
-class Nist256p1PrivateKey(IPrivateKey):
-    """ Nist256p1 private key class. """
+class Secp256k1PrivateKey(IPrivateKey):
+    """ Secp256k1 private key class. """
 
     @classmethod
     def FromBytes(cls,
@@ -300,10 +301,13 @@ class Nist256p1PrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
+        # Check here because the library does not raise any exception
+        if len(key_bytes) != cls.Length():
+            raise ValueError("Invalid private key bytes")
+
         try:
-            return cls(ecdsa.SigningKey.from_string(key_bytes,
-                                                    curve=curves.NIST256p))
-        except keys.MalformedPointError as ex:
+            return cls(coincurve.PrivateKey(key_bytes))
+        except ValueError as ex:
             raise ValueError("Invalid private key bytes") from ex
 
     def __init__(self,
@@ -316,7 +320,7 @@ class Nist256p1PrivateKey(IPrivateKey):
         Raises:
             TypeError: If key object is not of the correct type
         """
-        if not isinstance(key_obj, ecdsa.SigningKey):
+        if not isinstance(key_obj, coincurve.PrivateKey):
             raise TypeError("Invalid private key object type")
         self.m_sign_key = key_obj
 
@@ -327,7 +331,7 @@ class Nist256p1PrivateKey(IPrivateKey):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.NIST256P1
+        return EllipticCurveTypes.SECP256K1
 
     @staticmethod
     def Length() -> int:
@@ -352,7 +356,7 @@ class Nist256p1PrivateKey(IPrivateKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_sign_key.to_string())
+        return DataBytes(self.m_sign_key.secret)
 
     def PublicKey(self) -> IPublicKey:
         """ Get the public key correspondent to the private one.
@@ -360,4 +364,4 @@ class Nist256p1PrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Nist256p1PublicKey(self.m_sign_key.get_verifying_key())
+        return Secp256k1PublicKey(self.m_sign_key.public_key)
