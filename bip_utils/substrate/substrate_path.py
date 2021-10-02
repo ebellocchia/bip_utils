@@ -171,7 +171,7 @@ class SubstratePath:
         """ Construct class by specifying the path elements.
 
         Args:
-            elems (list): Path elements
+            elems (list, optional): Path elements
 
         Raises:
             SubstratePathError: If the path element is not valid

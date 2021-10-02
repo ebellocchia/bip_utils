@@ -43,7 +43,7 @@ class Bip32Path:
         """ Construct class by specifying the path elements.
 
         Args:
-            elems (list): Path elements
+            elems (list, optional): Path elements
         """
         if elems is None:
             elems = []
