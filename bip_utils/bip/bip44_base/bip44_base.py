@@ -31,72 +31,8 @@ from bip_utils.bip.bip32 import (
 )
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
-from bip_utils.conf import Bip32Types, BipCoinConf
+from bip_utils.conf import Bip44Coins, Bip32Types, BipCoinConf
 from bip_utils.ecc import IPrivateKey
-
-
-@unique
-class Bip44Coins(Enum):
-    """ Enumerative for supported BIP44 coins.
-    The indexes are just dummy values, they are converted to BIP44 indexes using the COIN_TO_IDX dictionary.
-    """
-
-    # Main nets
-    ALGORAND = auto(),
-    AVAX_C_CHAIN = auto(),
-    AVAX_P_CHAIN = auto(),
-    AVAX_X_CHAIN = auto(),
-    BAND_PROTOCOL = auto(),
-    BINANCE_CHAIN = auto(),
-    BINANCE_SMART_CHAIN = auto(),
-    BITCOIN = auto(),
-    BITCOIN_CASH = auto(),
-    BITCOIN_SV = auto(),
-    COSMOS = auto(),
-    DASH = auto(),
-    DOGECOIN = auto(),
-    ELROND = auto(),
-    ETHEREUM = auto(),
-    ETHEREUM_CLASSIC = auto(),
-    FANTOM_OPERA = auto(),
-    FILECOIN = auto(),
-    HARMONY_ONE_ATOM = auto(),
-    HARMONY_ONE_ETH = auto(),
-    HARMONY_ONE_METAMASK = auto(),
-    HUOBI_CHAIN = auto(),
-    IRIS_NET = auto(),
-    KAVA = auto(),
-    KUSAMA_ED25519_SLIP = auto(),
-    LITECOIN = auto(),
-    MONERO_ED25519_SLIP = auto(),
-    MONERO_SECP256K1 = auto(),
-    NANO = auto(),
-    NEO = auto(),
-    NINE_CHRONICLES_GOLD = auto(),
-    OKEX_CHAIN_ATOM = auto(),
-    OKEX_CHAIN_ATOM_OLD = auto(),
-    OKEX_CHAIN_ETH = auto(),
-    ONTOLOGY = auto(),
-    POLKADOT_ED25519_SLIP = auto(),
-    POLYGON = auto(),
-    RIPPLE = auto(),
-    SOLANA = auto(),
-    STELLAR = auto(),
-    TERRA = auto(),
-    TEZOS = auto(),
-    THETA = auto(),
-    TRON = auto(),
-    VECHAIN = auto(),
-    ZCASH = auto(),
-    ZILLIQA = auto(),
-    # Test nets
-    BITCOIN_CASH_TESTNET = auto(),
-    BITCOIN_SV_TESTNET = auto(),
-    BITCOIN_TESTNET = auto(),
-    DASH_TESTNET = auto(),
-    DOGECOIN_TESTNET = auto(),
-    LITECOIN_TESTNET = auto(),
-    ZCASH_TESTNET = auto(),
 
 
 @unique
@@ -121,66 +57,6 @@ class Bip44Levels(IntEnum):
 
 class Bip44BaseConst:
     """ Class container for BIP44 base constants. """
-
-    # Map from coin to index
-    COIN_TO_IDX: Dict[Bip44Coins, int] = {
-            # Main nets
-            Bip44Coins.BITCOIN: 0,
-            Bip44Coins.LITECOIN: 2,
-            Bip44Coins.DOGECOIN: 3,
-            Bip44Coins.DASH: 5,
-            Bip44Coins.ETHEREUM: 60,
-            Bip44Coins.BINANCE_SMART_CHAIN: 60,
-            Bip44Coins.AVAX_C_CHAIN: 60,
-            Bip44Coins.POLYGON: 60,
-            Bip44Coins.FANTOM_OPERA: 60,
-            Bip44Coins.HUOBI_CHAIN: 60,
-            Bip44Coins.HARMONY_ONE_METAMASK: 60,
-            Bip44Coins.OKEX_CHAIN_ETH: 60,
-            Bip44Coins.OKEX_CHAIN_ATOM: 60,
-            Bip44Coins.ETHEREUM_CLASSIC: 61,
-            Bip44Coins.COSMOS: 118,
-            Bip44Coins.IRIS_NET: 118,
-            Bip44Coins.MONERO_ED25519_SLIP: 128,
-            Bip44Coins.MONERO_SECP256K1: 128,
-            Bip44Coins.ZCASH: 133,
-            Bip44Coins.RIPPLE: 144,
-            Bip44Coins.BITCOIN_CASH: 145,
-            Bip44Coins.STELLAR: 148,
-            Bip44Coins.NANO: 165,
-            Bip44Coins.TRON: 195,
-            Bip44Coins.BITCOIN_SV: 236,
-            Bip44Coins.ALGORAND: 283,
-            Bip44Coins.KUSAMA_ED25519_SLIP: 354,
-            Bip44Coins.POLKADOT_ED25519_SLIP: 354,
-            Bip44Coins.FILECOIN: 461,
-            Bip44Coins.BAND_PROTOCOL: 494,
-            Bip44Coins.KAVA: 494,
-            Bip44Coins.ZILLIQA: 313,
-            Bip44Coins.TERRA: 330,
-            Bip44Coins.THETA: 500,
-            Bip44Coins.SOLANA: 501,
-            Bip44Coins.ELROND: 508,
-            Bip44Coins.NINE_CHRONICLES_GOLD: 567,
-            Bip44Coins.BINANCE_CHAIN: 714,
-            Bip44Coins.VECHAIN: 818,
-            Bip44Coins.NEO: 888,
-            Bip44Coins.OKEX_CHAIN_ATOM_OLD: 996,
-            Bip44Coins.HARMONY_ONE_ETH: 1023,
-            Bip44Coins.HARMONY_ONE_ATOM: 1023,
-            Bip44Coins.ONTOLOGY: 1024,
-            Bip44Coins.TEZOS: 1729,
-            Bip44Coins.AVAX_X_CHAIN: 9000,
-            Bip44Coins.AVAX_P_CHAIN: 9000,
-            # Test nets
-            Bip44Coins.BITCOIN_CASH_TESTNET: 1,
-            Bip44Coins.BITCOIN_SV_TESTNET: 1,
-            Bip44Coins.BITCOIN_TESTNET: 1,
-            Bip44Coins.DASH_TESTNET: 1,
-            Bip44Coins.DOGECOIN_TESTNET: 1,
-            Bip44Coins.LITECOIN_TESTNET: 1,
-            Bip44Coins.ZCASH_TESTNET: 1,
-        }
 
     # BIP32 type to class
     BIP32_TYPE_TO_CLASS: Dict[Bip32Types, Type[Bip32Base]] = {
@@ -232,7 +108,6 @@ class Bip44Base(ABC):
         bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromSeed(seed_bytes,
                                       coin_conf.KeyNetVersions()),
-                   coin_type,
                    coin_conf)
 
     @classmethod
@@ -262,7 +137,6 @@ class Bip44Base(ABC):
         bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromExtendedKey(key_str,
                                              coin_conf.KeyNetVersions()),
-                   coin_type,
                    coin_conf)
 
     @classmethod
@@ -294,7 +168,6 @@ class Bip44Base(ABC):
         bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromPrivateKey(priv_key,
                                             key_net_ver=coin_conf.KeyNetVersions()),
-                   coin_type,
                    coin_conf)
 
     #
@@ -303,13 +176,11 @@ class Bip44Base(ABC):
 
     def __init__(self,
                  bip32_obj: Bip32Base,
-                 coin_type: Bip44Coins,
                  coin_conf: BipCoinConf) -> None:
         """ Construct class from a Bip32 object and coin type.
 
         Args:
             bip32_obj (Bip32 object): Bip32 object
-            coin_type (Bip44Coins)  : Coin type, must be a Bip44Coins enum
             coin_conf (BipCoinConf) : BipCoinConf object
 
         Returns:
@@ -334,7 +205,6 @@ class Bip44Base(ABC):
 
         # Finally, initialize class
         self.m_bip32 = bip32_obj
-        self.m_coin_type = coin_type
         self.m_coin_conf = coin_conf
 
     @lru_cache()
@@ -428,7 +298,6 @@ class Bip44Base(ABC):
 
         # Derive the remaining path
         return cls(bip_obj.m_bip32.DerivePath(bip_obj.m_coin_conf.DefaultPath()),
-                   bip_obj.m_coin_type,
                    bip_obj.m_coin_conf)
 
     @classmethod
@@ -453,7 +322,6 @@ class Bip44Base(ABC):
             )
 
         return cls(bip_obj.m_bip32.ChildKey(cls._GetPurpose()),
-                   bip_obj.m_coin_type,
                    bip_obj.m_coin_conf)
 
     @classmethod
@@ -478,10 +346,9 @@ class Bip44Base(ABC):
                 f"Current depth ({bip_obj.m_bip32.Depth().ToInt()}) is not suitable for deriving coin"
             )
 
-        coin_idx = Bip44BaseConst.COIN_TO_IDX[bip_obj.m_coin_type]
+        coin_idx = bip_obj.m_coin_conf.CoinIndex()
 
         return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(coin_idx)),
-                   bip_obj.m_coin_type,
                    bip_obj.m_coin_conf)
 
     @classmethod
@@ -508,7 +375,6 @@ class Bip44Base(ABC):
             )
 
         return cls(bip_obj.m_bip32.ChildKey(Bip32Utils.HardenIndex(acc_idx)),
-                   bip_obj.m_coin_type,
                    bip_obj.m_coin_conf)
 
     @classmethod
@@ -545,7 +411,6 @@ class Bip44Base(ABC):
             change_idx = int(change_type)
 
         return cls(bip_obj.m_bip32.ChildKey(change_idx),
-                   bip_obj.m_coin_type,
                    bip_obj.m_coin_conf)
 
     @classmethod
@@ -576,7 +441,6 @@ class Bip44Base(ABC):
             addr_idx = Bip32Utils.HardenIndex(addr_idx)
 
         return cls(bip_obj.m_bip32.ChildKey(addr_idx),
-                   bip_obj.m_coin_type,
                    bip_obj.m_coin_conf)
 
     #

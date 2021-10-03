@@ -23,7 +23,7 @@
 from typing import Dict
 from bip_utils.bip.bip32 import Bip32Utils
 from bip_utils.bip.bip44_base.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
-from bip_utils.conf import *
+from bip_utils.conf import Bip44Coins, BipCoinConf, Bip84ConfGetter
 
 
 class Bip84Const:
@@ -33,13 +33,6 @@ class Bip84Const:
     SPEC_NAME: str = "BIP-0084"
     # Purpose
     PURPOSE: int = Bip32Utils.HardenIndex(84)
-    # Map from Bip44Coins to configuration classes
-    COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
-            Bip44Coins.BITCOIN: Bip84BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET: Bip84BitcoinTestNet,
-            Bip44Coins.LITECOIN: Bip84LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET: Bip84LitecoinTestNet,
-        }
 
 
 class Bip84(Bip44Base):
@@ -165,10 +158,11 @@ class Bip84(Bip44Base):
         Raises:
             TypeError: If coin_type is not of Bip44Coins enum
         """
-        if not isinstance(coin_type, Bip44Coins):
-            raise TypeError("Coin is not an enumerative of Bip44Coins")
-
-        return coin_type in Bip84Const.COIN_TO_CONF
+        try:
+            Bip84ConfGetter.GetConfig(coin_type)
+            return True
+        except KeyError:
+            return False
 
     @staticmethod
     def _GetPurpose() -> int:
@@ -189,4 +183,4 @@ class Bip84(Bip44Base):
         Returns:
             BipCoinConf child object: BipCoinConf child object
         """
-        return Bip84Const.COIN_TO_CONF[coin_type]
+        return Bip84ConfGetter.GetConfig(coin_type)

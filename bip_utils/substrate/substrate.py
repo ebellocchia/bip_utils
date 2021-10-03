@@ -22,33 +22,12 @@
 # Imports
 from __future__ import annotations
 import sr25519
-from enum import Enum, auto, unique
-from typing import Dict, Optional, Union
-from bip_utils.conf import *
+from typing import Optional, Union
 from bip_utils.ecc import IPrivateKey, IPublicKey
+from bip_utils.substrate.conf import SubstrateCoins, SubstrateCoinConf, SubstrateConfGetter
 from bip_utils.substrate.substrate_ex import SubstrateKeyError
 from bip_utils.substrate.substrate_keys import SubstratePublicKey, SubstratePrivateKey
 from bip_utils.substrate.substrate_path import SubstratePathElem, SubstratePath, SubstratePathParser
-
-
-@unique
-class SubstrateCoins(Enum):
-    """ Enumerative for supported Substrate coins. """
-
-    ACALA = auto(),
-    BIFROST = auto(),
-    CHAINX = auto(),
-    EDGEWARE = auto(),
-    GENERIC = auto(),
-    KARURA = auto(),
-    KUSAMA = auto(),
-    MOONBEAM = auto(),
-    MOONRIVER = auto(),
-    PHALA = auto(),
-    PLASM = auto(),
-    POLKADOT = auto(),
-    SORA = auto(),
-    STAFI = auto(),
 
 
 class SubstrateConst:
@@ -56,24 +35,6 @@ class SubstrateConst:
 
     # Seed length in bytes
     SEED_BYTE_LEN: int = 32
-
-    # Map from SubstrateCoins to configuration classes
-    COIN_TO_CONF: Dict[SubstrateCoins, SubstrateCoinConf] = {
-            SubstrateCoins.ACALA: SubstrateAcala,
-            SubstrateCoins.BIFROST: SubstrateBifrost,
-            SubstrateCoins.CHAINX: SubstrateChainX,
-            SubstrateCoins.EDGEWARE: SubstrateEdgeware,
-            SubstrateCoins.GENERIC: SubstrateGeneric,
-            SubstrateCoins.KARURA: SubstrateKarura,
-            SubstrateCoins.KUSAMA: SubstrateKusama,
-            SubstrateCoins.MOONBEAM: SubstrateMoonbeam,
-            SubstrateCoins.MOONRIVER: SubstrateMoonriver,
-            SubstrateCoins.PHALA: SubstratePhala,
-            SubstrateCoins.PLASM: SubstratePlasm,
-            SubstrateCoins.POLKADOT: SubstratePolkadot,
-            SubstrateCoins.SORA: SubstrateSora,
-            SubstrateCoins.STAFI: SubstrateStafi,
-        }
 
 
 class Substrate:
@@ -111,7 +72,7 @@ class Substrate:
         return cls(priv_key=priv_key_bytes,
                    pub_key=pub_key_bytes,
                    path=SubstratePath(),
-                   coin_conf=SubstrateConst.COIN_TO_CONF[coin_type])
+                   coin_conf=SubstrateConfGetter.GetConfig(coin_type))
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -159,7 +120,7 @@ class Substrate:
         return cls(priv_key=priv_key,
                    pub_key=None,
                    path=SubstratePath(),
-                   coin_conf=SubstrateConst.COIN_TO_CONF[coin_type])
+                   coin_conf=SubstrateConfGetter.GetConfig(coin_type))
 
     @classmethod
     def FromPublicKey(cls,
@@ -184,7 +145,7 @@ class Substrate:
         return cls(priv_key=None,
                    pub_key=pub_key,
                    path=SubstratePath(),
-                   coin_conf=SubstrateConst.COIN_TO_CONF[coin_type])
+                   coin_conf=SubstrateConfGetter.GetConfig(coin_type))
 
     #
     # Public methods

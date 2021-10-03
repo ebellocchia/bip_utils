@@ -38,6 +38,7 @@ BIP44_BTC_P2PKH_NET_VER_TEST: bytes = b"\x6f"
 # Configuration for Algorand
 Bip44Algorand: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Algorand", "ALGO"),
+    coin_idx=283,
     is_testnet=False,
     def_path=HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -49,6 +50,7 @@ Bip44Algorand: BipCoinConf = BipCoinConf(
 # Configuration for Avax C-Chain
 Bip44AvaxCChain: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Avax C-Chain", "AVAX"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -59,6 +61,7 @@ Bip44AvaxCChain: BipCoinConf = BipCoinConf(
 # Configuration for Avax P-Chain
 Bip44AvaxPChain: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Avax P-Chain", "AVAX"),
+    coin_idx=9000,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -69,6 +72,7 @@ Bip44AvaxPChain: BipCoinConf = BipCoinConf(
 # Configuration for Avax X-Chain
 Bip44AvaxXChain: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Avax X-Chain", "AVAX"),
+    coin_idx=9000,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -80,6 +84,7 @@ Bip44AvaxXChain: BipCoinConf = BipCoinConf(
 # Configuration for Band Protocol
 Bip44BandProtocol: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Band Protocol", "BAND"),
+    coin_idx=494,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -91,6 +96,7 @@ Bip44BandProtocol: BipCoinConf = BipCoinConf(
 # Configuration for Binance Chain
 Bip44BinanceChain: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Binance Chain", "BNB"),
+    coin_idx=714,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -101,6 +107,7 @@ Bip44BinanceChain: BipCoinConf = BipCoinConf(
 # Configuration for Binance Smart Chain
 Bip44BinanceSmartChain: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Binance Smart Chain", "BNB"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -112,6 +119,7 @@ Bip44BinanceSmartChain: BipCoinConf = BipCoinConf(
 # Configuration for Bitcoin main net
 Bip44BitcoinMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Bitcoin", "BTC"),
+    coin_idx=0,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -122,6 +130,7 @@ Bip44BitcoinMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Bitcoin test net
 Bip44BitcoinTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Bitcoin TestNet", "BTC"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_TEST,
@@ -133,6 +142,7 @@ Bip44BitcoinTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Bitcoin Cash main net
 Bip44BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
     coin_name=CoinNames("Bitcoin Cash", "BCH"),
+    coin_idx=145,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -144,6 +154,7 @@ Bip44BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
 # Configuration for Bitcoin Cash test net
 Bip44BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
     coin_name=CoinNames("Bitcoin Cash TestNet", "BCH"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_TEST,
@@ -156,6 +167,7 @@ Bip44BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
 # Configuration for BitcoinSV main net
 Bip44BitcoinSvMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("BitcoinSV", "BSV"),
+    coin_idx=236,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -166,6 +178,7 @@ Bip44BitcoinSvMainNet: BipCoinConf = BipCoinConf(
 # Configuration for BitcoinSV test net
 Bip44BitcoinSvTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("BitcoinSV TestNet", "BSV"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_TEST,
@@ -177,6 +190,7 @@ Bip44BitcoinSvTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Cosmos
 Bip44Cosmos: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Cosmos", "ATOM"),
+    coin_idx=118,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -188,6 +202,7 @@ Bip44Cosmos: BipCoinConf = BipCoinConf(
 # Configuration for Dash main net
 Bip44DashMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dash", "DASH"),
+    coin_idx=5,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -198,6 +213,7 @@ Bip44DashMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Dash test net
 Bip44DashTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dash TestNet", "DASH"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_TEST,
@@ -209,6 +225,7 @@ Bip44DashTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Dogecoin main net
 Bip44DogecoinMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dogecoin", "DOGE"),
+    coin_idx=3,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"02facafd", b"02fac398"),   # dgub / dgpv
@@ -219,6 +236,7 @@ Bip44DogecoinMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Dogecoin test net
 Bip44DogecoinTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Dogecoin TestNet", "DOGE"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"0432a9a8", b"0432a243"),   # tgub / tgpv
@@ -230,6 +248,7 @@ Bip44DogecoinTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Elrond
 Bip44Elrond: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Elrond eGold", "eGLD"),
+    coin_idx=508,
     is_testnet=False,
     def_path=HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -241,6 +260,7 @@ Bip44Elrond: BipCoinConf = BipCoinConf(
 # Configuration for Ethereum
 Bip44Ethereum: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Ethereum", "ETH"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -251,6 +271,7 @@ Bip44Ethereum: BipCoinConf = BipCoinConf(
 # Configuration for Ethereum Classic
 Bip44EthereumClassic: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Ethereum Classic", "ETC"),
+    coin_idx=61,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -262,6 +283,7 @@ Bip44EthereumClassic: BipCoinConf = BipCoinConf(
 # Configuration for Fantom Opera
 Bip44FantomOpera: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Fantom Opera", "FTM"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -273,6 +295,7 @@ Bip44FantomOpera: BipCoinConf = BipCoinConf(
 # Configuration for Filecoin
 Bip44Filecoin: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Filecoin", "FIL"),
+    coin_idx=461,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -284,6 +307,7 @@ Bip44Filecoin: BipCoinConf = BipCoinConf(
 # Configuration for Harmony One (Metamask address)
 Bip44HarmonyOneMetamask: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Harmony One", "ONE"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -294,6 +318,7 @@ Bip44HarmonyOneMetamask: BipCoinConf = BipCoinConf(
 # Configuration for Harmony One (Ethereum address)
 Bip44HarmonyOneEth: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Harmony One", "ONE"),
+    coin_idx=1023,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -304,6 +329,7 @@ Bip44HarmonyOneEth: BipCoinConf = BipCoinConf(
 # Configuration for Harmony One (Atom address)
 Bip44HarmonyOneAtom: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Harmony One", "ONE"),
+    coin_idx=1023,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -315,6 +341,7 @@ Bip44HarmonyOneAtom: BipCoinConf = BipCoinConf(
 # Configuration for Huobi Chain
 Bip44HuobiChain: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Huobi Token", "HT"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -326,6 +353,7 @@ Bip44HuobiChain: BipCoinConf = BipCoinConf(
 # Configuration for IRISnet
 Bip44IrisNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("IRIS Network", "IRIS"),
+    coin_idx=118,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -337,6 +365,7 @@ Bip44IrisNet: BipCoinConf = BipCoinConf(
 # Configuration for Kava
 Bip44Kava: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Kava", "KAVA"),
+    coin_idx=494,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -348,6 +377,7 @@ Bip44Kava: BipCoinConf = BipCoinConf(
 # Configuration for Kusama (ed25519 SLIP-0010)
 Bip44KusamaEd25519Slip: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Kusama", "KSM"),
+    coin_idx=354,
     is_testnet=False,
     def_path=HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -359,6 +389,7 @@ Bip44KusamaEd25519Slip: BipCoinConf = BipCoinConf(
 # Configuration for Litecoin main net
 Bip44LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
     coin_name=CoinNames("Litecoin", "LTC"),
+    coin_idx=2,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -370,6 +401,7 @@ Bip44LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
 # Configuration for Litecoin test net
 Bip44LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
     coin_name=CoinNames("Litecoin TestNet", "LTC"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"0436f6e1", b"0436ef7d"),       # ttub / ttpv
@@ -382,6 +414,7 @@ Bip44LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
 # Configuration for Monero (ed25519 SLIP-0010)
 Bip44MoneroEd25519Slip: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Monero", "XMR"),
+    coin_idx=128,
     is_testnet=False,
     def_path=HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -393,6 +426,7 @@ Bip44MoneroEd25519Slip: BipCoinConf = BipCoinConf(
 # Configuration for Monero (secp256k1)
 Bip44MoneroSecp256k1: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Monero", "XMR"),
+    coin_idx=128,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -404,6 +438,7 @@ Bip44MoneroSecp256k1: BipCoinConf = BipCoinConf(
 # Configuration for OKEx Chain (Ethereum address)
 Bip44OkexChainEth: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("OKExChain", "OKT"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -415,6 +450,19 @@ Bip44OkexChainEth: BipCoinConf = BipCoinConf(
 # Configuration for OKEx Chain (Atom address)
 Bip44OkexChainAtom: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("OKExChain", "OKT"),
+    coin_idx=60,
+    is_testnet=False,
+    def_path=NOT_HARDENED_DEF_PATH,
+    key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
+    wif_net_ver=None,
+    bip32_type=Bip32Types.SECP256K1,
+    addr_conf={"hrp": "ex"},
+    addr_type=AddrTypes.OKEX)
+
+# Configuration for OKEx Chain (old Atom address)
+Bip44OkexChainAtomOld: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("OKExChain", "OKT"),
+    coin_idx=996,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -426,6 +474,7 @@ Bip44OkexChainAtom: BipCoinConf = BipCoinConf(
 # Configuration for Ontology
 Bip44Ontology: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Ontology", "ONT"),
+    coin_idx=1024,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -437,6 +486,7 @@ Bip44Ontology: BipCoinConf = BipCoinConf(
 # Configuration for Nano
 Bip44Nano: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Nano", "NANO"),
+    coin_idx=165,
     is_testnet=False,
     def_path="0'",
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -448,6 +498,7 @@ Bip44Nano: BipCoinConf = BipCoinConf(
 # Configuration for Neo
 Bip44Neo: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("NEO", "NEO"),
+    coin_idx=888,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -459,6 +510,7 @@ Bip44Neo: BipCoinConf = BipCoinConf(
 # Configuration for NG
 Bip44NineChroniclesGold: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Nine Chronicles Gold", "NCG"),
+    coin_idx=567,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -470,6 +522,7 @@ Bip44NineChroniclesGold: BipCoinConf = BipCoinConf(
 # Configuration for Polkadot (ed25519 SLIP-0010)
 Bip44PolkadotEd25519Slip: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Polkadot", "DOT"),
+    coin_idx=354,
     is_testnet=False,
     def_path=HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -481,6 +534,7 @@ Bip44PolkadotEd25519Slip: BipCoinConf = BipCoinConf(
 # Configuration for Polygon
 Bip44Polygon: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Polygon", "MATIC"),
+    coin_idx=60,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -492,6 +546,7 @@ Bip44Polygon: BipCoinConf = BipCoinConf(
 # Configuration for Ripple
 Bip44Ripple: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Ripple", "XRP"),
+    coin_idx=144,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -503,6 +558,7 @@ Bip44Ripple: BipCoinConf = BipCoinConf(
 # Configuration for Solana
 Bip44Solana: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Solana", "SOL"),
+    coin_idx=501,
     is_testnet=False,
     def_path="0'",
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -514,6 +570,7 @@ Bip44Solana: BipCoinConf = BipCoinConf(
 # Configuration for Stellar
 Bip44Stellar: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Stellar", "XLM"),
+    coin_idx=148,
     is_testnet=False,
     def_path="0'",
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -525,6 +582,7 @@ Bip44Stellar: BipCoinConf = BipCoinConf(
 # Configuration for Terra
 Bip44Terra: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Terra", "LUNA"),
+    coin_idx=330,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -536,6 +594,7 @@ Bip44Terra: BipCoinConf = BipCoinConf(
 # Configuration for Tezos
 Bip44Tezos: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Tezos", "XTZ"),
+    coin_idx=1729,
     is_testnet=False,
     def_path="0'/0'",
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -547,6 +606,7 @@ Bip44Tezos: BipCoinConf = BipCoinConf(
 # Configuration for Theta
 Bip44Theta: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Theta Network", "THETA"),
+    coin_idx=500,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -558,6 +618,7 @@ Bip44Theta: BipCoinConf = BipCoinConf(
 # Configuration for Tron
 Bip44Tron: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Tron", "TRX"),
+    coin_idx=195,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -569,6 +630,7 @@ Bip44Tron: BipCoinConf = BipCoinConf(
 # Configuration for VeChain
 Bip44VeChain: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("VeChain", "VET"),
+    coin_idx=818,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -580,6 +642,7 @@ Bip44VeChain: BipCoinConf = BipCoinConf(
 # Configuration for Zcash main net
 Bip44ZcashMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Zcash", "ZEC"),
+    coin_idx=133,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,
@@ -590,6 +653,7 @@ Bip44ZcashMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Zcash test net
 Bip44ZcashTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Zcash TestNet", "ZEC"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_TEST,
@@ -601,6 +665,7 @@ Bip44ZcashTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Zilliqa
 Bip44Zilliqa: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Zilliqa", "ZIL"),
+    coin_idx=313,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP44_BTC_KEY_NET_VER_MAIN,

@@ -32,6 +32,7 @@ BIP84_BTC_KEY_NET_VER: KeyNetVersions = KeyNetVersions(b"04b24746", b"04b2430c")
 # Configuration for Bitcoin main net
 Bip84BitcoinMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Bitcoin", "BTC"),
+    coin_idx=0,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP84_BTC_KEY_NET_VER,
@@ -42,6 +43,7 @@ Bip84BitcoinMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Bitcoin test net
 Bip84BitcoinTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Bitcoin TestNet", "BTC"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"045f1cf6", b"045f18bc"),   # vpub / vprv
@@ -53,6 +55,7 @@ Bip84BitcoinTestNet: BipCoinConf = BipCoinConf(
 # Configuration for Litecoin main net
 Bip84LitecoinMainNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Litecoin", "LTC"),
+    coin_idx=2,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=BIP84_BTC_KEY_NET_VER,
@@ -63,6 +66,7 @@ Bip84LitecoinMainNet: BipCoinConf = BipCoinConf(
 # Configuration for Litecoin test net
 Bip84LitecoinTestNet: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Litecoin TestNet", "LTC"),
+    coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"0436f6e1", b"0436ef7d"),   # ttub / ttpv

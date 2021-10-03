@@ -23,7 +23,7 @@
 from typing import Dict
 from bip_utils.bip.bip32 import Bip32Utils
 from bip_utils.bip.bip44_base.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
-from bip_utils.conf import *
+from bip_utils.conf import Bip44Coins, BipCoinConf, Bip49ConfGetter
 
 
 class Bip49Const:
@@ -33,23 +33,6 @@ class Bip49Const:
     SPEC_NAME: str = "BIP-0049"
     # Purpose
     PURPOSE: int = Bip32Utils.HardenIndex(49)
-    # Map from Bip44Coins to configuration classes
-    COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
-            Bip44Coins.BITCOIN: Bip49BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
-            Bip44Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
-            Bip44Coins.BITCOIN_CASH_TESTNET: Bip49BitcoinCashTestNet,
-            Bip44Coins.BITCOIN_SV: Bip49BitcoinSvMainNet,
-            Bip44Coins.BITCOIN_SV_TESTNET: Bip49BitcoinSvTestNet,
-            Bip44Coins.DASH: Bip49DashMainNet,
-            Bip44Coins.DASH_TESTNET: Bip49DashTestNet,
-            Bip44Coins.DOGECOIN: Bip49DogecoinMainNet,
-            Bip44Coins.DOGECOIN_TESTNET: Bip49DogecoinTestNet,
-            Bip44Coins.LITECOIN: Bip49LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET: Bip49LitecoinTestNet,
-            Bip44Coins.ZCASH: Bip49ZcashMainNet,
-            Bip44Coins.ZCASH_TESTNET: Bip49ZcashTestNet,
-        }
 
 
 class Bip49(Bip44Base):
@@ -175,10 +158,11 @@ class Bip49(Bip44Base):
         Raises:
             TypeError: If coin_type is not of Bip44Coins enum
         """
-        if not isinstance(coin_type, Bip44Coins):
-            raise TypeError("Coin is not an enumerative of Bip44Coins")
-
-        return coin_type in Bip49Const.COIN_TO_CONF
+        try:
+            Bip49ConfGetter.GetConfig(coin_type)
+            return True
+        except KeyError:
+            return False
 
     @staticmethod
     def _GetPurpose() -> int:
@@ -199,4 +183,4 @@ class Bip49(Bip44Base):
         Returns:
             BipCoinConf child object: BipCoinConf child object
         """
-        return Bip49Const.COIN_TO_CONF[coin_type]
+        return Bip49ConfGetter.GetConfig(coin_type)

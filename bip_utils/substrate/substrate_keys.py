@@ -24,7 +24,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Union
 from bip_utils.addr import SubstrateSr25519Addr
-from bip_utils.conf import SubstrateCoinConf
+from bip_utils.substrate.conf import SubstrateCoinConf
 from bip_utils.ecc import IPrivateKey, IPublicKey, Sr25519PrivateKey, Sr25519PublicKey
 from bip_utils.substrate.substrate_ex import SubstrateKeyError
 from bip_utils.utils import DataBytes

@@ -30,6 +30,7 @@ class BipCoinConf:
 
     def __init__(self,
                  coin_name: CoinNames,
+                 coin_idx: int,
                  is_testnet: bool,
                  def_path: str,
                  key_net_ver: KeyNetVersions,
@@ -41,6 +42,7 @@ class BipCoinConf:
 
         Args:
             coin_name (CoinNames object)       : Coin names
+            coin_idx (int)                     : Coin index
             is_testnet (bool)                  : Test net flag
             def_path (str)                     : Default path
             key_net_ver (KeyNetVersions object): Key net versions
@@ -50,6 +52,7 @@ class BipCoinConf:
             addr_type (AddrTypes)              : Address type
         """
         self.m_coin_name = coin_name
+        self.m_coin_idx = coin_idx
         self.m_is_testnet = is_testnet
         self.m_def_path = def_path
         self.m_key_net_ver = key_net_ver
@@ -65,6 +68,14 @@ class BipCoinConf:
             CoinNames object: CoinNames object
         """
         return self.m_coin_name
+
+    def CoinIndex(self) -> int:
+        """ Get coin index.
+
+        Returns:
+            int: Coin index
+        """
+        return self.m_coin_idx
 
     def IsTestNet(self) -> bool:
         """ Get if test net.
@@ -143,6 +154,7 @@ class BipBitcoinCashConf(BipCoinConf):
 
     def __init__(self,
                  coin_name: CoinNames,
+                 coin_idx: int,
                  is_testnet: bool,
                  def_path: str,
                  key_net_ver: KeyNetVersions,
@@ -155,6 +167,7 @@ class BipBitcoinCashConf(BipCoinConf):
 
         Args:
             coin_name (CoinNames object)       : Coin names
+            coin_idx (int)                     : Coin index
             is_testnet (bool)                  : Test net flag
             def_path (str)                     : Default path
             key_net_ver (KeyNetVersions object): Key net versions
@@ -165,6 +178,7 @@ class BipBitcoinCashConf(BipCoinConf):
             addr_type_legacy (AddrTypes)       : Legacy ddress type
         """
         super().__init__(coin_name,
+                         coin_idx,
                          is_testnet,
                          def_path,
                          key_net_ver,
@@ -211,6 +225,7 @@ class BipLitecoinConf(BipCoinConf):
 
     def __init__(self,
                  coin_name: CoinNames,
+                 coin_idx: int,
                  is_testnet: bool,
                  def_path: str,
                  key_net_ver: KeyNetVersions,
@@ -223,6 +238,7 @@ class BipLitecoinConf(BipCoinConf):
 
         Args:
             coin_name (CoinNames object)           : Coin names
+            coin_idx (int)                         : Coin index
             is_testnet (bool)                      : Test net flag
             def_path (str)                         : Default path
             key_net_ver (KeyNetVersions object)    : Key net versions
@@ -233,6 +249,7 @@ class BipLitecoinConf(BipCoinConf):
             addr_type (AddrTypes)                  : Address type
         """
         super().__init__(coin_name,
+                         coin_idx,
                          is_testnet,
                          def_path,
                          key_net_ver,
