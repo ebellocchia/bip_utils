@@ -22,7 +22,7 @@
 # Imports
 import base64
 from typing import Optional, Union
-from bip_utils.utils.algo import AlgoUtils
+from bip_utils.utils.misc.algo import AlgoUtils
 
 
 class Base32Const:

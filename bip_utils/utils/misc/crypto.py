@@ -27,7 +27,7 @@ import crcmod.predefined
 from Crypto.Hash import keccak
 from Crypto.Hash import SHA512
 from typing import Union
-from bip_utils.utils.algo import AlgoUtils
+from bip_utils.utils.misc.algo import AlgoUtils
 
 
 class CryptoUtils:
