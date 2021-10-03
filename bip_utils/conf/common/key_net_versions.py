@@ -23,11 +23,15 @@
 from bip_utils.utils import ConvUtils
 
 
-class KeyNetVersions:
-    """ Helper class for representing key net versions. """
+class KeyNetVersionsConst:
+    """ Class container for key net versions constants. """
 
     # Length
     LENGTH: int = 4
+
+
+class KeyNetVersions:
+    """ Helper class for representing key net versions. """
 
     def __init__(self,
                  pub_net_ver: bytes,
@@ -48,7 +52,7 @@ class KeyNetVersions:
         Returns:
             int: Key net version length
         """
-        return KeyNetVersions.LENGTH
+        return KeyNetVersionsConst.LENGTH
 
     def Public(self) -> bytes:
         """ Get public net version.

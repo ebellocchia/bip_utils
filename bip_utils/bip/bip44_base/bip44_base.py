@@ -198,9 +198,9 @@ class Bip44Base(ABC):
         # If the Bip32 object is not public-only, any depth is fine as long as it is not greater
         # than address index level
         else:
-            if depth > Bip44Levels.ADDRESS_INDEX:
+            if depth < 0 or depth > Bip44Levels.ADDRESS_INDEX:
                 raise Bip44DepthError(
-                    f"Depth of the Bip32 object ({depth}) is beyond address index level"
+                    f"Depth of the Bip32 object ({depth}) is invalid or beyond address index level"
                 )
 
         # Finally, initialize class

@@ -23,7 +23,7 @@
 from typing import Dict
 from bip_utils.bip.bip32 import Bip32Utils
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Base
-from bip_utils.conf import Bip44Coins, BipCoinConf, Bip49ConfGetter
+from bip_utils.conf import BipCoinConf, Bip44Coins, Bip49ConfGetter
 
 
 class Bip49Const:

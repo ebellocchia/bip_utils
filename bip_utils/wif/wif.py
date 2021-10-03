@@ -23,7 +23,6 @@
 from typing import Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
-from bip_utils.conf import Bip44BitcoinMainNet
 from bip_utils.utils import ConvUtils
 
 
@@ -39,15 +38,15 @@ class WifEncoder:
 
     @staticmethod
     def Encode(priv_key: Union[bytes, IPrivateKey],
-               compr_pub_key: bool = True,
-               net_ver: bytes = Bip44BitcoinMainNet.WifNetVersion()) -> str:
+               net_ver: bytes,
+               compr_pub_key: bool = True) -> str:
         """ Encode key bytes into a WIF string.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key bytes or object
+            net_ver (bytes)                : Net version
             compr_pub_key (bools, optional): True if private key corresponds to a compressed public key,
                                              false otherwise
-            net_ver (bytes, optional)      : Net version, default is Bitcoin main network
 
         Returns:
             str: WIF encoded string
@@ -80,12 +79,12 @@ class WifDecoder:
 
     @staticmethod
     def Decode(wif_str: str,
-               net_ver: bytes = Bip44BitcoinMainNet.WifNetVersion()) -> bytes:
+               net_ver: bytes) -> bytes:
         """ Decode key bytes from a WIF string.
 
         Args:
-            wif_str (str)            : WIF string
-            net_ver (bytes, optional): Net version, default is Bitcoin main network
+            wif_str (str)  : WIF string
+            net_ver (bytes): Net version
 
         Returns:
             bytes: Key bytes

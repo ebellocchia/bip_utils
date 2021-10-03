@@ -221,6 +221,6 @@ class Bip44PrivateKey:
         """
         wif_net_ver = self.m_coin_conf.WifNetVersion()
 
-        return (WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), compr_pub_key, wif_net_ver)
+        return (WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), wif_net_ver, compr_pub_key)
                 if wif_net_ver is not None
                 else "")
