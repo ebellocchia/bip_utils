@@ -24,7 +24,7 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.P2PKH_addr import P2PKHAddr
 from bip_utils.base58 import Base58Alphabets
-from bip_utils.conf import Bip44Ripple
+from bip_utils.bip.conf import Bip44Ripple
 from bip_utils.ecc import IPublicKey
 
 

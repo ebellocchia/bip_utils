@@ -21,10 +21,10 @@
 
 # Imports
 from typing import Dict, Union
-from bip_utils.conf.common.addr_types import AddrTypes
-from bip_utils.conf.common.bip32_types import Bip32Types
-from bip_utils.conf.common.bip_coin_conf import BipCoinConf
-from bip_utils.conf.common.key_net_versions import KeyNetVersions
+from bip_utils.bip.conf.common.addr_types import AddrTypes
+from bip_utils.bip.conf.common.bip32_types import Bip32Types
+from bip_utils.bip.conf.common.bip_coin_conf import BipCoinConf
+from bip_utils.bip.conf.common.key_net_versions import KeyNetVersions
 from bip_utils.utils import CoinNames
 
 

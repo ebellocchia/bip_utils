@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.conf.common import *
+from bip_utils.bip.conf.common import *
 from bip_utils.utils import CoinNames
 
 

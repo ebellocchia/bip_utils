@@ -30,7 +30,7 @@ from bip_utils.bip.bip32.bip32_key_data import Bip32Depth, Bip32FingerPrint, Bip
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip.bip32.bip32_path import Bip32Path, Bip32PathParser
-from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
+from bip_utils.bip.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPrivateKey, IPublicKey
 from bip_utils.utils import CryptoUtils
 

@@ -21,9 +21,9 @@
 
 # Imports
 from typing import Dict
-from bip_utils.conf.common import BipCoinConf
-from bip_utils.conf.bip44.bip44_coins import Bip44Coins
-from bip_utils.conf.bip49.bip49_conf import *
+from bip_utils.bip.conf.common import BipCoinConf
+from bip_utils.bip.conf.bip44.bip44_coins import Bip44Coins
+from bip_utils.bip.conf.bip49.bip49_conf import *
 
 
 class Bip49ConfGetterConst:

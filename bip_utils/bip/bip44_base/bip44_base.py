@@ -31,7 +31,7 @@ from bip_utils.bip.bip32 import (
 )
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
-from bip_utils.conf import Bip44Coins, Bip32Types, BipCoinConf
+from bip_utils.bip.conf import Bip44Coins, Bip32Types, BipCoinConf
 from bip_utils.ecc import IPrivateKey
 
 

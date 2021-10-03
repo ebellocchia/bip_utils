@@ -46,6 +46,8 @@ from bip_utils.bip.bip44_base import (
 from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip49 import Bip49
 from bip_utils.bip.bip84 import Bip84
+# BIP coins configuration
+from bip_utils.bip.conf import *
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, Monero
@@ -65,6 +67,7 @@ from bip_utils.substrate import (
     SubstrateBip39SeedGenerator,
     SubstrateCoins, Substrate
 )
+# Substrate coins
 from bip_utils.substrate.conf import SubstrateCoins
 # ECC
 from bip_utils.ecc import (
@@ -76,5 +79,3 @@ from bip_utils.ecc import (
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
-# Coins configuration
-from bip_utils.conf import *

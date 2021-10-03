@@ -24,7 +24,7 @@ from functools import lru_cache
 from typing import Any, Dict, Type
 from bip_utils.addr import *
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
-from bip_utils.conf import AddrTypes, BipCoinConf
+from bip_utils.bip.conf import AddrTypes, BipCoinConf
 from bip_utils.utils import DataBytes
 from bip_utils.wif import WifEncoder
 

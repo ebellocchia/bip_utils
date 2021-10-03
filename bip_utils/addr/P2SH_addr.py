@@ -25,7 +25,7 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
-from bip_utils.conf import Bip49BitcoinMainNet
+from bip_utils.bip.conf import Bip49BitcoinMainNet
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
