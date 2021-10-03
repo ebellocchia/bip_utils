@@ -51,13 +51,3 @@ class AddrTypes(Enum):
     XRP = auto(),
     XTZ = auto(),
     ZIL = auto(),
-
-
-@unique
-class Bip32Types(Enum):
-    """ Enumerative for BIP32 types. """
-
-    ED25519_SLIP = auto(),
-    ED25519_BLAKE2B_SLIP = auto(),
-    NIST256P1 = auto(),
-    SECP256K1 = auto(),
