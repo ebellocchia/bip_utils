@@ -56,7 +56,7 @@ class CommandBase(object):
         self.coincurve = 1
 
     def finalize_options(self):
-        self.coincurve = self.__get_coincurve_param()
+        self.coincurve = self.__validate_and_get_coincurve_param()
         super().finalize_options()
 
     def run(self):
@@ -64,14 +64,16 @@ class CommandBase(object):
         self.__write_conf_file()
         super().run()
 
-    def __get_coincurve_param(self):
+    def __validate_and_get_coincurve_param(self):
         try:
-            return int(self.coincurve)
+            param = int(self.coincurve)
         except ValueError:
             raise ValueError(f"Invalid coincurve option value {self.coincurve}")
 
-        if self.coincurve not in (0, 1):
+        if param not in (0, 1):
             raise ValueError(f"Invalid coincurve option value {self.coincurve}")
+
+        return param
 
     def __write_conf_file(self):
         with open(self.conf_file, "r") as fin:
