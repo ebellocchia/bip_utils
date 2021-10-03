@@ -22,7 +22,7 @@
 # Imports
 import binascii
 from bip_utils import Bip32KeyError, Bip32Utils, EllipticCurveGetter
-from bip_utils.bip32.bip32_base import Bip32BaseConst
+from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 
 # Invalid seed for testing
 TEST_SEED_ERR = b"000102030405060708090a0b0c0d0e"

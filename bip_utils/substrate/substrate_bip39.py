@@ -21,8 +21,8 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39Mnemonic, Bip39MnemonicDecoder
-from bip_utils.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
+from bip_utils.bip.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39Mnemonic, Bip39MnemonicDecoder
+from bip_utils.bip.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
 from bip_utils.utils import ConvUtils, CryptoUtils
 
 

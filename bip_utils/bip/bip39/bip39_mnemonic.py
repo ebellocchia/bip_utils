@@ -25,8 +25,8 @@ from __future__ import annotations
 import os
 from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union
-from bip_utils.bip39.bip39_ex import Bip39ChecksumError
-from bip_utils.bip39.bip39_entropy_generator import Bip39EntropyGenerator
+from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
+from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
 from bip_utils.utils import (
     ConvUtils, CryptoUtils,
     Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase

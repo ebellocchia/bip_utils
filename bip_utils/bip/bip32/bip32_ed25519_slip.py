@@ -21,24 +21,23 @@
 
 # Imports
 from typing import Union
-from bip_utils.bip32.bip32_base import Bip32Base
-from bip_utils.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
-from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
-from bip_utils.bip32.bip32_path import Bip32Path
+from bip_utils.bip.bip32.bip32_base import Bip32Base
+from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_path import Bip32Path
 from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes, IPrivateKey
 
 
-class Bip32Ed25519Blake2bSlipConst:
-    """ Class container for BIP32 ed25519-blake2b constants. """
+class Bip32Ed25519SlipConst:
+    """ Class container for BIP32 ed25519 constants. """
 
     # Elliptic curve type
-    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.ED25519_BLAKE2B
+    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.ED25519
 
 
-class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
-    """ BIP32 ed25519-blake2b class. It allows master key generation and children keys derivation
-    using ed25519-blake2b curve.
+class Bip32Ed25519Slip(Bip32Ed25519SlipBase):
+    """ BIP32 ed25519 class. It allows master key generation and children keys derivation using ed25519 curve.
     Derivation based on SLIP-0010.
     """
 
@@ -66,7 +65,7 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
         return cls._FromSeed(seed_bytes,
                              Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
                              key_net_ver,
-                             Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
+                             Bip32Ed25519SlipConst.CURVE_TYPE)
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -92,7 +91,7 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
                                     Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
                                     path,
                                     key_net_ver,
-                                    Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
+                                    Bip32Ed25519SlipConst.CURVE_TYPE)
 
     @classmethod
     def FromExtendedKey(cls,
@@ -112,7 +111,7 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
         """
         return cls._FromExtendedKey(key_str,
                                     key_net_ver,
-                                    Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
+                                    Bip32Ed25519SlipConst.CURVE_TYPE)
 
     @classmethod
     def FromPrivateKey(cls,
@@ -134,7 +133,7 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
         """
         return cls._FromPrivateKey(priv_key,
                                    key_net_ver,
-                                   Bip32Ed25519Blake2bSlipConst.CURVE_TYPE)
+                                   Bip32Ed25519SlipConst.CURVE_TYPE)
 
     #
     # Protected methods

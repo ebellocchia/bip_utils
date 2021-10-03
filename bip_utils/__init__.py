@@ -22,14 +22,14 @@ from bip_utils.wif import WifDecoder, WifEncoder
 # Address computation
 from bip_utils.addr import *
 # BIP39
-from bip_utils.bip39 import (
+from bip_utils.bip.bip39 import (
     Bip39ChecksumError,
     Bip39EntropyBitLen, Bip39Languages, Bip39WordsNum,
     Bip39Mnemonic, Bip39MnemonicDecoder, Bip39MnemonicEncoder,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
 )
 # BIP32
-from bip_utils.bip32 import (
+from bip_utils.bip.bip32 import (
     Bip32KeyError, Bip32PathError,
     Bip32KeyIndex,
     Bip32Path, Bip32PathParser,
@@ -38,14 +38,14 @@ from bip_utils.bip32 import (
     Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
 # BIP44/49/84
-from bip_utils.bip44 import (
+from bip_utils.bip.bip44_base import (
     Bip44DepthError, Bip44CoinNotAllowedError,
     Bip44Changes, Bip44Coins, Bip44Levels,
     Bip44PublicKey, Bip44PrivateKey,
-    Bip44,
-    Bip49,
-    Bip84
 )
+from bip_utils.bip.bip44 import Bip44
+from bip_utils.bip.bip49 import Bip49
+from bip_utils.bip.bip84 import Bip84
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, Monero

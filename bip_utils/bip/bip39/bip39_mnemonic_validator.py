@@ -22,8 +22,8 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.bip39.bip39_ex import Bip39ChecksumError
-from bip_utils.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicDecoder
+from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
+from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicDecoder
 
 
 class Bip39MnemonicValidator:

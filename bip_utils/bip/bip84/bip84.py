@@ -21,40 +21,30 @@
 
 # Imports
 from typing import Dict
-from bip_utils.bip32 import Bip32Utils
-from bip_utils.bip44.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
+from bip_utils.bip.bip32 import Bip32Utils
+from bip_utils.bip.bip44_base.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
 from bip_utils.conf import *
 
 
-class Bip49Const:
+class Bip84Const:
     """ Class container for BIP44 constants. """
 
     # Specification name
-    SPEC_NAME: str = "BIP-0049"
+    SPEC_NAME: str = "BIP-0084"
     # Purpose
-    PURPOSE: int = Bip32Utils.HardenIndex(49)
+    PURPOSE: int = Bip32Utils.HardenIndex(84)
     # Map from Bip44Coins to configuration classes
     COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
-            Bip44Coins.BITCOIN: Bip49BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
-            Bip44Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
-            Bip44Coins.BITCOIN_CASH_TESTNET: Bip49BitcoinCashTestNet,
-            Bip44Coins.BITCOIN_SV: Bip49BitcoinSvMainNet,
-            Bip44Coins.BITCOIN_SV_TESTNET: Bip49BitcoinSvTestNet,
-            Bip44Coins.DASH: Bip49DashMainNet,
-            Bip44Coins.DASH_TESTNET: Bip49DashTestNet,
-            Bip44Coins.DOGECOIN: Bip49DogecoinMainNet,
-            Bip44Coins.DOGECOIN_TESTNET: Bip49DogecoinTestNet,
-            Bip44Coins.LITECOIN: Bip49LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET: Bip49LitecoinTestNet,
-            Bip44Coins.ZCASH: Bip49ZcashMainNet,
-            Bip44Coins.ZCASH_TESTNET: Bip49ZcashTestNet,
+            Bip44Coins.BITCOIN: Bip84BitcoinMainNet,
+            Bip44Coins.BITCOIN_TESTNET: Bip84BitcoinTestNet,
+            Bip44Coins.LITECOIN: Bip84LitecoinMainNet,
+            Bip44Coins.LITECOIN_TESTNET: Bip84LitecoinTestNet,
         }
 
 
-class Bip49(Bip44Base):
-    """ BIP49 class. It allows master key generation and children keys derivation in according to BIP-0049.
-    BIP-0049 reference: https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
+class Bip84(Bip44Base):
+    """ BIP84 class. It allows master key generation and children keys derivation in according to BIP-0084.
+    BIP-0084 reference: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
     """
 
     #
@@ -160,7 +150,7 @@ class Bip49(Bip44Base):
         Returns:
             str: Specification name
         """
-        return Bip49Const.SPEC_NAME
+        return Bip84Const.SPEC_NAME
 
     @staticmethod
     def IsCoinAllowed(coin_type: Bip44Coins) -> bool:
@@ -178,7 +168,7 @@ class Bip49(Bip44Base):
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin is not an enumerative of Bip44Coins")
 
-        return coin_type in Bip49Const.COIN_TO_CONF
+        return coin_type in Bip84Const.COIN_TO_CONF
 
     @staticmethod
     def _GetPurpose() -> int:
@@ -187,7 +177,7 @@ class Bip49(Bip44Base):
         Returns:
             int: Purpose index
         """
-        return Bip49Const.PURPOSE
+        return Bip84Const.PURPOSE
 
     @staticmethod
     def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinConf:
@@ -199,4 +189,4 @@ class Bip49(Bip44Base):
         Returns:
             BipCoinConf child object: BipCoinConf child object
         """
-        return Bip49Const.COIN_TO_CONF[coin_type]
+        return Bip84Const.COIN_TO_CONF[coin_type]

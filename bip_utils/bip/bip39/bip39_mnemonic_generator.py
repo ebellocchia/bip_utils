@@ -22,10 +22,10 @@
 
 # Imports
 from typing import Union
-from bip_utils.bip39.bip39_mnemonic import (
+from bip_utils.bip.bip39.bip39_mnemonic import (
     Bip39MnemonicConst, Bip39Languages, Bip39WordsNum, Bip39Mnemonic, Bip39MnemonicEncoder
 )
-from bip_utils.bip39.bip39_entropy_generator import Bip39EntropyGenerator
+from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
 
 
 class Bip39MnemonicGenerator:

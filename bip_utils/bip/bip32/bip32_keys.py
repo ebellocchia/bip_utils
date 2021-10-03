@@ -23,9 +23,9 @@
 from __future__ import annotations
 from functools import lru_cache
 from typing import Union
-from bip_utils.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
-from bip_utils.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
+from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
+from bip_utils.bip.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
+from bip_utils.bip.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPoint, IPrivateKey, IPublicKey
 from bip_utils.utils import CryptoUtils, DataBytes
 

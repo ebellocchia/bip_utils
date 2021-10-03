@@ -21,9 +21,9 @@
 
 # Import
 from typing import Iterator, List, Optional, Tuple, Union
-from bip_utils.bip32.bip32_ex import Bip32PathError
-from bip_utils.bip32.bip32_key_data import Bip32KeyIndex
-from bip_utils.bip32.bip32_utils import Bip32Utils
+from bip_utils.bip.bip32.bip32_ex import Bip32PathError
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_utils import Bip32Utils
 
 
 class Bip32PathConst:

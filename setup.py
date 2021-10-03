@@ -131,15 +131,15 @@ setuptools.setup(
     package_data={
         "bip_utils": [
             # BIP39
-            "bip39/bip39_words/english.txt",
-            "bip39/bip39_words/italian.txt",
-            "bip39/bip39_words/french.txt",
-            "bip39/bip39_words/spanish.txt",
-            "bip39/bip39_words/portuguese.txt",
-            "bip39/bip39_words/czech.txt",
-            "bip39/bip39_words/chinese_simplified.txt",
-            "bip39/bip39_words/chinese_traditional.txt",
-            "bip39/bip39_words/korean.txt",
+            "bip/bip39/bip39_words/english.txt",
+            "bip/bip39/bip39_words/italian.txt",
+            "bip/bip39/bip39_words/french.txt",
+            "bip/bip39/bip39_words/spanish.txt",
+            "bip/bip39/bip39_words/portuguese.txt",
+            "bip/bip39/bip39_words/czech.txt",
+            "bip/bip39/bip39_words/chinese_simplified.txt",
+            "bip/bip39/bip39_words/chinese_traditional.txt",
+            "bip/bip39/bip39_words/korean.txt",
             # Monero
             "monero_mnemonic/monero_words/chinese_simplified.txt",
             "monero_mnemonic/monero_words/dutch.txt",

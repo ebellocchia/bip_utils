@@ -22,7 +22,7 @@
 # Imports
 from __future__ import annotations
 from typing import Union
-from bip_utils.bip32.bip32_utils import Bip32Utils
+from bip_utils.bip.bip32.bip32_utils import Bip32Utils
 from bip_utils.conf import KeyNetVersions
 from bip_utils.utils import ConvUtils
 

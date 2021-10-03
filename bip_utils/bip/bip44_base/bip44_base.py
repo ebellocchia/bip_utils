@@ -25,12 +25,12 @@ from abc import ABC, abstractmethod
 from enum import Enum, IntEnum, auto, unique
 from functools import lru_cache
 from typing import Dict, Type, Union
-from bip_utils.bip32 import (
+from bip_utils.bip.bip32 import (
     Bip32Base, Bip32Utils,
     Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
-from bip_utils.bip44.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
-from bip_utils.bip44.bip44_keys import Bip44PublicKey, Bip44PrivateKey
+from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
+from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
 from bip_utils.conf import Bip32Types, BipCoinConf
 from bip_utils.ecc import IPrivateKey
 

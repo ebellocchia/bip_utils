@@ -21,30 +21,80 @@
 
 # Imports
 from typing import Dict
-from bip_utils.bip32 import Bip32Utils
-from bip_utils.bip44.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
+from bip_utils.bip.bip32 import Bip32Utils
+from bip_utils.bip.bip44_base.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
 from bip_utils.conf import *
 
 
-class Bip84Const:
+class Bip44Const:
     """ Class container for BIP44 constants. """
 
     # Specification name
-    SPEC_NAME: str = "BIP-0084"
+    SPEC_NAME: str = "BIP-0044"
     # Purpose
-    PURPOSE: int = Bip32Utils.HardenIndex(84)
+    PURPOSE: int = Bip32Utils.HardenIndex(44)
     # Map from Bip44Coins to configuration classes
     COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
-            Bip44Coins.BITCOIN: Bip84BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET: Bip84BitcoinTestNet,
-            Bip44Coins.LITECOIN: Bip84LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET: Bip84LitecoinTestNet,
+            Bip44Coins.ALGORAND: Bip44Algorand,
+            Bip44Coins.AVAX_C_CHAIN: Bip44AvaxCChain,
+            Bip44Coins.AVAX_P_CHAIN: Bip44AvaxPChain,
+            Bip44Coins.AVAX_X_CHAIN: Bip44AvaxXChain,
+            Bip44Coins.BAND_PROTOCOL: Bip44BandProtocol,
+            Bip44Coins.BINANCE_CHAIN: Bip44BinanceChain,
+            Bip44Coins.BINANCE_SMART_CHAIN: Bip44BinanceSmartChain,
+            Bip44Coins.BITCOIN: Bip44BitcoinMainNet,
+            Bip44Coins.BITCOIN_TESTNET: Bip44BitcoinTestNet,
+            Bip44Coins.BITCOIN_CASH: Bip44BitcoinCashMainNet,
+            Bip44Coins.BITCOIN_CASH_TESTNET: Bip44BitcoinCashTestNet,
+            Bip44Coins.BITCOIN_SV: Bip44BitcoinSvMainNet,
+            Bip44Coins.BITCOIN_SV_TESTNET: Bip44BitcoinSvTestNet,
+            Bip44Coins.COSMOS: Bip44Cosmos,
+            Bip44Coins.DASH: Bip44DashMainNet,
+            Bip44Coins.DASH_TESTNET: Bip44DashTestNet,
+            Bip44Coins.DOGECOIN: Bip44DogecoinMainNet,
+            Bip44Coins.DOGECOIN_TESTNET: Bip44DogecoinTestNet,
+            Bip44Coins.ELROND: Bip44Elrond,
+            Bip44Coins.ETHEREUM: Bip44Ethereum,
+            Bip44Coins.ETHEREUM_CLASSIC: Bip44EthereumClassic,
+            Bip44Coins.FANTOM_OPERA: Bip44FantomOpera,
+            Bip44Coins.FILECOIN: Bip44Filecoin,
+            Bip44Coins.HARMONY_ONE_ATOM: Bip44HarmonyOneAtom,
+            Bip44Coins.HARMONY_ONE_ETH: Bip44HarmonyOneEth,
+            Bip44Coins.HARMONY_ONE_METAMASK: Bip44HarmonyOneMetamask,
+            Bip44Coins.HUOBI_CHAIN: Bip44HuobiChain,
+            Bip44Coins.IRIS_NET: Bip44IrisNet,
+            Bip44Coins.KAVA: Bip44Kava,
+            Bip44Coins.KUSAMA_ED25519_SLIP: Bip44KusamaEd25519Slip,
+            Bip44Coins.LITECOIN: Bip44LitecoinMainNet,
+            Bip44Coins.LITECOIN_TESTNET: Bip44LitecoinTestNet,
+            Bip44Coins.MONERO_ED25519_SLIP: Bip44MoneroEd25519Slip,
+            Bip44Coins.MONERO_SECP256K1: Bip44MoneroSecp256k1,
+            Bip44Coins.NANO: Bip44Nano,
+            Bip44Coins.NEO: Bip44Neo,
+            Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
+            Bip44Coins.OKEX_CHAIN_ATOM: Bip44OkexChainAtom,
+            Bip44Coins.OKEX_CHAIN_ATOM_OLD: Bip44OkexChainAtom,
+            Bip44Coins.OKEX_CHAIN_ETH: Bip44OkexChainEth,
+            Bip44Coins.ONTOLOGY: Bip44Ontology,
+            Bip44Coins.POLKADOT_ED25519_SLIP: Bip44PolkadotEd25519Slip,
+            Bip44Coins.POLYGON: Bip44Polygon,
+            Bip44Coins.RIPPLE: Bip44Ripple,
+            Bip44Coins.SOLANA: Bip44Solana,
+            Bip44Coins.STELLAR: Bip44Stellar,
+            Bip44Coins.TERRA: Bip44Terra,
+            Bip44Coins.TEZOS: Bip44Tezos,
+            Bip44Coins.THETA: Bip44Theta,
+            Bip44Coins.TRON: Bip44Tron,
+            Bip44Coins.VECHAIN: Bip44VeChain,
+            Bip44Coins.ZCASH: Bip44ZcashMainNet,
+            Bip44Coins.ZCASH_TESTNET: Bip44ZcashTestNet,
+            Bip44Coins.ZILLIQA: Bip44Zilliqa,
         }
 
 
-class Bip84(Bip44Base):
-    """ BIP84 class. It allows master key generation and children keys derivation in according to BIP-0084.
-    BIP-0084 reference: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
+class Bip44(Bip44Base):
+    """ BIP44 class. It allows master key generation and children keys derivation in according to BIP-0044.
+    BIP-0044 reference: https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
     """
 
     #
@@ -150,7 +200,7 @@ class Bip84(Bip44Base):
         Returns:
             str: Specification name
         """
-        return Bip84Const.SPEC_NAME
+        return Bip44Const.SPEC_NAME
 
     @staticmethod
     def IsCoinAllowed(coin_type: Bip44Coins) -> bool:
@@ -168,7 +218,7 @@ class Bip84(Bip44Base):
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin is not an enumerative of Bip44Coins")
 
-        return coin_type in Bip84Const.COIN_TO_CONF
+        return coin_type in Bip44Const.COIN_TO_CONF
 
     @staticmethod
     def _GetPurpose() -> int:
@@ -177,7 +227,7 @@ class Bip84(Bip44Base):
         Returns:
             int: Purpose index
         """
-        return Bip84Const.PURPOSE
+        return Bip44Const.PURPOSE
 
     @staticmethod
     def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinConf:
@@ -189,4 +239,4 @@ class Bip84(Bip44Base):
         Returns:
             BipCoinConf child object: BipCoinConf child object
         """
-        return Bip84Const.COIN_TO_CONF[coin_type]
+        return Bip44Const.COIN_TO_CONF[coin_type]
