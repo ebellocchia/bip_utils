@@ -98,7 +98,7 @@ And the following Substrate coins (same addresses of Polkadot-JS and similar):
 - Polkadot
 - Generic Substrate coin
 
-Clearly, for those coins that support Smart Contrats (e.g. Ethereum, Tron, ...), the generated addresses are valid for all the related tokens.\
+Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...), the generated addresses are valid for all the related tokens.\
 I tried to add more coins from time to time. If you have some suggestions, feel free to contact me.
 
 ## Install the package
