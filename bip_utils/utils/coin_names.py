@@ -19,37 +19,33 @@
 # THE SOFTWARE.
 
 
-# Imports
-from bip_utils.utils import CoinNames
-
-
-class SubstrateCoinConf:
-    """ Substrate coin configuration class. """
+class CoinNames:
+    """ Helper class for representing coin names. """
 
     def __init__(self,
-                 coin_name: CoinNames,
-                 ss58_format: int) -> None:
+                 name: str,
+                 abbr: str) -> None:
         """ Construct class.
 
         Args:
-            coin_name (CoinNames object): Coin names
-            ss58_format (int)           : SS58 format
+            name (str): Name
+            abbr (str): Abbreviation
         """
-        self.m_coin_name = coin_name
-        self.m_ss58_format = ss58_format
+        self.m_name = name
+        self.m_abbr = abbr
 
-    def CoinNames(self) -> CoinNames:
-        """ Get coin names.
+    def Name(self) -> str:
+        """ Get name.
+
+        Returns :
+            str: Name
+        """
+        return self.m_name
+
+    def Abbreviation(self) -> str:
+        """ Get abbreviation.
 
         Returns:
-            CoinNames object: CoinNames object
+            str: Abbreviation
         """
-        return self.m_coin_name
-
-    def SS58Format(self) -> int:
-        """ Get SS58 format.
-
-        Returns:
-            int: SS58 format
-        """
-        return self.m_ss58_format
+        return self.m_abbr

@@ -21,6 +21,7 @@
 
 # Imports
 from bip_utils.conf.common import *
+from bip_utils.utils import CoinNames
 
 
 # Bitcoin key net version for main net (ypub / yprv)

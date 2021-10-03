@@ -23,38 +23,6 @@
 from bip_utils.utils import ConvUtils
 
 
-class CoinNames:
-    """ Helper class for representing coin names. """
-
-    def __init__(self,
-                 name: str,
-                 abbr: str) -> None:
-        """ Construct class.
-
-        Args:
-            name (str): Name
-            abbr (str): Abbreviation
-        """
-        self.m_name = name
-        self.m_abbr = abbr
-
-    def Name(self) -> str:
-        """ Get name.
-
-        Returns :
-            str: Name
-        """
-        return self.m_name
-
-    def Abbreviation(self) -> str:
-        """ Get abbreviation.
-
-        Returns:
-            str: Abbreviation
-        """
-        return self.m_abbr
-
-
 class KeyNetVersions:
     """ Helper class for representing key net versions. """
 
