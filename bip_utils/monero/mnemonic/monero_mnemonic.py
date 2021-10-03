@@ -25,8 +25,8 @@ from __future__ import annotations
 import os
 from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple
-from bip_utils.monero_mnemonic.monero_mnemonic_ex import MoneroChecksumError
-from bip_utils.monero_mnemonic.monero_entropy_generator import MoneroEntropyGenerator
+from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
+from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.utils import (
     ConvUtils, CryptoUtils, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
 )

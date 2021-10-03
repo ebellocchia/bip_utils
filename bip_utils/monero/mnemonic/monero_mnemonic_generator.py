@@ -21,10 +21,10 @@
 
 # Imports
 from typing import Dict, Union
-from bip_utils.monero_mnemonic.monero_mnemonic import (
+from bip_utils.monero.mnemonic.monero_mnemonic import (
     MoneroMnemonicConst, MoneroLanguages, MoneroWordsNum, MoneroMnemonic, MoneroMnemonicEncoder
 )
-from bip_utils.monero_mnemonic.monero_entropy_generator import (
+from bip_utils.monero.mnemonic.monero_entropy_generator import (
     MoneroEntropyBitLen, MoneroEntropyGenerator
 )
 

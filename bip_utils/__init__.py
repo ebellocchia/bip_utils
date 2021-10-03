@@ -51,7 +51,7 @@ from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, Monero
 )
 # Monero mnemonic
-from bip_utils.monero_mnemonic import (
+from bip_utils.monero.mnemonic import (
     MoneroChecksumError,
     MoneroEntropyBitLen, MoneroLanguages, MoneroWordsNum,
     MoneroMnemonic, MoneroMnemonicDecoder, MoneroMnemonicEncoder,

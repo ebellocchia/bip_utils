@@ -21,7 +21,7 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.monero_mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicDecoder
+from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicDecoder
 
 
 class MoneroSeedGenerator:
