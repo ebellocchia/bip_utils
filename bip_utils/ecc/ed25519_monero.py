@@ -22,7 +22,8 @@
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
 from bip_utils.ecc.ed25519 import Ed25519Const
-from bip_utils.ecc.ed25519_monero_keys import Ed25519MoneroPoint, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey, IPoint
+from bip_utils.ecc.ed25519_monero_keys import Ed25519MoneroPoint, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
+from bip_utils.ecc.ikeys import IPoint
 
 
 class Ed25519MoneroConst:
