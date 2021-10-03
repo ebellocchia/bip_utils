@@ -20,10 +20,7 @@
 
 
 # Imports
-from bip_utils.conf.bip_coin_conf_enum import AddrTypes, Bip32Types
-from bip_utils.conf.bip_coin_conf_common import *
-from bip_utils.conf.bip_coin_conf_helper import CoinNames, KeyNetVersions
-from bip_utils.conf.bip_coin_conf import BipCoinConf, BipBitcoinCashConf, BipLitecoinConf
+from bip_utils.conf.common import *
 
 
 # Bitcoin key net version for main net (xpub / xprv)

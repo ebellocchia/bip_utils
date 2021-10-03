@@ -21,8 +21,8 @@
 
 # Imports
 from typing import Any, Dict, Optional, Union
-from bip_utils.conf.bip_coin_conf_enum import AddrTypes, Bip32Types
-from bip_utils.conf.bip_coin_conf_helper import CoinNames, KeyNetVersions
+from bip_utils.conf.common.bip_coin_conf_enum import AddrTypes, Bip32Types
+from bip_utils.conf.common.bip_coin_conf_helper import CoinNames, KeyNetVersions
 
 
 class BipCoinConf:

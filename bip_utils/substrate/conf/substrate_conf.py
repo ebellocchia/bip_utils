@@ -21,7 +21,7 @@
 # Reference for formats: https://wiki.polkadot.network/docs/build-ss58-registry
 
 # Imports
-from bip_utils.conf.bip_coin_conf_helper import CoinNames
+from bip_utils.conf.common import CoinNames
 from bip_utils.substrate.conf.substrate_coin_conf import SubstrateCoinConf
 
 
