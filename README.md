@@ -1423,16 +1423,18 @@ This library is used internally by the other modules, but it's available also fo
 **Code example**
 
     import binascii
-    from bip_utils import Secp256k1PrivateKey, WifDecoder, WifEncoder
+    from bip_utils import Bip44BitcoinMainNet, Secp256k1PrivateKey, WifDecoder, WifEncoder
 
     # Private key bytes or a private key object can be used
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
     priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
     # Encode
-    enc = WifEncoder.Encode(priv_key)
+    enc = WifEncoder.Encode(priv_key,
+                            Bip44BitcoinMainNet.WifNetVersion())
     # Decode
-    dec = WifDecoder.Decode(enc)
+    dec = WifDecoder.Decode(enc,
+                            Bip44BitcoinMainNet.WifNetVersion())
 
 ## Base58
 
