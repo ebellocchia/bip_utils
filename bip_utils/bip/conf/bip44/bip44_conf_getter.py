@@ -50,6 +50,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.DOGECOIN: Bip44DogecoinMainNet,
         Bip44Coins.DOGECOIN_TESTNET: Bip44DogecoinTestNet,
         Bip44Coins.ELROND: Bip44Elrond,
+        Bip44Coins.EOS: Bip44Eos,
         Bip44Coins.ETHEREUM: Bip44Ethereum,
         Bip44Coins.ETHEREUM_CLASSIC: Bip44EthereumClassic,
         Bip44Coins.FANTOM_OPERA: Bip44FantomOpera,

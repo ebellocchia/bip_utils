@@ -278,6 +278,19 @@ Bip44Elrond: BipCoinConf = BipCoinConf(
     addr_params={},
 )
 
+# Configuration for Eos
+Bip44Eos: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("EOS", "EOS"),
+    coin_idx=194,
+    is_testnet=False,
+    def_path=NOT_HARDENED_DEF_PATH,
+    key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+    wif_net_ver=None,
+    bip32_cls=Bip32Secp256k1,
+    addr_cls=EosAddr,
+    addr_params={},
+)
+
 # Configuration for Ethereum
 Bip44Ethereum: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Ethereum", "ETH"),

@@ -42,6 +42,7 @@ class Bip44Coins(Enum):
     DASH = auto()
     DOGECOIN = auto()
     ELROND = auto()
+    EOS = auto()
     ETHEREUM = auto()
     ETHEREUM_CLASSIC = auto()
     FANTOM_OPERA = auto()

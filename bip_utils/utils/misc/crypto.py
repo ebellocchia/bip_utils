@@ -134,6 +134,18 @@ class CryptoUtils:
         return hashlib.pbkdf2_hmac("sha512", AlgoUtils.Encode(password), AlgoUtils.Encode(salt), itr_num)
 
     @staticmethod
+    def Ripemd160(data: Union[bytes, str]) -> bytes:
+        """ Compute the Bitcoin RIPEMD-160 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed RIPEMD-160
+        """
+        return hashlib.new("ripemd160", AlgoUtils.Encode(data)).digest()
+
+    @staticmethod
     def Hash160(data: Union[bytes, str]) -> bytes:
         """ Compute the Bitcoin Hash-160 of the specified bytes.
 
@@ -143,7 +155,7 @@ class CryptoUtils:
         Returns:
             bytes: Computed Hash-160
         """
-        return hashlib.new("ripemd160", CryptoUtils.Sha256(data)).digest()
+        return CryptoUtils.Ripemd160(CryptoUtils.Sha256(data))
 
     @staticmethod
     def Crc32(data: Union[bytes, str]) -> int:

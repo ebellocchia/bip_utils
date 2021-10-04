@@ -382,6 +382,30 @@ TEST_VECT = [
             "erd1yvj6es98ecj0axw399a8juekwvc4a3f4rvxpy8vudfvy4v6p088qexz52j",
         ],
     },
+    # EOS
+    {
+        "coin": Bip44Coins.EOS,
+        "names": ("EOS", "EOS"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DEKAPvkKccksoXcd1DjLJJpWW8bz4hD1CQZJxzFFKDUzSwhEzLqSsCqZf9HvDYHCADj5uDkh2RkDMUHAhn7UmNaENmNbf5bnFyomFFCG1Q",
+            "ex_priv": "xprv9zExktPrVF4TfKT9WygiyAN5xUJ7abyMdyUxWaadgygW7ecYhT2au4tMiMmA9DiPxcx3NTjx1YFmbwUxb4Nd6bm15vUjSH7YaUvMtJNj1ss",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6ErJ445aK8TLm6hMLGXZoUqEHM89YHdkApQsDUvyxaPs7PuxXGc7cG9mayvwU7EGd68KKuZTJHpg6RoUk6esWXh8V7CmUPizLVQmUtRzAs7",
+            "ex_priv": "xprvA1rweYYgUku3YcctEEzZSLtVjKHf8putobVGR6XNQErtEbaoyjHs4TqHjjD45EYb5eJ1nVyy6jfN4m478SrZcdvpemVrMkeahRzLq5LTnyy",
+        },
+        "addresses": [
+            "EOS6zpSNY1YoLxNt2VsvJjoDfBueU6xC1M1ERJw1UoekL1NHn8KNA",
+            "EOS62cPUiWnLqbUjiBMxbEU4pm4Hp5X3RGk4KMTadvZNygjX72yHW",
+            "EOS5HW5gdesVezdB74ruENxfLkJU1xYntXxPg9tCbdF7ZkeRU6TKR",
+            "EOS7m3j93jyawa2MGDaLe9s5trUFWB7jabHKF111S8L24wJRLUi4t",
+            "EOS6ugvESPgGtaxJKsUf3cBmGVTJzGc1fvjhmSFyHheGAUqj3Tn7Y",
+        ],
+    },
     # Ethereum
     {
         "coin": Bip44Coins.ETHEREUM,
@@ -1430,6 +1454,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.ELROND,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "erd1sqhjrtmsn5yjk6w85099p8v0ly0g8z9pxeqe5dvu5rlf2n7vq3vqytny9g",
+    },
+    # EOS
+    {
+        "coin": Bip44Coins.EOS,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "EOS6zpSNY1YoLxNt2VsvJjoDfBueU6xC1M1ERJw1UoekL1NHn8KNA",
     },
     # Ethereum
     {
