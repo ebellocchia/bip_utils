@@ -1336,20 +1336,24 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
     # P2PKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2PKHAddr.EncodeKey(pub_key)
+    addr = P2PKHAddr.EncodeKey(pub_key,
+                               net_ver=Bip44BitcoinMainNet.AddrParamsKey("net_ver"))
     # P2SH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2SHAddr.EncodeKey(pub_key)
+    addr = P2SHAddr.EncodeKey(pub_key,
+                               net_ver=Bip49BitcoinMainNet.AddrParamsKey("net_ver"))
     # P2WPKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2WPKHAddr.EncodeKey(pub_key)
+    addr = P2WPKHAddr.EncodeKey(pub_key,
+                                hrp=Bip84BitcoinMainNet.AddrParamsKey("hrp"),
+                                wit_ver=Bip84BitcoinMainNet.AddrParamsKey("wit_ver"))
 
     # P2PKH address in Bitcoin Cash format
     addr = BchP2PKHAddr.EncodeKey(pub_key,
-                                  hrp="bitcoincash",
-                                  net_addr_ver=b"\x00")
+                                  hrp=Bip44BitcoinCashMainNet.AddrParamsKey("hrp"),
+                                  net_ver=Bip44BitcoinCashMainNet.AddrParamsKey("net_ver"))
     # P2SH address in Bitcoin Cash format
     addr = BchP2SHAddr.EncodeKey(pub_key,
-                                 hrp="bitcoincash",
-                                 net_addr_ver=b"\x00")
+                                 hrp=Bip49BitcoinCashMainNet.AddrParamsKey("hrp"),
+                                 net_ver=Bip49BitcoinCashMainNet.AddrParamsKey("net_ver"))
 
     # Ethereum address
     addr = EthAddr.EncodeKey(pub_key)
@@ -1366,7 +1370,8 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AtomAddr.EncodeKey(pub_key,
                               hrp="bnb")
     # Filecoin address
-    addr = FilAddr.EncodeKey(pub_key)
+    addr = FilAddr.EncodeKey(pub_key,
+                             addr_type=FillAddrTypes.SECP256K1)
     # OKEx Chain address
     addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
@@ -1392,12 +1397,14 @@ These libraries are used internally by the other libraries, but they are availab
     # Solana address
     addr = SolAddr.EncodeKey(pub_key)
     # Stellar address
-    addr = XlmAddr.EncodeKey(pub_key)
+    addr = XlmAddr.EncodeKey(pub_key,
+                             addr_type=XlmAddrTypes.PUB_KEY)
     # Substrate address
     addr = SubstrateEd25519Addr.EncodeKey(pub_key,
                                           ss58_format=0)
     # Tezos address
-    addr = XtzAddr.EncodeKey(pub_key)
+    addr = XtzAddr.EncodeKey(pub_key,
+                             prefix=XtzAddrPrefixes.TZ1)
 
     #
     # Addresses that require a ed25519-blake2b curve
@@ -1434,7 +1441,8 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Nist256p1PublicKey.FromBytes(binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
 
     # NEO address
-    addr = NeoAddr.EncodeKey(pub_key)
+    addr = NeoAddr.EncodeKey(pub_key,
+                             ver=b"\x17")
 
     #
     # Addresses that require a sr25519 curve
@@ -1447,6 +1455,7 @@ These libraries are used internally by the other libraries, but they are availab
     # Substrate address
     addr = SubstrateSr25519Addr.EncodeKey(pub_key,
                                           ss58_format=0)
+
 
 ## WIF
 
