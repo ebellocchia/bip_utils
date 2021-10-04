@@ -29,11 +29,11 @@ from bip_utils.utils.mnemonic import EntropyGenerator
 class Bip39EntropyBitLen(IntEnum):
     """ Enumerative for BIP39 entropy bit lengths. """
 
-    BIT_LEN_128 = 128,
-    BIT_LEN_160 = 160,
-    BIT_LEN_192 = 192,
-    BIT_LEN_224 = 224,
-    BIT_LEN_256 = 256,
+    BIT_LEN_128 = 128
+    BIT_LEN_160 = 160
+    BIT_LEN_192 = 192
+    BIT_LEN_224 = 224
+    BIT_LEN_256 = 256
 
 
 class Bip39EntropyGeneratorConst:

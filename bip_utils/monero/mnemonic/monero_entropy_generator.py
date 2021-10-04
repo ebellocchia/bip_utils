@@ -29,8 +29,8 @@ from bip_utils.utils.mnemonic import EntropyGenerator
 class MoneroEntropyBitLen(IntEnum):
     """ Enumerative for Monero entropy bit lengths. """
 
-    BIT_LEN_128 = 128,
-    BIT_LEN_256 = 256,
+    BIT_LEN_128 = 128
+    BIT_LEN_256 = 256
 
 
 class MoneroEntropyGeneratorConst:

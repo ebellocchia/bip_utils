@@ -28,8 +28,8 @@ class Bip84Coins(Enum):
     """ Enumerative for supported BIP84 coins. """
 
     # Main nets
-    BITCOIN = auto(),
-    LITECOIN = auto(),
+    BITCOIN = auto()
+    LITECOIN = auto()
     # Test nets
-    BITCOIN_TESTNET = auto(),
-    LITECOIN_TESTNET = auto(),
+    BITCOIN_TESTNET = auto()
+    LITECOIN_TESTNET = auto()

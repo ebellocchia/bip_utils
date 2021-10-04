@@ -36,20 +36,20 @@ from bip_utils.ecc import IPrivateKey
 class Bip44Changes(IntEnum):
     """ Enumerative for BIP44 changes. """
 
-    CHAIN_EXT = 0,
-    CHAIN_INT = 1,
+    CHAIN_EXT = 0
+    CHAIN_INT = 1
 
 
 @unique
 class Bip44Levels(IntEnum):
     """ Enumerative for BIP44 levels. """
 
-    MASTER = 0,
-    PURPOSE = 1,
-    COIN = 2,
-    ACCOUNT = 3,
-    CHANGE = 4,
-    ADDRESS_INDEX = 5,
+    MASTER = 0
+    PURPOSE = 1
+    COIN = 2
+    ACCOUNT = 3
+    CHANGE = 4
+    ADDRESS_INDEX = 5
 
 
 class Bip44Base(ABC):

@@ -27,17 +27,17 @@ from enum import Enum, auto, unique
 class SubstrateCoins(Enum):
     """ Enumerative for supported Substrate coins. """
 
-    ACALA = auto(),
-    BIFROST = auto(),
-    CHAINX = auto(),
-    EDGEWARE = auto(),
-    GENERIC = auto(),
-    KARURA = auto(),
-    KUSAMA = auto(),
-    MOONBEAM = auto(),
-    MOONRIVER = auto(),
-    PHALA = auto(),
-    PLASM = auto(),
-    POLKADOT = auto(),
-    SORA = auto(),
-    STAFI = auto(),
+    ACALA = auto()
+    BIFROST = auto()
+    CHAINX = auto()
+    EDGEWARE = auto()
+    GENERIC = auto()
+    KARURA = auto()
+    KUSAMA = auto()
+    MOONBEAM = auto()
+    MOONRIVER = auto()
+    PHALA = auto()
+    PLASM = auto()
+    POLKADOT = auto()
+    SORA = auto()
+    STAFI = auto()

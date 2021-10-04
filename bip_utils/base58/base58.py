@@ -30,8 +30,8 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 class Base58Alphabets(Enum):
     """ Enumerative for Base58 alphabet. """
 
-    BITCOIN = auto(),
-    RIPPLE = auto(),
+    BITCOIN = auto()
+    RIPPLE = auto()
 
 
 class Base58Const:
