@@ -21,7 +21,7 @@
 
 # Imports
 from typing import Any, Dict, Optional, Type, Union
-from bip_utils.bip.conf.common.addr_types import AddrTypes
+from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base
 from bip_utils.utils.conf import CoinNames
 
@@ -38,7 +38,7 @@ class BipCoinConf:
                  wif_net_ver: Optional[bytes],
                  bip32_cls: Type[Bip32Base],
                  addr_conf: Dict[str, Union[bytes, str, int]],
-                 addr_type: AddrTypes) -> None:
+                 addr_cls: Type[IAddrEncoder]) -> None:
         """ Construct class.
 
         Args:
@@ -50,7 +50,7 @@ class BipCoinConf:
             wif_net_ver (bytes)                     : WIF net version, None if not supported
             bip32_cls (Bip32Base class)             : Bip32 class
             addr_conf (dict)                        : Address configuration
-            addr_type (AddrTypes)                   : Address type
+            addr_cls (IAddrEncoder class)           : Address class
         """
         self.m_coin_name = coin_name
         self.m_coin_idx = coin_idx
@@ -60,7 +60,7 @@ class BipCoinConf:
         self.m_wif_net_ver = wif_net_ver
         self.m_bip32_cls = bip32_cls
         self.m_addr_conf = addr_conf
-        self.m_addr_type = addr_type
+        self.m_addr_cls = addr_cls
 
     def CoinNames(self) -> CoinNames:
         """ Get coin names.
@@ -115,7 +115,7 @@ class BipCoinConf:
         """ Get the Bip32 class.
 
         Returns:
-            Bip32Base: Bip32Base class
+            Bip32Base class: Bip32Base class
         """
         return self.m_bip32_cls
 
@@ -139,10 +139,10 @@ class BipCoinConf:
         """
         return self.AddrConf()[key]
 
-    def AddrType(self) -> AddrTypes:
-        """ Get the address type.
+    def AddrClass(self) -> Type[IAddrEncoder]:
+        """ Get the address class.
 
         Returns:
-            AddrTypes: Address type
+            IAddrEncoder class: Address class
         """
-        return self.m_addr_type
+        return self.m_addr_cls

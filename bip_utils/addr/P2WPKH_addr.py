@@ -44,8 +44,8 @@ class P2WPKHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
+            hrp (str)    : HRP
             wit_ver (int): Witness version
-            net_ver (str): Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string
@@ -54,11 +54,11 @@ class P2WPKHAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
+        hrp = kwargs["hrp"]
         wit_ver = kwargs["wit_ver"]
-        net_ver = kwargs["net_ver"]
 
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return SegwitBech32Encoder.Encode(net_ver,
+        return SegwitBech32Encoder.Encode(hrp,
                                           wit_ver,
                                           CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

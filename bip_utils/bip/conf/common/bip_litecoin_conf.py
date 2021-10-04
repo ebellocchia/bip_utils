@@ -21,7 +21,7 @@
 
 # Imports
 from typing import Dict, Type, Union
-from bip_utils.bip.conf.common.addr_types import AddrTypes
+from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.conf.common.bip_coin_conf import BipCoinConf, Bip32Base
 from bip_utils.bip.bip32 import Bip32KeyNetVersions
 from bip_utils.utils.conf import CoinNames
@@ -42,7 +42,7 @@ class BipLitecoinConf(BipCoinConf):
                  wif_net_ver: bytes,
                  bip32_cls: Type[Bip32Base],
                  addr_conf: Dict[str, Union[bytes, str, int]],
-                 addr_type: AddrTypes) -> None:
+                 addr_cls: Type[IAddrEncoder]) -> None:
         """ Construct class.
 
         Args:
@@ -55,7 +55,7 @@ class BipLitecoinConf(BipCoinConf):
             wif_net_ver (bytes)                         : WIF net version
             bip32_cls (Bip32Base class)                 : Bip32 class
             addr_conf (dict)                            : Address configuration
-            addr_type (AddrTypes)                       : Address type
+            addr_cls (IAddrEncoder class)               : Address class
         """
         super().__init__(coin_name,
                          coin_idx,
@@ -65,7 +65,7 @@ class BipLitecoinConf(BipCoinConf):
                          wif_net_ver,
                          bip32_cls,
                          addr_conf,
-                         addr_type)
+                         addr_cls)
 
         self.m_alt_key_net_ver = alt_key_net_ver
         self.m_use_alt_key_net_ver = False

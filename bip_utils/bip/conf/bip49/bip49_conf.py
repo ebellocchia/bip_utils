@@ -20,6 +20,7 @@
 
 
 # Imports
+from bip_utils.addr import *
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Secp256k1
 from bip_utils.bip.conf.common import *
 from bip_utils.utils.conf import CoinNames
@@ -46,7 +47,7 @@ Bip49BitcoinMainNet: BipCoinConf = BipCoinConf(
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": _BIP49_BTC_P2SH_NET_VER_MAIN},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 # Configuration for Bitcoin test net
 Bip49BitcoinTestNet: BipCoinConf = BipCoinConf(
@@ -58,7 +59,7 @@ Bip49BitcoinTestNet: BipCoinConf = BipCoinConf(
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": b"\xc4"},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 
 # Configuration for Bitcoin Cash main net
@@ -70,9 +71,9 @@ Bip49BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
     key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"std_net_ver": b"\x08", "std_hrp": "bitcoincash", "legacy_net_ver":  _BIP49_BTC_P2SH_NET_VER_MAIN},
-    addr_type=AddrTypes.P2SH_BCH,
-    addr_type_legacy=AddrTypes.P2SH,
+    addr_conf={"std": {"net_ver": b"\x08", "hrp": "bitcoincash"}, "legacy": {"net_ver":  _BIP49_BTC_P2SH_NET_VER_MAIN}},
+    addr_cls=BchP2SHAddr,
+    addr_cls_legacy=P2SHAddr,
 )
 # Configuration for Bitcoin Cash test net
 Bip49BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
@@ -83,9 +84,9 @@ Bip49BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
     key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"std_net_ver": b"\x08", "std_hrp": "bchtest", "legacy_net_ver":  _BIP49_BTC_P2SH_NET_VER_TEST},
-    addr_type=AddrTypes.P2SH_BCH,
-    addr_type_legacy=AddrTypes.P2SH,
+    addr_conf={"std": {"net_ver": b"\x08", "hrp": "bchtest"}, "legacy": {"net_ver":  _BIP49_BTC_P2SH_NET_VER_TEST}},
+    addr_cls=BchP2SHAddr,
+    addr_cls_legacy=P2SHAddr,
 )
 
 # Configuration for BitcoinSV main net
@@ -98,7 +99,7 @@ Bip49BitcoinSvMainNet: BipCoinConf = BipCoinConf(
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": _BIP49_BTC_P2SH_NET_VER_MAIN},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 # Configuration for BitcoinSV test net
 Bip49BitcoinSvTestNet: BipCoinConf = BipCoinConf(
@@ -110,7 +111,7 @@ Bip49BitcoinSvTestNet: BipCoinConf = BipCoinConf(
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": _BIP49_BTC_P2SH_NET_VER_TEST},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 
 # Configuration for Dash main net
@@ -123,7 +124,7 @@ Bip49DashMainNet: BipCoinConf = BipCoinConf(
     wif_net_ver=b"\xcc",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": b"\x10"},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 # Configuration for Dash test net
 Bip49DashTestNet: BipCoinConf = BipCoinConf(
@@ -135,7 +136,7 @@ Bip49DashTestNet: BipCoinConf = BipCoinConf(
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": b"\x13"},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 
 # Configuration for Dogecoin main net
@@ -148,7 +149,7 @@ Bip49DogecoinMainNet: BipCoinConf = BipCoinConf(
     wif_net_ver=b"\x9e",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": b"\x16"},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 # Configuration for Dogecoin test net
 Bip49DogecoinTestNet: BipCoinConf = BipCoinConf(
@@ -160,7 +161,7 @@ Bip49DogecoinTestNet: BipCoinConf = BipCoinConf(
     wif_net_ver=b"\xf1",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": _BIP49_BTC_P2SH_NET_VER_TEST},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 
 # Configuration for Litecoin main net
@@ -174,7 +175,7 @@ Bip49LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
     wif_net_ver=b"\xb0",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"std_net_ver": b"\x32", "depr_net_ver": _BIP49_BTC_P2SH_NET_VER_MAIN},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 # Configuration for Litecoin test net
 Bip49LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
@@ -187,7 +188,7 @@ Bip49LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"std_net_ver": b"\x3a", "depr_net_ver": _BIP49_BTC_P2SH_NET_VER_TEST},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 
 # Configuration for Zcash main net
@@ -200,7 +201,7 @@ Bip49ZcashMainNet: BipCoinConf = BipCoinConf(
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": b"\x1c\xbd"},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )
 # Configuration for Zcash test net
 Bip49ZcashTestNet: BipCoinConf = BipCoinConf(
@@ -212,5 +213,5 @@ Bip49ZcashTestNet: BipCoinConf = BipCoinConf(
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": b"\x1c\xba"},
-    addr_type=AddrTypes.P2SH,
+    addr_cls=P2SHAddr,
 )

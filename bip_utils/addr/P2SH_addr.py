@@ -70,7 +70,7 @@ class P2SHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey) : Public key bytes or object
 
         Other Parameters:
-            net_ver (bytes): Net address version, default is Bitcoin main network
+            net_ver (bytes): Net address version
 
         Returns:
             str: Address string

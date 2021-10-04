@@ -21,7 +21,7 @@
 
 # Imports
 from typing import Dict, Type, Union
-from bip_utils.bip.conf.common.addr_types import AddrTypes
+from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.conf.common.bip_coin_conf import BipCoinConf, Bip32Base
 from bip_utils.bip.bip32 import Bip32KeyNetVersions
 from bip_utils.utils.conf import CoinNames
@@ -41,8 +41,8 @@ class BipBitcoinCashConf(BipCoinConf):
                  wif_net_ver: bytes,
                  bip32_cls: Type[Bip32Base],
                  addr_conf: Dict[str, Union[bytes, str, int]],
-                 addr_type: AddrTypes,
-                 addr_type_legacy: AddrTypes) -> None:
+                 addr_cls: Type[IAddrEncoder],
+                 addr_cls_legacy: Type[IAddrEncoder]) -> None:
         """ Construct class.
 
         Args:
@@ -54,8 +54,8 @@ class BipBitcoinCashConf(BipCoinConf):
             wif_net_ver (bytes)                     : WIF net version
             bip32_cls (Bip32Base class)             : Bip32 class
             addr_conf (dict)                        : Address configuration
-            addr_type (AddrTypes)                   : Address type
-            addr_type_legacy (AddrTypes)            : Legacy ddress type
+            addr_cls (IAddrEncoder class)           : Address class
+            addr_cls_legacy (IAddrEncoder class)    : Legacy ddress class
         """
         super().__init__(coin_name,
                          coin_idx,
@@ -65,9 +65,9 @@ class BipBitcoinCashConf(BipCoinConf):
                          wif_net_ver,
                          bip32_cls,
                          addr_conf,
-                         addr_type)
+                         addr_cls)
 
-        self.m_addr_type_legacy = addr_type_legacy
+        self.m_addr_cls_legacy = addr_cls_legacy
         self.m_use_legacy_addr = False
 
     def UseLegacyAddress(self,
@@ -79,13 +79,13 @@ class BipBitcoinCashConf(BipCoinConf):
         """
         self.m_use_legacy_addr = value
 
-    def AddrType(self) -> AddrTypes:
+    def AddrClass(self) -> Type[IAddrEncoder]:
         """ Get the address type. It overrides the method in BipCoinConf.
 
         Returns:
-            AddrTypes: Address type
+            IAddrEncoder class: Address class
         """
-        return self.m_addr_type_legacy if self.m_use_legacy_addr else self.m_addr_type
+        return self.m_addr_cls_legacy if self.m_use_legacy_addr else self.m_addr_cls
 
     def AddrConf(self) -> Dict[str, Union[bytes, str, int]]:
         """ Get the address configuration. It overrides the method in BipCoinConf.
@@ -93,6 +93,4 @@ class BipBitcoinCashConf(BipCoinConf):
         Returns:
             dict: Address configuration
         """
-        return ({"net_ver": self.m_addr_conf["legacy_net_ver"]}
-                if self.m_use_legacy_addr
-                else {"hrp": self.m_addr_conf["std_hrp"], "net_ver": self.m_addr_conf["std_net_ver"]})
+        return self.m_addr_conf["legacy"] if self.m_use_legacy_addr else self.m_addr_conf["std"]

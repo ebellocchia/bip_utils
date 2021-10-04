@@ -41,8 +41,8 @@ class P2PKHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey)          : Public key bytes or object
 
         Other Parameters:
-            net_ver (bytes)                        : Net address version, default is Bitcoin main network
-            base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin by default
+            net_ver (bytes)                        : Net address version
+            base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin alphabet by default
 
         Returns:
             str: Address string
