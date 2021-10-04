@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.utils import BitUtils
+from bip_utils.utils.misc import BitUtils
 
 
 class Bip32UtilsConst:

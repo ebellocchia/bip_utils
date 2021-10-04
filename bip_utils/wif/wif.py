@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
-from bip_utils.utils import ConvUtils
+from bip_utils.utils.misc import ConvUtils
 
 
 class WifConst:

@@ -27,7 +27,7 @@ from bip_utils.addr import SubstrateSr25519Addr
 from bip_utils.substrate.conf import SubstrateCoinConf
 from bip_utils.ecc import IPrivateKey, IPublicKey, Sr25519PrivateKey, Sr25519PublicKey
 from bip_utils.substrate.substrate_ex import SubstrateKeyError
-from bip_utils.utils import DataBytes
+from bip_utils.utils.misc import DataBytes
 
 
 class SubstratePublicKey:

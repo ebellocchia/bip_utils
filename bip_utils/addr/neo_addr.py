@@ -26,7 +26,7 @@ from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bip.conf.bip44 import Bip44Neo
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class NeoAddr(IAddrEncoder):

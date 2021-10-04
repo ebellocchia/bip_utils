@@ -24,7 +24,8 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import Base32Encoder, CryptoUtils
+from bip_utils.utils.base32 import Base32Encoder
+from bip_utils.utils.misc import CryptoUtils
 
 
 class AlgoAddrConst:

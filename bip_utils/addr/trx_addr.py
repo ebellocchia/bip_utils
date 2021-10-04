@@ -26,7 +26,7 @@ from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bip.conf.bip44 import Bip44Tron
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import ConvUtils
+from bip_utils.utils.misc import ConvUtils
 
 
 class TrxAddr(IAddrEncoder):

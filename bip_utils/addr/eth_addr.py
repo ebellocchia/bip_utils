@@ -24,7 +24,7 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class EthAddrConst:

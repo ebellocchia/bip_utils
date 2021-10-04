@@ -27,7 +27,7 @@ from bip_utils.bip.bip32.bip32_key_data import (
     Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
 )
 from bip_utils.ecc import IPublicKey, IPrivateKey
-from bip_utils.utils import ConvUtils
+from bip_utils.utils.misc import ConvUtils
 
 
 class Bip32KeyDeserConst:

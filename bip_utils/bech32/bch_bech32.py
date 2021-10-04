@@ -24,7 +24,7 @@
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.bech32.bech32_ex import Bech32FormatError
-from bip_utils.utils import ConvUtils
+from bip_utils.utils.misc import ConvUtils
 
 
 class BchBech32Const:

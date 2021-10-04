@@ -22,7 +22,7 @@
 # Imports
 from typing import Any
 from bip_utils.ecc.ikeys import IPoint
-from bip_utils.utils import DataBytes
+from bip_utils.utils.misc import DataBytes
 
 
 class DummyPoint(IPoint):

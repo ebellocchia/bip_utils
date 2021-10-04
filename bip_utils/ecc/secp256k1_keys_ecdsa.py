@@ -28,7 +28,7 @@ from ecdsa.ecdsa import curve_secp256k1
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils import DataBytes
+from bip_utils.utils.misc import DataBytes
 
 
 class Secp256k1Point(IPoint):

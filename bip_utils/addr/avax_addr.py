@@ -26,7 +26,7 @@ from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32Encoder
 from bip_utils.bip.conf.bip44 import Bip44AvaxPChain, Bip44AvaxXChain
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class AvaxPChainAddr(IAddrEncoder):

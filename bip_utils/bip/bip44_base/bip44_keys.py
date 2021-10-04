@@ -25,7 +25,7 @@ from typing import Dict, Type
 from bip_utils.addr import *
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import AddrTypes, BipCoinConf
-from bip_utils.utils import DataBytes
+from bip_utils.utils.misc import DataBytes
 from bip_utils.wif import WifEncoder
 
 

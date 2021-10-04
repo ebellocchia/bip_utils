@@ -81,6 +81,6 @@ from bip_utils.ecc import (
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
 # Utils
-from bip_utils.utils import (
+from bip_utils.utils.misc import (
     AlgoUtils, BitUtils, ConvUtils, CryptoUtils, DataBytes
 )
