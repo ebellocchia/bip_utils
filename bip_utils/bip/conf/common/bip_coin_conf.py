@@ -23,7 +23,7 @@
 from typing import Any, Dict, Optional, Type, Union
 from bip_utils.bip.conf.common.addr_types import AddrTypes
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base
-from bip_utils.utils import CoinNames
+from bip_utils.utils.conf import CoinNames
 
 
 class BipCoinConf:

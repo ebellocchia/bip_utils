@@ -64,9 +64,10 @@ from bip_utils.substrate import (
     SubstrateKeyError, SubstratePathError,
     SubstratePublicKey, SubstratePrivateKey,
     SubstratePathElem, SubstratePath, SubstratePathParser,
-    SubstrateBip39SeedGenerator,
-    SubstrateCoins, Substrate
+    Substrate
 )
+# Substrate mnemonic
+from bip_utils.substrate.mnemonic import SubstrateBip39SeedGenerator
 # Substrate coins
 from bip_utils.substrate.conf import SubstrateCoins
 # ECC

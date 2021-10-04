@@ -21,8 +21,8 @@
 # Reference for formats: https://wiki.polkadot.network/docs/build-ss58-registry
 
 # Imports
-from bip_utils.utils import CoinNames
 from bip_utils.substrate.conf.substrate_coin_conf import SubstrateCoinConf
+from bip_utils.utils.conf import CoinNames
 
 
 # Configuration for a Acala

@@ -1,0 +1,1 @@
+from bip_utils.substrate.mnemonic.substrate_bip39 import SubstrateBip39SeedGenerator

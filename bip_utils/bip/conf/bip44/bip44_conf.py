@@ -24,7 +24,7 @@ from bip_utils.bip.bip32 import (
     Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
 from bip_utils.bip.conf.common import *
-from bip_utils.utils import CoinNames
+from bip_utils.utils.conf import CoinNames
 
 
 # Bitcoin key net version for main net (same as BIP32)

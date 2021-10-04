@@ -27,8 +27,9 @@ from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple
 from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
-from bip_utils.utils import (
-    ConvUtils, CryptoUtils, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+from bip_utils.utils import ConvUtils, CryptoUtils
+from bip_utils.utils.mnemonic import (
+    Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
 )
 
 

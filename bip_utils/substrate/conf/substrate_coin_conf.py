@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.utils import CoinNames
+from bip_utils.utils.conf import CoinNames
 
 
 class SubstrateCoinConf:

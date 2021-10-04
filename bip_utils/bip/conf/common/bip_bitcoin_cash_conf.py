@@ -24,7 +24,7 @@ from typing import Dict, Type, Union
 from bip_utils.bip.conf.common.addr_types import AddrTypes
 from bip_utils.bip.conf.common.bip_coin_conf import BipCoinConf, Bip32Base
 from bip_utils.bip.bip32 import Bip32KeyNetVersions
-from bip_utils.utils import CoinNames
+from bip_utils.utils.conf import CoinNames
 
 
 class BipBitcoinCashConf(BipCoinConf):
