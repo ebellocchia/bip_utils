@@ -157,27 +157,15 @@ class Bip32BaseTestHelper:
     # Test public derivation
     @staticmethod
     def test_public_derivation(ut_class, bip32_class, test_vector):
-        # Construct from extended private key
+        # Test by constructing from the private key and converting to public
         bip32_ctx = bip32_class.FromExtendedKey(test_vector["ex_priv"])
-        # Shall not be public
         ut_class.assertFalse(bip32_ctx.IsPublicOnly())
-
-        # Convert to public
         bip32_ctx.ConvertToPublic()
-        # Shall be public and the public key shall be correct
-        ut_class.assertTrue(bip32_ctx.IsPublicOnly())
-        ut_class.assertEqual(test_vector["ex_pub"], bip32_ctx.PublicKey().ToExtended())
-        # Getting the private key shall raise an exception
-        ut_class.assertRaises(Bip32KeyError, bip32_ctx.PrivateKey)
+        Bip32BaseTestHelper.__test_public_derivation(ut_class, bip32_ctx, test_vector)
 
-        # Test derivation paths
-        for test in test_vector["der_paths"]:
-            # Public derivation does not support hardened indexes
-            if Bip32Utils.IsHardenedIndex(test["index"]):
-                ut_class.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
-            else:
-                bip32_ctx = bip32_ctx.ChildKey(test["index"])
-                ut_class.assertEqual(test["ex_pub"], bip32_ctx.PublicKey().ToExtended())
+        # And by constructing directly from the public key
+        bip32_ctx = bip32_class.FromExtendedKey(test_vector["ex_pub"])
+        Bip32BaseTestHelper.__test_public_derivation(ut_class, bip32_ctx, test_vector)
 
     # Test invalid extended key
     @staticmethod
@@ -213,3 +201,18 @@ class Bip32BaseTestHelper:
             ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode())
             ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
+    def __test_public_derivation(ut_class, bip32_ctx, test_vector):
+        # Shall be public and the public key shall be correct
+        ut_class.assertTrue(bip32_ctx.IsPublicOnly())
+        ut_class.assertEqual(test_vector["ex_pub"], bip32_ctx.PublicKey().ToExtended())
+        # Getting the private key shall raise an exception
+        ut_class.assertRaises(Bip32KeyError, bip32_ctx.PrivateKey)
+
+        # Test derivation paths
+        for test in test_vector["der_paths"]:
+            # Public derivation does not support hardened indexes
+            if Bip32Utils.IsHardenedIndex(test["index"]):
+                ut_class.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
+            else:
+                bip32_ctx = bip32_ctx.ChildKey(test["index"])
+                ut_class.assertEqual(test["ex_pub"], bip32_ctx.PublicKey().ToExtended())
