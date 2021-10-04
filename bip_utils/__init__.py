@@ -45,7 +45,9 @@ from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip49 import Bip49
 from bip_utils.bip.bip84 import Bip84
 # BIP coins configuration
-from bip_utils.bip.conf import *
+from bip_utils.bip.conf.bip44 import *
+from bip_utils.bip.conf.bip49 import *
+from bip_utils.bip.conf.bip84 import *
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, Monero
@@ -76,4 +78,8 @@ from bip_utils.ecc import (
     Nist256p1, Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey,
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
+)
+# Utils
+from bip_utils.utils import (
+    AlgoUtils, BitUtils, ConvUtils, CryptoUtils, DataBytes
 )
