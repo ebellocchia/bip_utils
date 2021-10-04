@@ -19,6 +19,17 @@
 # THE SOFTWARE.
 
 
-class Bip44DepthError(Exception):
-    """ Exception in case of derivation from wrong depth. """
-    pass
+# Imports
+from enum import Enum, auto, unique
+
+
+@unique
+class Bip84Coins(Enum):
+    """ Enumerative for supported BIP84 coins. """
+
+    # Main nets
+    BITCOIN = auto(),
+    LITECOIN = auto(),
+    # Test nets
+    BITCOIN_TESTNET = auto(),
+    LITECOIN_TESTNET = auto(),

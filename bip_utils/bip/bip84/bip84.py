@@ -20,10 +20,11 @@
 
 
 # Imports
-from typing import Dict
+from typing import Union
 from bip_utils.bip.bip32 import Bip32Utils
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Base
-from bip_utils.bip.conf import BipCoinConf, Bip44Coins, Bip84ConfGetter
+from bip_utils.bip.conf import Bip84Coins, Bip84ConfGetter
+from bip_utils.ecc import IPrivateKey
 
 
 class Bip84Const:
@@ -39,6 +40,75 @@ class Bip84(Bip44Base):
     """ BIP84 class. It allows master key generation and children keys derivation in according to BIP-0084.
     BIP-0084 reference: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
     """
+
+    #
+    # Class methods for construction
+    #
+
+    @classmethod
+    def FromSeed(cls,
+                 seed_bytes: bytes,
+                 coin_type: Bip84Coins) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
+        The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
+        or purpose keys, you have to specify here if it's a test net.
+
+        Args:
+            seed_bytes (bytes)    : Seed bytes
+            coin_type (Bip84Coins): Coin type, must be a Bip84Coins enum
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin index is not a Bip84Coins enum
+            ValueError: If the seed is too short
+            Bip32KeyError: If the seed is not suitable for master key generation
+        """
+        return cls._FromSeed(seed_bytes,
+                             Bip84ConfGetter.GetConfig(coin_type))
+
+    @classmethod
+    def FromExtendedKey(cls,
+                        key_str: str,
+                        coin_type: Bip84Coins) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
+
+        Args:
+            key_str (str)         : Extended key string
+            coin_type (Bip84Coins): Coin type, must be a Bip84Coins enum
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin index is not a Bip84Coins enum
+            Bip32KeyError: If the extended key is not valid
+        """
+        return cls._FromExtendedKey(key_str,
+                                    Bip84ConfGetter.GetConfig(coin_type))
+
+    @classmethod
+    def FromPrivateKey(cls,
+                       priv_key: Union[bytes, IPrivateKey],
+                       coin_type: Bip84Coins) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            priv_key (bytes or IPrivateKey): Private key
+            coin_type (Bip84Coins)         : Coin type, must be a Bip84Coins enum
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin index is not a Bip84Coins enum
+            Bip32KeyError: If the key is not valid
+        """
+        return cls._FromPrivateKey(priv_key,
+                                   Bip84ConfGetter.GetConfig(coin_type))
 
     #
     # Override methods
@@ -146,25 +216,6 @@ class Bip84(Bip44Base):
         return Bip84Const.SPEC_NAME
 
     @staticmethod
-    def IsCoinAllowed(coin_type: Bip44Coins) -> bool:
-        """ Get if the specified coin is allowed.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns :
-            bool: True if allowed, false otherwise
-
-        Raises:
-            TypeError: If coin_type is not of Bip44Coins enum
-        """
-        try:
-            Bip84ConfGetter.GetConfig(coin_type)
-            return True
-        except KeyError:
-            return False
-
-    @staticmethod
     def _GetPurpose() -> int:
         """ Get purpose.
 
@@ -172,15 +223,3 @@ class Bip84(Bip44Base):
             int: Purpose index
         """
         return Bip84Const.PURPOSE
-
-    @staticmethod
-    def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinConf:
-        """ Get coin configuration.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns:
-            BipCoinConf child object: BipCoinConf child object
-        """
-        return Bip84ConfGetter.GetConfig(coin_type)

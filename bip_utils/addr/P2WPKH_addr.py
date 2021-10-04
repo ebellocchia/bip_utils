@@ -45,8 +45,8 @@ class P2WPKHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            wit_ver (int, optional))     : Witness version
-            net_addr_ver (str, optional) : Net address version, default is Bitcoin main network
+            wit_ver (int, optional)     : Witness version
+            net_addr_ver (str, optional): Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string

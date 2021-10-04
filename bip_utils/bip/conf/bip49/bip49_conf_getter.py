@@ -22,29 +22,29 @@
 # Imports
 from typing import Dict
 from bip_utils.bip.conf.common import BipCoinConf
-from bip_utils.bip.conf.bip44.bip44_coins import Bip44Coins
+from bip_utils.bip.conf.bip49.bip49_coins import Bip49Coins
 from bip_utils.bip.conf.bip49.bip49_conf import *
 
 
 class Bip49ConfGetterConst:
     """ Class container for Bip49 configuration getter constants. """
 
-    # Map from Bip44Coins to configuration classes
-    COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
-        Bip44Coins.BITCOIN: Bip49BitcoinMainNet,
-        Bip44Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
-        Bip44Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
-        Bip44Coins.BITCOIN_CASH_TESTNET: Bip49BitcoinCashTestNet,
-        Bip44Coins.BITCOIN_SV: Bip49BitcoinSvMainNet,
-        Bip44Coins.BITCOIN_SV_TESTNET: Bip49BitcoinSvTestNet,
-        Bip44Coins.DASH: Bip49DashMainNet,
-        Bip44Coins.DASH_TESTNET: Bip49DashTestNet,
-        Bip44Coins.DOGECOIN: Bip49DogecoinMainNet,
-        Bip44Coins.DOGECOIN_TESTNET: Bip49DogecoinTestNet,
-        Bip44Coins.LITECOIN: Bip49LitecoinMainNet,
-        Bip44Coins.LITECOIN_TESTNET: Bip49LitecoinTestNet,
-        Bip44Coins.ZCASH: Bip49ZcashMainNet,
-        Bip44Coins.ZCASH_TESTNET: Bip49ZcashTestNet,
+    # Map from Bip49Coins to configuration classes
+    COIN_TO_CONF: Dict[Bip49Coins, BipCoinConf] = {
+        Bip49Coins.BITCOIN: Bip49BitcoinMainNet,
+        Bip49Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
+        Bip49Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
+        Bip49Coins.BITCOIN_CASH_TESTNET: Bip49BitcoinCashTestNet,
+        Bip49Coins.BITCOIN_SV: Bip49BitcoinSvMainNet,
+        Bip49Coins.BITCOIN_SV_TESTNET: Bip49BitcoinSvTestNet,
+        Bip49Coins.DASH: Bip49DashMainNet,
+        Bip49Coins.DASH_TESTNET: Bip49DashTestNet,
+        Bip49Coins.DOGECOIN: Bip49DogecoinMainNet,
+        Bip49Coins.DOGECOIN_TESTNET: Bip49DogecoinTestNet,
+        Bip49Coins.LITECOIN: Bip49LitecoinMainNet,
+        Bip49Coins.LITECOIN_TESTNET: Bip49LitecoinTestNet,
+        Bip49Coins.ZCASH: Bip49ZcashMainNet,
+        Bip49Coins.ZCASH_TESTNET: Bip49ZcashTestNet,
     }
 
 
@@ -52,15 +52,15 @@ class Bip49ConfGetter:
     """ Bip49 configuration getter class. It allows to get the Bip49 configuration of a specific coin. """
 
     @staticmethod
-    def GetConfig(coin_type: Bip44Coins) -> BipCoinConf:
+    def GetConfig(coin_type: Bip49Coins) -> BipCoinConf:
         """ Get coin configuration.
 
         Args:
-            coin_type (Bip44Coins): Coin type
+            coin_type (Bip49Coins): Coin type
 
         Returns:
             BipCoinConf: Coin configuration
         """
-        if not isinstance(coin_type, Bip44Coins):
-            raise TypeError("Coin type is not an enumerative of Bip44Coins")
+        if not isinstance(coin_type, Bip49Coins):
+            raise TypeError("Coin type is not an enumerative of Bip49Coins")
         return Bip49ConfGetterConst.COIN_TO_CONF[coin_type]

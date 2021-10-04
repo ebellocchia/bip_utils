@@ -22,16 +22,16 @@
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from enum import Enum, IntEnum, auto, unique
+from enum import IntEnum, unique
 from functools import lru_cache
 from typing import Dict, Type, Union
 from bip_utils.bip.bip32 import (
     Bip32Base, Bip32Utils,
     Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
-from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError, Bip44CoinNotAllowedError
+from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
-from bip_utils.bip.conf import Bip44Coins, Bip32Types, BipCoinConf
+from bip_utils.bip.conf import Bip32Types, BipCoinConf
 from bip_utils.ecc import IPrivateKey
 
 
@@ -79,92 +79,68 @@ class Bip44Base(ABC):
     #
 
     @classmethod
-    def FromSeed(cls,
-                 seed_bytes: bytes,
-                 coin_type: Bip44Coins) -> Bip44Base:
+    def _FromSeed(cls,
+                  seed_bytes: bytes,
+                  coin_conf: BipCoinConf) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
         The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
         or purpose keys, you have to specify here if it's a test net.
 
         Args:
-            seed_bytes (bytes)   : Seed bytes
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
+            seed_bytes (bytes)     : Seed bytes
+            coin_conf (BipCoinConf): BipCoinConf object
 
         Returns:
             Bip object: Bip object
 
         Raises:
-            TypeError: If coin index is not a Bip44Coins enum
             ValueError: If the seed is too short
-            Bip44CoinNotAllowedError: If the coin is not allowed to derive from the BIP specification
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        if not cls.IsCoinAllowed(coin_type):
-            raise Bip44CoinNotAllowedError(
-                f"Coin {coin_type} cannot derive from {cls.SpecName()} specification"
-            )
-
-        coin_conf = cls._GetCoinConf(coin_type)
         bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromSeed(seed_bytes,
                                       coin_conf.KeyNetVersions()),
                    coin_conf)
 
     @classmethod
-    def FromExtendedKey(cls,
-                        key_str: str,
-                        coin_type: Bip44Coins) -> Bip44Base:
+    def _FromExtendedKey(cls,
+                         key_str: str,
+                         coin_conf: BipCoinConf) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
 
         Args:
-            key_str (str)        : Extended key string
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
+            key_str (str)          : Extended key string
+            coin_conf (BipCoinConf): BipCoinConf object
 
         Returns:
             Bip object: Bip object
 
         Raises:
-            TypeError: If coin index is not a Bip44Coins enum
-            Bip44CoinNotAllowedError: If the coin is not allowed to derive from the BIP specification
             Bip32KeyError: If the extended key is not valid
         """
-        if not cls.IsCoinAllowed(coin_type):
-            raise Bip44CoinNotAllowedError(
-                f"Coin {coin_type} cannot derive from {cls.SpecName()} specification"
-            )
-
-        coin_conf = cls._GetCoinConf(coin_type)
         bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromExtendedKey(key_str,
                                              coin_conf.KeyNetVersions()),
                    coin_conf)
 
     @classmethod
-    def FromPrivateKey(cls,
-                       priv_key: Union[bytes, IPrivateKey],
-                       coin_type: Bip44Coins) -> Bip44Base:
+    def _FromPrivateKey(cls,
+                        priv_key: Union[bytes, IPrivateKey],
+                        coin_conf: BipCoinConf) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key
-            coin_type (Bip44Coins)         : Coin type, must be a Bip44Coins enum
+            coin_conf (BipCoinConf)        : BipCoinConf object
 
         Returns:
             Bip object: Bip object
 
         Raises:
-            TypeError: If coin index is not a Bip44Coins enum
-            Bip44CoinNotAllowedError: If the coin is not allowed to derive from the BIP specification
             Bip32KeyError: If the key is not valid
         """
-        if not cls.IsCoinAllowed(coin_type):
-            raise Bip44CoinNotAllowedError(
-                f"Coin {coin_type} cannot derive from {cls.SpecName()} specification"
-            )
-
-        coin_conf = cls._GetCoinConf(coin_type)
         bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
         return cls(bip32_cls.FromPrivateKey(priv_key,
                                             key_net_ver=coin_conf.KeyNetVersions()),
@@ -193,7 +169,8 @@ class Bip44Base(ABC):
         if bip32_obj.IsPublicOnly():
             if depth < Bip44Levels.ACCOUNT or depth > Bip44Levels.ADDRESS_INDEX:
                 raise Bip44DepthError(
-                    f"Depth of the public-only Bip32 object ({depth}) is below account level or beyond address index level"
+                    f"Depth of the public-only Bip32 object ({depth}) is below account level or "
+                    f"beyond address index level"
                 )
         # If the Bip32 object is not public-only, any depth is fine as long as it is not greater
         # than address index level
@@ -558,39 +535,10 @@ class Bip44Base(ABC):
 
     @staticmethod
     @abstractmethod
-    def IsCoinAllowed(coin_type: Bip44Coins) -> bool:
-        """ Get if the specified coin is allowed.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns :
-            bool: True if allowed, false otherwise
-
-        Raises:
-            TypeError: If coin_type is not of Bip44Coins enum
-        """
-        pass
-
-    @staticmethod
-    @abstractmethod
     def _GetPurpose() -> int:
         """ Get purpose.
 
         Returns:
             int: Purpose index
-        """
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinConf:
-        """ Get coin configuration.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns:
-            BipCoinConf object: BipCoinConf object
         """
         pass

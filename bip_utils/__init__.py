@@ -39,9 +39,7 @@ from bip_utils.bip.bip32 import (
 )
 # BIP44/49/84
 from bip_utils.bip.bip44_base import (
-    Bip44DepthError, Bip44CoinNotAllowedError,
-    Bip44Changes, Bip44Levels,
-    Bip44PublicKey, Bip44PrivateKey,
+    Bip44DepthError, Bip44Changes, Bip44Levels, Bip44PublicKey, Bip44PrivateKey,
 )
 from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip49 import Bip49

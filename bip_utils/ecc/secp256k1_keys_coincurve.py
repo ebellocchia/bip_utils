@@ -32,7 +32,7 @@ from bip_utils.utils import ConvUtils, DataBytes
 
 class Secp256k1Point(IPoint):
     """ Secp256k1 point class.
-    In coincurve library, all the point functions (e..g add, multiply) are coded inside the
+    In coincurve library, all the point functions (e.g. add, multiply) are coded inside the
     PublicKey class. For this reason, a PublicKey is used as underlying object.
     """
 

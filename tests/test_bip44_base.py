@@ -22,9 +22,7 @@
 # Imports
 import binascii
 from bip_utils import (
-    Bip44Coins, Bip44Changes, Bip44Levels,
-    Bip44DepthError, Bip44CoinNotAllowedError,
-    Bip32KeyError, Monero
+    Bip44Coins, Bip44Changes, Bip44Levels, Bip44DepthError, Bip32KeyError, Monero
 )
 
 
@@ -196,9 +194,9 @@ class Bip44BaseTestHelper:
 
     # Test for IsLevel method
     @staticmethod
-    def test_is_level(ut_class, bip_class, test_seed_bytes):
+    def test_is_level(ut_class, bip_class, bip_coins, test_seed_bytes):
         # Master level
-        bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), Bip44Coins.BITCOIN)
+        bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), bip_coins.BITCOIN)
         ut_class.assertTrue(bip_obj_ctx.IsLevel(Bip44Levels.MASTER))
         # Purpose level
         bip_obj_ctx = bip_obj_ctx.Purpose()
@@ -234,46 +232,33 @@ class Bip44BaseTestHelper:
 
     # Test construction from extended keys with valid and invalid depths
     @staticmethod
-    def test_from_ex_key_depth(ut_class, bip_class, test_data):
+    def test_from_ex_key_depth(ut_class, bip_class, bip_coins, test_data):
         # Private key with depth 5 shall not raise exception
-        bip_class.FromExtendedKey(test_data["ex_priv_5"], Bip44Coins.BITCOIN)
+        bip_class.FromExtendedKey(test_data["ex_priv_5"], bip_coins.BITCOIN)
         # Private key with depth 6 shall raise exception
-        ut_class.assertRaises(Bip44DepthError, bip_class.FromExtendedKey, test_data["ex_priv_6"], Bip44Coins.BITCOIN)
+        ut_class.assertRaises(Bip44DepthError, bip_class.FromExtendedKey, test_data["ex_priv_6"], bip_coins.BITCOIN)
 
         # Public key with depth 3 shall raise exception
-        ut_class.assertRaises(Bip44DepthError, bip_class.FromExtendedKey, test_data["ex_pub_2"], Bip44Coins.BITCOIN)
+        ut_class.assertRaises(Bip44DepthError, bip_class.FromExtendedKey, test_data["ex_pub_2"], bip_coins.BITCOIN)
         # Public key with depth 4 or 5 shall not raise exception
-        bip_class.FromExtendedKey(test_data["ex_pub_3"], Bip44Coins.BITCOIN)
-        bip_class.FromExtendedKey(test_data["ex_pub_5"], Bip44Coins.BITCOIN)
+        bip_class.FromExtendedKey(test_data["ex_pub_3"], bip_coins.BITCOIN)
+        bip_class.FromExtendedKey(test_data["ex_pub_5"], bip_coins.BITCOIN)
         # Public key with depth 6 shall raise exception
-        ut_class.assertRaises(Bip44DepthError, bip_class.FromExtendedKey, test_data["ex_pub_6"], Bip44Coins.BITCOIN)
+        ut_class.assertRaises(Bip44DepthError, bip_class.FromExtendedKey, test_data["ex_pub_6"], bip_coins.BITCOIN)
 
-    # Test coins
+    # Test type error
     @staticmethod
-    def test_coins(ut_class, bip_class, test_coins):
-        # Test not allowed coins
-        for test in test_coins["not_allowed"]:
-            ut_class.assertFalse(bip_class.IsCoinAllowed(test))
-            ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromSeed, binascii.unhexlify(test_coins["seed"]),
-                                  test)
-            ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromExtendedKey, test_coins["ex_key"], test)
-            ut_class.assertRaises(Bip44CoinNotAllowedError, bip_class.FromPrivateKey, b"", test)
-
-        # Test allowed coins
-        for test in test_coins["allowed"]:
-            ut_class.assertTrue(bip_class.IsCoinAllowed(test))
-
+    def test_type_error(ut_class, bip_class, test_coins):
         # Exception: construct from invalid type
-        ut_class.assertRaises(TypeError, bip_class.FromSeed, binascii.unhexlify(test_coins["seed"]), 0)
-        ut_class.assertRaises(TypeError, bip_class.FromExtendedKey, test_coins["ex_key"], 0)
-        # Exception: invalid type
-        ut_class.assertRaises(TypeError, bip_class.IsCoinAllowed, 0)
+        ut_class.assertRaises(TypeError, bip_class.FromSeed, b"", 0)
+        ut_class.assertRaises(TypeError, bip_class.FromExtendedKey, "", 0)
+        ut_class.assertRaises(TypeError, bip_class.FromPrivateKey, "", 0)
 
     # Test invalid path derivations
     @staticmethod
-    def test_invalid_derivations(ut_class, bip_class, test_seed_bytes):
+    def test_invalid_derivations(ut_class, bip_class, bip_coins, test_seed_bytes):
         # Create all the derivations
-        bip_obj_mst = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), Bip44Coins.BITCOIN)
+        bip_obj_mst = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), bip_coins.BITCOIN)
         bip_obj_prp = bip_obj_mst.Purpose()
         bip_obj_coin = bip_obj_prp.Coin()
         bip_obj_acc = bip_obj_coin.Account(0)
