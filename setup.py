@@ -84,7 +84,7 @@ class CommandBase(object):
         conf_idx = file_content.index(self.conf_str)
         nl_idx = file_content.index("\n", conf_idx)
 
-        # Re-write the py file with the update string.
+        # Re-write the py file with the updated string
         # Probably not the best solution, but I'm not very familiar with install options
         file_content = file_content.replace(file_content[conf_idx:nl_idx], self.conf_str + coincurve_str, 1)
 
