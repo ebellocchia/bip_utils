@@ -61,8 +61,6 @@ class Substrate:
             TypeError: If coin_type is not of SubstrateCoins enum
             ValueError: If the seed length is not valid
         """
-        if not isinstance(coin_type, SubstrateCoins):
-            raise TypeError("Coin is not an enumerative of SubstrateCoins")
         if len(seed_bytes) < SubstrateConst.SEED_BYTE_LEN:
             raise ValueError(
                 f"Seed length is too small, it shall be at least {SubstrateConst.SEED_BYTE_LEN} bytes"
@@ -114,9 +112,6 @@ class Substrate:
             TypeError: If coin_type is not of SubstrateCoins enum
             SubstrateKeyError: If the key is not valid
         """
-        if not isinstance(coin_type, SubstrateCoins):
-            raise TypeError("Coin is not an enumerative of SubstrateCoins")
-
         return cls(priv_key=priv_key,
                    pub_key=None,
                    path=SubstratePath(),
