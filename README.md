@@ -121,7 +121,7 @@ To install the package:
 
             pip install bip_utils
 
-- Use *ecdsa* for secp256k1:
+- Alternative installation (*ecdsa* will be used for secp256k1)
     - Using setuptools:
 
             python setup.py install --coincurve=0
@@ -143,7 +143,14 @@ To run the tests:
 
         pip install coverage
         coverage run -m unittest discover
-        coverage report
+
+    - Get report:
+
+            coverage report
+
+    - Get HTML report:
+
+            coverage html
 
 ## BIP-0039 library
 
