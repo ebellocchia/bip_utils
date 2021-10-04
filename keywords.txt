@@ -36,6 +36,7 @@ cosmos
 dash
 dogecoin
 elrond
+eos
 ethereum
 ethereum classic
 fantom opera
