@@ -704,7 +704,7 @@ The Bip32 module allows also to parse derivation paths.
     for elem in path_list:
         print(elem)
 
-## Bip-0044, BIP-0049, BIP-0084 libraries
+## BIP-0044, BIP-0049, BIP-0084 libraries
 
 These libraries derive all from the same base class, so they are used exactly in the same way.\
 Therefore, the following code examples can be used with the Bip44, Bip49 or Bip84 class.\
@@ -712,7 +712,9 @@ These classes automatically use the correct elliptic curve for key derivation de
 
 ### Coin types
 
-Supported coins enumerative:
+#### BIP-0044
+
+Supported coins enumerative for BIP-0044:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
@@ -775,6 +777,29 @@ Therefore, if you need to generate the Harmony One address for Metamask, use *Bi
 These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* is compatible with Metamask.\
 *Bip44Coins.OKEX_CHAIN_ATOM_OLD* generates the address using the OKEx Chain coin index (i.e. *996*).
   This address format was used before the mainnet upgrade (some wallets still use it, e.g. Cosmostation).
+
+#### BIP-0049
+
+Supported coins enumerative for BIP-0049:
+
+|Coin|Main net enum|Test net enum|
+|---|---|---|
+|Bitcoin|*Bip49Coins.BITCOIN*|*Bip49Coins.BITCOIN_TESTNET*|
+|Bitcoin Cash|*Bip49Coins.BITCOIN_CASH*|*Bip49Coins.BITCOIN_CASH_TESTNET*|
+|BitcoinSV|*Bip49Coins.BITCOIN_SV*|*Bip49Coins.BITCOIN_SV_TESTNET*|
+|Dash|*Bip49Coins.DASH*|*Bip49Coins.DASH_TESTNET*|
+|Dogecoin|*Bip49Coins.DOGECOIN*|*Bip49Coins.DOGECOIN_TESTNET*|
+|Litecoin|*Bip49Coins.LITECOIN*|*Bip49Coins.LITECOIN_TESTNET*|
+|Zcash|*Bip49Coins.ZCASH*|*Bip49Coins.ZCASH_TESTNET*|
+
+#### BIP-0084
+
+Supported coins enumerative for BIP-0084:
+
+|Coin|Main net enum|Test net enum|
+|---|---|---|
+|Bitcoin|*Bip84Coins.BITCOIN*|*Bip84Coins.BITCOIN_TESTNET*|
+|Litecoin|*Bip84Coins.LITECOIN*|*Bip84Coins.LITECOIN_TESTNET*|
 
 ### Construction from seed
 
