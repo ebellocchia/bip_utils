@@ -24,7 +24,6 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import SegwitBech32Encoder
-from bip_utils.bip.conf.bip84 import Bip84BitcoinMainNet
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
@@ -45,8 +44,8 @@ class P2WPKHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            wit_ver (int, optional)     : Witness version
-            net_addr_ver (str, optional): Net address version, default is Bitcoin main network
+            wit_ver (int): Witness version
+            net_ver (str): Net address version, default is Bitcoin main network
 
         Returns:
             str: Address string
@@ -55,11 +54,11 @@ class P2WPKHAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        wit_ver = kwargs.get("wit_ver", Bip84BitcoinMainNet.AddrConfKey("wit_ver"))
-        net_addr_ver = kwargs.get("net_addr_ver", Bip84BitcoinMainNet.AddrConfKey("net_ver"))
+        wit_ver = kwargs["wit_ver"]
+        net_ver = kwargs["net_ver"]
 
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return SegwitBech32Encoder.Encode(net_addr_ver,
+        return SegwitBech32Encoder.Encode(net_ver,
                                           wit_ver,
                                           CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

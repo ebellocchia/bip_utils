@@ -138,17 +138,17 @@ class Bip44PublicKey:
         # P2PKH, P2SH
         if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH):
             return addr_cls.EncodeKey(pub_key_obj,
-                                      net_addr_ver=addr_conf["net_ver"])
+                                      net_ver=addr_conf["net_ver"])
         # P2WPKH
         elif addr_type == AddrTypes.P2WPKH:
             return addr_cls.EncodeKey(pub_key_obj,
                                       wit_ver=addr_conf["wit_ver"],
-                                      net_addr_ver=addr_conf["net_ver"])
+                                      net_ver=addr_conf["net_ver"])
         # BCH P2PKH and P2SH
         elif addr_type in (AddrTypes.P2PKH_BCH, AddrTypes.P2SH_BCH):
             return addr_cls.EncodeKey(pub_key_obj,
                                       hrp=addr_conf["hrp"],
-                                      net_addr_ver=addr_conf["net_ver"])
+                                      net_ver=addr_conf["net_ver"])
         # Atom
         elif addr_type == AddrTypes.ATOM:
             return addr_cls.EncodeKey(pub_key_obj,

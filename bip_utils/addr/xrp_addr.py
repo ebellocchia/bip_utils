@@ -50,5 +50,5 @@ class XrpAddr(IAddrEncoder):
 
         # Ripple address is just a P2PKH address with a different Base58 alphabet
         return P2PKHAddr.EncodeKey(pub_key,
-                                   net_addr_ver=Bip44Ripple.AddrConfKey("net_ver"),
+                                   net_ver=Bip44Ripple.AddrConfKey("net_ver"),
                                    base58_alph=Base58Alphabets.RIPPLE)

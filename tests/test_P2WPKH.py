@@ -92,21 +92,21 @@ class P2WPKHTests(unittest.TestCase):
             self.assertEqual(test["address"],
                              P2WPKHAddr.EncodeKey(key_bytes,
                                                   wit_ver=test["wit_ver"],
-                                                  net_addr_ver=test["net_ver"]))
+                                                  net_ver=test["net_ver"]))
             self.assertEqual(test["address"],
                              P2WPKHAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes),
                                                   wit_ver=test["wit_ver"],
-                                                  net_addr_ver=test["net_ver"]))
+                                                  net_ver=test["net_ver"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key types
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_PUB_KEY)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_SR25519_PUB_KEY)
+        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_PUB_KEY, wit_ver=0, net_ver=b"\x00")
+        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, wit_ver=0, net_ver=b"\x00")
+        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, wit_ver=0, net_ver=b"\x00")
+        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, wit_ver=0, net_ver=b"\x00")
+        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_SR25519_PUB_KEY, wit_ver=0, net_ver=b"\x00")
 
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, P2WPKHAddr.EncodeKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, P2WPKHAddr.EncodeKey, binascii.unhexlify(test), wit_ver=0, net_ver=b"\x00")
