@@ -26,7 +26,7 @@ from bip_utils.utils import CoinNames
 
 
 # Bitcoin key net version (zpub / zprv)
-BIP84_BTC_KEY_NET_VER: Bip32KeyNetVersions = Bip32KeyNetVersions(b"04b24746", b"04b2430c")
+_BIP84_BTC_KEY_NET_VER: Bip32KeyNetVersions = Bip32KeyNetVersions(b"04b24746", b"04b2430c")
 
 # Configuration for Bitcoin main net
 Bip84BitcoinMainNet: BipCoinConf = BipCoinConf(
@@ -34,7 +34,7 @@ Bip84BitcoinMainNet: BipCoinConf = BipCoinConf(
     coin_idx=0,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=BIP84_BTC_KEY_NET_VER,
+    key_net_ver=_BIP84_BTC_KEY_NET_VER,
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": "bc", "wit_ver": 0},
@@ -57,7 +57,7 @@ Bip84LitecoinMainNet: BipCoinConf = BipCoinConf(
     coin_idx=2,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=BIP84_BTC_KEY_NET_VER,
+    key_net_ver=_BIP84_BTC_KEY_NET_VER,
     wif_net_ver=b"\xb0",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": "ltc", "wit_ver": 0},
