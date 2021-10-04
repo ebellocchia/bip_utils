@@ -26,9 +26,11 @@ from bip_utils.utils.conf import CoinNames
 
 
 # Bitcoin key net version for main net (ypub / yprv)
-_BIP49_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32KeyNetVersions(b"049d7cb2", b"049d7878")
+_BIP49_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x9d\x7c\xb2",
+                                                                       b"\x04\x9d\x78\x78")
 # Bitcoin key net version for test net (upub / uprv)
-_BIP49_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32KeyNetVersions(b"044a5262", b"044a4e28")
+_BIP49_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x4a\x52\x62",
+                                                                       b"\x04\x4a\x4e\x28")
 # Bitcoin P2SH net version for main net
 _BIP49_BTC_P2SH_NET_VER_MAIN: bytes = b"\x05"
 # Bitcoin P2SH net version for test net
@@ -142,7 +144,7 @@ Bip49DogecoinMainNet: BipCoinConf = BipCoinConf(
     coin_idx=3,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"02facafd", b"02fac398"),   # dgub / dgpv
+    key_net_ver=Bip32KeyNetVersions(b"\x02\xfa\xca\xfd", b"\x02\xfa\xc3\x98"),   # dgub / dgpv
     wif_net_ver=b"\x9e",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": b"\x16"},
@@ -154,7 +156,7 @@ Bip49DogecoinTestNet: BipCoinConf = BipCoinConf(
     coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"0432a9a8", b"0432a243"),   # tgub / tgpv
+    key_net_ver=Bip32KeyNetVersions(b"\x04\x32\xa9\xa8", b"\x04\x32\xa2\x43"),   # tgub / tgpv
     wif_net_ver=b"\xf1",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"net_ver": _BIP49_BTC_P2SH_NET_VER_TEST},
@@ -168,7 +170,7 @@ Bip49LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
-    alt_key_net_ver=Bip32KeyNetVersions(b"01b26ef6", b"01b26792"),   # Mtpv / Mtub
+    alt_key_net_ver=Bip32KeyNetVersions(b"\x01\xb2\x6e\xf6", b"\x01\xb2\x67\x92"),   # Mtpv / Mtub
     wif_net_ver=b"\xb0",
     bip32_cls=Bip32Secp256k1,
     addr_conf={"std_net_ver": b"\x32", "depr_net_ver": _BIP49_BTC_P2SH_NET_VER_MAIN},
@@ -180,8 +182,8 @@ Bip49LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
     coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"0436f6e1", b"0436ef7d"),       # ttub / ttpv
-    alt_key_net_ver=Bip32KeyNetVersions(b"0436f6e1", b"0436ef7d"),   # ttub / ttpv
+    key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1", b"\x04\x36\xef\x7d"),       # ttub / ttpv
+    alt_key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1", b"\x04\x36\xef\x7d"),   # ttub / ttpv
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
     addr_conf={"std_net_ver": b"\x3a", "depr_net_ver": _BIP49_BTC_P2SH_NET_VER_TEST},

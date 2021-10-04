@@ -27,6 +27,6 @@ class Bip32Const:
     """ Class container for BIP32 constants. """
 
     # Main net key net version (xpub / xprv)
-    MAIN_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"0488b21e", b"0488ade4")
+    MAIN_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x88\xb2\x1e", b"\x04\x88\xad\xe4")
     # Test net key net version (tpub / tprv)
-    TEST_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"043587cf", b"04358394")
+    TEST_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x35\x87\xcf", b"\x04\x35\x83\x94")

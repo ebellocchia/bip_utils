@@ -209,7 +209,8 @@ class Bip32KeyIndex:
         Returns:
             bytes: Key bytes
         """
-        return ConvUtils.IntegerToBytes(self.m_idx, bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
+        return ConvUtils.IntegerToBytes(self.m_idx,
+                                        bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
 
     def ToInt(self) -> int:
         """ Get the key index as integer.
@@ -263,8 +264,12 @@ class Bip32KeyNetVersions:
             pub_net_ver (bytes) : Public net version
             priv_net_ver (bytes): Private net version
         """
-        self.m_pub_net_ver = ConvUtils.HexStringToBytes(pub_net_ver)
-        self.m_priv_net_ver = ConvUtils.HexStringToBytes(priv_net_ver)
+        if (len(pub_net_ver) != self.Length() or
+                len(priv_net_ver) != self.Length()):
+            raise ValueError("Invalid key net version length")
+
+        self.m_pub_net_ver = pub_net_ver
+        self.m_priv_net_ver = priv_net_ver
 
     @staticmethod
     def Length() -> int:
