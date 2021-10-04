@@ -66,10 +66,10 @@ class NanoAddr(IAddrEncoder):
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
-        chksum = ConvUtils.ReverseBytes(CryptoUtils.Blake2b(pub_key_bytes,
-                                                            digest_size=NanoAddrConst.DIGEST_BYTE_LEN))
+        checksum = ConvUtils.ReverseBytes(CryptoUtils.Blake2b(pub_key_bytes,
+                                                              digest_size=NanoAddrConst.DIGEST_BYTE_LEN))
         # Encode to base32
-        payload = NanoAddrConst.PAYLOAD_PAD + pub_key_bytes + chksum
+        payload = NanoAddrConst.PAYLOAD_PAD + pub_key_bytes + checksum
         b32_enc = Base32Encoder.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)
 
         # Add prefix

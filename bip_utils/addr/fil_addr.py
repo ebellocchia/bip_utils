@@ -89,9 +89,9 @@ class FilAddr(IAddrEncoder):
         # Compute public key hash and checksum
         pub_key_hash = CryptoUtils.Blake2b(pub_key_bytes,
                                            digest_size=FilAddrConst.DIGEST_BYTE_LEN)
-        chksum = CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
-                                     digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
+        checksum = CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
+                                       digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
         # Encode to base32
-        b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + chksum, FilAddrConst.BASE32_ALPHABET)
+        b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + checksum, FilAddrConst.BASE32_ALPHABET)
 
         return FilAddrConst.PREFIX + addr_type_str + b32_enc

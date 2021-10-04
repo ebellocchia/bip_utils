@@ -30,7 +30,7 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 class EthAddrConst:
     """ Class container for Ethereum address constants. """
 
-    # Prefix
+    # Address prefix
     PREFIX: str = "0x"
     # Start byte
     START_BYTE: int = 24
