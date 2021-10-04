@@ -24,7 +24,7 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.bech32 import Bech32Encoder
-from bip_utils.bip.conf import Bip44HarmonyOneAtom
+from bip_utils.bip.conf.bip44 import Bip44HarmonyOneAtom
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils import ConvUtils
 

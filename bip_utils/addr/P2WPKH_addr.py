@@ -24,7 +24,7 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import SegwitBech32Encoder
-from bip_utils.bip.conf import Bip84BitcoinMainNet
+from bip_utils.bip.conf.bip84 import Bip84BitcoinMainNet
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils import CryptoUtils
 
