@@ -37,7 +37,7 @@ from bip_utils import (
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
-from bip_utils.utils import ConvUtils
+from bip_utils.utils.misc import ConvUtils
 from bip_utils.ecc.conf import EccConf
 
 # ed25519 order and generator

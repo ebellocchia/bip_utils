@@ -26,13 +26,15 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Optional, Union, Tuple
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip.bip32.bip32_key_data import Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
-from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
+from bip_utils.bip.bip32.bip32_const import Bip32Const
+from bip_utils.bip.bip32.bip32_key_data import (
+    Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
+)
 from bip_utils.bip.bip32.bip32_key_ser import Bip32KeyDeserializer
+from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip.bip32.bip32_path import Bip32Path, Bip32PathParser
-from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPrivateKey, IPublicKey
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class Bip32BaseConst:
@@ -59,15 +61,15 @@ class Bip32Base(ABC):
     def _FromSeed(cls,
                   seed_bytes: bytes,
                   hmac_key_bytes: bytes,
-                  key_net_ver: KeyNetVersions,
+                  key_net_ver: Bip32KeyNetVersions,
                   curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
 
         Args:
-            seed_bytes (bytes)                 : Seed bytes
-            hmac_key_bytes (bytes)             : Key for HMAC computation
-            curve_type (EllipticCurveTypes)    : Elliptic curve type
-            key_net_ver (KeyNetVersions object): KeyNetVersions object
+            seed_bytes (bytes)                      : Seed bytes
+            hmac_key_bytes (bytes)                  : Key for HMAC computation
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -107,16 +109,16 @@ class Bip32Base(ABC):
                          seed_bytes: bytes,
                          hmac_key_bytes: bytes,
                          path: Union[str, Bip32Path],
-                         key_net_ver: KeyNetVersions,
+                         key_net_ver: Bip32KeyNetVersions,
                          curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
-            seed_bytes (bytes)                 : Seed bytes
-            hmac_key_bytes (bytes)             : Key for HMAC computation
-            path (str or Bip32Path object)     : Path
-            curve_type (EllipticCurveTypes)    : Elliptic curve type
-            key_net_ver (KeyNetVersions object): KeyNetVersions object
+            seed_bytes (bytes)                      : Seed bytes
+            hmac_key_bytes (bytes)                  : Key for HMAC computation
+            path (str or Bip32Path object)          : Path
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -134,14 +136,14 @@ class Bip32Base(ABC):
     @classmethod
     def _FromExtendedKey(cls,
                          key_str: str,
-                         key_net_ver: KeyNetVersions,
+                         key_net_ver: Bip32KeyNetVersions,
                          curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified extended key.
 
         Args:
-            key_str (str)                      : Extended key string
-            key_net_ver (KeyNetVersions object): KeyNetVersions object
-            curve_type (EllipticCurveTypes)    : Elliptic curve type
+            key_str (str)                           : Extended key string
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -185,16 +187,16 @@ class Bip32Base(ABC):
     @classmethod
     def _FromPrivateKey(cls,
                         priv_key: Union[bytes, IPrivateKey],
-                        key_net_ver: KeyNetVersions,
+                        key_net_ver: Bip32KeyNetVersions,
                         curve_type: EllipticCurveTypes) -> Bip32Base:
         """ Create a Bip32 object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey)    : Private key
-            key_net_ver (KeyNetVersions object): KeyNetVersions object
-            curve_type (EllipticCurveTypes)    : Elliptic curve type
+            priv_key (bytes or IPrivateKey)         : Private key
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -220,20 +222,20 @@ class Bip32Base(ABC):
                  depth: Bip32Depth = Bip32Depth(0),
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
                  fprint: Bip32FingerPrint = Bip32FingerPrint(),
-                 key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> None:
+                 key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> None:
         """ Construct class.
 
         Args:
-            priv_key (bytes or IPrivateKey)              : Private key (if None, a public-only object will be created)
-            pub_key (bytes or IPublicKey)                : Public key (only needed for a public-only object)
-                                                           If priv_key is not None, it'll be discarded
-            chain_code (bytes)                           : 32-byte representation of the chain code
-            curve_type (EllipticCurveTypes)              : Elliptic curve type
-            depth (Bip32Depth object, optional)          : Child depth, parent increments its own by one when
-                                                           assigning this (default: 0)
-            index (Bip32KeyIndex object, optional)       : Child index (default: 0)
-            fprint (Bip32FingerPrint object, optional)   : Parent fingerprint (default: master key)
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net by default)
+            priv_key (bytes or IPrivateKey)                   : Private key (if None, a public-only object will be created)
+            pub_key (bytes or IPublicKey)                     : Public key (only needed for a public-only object)
+                                                                If priv_key is not None, it'll be discarded
+            chain_code (bytes)                                : 32-byte representation of the chain code
+            curve_type (EllipticCurveTypes)                   : Elliptic curve type
+            depth (Bip32Depth object, optional)               : Child depth, parent increments its own by one when
+                                                                assigning this (default: 0)
+            index (Bip32KeyIndex object, optional)            : Child index (default: 0)
+            fprint (Bip32FingerPrint object, optional)        : Parent fingerprint (default: master key)
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (Bip32 main net by default)
 
         Raises:
             Bip32KeyError: If the constructed key is not valid
@@ -347,11 +349,11 @@ class Bip32Base(ABC):
         """
         return self.m_pub_key
 
-    def KeyNetVersions(self) -> KeyNetVersions:
+    def KeyNetVersions(self) -> Bip32KeyNetVersions:
         """ Get key net versions.
 
         Returns:
-            KeyNetVersions object: KeyNetVersions object
+            Bip32KeyNetVersions object: Bip32KeyNetVersions object
         """
         return self.m_pub_key.Data().KeyNetVersions()
 
@@ -469,12 +471,12 @@ class Bip32Base(ABC):
     @abstractmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
-                 key_net_ver: KeyNetVersions) -> Bip32Base:
+                 key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
 
         Args:
             seed_bytes (bytes)                           : Seed bytes
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -490,13 +492,13 @@ class Bip32Base(ABC):
     def FromSeedAndPath(cls,
                         seed_bytes: bytes,
                         path: str,
-                        key_net_ver: KeyNetVersions) -> Bip32Base:
+                        key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
             seed_bytes (bytes)                           : Seed bytes
             path (str)                                   : Path
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -511,12 +513,12 @@ class Bip32Base(ABC):
     @abstractmethod
     def FromExtendedKey(cls,
                         key_str: str,
-                        key_net_ver: KeyNetVersions) -> Bip32Base:
+                        key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
         """ Create a Bip32 object from the specified extended key.
 
         Args:
             key_str (str)                                : Extended key string
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -530,14 +532,14 @@ class Bip32Base(ABC):
     @abstractmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       key_net_ver: KeyNetVersions) -> Bip32Base:
+                       key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
         """ Create a Bip32 object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
         Args:
             priv_key (bytes or IPrivateKey)    : Private key
-            key_net_ver (KeyNetVersions object): KeyNetVersions object
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
 
         Returns:
             Bip32Base object: Bip32Base object

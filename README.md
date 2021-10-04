@@ -121,7 +121,7 @@ To install the package:
 
             pip install bip_utils
 
-- Use *ecdsa* for secp256k1:
+- Alternative installation (*ecdsa* will be used for secp256k1)
     - Using setuptools:
 
             python setup.py install --coincurve=0
@@ -143,7 +143,14 @@ To run the tests:
 
         pip install coverage
         coverage run -m unittest discover
-        coverage report
+
+    - Get report:
+
+            coverage report
+
+    - Get HTML report:
+
+            coverage html
 
 ## BIP-0039 library
 
@@ -704,7 +711,7 @@ The Bip32 module allows also to parse derivation paths.
     for elem in path_list:
         print(elem)
 
-## Bip-0044, BIP-0049, BIP-0084 libraries
+## BIP-0044, BIP-0049, BIP-0084 libraries
 
 These libraries derive all from the same base class, so they are used exactly in the same way.\
 Therefore, the following code examples can be used with the Bip44, Bip49 or Bip84 class.\
@@ -712,7 +719,9 @@ These classes automatically use the correct elliptic curve for key derivation de
 
 ### Coin types
 
-Supported coins enumerative:
+#### BIP-0044
+
+Supported coins enumerative for BIP-0044:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
@@ -775,6 +784,29 @@ Therefore, if you need to generate the Harmony One address for Metamask, use *Bi
 These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* is compatible with Metamask.\
 *Bip44Coins.OKEX_CHAIN_ATOM_OLD* generates the address using the OKEx Chain coin index (i.e. *996*).
   This address format was used before the mainnet upgrade (some wallets still use it, e.g. Cosmostation).
+
+#### BIP-0049
+
+Supported coins enumerative for BIP-0049:
+
+|Coin|Main net enum|Test net enum|
+|---|---|---|
+|Bitcoin|*Bip49Coins.BITCOIN*|*Bip49Coins.BITCOIN_TESTNET*|
+|Bitcoin Cash|*Bip49Coins.BITCOIN_CASH*|*Bip49Coins.BITCOIN_CASH_TESTNET*|
+|BitcoinSV|*Bip49Coins.BITCOIN_SV*|*Bip49Coins.BITCOIN_SV_TESTNET*|
+|Dash|*Bip49Coins.DASH*|*Bip49Coins.DASH_TESTNET*|
+|Dogecoin|*Bip49Coins.DOGECOIN*|*Bip49Coins.DOGECOIN_TESTNET*|
+|Litecoin|*Bip49Coins.LITECOIN*|*Bip49Coins.LITECOIN_TESTNET*|
+|Zcash|*Bip49Coins.ZCASH*|*Bip49Coins.ZCASH_TESTNET*|
+
+#### BIP-0084
+
+Supported coins enumerative for BIP-0084:
+
+|Coin|Main net enum|Test net enum|
+|---|---|---|
+|Bitcoin|*Bip84Coins.BITCOIN*|*Bip84Coins.BITCOIN_TESTNET*|
+|Litecoin|*Bip84Coins.LITECOIN*|*Bip84Coins.LITECOIN_TESTNET*|
 
 ### Construction from seed
 
@@ -1304,20 +1336,24 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
     # P2PKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2PKHAddr.EncodeKey(pub_key)
+    addr = P2PKHAddr.EncodeKey(pub_key,
+                               net_ver=Bip44BitcoinMainNet.AddrParamsKey("net_ver"))
     # P2SH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2SHAddr.EncodeKey(pub_key)
+    addr = P2SHAddr.EncodeKey(pub_key,
+                               net_ver=Bip49BitcoinMainNet.AddrParamsKey("net_ver"))
     # P2WPKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
-    addr = P2WPKHAddr.EncodeKey(pub_key)
+    addr = P2WPKHAddr.EncodeKey(pub_key,
+                                hrp=Bip84BitcoinMainNet.AddrParamsKey("hrp"),
+                                wit_ver=Bip84BitcoinMainNet.AddrParamsKey("wit_ver"))
 
     # P2PKH address in Bitcoin Cash format
     addr = BchP2PKHAddr.EncodeKey(pub_key,
-                                  hrp="bitcoincash",
-                                  net_addr_ver=b"\x00")
+                                  hrp=Bip44BitcoinCashMainNet.AddrParamsKey("hrp"),
+                                  net_ver=Bip44BitcoinCashMainNet.AddrParamsKey("net_ver"))
     # P2SH address in Bitcoin Cash format
     addr = BchP2SHAddr.EncodeKey(pub_key,
-                                 hrp="bitcoincash",
-                                 net_addr_ver=b"\x00")
+                                 hrp=Bip49BitcoinCashMainNet.AddrParamsKey("hrp"),
+                                 net_ver=Bip49BitcoinCashMainNet.AddrParamsKey("net_ver"))
 
     # Ethereum address
     addr = EthAddr.EncodeKey(pub_key)
@@ -1334,7 +1370,8 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AtomAddr.EncodeKey(pub_key,
                               hrp="bnb")
     # Filecoin address
-    addr = FilAddr.EncodeKey(pub_key)
+    addr = FilAddr.EncodeKey(pub_key,
+                             addr_type=FillAddrTypes.SECP256K1)
     # OKEx Chain address
     addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
@@ -1360,12 +1397,14 @@ These libraries are used internally by the other libraries, but they are availab
     # Solana address
     addr = SolAddr.EncodeKey(pub_key)
     # Stellar address
-    addr = XlmAddr.EncodeKey(pub_key)
+    addr = XlmAddr.EncodeKey(pub_key,
+                             addr_type=XlmAddrTypes.PUB_KEY)
     # Substrate address
     addr = SubstrateEd25519Addr.EncodeKey(pub_key,
                                           ss58_format=0)
     # Tezos address
-    addr = XtzAddr.EncodeKey(pub_key)
+    addr = XtzAddr.EncodeKey(pub_key,
+                             prefix=XtzAddrPrefixes.TZ1)
 
     #
     # Addresses that require a ed25519-blake2b curve
@@ -1402,7 +1441,8 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Nist256p1PublicKey.FromBytes(binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
 
     # NEO address
-    addr = NeoAddr.EncodeKey(pub_key)
+    addr = NeoAddr.EncodeKey(pub_key,
+                             ver=b"\x17")
 
     #
     # Addresses that require a sr25519 curve
@@ -1416,6 +1456,7 @@ These libraries are used internally by the other libraries, but they are availab
     addr = SubstrateSr25519Addr.EncodeKey(pub_key,
                                           ss58_format=0)
 
+
 ## WIF
 
 This library is used internally by the other modules, but it's available also for external use.
@@ -1423,16 +1464,18 @@ This library is used internally by the other modules, but it's available also fo
 **Code example**
 
     import binascii
-    from bip_utils import Secp256k1PrivateKey, WifDecoder, WifEncoder
+    from bip_utils import Bip44BitcoinMainNet, Secp256k1PrivateKey, WifDecoder, WifEncoder
 
     # Private key bytes or a private key object can be used
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
     priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
     # Encode
-    enc = WifEncoder.Encode(priv_key)
+    enc = WifEncoder.Encode(priv_key,
+                            Bip44BitcoinMainNet.WifNetVersion())
     # Decode
-    dec = WifDecoder.Decode(enc)
+    dec = WifDecoder.Decode(enc,
+                            Bip44BitcoinMainNet.WifNetVersion())
 
 ## Base58
 
@@ -1545,6 +1588,37 @@ Some examples from mnemonic generation to wallet addresses.
         print(f"{i}. Address public key (extended): {bip44_addr_ctx.PublicKey().ToExtended()}")
         print(f"{i}. Address private key (extended): {bip44_addr_ctx.PrivateKey().ToExtended()}")
         print(f"{i}. Address: {bip44_addr_ctx.PublicKey().ToAddress()}")
+
+**BIP49**
+
+    from bip_utils import (
+        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip49Coins, Bip49
+    )
+
+    # Generate random mnemonic
+    mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+    print(f"Mnemonic string: {mnemonic}")
+    # Generate seed from mnemonic
+    seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
+
+    # Construct from seed
+    bip49_mst_ctx = Bip49.FromSeed(seed_bytes, Bip49Coins.BITCOIN)
+    # Print master key
+    print(f"Master key (bytes): {bip49_mst_ctx.PrivateKey().Raw().ToHex()}")
+    print(f"Master key (extended): {bip49_mst_ctx.PrivateKey().ToExtended()}")
+    print(f"Master key (WIF): {bip49_mst_ctx.PrivateKey().ToWif()}")
+
+    # Generate BIP49 account keys: m/49'/0'/0'
+    bip49_acc_ctx = bip49_mst_ctx.Purpose().Coin().Account(0)
+    # Generate BIP49 chain keys: m/49'/0'/0'/0
+    bip49_chg_ctx = bip49_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
+
+    # Generate the first 10 addresses: m/49'/0'/0'/0/i
+    for i in range(10):
+        bip49_addr_ctx = bip49_chg_ctx.AddressIndex(i)
+        print(f"{i}. Address public key (extended): {bip49_addr_ctx.PublicKey().ToExtended()}")
+        print(f"{i}. Address private key (extended): {bip49_addr_ctx.PrivateKey().ToExtended()}")
+        print(f"{i}. Address: {bip49_addr_ctx.PublicKey().ToAddress()}")
 
 **Substrate based on BIP44**
 

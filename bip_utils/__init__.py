@@ -39,13 +39,15 @@ from bip_utils.bip.bip32 import (
 )
 # BIP44/49/84
 from bip_utils.bip.bip44_base import (
-    Bip44DepthError, Bip44CoinNotAllowedError,
-    Bip44Changes, Bip44Coins, Bip44Levels,
-    Bip44PublicKey, Bip44PrivateKey,
+    Bip44DepthError, Bip44Changes, Bip44Levels, Bip44PublicKey, Bip44PrivateKey,
 )
 from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip49 import Bip49
 from bip_utils.bip.bip84 import Bip84
+# BIP coins configuration
+from bip_utils.bip.conf.bip44 import *
+from bip_utils.bip.conf.bip49 import *
+from bip_utils.bip.conf.bip84 import *
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, Monero
@@ -62,9 +64,12 @@ from bip_utils.substrate import (
     SubstrateKeyError, SubstratePathError,
     SubstratePublicKey, SubstratePrivateKey,
     SubstratePathElem, SubstratePath, SubstratePathParser,
-    SubstrateBip39SeedGenerator,
-    SubstrateCoins, Substrate
+    Substrate
 )
+# Substrate mnemonic
+from bip_utils.substrate.mnemonic import SubstrateBip39SeedGenerator
+# Substrate coins
+from bip_utils.substrate.conf import SubstrateCoins
 # ECC
 from bip_utils.ecc import (
     EllipticCurveGetter, EllipticCurveTypes,
@@ -75,5 +80,7 @@ from bip_utils.ecc import (
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
-# Coins configuration
-from bip_utils.conf import *
+# Utils
+from bip_utils.utils.misc import (
+    AlgoUtils, BitUtils, ConvUtils, CryptoUtils, DataBytes
+)

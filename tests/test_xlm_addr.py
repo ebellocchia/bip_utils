@@ -22,9 +22,9 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import XlmAddr, Ed25519PublicKey
+from bip_utils import XlmAddrTypes, XlmAddr, Ed25519PublicKey
 from .test_ecc import (
-    TEST_VECT_ED25519_PUB_KEY_INVALID,
+    TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_PUB_KEY,
     TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
     TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY, TEST_SR25519_PUB_KEY
 )
@@ -34,22 +34,27 @@ TEST_VECT = [
     {
         "pub_key": b"004342d377174aeabce717c67d66df8ba7a8f3835d3c6e978b8bdb63a444d2f6ab",
         "address": "GBBUFU3XC5FOVPHHC7DH2ZW7ROT2R44DLU6G5F4LRPNWHJCE2L3KWRPA",
+        "addr_type": XlmAddrTypes.PUB_KEY,
     },
     {
         "pub_key": b"0073658385894c3c9f01a15e9f97d7d65f24d8f7bb1656bfe79a6f7512de132b68",
         "address": "GBZWLA4FRFGDZHYBUFPJ7F6X2ZPSJWHXXMLFNP7HTJXXKEW6CMVWQTNY",
+        "addr_type": XlmAddrTypes.PUB_KEY,
     },
     {
         "pub_key": b"00eaf531f163a1e91da0a5dbb198fab8ec06b42296ceff584781c42f04eb1ba87c",
         "address": "GDVPKMPRMOQ6SHNAUXN3DGH2XDWANNBCS3HP6WCHQHCC6BHLDOUHZ25S",
+        "addr_type": XlmAddrTypes.PUB_KEY,
     },
     {
         "pub_key": b"00eea5fe0eb96b032d0067fc35fd2c2579e408d437e8d6f9be9d3f9246f24f9b95",
         "address": "GDXKL7QOXFVQGLIAM76DL7JMEV46ICGUG7UNN6N6TU7ZERXSJ6NZLIGP",
+        "addr_type": XlmAddrTypes.PUB_KEY,
     },
     {
         "pub_key": b"00046e316bc3207638f91823bb4822c6562e8aef15f3ce7e35df75f7bf6081fd81",
         "address": "GACG4MLLYMQHMOHZDAR3WSBCYZLC5CXPCXZ447RV3527PP3AQH6YCMW5",
+        "addr_type": XlmAddrTypes.PUB_KEY,
     },
 ]
 
@@ -64,18 +69,24 @@ class XlmAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], XlmAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], XlmAddr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes)))
+            self.assertEqual(test["address"], XlmAddr.EncodeKey(key_bytes,
+                                                                addr_type=test["addr_type"]))
+            self.assertEqual(test["address"], XlmAddr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes),
+                                                                addr_type=test["addr_type"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key types
-        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_SECP256K1_PUB_KEY)
-        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_SR25519_PUB_KEY)
+        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, addr_type=XlmAddrTypes.PUB_KEY)
+        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, addr_type=XlmAddrTypes.PUB_KEY)
+        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, addr_type=XlmAddrTypes.PUB_KEY)
+        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_SECP256K1_PUB_KEY, addr_type=XlmAddrTypes.PUB_KEY)
+        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_SR25519_PUB_KEY, addr_type=XlmAddrTypes.PUB_KEY)
 
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, XlmAddr.EncodeKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, XlmAddr.EncodeKey, binascii.unhexlify(test), addr_type=XlmAddrTypes.PUB_KEY)
+
+    # Test invalid parameters
+    def test_invalid_params(self):
+        self.assertRaises(TypeError, XlmAddr.EncodeKey, TEST_ED25519_PUB_KEY, addr_type=0)

@@ -22,7 +22,7 @@
 # Imports
 from __future__ import annotations
 from typing import List
-from bip_utils.utils.conversion import AlgoUtils
+from bip_utils.utils.misc.conversion import AlgoUtils
 
 
 class Mnemonic:

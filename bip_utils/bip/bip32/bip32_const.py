@@ -20,44 +20,13 @@
 
 
 # Imports
-from enum import Enum, auto, unique
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyNetVersions
 
 
-@unique
-class AddrTypes(Enum):
-    """ Enumerative for address types. """
+class Bip32Const:
+    """ Class container for BIP32 constants. """
 
-    ALGO = auto(),
-    AVAX_P = auto(),
-    AVAX_X = auto(),
-    ATOM = auto(),
-    EGLD = auto(),
-    ETH = auto(),
-    FIL = auto(),
-    NANO = auto(),
-    NEO = auto(),
-    OKEX = auto(),
-    ONE = auto(),
-    P2PKH = auto(),
-    P2PKH_BCH = auto(),
-    P2SH = auto(),
-    P2SH_BCH = auto(),
-    P2WPKH = auto(),
-    SOL = auto(),
-    SUBSTRATE = auto(),
-    TRX = auto(),
-    XLM = auto()
-    XMR = auto(),
-    XRP = auto(),
-    XTZ = auto(),
-    ZIL = auto(),
-
-
-@unique
-class Bip32Types(Enum):
-    """ Enumerative for BIP32 types. """
-
-    ED25519_SLIP = auto(),
-    ED25519_BLAKE2B_SLIP = auto(),
-    NIST256P1 = auto(),
-    SECP256K1 = auto(),
+    # Main net key net version (xpub / xprv)
+    MAIN_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x88\xb2\x1e", b"\x04\x88\xad\xe4")
+    # Test net key net version (tpub / tprv)
+    TEST_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x35\x87\xcf", b"\x04\x35\x83\x94")

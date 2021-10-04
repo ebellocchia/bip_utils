@@ -25,9 +25,8 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
-from bip_utils.conf import Bip49BitcoinMainNet
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class P2SHAddrConst:
@@ -71,7 +70,7 @@ class P2SHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey) : Public key bytes or object
 
         Other Parameters:
-            net_addr_ver (bytes, optional): Net address version, default is Bitcoin main network
+            net_ver (bytes): Net address version
 
         Returns:
             str: Address string
@@ -80,12 +79,12 @@ class P2SHAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        net_addr_ver = kwargs.get("net_addr_ver", Bip49BitcoinMainNet.AddrConfKey("net_ver"))
+        net_ver = kwargs["net_ver"]
 
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(net_addr_ver + P2SHAddrUtils.AddScriptSig(pub_key_obj))
+        return Base58Encoder.CheckEncode(net_ver + P2SHAddrUtils.AddScriptSig(pub_key_obj))
 
 
 class BchP2SHAddr(IAddrEncoder):
@@ -100,8 +99,8 @@ class BchP2SHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            hrp (str)           : HRP
-            net_addr_ver (bytes): Net address version
+            hrp (str)      : HRP
+            net_ver (bytes): Net address version
 
         Returns:
             str: Address string
@@ -111,8 +110,8 @@ class BchP2SHAddr(IAddrEncoder):
             TypeError: If the public key is not secp256k1
         """
         hrp = kwargs["hrp"]
-        net_addr_ver = kwargs["net_addr_ver"]
+        net_ver = kwargs["net_ver"]
 
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return BchBech32Encoder.Encode(hrp, net_addr_ver, P2SHAddrUtils.AddScriptSig(pub_key_obj))
+        return BchBech32Encoder.Encode(hrp, net_ver, P2SHAddrUtils.AddScriptSig(pub_key_obj))

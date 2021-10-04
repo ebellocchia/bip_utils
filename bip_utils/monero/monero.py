@@ -27,7 +27,7 @@ from bip_utils.addr import XmrAddr
 from bip_utils.ecc import Ed25519Monero, Ed25519MoneroPrivateKey, IPrivateKey, IPublicKey
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
-from bip_utils.utils import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class MoneroConst:

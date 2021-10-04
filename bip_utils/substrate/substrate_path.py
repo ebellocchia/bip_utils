@@ -26,7 +26,7 @@ from functools import lru_cache
 from scalecodec.base import RuntimeConfigurationObject
 from typing import Iterator, List, Optional, Union
 from bip_utils.substrate.substrate_ex import SubstratePathError
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class SubstratePathConst:

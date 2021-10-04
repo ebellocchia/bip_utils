@@ -22,10 +22,10 @@
 # Imports
 from typing import Union
 from bip_utils.bip.bip32.bip32_base import Bip32Base
+from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
-from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex, Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_path import Bip32Path
-from bip_utils.conf import Bip44BitcoinMainNet, KeyNetVersions
 from bip_utils.ecc import EllipticCurveTypes, IPrivateKey
 
 
@@ -49,12 +49,12 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
-                 key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
+                 key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
 
         Args:
-            seed_bytes (bytes)                           : Seed bytes
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
+            seed_bytes (bytes)                                : Seed bytes
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -72,13 +72,13 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
     def FromSeedAndPath(cls,
                         seed_bytes: bytes,
                         path: Union[str, Bip32Path],
-                        key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
+                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
-            seed_bytes (bytes)                           : Seed bytes
-            path (str or Bip32Path object)               : Path
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
+            seed_bytes (bytes)                                : Seed bytes
+            path (str or Bip32Path object)                    : Path
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -97,12 +97,12 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
     @classmethod
     def FromExtendedKey(cls,
                         key_str: str,
-                        key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
+                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified extended key.
 
         Args:
-            key_str (str)                                : Extended key string
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
+            key_str (str)                                     : Extended key string
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -117,14 +117,14 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       key_net_ver: KeyNetVersions = Bip44BitcoinMainNet.KeyNetVersions()) -> Bip32Base:
+                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey)              : Private key
-            key_net_ver (KeyNetVersions object, optional): KeyNetVersions object (Bip32 main net version by default)
+            priv_key (bytes or IPrivateKey)                   : Private key
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
 
         Returns:
             Bip32Base object: Bip32Base object

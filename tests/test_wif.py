@@ -190,41 +190,41 @@ class WifTests(unittest.TestCase):
 
             self.assertEqual(test["encode"],
                              WifEncoder.Encode(key_bytes,
-                                               test["compr_pub_key"],
-                                               test["net_addr_ver"]))
+                                               test["net_addr_ver"],
+                                               test["compr_pub_key"]))
             self.assertEqual(test["encode"],
                              WifEncoder.Encode(Secp256k1PrivateKey.FromBytes(key_bytes),
-                                               test["compr_pub_key"],
-                                               test["net_addr_ver"]))
+                                               test["net_addr_ver"],
+                                               test["compr_pub_key"]))
 
     # Test invalid checksum
     def test_invalid_checksum(self):
         for test in TEST_VECT_CHKSUM_INVALID:
             # "with" is required because the exception is raised by Base58 module
             with self.assertRaises(Base58ChecksumError):
-                WifDecoder.Decode(test)
+                WifDecoder.Decode(test, Bip44BitcoinMainNet.WifNetVersion())
 
     # Test invalid encoding
     def test_invalid_encoding(self):
         for test in TEST_VECT_ENC_STR_INVALID:
             # "with" is required because the exception is raised by Base58 module
             with self.assertRaises(ValueError):
-                WifDecoder.Decode(test)
+                WifDecoder.Decode(test, Bip44BitcoinMainNet.WifNetVersion())
 
     # Test invalid keys for encoding
     def test_enc_invalid_keys(self):
-        self.assertRaises(TypeError, WifEncoder.Encode, TEST_ED25519_PRIV_KEY)
-        self.assertRaises(TypeError, WifEncoder.Encode, TEST_ED25519_BLAKE2B_PRIV_KEY)
-        self.assertRaises(TypeError, WifEncoder.Encode, TEST_NIST256P1_PRIV_KEY)
-        self.assertRaises(TypeError, WifEncoder.Encode, TEST_SR25519_PRIV_KEY)
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_ED25519_PRIV_KEY, b"\x00")
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_ED25519_BLAKE2B_PRIV_KEY, b"\x00")
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_NIST256P1_PRIV_KEY, b"\x00")
+        self.assertRaises(TypeError, WifEncoder.Encode, TEST_SR25519_PRIV_KEY, b"\x00")
 
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
-            self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))
+            self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test), b"\x00")
 
         for test in TEST_VECT_ENC_KEY_INVALID:
-            self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test))
+            self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test), b"\x00")
 
     # Test invalid keys for decoding
     def test_dec_invalid_keys(self):
         for test in TEST_VECT_DEC_KEY_INVALID:
-            self.assertRaises(ValueError, WifDecoder.Decode, test)
+            self.assertRaises(ValueError, WifDecoder.Decode, test, b"\x00")

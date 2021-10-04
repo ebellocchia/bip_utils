@@ -1699,69 +1699,6 @@ TEST_VECT_EX_KEY_DEPTHS = {
     "ex_pub_6": "xpub6JtuhUVosPSgpBQFZS9oy6oorydcmXS66Kr2TmURvm8uu5wWBXRmRziMT85N4epgkVtwgxpt5FnduVJFi1ARiUcSELWhnZwp9Ge1icYFvhj",
 }
 
-# Tests for coins
-TEST_VECT_COINS = {
-    "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-    "ex_key": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
-
-    # Bip44 allows all coins
-    "allowed": [
-        Bip44Coins.ALGORAND,
-        Bip44Coins.AVAX_C_CHAIN,
-        Bip44Coins.AVAX_P_CHAIN,
-        Bip44Coins.AVAX_X_CHAIN,
-        Bip44Coins.BAND_PROTOCOL,
-        Bip44Coins.BINANCE_CHAIN,
-        Bip44Coins.BINANCE_SMART_CHAIN,
-        Bip44Coins.BITCOIN,
-        Bip44Coins.BITCOIN_CASH,
-        Bip44Coins.BITCOIN_SV,
-        Bip44Coins.COSMOS,
-        Bip44Coins.DASH,
-        Bip44Coins.DOGECOIN,
-        Bip44Coins.ELROND,
-        Bip44Coins.ETHEREUM,
-        Bip44Coins.ETHEREUM_CLASSIC,
-        Bip44Coins.FANTOM_OPERA,
-        Bip44Coins.HARMONY_ONE_ATOM,
-        Bip44Coins.HARMONY_ONE_ETH,
-        Bip44Coins.HARMONY_ONE_METAMASK,
-        Bip44Coins.HUOBI_CHAIN,
-        Bip44Coins.IRIS_NET,
-        Bip44Coins.KAVA,
-        Bip44Coins.KUSAMA_ED25519_SLIP,
-        Bip44Coins.LITECOIN,
-        Bip44Coins.NANO,
-        Bip44Coins.NEO,
-        Bip44Coins.NINE_CHRONICLES_GOLD,
-        Bip44Coins.OKEX_CHAIN_ATOM,
-        Bip44Coins.OKEX_CHAIN_ATOM_OLD,
-        Bip44Coins.OKEX_CHAIN_ETH,
-        Bip44Coins.ONTOLOGY,
-        Bip44Coins.POLKADOT_ED25519_SLIP,
-        Bip44Coins.POLYGON,
-        Bip44Coins.RIPPLE,
-        Bip44Coins.SOLANA,
-        Bip44Coins.STELLAR,
-        Bip44Coins.TERRA,
-        Bip44Coins.TEZOS,
-        Bip44Coins.THETA,
-        Bip44Coins.TRON,
-        Bip44Coins.VECHAIN,
-        Bip44Coins.ZCASH,
-        Bip44Coins.ZILLIQA,
-
-        Bip44Coins.BITCOIN_CASH_TESTNET,
-        Bip44Coins.BITCOIN_SV_TESTNET,
-        Bip44Coins.BITCOIN_TESTNET,
-        Bip44Coins.DASH_TESTNET,
-        Bip44Coins.DOGECOIN_TESTNET,
-        Bip44Coins.LITECOIN_TESTNET,
-        Bip44Coins.ZCASH_TESTNET,
-    ],
-    "not_allowed": [],
-}
-
 # Seed for generic tests that need it
 TEST_SEED = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
@@ -1792,7 +1729,7 @@ class Bip44Tests(unittest.TestCase):
 
     # Test for IsLevel method
     def test_is_level(self):
-        Bip44BaseTestHelper.test_is_level(self, Bip44, TEST_SEED)
+        Bip44BaseTestHelper.test_is_level(self, Bip44, Bip44Coins, TEST_SEED)
 
     # Test different key formats
     def test_key_formats(self):
@@ -1800,12 +1737,12 @@ class Bip44Tests(unittest.TestCase):
 
     # Test construction from extended keys with valid and invalid depths
     def test_from_ex_key_depth(self):
-        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip44, TEST_VECT_EX_KEY_DEPTHS)
+        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip44, Bip44Coins, TEST_VECT_EX_KEY_DEPTHS)
 
-    # Test coins
-    def test_coins(self):
-        Bip44BaseTestHelper.test_coins(self, Bip44, TEST_VECT_COINS)
+    # Test type error during construction
+    def test_type_error(self):
+        Bip44BaseTestHelper.test_type_error(self, Bip44, TEST_VECT_EX_KEY_DEPTHS)
 
     # Test invalid path derivations
     def test_invalid_derivations(self):
-        Bip44BaseTestHelper.test_invalid_derivations(self, Bip44, TEST_SEED)
+        Bip44BaseTestHelper.test_invalid_derivations(self, Bip44, Bip44Coins, TEST_SEED)

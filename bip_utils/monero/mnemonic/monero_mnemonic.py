@@ -27,8 +27,9 @@ from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple
 from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
-from bip_utils.utils import (
-    ConvUtils, CryptoUtils, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.mnemonic import (
+    Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
 )
 
 
@@ -36,26 +37,26 @@ from bip_utils.utils import (
 class MoneroWordsNum(IntEnum):
     """ Enumerative for Monero words number. """
 
-    WORDS_NUM_12 = 12,  # No checksum
-    WORDS_NUM_13 = 13,  # With checksum
-    WORDS_NUM_24 = 24,  # No checksum
-    WORDS_NUM_25 = 25,  # With checksum
+    WORDS_NUM_12 = 12   # No checksum
+    WORDS_NUM_13 = 13   # With checksum
+    WORDS_NUM_24 = 24   # No checksum
+    WORDS_NUM_25 = 25   # With checksum
 
 
 @unique
 class MoneroLanguages(Enum):
     """ Enumerative for Monero languages. """
 
-    CHINESE_SIMPLIFIED = auto(),
-    DUTCH = auto(),
-    ENGLISH = auto(),
-    FRENCH = auto(),
-    GERMAN = auto(),
-    ITALIAN = auto(),
-    JAPANESE = auto(),
-    PORTUGUESE = auto(),
-    SPANISH = auto(),
-    RUSSIAN = auto(),
+    CHINESE_SIMPLIFIED = auto()
+    DUTCH = auto()
+    ENGLISH = auto()
+    FRENCH = auto()
+    GERMAN = auto()
+    ITALIAN = auto()
+    JAPANESE = auto()
+    PORTUGUESE = auto()
+    SPANISH = auto()
+    RUSSIAN = auto()
 
 
 class MoneroMnemonicConst:

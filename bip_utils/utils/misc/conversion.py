@@ -23,7 +23,7 @@
 import binascii
 import unicodedata
 from typing import List, Optional, Union
-from bip_utils.utils.algo import AlgoUtils
+from bip_utils.utils.misc.algo import AlgoUtils
 
 
 class ConvUtils:

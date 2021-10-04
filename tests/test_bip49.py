@@ -23,7 +23,7 @@
 import unittest
 from bip_utils import (
     Bip49BitcoinCashMainNet, Bip49BitcoinCashTestNet, Bip49LitecoinMainNet, Bip49LitecoinTestNet,
-    Bip49, Bip44Coins
+    Bip49, Bip49Coins
 )
 from .test_bip44 import TEST_SEED
 from .test_bip44_base import Bip44BaseTestHelper
@@ -36,7 +36,7 @@ from .test_bip44_base import Bip44BaseTestHelper
 TEST_VECT = [
     # Bitcoin
     {
-        "coin": Bip44Coins.BITCOIN,
+        "coin": Bip49Coins.BITCOIN,
         "names": ("Bitcoin", "BTC"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -60,7 +60,7 @@ TEST_VECT = [
     },
     # Bitcoin Cash
     {
-        "coin": Bip44Coins.BITCOIN_CASH,
+        "coin": Bip49Coins.BITCOIN_CASH,
         "names": ("Bitcoin Cash", "BCH"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -94,7 +94,7 @@ TEST_VECT = [
     },
     # BitcoinSV
     {
-        "coin": Bip44Coins.BITCOIN_SV,
+        "coin": Bip49Coins.BITCOIN_SV,
         "names": ("BitcoinSV", "BSV"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -118,7 +118,7 @@ TEST_VECT = [
     },
     # Dash
     {
-        "coin": Bip44Coins.DASH,
+        "coin": Bip49Coins.DASH,
         "names": ("Dash", "DASH"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -142,7 +142,7 @@ TEST_VECT = [
     },
     # Dogecoin
     {
-        "coin": Bip44Coins.DOGECOIN,
+        "coin": Bip49Coins.DOGECOIN,
         "names": ("Dogecoin", "DOGE"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -166,7 +166,7 @@ TEST_VECT = [
     },
     # Litecoin
     {
-        "coin": Bip44Coins.LITECOIN,
+        "coin": Bip49Coins.LITECOIN,
         "names": ("Litecoin", "LTC"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -206,7 +206,7 @@ TEST_VECT = [
     },
     # Zcash
     {
-        "coin": Bip44Coins.ZCASH,
+        "coin": Bip49Coins.ZCASH,
         "names": ("Zcash", "ZEC"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -231,7 +231,7 @@ TEST_VECT = [
 
     # Bitcoin test net
     {
-        "coin": Bip44Coins.BITCOIN_TESTNET,
+        "coin": Bip49Coins.BITCOIN_TESTNET,
         "names": ("Bitcoin TestNet", "BTC"),
         "is_testnet": True,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -255,7 +255,7 @@ TEST_VECT = [
     },
     # Bitcoin Cash test net
     {
-        "coin": Bip44Coins.BITCOIN_CASH_TESTNET,
+        "coin": Bip49Coins.BITCOIN_CASH_TESTNET,
         "names": ("Bitcoin Cash TestNet", "BCH"),
         "is_testnet": True,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -289,7 +289,7 @@ TEST_VECT = [
     },
     # BitcoinSV test net
     {
-        "coin": Bip44Coins.BITCOIN_SV_TESTNET,
+        "coin": Bip49Coins.BITCOIN_SV_TESTNET,
         "names": ("BitcoinSV TestNet", "BSV"),
         "is_testnet": True,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -313,7 +313,7 @@ TEST_VECT = [
     },
     # Dash test net
     {
-        "coin": Bip44Coins.DASH_TESTNET,
+        "coin": Bip49Coins.DASH_TESTNET,
         "names": ("Dash TestNet", "DASH"),
         "is_testnet": True,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -337,7 +337,7 @@ TEST_VECT = [
     },
     # Dogecoin test net
     {
-        "coin": Bip44Coins.DOGECOIN_TESTNET,
+        "coin": Bip49Coins.DOGECOIN_TESTNET,
         "names": ("Dogecoin TestNet", "DOGE"),
         "is_testnet": True,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -361,7 +361,7 @@ TEST_VECT = [
     },
     # Litecoin test net
     {
-        "coin": Bip44Coins.LITECOIN_TESTNET,
+        "coin": Bip49Coins.LITECOIN_TESTNET,
         "names": ("Litecoin TestNet", "LTC"),
         "is_testnet": True,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -395,7 +395,7 @@ TEST_VECT = [
     },
     # Zcash test net
     {
-        "coin": Bip44Coins.ZCASH_TESTNET,
+        "coin": Bip49Coins.ZCASH_TESTNET,
         "names": ("Zcash TestNet", "ZEC"),
         "is_testnet": True,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
@@ -423,86 +423,86 @@ TEST_VECT = [
 TEST_VECT_DEFAULT_PATH = [
     # Bitcoin
     {
-        "coin": Bip44Coins.BITCOIN,
+        "coin": Bip49Coins.BITCOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "37VucYSaXLCAsxYyAPfbSi9eh4iEcbShgf",
     },
     # Bitcoin Cash
     {
-        "coin": Bip44Coins.BITCOIN_CASH,
+        "coin": Bip49Coins.BITCOIN_CASH,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "bitcoincash:ppcgpaskfreturznhcjdvmeunscff6ufu5kt8jx4qt",
     },
     # BitcoinSV
     {
-        "coin": Bip44Coins.BITCOIN_SV,
+        "coin": Bip49Coins.BITCOIN_SV,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "3DBZLGqauQhKR7CBM8fhi9gZANUp9EcA2F",
     },
     # Dash
     {
-        "coin": Bip44Coins.DASH,
+        "coin": Bip49Coins.DASH,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "7bG9yjGpzvKvffhHkCkDRsLLZ5iJxyDcX7",
     },
     # Dogecoin
     {
-        "coin": Bip44Coins.DOGECOIN,
+        "coin": Bip49Coins.DOGECOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "9xzLEaWbi3eVzRzv6YdGcXbXQMHydntSq7",
     },
     # Litecoin
     {
-        "coin": Bip44Coins.LITECOIN,
+        "coin": Bip49Coins.LITECOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "M7wtsL7wSHDBJVMWWhtQfTMSYYkyooAAXM",
     },
     # Zcash
     {
-        "coin": Bip44Coins.ZCASH,
+        "coin": Bip49Coins.ZCASH,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "t3WrebyH3US8WvEdS9yNEWJZGApy3beYdeL",
     },
 
     # Bitcoin test net
     {
-        "coin": Bip44Coins.BITCOIN_TESTNET,
+        "coin": Bip49Coins.BITCOIN_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
     },
     # Bitcoin Cash test net
     {
-        "coin": Bip44Coins.BITCOIN_CASH_TESTNET,
+        "coin": Bip49Coins.BITCOIN_CASH_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "bchtest:pqeke2snuz9evzq2x26asxx4nd9t8vm8ggd9ngnmpx",
     },
     # BitcoinSV test net
     {
-        "coin": Bip44Coins.BITCOIN_SV_TESTNET,
+        "coin": Bip49Coins.BITCOIN_SV_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
     },
     # Dash test net
     {
-        "coin": Bip44Coins.DASH_TESTNET,
+        "coin": Bip49Coins.DASH_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "8j7NLynPotJD3x4MHGemN36XPSLBKr6cYn",
     },
     # Dogecoin test net
     {
-        "coin": Bip44Coins.DOGECOIN_TESTNET,
+        "coin": Bip49Coins.DOGECOIN_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
     },
     # Litecoin test net
     {
-        "coin": Bip44Coins.LITECOIN_TESTNET,
+        "coin": Bip49Coins.LITECOIN_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "QRHtkDQdVvNNwrVjEdeCGviCw7Ny3SNNiA",
     },
     # Zcash test net
     {
-        "coin": Bip44Coins.ZCASH_TESTNET,
+        "coin": Bip49Coins.ZCASH_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "t2BEicU8di9CukDjmoZoUFia4wX9E2KsEEH",
     },
@@ -510,7 +510,7 @@ TEST_VECT_DEFAULT_PATH = [
 
 # Tests for different key formats
 TEST_VECT_KEY_FORMATS = {
-    "coin": Bip44Coins.BITCOIN,
+    "coin": Bip49Coins.BITCOIN,
     "seed": "5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
     "ex_priv": "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
     "raw_priv": "1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
@@ -533,69 +533,6 @@ TEST_VECT_EX_KEY_DEPTHS = {
     "ex_pub_5": "ypub6bWfB6tKVSQKayURFLcsaLjRvEzA92ZNFQpJioiTvN4BLucHrr5btBLpeBDjuV2mGb2wXWL1taoBNWf9xNgjHrPWkhSxxfrDGiciopL6N6E",
     # Public key with depth 6 shall raise an exception
     "ex_pub_6": "ypub6dxq9iSppQWHxYhwwGWQcfaoRWUj9fAe9CveBZNTvk6qgeguHiFPXHtfTi5oPFEiVe7vH7mUdUrjeQpAbxPxZ1nXhDDvx4xQw5kREC9vNE1",
-}
-
-# Tests for coins
-TEST_VECT_COINS = {
-    "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-    "ex_key": "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
-
-    # Bip44 allows all coins
-    "allowed": [
-        Bip44Coins.BITCOIN,
-        Bip44Coins.BITCOIN_TESTNET,
-        Bip44Coins.BITCOIN_CASH,
-        Bip44Coins.BITCOIN_CASH_TESTNET,
-        Bip44Coins.DASH,
-        Bip44Coins.DASH_TESTNET,
-        Bip44Coins.DOGECOIN,
-        Bip44Coins.DOGECOIN_TESTNET,
-        Bip44Coins.BITCOIN_SV,
-        Bip44Coins.BITCOIN_SV_TESTNET,
-        Bip44Coins.LITECOIN,
-        Bip44Coins.LITECOIN_TESTNET,
-        Bip44Coins.ZCASH,
-        Bip44Coins.ZCASH_TESTNET,
-    ],
-    "not_allowed": [
-        Bip44Coins.ALGORAND,
-        Bip44Coins.AVAX_C_CHAIN,
-        Bip44Coins.AVAX_P_CHAIN,
-        Bip44Coins.AVAX_X_CHAIN,
-        Bip44Coins.BAND_PROTOCOL,
-        Bip44Coins.BINANCE_CHAIN,
-        Bip44Coins.BINANCE_SMART_CHAIN,
-        Bip44Coins.COSMOS,
-        Bip44Coins.ELROND,
-        Bip44Coins.ETHEREUM,
-        Bip44Coins.ETHEREUM_CLASSIC,
-        Bip44Coins.FANTOM_OPERA,
-        Bip44Coins.HARMONY_ONE_ATOM,
-        Bip44Coins.HARMONY_ONE_ETH,
-        Bip44Coins.HARMONY_ONE_METAMASK,
-        Bip44Coins.HUOBI_CHAIN,
-        Bip44Coins.IRIS_NET,
-        Bip44Coins.KAVA,
-        Bip44Coins.KUSAMA_ED25519_SLIP,
-        Bip44Coins.NANO,
-        Bip44Coins.NEO,
-        Bip44Coins.NINE_CHRONICLES_GOLD,
-        Bip44Coins.OKEX_CHAIN_ATOM,
-        Bip44Coins.OKEX_CHAIN_ATOM_OLD,
-        Bip44Coins.OKEX_CHAIN_ETH,
-        Bip44Coins.ONTOLOGY,
-        Bip44Coins.POLKADOT_ED25519_SLIP,
-        Bip44Coins.POLYGON,
-        Bip44Coins.RIPPLE,
-        Bip44Coins.SOLANA,
-        Bip44Coins.STELLAR,
-        Bip44Coins.TERRA,
-        Bip44Coins.TEZOS,
-        Bip44Coins.THETA,
-        Bip44Coins.TRON,
-        Bip44Coins.VECHAIN,
-        Bip44Coins.ZILLIQA,
-    ],
 }
 
 
@@ -625,7 +562,7 @@ class Bip49Tests(unittest.TestCase):
 
     # Test for IsLevel method
     def test_is_level(self):
-        Bip44BaseTestHelper.test_is_level(self, Bip49, TEST_SEED)
+        Bip44BaseTestHelper.test_is_level(self, Bip49, Bip49Coins, TEST_SEED)
 
     # Test different key formats
     def test_key_formats(self):
@@ -633,12 +570,12 @@ class Bip49Tests(unittest.TestCase):
 
     # Test construction from extended keys with valid and invalid depths
     def test_from_ex_key_depth(self):
-        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip49, TEST_VECT_EX_KEY_DEPTHS)
+        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip49, Bip49Coins, TEST_VECT_EX_KEY_DEPTHS)
 
-    # Test coins
-    def test_coins(self):
-        Bip44BaseTestHelper.test_coins(self, Bip49, TEST_VECT_COINS)
+    # Test type error during construction
+    def test_type_error(self):
+        Bip44BaseTestHelper.test_type_error(self, Bip49, TEST_VECT_EX_KEY_DEPTHS)
 
     # Test invalid path derivations
     def test_invalid_derivations(self):
-        Bip44BaseTestHelper.test_invalid_derivations(self, Bip49, TEST_SEED)
+        Bip44BaseTestHelper.test_invalid_derivations(self, Bip49, Bip49Coins, TEST_SEED)

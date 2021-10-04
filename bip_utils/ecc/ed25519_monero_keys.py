@@ -24,7 +24,7 @@ from typing import Any
 import bip_utils.ecc.lib.ed25519_monero_lib as ed25519_monero_lib
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils import DataBytes
+from bip_utils.utils.misc import DataBytes
 
 
 class Ed25519MoneroKeysConst:

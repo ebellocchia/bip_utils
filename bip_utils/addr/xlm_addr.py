@@ -20,12 +20,21 @@
 
 
 # Imports
+from enum import IntEnum, unique
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.conf import Bip44Stellar
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import Base32Encoder, ConvUtils, CryptoUtils
+from bip_utils.utils.base32 import Base32Encoder
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
+
+
+@unique
+class XlmAddrTypes(IntEnum):
+    """ Enumerative for Stellar address types. """
+
+    PUB_KEY = 6 << 3
+    PRIV_KEY = 18 << 3
 
 
 class XlmAddr(IAddrEncoder):
@@ -40,6 +49,9 @@ class XlmAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
             **kwargs: Not used
 
+        Other Parameters:
+            addr_type (XlmAddrTypes): Address type
+
         Returns:
             str: Address string
 
@@ -47,8 +59,15 @@ class XlmAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
+
+        # Get and check address type
+        addr_type = kwargs["addr_type"]
+        if not isinstance(addr_type, XlmAddrTypes):
+            raise TypeError("Address type is not an enumerative of XlmAddrTypes")
+
+        # Get public key
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
-        payload = Bip44Stellar.AddrConfKey("ver") + pub_key_obj.RawCompressed().ToBytes()[1:]
+        payload = ConvUtils.IntegerToBytes(addr_type) + pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
         checksum = ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload))

@@ -27,12 +27,12 @@ from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils import ConvUtils, DataBytes
+from bip_utils.utils.misc import ConvUtils, DataBytes
 
 
 class Secp256k1Point(IPoint):
     """ Secp256k1 point class.
-    In coincurve library, all the point functions (e..g add, multiply) are coded inside the
+    In coincurve library, all the point functions (e.g. add, multiply) are coded inside the
     PublicKey class. For this reason, a PublicKey is used as underlying object.
     """
 

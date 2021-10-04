@@ -25,9 +25,8 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder, Base58Alphabets
 from bip_utils.bech32 import BchBech32Encoder
-from bip_utils.conf import Bip44BitcoinMainNet
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils import CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class P2PKHAddr(IAddrEncoder):
@@ -42,8 +41,8 @@ class P2PKHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey)          : Public key bytes or object
 
         Other Parameters:
-            net_addr_ver (bytes, optional)         : Net address version, default is Bitcoin main network
-            base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin by default
+            net_ver (bytes)                        : Net address version
+            base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin alphabet by default
 
         Returns:
             str: Address string
@@ -52,12 +51,12 @@ class P2PKHAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        net_addr_ver = kwargs.get("net_addr_ver", Bip44BitcoinMainNet.AddrConfKey("net_ver"))
+        net_ver = kwargs["net_ver"]
         base58_alph = kwargs.get("base58_alph", Base58Alphabets.BITCOIN)
 
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
-        return Base58Encoder.CheckEncode(net_addr_ver + CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
+        return Base58Encoder.CheckEncode(net_ver + CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
                                          base58_alph)
 
 
@@ -73,8 +72,8 @@ class BchP2PKHAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            hrp (str)           : HRP
-            net_addr_ver (bytes): Net address version
+            hrp (str)      : HRP
+            net_ver (bytes): Net address version
 
         Returns:
             str: Address string
@@ -84,10 +83,10 @@ class BchP2PKHAddr(IAddrEncoder):
             TypeError: If the public key is not secp256k1
         """
         hrp = kwargs["hrp"]
-        net_addr_ver = kwargs["net_addr_ver"]
+        net_ver = kwargs["net_ver"]
 
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         return BchBech32Encoder.Encode(hrp,
-                                       net_addr_ver,
+                                       net_ver,
                                        CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

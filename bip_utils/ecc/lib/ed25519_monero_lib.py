@@ -38,7 +38,7 @@ import six
 import sys
 
 # Added
-from bip_utils.utils import ConvUtils
+from bip_utils.utils.misc import ConvUtils
 
 
 if sys.version_info >= (3,): # pragma: no cover

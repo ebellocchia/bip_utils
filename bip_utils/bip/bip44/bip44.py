@@ -20,10 +20,11 @@
 
 
 # Imports
-from typing import Dict
+from typing import Union
 from bip_utils.bip.bip32 import Bip32Utils
-from bip_utils.bip.bip44_base.bip44_base import Bip44Base, Bip44Changes, Bip44Coins
-from bip_utils.conf import *
+from bip_utils.bip.bip44_base import Bip44Changes, Bip44Base
+from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44ConfGetter
+from bip_utils.ecc import IPrivateKey
 
 
 class Bip44Const:
@@ -33,69 +34,81 @@ class Bip44Const:
     SPEC_NAME: str = "BIP-0044"
     # Purpose
     PURPOSE: int = Bip32Utils.HardenIndex(44)
-    # Map from Bip44Coins to configuration classes
-    COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
-            Bip44Coins.ALGORAND: Bip44Algorand,
-            Bip44Coins.AVAX_C_CHAIN: Bip44AvaxCChain,
-            Bip44Coins.AVAX_P_CHAIN: Bip44AvaxPChain,
-            Bip44Coins.AVAX_X_CHAIN: Bip44AvaxXChain,
-            Bip44Coins.BAND_PROTOCOL: Bip44BandProtocol,
-            Bip44Coins.BINANCE_CHAIN: Bip44BinanceChain,
-            Bip44Coins.BINANCE_SMART_CHAIN: Bip44BinanceSmartChain,
-            Bip44Coins.BITCOIN: Bip44BitcoinMainNet,
-            Bip44Coins.BITCOIN_TESTNET: Bip44BitcoinTestNet,
-            Bip44Coins.BITCOIN_CASH: Bip44BitcoinCashMainNet,
-            Bip44Coins.BITCOIN_CASH_TESTNET: Bip44BitcoinCashTestNet,
-            Bip44Coins.BITCOIN_SV: Bip44BitcoinSvMainNet,
-            Bip44Coins.BITCOIN_SV_TESTNET: Bip44BitcoinSvTestNet,
-            Bip44Coins.COSMOS: Bip44Cosmos,
-            Bip44Coins.DASH: Bip44DashMainNet,
-            Bip44Coins.DASH_TESTNET: Bip44DashTestNet,
-            Bip44Coins.DOGECOIN: Bip44DogecoinMainNet,
-            Bip44Coins.DOGECOIN_TESTNET: Bip44DogecoinTestNet,
-            Bip44Coins.ELROND: Bip44Elrond,
-            Bip44Coins.ETHEREUM: Bip44Ethereum,
-            Bip44Coins.ETHEREUM_CLASSIC: Bip44EthereumClassic,
-            Bip44Coins.FANTOM_OPERA: Bip44FantomOpera,
-            Bip44Coins.FILECOIN: Bip44Filecoin,
-            Bip44Coins.HARMONY_ONE_ATOM: Bip44HarmonyOneAtom,
-            Bip44Coins.HARMONY_ONE_ETH: Bip44HarmonyOneEth,
-            Bip44Coins.HARMONY_ONE_METAMASK: Bip44HarmonyOneMetamask,
-            Bip44Coins.HUOBI_CHAIN: Bip44HuobiChain,
-            Bip44Coins.IRIS_NET: Bip44IrisNet,
-            Bip44Coins.KAVA: Bip44Kava,
-            Bip44Coins.KUSAMA_ED25519_SLIP: Bip44KusamaEd25519Slip,
-            Bip44Coins.LITECOIN: Bip44LitecoinMainNet,
-            Bip44Coins.LITECOIN_TESTNET: Bip44LitecoinTestNet,
-            Bip44Coins.MONERO_ED25519_SLIP: Bip44MoneroEd25519Slip,
-            Bip44Coins.MONERO_SECP256K1: Bip44MoneroSecp256k1,
-            Bip44Coins.NANO: Bip44Nano,
-            Bip44Coins.NEO: Bip44Neo,
-            Bip44Coins.NINE_CHRONICLES_GOLD: Bip44NineChroniclesGold,
-            Bip44Coins.OKEX_CHAIN_ATOM: Bip44OkexChainAtom,
-            Bip44Coins.OKEX_CHAIN_ATOM_OLD: Bip44OkexChainAtom,
-            Bip44Coins.OKEX_CHAIN_ETH: Bip44OkexChainEth,
-            Bip44Coins.ONTOLOGY: Bip44Ontology,
-            Bip44Coins.POLKADOT_ED25519_SLIP: Bip44PolkadotEd25519Slip,
-            Bip44Coins.POLYGON: Bip44Polygon,
-            Bip44Coins.RIPPLE: Bip44Ripple,
-            Bip44Coins.SOLANA: Bip44Solana,
-            Bip44Coins.STELLAR: Bip44Stellar,
-            Bip44Coins.TERRA: Bip44Terra,
-            Bip44Coins.TEZOS: Bip44Tezos,
-            Bip44Coins.THETA: Bip44Theta,
-            Bip44Coins.TRON: Bip44Tron,
-            Bip44Coins.VECHAIN: Bip44VeChain,
-            Bip44Coins.ZCASH: Bip44ZcashMainNet,
-            Bip44Coins.ZCASH_TESTNET: Bip44ZcashTestNet,
-            Bip44Coins.ZILLIQA: Bip44Zilliqa,
-        }
 
 
 class Bip44(Bip44Base):
     """ BIP44 class. It allows master key generation and children keys derivation in according to BIP-0044.
     BIP-0044 reference: https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
     """
+
+    #
+    # Class methods for construction
+    #
+
+    @classmethod
+    def FromSeed(cls,
+                 seed_bytes: bytes,
+                 coin_type: Bip44Coins) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
+        The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
+        or purpose keys, you have to specify here if it's a test net.
+
+        Args:
+            seed_bytes (bytes)    : Seed bytes
+            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin index is not a Bip44Coins enum
+            ValueError: If the seed is too short
+            Bip32KeyError: If the seed is not suitable for master key generation
+        """
+        return cls._FromSeed(seed_bytes,
+                             Bip44ConfGetter.GetConfig(coin_type))
+
+    @classmethod
+    def FromExtendedKey(cls,
+                        key_str: str,
+                        coin_type: Bip44Coins) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
+
+        Args:
+            key_str (str)         : Extended key string
+            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin index is not a Bip44Coins enum
+            Bip32KeyError: If the extended key is not valid
+        """
+        return cls._FromExtendedKey(key_str,
+                                    Bip44ConfGetter.GetConfig(coin_type))
+
+    @classmethod
+    def FromPrivateKey(cls,
+                       priv_key: Union[bytes, IPrivateKey],
+                       coin_type: Bip44Coins) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            priv_key (bytes or IPrivateKey): Private key
+            coin_type (Bip44Coins)         : Coin type, must be a Bip44Coins enum
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin index is not a Bip44Coins enum
+            Bip32KeyError: If the key is not valid
+        """
+        return cls._FromPrivateKey(priv_key,
+                                   Bip44ConfGetter.GetConfig(coin_type))
 
     #
     # Override methods
@@ -203,24 +216,6 @@ class Bip44(Bip44Base):
         return Bip44Const.SPEC_NAME
 
     @staticmethod
-    def IsCoinAllowed(coin_type: Bip44Coins) -> bool:
-        """ Get if the specified coin is allowed.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns :
-            bool: True if allowed, false otherwise
-
-        Raises:
-            TypeError: If coin_type is not of Bip44Coins enum
-        """
-        if not isinstance(coin_type, Bip44Coins):
-            raise TypeError("Coin is not an enumerative of Bip44Coins")
-
-        return coin_type in Bip44Const.COIN_TO_CONF
-
-    @staticmethod
     def _GetPurpose() -> int:
         """ Get purpose.
 
@@ -228,15 +223,3 @@ class Bip44(Bip44Base):
             int: Purpose index
         """
         return Bip44Const.PURPOSE
-
-    @staticmethod
-    def _GetCoinConf(coin_type: Bip44Coins) -> BipCoinConf:
-        """ Get coin configuration.
-
-        Args:
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
-
-        Returns:
-            BipCoinConf child object: BipCoinConf child object
-        """
-        return Bip44Const.COIN_TO_CONF[coin_type]

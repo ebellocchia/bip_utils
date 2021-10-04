@@ -22,18 +22,18 @@
 # Imports
 from enum import IntEnum, unique
 from typing import List, Union
-from bip_utils.utils import EntropyGenerator
+from bip_utils.utils.mnemonic import EntropyGenerator
 
 
 @unique
 class Bip39EntropyBitLen(IntEnum):
     """ Enumerative for BIP39 entropy bit lengths. """
 
-    BIT_LEN_128 = 128,
-    BIT_LEN_160 = 160,
-    BIT_LEN_192 = 192,
-    BIT_LEN_224 = 224,
-    BIT_LEN_256 = 256,
+    BIT_LEN_128 = 128
+    BIT_LEN_160 = 160
+    BIT_LEN_192 = 192
+    BIT_LEN_224 = 224
+    BIT_LEN_256 = 256
 
 
 class Bip39EntropyGeneratorConst:

@@ -21,43 +21,11 @@
 
 # Imports
 from functools import lru_cache
-from typing import Any, Dict, Type
 from bip_utils.addr import *
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
-from bip_utils.conf import AddrTypes, BipCoinConf
-from bip_utils.utils import DataBytes
+from bip_utils.bip.conf.common import BipCoinConf
+from bip_utils.utils.misc import DataBytes
 from bip_utils.wif import WifEncoder
-
-
-class Bip44KeysConst:
-    """ Class container for BIP44 keys constants. """
-
-    # Address type to class
-    ADDR_TYPE_TO_CLASS: Dict[AddrTypes, Type[IAddrEncoder]] = {
-        AddrTypes.ALGO: AlgoAddr,
-        AddrTypes.AVAX_P: AvaxPChainAddr,
-        AddrTypes.AVAX_X: AvaxXChainAddr,
-        AddrTypes.ATOM: AtomAddr,
-        AddrTypes.EGLD: EgldAddr,
-        AddrTypes.ETH: EthAddr,
-        AddrTypes.FIL: FilAddr,
-        AddrTypes.NANO: NanoAddr,
-        AddrTypes.NEO: NeoAddr,
-        AddrTypes.OKEX: OkexAddr,
-        AddrTypes.ONE: OneAddr,
-        AddrTypes.P2PKH: P2PKHAddr,
-        AddrTypes.P2PKH_BCH: BchP2PKHAddr,
-        AddrTypes.P2SH: P2SHAddr,
-        AddrTypes.P2SH_BCH: BchP2SHAddr,
-        AddrTypes.P2WPKH: P2WPKHAddr,
-        AddrTypes.SOL: SolAddr,
-        AddrTypes.SUBSTRATE: SubstrateEd25519Addr,
-        AddrTypes.TRX: TrxAddr,
-        AddrTypes.XLM: XlmAddr,
-        AddrTypes.XRP: XrpAddr,
-        AddrTypes.XTZ: XtzAddr,
-        AddrTypes.ZIL: ZilAddr,
-    }
 
 
 class Bip44PublicKey:
@@ -125,45 +93,15 @@ class Bip44PublicKey:
         Returns:
             str: Address string
         """
-        addr_conf = self.m_coin_conf.AddrConf()
-        addr_type = self.m_coin_conf.AddrType()
+        addr_params = self.m_coin_conf.AddrParams()
+        addr_cls = self.m_coin_conf.AddrClass()
+        pub_key_obj = self.Bip32Key().KeyObject()
 
         # Exception for Monero
-        if addr_type == AddrTypes.XMR:
-            raise ValueError("Use the MoneroKeys class to get Monero addresses")
+        if addr_cls is XmrAddr:
+            raise ValueError("Use the Monero class to get Monero addresses")
 
-        pub_key_obj = self.Bip32Key().KeyObject()
-        addr_cls = Bip44KeysConst.ADDR_TYPE_TO_CLASS[addr_type]
-
-        # P2PKH, P2SH
-        if addr_type in (AddrTypes.P2PKH, AddrTypes.P2SH):
-            return addr_cls.EncodeKey(pub_key_obj,
-                                      net_addr_ver=addr_conf["net_ver"])
-        # P2WPKH
-        elif addr_type == AddrTypes.P2WPKH:
-            return addr_cls.EncodeKey(pub_key_obj,
-                                      wit_ver=addr_conf["wit_ver"],
-                                      net_addr_ver=addr_conf["net_ver"])
-        # BCH P2PKH and P2SH
-        elif addr_type in (AddrTypes.P2PKH_BCH, AddrTypes.P2SH_BCH):
-            return addr_cls.EncodeKey(pub_key_obj,
-                                      hrp=addr_conf["hrp"],
-                                      net_addr_ver=addr_conf["net_ver"])
-        # Atom
-        elif addr_type == AddrTypes.ATOM:
-            return addr_cls.EncodeKey(pub_key_obj,
-                                      hrp=addr_conf["hrp"])
-        # Substrate
-        elif addr_type == AddrTypes.SUBSTRATE:
-            return addr_cls.EncodeKey(pub_key_obj,
-                                      ss58_format=addr_conf["ss58_format"])
-        # NEO
-        elif addr_type == AddrTypes.NEO:
-            return addr_cls.EncodeKey(pub_key_obj,
-                                      ver=addr_conf["ver"])
-        # Others
-        else:
-            return addr_cls.EncodeKey(pub_key_obj)
+        return addr_cls.EncodeKey(pub_key_obj, **addr_params)
 
 
 class Bip44PrivateKey:
@@ -221,6 +159,6 @@ class Bip44PrivateKey:
         """
         wif_net_ver = self.m_coin_conf.WifNetVersion()
 
-        return (WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), compr_pub_key, wif_net_ver)
+        return (WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), wif_net_ver, compr_pub_key)
                 if wif_net_ver is not None
                 else "")

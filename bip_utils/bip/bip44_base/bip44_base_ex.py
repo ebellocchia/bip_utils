@@ -22,8 +22,3 @@
 class Bip44DepthError(Exception):
     """ Exception in case of derivation from wrong depth. """
     pass
-
-
-class Bip44CoinNotAllowedError(Exception):
-    """ Exception in case of derivation from wrong depth. """
-    pass

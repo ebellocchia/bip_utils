@@ -27,8 +27,8 @@ from enum import auto, Enum, IntEnum, unique
 from typing import Dict, List, Optional, Union
 from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
 from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
-from bip_utils.utils import (
-    ConvUtils, CryptoUtils,
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.mnemonic import (
     Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
 )
 
@@ -37,26 +37,26 @@ from bip_utils.utils import (
 class Bip39WordsNum(IntEnum):
     """ Enumerative for BIP39 words number. """
 
-    WORDS_NUM_12 = 12,
-    WORDS_NUM_15 = 15,
-    WORDS_NUM_18 = 18,
-    WORDS_NUM_21 = 21,
-    WORDS_NUM_24 = 24,
+    WORDS_NUM_12 = 12
+    WORDS_NUM_15 = 15
+    WORDS_NUM_18 = 18
+    WORDS_NUM_21 = 21
+    WORDS_NUM_24 = 24
 
 
 @unique
 class Bip39Languages(Enum):
     """ Enumerative for BIP39 languages. """
 
-    CHINESE_SIMPLIFIED = auto(),
-    CHINESE_TRADITIONAL = auto(),
-    CZECH = auto(),
-    ENGLISH = auto(),
-    FRENCH = auto(),
-    ITALIAN = auto(),
-    KOREAN = auto(),
-    PORTUGUESE = auto(),
-    SPANISH = auto(),
+    CHINESE_SIMPLIFIED = auto()
+    CHINESE_TRADITIONAL = auto()
+    CZECH = auto()
+    ENGLISH = auto()
+    FRENCH = auto()
+    ITALIAN = auto()
+    KOREAN = auto()
+    PORTUGUESE = auto()
+    SPANISH = auto()
 
 
 class Bip39MnemonicConst:

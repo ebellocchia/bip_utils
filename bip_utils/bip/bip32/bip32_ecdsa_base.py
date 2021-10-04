@@ -24,7 +24,7 @@ from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_base import Bip32Base
 from bip_utils.ecc import EllipticCurveGetter
-from bip_utils.utils import ConvUtils
+from bip_utils.utils.misc import ConvUtils
 
 
 class Bip32EcdsaBase(Bip32Base):

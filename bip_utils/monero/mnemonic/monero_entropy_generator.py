@@ -22,15 +22,15 @@
 # Imports
 from enum import IntEnum, unique
 from typing import List, Union
-from bip_utils.utils import EntropyGenerator
+from bip_utils.utils.mnemonic import EntropyGenerator
 
 
 @unique
 class MoneroEntropyBitLen(IntEnum):
     """ Enumerative for Monero entropy bit lengths. """
 
-    BIT_LEN_128 = 128,
-    BIT_LEN_256 = 256,
+    BIT_LEN_128 = 128
+    BIT_LEN_256 = 256
 
 
 class MoneroEntropyGeneratorConst:

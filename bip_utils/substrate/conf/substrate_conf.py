@@ -18,111 +18,93 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+# Reference for formats: https://wiki.polkadot.network/docs/build-ss58-registry
 
 # Imports
-from bip_utils.conf.bip_coin_conf_helper import CoinNames
+from bip_utils.substrate.conf.substrate_coin_conf import SubstrateCoinConf
+from bip_utils.utils.conf import CoinNames
 
-
-class SubstrateCoinConf:
-    """ Substrate coin configuration class. """
-
-    def __init__(self,
-                 coin_name: CoinNames,
-                 ss58_format: int) -> None:
-        """ Construct class.
-
-        Args:
-            coin_name (CoinNames object): Coin names
-            ss58_format (int)           : SS58 format
-        """
-        self.m_coin_name = coin_name
-        self.m_ss58_format = ss58_format
-
-    def CoinNames(self) -> CoinNames:
-        """ Get coin names.
-
-        Returns:
-            CoinNames object: CoinNames object
-        """
-        return self.m_coin_name
-
-    def SS58Format(self) -> int:
-        """ Get SS58 format.
-
-        Returns:
-            int: SS58 format
-        """
-        return self.m_ss58_format
-
-
-# Reference for formats: https://wiki.polkadot.network/docs/build-ss58-registry
 
 # Configuration for a Acala
 SubstrateAcala: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Acala", "ACA"),
-    ss58_format=10)
+    ss58_format=10,
+)
 
 # Configuration for a Bifrost
 SubstrateBifrost: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Bifrost", "BNC"),
-    ss58_format=6)
+    ss58_format=6,
+)
 
 # Configuration for a ChainX
 SubstrateChainX: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("ChainX", "PCX"),
-    ss58_format=44)
+    ss58_format=44,
+)
 
 # Configuration for a Edgeware
 SubstrateEdgeware: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Edgeware", "EDG"),
-    ss58_format=7)
+    ss58_format=7,
+)
 
 # Configuration for a generic Substrate coin
 SubstrateGeneric: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Generic Substrate", ""),
-    ss58_format=42)
+    ss58_format=42,
+)
 
 # Configuration for Karura
 SubstrateKarura: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Karura", "KAR"),
-    ss58_format=8)
+    ss58_format=8,
+)
 
 # Configuration for Kusama
 SubstrateKusama: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Kusama", "KSM"),
-    ss58_format=2)
+    ss58_format=2,
+)
 
 # Configuration for a Moonbeam
 SubstrateMoonbeam: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Moonbeam", "GLMR"),
-    ss58_format=1284)
+    ss58_format=1284,
+)
 
 # Configuration for a Moonriver
 SubstrateMoonriver: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Moonriver", "MOVR"),
-    ss58_format=1285)
+    ss58_format=1285,
+)
 
 # Configuration for a Phala
 SubstratePhala: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Phala Network", "PHA"),
-    ss58_format=30)
+    ss58_format=30,
+)
 
 # Configuration for a Plasm
 SubstratePlasm: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Plasm Network", "PLM"),
-    ss58_format=5)
+    ss58_format=5,
+)
 
 # Configuration for Polkadot
 SubstratePolkadot: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Polkadot", "DOT"),
-    ss58_format=0)
+    ss58_format=0,
+)
 
 # Configuration for a Sora
 SubstrateSora: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Sora", "XOR"),
-    ss58_format=69)
+    ss58_format=69,
+)
 
 # Configuration for a Stafi
 SubstrateStafi: SubstrateCoinConf = SubstrateCoinConf(
     coin_name=CoinNames("Stafi", "FIS"),
-    ss58_format=20)
+    ss58_format=20,
+)

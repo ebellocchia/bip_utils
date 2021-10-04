@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils.utils.conversion import ConvUtils
+from bip_utils.utils.misc.conversion import ConvUtils
 
 
 class DataBytes:

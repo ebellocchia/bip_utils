@@ -25,7 +25,7 @@ from typing import Any
 from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils import ConvUtils, DataBytes
+from bip_utils.utils.misc import ConvUtils, DataBytes
 
 
 class Ed25519KeysConst:
