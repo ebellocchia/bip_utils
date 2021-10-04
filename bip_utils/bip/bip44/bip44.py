@@ -23,7 +23,7 @@
 from typing import Union
 from bip_utils.bip.bip32 import Bip32Utils
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Base
-from bip_utils.bip.conf import Bip44Coins, Bip44ConfGetter
+from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44ConfGetter
 from bip_utils.ecc import IPrivateKey
 
 

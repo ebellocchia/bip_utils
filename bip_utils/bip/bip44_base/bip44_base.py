@@ -31,7 +31,7 @@ from bip_utils.bip.bip32 import (
 )
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
-from bip_utils.bip.conf import Bip32Types, BipCoinConf
+from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.ecc import IPrivateKey
 
 
@@ -53,18 +53,6 @@ class Bip44Levels(IntEnum):
     ACCOUNT = 3,
     CHANGE = 4,
     ADDRESS_INDEX = 5,
-
-
-class Bip44BaseConst:
-    """ Class container for BIP44 base constants. """
-
-    # BIP32 type to class
-    BIP32_TYPE_TO_CLASS: Dict[Bip32Types, Type[Bip32Base]] = {
-        Bip32Types.ED25519_SLIP: Bip32Ed25519Slip,
-        Bip32Types.ED25519_BLAKE2B_SLIP: Bip32Ed25519Blake2bSlip,
-        Bip32Types.NIST256P1: Bip32Nist256p1,
-        Bip32Types.SECP256K1: Bip32Secp256k1,
-    }
 
 
 class Bip44Base(ABC):
@@ -97,7 +85,7 @@ class Bip44Base(ABC):
             ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
+        bip32_cls = coin_conf.Bip32Class()
         return cls(bip32_cls.FromSeed(seed_bytes,
                                       coin_conf.KeyNetVersions()),
                    coin_conf)
@@ -118,7 +106,7 @@ class Bip44Base(ABC):
         Raises:
             Bip32KeyError: If the extended key is not valid
         """
-        bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
+        bip32_cls = coin_conf.Bip32Class()
         return cls(bip32_cls.FromExtendedKey(key_str,
                                              coin_conf.KeyNetVersions()),
                    coin_conf)
@@ -141,7 +129,7 @@ class Bip44Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
-        bip32_cls = Bip44BaseConst.BIP32_TYPE_TO_CLASS[coin_conf.Bip32Type()]
+        bip32_cls = coin_conf.Bip32Class()
         return cls(bip32_cls.FromPrivateKey(priv_key,
                                             key_net_ver=coin_conf.KeyNetVersions()),
                    coin_conf)

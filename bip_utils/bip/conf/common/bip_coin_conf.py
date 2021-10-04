@@ -22,8 +22,7 @@
 # Imports
 from typing import Any, Dict, Optional, Union
 from bip_utils.bip.conf.common.addr_types import AddrTypes
-from bip_utils.bip.conf.common.bip32_types import Bip32Types
-from bip_utils.bip.bip32 import Bip32KeyNetVersions
+from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base
 from bip_utils.utils import CoinNames
 
 
@@ -37,7 +36,7 @@ class BipCoinConf:
                  def_path: str,
                  key_net_ver: Bip32KeyNetVersions,
                  wif_net_ver: Optional[bytes],
-                 bip32_type: Bip32Types,
+                 bip32_cls: Bip32Base,
                  addr_conf: Dict[str, Union[bytes, str, int]],
                  addr_type: AddrTypes) -> None:
         """ Construct class.
@@ -49,7 +48,7 @@ class BipCoinConf:
             def_path (str)                          : Default path
             key_net_ver (Bip32KeyNetVersions object): Key net versions
             wif_net_ver (bytes)                     : WIF net version, None if not supported
-            bip32_type (Bip32Types)                 : Bip32 type
+            bip32_cls (Bip32Base object)            : Bip32 class
             addr_conf (dict)                        : Address configuration
             addr_type (AddrTypes)                   : Address type
         """
@@ -59,7 +58,7 @@ class BipCoinConf:
         self.m_def_path = def_path
         self.m_key_net_ver = key_net_ver
         self.m_wif_net_ver = wif_net_ver
-        self.m_bip32_type = bip32_type
+        self.m_bip32_cls = bip32_cls
         self.m_addr_conf = addr_conf
         self.m_addr_type = addr_type
 
@@ -112,13 +111,13 @@ class BipCoinConf:
         """
         return self.m_wif_net_ver
 
-    def Bip32Type(self) -> Bip32Types:
-        """ Get the Bip32 type.
+    def Bip32Class(self) -> Bip32Base:
+        """ Get the Bip32 class.
 
         Returns:
-            Bip32Types: Bip32 type
+            Bip32Base: Bip32 class
         """
-        return self.m_bip32_type
+        return self.m_bip32_cls
 
     def AddrConf(self) -> Dict[str, Union[bytes, str, int]]:
         """ Get the address configuration.
