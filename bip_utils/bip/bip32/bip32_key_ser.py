@@ -23,8 +23,9 @@
 from typing import Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip.bip32.bip32_key_data import Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyData
-from bip_utils.bip.conf import KeyNetVersions
+from bip_utils.bip.bip32.bip32_key_data import (
+    Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
+)
 from bip_utils.ecc import IPublicKey, IPrivateKey
 from bip_utils.utils import ConvUtils
 
@@ -53,11 +54,11 @@ class Bip32KeyDeserializer:
         self.m_key_data = None
 
     def DeserializeKey(self,
-                       key_net_ver: KeyNetVersions) -> None:
+                       key_net_ver: Bip32KeyNetVersions) -> None:
         """ Deserialize a key.
 
         Args:
-            key_net_ver (KeyNetVersions object): Key net versions object
+            key_net_ver (Bip32KeyNetVersions object): Key net versions object
         """
 
         # Decode key
@@ -68,7 +69,7 @@ class Bip32KeyDeserializer:
             raise Bip32KeyError(f"Invalid extended key (wrong length: {len(ex_key_bytes)})")
 
         # Get if key is public/private depending on net version
-        key_net_ver_got = ex_key_bytes[:KeyNetVersions.Length()]
+        key_net_ver_got = ex_key_bytes[:Bip32KeyNetVersions.Length()]
         if key_net_ver_got == key_net_ver.Public():
             self.m_is_public = True
         elif key_net_ver_got == key_net_ver.Private():

@@ -23,7 +23,7 @@
 from typing import Any, Dict, Optional, Union
 from bip_utils.bip.conf.common.addr_types import AddrTypes
 from bip_utils.bip.conf.common.bip32_types import Bip32Types
-from bip_utils.bip.conf.common.key_net_versions import KeyNetVersions
+from bip_utils.bip.bip32 import Bip32KeyNetVersions
 from bip_utils.utils import CoinNames
 
 
@@ -35,7 +35,7 @@ class BipCoinConf:
                  coin_idx: int,
                  is_testnet: bool,
                  def_path: str,
-                 key_net_ver: KeyNetVersions,
+                 key_net_ver: Bip32KeyNetVersions,
                  wif_net_ver: Optional[bytes],
                  bip32_type: Bip32Types,
                  addr_conf: Dict[str, Union[bytes, str, int]],
@@ -43,15 +43,15 @@ class BipCoinConf:
         """ Construct class.
 
         Args:
-            coin_name (CoinNames object)       : Coin names
-            coin_idx (int)                     : Coin index
-            is_testnet (bool)                  : Test net flag
-            def_path (str)                     : Default path
-            key_net_ver (KeyNetVersions object): Key net versions
-            wif_net_ver (bytes)                : WIF net version, None if not supported
-            bip32_type (Bip32Types)            : Bip32 type
-            addr_conf (dict)                   : Address configuration
-            addr_type (AddrTypes)              : Address type
+            coin_name (CoinNames object)            : Coin names
+            coin_idx (int)                          : Coin index
+            is_testnet (bool)                       : Test net flag
+            def_path (str)                          : Default path
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            wif_net_ver (bytes)                     : WIF net version, None if not supported
+            bip32_type (Bip32Types)                 : Bip32 type
+            addr_conf (dict)                        : Address configuration
+            addr_type (AddrTypes)                   : Address type
         """
         self.m_coin_name = coin_name
         self.m_coin_idx = coin_idx
@@ -95,11 +95,11 @@ class BipCoinConf:
         """
         return self.m_def_path
 
-    def KeyNetVersions(self) -> KeyNetVersions:
+    def KeyNetVersions(self) -> Bip32KeyNetVersions:
         """ Get key net versions.
 
         Returns:
-            KeyNetVersions object: KeyNetVersions object
+            Bip32KeyNetVersions object: Bip32KeyNetVersions object
         """
         return self.m_key_net_ver
 

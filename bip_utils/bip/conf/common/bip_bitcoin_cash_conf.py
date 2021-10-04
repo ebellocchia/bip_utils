@@ -24,7 +24,7 @@ from typing import Dict, Union
 from bip_utils.bip.conf.common.addr_types import AddrTypes
 from bip_utils.bip.conf.common.bip32_types import Bip32Types
 from bip_utils.bip.conf.common.bip_coin_conf import BipCoinConf
-from bip_utils.bip.conf.common.key_net_versions import KeyNetVersions
+from bip_utils.bip.bip32 import Bip32KeyNetVersions
 from bip_utils.utils import CoinNames
 
 
@@ -38,7 +38,7 @@ class BipBitcoinCashConf(BipCoinConf):
                  coin_idx: int,
                  is_testnet: bool,
                  def_path: str,
-                 key_net_ver: KeyNetVersions,
+                 key_net_ver: Bip32KeyNetVersions,
                  wif_net_ver: bytes,
                  bip32_type: Bip32Types,
                  addr_conf: Dict[str, Union[bytes, str, int]],
@@ -47,16 +47,16 @@ class BipBitcoinCashConf(BipCoinConf):
         """ Construct class.
 
         Args:
-            coin_name (CoinNames object)       : Coin names
-            coin_idx (int)                     : Coin index
-            is_testnet (bool)                  : Test net flag
-            def_path (str)                     : Default path
-            key_net_ver (KeyNetVersions object): Key net versions
-            wif_net_ver (bytes)                : WIF net version
-            bip32_type (Bip32Types)            : Bip32 type
-            addr_conf (dict)                   : Address configuration
-            addr_type (AddrTypes)              : Address type
-            addr_type_legacy (AddrTypes)       : Legacy ddress type
+            coin_name (CoinNames object)            : Coin names
+            coin_idx (int)                          : Coin index
+            is_testnet (bool)                       : Test net flag
+            def_path (str)                          : Default path
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            wif_net_ver (bytes)                     : WIF net version
+            bip32_type (Bip32Types)                 : Bip32 type
+            addr_conf (dict)                        : Address configuration
+            addr_type (AddrTypes)                   : Address type
+            addr_type_legacy (AddrTypes)            : Legacy ddress type
         """
         super().__init__(coin_name,
                          coin_idx,

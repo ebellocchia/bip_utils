@@ -23,7 +23,6 @@
 from __future__ import annotations
 from typing import Union
 from bip_utils.bip.bip32.bip32_utils import Bip32Utils
-from bip_utils.bip.conf import KeyNetVersions
 from bip_utils.utils import ConvUtils
 
 
@@ -38,6 +37,8 @@ class Bip32KeyDataConst:
     KEY_INDEX_MAX_VAL: int = 2**32 - 1
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN: int = 4
+    # Key net version length in bytes
+    KEY_NET_VERSION_LEN: int = 4
     # Fingerprint of master key
     MASTER_FINGERPRINT: bytes = b"\x00\x00\x00\x00"
 
@@ -250,13 +251,54 @@ class Bip32KeyIndex:
             return self.m_idx == other.m_idx
 
 
+class Bip32KeyNetVersions:
+    """ Helper class for representing Bip32 key net versions. """
+
+    def __init__(self,
+                 pub_net_ver: bytes,
+                 priv_net_ver: bytes) -> None:
+        """ Construct class.
+
+        Args:
+            pub_net_ver (bytes) : Public net version
+            priv_net_ver (bytes): Private net version
+        """
+        self.m_pub_net_ver = ConvUtils.HexStringToBytes(pub_net_ver)
+        self.m_priv_net_ver = ConvUtils.HexStringToBytes(priv_net_ver)
+
+    @staticmethod
+    def Length() -> int:
+        """ Get the key net version length.
+
+        Returns:
+            int: Key net version length
+        """
+        return Bip32KeyDataConst.KEY_NET_VERSION_LEN
+
+    def Public(self) -> bytes:
+        """ Get public net version.
+
+        Returns:
+            bytes: Public net version
+        """
+        return self.m_pub_net_ver
+
+    def Private(self) -> bytes:
+        """ Get private net version.
+
+        Returns:
+            bytes: Private net version
+        """
+        return self.m_priv_net_ver
+
+
 class Bip32KeyData:
     """ BIP32 key data class.
     It contains all additional data related to a BIP32 key (e.g. depth, chain code, etc...).
     """
 
     def __init__(self,
-                 key_net_ver: KeyNetVersions,
+                 key_net_ver: Bip32KeyNetVersions,
                  depth: Bip32Depth,
                  index: Bip32KeyIndex,
                  chain_code: bytes,
@@ -264,11 +306,11 @@ class Bip32KeyData:
         """ Construct class.
 
         Args:
-            key_net_ver (KeyNetVersions object)    : KeyNetVersions object
-            depth (Bip32Depth object)              : Key depth
-            index (Bip32KeyIndex object)           : Key index
-            chain_code (bytes)                     : Key chain code
-            parent_fprint (Bip32FingerPrint object): Key parent fingerprint
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
+            depth (Bip32Depth object)               : Key depth
+            index (Bip32KeyIndex object)            : Key index
+            chain_code (bytes)                      : Key chain code
+            parent_fprint (Bip32FingerPrint object) : Key parent fingerprint
         """
         self.m_key_net_ver = key_net_ver
         self.m_depth = depth
@@ -276,11 +318,11 @@ class Bip32KeyData:
         self.m_chain_code = chain_code
         self.m_parent_fprint = parent_fprint
 
-    def KeyNetVersions(self) -> KeyNetVersions:
+    def KeyNetVersions(self) -> Bip32KeyNetVersions:
         """ Get key net versions.
 
         Returns:
-            KeyNetVersions object: KeyNetVersions object
+            Bip32KeyNetVersions object: Bip32KeyNetVersions object
         """
         return self.m_key_net_ver
 
