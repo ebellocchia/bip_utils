@@ -24,11 +24,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from enum import IntEnum, unique
 from functools import lru_cache
-from typing import Dict, Type, Union
-from bip_utils.bip.bip32 import (
-    Bip32Base, Bip32Utils,
-    Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
-)
+from typing import Union
+from bip_utils.bip.bip32 import Bip32Base, Bip32Utils
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
