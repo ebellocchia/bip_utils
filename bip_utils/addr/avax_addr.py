@@ -21,12 +21,20 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.atom_addr import AtomAddr
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
-from bip_utils.bech32 import Bech32Encoder
-from bip_utils.bip.conf.bip44 import Bip44AvaxPChain, Bip44AvaxXChain
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+
+
+class AvaxAddrConst:
+    """ Class container for Avax address constants. """
+
+    # HRP
+    HRP: str = "avax"
+    # P-Chain prefix
+    PREFIX_P_CHAIN: str = "P-"
+    # X-Chain prefix
+    PREFIX_X_CHAIN: str = "X-"
 
 
 class AvaxPChainAddr(IAddrEncoder):
@@ -48,11 +56,8 @@ class AvaxPChainAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
-        prefix = Bip44AvaxPChain.AddrConfKey("prefix")
-
-        return prefix + Bech32Encoder.Encode(Bip44AvaxPChain.AddrConfKey("hrp"),
-                                             CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+        return AvaxAddrConst.PREFIX_P_CHAIN + AtomAddr.EncodeKey(pub_key,
+                                                                 hrp=AvaxAddrConst.HRP)
 
 
 class AvaxXChainAddr(IAddrEncoder):
@@ -73,8 +78,5 @@ class AvaxXChainAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
-        prefix = Bip44AvaxXChain.AddrConfKey("prefix")
-
-        return prefix + Bech32Encoder.Encode(Bip44AvaxXChain.AddrConfKey("hrp"),
-                                             CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+        return AvaxAddrConst.PREFIX_X_CHAIN + AtomAddr.EncodeKey(pub_key,
+                                                                 hrp=AvaxAddrConst.HRP)

@@ -20,13 +20,21 @@
 
 
 # Imports
+from enum import IntEnum, unique
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.bip.conf.bip44 import Bip44Filecoin
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.base32 import Base32Encoder
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
+
+
+@unique
+class FillAddrTypes(IntEnum):
+    """ Enumerative for Filecoin address types. """
+
+    SECP256K1 = 1
+    BLS = 3
 
 
 class FilAddrConst:
@@ -38,6 +46,8 @@ class FilAddrConst:
     DIGEST_BYTE_LEN: int = 20
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
+    # Address prefix
+    PREFIX: str = "f"
 
 
 class FilAddr(IAddrEncoder):
@@ -52,19 +62,29 @@ class FilAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
             **kwargs: Not used
 
+        Other Parameters:
+            addr_type (FillAddrTypes): Address type
+
         Returns:
             str: Address string
 
         Raised:
             ValueError: If the public key is not valid
-            TypeError: If the public key is not secp256k1
+            TypeError: If the public key is not secp256k1 or the address type is not valid
         """
+
+        # Get and check address type
+        addr_type = kwargs["addr_type"]
+        if not isinstance(addr_type, FillAddrTypes):
+            raise TypeError("Address type is not an enumerative of FillAddrTypes")
+
+        # Get public key
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
         pub_key_bytes = pub_key_obj.RawUncompressed().ToBytes()
 
         # Get address type
-        addr_type_str = Bip44Filecoin.AddrConfKey("type")
-        addr_type_byte = ConvUtils.IntegerToBytes(ord(addr_type_str) - ord("0"))
+        addr_type_str = chr(addr_type + ord("0"))
+        addr_type_byte = ConvUtils.IntegerToBytes(addr_type)
 
         # Compute public key hash and checksum
         pub_key_hash = CryptoUtils.Blake2b(pub_key_bytes,
@@ -74,4 +94,4 @@ class FilAddr(IAddrEncoder):
         # Encode to base32
         b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + chksum, FilAddrConst.BASE32_ALPHABET)
 
-        return Bip44Filecoin.AddrConfKey("prefix") + addr_type_str + b32_enc
+        return FilAddrConst.PREFIX + addr_type_str + b32_enc

@@ -20,13 +20,22 @@
 
 
 # Imports
+from enum import Enum, unique
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
-from bip_utils.bip.conf.bip44 import Bip44Tezos
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
+
+
+@unique
+class XtzAddrPrefixes(Enum):
+    """ Enumerative for Tezos address prefixes. """
+
+    TZ1 = b"\x06\xa1\x9f"
+    TZ2 = b"\x06\xa1\xa1"
+    TZ3 = b"\x06\xa1\xa4"
 
 
 class XtzAddrConst:
@@ -48,6 +57,9 @@ class XtzAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
             **kwargs: Not used
 
+        Other Parameters:
+            prefix (XtzAddrPrefixes): Address prefix
+
         Returns:
             str: Address string
 
@@ -55,9 +67,16 @@ class XtzAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
+
+        # Get and check address type
+        prefix = kwargs["prefix"]
+        if not isinstance(prefix, XtzAddrPrefixes):
+            raise TypeError("Address type is not an enumerative of XtzAddrPrefixes")
+
+        # Get public key
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
         # Compute Blake2b and encode in Base58 with checksum
         blake = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
                                     digest_size=XtzAddrConst.DIGEST_BYTE_LEN)
-        return Base58Encoder.CheckEncode(Bip44Tezos.AddrConfKey("prefix") + blake)
+        return Base58Encoder.CheckEncode(prefix.value + blake)

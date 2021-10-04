@@ -161,6 +161,14 @@ class Bip44PublicKey:
         elif addr_type == AddrTypes.NEO:
             return addr_cls.EncodeKey(pub_key_obj,
                                       ver=addr_conf["ver"])
+        # Filecoin/Stellar
+        elif addr_type in (AddrTypes.FIL, AddrTypes.XLM):
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      addr_type=addr_conf["type"])
+        # Tezos
+        elif addr_type == AddrTypes.XTZ:
+            return addr_cls.EncodeKey(pub_key_obj,
+                                      prefix=addr_conf["prefix"])
         # Others
         else:
             return addr_cls.EncodeKey(pub_key_obj)

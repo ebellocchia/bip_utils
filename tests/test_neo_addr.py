@@ -77,12 +77,12 @@ class NeoAddrTests(unittest.TestCase):
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key types
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_PUB_KEY)
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_SECP256K1_PUB_KEY)
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_SR25519_PUB_KEY)
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_PUB_KEY, ver=b"")
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, ver=b"")
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, ver=b"")
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_SECP256K1_PUB_KEY, ver=b"")
+        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_SR25519_PUB_KEY, ver=b"")
 
         # Test vector
         for test in TEST_VECT_NIST256P1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, NeoAddr.EncodeKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, NeoAddr.EncodeKey, binascii.unhexlify(test), ver=b"")

@@ -22,9 +22,9 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import XtzAddr, Ed25519PublicKey
+from bip_utils import XtzAddrPrefixes, XtzAddr, Ed25519PublicKey
 from .test_ecc import (
-    TEST_VECT_ED25519_PUB_KEY_INVALID,
+    TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_PUB_KEY,
     TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
     TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY, TEST_SR25519_PUB_KEY
 )
@@ -34,22 +34,27 @@ TEST_VECT = [
     {
         "pub_key": b"00c984cd868dae74bc8879ed6079c53cfb328e0bc095a1d587c26c4d79bdb4f354",
         "address": "tz1VgeyGiyNEA2JfqJH4utRqox9fkN2uwhbp",
+        "prefix": XtzAddrPrefixes.TZ1,
     },
     {
         "pub_key": b"00ade94377eb07a7f406937c4b0e1aa6e64f78ba0e9faa3fbe43386a5a20f79804",
         "address": "tz1bqff5qsRZ3ix1Er6XXs8uUKYuzvRyVa8p",
+        "prefix": XtzAddrPrefixes.TZ1,
     },
     {
         "pub_key": b"003dad9044f1eec4b981fbdb8f0a3128c62d6f64dde84220a0c5aba12711224f45",
         "address": "tz1ZNoP4tpSAHs1iLbobCvhF8t9DDaoCTzR8",
+        "prefix": XtzAddrPrefixes.TZ1,
     },
     {
         "pub_key": b"2ae8dfda6cfa73f759a84a328c0f1003541adf647e2d85f6c8c8f42f7045e217",
         "address": "tz1cTxNAJ2NvkeyjpZKp4WpeqqkRPYX7HgGY",
+        "prefix": XtzAddrPrefixes.TZ1,
     },
     {
         "pub_key": b"804e68f00f2a25fe4abc55022757de59604c874f91cc0fb60da580ad4481992f",
         "address": "tz1NPgUeafMfD7VZbsKkzoJiR8pRynViiTE3",
+        "prefix": XtzAddrPrefixes.TZ1,
     },
 ]
 
@@ -64,18 +69,24 @@ class XtzAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], XtzAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], XtzAddr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes)))
+            self.assertEqual(test["address"], XtzAddr.EncodeKey(key_bytes,
+                                                                prefix=test["prefix"]))
+            self.assertEqual(test["address"], XtzAddr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes),
+                                                                prefix=test["prefix"]))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key types
-        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_SECP256K1_PUB_KEY)
-        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_SR25519_PUB_KEY)
+        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, prefix=XtzAddrPrefixes.TZ1)
+        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, prefix=XtzAddrPrefixes.TZ1)
+        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, prefix=XtzAddrPrefixes.TZ1)
+        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_SECP256K1_PUB_KEY, prefix=XtzAddrPrefixes.TZ1)
+        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_SR25519_PUB_KEY, prefix=XtzAddrPrefixes.TZ1)
 
         # Test vector
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, XtzAddr.EncodeKey, binascii.unhexlify(test))
+            self.assertRaises(ValueError, XtzAddr.EncodeKey, binascii.unhexlify(test), prefix=XtzAddrPrefixes.TZ1)
+
+    # Test invalid parameters
+    def test_invalid_params(self):
+        self.assertRaises(TypeError, XtzAddr.EncodeKey, TEST_ED25519_PUB_KEY, prefix=0)

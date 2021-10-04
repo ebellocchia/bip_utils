@@ -23,6 +23,7 @@
 from bip_utils.bip.bip32 import (
     Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
+from bip_utils.addr import *
 from bip_utils.bip.conf.common import *
 from bip_utils.utils.conf import CoinNames
 
@@ -70,7 +71,7 @@ Bip44AvaxPChain: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "avax", "prefix": "P-"},
+    addr_conf={},
     addr_type=AddrTypes.AVAX_P,
 )
 # Configuration for Avax X-Chain
@@ -82,7 +83,7 @@ Bip44AvaxXChain: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "avax", "prefix": "X-"},
+    addr_conf={},
     addr_type=AddrTypes.AVAX_X,
 )
 
@@ -273,7 +274,7 @@ Bip44Elrond: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Ed25519Slip,
-    addr_conf={"hrp": "erd"},
+    addr_conf={},
     addr_type=AddrTypes.EGLD,
 )
 
@@ -324,7 +325,7 @@ Bip44Filecoin: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"prefix": "f", "type": "1"},
+    addr_conf={"type": FillAddrTypes.SECP256K1},
     addr_type=AddrTypes.FIL,
 )
 
@@ -361,7 +362,7 @@ Bip44HarmonyOneAtom: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "one"},
+    addr_conf={},
     addr_type=AddrTypes.ONE,
 )
 
@@ -492,7 +493,7 @@ Bip44OkexChainAtom: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "ex"},
+    addr_conf={},
     addr_type=AddrTypes.OKEX,
 )
 
@@ -505,7 +506,7 @@ Bip44OkexChainAtomOld: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "ex"},
+    addr_conf={},
     addr_type=AddrTypes.OKEX,
 )
 
@@ -531,7 +532,7 @@ Bip44Nano: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Ed25519Blake2bSlip,
-    addr_conf={"prefix": "nano_"},
+    addr_conf={},
     addr_type=AddrTypes.NANO,
 )
 
@@ -544,7 +545,7 @@ Bip44Neo: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Nist256p1,
-    addr_conf={"ver": b"\x17", "prefix": b"\x21", "suffix": b"\xac"},
+    addr_conf={"ver": b"\x17"},
     addr_type=AddrTypes.NEO,
 )
 
@@ -596,7 +597,7 @@ Bip44Ripple: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"net_ver": b"\x00"},
+    addr_conf={},
     addr_type=AddrTypes.XRP,
 )
 
@@ -622,7 +623,7 @@ Bip44Stellar: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Ed25519Slip,
-    addr_conf={"ver": b"\x30"},
+    addr_conf={"type": XlmAddrTypes.PUB_KEY},
     addr_type=AddrTypes.XLM,
 )
 
@@ -648,7 +649,7 @@ Bip44Tezos: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Ed25519Slip,
-    addr_conf={"prefix": b"\x06\xa1\x9f"},
+    addr_conf={"prefix": XtzAddrPrefixes.TZ1},
     addr_type=AddrTypes.XTZ,
 )
 
@@ -674,7 +675,7 @@ Bip44Tron: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"prefix": "41"},
+    addr_conf={},
     addr_type=AddrTypes.TRX,
 )
 
@@ -725,6 +726,6 @@ Bip44Zilliqa: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "zil"},
+    addr_conf={},
     addr_type=AddrTypes.ZIL,
 )

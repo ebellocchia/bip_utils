@@ -24,9 +24,17 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
-from bip_utils.bip.conf.bip44 import Bip44Neo
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
+
+
+class NeoAddrConst:
+    """ Class container for NEO address constants. """
+
+    # Address prefix
+    PREFIX: bytes = b"\x21"
+    # Address suffix
+    SUFFIX: bytes = b"\xac"
 
 
 class NeoAddr(IAddrEncoder):
@@ -50,13 +58,13 @@ class NeoAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        ver = kwargs.get("ver", Bip44Neo.AddrConfKey("ver"))
+        ver = kwargs["ver"]
 
         pub_key_obj = AddrUtils.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
-        payload = (Bip44Neo.AddrConfKey("prefix") +
+        payload = (NeoAddrConst.PREFIX +
                    pub_key_obj.RawCompressed().ToBytes() +
-                   Bip44Neo.AddrConfKey("suffix"))
+                   NeoAddrConst.SUFFIX)
         # Encode
         return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload))
