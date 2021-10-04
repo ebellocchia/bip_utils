@@ -53,6 +53,7 @@ The package currently supports the following BIP coins:
 - Dash (and related test net)
 - Dogecoin (and related test net)
 - Elrond
+- EOS
 - Ethereum
 - Ethereum Classic
 - Fantom Opera
@@ -739,6 +740,7 @@ Supported coins enumerative for BIP-0044:
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
 |Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
 |Elrond|*Bip44Coins.ELROND*|-|
+|EOS|*Bip44Coins.EOS*|-|
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
 |Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
 |Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
