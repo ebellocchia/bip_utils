@@ -39,8 +39,8 @@ Bip84BitcoinMainNet: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP84_BTC_KEY_NET_VER,
     wif_net_ver=BTC_WIF_NET_VER_MAIN,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "bc", "wit_ver": 0},
     addr_cls=P2WPKHAddr,
+    addr_params={"hrp": "bc", "wit_ver": 0},
 )
 # Configuration for Bitcoin test net
 Bip84BitcoinTestNet: BipCoinConf = BipCoinConf(
@@ -51,8 +51,8 @@ Bip84BitcoinTestNet: BipCoinConf = BipCoinConf(
     key_net_ver=Bip32KeyNetVersions(b"\x04\x5f\x1c\xf6", b"\x04\x5f\x18\xbc"),   # vpub / vprv
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "tb", "wit_ver": 0},
     addr_cls=P2WPKHAddr,
+    addr_params={"hrp": "tb", "wit_ver": 0},
 )
 
 # Configuration for Litecoin main net
@@ -64,8 +64,8 @@ Bip84LitecoinMainNet: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP84_BTC_KEY_NET_VER,
     wif_net_ver=b"\xb0",
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "ltc", "wit_ver": 0},
     addr_cls=P2WPKHAddr,
+    addr_params={"hrp": "ltc", "wit_ver": 0},
 )
 # Configuration for Litecoin test net
 Bip84LitecoinTestNet: BipCoinConf = BipCoinConf(
@@ -76,6 +76,6 @@ Bip84LitecoinTestNet: BipCoinConf = BipCoinConf(
     key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1", b"\x04\x36\xef\x7d"),   # ttub / ttpv
     wif_net_ver=BTC_WIF_NET_VER_TEST,
     bip32_cls=Bip32Secp256k1,
-    addr_conf={"hrp": "tltc", "wit_ver": 0},
     addr_cls=P2WPKHAddr,
+    addr_params={"hrp": "tltc", "wit_ver": 0},
 )

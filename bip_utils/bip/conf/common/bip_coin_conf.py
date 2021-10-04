@@ -20,7 +20,7 @@
 
 
 # Imports
-from typing import Any, Dict, Optional, Type, Union
+from typing import Any, Dict, Optional, Type
 from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base
 from bip_utils.utils.conf import CoinNames
@@ -37,7 +37,7 @@ class BipCoinConf:
                  key_net_ver: Bip32KeyNetVersions,
                  wif_net_ver: Optional[bytes],
                  bip32_cls: Type[Bip32Base],
-                 addr_conf: Dict[str, Union[bytes, str, int]],
+                 addr_params: Dict[str, Any],
                  addr_cls: Type[IAddrEncoder]) -> None:
         """ Construct class.
 
@@ -49,7 +49,7 @@ class BipCoinConf:
             key_net_ver (Bip32KeyNetVersions object): Key net versions
             wif_net_ver (bytes)                     : WIF net version, None if not supported
             bip32_cls (Bip32Base class)             : Bip32 class
-            addr_conf (dict)                        : Address configuration
+            addr_params (dict)                      : Address parameters
             addr_cls (IAddrEncoder class)           : Address class
         """
         self.m_coin_name = coin_name
@@ -59,7 +59,7 @@ class BipCoinConf:
         self.m_key_net_ver = key_net_ver
         self.m_wif_net_ver = wif_net_ver
         self.m_bip32_cls = bip32_cls
-        self.m_addr_conf = addr_conf
+        self.m_addr_params = addr_params
         self.m_addr_cls = addr_cls
 
     def CoinNames(self) -> CoinNames:
@@ -119,25 +119,25 @@ class BipCoinConf:
         """
         return self.m_bip32_cls
 
-    def AddrConf(self) -> Dict[str, Union[bytes, str, int]]:
-        """ Get the address configuration.
+    def AddrParams(self) -> Dict[str, Any]:
+        """ Get the address parameters.
 
         Returns:
-            dict: Address configuration
+            dict: Address parameters
         """
-        return self.m_addr_conf
+        return self.m_addr_params
 
-    def AddrConfKey(self,
-                    key: str) -> Any:
-        """ Get the address configuration for the specified key.
+    def AddrParamsKey(self,
+                      key: str) -> Any:
+        """ Get the address parameters for the specified key.
 
         Args:
             key (str): Key
 
         Returns:
-            bytes or str: Address configuration for the specified key
+            bytes or str: Address parameters for the specified key
         """
-        return self.AddrConf()[key]
+        return self.AddrParams()[key]
 
     def AddrClass(self) -> Type[IAddrEncoder]:
         """ Get the address class.

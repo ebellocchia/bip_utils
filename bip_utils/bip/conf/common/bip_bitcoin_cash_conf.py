@@ -20,7 +20,7 @@
 
 
 # Imports
-from typing import Dict, Type, Union
+from typing import Any, Dict, Type
 from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.conf.common.bip_coin_conf import BipCoinConf, Bip32Base
 from bip_utils.bip.bip32 import Bip32KeyNetVersions
@@ -40,7 +40,7 @@ class BipBitcoinCashConf(BipCoinConf):
                  key_net_ver: Bip32KeyNetVersions,
                  wif_net_ver: bytes,
                  bip32_cls: Type[Bip32Base],
-                 addr_conf: Dict[str, Union[bytes, str, int]],
+                 addr_params: Dict[str, Any],
                  addr_cls: Type[IAddrEncoder],
                  addr_cls_legacy: Type[IAddrEncoder]) -> None:
         """ Construct class.
@@ -53,7 +53,7 @@ class BipBitcoinCashConf(BipCoinConf):
             key_net_ver (Bip32KeyNetVersions object): Key net versions
             wif_net_ver (bytes)                     : WIF net version
             bip32_cls (Bip32Base class)             : Bip32 class
-            addr_conf (dict)                        : Address configuration
+            addr_params (dict)                      : Address parameters
             addr_cls (IAddrEncoder class)           : Address class
             addr_cls_legacy (IAddrEncoder class)    : Legacy ddress class
         """
@@ -64,7 +64,7 @@ class BipBitcoinCashConf(BipCoinConf):
                          key_net_ver,
                          wif_net_ver,
                          bip32_cls,
-                         addr_conf,
+                         addr_params,
                          addr_cls)
 
         self.m_addr_cls_legacy = addr_cls_legacy
@@ -87,10 +87,10 @@ class BipBitcoinCashConf(BipCoinConf):
         """
         return self.m_addr_cls_legacy if self.m_use_legacy_addr else self.m_addr_cls
 
-    def AddrConf(self) -> Dict[str, Union[bytes, str, int]]:
-        """ Get the address configuration. It overrides the method in BipCoinConf.
+    def AddrParams(self) -> Dict[str, Any]:
+        """ Get the address parameters. It overrides the method in BipCoinConf.
 
         Returns:
-            dict: Address configuration
+            dict: Address parameters
         """
-        return self.m_addr_conf["legacy"] if self.m_use_legacy_addr else self.m_addr_conf["std"]
+        return self.m_addr_params["legacy"] if self.m_use_legacy_addr else self.m_addr_params["std"]

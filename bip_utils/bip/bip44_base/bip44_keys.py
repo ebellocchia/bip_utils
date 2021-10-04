@@ -93,7 +93,7 @@ class Bip44PublicKey:
         Returns:
             str: Address string
         """
-        addr_conf = self.m_coin_conf.AddrConf()
+        addr_params = self.m_coin_conf.AddrParams()
         addr_cls = self.m_coin_conf.AddrClass()
         pub_key_obj = self.Bip32Key().KeyObject()
 
@@ -101,7 +101,7 @@ class Bip44PublicKey:
         if addr_cls is XmrAddr:
             raise ValueError("Use the Monero class to get Monero addresses")
 
-        return addr_cls.EncodeKey(pub_key_obj, **addr_conf)
+        return addr_cls.EncodeKey(pub_key_obj, **addr_params)
 
 
 class Bip44PrivateKey:
