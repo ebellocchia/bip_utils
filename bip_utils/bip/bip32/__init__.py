@@ -1,4 +1,5 @@
 from bip_utils.bip.bip32.bip32_base import Bip32Base
+from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_ed25519_slip import Bip32Ed25519Slip
 from bip_utils.bip.bip32.bip32_ed25519_blake2b_slip import Bip32Ed25519Blake2bSlip
 from bip_utils.bip.bip32.bip32_nist256p1 import Bip32Nist256p1

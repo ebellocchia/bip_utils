@@ -48,7 +48,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
-                 key_net_ver: Bip32KeyNetVersions = Bip32Const.DEF_KEY_NET_VERSIONS) -> Bip32Base:
+                 key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
 
         Args:
@@ -71,7 +71,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     def FromSeedAndPath(cls,
                         seed_bytes: bytes,
                         path: Union[str, Bip32Path],
-                        key_net_ver: Bip32KeyNetVersions = Bip32Const.DEF_KEY_NET_VERSIONS) -> Bip32Base:
+                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
@@ -95,7 +95,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     @classmethod
     def FromExtendedKey(cls,
                         key_str: str,
-                        key_net_ver: Bip32KeyNetVersions = Bip32Const.DEF_KEY_NET_VERSIONS) -> Bip32Base:
+                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified extended key.
 
         Args:
@@ -115,7 +115,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       key_net_ver: Bip32KeyNetVersions = Bip32Const.DEF_KEY_NET_VERSIONS) -> Bip32Base:
+                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """ Create a Bip32 object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.

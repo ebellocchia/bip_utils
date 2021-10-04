@@ -26,5 +26,7 @@ from bip_utils.bip.bip32.bip32_key_data import Bip32KeyNetVersions
 class Bip32Const:
     """ Class container for BIP32 constants. """
 
-    # Default key net version (xpub / xprv)
-    DEF_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"0488b21e", b"0488ade4")
+    # Main net key net version (xpub / xprv)
+    MAIN_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"0488b21e", b"0488ade4")
+    # Test net key net version (tpub / tprv)
+    TEST_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"043587cf", b"04358394")

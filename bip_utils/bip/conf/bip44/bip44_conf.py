@@ -21,16 +21,16 @@
 
 # Imports
 from bip_utils.bip.bip32 import (
-    Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
+    Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
 from bip_utils.bip.conf.common import *
 from bip_utils.utils import CoinNames
 
 
-# Bitcoin key net version for main net (xpub / xprv)
-BIP44_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32KeyNetVersions(b"0488b21e", b"0488ade4")
-# Bitcoin key net version for test net (tpub / tprv)
-BIP44_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32KeyNetVersions(b"043587cf", b"04358394")
+# Bitcoin key net version for main net (same as BIP32)
+BIP44_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS
+# Bitcoin key net version for test net (same as BIP32)
+BIP44_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32Const.TEST_NET_KEY_NET_VERSIONS
 # Bitcoin P2PKH net version for main net
 BIP44_BTC_P2PKH_NET_VER_MAIN: bytes = b"\x00"
 # Bitcoin P2PKH net version for test net

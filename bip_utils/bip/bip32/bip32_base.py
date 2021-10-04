@@ -222,7 +222,7 @@ class Bip32Base(ABC):
                  depth: Bip32Depth = Bip32Depth(0),
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
                  fprint: Bip32FingerPrint = Bip32FingerPrint(),
-                 key_net_ver: Bip32KeyNetVersions = Bip32Const.DEF_KEY_NET_VERSIONS) -> None:
+                 key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> None:
         """ Construct class.
 
         Args:
