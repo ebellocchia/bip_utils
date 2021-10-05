@@ -26,7 +26,7 @@ from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_ecdsa_base import Bip32EcdsaBase
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex, Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_path import Bip32Path
-from bip_utils.ecc import EllipticCurveTypes, IPrivateKey
+from bip_utils.ecc import EllipticCurveTypes, IPrivateKey, IPublicKey
 
 
 class Bip32Nist256p1Const:
@@ -133,6 +133,28 @@ class Bip32Nist256p1(Bip32EcdsaBase):
         return cls._FromPrivateKey(priv_key,
                                    key_net_ver,
                                    Bip32Nist256p1Const.CURVE_TYPE)
+
+    @classmethod
+    def FromPublicKey(cls,
+                      pub_key: Union[bytes, IPublicKey],
+                      key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
+        """ Create a Bip32 object from the specified public key.
+        The key will be considered a public master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            pub_key (bytes or IPublicKey)                     : Public key
+            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
+
+        Returns:
+            Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
+        """
+        return cls._FromPublicKey(pub_key,
+                                  key_net_ver,
+                                  Bip32Nist256p1Const.CURVE_TYPE)
 
     #
     # Protected methods

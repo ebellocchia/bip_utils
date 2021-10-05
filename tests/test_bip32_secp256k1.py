@@ -194,10 +194,10 @@ TEST_VECT = [
     },
 ]
 
-# Tests for public derivation
-TEST_VECT_PUBLIC_DER = {
-    "ex_priv": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+# Tests for public derivation from extended key
+TEST_VECT_PUBLIC_DER_EX_KEY = {
     "ex_pub": "xpub661MyMwAqRbcFkPHucMnrGNzDwb6teAX1RbKQmqtEF8kK3Z7LZ59qafCjB9eCRLiTVG3uxBxgKvRgbubRhqSKXnGGb1aoaqLrpMBDrVxga8",
+    "ex_priv": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
     "der_paths": [
         # m/0
         {
@@ -208,6 +208,28 @@ TEST_VECT_PUBLIC_DER = {
         {
             "index": 0,
             "ex_pub": "xpub6APw4JtXQKMKHbqzD7pxeiGcArZVSNuUcbcKvcoQ3JxPjdCYaap6BuVW4HRSmV4gwSv4CzC5Cjsp9kesdHUFHtpz42Bg4UoiJ1KsJQx9AuH",
+        },
+        # m/0/0/0' : shall trigger an exception
+        {
+            "index": Bip32Utils.HardenIndex(0),
+        },
+    ],
+}
+
+# Tests for public derivation from public key
+TEST_VECT_PUBLIC_DER_PUB_KEY = {
+    "pub_key": "0339a36013301597daef41fbe593a02cc513d0b55527ec2df1050e2e8ff49c85c2",
+    "priv_key": "e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35",
+    "der_paths": [
+        # m/0
+        {
+            "index": 0,
+            "pub_key": "02305e20d8d1e7a398c79ba12965bc11f317a325acb01237f620d16a5b1515ab59",
+        },
+        # m/0/0
+        {
+            "index": 0,
+            "pub_key": "03b0b376563ed920b460e348df3b88151fed329cfa322137112a658e33aca1e405",
         },
         # m/0/0/0' : shall trigger an exception
         {
@@ -265,9 +287,17 @@ class Bip32Secp256k1Tests(unittest.TestCase):
     def test_from_priv_key(self):
         Bip32BaseTestHelper.test_from_priv_key(self, Bip32Secp256k1, TEST_VECT)
 
-    # Test public derivation
-    def test_public_derivation(self):
-        Bip32BaseTestHelper.test_public_derivation(self, Bip32Secp256k1, TEST_VECT_PUBLIC_DER)
+    # Run all tests in test vector using FromPublicKey for construction
+    def test_from_pub_key(self):
+        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Secp256k1, TEST_VECT)
+
+    # Test public derivation from extended key
+    def test_public_derivation_ex_key(self):
+        Bip32BaseTestHelper.test_public_derivation_ex_key(self, Bip32Secp256k1, TEST_VECT_PUBLIC_DER_EX_KEY)
+
+    # Test public derivation from public key
+    def test_public_derivation_pub_key(self):
+        Bip32BaseTestHelper.test_public_derivation_pub_key(self, Bip32Secp256k1, TEST_VECT_PUBLIC_DER_PUB_KEY)
 
     # Test invalid extended key
     def test_invalid_ex_key(self):

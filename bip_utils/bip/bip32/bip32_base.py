@@ -172,11 +172,8 @@ class Bip32Base(ABC):
                 raise Bip32KeyError("Invalid extended private key (wrong secret)")
             key_bytes = key_bytes[1:]
 
-        priv_key_bytes = key_bytes if not is_public else None
-        pub_key_bytes = key_bytes if is_public else None
-
-        return cls(priv_key=priv_key_bytes,
-                   pub_key=pub_key_bytes,
+        return cls(priv_key=key_bytes if not is_public else None,
+                   pub_key=key_bytes if is_public else None,
                    chain_code=key_data.ChainCode(),
                    curve_type=curve_type,
                    depth=key_data.Depth(),
@@ -206,6 +203,32 @@ class Bip32Base(ABC):
         """
         return cls(priv_key=priv_key,
                    pub_key=None,
+                   chain_code=b"\x00" * Bip32BaseConst.HMAC_HALF_BYTE_LEN,
+                   curve_type=curve_type,
+                   key_net_ver=key_net_ver)
+
+    @classmethod
+    def _FromPublicKey(cls,
+                       pub_key: Union[bytes, IPublicKey],
+                       key_net_ver: Bip32KeyNetVersions,
+                       curve_type: EllipticCurveTypes) -> Bip32Base:
+        """ Create a Bip32 object from the specified public key.
+        The key will be considered a public master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            pub_key (bytes or IPublicKey)           : Public key
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
+
+        Returns:
+            Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
+        """
+        return cls(priv_key=None,
+                   pub_key=pub_key,
                    chain_code=b"\x00" * Bip32BaseConst.HMAC_HALF_BYTE_LEN,
                    curve_type=curve_type,
                    key_net_ver=key_net_ver)
