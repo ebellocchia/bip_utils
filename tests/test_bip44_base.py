@@ -252,7 +252,12 @@ class Bip44BaseTestHelper:
         # Exception: construct from invalid type
         ut_class.assertRaises(TypeError, bip_class.FromSeed, b"", 0)
         ut_class.assertRaises(TypeError, bip_class.FromExtendedKey, "", 0)
-        ut_class.assertRaises(TypeError, bip_class.FromPrivateKey, "", 0)
+        ut_class.assertRaises(TypeError, bip_class.FromPrivateKey, b"", 0)
+
+        for coin in test_coins:
+            ut_class.assertRaises(TypeError, bip_class.FromSeed, b"", coin)
+            ut_class.assertRaises(TypeError, bip_class.FromExtendedKey, "", coin)
+            ut_class.assertRaises(TypeError, bip_class.FromPrivateKey, b"", coin)
 
     # Test invalid path derivations
     @staticmethod

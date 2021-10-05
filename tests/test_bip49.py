@@ -23,7 +23,7 @@
 import unittest
 from bip_utils import (
     Bip49BitcoinCashMainNet, Bip49BitcoinCashTestNet, Bip49LitecoinMainNet, Bip49LitecoinTestNet,
-    Bip49, Bip49Coins
+    Bip49, Bip44Coins, Bip49Coins, Bip84Coins
 )
 from .test_bip44 import TEST_SEED
 from .test_bip44_base import Bip44BaseTestHelper
@@ -574,7 +574,7 @@ class Bip49Tests(unittest.TestCase):
 
     # Test type error during construction
     def test_type_error(self):
-        Bip44BaseTestHelper.test_type_error(self, Bip49, TEST_VECT_EX_KEY_DEPTHS)
+        Bip44BaseTestHelper.test_type_error(self, Bip49, [Bip44Coins, Bip84Coins])
 
     # Test invalid path derivations
     def test_invalid_derivations(self):
