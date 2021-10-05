@@ -24,7 +24,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from enum import IntEnum, unique
 from functools import lru_cache
-from typing import Union
+from typing import Any, Union
 from bip_utils.bip.bip32 import Bip32Base, Bip32Utils
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
@@ -230,7 +230,7 @@ class Bip44Base(ABC):
         return self.m_bip32.Depth() == level
 
     #
-    # Class methods ("protected", in the sense that they are called only internally)
+    # Protected class methods
     #
 
     @classmethod
@@ -412,6 +412,71 @@ class Bip44Base(ABC):
     #
     # Abstract methods
     #
+
+    @classmethod
+    @abstractmethod
+    def FromSeed(cls,
+                 seed_bytes: bytes,
+                 coin_type: Any) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
+        The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
+        or purpose keys, you have to specify here if it's a test net.
+
+        Args:
+            seed_bytes (bytes): Seed bytes
+            coin_type (Any)   : Coin type (the type depends on the specific child class)
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin type is not of the correct type
+            ValueError: If the seed is too short
+            Bip32KeyError: If the seed is not suitable for master key generation
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def FromExtendedKey(cls,
+                        key_str: str,
+                        coin_type: Any) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
+
+        Args:
+            key_str (str)  : Extended key string
+            coin_type (Any): Coin type (the type depends on the specific child class)
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin type is not of the correct type
+            Bip32KeyError: If the extended key is not valid
+        """
+        pass
+
+    @classmethod
+    @abstractmethod
+    def FromPrivateKey(cls,
+                       priv_key: Union[bytes, IPrivateKey],
+                       coin_type: Any) -> Bip44Base:
+        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
+        The key will be considered a master key with the chain code set to zero,
+        since there is no way to recover the key derivation data.
+
+        Args:
+            priv_key (bytes or IPrivateKey): Private key
+            coin_type (Any)                : Coin type (the type depends on the specific child class)
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin type is not of the correct type
+            Bip32KeyError: If the key is not valid
+        """
+        pass
 
     @abstractmethod
     def DeriveDefaultPath(self) -> Bip44Base:

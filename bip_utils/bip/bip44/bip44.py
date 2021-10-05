@@ -20,10 +20,10 @@
 
 
 # Imports
-from typing import Union
+from typing import Any, Union
 from bip_utils.bip.bip32 import Bip32Utils
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Base
-from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44ConfGetter
+from bip_utils.bip.conf.bip44 import Bip44ConfGetter
 from bip_utils.ecc import IPrivateKey
 
 
@@ -48,65 +48,71 @@ class Bip44(Bip44Base):
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
-                 coin_type: Bip44Coins) -> Bip44Base:
+                 coin_type: Any) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
         The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
         or purpose keys, you have to specify here if it's a test net.
 
         Args:
-            seed_bytes (bytes)    : Seed bytes
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
+            seed_bytes (bytes): Seed bytes
+            coin_type (Any)   : Coin type, shall be a Bip44Coins enum
 
         Returns:
             Bip object: Bip object
 
         Raises:
-            TypeError: If coin index is not a Bip44Coins enum
+            TypeError: If coin type is not a Bip44Coins enum
             ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
+
+        # Bip44ConfGetter already checks the enum type
         return cls._FromSeed(seed_bytes,
                              Bip44ConfGetter.GetConfig(coin_type))
 
     @classmethod
     def FromExtendedKey(cls,
                         key_str: str,
-                        coin_type: Bip44Coins) -> Bip44Base:
+                        coin_type: Any) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
 
         Args:
-            key_str (str)         : Extended key string
-            coin_type (Bip44Coins): Coin type, must be a Bip44Coins enum
+            key_str (str)  : Extended key string
+            coin_type (Any): Coin type, shall be a Bip44Coins enum
 
         Returns:
             Bip object: Bip object
 
         Raises:
-            TypeError: If coin index is not a Bip44Coins enum
+            TypeError: If coin type is not a Bip44Coins enum
             Bip32KeyError: If the extended key is not valid
         """
+
+        # Bip44ConfGetter already checks the enum type
         return cls._FromExtendedKey(key_str,
                                     Bip44ConfGetter.GetConfig(coin_type))
 
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       coin_type: Bip44Coins) -> Bip44Base:
+                       coin_type: Any) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key
-            coin_type (Bip44Coins)         : Coin type, must be a Bip44Coins enum
+            coin_type (Any)                : Coin type, shall be a Bip44Coins enum
 
         Returns:
             Bip object: Bip object
 
         Raises:
-            TypeError: If coin index is not a Bip44Coins enum
+            TypeError: If coin type is not a Bip44Coins enum
             Bip32KeyError: If the key is not valid
         """
+
+        # Bip44ConfGetter already checks the enum type
         return cls._FromPrivateKey(priv_key,
                                    Bip44ConfGetter.GetConfig(coin_type))
 
