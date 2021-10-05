@@ -551,7 +551,7 @@ The constructed class will be a public-only object (see the example in the next 
 **Code example**
 
     import binascii
-    from bip_utils import Bip32Secp256k1, Secp256k1PublicKey
+    from bip_utils import Bip32KeyError, Bip32Secp256k1, Secp256k1PublicKey
 
     # Construct from public key bytes
     pub_key_bytes = binascii.unhexlify(b"0339a36013301597daef41fbe593a02cc513d0b55527ec2df1050e2e8ff49c85c2")
@@ -567,7 +567,10 @@ The constructed class will be a public-only object (see the example in the next 
     # Return true
     print(bip32_ctx.IsPublicOnly())
     # Getting the private key will raise a Bip32KeyError
-    print(bip32_ctx.PrivateKey().Raw().ToHex())
+    try:
+        print(bip32_ctx.PrivateKey().Raw().ToHex())
+    except Bip32KeyError as ex:
+        print(ex)
 
 ### Keys derivation
 
@@ -647,7 +650,7 @@ In case of a public-only object, only public derivation will be supported (only 
 
 **Code example**
 
-    from bip_utils import Bip32Secp256k1
+    from bip_utils import Bip32KeyError, Bip32Utils, Bip32Secp256k1
 
     # Derive from a public extended key
     key_str = "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"
@@ -665,10 +668,17 @@ In case of a public-only object, only public derivation will be supported (only 
     print(bip32_ctx.PublicKey().RawCompressed().ToHex())
 
     # Getting the private key will raise a Bip32KeyError
-    print(bip32_ctx.PrivateKey().Raw().ToHex())
+    try:
+        print(bip32_ctx.PrivateKey().Raw().ToHex())
+    except Bip32KeyError as ex:
+        print(ex)
+
     # Deriving with hardened indexes will raise a Bip32KeyError
-    bip32_ctx = bip32_ctx.ChildKey(Bip32Utils.HardenIndex(0))
-    bip32_ctx = bip32_ctx.DerivePath("1'/2")
+    try:
+        bip32_ctx = bip32_ctx.ChildKey(Bip32Utils.HardenIndex(0))
+        bip32_ctx = bip32_ctx.DerivePath("1'/2")
+    except Bip32KeyError as ex:
+        print(ex)
 
     # Derive from a private extended key
     key_str = "xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs"
@@ -685,7 +695,7 @@ However, the *Bip32Ed25519Slip* and *Bip32Ed25519Blake2bSlip* classes have some 
 For example:
 
     import binascii
-    from bip_utils import Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip
+    from bip_utils import Bip32KeyError, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
@@ -693,17 +703,27 @@ For example:
     bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
 
     # Public derivation, Bip32KeyError is raised
-    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
-    bip32_ctx.ConvertToPublic()
-    bip32_ctx.ChildKey(0)
+    try:
+        bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
+        bip32_ctx.ConvertToPublic()
+        bip32_ctx.ChildKey(0)
+    except Bip32KeyError as ex:
+        print(ex)
+
     # Same as before
-    bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0'/1'")
-    bip32_ctx.ConvertToPublic()
-    bip32_ctx.ChildKey(0)
+    try:
+        bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0'/1'")
+        bip32_ctx.ConvertToPublic()
+        bip32_ctx.ChildKey(0)
+    except Bip32KeyError as ex:
+        print(ex)
 
     # Not-hardened private key derivation, Bip32KeyError is raised
-    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0/1")
-    bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0/1")
+    try:
+        bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0/1")
+        bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0/1")
+    except Bip32KeyError as ex:
+        print(ex)
 
 ### Parse path
 
@@ -963,6 +983,12 @@ Most of the coins (especially the ones using the secp256k1 curve) use the comple
 However, this doesn't apply all coins. For example, Solana uses the following path to derive the address private key: m/44'/501'/0'\
 This can be derived manually, for example:
 
+    import binascii
+    from bip_utils import Bip44Coins, Bip44
+
+    # Seed bytes
+    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
+
     # Derive m/44'/501'/0'
     bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA)
     bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
@@ -970,6 +996,12 @@ This can be derived manually, for example:
     print(bip44_acc_ctx.PublicKey().ToAddress())
 
 However, in order to avoid remembering the default path for each coin, the *DeriveDefaultPath* method can be used to automatically derive the default path:
+
+    import binascii
+    from bip_utils import Bip44Coins, Bip44
+
+    # Seed bytes
+    seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
 
     # Automatically derive m/44'/501'/0'
     bip44_def_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.SOLANA).DeriveDefaultPath()
@@ -1184,7 +1216,7 @@ In case of a public-only object, only public derivation will be supported (only 
 **Code example**
 
     import binascii
-    from bip_utils import SubstrateCoins, Substrate
+    from bip_utils import SubstrateKeyError, SubstrateCoins, Substrate
 
     # Construction from public key
     pub_key_bytes = b"66933bd1f37070ef87bd1198af3dacceb095237f803f3d32b173e6b425ed7972"
@@ -1206,10 +1238,17 @@ In case of a public-only object, only public derivation will be supported (only 
     substrate_ctx = substrate_ctx.DerivePath("/0/1")
 
     # Getting the private key will raise a SubstrateKeyError
-    print(substrate_ctx.PrivateKey().Raw().ToHex())
+    try:
+        print(substrate_ctx.PrivateKey().Raw().ToHex())
+    except SubstrateKeyError as ex:
+        print(ex)
+
     # Deriving a hard path will raise a SubstrateKeyError
-    substrate_ctx = substrate_ctx.ChildKey("//hard")
-    substrate_ctx = substrate_ctx.DerivePath("//0/1")
+    try:
+        substrate_ctx = substrate_ctx.ChildKey("//hard")
+        substrate_ctx = substrate_ctx.DerivePath("//0/1")
+    except SubstrateKeyError as ex:
+        print(ex)
 
     # Construction from private key
     priv_key_bytes = b"2ec306fc1c5bc2f0e3a2c7a6ec6014ca4a0823a7d7d42ad5e9d7f376a1c36c0d14a2ddb1ef1df4adba49f3a4d8c0f6205117907265f09a53ccf07a4e8616dfd8"
@@ -1300,7 +1339,7 @@ A watch-only class can be constructed from the private view key and the public s
 **Code example**
 
     import binascii
-    from bip_utils import Monero, Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey
+    from bip_utils import MoneroKeyError, Monero, Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey
 
     # Keys
     priv_vkey_bytes = binascii.unhexlify(b"14467d1b9bb8d1fcfb5b7ae08cc9994367e917efd7e08cf94f9882ffa0629e09")
@@ -1314,7 +1353,10 @@ A watch-only class can be constructed from the private view key and the public s
     # Return true
     print(monero.IsWatchOnly())
     # Getting the private spend key will raise a MoneroKeyError
-    print(substrate_ctx.PrivateKey().Raw().ToHex())
+    try:
+        print(monero.PrivateSpendKey().Raw().ToHex())
+    except MoneroKeyError as ex:
+        print(ex)
 
 ### Example of usage
 
@@ -1364,25 +1406,31 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
     pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
-    # P2PKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
+    # P2PKH address (use the net version from Bip44 configuration, but you can also pass the parameters you want)
     addr = P2PKHAddr.EncodeKey(pub_key,
                                net_ver=Bip44BitcoinMainNet.AddrParamsKey("net_ver"))
-    # P2SH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
+    # P2SH address (use the net version from Bip49 configuration, but you can also pass the parameters you want)
     addr = P2SHAddr.EncodeKey(pub_key,
                                net_ver=Bip49BitcoinMainNet.AddrParamsKey("net_ver"))
-    # P2WPKH address (the default uses Bitcoin network address version, you can pass a different one as second parameter)
+    # P2WPKH address (use the net version from Bip84 configuration, but you can also pass the parameters you want)
     addr = P2WPKHAddr.EncodeKey(pub_key,
                                 hrp=Bip84BitcoinMainNet.AddrParamsKey("hrp"),
                                 wit_ver=Bip84BitcoinMainNet.AddrParamsKey("wit_ver"))
+    # Or simply:
+    addr = P2WPKHAddr.EncodeKey(pub_key,
+                                **Bip84BitcoinMainNet.AddrParams())
 
-    # P2PKH address in Bitcoin Cash format
+    # P2PKH address in Bitcoin Cash format (use the parameters from Bip44 configuration, but you can also pass the parameters you want)
     addr = BchP2PKHAddr.EncodeKey(pub_key,
                                   hrp=Bip44BitcoinCashMainNet.AddrParamsKey("hrp"),
                                   net_ver=Bip44BitcoinCashMainNet.AddrParamsKey("net_ver"))
-    # P2SH address in Bitcoin Cash format
+    # P2SH address in Bitcoin Cash format (use the parameters from Bip49 configuration, but you can also pass the parameters you want)
     addr = BchP2SHAddr.EncodeKey(pub_key,
                                  hrp=Bip49BitcoinCashMainNet.AddrParamsKey("hrp"),
                                  net_ver=Bip49BitcoinCashMainNet.AddrParamsKey("net_ver"))
+    # Or simply:
+    addr = BchP2SHAddr.EncodeKey(pub_key,
+                                 **Bip49BitcoinCashMainNet.AddrParams())
 
     # Ethereum address
     addr = EthAddr.EncodeKey(pub_key)
@@ -1484,7 +1532,6 @@ These libraries are used internally by the other libraries, but they are availab
     # Substrate address
     addr = SubstrateSr25519Addr.EncodeKey(pub_key,
                                           ss58_format=0)
-
 
 ## WIF
 
@@ -1631,7 +1678,7 @@ Some examples from mnemonic generation to wallet addresses.
     seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
     # Construct from seed
-    bip49_mst_ctx = Bip49.FromSeed(seed_bytes, Bip49Coins.BITCOIN)
+    bip49_mst_ctx = Bip49.FromSeed(seed_bytes, Bip49Coins.LITECOIN)
     # Print master key
     print(f"Master key (bytes): {bip49_mst_ctx.PrivateKey().Raw().ToHex()}")
     print(f"Master key (extended): {bip49_mst_ctx.PrivateKey().ToExtended()}")
