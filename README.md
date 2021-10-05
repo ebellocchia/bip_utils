@@ -1447,8 +1447,7 @@ These libraries are used internally by the other libraries, but they are availab
     addr = AtomAddr.EncodeKey(pub_key,
                               hrp="bnb")
     # Filecoin address
-    addr = FilAddr.EncodeKey(pub_key,
-                             addr_type=FillAddrTypes.SECP256K1)
+    addr = FilSecp256k1Addr.EncodeKey(pub_key)
     # OKEx Chain address
     addr = OkexAddr.EncodeKey(pub_key)
     # Harmony One address
