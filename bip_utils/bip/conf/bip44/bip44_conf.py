@@ -338,8 +338,8 @@ Bip44Filecoin: BipCoinConf = BipCoinConf(
     key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
     wif_net_ver=None,
     bip32_cls=Bip32Secp256k1,
-    addr_cls=FilAddr,
-    addr_params={"addr_type": FillAddrTypes.SECP256K1},
+    addr_cls=FilSecp256k1Addr,
+    addr_params={},
 )
 
 # Configuration for Harmony One (Metamask address)

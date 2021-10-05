@@ -50,38 +50,21 @@ class FilAddrConst:
     PREFIX: str = "f"
 
 
-class FilAddr(IAddrEncoder):
-    """ Filecoin address class. It allows the Filecoin address generation. """
+class FilAddrUtils:
+    """ Class container for Filecoin address utility functions. """
 
     @staticmethod
-    def EncodeKey(pub_key: Union[bytes, IPublicKey],
-                  **kwargs: Any) -> str:
-        """ Get address in Filecoin format.
+    def EncodeKeyBytes(pub_key_bytes: bytes,
+                       addr_type: FillAddrTypes) -> str:
+        """ Get address in Filecoin format from public key bytes.
 
         Args:
-            pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
-
-        Other Parameters:
+            pub_key_bytes (bytes)    : Public key bytes
             addr_type (FillAddrTypes): Address type
 
         Returns:
             str: Address string
-
-        Raised:
-            ValueError: If the public key is not valid
-            TypeError: If the public key is not secp256k1 or the address type is not valid
         """
-
-        # Get and check address type
-        addr_type = kwargs["addr_type"]
-        if not isinstance(addr_type, FillAddrTypes):
-            raise TypeError("Address type is not an enumerative of FillAddrTypes")
-
-        # Get public key
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
-        pub_key_bytes = pub_key_obj.RawUncompressed().ToBytes()
-
         # Get address type
         addr_type_str = chr(addr_type + ord("0"))
         addr_type_byte = ConvUtils.IntegerToBytes(addr_type)
@@ -95,3 +78,28 @@ class FilAddr(IAddrEncoder):
         b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + checksum, FilAddrConst.BASE32_ALPHABET)
 
         return FilAddrConst.PREFIX + addr_type_str + b32_enc
+
+
+class FilSecp256k1Addr(IAddrEncoder):
+    """ Filecoin address class based on secp256k1 keys. It allows the Filecoin address generation. """
+
+    @staticmethod
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                  **kwargs: Any) -> str:
+        """ Get address in Filecoin format.
+
+        Args:
+            pub_key (bytes or IPublicKey): Public key bytes or object
+            **kwargs: Not used
+
+        Returns:
+            str: Address string
+
+        Raised:
+            ValueError: If the public key is not valid
+            TypeError: If the public key is not secp256k1 or the address type is not valid
+        """
+        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_bytes = pub_key_obj.RawUncompressed().ToBytes()
+
+        return FilAddrUtils.EncodeKeyBytes(pub_key_bytes, FillAddrTypes.SECP256K1)

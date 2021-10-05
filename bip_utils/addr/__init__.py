@@ -5,7 +5,7 @@ from bip_utils.addr.avax_addr import AvaxPChainAddr, AvaxXChainAddr
 from bip_utils.addr.egld_addr import EgldAddr
 from bip_utils.addr.eos_addr import EosAddr
 from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.addr.fil_addr import FillAddrTypes, FilAddr
+from bip_utils.addr.fil_addr import FilSecp256k1Addr
 from bip_utils.addr.okex_addr import OkexAddr
 from bip_utils.addr.nano_addr import NanoAddr
 from bip_utils.addr.neo_addr import NeoAddr

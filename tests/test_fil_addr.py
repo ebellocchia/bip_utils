@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import FillAddrTypes, FilAddr, Secp256k1PublicKey
+from bip_utils import FilSecp256k1Addr, Secp256k1PublicKey
 from .test_ecc import (
     TEST_VECT_SECP256K1_PUB_KEY_INVALID, TEST_SECP256K1_PUB_KEY,
     TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
@@ -34,27 +34,22 @@ TEST_VECT = [
     {
         "pub_key": b"0258742e7596b2cb998b42dddffd7b5c7ba30702876f899d6f7188d23285fc3208",
         "address": "f1hqdqidehi276cscqehffoyr7qzxn2foumjpq5zq",
-        "addr_type": FillAddrTypes.SECP256K1,
     },
     {
         "pub_key": b"03ad9c631c2fac4adca03c1abf9e473dc9bd6dca7868e6b961ebb81547819c6e8c",
         "address": "f1wp33qygxrlon4axdhim5cqlyfpv75wokvcfdgyy",
-        "addr_type": FillAddrTypes.SECP256K1,
     },
     {
         "pub_key": b"036d34f7fde5eedcea7c35e59112abee4786190cec263469b8a92fa15222999cff",
         "address": "f1txp5wggfletonal5ivc4dcdkgcsipwg4fte42wi",
-        "addr_type": FillAddrTypes.SECP256K1,
     },
     {
         "pub_key": b"03560c22685ce5837b897bd553a4e23af0bf464ef72ddbb32d252d1fbcec4f8c81",
         "address": "f1k3gidardziywl37nbnfwad6eaeomq74xwcs2wxq",
-        "addr_type": FillAddrTypes.SECP256K1,
     },
     {
         "pub_key": b"021e8c1330274bd99ba01e019f2cbe07e8822f8b8919f4c1cb38d389903d67f158",
         "address": "f1m24kgttzcfhdbrwy7fxljbuhrl6dtdcqhy4xnla",
-        "addr_type": FillAddrTypes.SECP256K1,
     },
 ]
 
@@ -69,24 +64,18 @@ class FilAddrTests(unittest.TestCase):
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            self.assertEqual(test["address"], FilAddr.EncodeKey(key_bytes,
-                                                                addr_type=test["addr_type"]))
-            self.assertEqual(test["address"], FilAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes),
-                                                                addr_type=test["addr_type"]))
+            self.assertEqual(test["address"], FilSecp256k1Addr.EncodeKey(key_bytes))
+            self.assertEqual(test["address"], FilSecp256k1Addr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes)))
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Test with invalid key types
-        self.assertRaises(TypeError, FilAddr.EncodeKey, TEST_ED25519_PUB_KEY, addr_type=FillAddrTypes.SECP256K1)
-        self.assertRaises(TypeError, FilAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, addr_type=FillAddrTypes.SECP256K1)
-        self.assertRaises(TypeError, FilAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, addr_type=FillAddrTypes.SECP256K1)
-        self.assertRaises(TypeError, FilAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, addr_type=FillAddrTypes.SECP256K1)
-        self.assertRaises(TypeError, FilAddr.EncodeKey, TEST_SR25519_PUB_KEY, addr_type=FillAddrTypes.SECP256K1)
+        self.assertRaises(TypeError, FilSecp256k1Addr.EncodeKey, TEST_ED25519_PUB_KEY)
+        self.assertRaises(TypeError, FilSecp256k1Addr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
+        self.assertRaises(TypeError, FilSecp256k1Addr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
+        self.assertRaises(TypeError, FilSecp256k1Addr.EncodeKey, TEST_NIST256P1_PUB_KEY)
+        self.assertRaises(TypeError, FilSecp256k1Addr.EncodeKey, TEST_SR25519_PUB_KEY)
 
         # Test vector
         for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, FilAddr.EncodeKey, binascii.unhexlify(test), addr_type=FillAddrTypes.SECP256K1)
-
-    # Test invalid parameters
-    def test_invalid_params(self):
-        self.assertRaises(TypeError, FilAddr.EncodeKey, TEST_SECP256K1_PUB_KEY, addr_type=0)
+            self.assertRaises(ValueError, FilSecp256k1Addr.EncodeKey, binascii.unhexlify(test))
