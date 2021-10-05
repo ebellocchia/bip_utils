@@ -493,7 +493,7 @@ In addition to a seed, it's also possible to specify a derivation path.
 
 ### Construction from extended key
 
-Alternatively, the class can be constructed directly from an extended key.\
+The class can be constructed directly from an extended key.\
 The returned object will be at the same depth of the specified key.
 
 **Code example**
@@ -522,7 +522,7 @@ The returned object will be at the same depth of the specified key.
 
 ### Construction from private key
 
-Finally, the class can be constructed directly from a private key. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Tthe class can be constructed directly from a private key. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.
 
 **Code example**
@@ -540,7 +540,34 @@ Therefore, the returned object will have a depth equal to zero, a zero chain cod
     print(bip32_ctx.PublicKey().RawCompressed().ToHex())
     print(bip32_ctx.Depth().ToInt())
     print(bip32_ctx.ChainCode())
-    print(bip32_ctx.ParentFingerPrint().ToHex())
+    print(bip32_ctx.ParentFingerPrint().ToBytes())
+
+### Construction from public key
+
+Tthe class can be constructed directly from a public key. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.\
+The constructed class will be a public-only object (see the example in the next paragraph), so it won't support hardened derivation.
+
+**Code example**
+
+    import binascii
+    from bip_utils import Bip32Secp256k1, Secp256k1PublicKey
+
+    # Construct from public key bytes
+    pub_key_bytes = binascii.unhexlify(b"0339a36013301597daef41fbe593a02cc513d0b55527ec2df1050e2e8ff49c85c2")
+    bip32_ctx = Bip32Secp256k1.FromPublicKey(pub_key_bytes)
+    # Or key object directly (the curve shall match the one of the Bip32 class, otherwise a Bip32KeyError will be raised)
+    bip32_ctx = Bip32Secp256k1.FromPublicKey(Secp256k1PublicKey.FromBytes(pub_key_bytes))
+    # Print keys and data
+    print(bip32_ctx.PublicKey().RawCompressed().ToHex())
+    print(bip32_ctx.Depth().ToInt())
+    print(bip32_ctx.ChainCode())
+    print(bip32_ctx.ParentFingerPrint().ToBytes())
+
+    # Return true
+    print(bip32_ctx.IsPublicOnly())
+    # Getting the private key will raise a Bip32KeyError
+    print(bip32_ctx.PrivateKey().Raw().ToHex())
 
 ### Keys derivation
 
