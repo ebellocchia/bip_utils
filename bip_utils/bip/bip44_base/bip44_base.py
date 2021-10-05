@@ -212,11 +212,11 @@ class Bip44Base(ABC):
         return self.m_bip32.IsPublicOnly()
 
     def IsLevel(self,
-                level_idx: int) -> bool:
+                level: Bip44Levels) -> bool:
         """ Return if the current depth is the specified one.
 
         Args:
-            level_idx (int): Level to be checked
+            level (Bip44Levels): Level to be checked
 
         Returns:
             bool: True if it's the specified level, false otherwise
@@ -224,10 +224,10 @@ class Bip44Base(ABC):
         Raises:
             TypeError: If the level index is not a Bip44Levels enum
         """
-        if not isinstance(level_idx, Bip44Levels):
+        if not isinstance(level, Bip44Levels):
             raise TypeError("Level is not an enumerative of Bip44Levels")
 
-        return self.m_bip32.Depth() == level_idx
+        return self.m_bip32.Depth() == level
 
     #
     # Class methods ("protected", in the sense that they are called only internally)
