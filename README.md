@@ -522,7 +522,7 @@ The returned object will be at the same depth of the specified key.
 
 ### Construction from private key
 
-Tthe class can be constructed directly from a private key. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+The class can be constructed directly from a private key. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.
 
 **Code example**
@@ -544,7 +544,7 @@ Therefore, the returned object will have a depth equal to zero, a zero chain cod
 
 ### Construction from public key
 
-Tthe class can be constructed directly from a public key. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+The class can be constructed directly from a public key. The key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.\
 The constructed class will be a public-only object (see the example in the next paragraph), so it won't support hardened derivation.
 
@@ -856,8 +856,8 @@ A Bip class can be constructed from a seed, like *Bip32*. The seed can be specif
 
 ### Construction from extended key
 
-Alternatively, a Bip class can be constructed directly from an extended key.\
-The returned Bip object will be at the same depth of the specified key.
+A Bip class can be constructed directly from an extended key.\
+The returned Bip object will be at the same depth of the specified key. If the depth of the key is not valid, a *Bip44DepthError* exception will be raised.
 
 **Code example**
 
@@ -870,7 +870,7 @@ The returned Bip object will be at the same depth of the specified key.
 
 ### Construction from private key
 
-Finally, a Bip class can be constructed directly from a private key. Like *Bip32*, the key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+A Bip class can be constructed directly from a private key. Like *Bip32*, the key will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth equal to zero, a zero chain code and parent fingerprint.
 
 **Code example**
@@ -1107,9 +1107,9 @@ The class can be constructed from a seed, like *Bip32*. The seed can be specifie
     # Construction from seed by specifying the path
     substrate_ctx = Substrate.FromSeedAndPath(seed_bytes, "//hard/soft", SubstrateCoins.POLKADOT)
 
-### Construction from keys
+### Construction from private/public key
 
-The class can also be constructed from a private or a public key.
+The class can be constructed from a private or a public key.
 
 **Code example**
 
@@ -1274,7 +1274,7 @@ In case of a 24/25 words phrase, the seed corresponds to the private spend key. 
 
 ### Construction from private spend key
 
-In alternative, the class can be constructed directly from the private spend key.
+The class can be constructed directly from the private spend key.
 
 **Code example**
 
@@ -1291,7 +1291,7 @@ In alternative, the class can be constructed directly from the private spend key
 
 ### Construction from Bip44 private key
 
-Finally, the class can be constructed from a *Bip44* private key. Please refer to the related paragraph.
+The class can be constructed from a *Bip44* private key. Please refer to the related paragraph in the Bip44 chapter.
 
 ### Watch-only class
 
