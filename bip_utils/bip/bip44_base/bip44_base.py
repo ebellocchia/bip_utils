@@ -235,12 +235,14 @@ class Bip44Base(ABC):
 
     @classmethod
     def _DeriveDefaultPathGeneric(cls,
-                                  bip_obj: Bip44Base) -> Bip44Base:
+                                  bip_obj: Bip44Base,
+                                  purpose: int) -> Bip44Base:
         """ Derive the default coin path and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It shall be called from a child class.
 
         Args:
             bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            purpose (int)             : Purpose
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -255,7 +257,7 @@ class Bip44Base(ABC):
             )
 
         # Derive purpose and coin by default
-        bip_obj = cls._PurposeGeneric(bip_obj)
+        bip_obj = cls._PurposeGeneric(bip_obj, purpose)
         bip_obj = cls._CoinGeneric(bip_obj)
 
         # Derive the remaining path
@@ -264,12 +266,14 @@ class Bip44Base(ABC):
 
     @classmethod
     def _PurposeGeneric(cls,
-                        bip_obj: Bip44Base) -> Bip44Base:
+                        bip_obj: Bip44Base,
+                        purpose: int) -> Bip44Base:
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
         It shall be called from a child class.
 
         Args:
             bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            purpose (int)             : Purpose
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -283,7 +287,7 @@ class Bip44Base(ABC):
                 f"Current depth ({bip_obj.m_bip32.Depth().ToInt()}) is not suitable for deriving purpose"
             )
 
-        return cls(bip_obj.m_bip32.ChildKey(cls._GetPurpose()),
+        return cls(bip_obj.m_bip32.ChildKey(purpose),
                    bip_obj.m_coin_conf)
 
     @classmethod
@@ -515,15 +519,5 @@ class Bip44Base(ABC):
 
         Returns:
             str: Specification name
-        """
-        pass
-
-    @staticmethod
-    @abstractmethod
-    def _GetPurpose() -> int:
-        """ Get purpose.
-
-        Returns:
-            int: Purpose index
         """
         pass

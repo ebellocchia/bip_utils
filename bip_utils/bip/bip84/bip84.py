@@ -125,7 +125,7 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._DeriveDefaultPathGeneric(self)
+        return self._DeriveDefaultPathGeneric(self, Bip84Const.PURPOSE)
 
     def Purpose(self) -> Bip44Base:
         """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
@@ -138,7 +138,7 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._PurposeGeneric(self)
+        return self._PurposeGeneric(self, Bip84Const.PURPOSE)
 
     def Coin(self) -> Bip44Base:
         """ Derive a child key from the coin type specified at construction and return
@@ -214,12 +214,3 @@ class Bip84(Bip44Base):
             str: Specification name
         """
         return Bip84Const.SPEC_NAME
-
-    @staticmethod
-    def _GetPurpose() -> int:
-        """ Get purpose.
-
-        Returns:
-            int: Purpose index
-        """
-        return Bip84Const.PURPOSE
