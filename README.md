@@ -185,7 +185,7 @@ Supported entropy bits:
 |224|*Bip39EntropyBitLen.BIT_LEN_224*|
 |256|*Bip39EntropyBitLen.BIT_LEN_256*|
 
-Supported languages (if not specified, the default is English):
+Supported languages:
 
 |Language|Enum|
 |---|---|
@@ -345,7 +345,7 @@ Supported entropy bits:
 |128|*MoneroEntropyBitLen.BIT_LEN_128*|
 |256|*MoneroEntropyBitLen.BIT_LEN_256*|
 
-Supported languages (if not specified, the default is English):
+Supported languages:
 
 |Language|Enum|
 |---|---|
@@ -1825,7 +1825,7 @@ Some examples from mnemonic generation to wallet addresses.
 # Buy me a coffee
 
 You know, I'm italian and I love drinking coffee (especially while coding :D). So, if you'd like to buy me one:
-- BTC: bc1qxr3camglhmrcl5uhs2m5hmaxmrxf47krs3fzpm
+- BTC: bc1qq4r9cglwzd6f2hzxvdkucmdejvr9h8me5hy0k8
 - ETH: 0xf84e4898E5E10bf1fBe9ffA3EEC845e82e364b5B (both ERC20 and BEP20 tokens are fine)
 
 Thank you very much for your support.
