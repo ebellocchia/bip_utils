@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
 from __future__ import annotations
