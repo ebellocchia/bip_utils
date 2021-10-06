@@ -20,7 +20,7 @@ bech32
 segwit
 substrate
 
-# Coins
+# BIP coins
 algorand
 atom
 avalanche
