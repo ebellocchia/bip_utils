@@ -667,6 +667,7 @@ class SubstrateTests(unittest.TestCase):
         if SubstratePathElem(test["path_elem"]).IsHard():
             self.assertEqual(test["priv_key"], substrate_ctx.PrivateKey().Raw().ToHex())
         else:
+            # Consider only the first 32 bytes for public derivation
             self.assertEqual(test["priv_key"][:64], substrate_ctx.PrivateKey().Raw().ToHex()[:64])
 
     # Test public derivation
