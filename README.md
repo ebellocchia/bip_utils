@@ -82,9 +82,9 @@ The package currently supports the following BIP coins:
 - Zcash (and related test net)
 - Zilliqa
 
-For what regards Monero, it's also possible to generate the same addresses of the official wallets by using it without BIP44 derivation.
+For what regards Monero, it's also possible to generate the same addresses of the official wallets without using BIP44 derivation.
 
-And the following Substrate coins (same addresses of Polkadot-JS and similar):
+Moreover, the following Substrate coins are supported (same addresses of Polkadot-JS and similar):
 - Acala
 - Bifrost
 - Chainx
