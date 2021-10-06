@@ -20,11 +20,12 @@
 
 
 # Imports
-from enum import Enum, auto, unique
+from enum import auto, unique
+from bip_utils.bip.conf.common import BipCoins
 
 
 @unique
-class Bip44Coins(Enum):
+class Bip44Coins(BipCoins):
     """ Enumerative for supported BIP44 coins. """
 
     # Main nets

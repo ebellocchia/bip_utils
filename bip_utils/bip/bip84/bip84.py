@@ -20,10 +20,11 @@
 
 
 # Imports
-from typing import Any, Union
+from typing import Union
 from bip_utils.bip.bip32 import Bip32Utils
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Base
 from bip_utils.bip.conf.bip84 import Bip84ConfGetter
+from bip_utils.bip.conf.common import BipCoins
 from bip_utils.ecc import IPrivateKey
 
 
@@ -48,14 +49,14 @@ class Bip84(Bip44Base):
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
-                 coin_type: Any) -> Bip44Base:
+                 coin_type: BipCoins) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
         The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
         or purpose keys, you have to specify here if it's a test net.
 
         Args:
-            seed_bytes (bytes): Seed bytes
-            coin_type (Any)   : Coin type, shall be a Bip84Coins enum
+            seed_bytes (bytes)  : Seed bytes
+            coin_type (BipCoins): Coin type, shall be a Bip84Coins enum
 
         Returns:
             Bip object: Bip object
@@ -73,12 +74,12 @@ class Bip84(Bip44Base):
     @classmethod
     def FromExtendedKey(cls,
                         key_str: str,
-                        coin_type: Any) -> Bip44Base:
+                        coin_type: BipCoins) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
 
         Args:
-            key_str (str)  : Extended key string
-            coin_type (Any): Coin type, shall be a Bip84Coins enum
+            key_str (str)       : Extended key string
+            coin_type (BipCoins): Coin type, shall be a Bip84Coins enum
 
         Returns:
             Bip object: Bip object
@@ -95,14 +96,14 @@ class Bip84(Bip44Base):
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       coin_type: Any) -> Bip44Base:
+                       coin_type: BipCoins) -> Bip44Base:
         """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key
-            coin_type (Any)                : Coin type, shall be a Bip84Coins enum
+            coin_type (BipCoins)           : Coin type, shall be a Bip84Coins enum
 
         Returns:
             Bip object: Bip object

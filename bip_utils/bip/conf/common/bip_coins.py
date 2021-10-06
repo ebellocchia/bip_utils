@@ -20,27 +20,9 @@
 
 
 # Imports
-from enum import auto, unique
-from bip_utils.bip.conf.common import BipCoins
+from enum import Enum
 
 
-@unique
-class Bip49Coins(BipCoins):
-    """ Enumerative for supported BIP49 coins. """
-
-    # Main nets
-    BITCOIN = auto()
-    BITCOIN_CASH = auto()
-    BITCOIN_SV = auto()
-    DASH = auto()
-    DOGECOIN = auto()
-    LITECOIN = auto()
-    ZCASH = auto()
-    # Test nets
-    BITCOIN_CASH_TESTNET = auto()
-    BITCOIN_SV_TESTNET = auto()
-    BITCOIN_TESTNET = auto()
-    DASH_TESTNET = auto()
-    DOGECOIN_TESTNET = auto()
-    LITECOIN_TESTNET = auto()
-    ZCASH_TESTNET = auto()
+class BipCoins(Enum):
+    """ Base enum for bip coins. """
+    pass

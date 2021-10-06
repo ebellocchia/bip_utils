@@ -24,6 +24,7 @@ from typing import Dict
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.bip.conf.bip44.bip44_coins import Bip44Coins
 from bip_utils.bip.conf.bip44.bip44_conf import *
+from bip_utils.bip.conf.common import BipCoins
 
 
 class Bip44ConfGetterConst:
@@ -93,15 +94,15 @@ class Bip44ConfGetter:
     """ Bip44 configuration getter class. It allows to get the Bip44 configuration of a specific coin. """
 
     @staticmethod
-    def GetConfig(coin_type: Bip44Coins) -> BipCoinConf:
+    def GetConfig(coin_type: BipCoins) -> BipCoinConf:
         """ Get coin configuration.
 
         Args:
-            coin_type (Bip44Coins): Coin type
+            coin_type (BipCoins): Coin type
 
         Returns:
             BipCoinConf: Coin configuration
         """
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin type is not an enumerative of Bip44Coins")
-        return Bip44ConfGetterConst.COIN_TO_CONF[coin_type]
+        return Bip44ConfGetterConst.COIN_TO_CONF[Bip44Coins(coin_type)]
