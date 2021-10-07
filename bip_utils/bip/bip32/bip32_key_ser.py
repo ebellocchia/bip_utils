@@ -97,6 +97,9 @@ class Bip32KeyDeserializer:
         Returns:
             tuple: Deserialized key parts
         """
+        if self.m_key_data is None:
+            raise ValueError("Deserialize key before getting key parts")
+
         return self.m_key_bytes, self.m_key_data
 
     def IsPublic(self) -> bool:
