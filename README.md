@@ -205,7 +205,7 @@ Supported languages:
     from bip_utils import Bip39EntropyBitLen, Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39Languages
 
     # Generate a random mnemonic string of 12 words with default language (English)
-    # A Bip39Mnemonic object will be returned
+    # A Mnemonic object will be returned
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
 
     # Get words count
@@ -366,7 +366,7 @@ Supported languages:
     from bip_utils import MoneroEntropyBitLen, MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroWordsNum, MoneroLanguages
 
     # Generate a random mnemonic string of 25 words with default language (English)
-    # A MoneroMnemonic object will be returned
+    # A Mnemonic object will be returned
     mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25)
 
     # Get words count
