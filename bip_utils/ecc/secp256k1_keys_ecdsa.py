@@ -31,7 +31,7 @@ from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.utils.misc import DataBytes
 
 
-class Secp256k1Point(IPoint):
+class Secp256k1PointEcdsa(IPoint):
     """ Secp256k1 point class. """
 
     m_point: ellipticcurve.PointJacobi
@@ -126,7 +126,7 @@ class Secp256k1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1Point(self.m_point + point.UnderlyingObject())
+        return Secp256k1PointEcdsa(self.m_point + point.UnderlyingObject())
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -150,7 +150,7 @@ class Secp256k1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1Point(self.m_point * scalar)
+        return Secp256k1PointEcdsa(self.m_point * scalar)
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
@@ -165,7 +165,7 @@ class Secp256k1Point(IPoint):
         return self * scalar
 
 
-class Secp256k1PublicKey(IPublicKey):
+class Secp256k1PublicKeyEcdsa(IPublicKey):
     """ Secp256k1 public key class. """
 
     m_ver_key: ecdsa.VerifyingKey
@@ -285,10 +285,10 @@ class Secp256k1PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1Point(self.m_ver_key.pubkey.point)
+        return Secp256k1PointEcdsa(self.m_ver_key.pubkey.point)
 
 
-class Secp256k1PrivateKey(IPrivateKey):
+class Secp256k1PrivateKeyEcdsa(IPrivateKey):
     """ Secp256k1 private key class. """
 
     m_sign_key = ecdsa.SigningKey
@@ -367,4 +367,4 @@ class Secp256k1PrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Secp256k1PublicKey(self.m_sign_key.get_verifying_key())
+        return Secp256k1PublicKeyEcdsa(self.m_sign_key.get_verifying_key())

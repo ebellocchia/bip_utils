@@ -202,7 +202,7 @@ class Bip32Ed25519Blake2bSlipTests(unittest.TestCase):
 
     # Run all tests in test vector using FromPublicKey for construction
     def test_from_pub_key(self):
-        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_pub_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
 
     # Test invalid extended key
     def test_invalid_ex_key(self):

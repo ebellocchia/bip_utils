@@ -159,12 +159,9 @@ class Bip32BaseTestHelper:
             pub_key_bytes = binascii.unhexlify(test["master"]["pub_key"])
             pub_key_cls = EllipticCurveGetter.FromType(test["curve_type"]).PublicKeyClass()
 
-            print(pub_key_bytes.hex())
-            print(pub_key_cls)
-
             # Test constructing both from bytes and key object
             Bip32BaseTestHelper.__test_from_pub_key(ut_class, bip32_class, test, pub_key_bytes)
-            Bip32BaseTestHelper.__test_from_pub_key(ut_class, bip32_class, test, pub_key_cls.FromBytes(priv_key_bytes))
+            Bip32BaseTestHelper.__test_from_pub_key(ut_class, bip32_class, test, pub_key_cls.FromBytes(pub_key_bytes))
 
     # Test public derivation from extended key
     @staticmethod

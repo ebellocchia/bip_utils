@@ -23,14 +23,13 @@
 # Imports
 import coincurve
 from typing import Any
-from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.utils.misc import ConvUtils, DataBytes
 
 
-class Secp256k1Point(IPoint):
+class Secp256k1PointCoincurve(IPoint):
     """ Secp256k1 point class.
     In coincurve library, all the point functions (e.g. add, multiply) are coded inside the
     PublicKey class. For this reason, a PublicKey is used as underlying object.
@@ -128,7 +127,7 @@ class Secp256k1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1Point(self.m_pub_key.combine([point.UnderlyingObject()]))
+        return Secp256k1PointCoincurve(self.m_pub_key.combine([point.UnderlyingObject()]))
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -152,7 +151,7 @@ class Secp256k1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1Point(self.m_pub_key.multiply(ConvUtils.IntegerToBytes(scalar)))
+        return Secp256k1PointCoincurve(self.m_pub_key.multiply(ConvUtils.IntegerToBytes(scalar)))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
@@ -167,7 +166,7 @@ class Secp256k1Point(IPoint):
         return self * scalar
 
 
-class Secp256k1PublicKey(IPublicKey):
+class Secp256k1PublicKeyCoincurve(IPublicKey):
     """ Secp256k1 public key class. """
 
     m_ver_key: coincurve.PublicKey
@@ -285,10 +284,10 @@ class Secp256k1PublicKey(IPublicKey):
             IPoint object: IPoint object
         """
         point = self.m_ver_key.point()
-        return Secp256k1Point.FromCoordinates(point[0], point[1])
+        return Secp256k1PointCoincurve.FromCoordinates(point[0], point[1])
 
 
-class Secp256k1PrivateKey(IPrivateKey):
+class Secp256k1PrivateKeyCoincurve(IPrivateKey):
     """ Secp256k1 private key class. """
 
     m_sign_key: coincurve.PrivateKey
@@ -370,4 +369,4 @@ class Secp256k1PrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Secp256k1PublicKey(self.m_sign_key.public_key)
+        return Secp256k1PublicKeyCoincurve(self.m_sign_key.public_key)

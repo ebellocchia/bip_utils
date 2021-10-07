@@ -20,24 +20,43 @@
 
 
 # Imports
+from typing import Type
 from bip_utils.ecc.conf import EccConf
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.ikeys import IPoint
+from bip_utils.ecc.ikeys import IPoint, IPrivateKey, IPublicKey
 
 
+# Variables
+Secp256k1Point: Type[IPoint]
+Secp256k1PublicKey: Type[IPublicKey]
+Secp256k1PrivateKey: Type[IPrivateKey]
 _CURVE_ORDER: int
 _GENERATOR: IPoint
 
-# Select the correct curve order and generator
+# Use classes from coincurve version
 if EccConf.USE_COINCURVE:
-    from bip_utils.ecc.secp256k1_keys_coincurve import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+    from bip_utils.ecc.secp256k1_keys_coincurve import (
+        Secp256k1PointCoincurve, Secp256k1PublicKeyCoincurve, Secp256k1PrivateKeyCoincurve
+    )
+
+    Secp256k1Point = Secp256k1PointCoincurve
+    Secp256k1PublicKey = Secp256k1PublicKeyCoincurve
+    Secp256k1PrivateKey = Secp256k1PrivateKeyCoincurve
 
     _CURVE_ORDER = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
     _GENERATOR = Secp256k1Point.FromCoordinates(0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798,
-                                                        0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8)
+                                                0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8)
+
+# Use classes from ecdsa version
 else:
     from ecdsa.ecdsa import generator_secp256k1
-    from bip_utils.ecc.secp256k1_keys_ecdsa import Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+    from bip_utils.ecc.secp256k1_keys_ecdsa import (
+        Secp256k1PointEcdsa, Secp256k1PublicKeyEcdsa, Secp256k1PrivateKeyEcdsa
+    )
+
+    Secp256k1Point = Secp256k1PointEcdsa
+    Secp256k1PublicKey = Secp256k1PublicKeyEcdsa
+    Secp256k1PrivateKey = Secp256k1PrivateKeyEcdsa
 
     _CURVE_ORDER = generator_secp256k1.order()
     _GENERATOR = Secp256k1Point(generator_secp256k1)

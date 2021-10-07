@@ -289,7 +289,7 @@ class Bip32Secp256k1Tests(unittest.TestCase):
 
     # Run all tests in test vector using FromPublicKey for construction
     def test_from_pub_key(self):
-        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_pub_key(self, Bip32Secp256k1, TEST_VECT)
 
     # Test public derivation from extended key
     def test_public_derivation_ex_key(self):
