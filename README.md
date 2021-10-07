@@ -539,7 +539,7 @@ Therefore, the returned object will have a depth equal to zero, a zero chain cod
     print(bip32_ctx.PrivateKey().Raw().ToHex())
     print(bip32_ctx.PublicKey().RawCompressed().ToHex())
     print(bip32_ctx.Depth().ToInt())
-    print(bip32_ctx.ChainCode())
+    print(bip32_ctx.ChainCode().ToBytes())
     print(bip32_ctx.ParentFingerPrint().ToBytes())
 
 ### Construction from public key
@@ -561,7 +561,7 @@ The constructed class will be a public-only object (see the example in the next 
     # Print keys and data
     print(bip32_ctx.PublicKey().RawCompressed().ToHex())
     print(bip32_ctx.Depth().ToInt())
-    print(bip32_ctx.ChainCode())
+    print(bip32_ctx.ChainCode().ToBytes())
     print(bip32_ctx.ParentFingerPrint().ToBytes())
 
     # Return true
@@ -623,7 +623,7 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     print(bip32_ctx.Depth().ToBytes())
     print(bytes(bip32_ctx.Depth()))
 
-    print(bip32_ctx.ChainCode())
+    print(bip32_ctx.ChainCode().ToBytes())
 
     print(bip32_ctx.FingerPrint().IsMasterKey())
     print(bip32_ctx.FingerPrint().ToBytes())
