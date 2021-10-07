@@ -22,7 +22,7 @@
 # Imports
 import binascii
 from bip_utils import (
-    Bip44Coins, Bip44Changes, Bip44Levels, Bip44DepthError, Bip32KeyError, Monero
+    Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError, Bip32KeyError, Monero
 )
 
 
@@ -107,7 +107,8 @@ class Bip44BaseTestHelper:
                 test["addresses_legacy"]["cls"].UseLegacyAddress(False)
 
             # Only for Litecoin and Litecoin test net, test deprecated addresses
-            if test["coin"] in (Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET) and "addresses_depr" in test:
+            if test["coin"] in (Bip44Coins.LITECOIN, Bip44Coins.LITECOIN_TESTNET,
+                                Bip49Coins.LITECOIN, Bip49Coins.LITECOIN_TESTNET) and "addresses_depr" in test:
                 # Set flag
                 test["addresses_depr"]["cls"].UseDeprecatedAddress(True)
                 # Test addresses (bip_obj_ctx is already the external chain)
