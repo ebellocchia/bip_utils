@@ -29,7 +29,7 @@ from bip_utils import (
 from .test_ecc import (
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
     TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY,
-    TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID, TEST_SR25519_PRIV_KEY
+    TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID, TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY
 )
 
 # Test vector
@@ -623,6 +623,7 @@ class SubstrateTests(unittest.TestCase):
         self.assertRaises(TypeError, Substrate.FromSeed, binascii.unhexlify(TEST_SEED), 0)
         self.assertRaises(TypeError, Substrate.FromSeedAndPath, binascii.unhexlify(TEST_SEED), 0)
         self.assertRaises(TypeError, Substrate.FromPrivateKey, TEST_SR25519_PRIV_KEY, 0)
+        self.assertRaises(TypeError, Substrate.FromPublicKey, TEST_SR25519_PUB_KEY, 0)
 
         self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_PRIV_KEY, SubstrateCoins.POLKADOT)
         self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY, SubstrateCoins.POLKADOT)
