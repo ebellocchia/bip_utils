@@ -41,100 +41,100 @@ TEST_VECT = [
         "key_bytes": b"5e9441950b3918772cc3da1fc6735b7c33f1bbe08a8f1e704be46cb664f7e457",
         "encode": "5JXwUhNu98kXkyhR8EpvpaTGRjj8JZEP7hWboB5xscgjbgK2zNk",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44BitcoinMainNet.WifNetVersion(),
+        "net_ver": Bip44BitcoinMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"5e9441950b3918772cc3da1fc6735b7c33f1bbe08a8f1e704be46cb664f7e457",
         "encode": "92Ja4SCSjMpfj3ChkaiqhB1E5Q5qTimaTeNYsoSUDMRnNiDZUez",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44BitcoinTestNet.WifNetVersion(),
+        "net_ver": Bip44BitcoinTestNet.WifNetVersion(),
     },
     {
         "key_bytes": b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
         "encode": "Kx2nc8CerNfcsutaet3rPwVtxQvXuQTYxw1mSsfFHsWExJ9xVpLf",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44BitcoinMainNet.WifNetVersion(),
+        "net_ver": Bip44BitcoinMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67",
         "encode": "cNPn53CWHSMt3MMr3HrymFzxaeDwZrZF2yAEZJ7knzAFD3GTTi2x",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44BitcoinTestNet.WifNetVersion(),
+        "net_ver": Bip44BitcoinTestNet.WifNetVersion(),
     },
     # Dash
     {
         "key_bytes": b"a215750fac2ad0382e40ad02d11aa1467f5ec844f0a7e995c1b3e979fbdc71d0",
         "encode": "7rnFCh34mBbn3uxT9FwNbS4hfdbn7W75u19Jmn3YoS5mXZjPoaX",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44DashMainNet.WifNetVersion(),
+        "net_ver": Bip44DashMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"a215750fac2ad0382e40ad02d11aa1467f5ec844f0a7e995c1b3e979fbdc71d0",
         "encode": "92pJNokBb5GhmdJ8sYfLyf3oid9us9bjSNd5K27vbNKLoLLfwfP",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44DashTestNet.WifNetVersion(),
+        "net_ver": Bip44DashTestNet.WifNetVersion(),
     },
     {
         "key_bytes": b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
         "encode": "XBvs6XpB5U7xxB6muoJmWzFKssp8PzNvPzfQsGMNeLMLcd3pdCC9",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44DashMainNet.WifNetVersion(),
+        "net_ver": Bip44DashMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"132750b8489385430d8bfa3871ade97da7f5d5ef134a5c85184f88743b526e38",
         "encode": "cNDw7BRfCrBn4HZfGT82P5ZNb5qxcdsN6TTyTAUgq5jFUD5xFN65",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44DashTestNet.WifNetVersion(),
+        "net_ver": Bip44DashTestNet.WifNetVersion(),
     },
     # Dogecoin
     {
         "key_bytes": b"21f5e16d57b9b70a1625020b59a85fa9342de9c103af3dd9f7b94393a4ac2f46",
         "encode": "6JPaMAeJjouhb8xPzFzETYCHJAJ9wBoFsCyC1LXFSTcZDmHgy6L",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44DogecoinMainNet.WifNetVersion(),
+        "net_ver": Bip44DogecoinMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"21f5e16d57b9b70a1625020b59a85fa9342de9c103af3dd9f7b94393a4ac2f46",
         "encode": "95jMzQtxU83VnEBwENWAd9xZJdQktdjwBFr8FmcewrAkBNHta8u",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44DogecoinTestNet.WifNetVersion(),
+        "net_ver": Bip44DogecoinTestNet.WifNetVersion(),
     },
     {
         "key_bytes": b"7c5e3d057ec9d8cd61c8e59873fd3ff478cbe0808c444092986e34cc533fa5d7",
         "encode": "QSnP9ZrYTcs3iu5x2uft3mGsnFMMisgshuhAMxYLaES6cndEdopn",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44DogecoinMainNet.WifNetVersion(),
+        "net_ver": Bip44DogecoinMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"7c5e3d057ec9d8cd61c8e59873fd3ff478cbe0808c444092986e34cc533fa5d7",
         "encode": "ciuibxmCzNuTbrBhwCS18D8JSK2W1cCDDaPyofJCKwzAzG51dDJk",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44DogecoinTestNet.WifNetVersion(),
+        "net_ver": Bip44DogecoinTestNet.WifNetVersion(),
     },
     # Litecoin
     {
         "key_bytes": b"4baa38b7623a40da63836cd9ee8c51d0b6273e766c88adde156fd5fec6e19008",
         "encode": "6uhLoqNczaCPTj3GmT7qfau4Qrp5qb7riHtYshudPgbiGSx3bVs",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44LitecoinMainNet.WifNetVersion(),
+        "net_ver": Bip44LitecoinMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"4baa38b7623a40da63836cd9ee8c51d0b6273e766c88adde156fd5fec6e19008",
         "encode": "92AEvSedgNoexQehsyDnknfr73cKnxD2HZMLF9F71y29MZAdg13",
         "compr_pub_key": False,
-        "net_addr_ver": Bip44LitecoinTestNet.WifNetVersion(),
+        "net_ver": Bip44LitecoinTestNet.WifNetVersion(),
     },
     {
         "key_bytes": b"abd83a20f1161f5ddb561b64de3e60d2b6350e3b6bc35968e52edb097c73a2c3",
         "encode": "T8p29oRNZpvaE1QbpQ2Fr3kQcrgfzT9KjvzwapwgsqBdMotY6kQW",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44LitecoinMainNet.WifNetVersion(),
+        "net_ver": Bip44LitecoinMainNet.WifNetVersion(),
     },
     {
         "key_bytes": b"abd83a20f1161f5ddb561b64de3e60d2b6350e3b6bc35968e52edb097c73a2c3",
         "encode": "cTLkAy83bWeEccEzfAtX11i6JELmapE7zmF9qSmeoyfU6fQWAyxC",
         "compr_pub_key": True,
-        "net_addr_ver": Bip44LitecoinTestNet.WifNetVersion(),
+        "net_ver": Bip44LitecoinTestNet.WifNetVersion(),
     },
 ]
 
@@ -164,12 +164,24 @@ TEST_VECT_ENC_KEY_INVALID = [
 # These wrong encodings were generated on purpose by slightly modifying the WifEncoder.Encode method
 TEST_VECT_DEC_KEY_INVALID = [
     # Valid private key with wrong net version prefix (0x79 instead of 0x80)
-    "54fKtD9rQfDYgbQ4XpQQPC5r3j6sTpFqEXxBfdveRtM7kJ4s4nK",
+    {
+        "enc": "54fKtD9rQfDYgbQ4XpQQPC5r3j6sTpFqEXxBfdveRtM7kJ4s4nK",
+        "net_ver": b"\x80",
+    },
     # Private keys with invalid length
-    "ye3sXre57tZGpZheVLSm6AvcfAoaPMJaP8f9veXhvxANZxnVJ",
-    "3JSPtAmfbMvMSGNUBU85FBDh3muKXzRT4PCxkivBjALfi1j3DUVhxh",
+    {
+        "enc": "ye3sXre57tZGpZheVLSm6AvcfAoaPMJaP8f9veXhvxANZxnVJ",
+        "net_ver": b"\x80",
+    },
+    {
+        "enc": "3JSPtAmfbMvMSGNUBU85FBDh3muKXzRT4PCxkivBjALfi1j3DUVhxh",
+        "net_ver": b"\xCC",
+    },
     # Private key with invalid compressed key suffix (0x02 instead of 0x01)
-    "KzPZTFDf8uD8m7FPUx2YYzew6BawEVG4cZoeaoWucQWP22cQYAEt",
+    {
+        "enc": "KzPZTFDf8uD8m7FPUx2YYzew6BawEVG4cZoeaoWucQWP22cQYAEt",
+        "net_ver": b"\x80",
+    },
 ]
 
 
@@ -181,7 +193,7 @@ class WifTests(unittest.TestCase):
     def test_decoder(self):
         for test in TEST_VECT:
             self.assertEqual(test["key_bytes"],
-                             binascii.hexlify(WifDecoder.Decode(test["encode"], test["net_addr_ver"])))
+                             binascii.hexlify(WifDecoder.Decode(test["encode"], test["net_ver"])))
 
     # Test encoder
     def test_encoder(self):
@@ -190,11 +202,11 @@ class WifTests(unittest.TestCase):
 
             self.assertEqual(test["encode"],
                              WifEncoder.Encode(key_bytes,
-                                               test["net_addr_ver"],
+                                               test["net_ver"],
                                                test["compr_pub_key"]))
             self.assertEqual(test["encode"],
                              WifEncoder.Encode(Secp256k1PrivateKey.FromBytes(key_bytes),
-                                               test["net_addr_ver"],
+                                               test["net_ver"],
                                                test["compr_pub_key"]))
 
     # Test invalid checksum
@@ -227,4 +239,4 @@ class WifTests(unittest.TestCase):
     # Test invalid keys for decoding
     def test_dec_invalid_keys(self):
         for test in TEST_VECT_DEC_KEY_INVALID:
-            self.assertRaises(ValueError, WifDecoder.Decode, test, b"\x00")
+            self.assertRaises(ValueError, WifDecoder.Decode, test["enc"], test["net_ver"])
