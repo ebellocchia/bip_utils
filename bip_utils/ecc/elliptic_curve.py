@@ -30,6 +30,13 @@ class EllipticCurve:
     the specific ECC library.
     """
 
+    m_name: str
+    m_order: int
+    m_generator: IPoint
+    m_point_cls: Type[IPoint]
+    m_pub_key_cls: Type[IPublicKey]
+    m_priv_key_cls: Type[IPrivateKey]
+
     def __init__(self,
                  name: str,
                  order: int,

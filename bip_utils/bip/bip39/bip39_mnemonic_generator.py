@@ -33,6 +33,8 @@ class Bip39MnemonicGenerator:
     Mnemonic can be generated randomly from words number or from a specified entropy.
     """
 
+    m_mnemonic_encoder: Bip39MnemonicEncoder
+
     def __init__(self,
                  lang: Bip39Languages = Bip39Languages.ENGLISH) -> None:
         """ Construct class from language.

@@ -26,6 +26,8 @@ import os
 class EntropyGenerator:
     """ Entropy generator class. It generates random entropy bytes with the specified length. """
 
+    m_byte_len: int
+
     def __init__(self,
                  byte_len: int) -> None:
         """ Construct class by specifying the bits length.

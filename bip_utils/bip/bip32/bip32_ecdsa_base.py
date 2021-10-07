@@ -21,6 +21,7 @@
 
 # Imports
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
+from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_base import Bip32Base
 from bip_utils.ecc import EllipticCurveGetter
@@ -76,6 +77,9 @@ class Bip32EcdsaBase(Bip32Base):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
+        assert isinstance(bip32_obj.m_priv_key, Bip32PrivateKey)
+
+        # Get elliptic curve
         curve = EllipticCurveGetter.FromType(bip32_obj.CurveType())
 
         # Data for HMAC

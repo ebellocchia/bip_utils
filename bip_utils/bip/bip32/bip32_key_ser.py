@@ -20,7 +20,7 @@
 
 
 # Imports
-from typing import Tuple
+from typing import Optional, Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import (
@@ -39,6 +39,11 @@ class Bip32KeyDeserConst:
 
 class Bip32KeyDeserializer:
     """ BIP32key deserializer class. It deserializes a key. """
+
+    m_key_str: str
+    m_key_bytes: bytes
+    m_is_public: bool
+    m_key_data: Optional[Bip32KeyData]
 
     def __init__(self,
                  key_str: str) -> None:

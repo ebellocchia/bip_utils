@@ -34,6 +34,9 @@ class Bip44PublicKey:
     from the coin type.
     """
 
+    m_pub_key: Bip32PublicKey
+    m_coin_conf: BipCoinConf
+
     def __init__(self,
                  pub_key: Bip32PublicKey,
                  coin_conf: BipCoinConf) -> None:
@@ -109,6 +112,9 @@ class Bip44PrivateKey:
     It contains Bip32PrivateKey and add the possibility to compute the WIF
     from the coin type.
     """
+
+    m_pub_key: Bip32PrivateKey
+    m_coin_conf: BipCoinConf
 
     def __init__(self,
                  priv_key: Bip32PrivateKey,

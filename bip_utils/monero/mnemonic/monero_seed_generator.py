@@ -27,6 +27,8 @@ from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMne
 class MoneroSeedGenerator:
     """ Monero seed generator class. """
 
+    m_entropy_bytes: bytes
+
     def __init__(self,
                  mnemonic: Union[str, MoneroMnemonic],
                  lang: Optional[MoneroLanguages] = None) -> None:

@@ -47,6 +47,8 @@ class Sr25519Point(DummyPoint):
 class Sr25519PublicKey(IPublicKey):
     """ Sr25519 public key class. """
 
+    m_ver_key: bytes
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -165,6 +167,8 @@ class Sr25519PublicKey(IPublicKey):
 
 class Sr25519PrivateKey(IPrivateKey):
     """ Sr25519 private key class. """
+
+    m_sign_key: bytes
 
     @classmethod
     def FromBytes(cls,

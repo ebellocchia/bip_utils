@@ -36,6 +36,8 @@ class Secp256k1Point(IPoint):
     PublicKey class. For this reason, a PublicKey is used as underlying object.
     """
 
+    m_pub_key: coincurve.PublicKey
+
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
@@ -168,6 +170,8 @@ class Secp256k1Point(IPoint):
 class Secp256k1PublicKey(IPublicKey):
     """ Secp256k1 public key class. """
 
+    m_ver_key: coincurve.PublicKey
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -286,6 +290,8 @@ class Secp256k1PublicKey(IPublicKey):
 
 class Secp256k1PrivateKey(IPrivateKey):
     """ Secp256k1 private key class. """
+
+    m_sign_key: coincurve.PrivateKey
 
     @classmethod
     def FromBytes(cls,

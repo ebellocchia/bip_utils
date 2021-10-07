@@ -29,7 +29,7 @@ from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
 from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 from bip_utils.utils.mnemonic import (
-    Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+    MnemonicLanguages, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
 )
 
 
@@ -45,7 +45,7 @@ class Bip39WordsNum(IntEnum):
 
 
 @unique
-class Bip39Languages(Enum):
+class Bip39Languages(MnemonicLanguages):
     """ Enumerative for BIP39 languages. """
 
     CHINESE_SIMPLIFIED = auto()
@@ -113,6 +113,8 @@ class Bip39Mnemonic(Mnemonic):
         Args:
             mnemonic_list (list): Mnemonic list
         """
+
+        # Normalize using NFKD as specified by BIP-0039
         super().__init__(self.__NormalizeNfkd(mnemonic_list))
 
     @staticmethod
@@ -134,12 +136,12 @@ class _Bip39WordsListGetter(MnemonicWordsListGetterBase):
     """
 
     def GetByLanguage(self,
-                      lang: Bip39Languages) -> MnemonicWordsList:
+                      lang: MnemonicLanguages) -> MnemonicWordsList:
         """ Get words list by language.
         Words list of a specific language are loaded from file only the first time they are requested.
 
         Args:
-            lang (Bip39Languages): Language
+            lang (MnemonicLanguages): Language
 
         Returns:
             MnemonicWordsList object: MnemonicWordsList object
@@ -203,6 +205,8 @@ class _Bip39WordsListFinder:
 class Bip39MnemonicEncoder:
     """ BIP39 mnemonic encoder class. It encodes bytes to the mnemonic phrase. """
 
+    m_words_list: MnemonicWordsList
+
     def __init__(self,
                  lang: Bip39Languages) -> None:
         """ Construct class.
@@ -257,6 +261,8 @@ class Bip39MnemonicEncoder:
 
 class Bip39MnemonicDecoder:
     """ BIP39 mnemonic decoder class. It decodes a mnemonic phrase to bytes. """
+
+    m_words_list: Optional[MnemonicWordsList]
 
     #
     # Public methods
@@ -333,20 +339,19 @@ class Bip39MnemonicDecoder:
             Bip39ChecksumError: If checksum is not valid
             ValueError: If mnemonic is not valid
         """
-        if isinstance(mnemonic, str):
-            mnemonic = Bip39Mnemonic.FromString(mnemonic)
+        mnemonic_obj = Bip39Mnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
 
         # Check mnemonic length
-        if mnemonic.WordsCount() not in Bip39MnemonicConst.MNEMONIC_WORD_NUM:
-            raise ValueError(f"Mnemonic words count is not valid ({mnemonic.WordsCount()})")
+        if mnemonic_obj.WordsCount() not in Bip39MnemonicConst.MNEMONIC_WORD_NUM:
+            raise ValueError(f"Mnemonic words count is not valid ({mnemonic_obj.WordsCount()})")
 
         # Detect language if it was not specified at construction
-        words_list = (_Bip39WordsListFinder.FindLanguage(mnemonic)
+        words_list = (_Bip39WordsListFinder.FindLanguage(mnemonic_obj)
                       if self.m_words_list is None
                       else self.m_words_list)
 
         # Get back mnemonic binary string
-        mnemonic_bin_str = self.__MnemonicToBinaryStr(mnemonic, words_list)
+        mnemonic_bin_str = self.__MnemonicToBinaryStr(mnemonic_obj, words_list)
 
         # Verify checksum
         checksum_bin_str = mnemonic_bin_str[-self.__GetChecksumLen(mnemonic_bin_str):]

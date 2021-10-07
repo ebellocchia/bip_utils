@@ -20,7 +20,7 @@
 
 
 # Imports
-from typing import Any
+from typing import Any, Tuple
 import bip_utils.ecc.lib.ed25519_monero_lib as ed25519_monero_lib
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
@@ -40,6 +40,8 @@ class Ed25519MoneroKeysConst:
 
 class Ed25519MoneroPoint(IPoint):
     """ Ed25519-Monero point class. """
+
+    m_point: Tuple[int, ...]
 
     @classmethod
     def FromBytes(cls,
@@ -79,7 +81,12 @@ class Ed25519MoneroPoint(IPoint):
         Raises:
             TypeError: If point object is not of the correct type
         """
-        if not isinstance(point_obj, tuple):
+        if (not isinstance(point_obj, tuple) or
+                len(point_obj) != 4 or
+                not isinstance(point_obj[0], int) or
+                not isinstance(point_obj[1], int) or
+                not isinstance(point_obj[2], int) or
+                not isinstance(point_obj[3], int)):
             raise TypeError("Invalid point object type")
         self.m_point = point_obj
 
@@ -171,6 +178,8 @@ class Ed25519MoneroPoint(IPoint):
 
 class Ed25519MoneroPublicKey(IPublicKey):
     """ Ed25519-Monero public key class. """
+
+    m_ver_key: bytes
 
     @classmethod
     def FromBytes(cls,
@@ -286,6 +295,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
 
 class Ed25519MoneroPrivateKey(IPrivateKey):
     """ Ed25519-Monero private key class. """
+
+    m_sign_key: bytes
 
     @classmethod
     def FromBytes(cls,

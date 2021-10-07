@@ -31,6 +31,8 @@ from bip_utils.utils.misc import ConvUtils, DataBytes
 class Ed25519Blake2bPublicKey(IPublicKey):
     """ Ed25519-Blake2b public key class. """
 
+    m_ver_key: ed25519_blake2b.VerifyingKey
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -154,6 +156,8 @@ class Ed25519Blake2bPublicKey(IPublicKey):
 
 class Ed25519Blake2bPrivateKey(IPrivateKey):
     """ Ed25519-Blake2b private key class. """
+
+    m_sign_key: ed25519_blake2b.SigningKey
 
     @classmethod
     def FromBytes(cls,

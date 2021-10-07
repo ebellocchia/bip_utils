@@ -38,6 +38,8 @@ class Bip32PathConst:
 class Bip32Path:
     """ BIP32 path class. It represents a BIP-0032 path. """
 
+    m_elems: List[Bip32KeyIndex]
+
     def __init__(self,
                  elems: Optional[Sequence[Union[int, Bip32KeyIndex]]] = None) -> None:
         """ Construct class by specifying the path elements.

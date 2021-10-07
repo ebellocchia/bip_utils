@@ -29,6 +29,8 @@ from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bi
 class Bip39MnemonicValidator:
     """ BIP39 mnemonic validator class. It validates a mnemonic phrase. """
 
+    m_mnemonic_decoder: Bip39MnemonicDecoder
+
     #
     # Public methods
     #

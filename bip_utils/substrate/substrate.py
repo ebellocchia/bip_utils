@@ -40,6 +40,11 @@ class SubstrateConst:
 class Substrate:
     """ Substrate class. It allows to compute Substrate keys and addresses. """
 
+    m_priv_key: Optional[SubstratePrivateKey]
+    m_pub_key: SubstratePublicKey
+    m_path: SubstratePath
+    m_coin_conf: SubstrateCoinConf
+
     #
     # Construction methods
     #
@@ -174,6 +179,8 @@ class Substrate:
                               else self.m_priv_key.PublicKey())
         # Public-only object
         else:
+            assert isinstance(pub_key, (bytes, IPublicKey)), "Public key shall be specified for public-only objects"
+
             self.m_priv_key = None
             self.m_pub_key = SubstratePublicKey.FromBytesOrKeyObject(pub_key, coin_conf)
 
@@ -260,6 +267,8 @@ class Substrate:
         """
         if self.IsPublicOnly():
             raise SubstrateKeyError("Public-only deterministic keys have no private half")
+
+        assert isinstance(self.m_priv_key, SubstratePrivateKey)
         return self.m_priv_key
 
     def PublicKey(self) -> SubstratePublicKey:
@@ -284,6 +293,8 @@ class Substrate:
         Returns:
             Substrate object: Substrate object
         """
+        assert isinstance(self.m_priv_key, SubstratePrivateKey)
+
         ex_key_pair = (path_elem.ChainCode(), self.m_pub_key.RawCompressed().ToBytes(), self.m_priv_key.Raw().ToBytes())
 
         if path_elem.IsHard():

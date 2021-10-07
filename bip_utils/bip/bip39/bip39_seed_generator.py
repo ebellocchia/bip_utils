@@ -26,6 +26,7 @@ from bip_utils.bip.bip39.ibip39_seed_generator import IBip39SeedGenerator
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic
 from bip_utils.bip.bip39.bip39_mnemonic_validator import Bip39MnemonicValidator
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class Bip39SeedGeneratorConst:
@@ -41,6 +42,8 @@ class Bip39SeedGeneratorConst:
 
 class Bip39SeedGenerator(IBip39SeedGenerator):
     """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
+
+    m_mnemonic: Mnemonic
 
     def __init__(self,
                  mnemonic: Union[str, Bip39Mnemonic],

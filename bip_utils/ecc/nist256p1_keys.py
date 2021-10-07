@@ -33,6 +33,8 @@ from bip_utils.utils.misc import DataBytes
 class Nist256p1Point(IPoint):
     """ Nist256p1 point class. """
 
+    m_point: ellipticcurve.PointJacobi
+
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
@@ -165,6 +167,8 @@ class Nist256p1Point(IPoint):
 class Nist256p1PublicKey(IPublicKey):
     """ Nist256p1 public key class. """
 
+    m_ver_key: ecdsa.VerifyingKey
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -285,6 +289,8 @@ class Nist256p1PublicKey(IPublicKey):
 
 class Nist256p1PrivateKey(IPrivateKey):
     """ Nist256p1 private key class. """
+
+    m_sign_key: ecdsa.SigningKey
 
     @classmethod
     def FromBytes(cls,

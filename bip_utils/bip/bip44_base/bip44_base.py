@@ -59,6 +59,9 @@ class Bip44Base(ABC):
     The class is meant to be derived by classes implementing BIP44 or its extension.
     """
 
+    m_bip32: Bip32Base
+    m_coin_conf: BipCoinConf
+
     #
     # Class methods for construction
     #

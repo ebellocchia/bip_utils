@@ -46,6 +46,8 @@ class Bip32KeyDataConst:
 class Bip32FingerPrint:
     """ BIP32 key index class. It represents a BIP32 key index. """
 
+    m_fprint: bytes
+
     def __init__(self,
                  fprint: bytes = Bip32KeyDataConst.MASTER_FINGERPRINT) -> None:
         """ Construct class.
@@ -82,6 +84,8 @@ class Bip32FingerPrint:
 
 class Bip32Depth:
     """ BIP32 depth class. It represents a BIP32 depth. """
+
+    m_depth: int
 
     def __init__(self,
                  depth: int) -> None:
@@ -136,7 +140,7 @@ class Bip32Depth:
         return self.ToBytes()
 
     def __eq__(self,
-               other: Union[int, Bip32Depth]) -> bool:
+               other: object) -> bool:
         """ Equality operator.
 
         Args:
@@ -145,6 +149,9 @@ class Bip32Depth:
         Returns:
             bool: True if equal false otherwise
         """
+        if not isinstance(other, (int, Bip32Depth)):
+            raise TypeError("Invalid type for checking equality")
+
         if isinstance(other, int):
             return self.m_depth == other
         else:
@@ -183,6 +190,8 @@ class Bip32Depth:
 
 class Bip32KeyIndex:
     """ BIP32 key index class. It represents a BIP32 key index. """
+
+    m_idx: int
 
     def __init__(self,
                  idx: int) -> None:
@@ -237,7 +246,7 @@ class Bip32KeyIndex:
         return self.ToBytes()
 
     def __eq__(self,
-               other: Union[int, Bip32KeyIndex]) -> bool:
+               other: object) -> bool:
         """ Equality operator.
 
         Args:
@@ -246,6 +255,9 @@ class Bip32KeyIndex:
         Returns:
             bool: True if equal false otherwise
         """
+        if not isinstance(other, (int, Bip32KeyIndex)):
+            raise TypeError("Invalid type for checking equality")
+
         if isinstance(other, int):
             return self.m_idx == other
         else:
@@ -254,6 +266,9 @@ class Bip32KeyIndex:
 
 class Bip32KeyNetVersions:
     """ Helper class for representing Bip32 key net versions. """
+
+    m_pub_net_ver: bytes
+    m_priv_net_ver: bytes
 
     def __init__(self,
                  pub_net_ver: bytes,
@@ -301,6 +316,12 @@ class Bip32KeyData:
     """ BIP32 key data class.
     It contains all additional data related to a BIP32 key (e.g. depth, chain code, etc...).
     """
+
+    m_key_net_ver: Bip32KeyNetVersions
+    m_depth: Bip32Depth
+    m_index: Bip32KeyIndex
+    m_chain_code: bytes
+    m_parent_fprint: Bip32FingerPrint
 
     def __init__(self,
                  key_net_ver: Bip32KeyNetVersions,

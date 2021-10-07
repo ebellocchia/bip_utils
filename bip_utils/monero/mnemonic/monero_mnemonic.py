@@ -28,7 +28,7 @@ from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 from bip_utils.utils.mnemonic import (
-    Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+    MnemonicLanguages, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
 )
 
 
@@ -43,7 +43,7 @@ class MoneroWordsNum(IntEnum):
 
 
 @unique
-class MoneroLanguages(Enum):
+class MoneroLanguages(MnemonicLanguages):
     """ Enumerative for Monero languages. """
 
     CHINESE_SIMPLIFIED = auto()
@@ -132,12 +132,12 @@ class _MoneroWordsListGetter(MnemonicWordsListGetterBase):
     """
 
     def GetByLanguage(self,
-                      lang: MoneroLanguages) -> MnemonicWordsList:
+                      lang: MnemonicLanguages) -> MnemonicWordsList:
         """ Get words list by language.
         Words list of a specific language are loaded from file only the first time they are requested.
 
         Args:
-            lang (MoneroLanguages): Language
+            lang (MnemonicLanguages): Language
 
         Returns:
             MnemonicWordsList object: MnemonicWordsList object
@@ -224,6 +224,9 @@ class _MoneroMnemonicUtils:
 class MoneroMnemonicEncoder:
     """ Monero mnemonic encoder class. It encodes bytes to the mnemonic phrase. """
 
+    m_lang: MoneroLanguages
+    m_words_list: MnemonicWordsList
+
     def __init__(self,
                  lang: MoneroLanguages) -> None:
         """ Construct class.
@@ -235,7 +238,7 @@ class MoneroMnemonicEncoder:
             TypeError: If the language is not a MoneroLanguages enum
             ValueError: If loaded words list is not valid
         """
-        self.lang = lang
+        self.m_lang = lang
         self.m_words_list = _MoneroWordsListGetter.Instance().GetByLanguage(lang)
 
     def EncodeNoChecksum(self,
@@ -271,7 +274,7 @@ class MoneroMnemonicEncoder:
         words = self.__EncodeToList(entropy_bytes)
 
         # Compute checksum word
-        checksum_word = _MoneroMnemonicUtils.ComputeChecksum(words, self.lang)
+        checksum_word = _MoneroMnemonicUtils.ComputeChecksum(words, self.m_lang)
 
         return MoneroMnemonic.FromList(words + [checksum_word])
 
@@ -317,6 +320,9 @@ class MoneroMnemonicEncoder:
 class MoneroMnemonicDecoder:
     """ Monero mnemonic decoder class. It decodes a mnemonic phrase to bytes. """
 
+    m_lang: Optional[MoneroLanguages]
+    m_words_list: Optional[MnemonicWordsList]
+
     #
     # Public methods
     #
@@ -332,7 +338,7 @@ class MoneroMnemonicDecoder:
             TypeError: If the language is not a MoneroLanguages enum
             ValueError: If loaded words list is not valid
         """
-        self.lang = lang
+        self.m_lang = lang
         self.m_words_list = (_MoneroWordsListGetter.Instance().GetByLanguage(lang)
                              if lang is not None
                              else None)
@@ -351,22 +357,24 @@ class MoneroMnemonicDecoder:
             MoneroChecksumError: If checksum is not valid
             ValueError: If mnemonic is not valid
         """
-        if isinstance(mnemonic, str):
-            mnemonic = MoneroMnemonic.FromString(mnemonic)
-
-        words = mnemonic.ToList()
+        mnemonic_obj = MoneroMnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
 
         # Check mnemonic length
-        if mnemonic.WordsCount() not in MoneroMnemonicConst.MNEMONIC_WORD_NUM:
-            raise ValueError(f"Mnemonic words count is not valid ({mnemonic.WordsCount()})")
+        if mnemonic_obj.WordsCount() not in MoneroMnemonicConst.MNEMONIC_WORD_NUM:
+            raise ValueError(f"Mnemonic words count is not valid ({mnemonic_obj.WordsCount()})")
 
         # Detect language if it was not specified at construction
-        words_list, lang = (_MoneroWordsListFinder.FindLanguage(mnemonic)
+        words_list, lang = (_MoneroWordsListFinder.FindLanguage(mnemonic_obj)
                             if self.m_words_list is None
-                            else (self.m_words_list, self.lang))
+                            else (self.m_words_list, self.m_lang))
+
+        assert isinstance(lang, MoneroLanguages)
+
+        # Get words
+        words = mnemonic_obj.ToList()
 
         # Verify checksum if needed
-        if mnemonic.WordsCount() in MoneroMnemonicConst.MNEMONIC_WORD_NUM_CHKSUM:
+        if mnemonic_obj.WordsCount() in MoneroMnemonicConst.MNEMONIC_WORD_NUM_CHKSUM:
             chksum_word = _MoneroMnemonicUtils.ComputeChecksum(words[:-1], lang)
             if words[-1] != chksum_word:
                 raise MoneroChecksumError(f"Invalid checksum (expected {chksum_word}, got {words[-1]})")

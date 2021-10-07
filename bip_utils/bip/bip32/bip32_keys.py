@@ -35,6 +35,9 @@ class Bip32PublicKey:
     It represents a public key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
 
+    m_pub_key: IPublicKey
+    m_key_data: Bip32KeyData
+
     @classmethod
     def FromBytesOrKeyObject(cls,
                              pub_key: Union[bytes, IPublicKey],
@@ -191,6 +194,9 @@ class Bip32PrivateKey:
     """ BIP32 private key class.
     It represents a private key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
+
+    m_priv_key: IPrivateKey
+    m_key_data: Bip32KeyData
 
     @classmethod
     def FromBytesOrKeyObject(cls,

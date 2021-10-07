@@ -22,6 +22,9 @@
 class CoinNames:
     """ Helper class for representing coin names. """
 
+    m_name: str
+    m_abbr: str
+
     def __init__(self,
                  name: str,
                  abbr: str) -> None:

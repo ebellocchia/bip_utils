@@ -26,6 +26,9 @@ from bip_utils.utils.conf import CoinNames
 class SubstrateCoinConf:
     """ Substrate coin configuration class. """
 
+    m_coin_name: CoinNames
+    m_ss58_format: int
+
     def __init__(self,
                  coin_name: CoinNames,
                  ss58_format: int) -> None:

@@ -29,6 +29,8 @@ from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMne
 class MoneroMnemonicValidator:
     """ Monero mnemonic validator class. It validates a mnemonic phrase. """
 
+    m_mnemonic_decoder: MoneroMnemonicDecoder
+
     #
     # Public methods
     #

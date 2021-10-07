@@ -46,6 +46,8 @@ class MoneroMnemonicGenerator:
     Mnemonic can be generated randomly from words number or from a specified entropy.
     """
 
+    m_mnemonic_encoder: MoneroMnemonicEncoder
+
     def __init__(self,
                  lang: MoneroLanguages = MoneroLanguages.ENGLISH) -> None:
         """ Construct class from language.
@@ -76,6 +78,10 @@ class MoneroMnemonicGenerator:
         # Check words number
         if words_num not in MoneroMnemonicConst.MNEMONIC_WORD_NUM:
             raise ValueError(f"Words number for mnemonic ({words_num}) is not valid")
+
+        # Convert int to enum if necessary
+        if isinstance(words_num, int):
+            words_num = MoneroWordsNum(words_num)
 
         # Get entropy length in bit from words number
         entropy_bit_len = MoneroMnemonicGeneratorConst.WORDS_NUM_TO_ENTROPY_LEN[words_num]

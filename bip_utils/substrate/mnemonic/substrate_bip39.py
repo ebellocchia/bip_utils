@@ -31,6 +31,8 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
     Reference: https://github.com/paritytech/substrate-bip39
     """
 
+    m_entropy_bytes: bytes
+
     def __init__(self,
                  mnemonic: Union[str, Bip39Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:

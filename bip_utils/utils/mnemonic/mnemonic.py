@@ -21,14 +21,23 @@
 
 # Imports
 from __future__ import annotations
-from typing import List
+from abc import ABC, abstractmethod
+from enum import Enum
+from typing import Dict, List, Optional
 from bip_utils.utils.misc.conversion import AlgoUtils
+
+
+class MnemonicLanguages(Enum):
+    """ Base enum for mnemonic languages. """
+    pass
 
 
 class Mnemonic:
     """ Mnemonic class. It represents a generic mnemonic phrase.
     It acts as a simple container with some helper functions, so it doesn't validate the given mnemonic.
     """
+
+    m_mnemonic_list: List[str]
 
     @classmethod
     def FromString(cls,
@@ -100,6 +109,9 @@ class Mnemonic:
 
 class MnemonicWordsList:
     """ Mnemonic words list class. """
+
+    m_words_list: List[str]
+    m_use_bin_search: bool
 
     def __init__(self,
                  words_list: List[str]) -> None:
@@ -187,15 +199,35 @@ class MnemonicWordsListFileReader:
         return MnemonicWordsList(words_list)
 
 
-class MnemonicWordsListGetterBase:
+class MnemonicWordsListGetterBase(ABC):
     """ Mnemonic words list getter base class. """
 
+    m_words_lists: Dict[MnemonicLanguages, MnemonicWordsList]
+
     # Global instance
-    __instance = None
+    __instance: Optional[MnemonicWordsListGetterBase] = None
 
     def __init__(self):
         """ Construct class. """
         self.m_words_lists = {}
+
+    @abstractmethod
+    def GetByLanguage(self,
+                      lang: MnemonicLanguages) -> MnemonicWordsList:
+        """ Get words list by language.
+        Words list of a specific language are loaded from file only the first time they are requested.
+
+        Args:
+            lang (MnemonicLanguages): Language
+
+        Returns:
+            MnemonicWordsList object: MnemonicWordsList object
+
+        Raises:
+            TypeError: If the language is not of the correct enumerative
+            ValueError: If loaded words list is not valid
+        """
+        pass
 
     @staticmethod
     def _LoadWordsList(file_name: str,

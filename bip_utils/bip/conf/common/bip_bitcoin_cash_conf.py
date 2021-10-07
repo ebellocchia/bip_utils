@@ -32,6 +32,9 @@ class BipBitcoinCashConf(BipCoinConf):
     It allows to return different addresses depending on the configuration.
     """
 
+    m_addr_cls_legacy: Type[IAddrEncoder]
+    m_use_legacy_addr: bool
+
     def __init__(self,
                  coin_name: CoinNames,
                  coin_idx: int,

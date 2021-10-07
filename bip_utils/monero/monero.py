@@ -69,6 +69,11 @@ class MoneroUtils:
 class Monero:
     """ Monero class. It allows to compute Monero keys and addresses/subaddresses. """
 
+    m_priv_skey: Optional[MoneroPrivateKey]
+    m_priv_vkey: MoneroPrivateKey
+    m_pub_skey: MoneroPublicKey
+    m_pub_vkey: MoneroPublicKey
+
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes) -> Monero:
@@ -183,6 +188,8 @@ class Monero:
         """
         if self.IsWatchOnly():
             raise MoneroKeyError("Watch-only class has not a private spend key")
+
+        assert isinstance(self.m_priv_skey, MoneroPrivateKey)
         return self.m_priv_skey
 
     def PrivateViewKey(self) -> MoneroPrivateKey:

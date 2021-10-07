@@ -29,6 +29,16 @@ from bip_utils.utils.conf import CoinNames
 class BipCoinConf:
     """ Bip coin configuration class. """
 
+    m_coin_name: CoinNames
+    m_coin_idx: int
+    m_is_testnet: bool
+    m_def_path: str
+    m_key_net_ver: Bip32KeyNetVersions
+    m_wif_net_ver: Optional[bytes]
+    m_bip32_cls: Type[Bip32Base]
+    m_addr_params: Dict[str, Any]
+    m_addr_cls: Type[IAddrEncoder]
+
     def __init__(self,
                  coin_name: CoinNames,
                  coin_idx: int,

@@ -33,6 +33,9 @@ from bip_utils.utils.misc import DataBytes
 class SubstratePublicKey:
     """ Substrate public key class. """
 
+    m_pub_key: IPublicKey
+    m_coin_conf: SubstrateCoinConf
+
     @classmethod
     def FromBytesOrKeyObject(cls,
                              pub_key: Union[bytes, IPublicKey],
@@ -144,6 +147,9 @@ class SubstratePublicKey:
 
 class SubstratePrivateKey:
     """ Substrate private key class. """
+
+    m_priv_key: IPrivateKey
+    m_coin_conf: SubstrateCoinConf
 
     @classmethod
     def FromBytesOrKeyObject(cls,

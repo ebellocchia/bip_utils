@@ -26,14 +26,16 @@ from bip_utils.utils.misc.conversion import ConvUtils
 class DataBytes:
     """ Bytes class. It allows to get bytes in different formats. """
 
+    m_data_bytes: bytes
+
     def __init__(self,
-                 key_bytes: bytes) -> None:
+                 data_bytes: bytes) -> None:
         """ Construct class.
 
         Args:
-            key_bytes (bytes): Key bytes
+            data_bytes (bytes): Key bytes
         """
-        self.m_key_bytes = key_bytes
+        self.m_data_bytes = data_bytes
 
     def ToBytes(self) -> bytes:
         """ Get key bytes.
@@ -41,7 +43,7 @@ class DataBytes:
         Returns:
             bytes: Key bytes
         """
-        return self.m_key_bytes
+        return self.m_data_bytes
 
     def ToHex(self) -> str:
         """ Get key bytes in hex format.
@@ -49,7 +51,7 @@ class DataBytes:
         Returns:
             str: Key bytes in hex format
         """
-        return ConvUtils.BytesToHexString(self.m_key_bytes)
+        return ConvUtils.BytesToHexString(self.m_data_bytes)
 
     def ToInt(self,
               endianness: str = "big") -> int:
@@ -61,7 +63,7 @@ class DataBytes:
         Returns:
             int: Key bytes as an integer
         """
-        return ConvUtils.BytesToInteger(self.m_key_bytes, endianness)
+        return ConvUtils.BytesToInteger(self.m_data_bytes, endianness)
 
     def __bytes__(self) -> bytes:
         """ Get key bytes.

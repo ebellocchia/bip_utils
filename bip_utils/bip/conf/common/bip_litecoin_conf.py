@@ -32,6 +32,10 @@ class BipLitecoinConf(BipCoinConf):
     It allows to return different addresses and key net versions depending on the configuration.
     """
 
+    m_alt_key_net_ver: Bip32KeyNetVersions
+    m_use_alt_key_net_ver: bool
+    m_use_depr_addr: bool
+
     def __init__(self,
                  coin_name: CoinNames,
                  coin_idx: int,

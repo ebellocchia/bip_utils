@@ -46,6 +46,9 @@ class SubstratePathConst:
 class SubstratePathElem:
     """ Substrate path element. It represents a Substrate path element. """
 
+    m_elem: str
+    m_is_hard: bool
+
     def __init__(self,
                  elem: str) -> None:
         """ Construct class.
@@ -165,6 +168,8 @@ class SubstratePathElem:
 
 class SubstratePath:
     """ Substrate path. It represents a Substrate path. """
+
+    m_elems: List[SubstratePathElem]
 
     def __init__(self,
                  elems: Optional[Sequence[Union[str, SubstratePathElem]]] = None) -> None:

@@ -52,6 +52,9 @@ class Bip32Base(ABC):
     It shall be derived to implement derivation for a specific elliptic curve.
     """
 
+    m_priv_key: Optional[Bip32PrivateKey]
+    m_pub_key: Bip32PublicKey
+
     #
     # Class methods for construction
     # They are meant to be called by children classes, that's why they are protected
@@ -284,6 +287,8 @@ class Bip32Base(ABC):
             self.m_pub_key = self.m_priv_key.PublicKey()
         # Public-only object
         else:
+            assert isinstance(pub_key, (bytes, IPublicKey)), "Public key shall be specified for public-only objects"
+
             self.m_priv_key = None
             self.m_pub_key = Bip32PublicKey.FromBytesOrKeyObject(pub_key,
                                                                  key_data,
@@ -362,6 +367,8 @@ class Bip32Base(ABC):
         """
         if self.IsPublicOnly():
             raise Bip32KeyError("Public-only deterministic keys have no private half")
+
+        assert isinstance(self.m_priv_key, Bip32PrivateKey)
         return self.m_priv_key
 
     def PublicKey(self) -> Bip32PublicKey:

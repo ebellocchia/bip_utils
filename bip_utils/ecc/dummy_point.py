@@ -28,6 +28,9 @@ from bip_utils.utils.misc import DataBytes
 class DummyPoint(IPoint):
     """ Dummy point class. """
 
+    m_x: int
+    m_y: int
+
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
@@ -66,7 +69,10 @@ class DummyPoint(IPoint):
         Raises:
             TypeError: If point object is not of the correct type
         """
-        if not isinstance(point_obj, tuple):
+        if (not isinstance(point_obj, tuple) or
+                len(point_obj) != 2 or
+                not isinstance(point_obj[0], int) or
+                not isinstance(point_obj[1], int)):
             raise TypeError("Invalid point object type")
         self.m_x = point_obj[0]
         self.m_y = point_obj[1]

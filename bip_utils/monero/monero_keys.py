@@ -31,6 +31,8 @@ from bip_utils.utils.misc import DataBytes
 class MoneroPublicKey:
     """ Monero public key class. """
 
+    m_pub_key: IPublicKey
+
     @classmethod
     def FromBytesOrKeyObject(cls,
                              pub_key: Union[bytes, IPublicKey]) -> MoneroPublicKey:
@@ -124,6 +126,8 @@ class MoneroPublicKey:
 
 class MoneroPrivateKey:
     """ Monero private key class. """
+
+    m_priv_key: IPrivateKey
 
     @classmethod
     def FromBytesOrKeyObject(cls,

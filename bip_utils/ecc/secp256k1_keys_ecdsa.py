@@ -34,6 +34,8 @@ from bip_utils.utils.misc import DataBytes
 class Secp256k1Point(IPoint):
     """ Secp256k1 point class. """
 
+    m_point: ellipticcurve.PointJacobi
+
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
@@ -166,6 +168,8 @@ class Secp256k1Point(IPoint):
 class Secp256k1PublicKey(IPublicKey):
     """ Secp256k1 public key class. """
 
+    m_ver_key: ecdsa.VerifyingKey
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -286,6 +290,8 @@ class Secp256k1PublicKey(IPublicKey):
 
 class Secp256k1PrivateKey(IPrivateKey):
     """ Secp256k1 private key class. """
+
+    m_sign_key = ecdsa.SigningKey
 
     @classmethod
     def FromBytes(cls,
