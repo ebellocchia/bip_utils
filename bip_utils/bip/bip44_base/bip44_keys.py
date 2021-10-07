@@ -113,7 +113,7 @@ class Bip44PrivateKey:
     from the coin type.
     """
 
-    m_pub_key: Bip32PrivateKey
+    m_priv_key: Bip32PrivateKey
     m_coin_conf: BipCoinConf
 
     def __init__(self,
