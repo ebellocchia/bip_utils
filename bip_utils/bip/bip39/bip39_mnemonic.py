@@ -23,7 +23,7 @@
 # Imports
 from __future__ import annotations
 import os
-from enum import auto, Enum, IntEnum, unique
+from enum import auto, IntEnum, unique
 from typing import Dict, List, Optional, Union
 from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
 from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
@@ -172,12 +172,12 @@ class _Bip39WordsListFinder:
     """
 
     @staticmethod
-    def FindLanguage(mnemonic: Bip39Mnemonic) -> MnemonicWordsList:
+    def FindLanguage(mnemonic: Mnemonic) -> MnemonicWordsList:
         """ Automatically find the language of the specified mnemonic and
         get the correct MnemonicWordsList class for it.
 
         Args:
-            mnemonic (Bip39Mnemonic object): Bip39Mnemonic object
+            mnemonic (Mnemonic object): Mnemonic object
 
         Returns:
            MnemonicWordsList object: MnemonicWordsList object
@@ -221,14 +221,14 @@ class Bip39MnemonicEncoder:
         self.m_words_list = _Bip39WordsListGetter.Instance().GetByLanguage(lang)
 
     def Encode(self,
-               entropy_bytes: bytes) -> Bip39Mnemonic:
+               entropy_bytes: bytes) -> Mnemonic:
         """ Encode bytes to mnemonic phrase.
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 160, 192, 224, 256)
 
         Returns:
-            Bip39Mnemonic object: Encoded mnemonic
+            Mnemonic object: Encoded mnemonic
 
         Raises:
             ValueError: If bytes length is not valid
@@ -284,11 +284,11 @@ class Bip39MnemonicDecoder:
                              else None)
 
     def Decode(self,
-               mnemonic: Union[str, Bip39Mnemonic]) -> bytes:
+               mnemonic: Union[str, Mnemonic]) -> bytes:
         """ Decode a mnemonic phrase to bytes (no checksum).
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Bip39Mnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Returns:
             bytes: Decoded bytes (no checksum)
@@ -302,11 +302,11 @@ class Bip39MnemonicDecoder:
         return self.__EntropyBytesFromBinaryStr(mnemonic_bin_str)
 
     def DecodeWithChecksum(self,
-                           mnemonic: Union[str, Bip39Mnemonic]) -> bytes:
+                           mnemonic: Union[str, Mnemonic]) -> bytes:
         """ Decode a mnemonic phrase to bytes (with checksum).
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Bip39Mnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Returns:
             bytes: Decoded bytes (with checksum)
@@ -326,11 +326,11 @@ class Bip39MnemonicDecoder:
         return ConvUtils.BinaryStrToBytes(mnemonic_bin_str, pad_bit_len // 4)
 
     def __DecodeAndVerifyBinaryStr(self,
-                                   mnemonic: Union[str, Bip39Mnemonic]) -> str:
+                                   mnemonic: Union[str, Mnemonic]) -> str:
         """ Decode a mnemonic phrase to its mnemonic binary string by verifying the checksum.
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Bip39Mnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Returns:
             str: Mnemonic binary string
@@ -404,12 +404,12 @@ class Bip39MnemonicDecoder:
         return ConvUtils.BinaryStrToBytes(entropy_bin_str, checksum_len * 8)
 
     @staticmethod
-    def __MnemonicToBinaryStr(mnemonic: Bip39Mnemonic,
+    def __MnemonicToBinaryStr(mnemonic: Mnemonic,
                               words_list: MnemonicWordsList) -> str:
         """ Get mnemonic binary string from mnemonic phrase.
 
         Args:
-            mnemonic (Bip39Mnemonic object)      : Bip39Mnemonic object
+            mnemonic (Mnemonic object)           : Mnemonic object
             words_list (MnemonicWordsList object): Words list object
 
         Returns:

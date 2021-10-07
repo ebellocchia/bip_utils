@@ -18,14 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
 from typing import Union
 from bip_utils.bip.bip39.bip39_mnemonic import (
-    Bip39MnemonicConst, Bip39Languages, Bip39WordsNum, Bip39Mnemonic, Bip39MnemonicEncoder
+    Bip39MnemonicConst, Bip39Languages, Bip39WordsNum, Bip39MnemonicEncoder
 )
 from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class Bip39MnemonicGenerator:
@@ -49,14 +49,14 @@ class Bip39MnemonicGenerator:
         self.m_mnemonic_encoder = Bip39MnemonicEncoder(lang)
 
     def FromWordsNumber(self,
-                        words_num: Union[int, Bip39WordsNum]) -> Bip39Mnemonic:
+                        words_num: Union[int, Bip39WordsNum]) -> Mnemonic:
         """ Generate mnemonic with the specified words number from random entropy.
 
         Args:
             words_num (int or Bip39WordsNum): Number of words (12, 15, 18, 21, 24)
 
         Returns:
-            Bip39Mnemonic object: Generated mnemonic
+            Mnemonic object: Generated mnemonic
 
         Raises:
             ValueError: If words number is not valid
@@ -74,14 +74,14 @@ class Bip39MnemonicGenerator:
         return self.FromEntropy(entropy_bytes)
 
     def FromEntropy(self,
-                    entropy_bytes: bytes) -> Bip39Mnemonic:
+                    entropy_bytes: bytes) -> Mnemonic:
         """ Generate mnemonic from the specified entropy bytes.
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 160, 192, 224, 256)
 
         Returns:
-            Bip39Mnemonic object: Generated mnemonic
+            Mnemonic object: Generated mnemonic
 
         Raises:
             ValueError: If entropy byte length is not valid

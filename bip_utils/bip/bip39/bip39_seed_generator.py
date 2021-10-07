@@ -46,13 +46,13 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
     m_mnemonic: Mnemonic
 
     def __init__(self,
-                 mnemonic: Union[str, Bip39Mnemonic],
+                 mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
         """ Construct the class.
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Mnemonic
-            lang (Bip39Languages, optional)       : Language, None for automatic detection
+            mnemonic (str or Mnemonic object): Mnemonic
+            lang (Bip39Languages, optional)  : Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid

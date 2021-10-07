@@ -21,9 +21,10 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.bip.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39Mnemonic, Bip39MnemonicDecoder
+from bip_utils.bip.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39MnemonicDecoder
 from bip_utils.bip.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
@@ -34,13 +35,13 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
     m_entropy_bytes: bytes
 
     def __init__(self,
-                 mnemonic: Union[str, Bip39Mnemonic],
+                 mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
         """ Construct the class from a specified mnemonic.
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Mnemonic
-            lang (Bip39Languages, optional)       : Language, None for automatic detection
+            mnemonic (str or Mnemonic object): Mnemonic
+            lang (Bip39Languages, optional)  : Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid

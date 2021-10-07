@@ -22,13 +22,13 @@
 # Imports
 from __future__ import annotations
 import os
-from enum import auto, Enum, IntEnum, unique
+from enum import auto, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple
 from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 from bip_utils.utils.mnemonic import (
-    MnemonicLanguages, Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+    MnemonicLanguages, MnemonicWordsList, Mnemonic, MnemonicWordsListGetterBase
 )
 
 
@@ -168,12 +168,12 @@ class _MoneroWordsListFinder:
     """
 
     @staticmethod
-    def FindLanguage(mnemonic: MoneroMnemonic) -> Tuple[MnemonicWordsList, MoneroLanguages]:
+    def FindLanguage(mnemonic: Mnemonic) -> Tuple[MnemonicWordsList, MoneroLanguages]:
         """ Automatically find the language of the specified mnemonic and
         get the correct MnemonicWordsList class for it.
 
         Args:
-            mnemonic (MoneroMnemonic object): MoneroMnemonic object
+            mnemonic (Mnemonic object): Mnemonic object
 
         Returns:
            MnemonicWordsList object: MnemonicWordsList object
@@ -242,14 +242,14 @@ class MoneroMnemonicEncoder:
         self.m_words_list = _MoneroWordsListGetter.Instance().GetByLanguage(lang)
 
     def EncodeNoChecksum(self,
-                         entropy_bytes: bytes) -> MoneroMnemonic:
+                         entropy_bytes: bytes) -> Mnemonic:
         """ Encode bytes to mnemonic phrase (no checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
 
         Returns:
-            MoneroMnemonic object: Encoded mnemonic (no checksum)
+            Mnemonic object: Encoded mnemonic (no checksum)
 
         Raises:
             ValueError: If bytes length is not valid
@@ -259,14 +259,14 @@ class MoneroMnemonicEncoder:
         return MoneroMnemonic.FromList(words)
 
     def EncodeWithChecksum(self,
-                           entropy_bytes: bytes) -> MoneroMnemonic:
+                           entropy_bytes: bytes) -> Mnemonic:
         """ Encode bytes to mnemonic phrase (with checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
 
         Returns:
-            MoneroMnemonic object: Encoded mnemonic (with checksum)
+            Mnemonic object: Encoded mnemonic (with checksum)
 
         Raises:
             ValueError: If bytes length is not valid
@@ -344,11 +344,11 @@ class MoneroMnemonicDecoder:
                              else None)
 
     def Decode(self,
-               mnemonic: Union[str, MoneroMnemonic]) -> bytes:
+               mnemonic: Union[str, Mnemonic]) -> bytes:
         """ Decode a mnemonic phrase to bytes (no checksum).
 
         Args:
-            mnemonic (str or MoneroMnemonic object): MoneroMnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Returns:
             bytes: Decoded bytes

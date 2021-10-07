@@ -21,7 +21,8 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicDecoder
+from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicDecoder
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class MoneroSeedGenerator:
@@ -30,13 +31,13 @@ class MoneroSeedGenerator:
     m_entropy_bytes: bytes
 
     def __init__(self,
-                 mnemonic: Union[str, MoneroMnemonic],
+                 mnemonic: Union[str, Mnemonic],
                  lang: Optional[MoneroLanguages] = None) -> None:
         """ Construct the class.
 
         Args:
-            mnemonic (str or MoneroMnemonic object): Mnemonic
-            lang (MoneroLanguages, optional)       : Language, None for automatic detection
+            mnemonic (str or Mnemonic object): Mnemonic
+            lang (MoneroLanguages, optional) : Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid

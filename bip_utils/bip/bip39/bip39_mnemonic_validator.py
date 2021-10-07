@@ -18,12 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
 from typing import Optional, Union
 from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicDecoder
+from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39MnemonicDecoder
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class Bip39MnemonicValidator:
@@ -45,11 +45,11 @@ class Bip39MnemonicValidator:
         self.m_mnemonic_decoder = Bip39MnemonicDecoder(lang)
 
     def Validate(self,
-                 mnemonic: Union[str, Bip39Mnemonic]) -> None:
+                 mnemonic: Union[str, Mnemonic]) -> None:
         """ Validate the mnemonic specified at construction.
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Raises:
             Bip39ChecksumError: If checksum is not valid
@@ -60,11 +60,11 @@ class Bip39MnemonicValidator:
         self.m_mnemonic_decoder.Decode(mnemonic)
 
     def IsValid(self,
-                mnemonic: Union[str, Bip39Mnemonic]) -> bool:
+                mnemonic: Union[str, Mnemonic]) -> bool:
         """ Get if the mnemonic specified at construction is valid.
 
         Args:
-            mnemonic (str or Bip39Mnemonic object): Mnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Returns:
             bool: True if valid, False otherwise

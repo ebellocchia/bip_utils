@@ -22,11 +22,12 @@
 # Imports
 from typing import Dict, Union
 from bip_utils.monero.mnemonic.monero_mnemonic import (
-    MoneroMnemonicConst, MoneroLanguages, MoneroWordsNum, MoneroMnemonic, MoneroMnemonicEncoder
+    MoneroMnemonicConst, MoneroLanguages, MoneroWordsNum, MoneroMnemonicEncoder
 )
 from bip_utils.monero.mnemonic.monero_entropy_generator import (
     MoneroEntropyBitLen, MoneroEntropyGenerator
 )
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class MoneroMnemonicGeneratorConst:
@@ -62,14 +63,14 @@ class MoneroMnemonicGenerator:
         self.m_mnemonic_encoder = MoneroMnemonicEncoder(lang)
 
     def FromWordsNumber(self,
-                        words_num: Union[int, MoneroWordsNum]) -> MoneroMnemonic:
+                        words_num: Union[int, MoneroWordsNum]) -> Mnemonic:
         """ Generate mnemonic with the specified words number from random entropy.
 
         Args:
             words_num (int or MoneroWordsNum): Number of words (12, 13, 24, 25)
 
         Returns:
-            MoneroMnemonic object: Generated mnemonic
+            Mnemonic object: Generated mnemonic
 
         Raises:
             ValueError: If words number is not valid
@@ -93,14 +94,14 @@ class MoneroMnemonicGenerator:
                 else self.FromEntropyNoChecksum(entropy_bytes))
 
     def FromEntropyNoChecksum(self,
-                              entropy_bytes: bytes) -> MoneroMnemonic:
+                              entropy_bytes: bytes) -> Mnemonic:
         """ Generate mnemonic from the specified entropy bytes (no checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
 
         Returns:
-            MoneroMnemonic object: Generated mnemonic (no checksum)
+            Mnemonic object: Generated mnemonic (no checksum)
 
         Raises:
             ValueError: If entropy byte length is not valid
@@ -108,14 +109,14 @@ class MoneroMnemonicGenerator:
         return self.m_mnemonic_encoder.EncodeNoChecksum(entropy_bytes)
 
     def FromEntropyWithChecksum(self,
-                                entropy_bytes: bytes) -> MoneroMnemonic:
+                                entropy_bytes: bytes) -> Mnemonic:
         """ Generate mnemonic from the specified entropy bytes (with checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
 
         Returns:
-            MoneroMnemonic object: Generated mnemonic (with checksum)
+            Mnemonic object: Generated mnemonic (with checksum)
 
         Raises:
             ValueError: If entropy byte length is not valid

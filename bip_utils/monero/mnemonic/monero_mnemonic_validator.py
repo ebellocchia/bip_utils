@@ -23,7 +23,8 @@
 # Imports
 from typing import Optional, Union
 from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicDecoder
+from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicDecoder
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class MoneroMnemonicValidator:
@@ -45,11 +46,11 @@ class MoneroMnemonicValidator:
         self.m_mnemonic_decoder = MoneroMnemonicDecoder(lang)
 
     def Validate(self,
-                 mnemonic: Union[str, MoneroMnemonic]) -> None:
+                 mnemonic: Union[str, Mnemonic]) -> None:
         """ Validate the mnemonic specified at construction.
 
         Args:
-            mnemonic (str or MoneroMnemonic object): Mnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Raises:
             MoneroChecksumError: If checksum is not valid
@@ -60,11 +61,11 @@ class MoneroMnemonicValidator:
         self.m_mnemonic_decoder.Decode(mnemonic)
 
     def IsValid(self,
-                mnemonic: Union[str, MoneroMnemonic]) -> bool:
+                mnemonic: Union[str, Mnemonic]) -> bool:
         """ Get if the mnemonic specified at construction is valid.
 
         Args:
-            mnemonic (str or MoneroMnemonic object): Mnemonic
+            mnemonic (str or Mnemonic object): Mnemonic
 
         Returns:
             bool: True if valid, False otherwise
