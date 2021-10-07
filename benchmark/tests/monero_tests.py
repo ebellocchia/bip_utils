@@ -29,10 +29,10 @@ class MoneroTests(BenchmarkTestsBase):
     # Run test
     def _RunTest(self,
                  seed_bytes: bytes) -> None:
-        for i in range(0, self.test_itr_num):
+        for i in range(0, self.m_test_itr_num):
             monero_ctx = Monero.FromSeed(seed_bytes)
 
-            for j in range(0, self.test_cache_num):
+            for j in range(0, self.m_test_cache_num):
                 monero_ctx.PrimaryAddress()
                 monero_ctx.PublicSpendKey().RawCompressed().ToHex()
                 monero_ctx.PublicSpendKey().RawUncompressed().ToHex()

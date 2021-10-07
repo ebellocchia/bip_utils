@@ -29,11 +29,11 @@ class SubstrateTests(BenchmarkTestsBase):
     # Run test
     def _RunTest(self,
                  seed_bytes: bytes) -> None:
-        for i in range(0, self.test_itr_num):
+        for i in range(0, self.m_test_itr_num):
             substrate_ctx = Substrate.FromSeed(seed_bytes, SubstrateCoins.POLKADOT)
             substrate_ctx = substrate_ctx.ChildKey("//hard1").ChildKey("//hard2")
 
-            for j in range(0, self.test_cache_num):
+            for j in range(0, self.m_test_cache_num):
                 substrate_ctx.PublicKey().ToAddress()
                 substrate_ctx.PublicKey().RawCompressed().ToHex()
                 substrate_ctx.PublicKey().RawUncompressed().ToHex()
@@ -41,7 +41,7 @@ class SubstrateTests(BenchmarkTestsBase):
 
             substrate_ctx = substrate_ctx.ChildKey("/soft1").ChildKey("/soft2")
 
-            for j in range(0, self.test_cache_num):
+            for j in range(0, self.m_test_cache_num):
                 substrate_ctx.PublicKey().ToAddress()
                 substrate_ctx.PublicKey().RawCompressed().ToHex()
                 substrate_ctx.PublicKey().RawUncompressed().ToHex()

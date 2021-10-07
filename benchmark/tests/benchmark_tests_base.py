@@ -27,23 +27,29 @@ from typing import List
 
 # Benchmark tests base class
 class BenchmarkTestsBase(ABC):
+
+    m_test_num: int
+    m_test_itr_num: int
+    m_test_cache_num: int
+    m_test_elapsed_times: List[int]
+
     # Constructor
     def __init__(self,
                  test_num: int,
                  test_itr_num: int,
                  test_cache_num: int) -> None:
-        self.test_num = test_num
-        self.test_itr_num = test_itr_num
-        self.test_cache_num = test_cache_num
-        self.test_elapsed_times = []
+        self.m_test_num = test_num
+        self.m_test_itr_num = test_itr_num
+        self.m_test_cache_num = test_cache_num
+        self.m_test_elapsed_times = []
 
     # Run tests
     def RunTests(self,
                  seed_bytes: bytes) -> None:
         cls_name = type(self).__name__
-        self.test_elapsed_times = []
+        self.m_test_elapsed_times = []
 
-        for t in range(0, self.test_num):
+        for t in range(0, self.m_test_num):
             # Start timer
             tmr = Timer(name=cls_name, text="{name} - Elapsed time: {milliseconds:.0f}ms")
             tmr.start()
@@ -52,15 +58,15 @@ class BenchmarkTestsBase(ABC):
             self._RunTest(seed_bytes)
 
             # Stop timer
-            self.test_elapsed_times.append(tmr.stop())
+            self.m_test_elapsed_times.append(int(tmr.stop()))
 
     # Get elapsed times
-    def GetElapsedTimes(self) -> List[float]:
-        return self.test_elapsed_times
+    def GetElapsedTimes(self) -> List[int]:
+        return self.m_test_elapsed_times
 
     # Get average time
     def GetAverageTime(self) -> float:
-        return (1000 * sum(self.test_elapsed_times)) / len(self.test_elapsed_times)
+        return (1000 * sum(self.m_test_elapsed_times)) / len(self.m_test_elapsed_times)
 
     # Run test
     @abstractmethod

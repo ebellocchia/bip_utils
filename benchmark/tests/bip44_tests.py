@@ -26,6 +26,9 @@ from tests.benchmark_tests_base import BenchmarkTestsBase
 
 # Bip44 tests class
 class Bip44Tests(BenchmarkTestsBase):
+
+    bip44_coin: Bip44Coins
+
     # Constructor
     def __init__(self,
                  bip44_coin: Bip44Coins,
@@ -33,16 +36,16 @@ class Bip44Tests(BenchmarkTestsBase):
                  test_itr_num: int,
                  test_cache_num: int) -> None:
         super().__init__(test_num, test_itr_num, test_cache_num)
-        self.bip44_coin = bip44_coin
+        self.m_bip44_coin = bip44_coin
 
     # Run test
     def _RunTest(self,
                  seed_bytes: bytes) -> None:
-        for i in range(0, self.test_itr_num):
-            bip44_ctx = Bip44.FromSeed(seed_bytes, self.bip44_coin)
+        for i in range(0, self.m_test_itr_num):
+            bip44_ctx = Bip44.FromSeed(seed_bytes, self.m_bip44_coin)
             bip44_chg = bip44_ctx.Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT)
 
-            for j in range(0, self.test_cache_num):
+            for j in range(0, self.m_test_cache_num):
                 bip44_chg.PublicKey().ToAddress()
                 bip44_chg.PublicKey().ToExtended()
                 bip44_chg.PrivateKey().ToExtended()
@@ -52,7 +55,7 @@ class Bip44Tests(BenchmarkTestsBase):
 
             bip44_addr = bip44_chg.AddressIndex(i)
 
-            for j in range(0, self.test_cache_num):
+            for j in range(0, self.m_test_cache_num):
                 bip44_addr.PublicKey().ToAddress()
                 bip44_addr.PublicKey().ToExtended()
                 bip44_addr.PrivateKey().ToExtended()
