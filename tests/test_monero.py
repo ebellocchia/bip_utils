@@ -26,12 +26,6 @@ from bip_utils import (
     MoneroPublicKey, MoneroPrivateKey, MoneroKeyError, Monero, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
 )
 from bip_utils.monero.monero import MoneroConst
-from .test_ecc import (
-    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY, TEST_SR25519_PRIV_KEY,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY, TEST_SR25519_PUB_KEY,
-    TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID
-)
-
 
 # Some random private spend keys
 # Verified with the official Monero wallet and: https://xmr.llcoins.net/addresstests.html
@@ -268,27 +262,6 @@ class MoneroTests(unittest.TestCase):
         self.assertRaises(ValueError, monero.SubAddress, MoneroConst.SUBADDR_MAX_IDX + 1, 0)
         self.assertRaises(ValueError, monero.SubAddress, 0, MoneroConst.SUBADDR_MAX_IDX + 1)
 
-    # Test invalid parameters
-    def test_invalid_params(self):
-        # Invalid types
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_ED25519_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_NIST256P1_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_SECP256K1_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_SR25519_PRIV_KEY)
-
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_ED25519_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_SECP256K1_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_SR25519_PUB_KEY)
-
-        # Invalid keys
-        for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(MoneroKeyError, MoneroPublicKey.FromBytes, binascii.unhexlify(test))
-        for test in TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID:
-            self.assertRaises(MoneroKeyError, MoneroPrivateKey.FromBytes, binascii.unhexlify(test))
-
     # Test keys and addresses
     def __test_keys_and_addresses(self, monero, test, is_watch_only):
         # Test watch-only flag
@@ -296,29 +269,23 @@ class MoneroTests(unittest.TestCase):
 
         # Test key objects
         if not is_watch_only:
-            self.assertTrue(isinstance(monero.PrivateSpendKey().KeyObject(), Ed25519MoneroPrivateKey))
-        self.assertTrue(isinstance(monero.PrivateViewKey().KeyObject(), Ed25519MoneroPrivateKey))
-        self.assertTrue(isinstance(monero.PublicSpendKey().KeyObject(), Ed25519MoneroPublicKey))
-        self.assertTrue(isinstance(monero.PublicViewKey().KeyObject(), Ed25519MoneroPublicKey))
+            self.assertTrue(isinstance(monero.PrivateSpendKey(), MoneroPrivateKey))
+        self.assertTrue(isinstance(monero.PrivateViewKey(), MoneroPrivateKey))
+        self.assertTrue(isinstance(monero.PublicSpendKey(), MoneroPublicKey))
+        self.assertTrue(isinstance(monero.PublicViewKey(), MoneroPublicKey))
 
         # Test keys
         if not is_watch_only:
             self.assertEqual(test["priv_skey"], monero.PrivateSpendKey().Raw().ToHex())
-            self.assertEqual(test["priv_skey"], str(monero.PrivateSpendKey().Raw()))
             self.assertEqual(test["priv_vkey"], monero.PrivateViewKey().Raw().ToHex())
-            self.assertEqual(test["priv_vkey"], str(monero.PrivateViewKey().Raw()))
         else:
             self.assertRaises(MoneroKeyError, monero.PrivateSpendKey)
 
         self.assertEqual(test["pub_skey"], monero.PublicSpendKey().RawCompressed().ToHex())
-        self.assertEqual(test["pub_skey"], str(monero.PublicSpendKey().RawCompressed()))
         self.assertEqual(test["pub_skey"], monero.PublicSpendKey().RawUncompressed().ToHex())
-        self.assertEqual(test["pub_skey"], str(monero.PublicSpendKey().RawUncompressed()))
 
         self.assertEqual(test["pub_vkey"], monero.PublicViewKey().RawCompressed().ToHex())
-        self.assertEqual(test["pub_vkey"], str(monero.PublicViewKey().RawCompressed()))
         self.assertEqual(test["pub_vkey"], monero.PublicViewKey().RawUncompressed().ToHex())
-        self.assertEqual(test["pub_vkey"], str(monero.PublicViewKey().RawUncompressed()))
 
         # Test primary address
         self.assertEqual(test["primary_address"], monero.PrimaryAddress())
