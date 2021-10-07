@@ -20,9 +20,9 @@
 
 
 # Imports
-import binascii
+import os
 import unittest
-from bip_utils import Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyNetVersions
+from bip_utils import Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyNetVersions, Bip32KeyData
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 
 
@@ -30,6 +30,55 @@ from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 # Tests
 #
 class Bip32KeyDataTests(unittest.TestCase):
+    # Basic test
+    def test_basic(self):
+        # Bip32Depth
+        depth = Bip32Depth(1)
+        self.assertEqual(depth.ToInt(), 1)
+        self.assertEqual(int(depth), 1)
+        # Bip32KeyIndex
+        key_idx = Bip32KeyIndex(2)
+        self.assertEqual(key_idx.ToInt(), 2)
+        self.assertEqual(int(key_idx), 2)
+        # Bip32ChainCode
+        chaincode_bytes = os.urandom(Bip32KeyDataConst.CHAINCODE_BYTE_LEN)
+        chaincode = Bip32ChainCode(chaincode_bytes)
+        self.assertEqual(chaincode.ToBytes(), chaincode_bytes)
+        self.assertEqual(bytes(chaincode), chaincode_bytes)
+        # Bip32FingerPrint (default)
+        fprint = Bip32FingerPrint()
+        self.assertEqual(fprint.ToBytes(), Bip32KeyDataConst.MASTER_FINGERPRINT)
+        self.assertEqual(bytes(fprint), Bip32KeyDataConst.MASTER_FINGERPRINT)
+        self.assertTrue(fprint.IsMasterKey())
+        # Bip32FingerPrint (random)
+        fprint_bytes = os.urandom(Bip32KeyDataConst.FINGERPRINT_BYTE_LEN)
+        fprint = Bip32FingerPrint(fprint_bytes)
+        self.assertEqual(fprint.ToBytes(), fprint_bytes)
+        self.assertEqual(bytes(fprint), fprint_bytes)
+        self.assertFalse(fprint.IsMasterKey())
+        # Bip32KeyNetVersions
+        key_net_ver_priv = os.urandom(Bip32KeyDataConst.KEY_NET_VERSION_LEN)
+        key_net_ver_pub = os.urandom(Bip32KeyDataConst.KEY_NET_VERSION_LEN)
+        key_net_ver = Bip32KeyNetVersions(key_net_ver_priv, key_net_ver_pub)
+        self.assertEqual(key_net_ver.Length(), Bip32KeyDataConst.KEY_NET_VERSION_LEN)
+        self.assertEqual(key_net_ver.Public(), key_net_ver_priv)
+        self.assertEqual(key_net_ver.Private(), key_net_ver_pub)
+
+        # Bip32KeyData
+        key_data = Bip32KeyData(key_net_ver, depth, key_idx, chaincode, fprint)
+
+        self.assertEqual(key_data.KeyNetVersions(), key_net_ver)
+        self.assertEqual(key_data.KeyNetVersions().Public(), key_net_ver.Public())
+        self.assertEqual(key_data.KeyNetVersions().Private(), key_net_ver.Private())
+        self.assertEqual(key_data.Depth(), depth)
+        self.assertEqual(key_data.Depth().ToInt(), depth.ToInt())
+        self.assertEqual(key_data.Index(), key_idx)
+        self.assertEqual(key_data.Index().ToInt(), key_idx.ToInt())
+        self.assertEqual(key_data.ChainCode(), chaincode)
+        self.assertEqual(key_data.ChainCode().ToBytes(), chaincode.ToBytes())
+        self.assertEqual(key_data.ParentFingerPrint(), fprint)
+        self.assertFalse(key_data.ParentFingerPrint().IsMasterKey())
+
     # Test for operators
     def test_operators(self):
         self.assertTrue(Bip32Depth(1) < Bip32Depth(2))
@@ -38,10 +87,8 @@ class Bip32KeyDataTests(unittest.TestCase):
         self.assertTrue(Bip32Depth(2) > 1)
         self.assertTrue(Bip32Depth(1) == Bip32Depth(1))
         self.assertTrue(Bip32Depth(1) == 1)
-        self.assertTrue(int(Bip32Depth(1)) == 1)
         self.assertTrue(Bip32KeyIndex(1) == Bip32KeyIndex(1))
         self.assertTrue(Bip32KeyIndex(1) == 1)
-        self.assertTrue(int(Bip32KeyIndex(1)) == 1)
 
     # Test invalid parameters
     def test_invalid_parameters(self):

@@ -68,7 +68,6 @@ class Bip32BaseTestHelper:
             # Test chain code
             ut_class.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode().ToBytes()))
             ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
-            ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
 
             # Test derivation paths
             for der_path in test["der_paths"]:
@@ -87,7 +86,6 @@ class Bip32BaseTestHelper:
 
                 ut_class.assertEqual(der_path["chain_code"], binascii.hexlify(bip32_ctx.ChainCode().ToBytes()))
                 ut_class.assertEqual(der_path["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
-                ut_class.assertEqual(der_path["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     @staticmethod
