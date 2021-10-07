@@ -28,7 +28,7 @@ from typing import Optional, Union, Tuple
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_key_data import (
-    Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
 )
 from bip_utils.bip.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
@@ -103,7 +103,7 @@ class Bip32Base(ABC):
         # Create BIP32 by splitting the HMAC into two 32-byte sequences
         return cls(priv_key=hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN],
                    pub_key=None,
-                   chain_code=hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:],
+                   chain_code=Bip32ChainCode(hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]),
                    curve_type=curve_type,
                    key_net_ver=key_net_ver)
 
@@ -206,7 +206,7 @@ class Bip32Base(ABC):
         """
         return cls(priv_key=priv_key,
                    pub_key=None,
-                   chain_code=b"\x00" * Bip32BaseConst.HMAC_HALF_BYTE_LEN,
+                   chain_code=Bip32ChainCode(),
                    curve_type=curve_type,
                    key_net_ver=key_net_ver)
 
@@ -232,7 +232,7 @@ class Bip32Base(ABC):
         """
         return cls(priv_key=None,
                    pub_key=pub_key,
-                   chain_code=b"\x00" * Bip32BaseConst.HMAC_HALF_BYTE_LEN,
+                   chain_code=Bip32ChainCode(),
                    curve_type=curve_type,
                    key_net_ver=key_net_ver)
 
@@ -243,7 +243,7 @@ class Bip32Base(ABC):
     def __init__(self,
                  priv_key: Optional[Union[bytes, IPrivateKey]],
                  pub_key: Optional[Union[bytes, IPublicKey]],
-                 chain_code: bytes,
+                 chain_code: Bip32ChainCode,
                  curve_type: EllipticCurveTypes,
                  depth: Bip32Depth = Bip32Depth(0),
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
@@ -255,7 +255,7 @@ class Bip32Base(ABC):
             priv_key (bytes or IPrivateKey)                   : Private key (if None, a public-only object will be created)
             pub_key (bytes or IPublicKey)                     : Public key (only needed for a public-only object)
                                                                 If priv_key is not None, it'll be discarded
-            chain_code (bytes)                                : 32-byte representation of the chain code
+            chain_code (Bip32ChainCode object)                : Chain code
             curve_type (EllipticCurveTypes)                   : Elliptic curve type
             depth (Bip32Depth object, optional)               : Child depth, parent increments its own by one when
                                                                 assigning this (default: 0)
@@ -403,11 +403,11 @@ class Bip32Base(ABC):
         """
         return self.m_pub_key.Data().Index()
 
-    def ChainCode(self) -> bytes:
-        """ Get current chain code.
+    def ChainCode(self) -> Bip32ChainCode:
+        """ Get chain code.
 
         Returns:
-            bytes: Current chain code
+            Bip32ChainCode: Chain code
         """
         return self.m_pub_key.Data().ChainCode()
 
@@ -490,7 +490,7 @@ class Bip32Base(ABC):
         """
 
         # Use chain as HMAC key
-        hmac = CryptoUtils.HmacSha512(self.ChainCode(), data_bytes)
+        hmac = CryptoUtils.HmacSha512(self.ChainCode().ToBytes(), data_bytes)
         return hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN], hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]
 
     #

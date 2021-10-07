@@ -35,6 +35,8 @@ class Bip32KeyDataConst:
     KEY_INDEX_BYTE_LEN: int = 4
     # Key index maximum value
     KEY_INDEX_MAX_VAL: int = 2**32 - 1
+    # Chaincode length in bytes
+    CHAINCODE_BYTE_LEN: int = 32
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN: int = 4
     # Key net version length in bytes
@@ -43,8 +45,41 @@ class Bip32KeyDataConst:
     MASTER_FINGERPRINT: bytes = b"\x00\x00\x00\x00"
 
 
+class Bip32ChainCode:
+    """ BIP32 chaincode class. It represents a BIP32 chaincode. """
+
+    m_chaincode: bytes
+
+    def __init__(self,
+                 chaincode: bytes = b"\x00" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN) -> None:
+        """ Construct class.
+
+        Args:
+            chaincode (bytes, optional): Fingerprint bytes (default: zero)
+        """
+        if len(chaincode) != Bip32KeyDataConst.CHAINCODE_BYTE_LEN:
+            raise ValueError(f"Invalid chaincode length ({len(chaincode)})")
+        self.m_chaincode = chaincode
+
+    def ToBytes(self) -> bytes:
+        """ Get fingerprint as bytes.
+
+        Returns:
+            bytes: Fingerprint
+        """
+        return self.m_chaincode
+
+    def __bytes__(self) -> bytes:
+        """ Get fingerprint as bytes.
+
+        Returns:
+            bytes: Fingerprint
+        """
+        return self.ToBytes()
+
+
 class Bip32FingerPrint:
-    """ BIP32 key index class. It represents a BIP32 key index. """
+    """ BIP32 fingerprint class. It represents a BIP32 fingerprint. """
 
     m_fprint: bytes
 
@@ -55,6 +90,8 @@ class Bip32FingerPrint:
         Args:
             fprint (bytes, optional): Fingerprint bytes (default: master key)
         """
+        if len(fprint) < Bip32KeyDataConst.FINGERPRINT_BYTE_LEN:
+            raise ValueError(f"Invalid fingerprint length ({len(fprint)})")
         self.m_fprint = fprint[:Bip32KeyDataConst.FINGERPRINT_BYTE_LEN]
 
     def IsMasterKey(self) -> bool:
@@ -150,7 +187,7 @@ class Bip32Depth:
             bool: True if equal false otherwise
         """
         if not isinstance(other, (int, Bip32Depth)):
-            raise TypeError("Invalid type for checking equality")
+            raise TypeError(f"Invalid type for checking equality ({type(other)})")
 
         if isinstance(other, int):
             return self.m_depth == other
@@ -256,7 +293,7 @@ class Bip32KeyIndex:
             bool: True if equal false otherwise
         """
         if not isinstance(other, (int, Bip32KeyIndex)):
-            raise TypeError("Invalid type for checking equality")
+            raise TypeError(f"Invalid type for checking equality ({type(other)})")
 
         if isinstance(other, int):
             return self.m_idx == other
@@ -320,14 +357,14 @@ class Bip32KeyData:
     m_key_net_ver: Bip32KeyNetVersions
     m_depth: Bip32Depth
     m_index: Bip32KeyIndex
-    m_chain_code: bytes
+    m_chain_code: Bip32ChainCode
     m_parent_fprint: Bip32FingerPrint
 
     def __init__(self,
                  key_net_ver: Bip32KeyNetVersions,
                  depth: Bip32Depth,
                  index: Bip32KeyIndex,
-                 chain_code: bytes,
+                 chain_code: Bip32ChainCode,
                  parent_fprint: Bip32FingerPrint) -> None:
         """ Construct class.
 
@@ -335,7 +372,7 @@ class Bip32KeyData:
             key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
             depth (Bip32Depth object)               : Key depth
             index (Bip32KeyIndex object)            : Key index
-            chain_code (bytes)                      : Key chain code
+            chain_code (Bip32ChainCode object)      : Key chain code
             parent_fprint (Bip32FingerPrint object) : Key parent fingerprint
         """
         self.m_key_net_ver = key_net_ver
@@ -368,11 +405,11 @@ class Bip32KeyData:
         """
         return self.m_index
 
-    def ChainCode(self) -> bytes:
+    def ChainCode(self) -> Bip32ChainCode:
         """ Get current chain code.
 
         Returns:
-            bytes: Current chain code
+            Bip32ChainCode object: Chain code
         """
         return self.m_chain_code
 

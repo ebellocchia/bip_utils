@@ -66,7 +66,7 @@ class Bip32BaseTestHelper:
             ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bip32_ctx.PrivateKey().Raw().ToBytes())
             ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bytes(bip32_ctx.PrivateKey().Raw()))
             # Test chain code
-            ut_class.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
+            ut_class.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode().ToBytes()))
             ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
             ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
 
@@ -85,7 +85,7 @@ class Bip32BaseTestHelper:
                 ut_class.assertEqual(der_path["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
                 ut_class.assertEqual(der_path["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
 
-                ut_class.assertEqual(der_path["chain_code"], binascii.hexlify(bip32_ctx.ChainCode()))
+                ut_class.assertEqual(der_path["chain_code"], binascii.hexlify(bip32_ctx.ChainCode().ToBytes()))
                 ut_class.assertEqual(der_path["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
                 ut_class.assertEqual(der_path["parent_fprint"], binascii.hexlify(bytes(bip32_ctx.ParentFingerPrint())))
 
@@ -214,7 +214,7 @@ class Bip32BaseTestHelper:
         ut_class.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
         ut_class.assertEqual(test["master"]["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
         ut_class.assertEqual(0, bip32_ctx.Depth())
-        ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode())
+        ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode().ToBytes())
         ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
         # Same test for derivation paths
@@ -225,7 +225,7 @@ class Bip32BaseTestHelper:
             ut_class.assertEqual(der_path["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
             ut_class.assertEqual(der_path["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
             ut_class.assertEqual(0, bip32_ctx.Depth())
-            ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode())
+            ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode().ToBytes())
             ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
     # Test from public key
@@ -236,7 +236,7 @@ class Bip32BaseTestHelper:
         # Test master key
         ut_class.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
         ut_class.assertEqual(0, bip32_ctx.Depth())
-        ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode())
+        ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode().ToBytes())
         ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
         ut_class.assertRaises(Bip32KeyError, bip32_ctx.PrivateKey)

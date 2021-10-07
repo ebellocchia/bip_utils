@@ -31,7 +31,7 @@ from bip_utils.bip.bip39 import (
 # BIP32
 from bip_utils.bip.bip32 import (
     Bip32KeyError, Bip32PathError,
-    Bip32KeyIndex,
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData,
     Bip32Path, Bip32PathParser,
     Bip32PublicKey, Bip32PrivateKey,
     Bip32Utils,

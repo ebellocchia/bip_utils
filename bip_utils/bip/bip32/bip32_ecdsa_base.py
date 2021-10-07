@@ -22,7 +22,7 @@
 # Imports
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
-from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_base import Bip32Base
 from bip_utils.ecc import EllipticCurveGetter
 from bip_utils.utils.misc import ConvUtils
@@ -102,7 +102,7 @@ class Bip32EcdsaBase(Bip32Base):
         # Construct and return a new Bip32 object
         return cls(priv_key=new_priv_key_bytes,
                    pub_key=None,
-                   chain_code=i_r,
+                   chain_code=Bip32ChainCode(i_r),
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),
                    index=index,
@@ -142,7 +142,7 @@ class Bip32EcdsaBase(Bip32Base):
         # Construct and return a new Bip32 object
         return cls(priv_key=None,
                    pub_key=pub_key,
-                   chain_code=i_r,
+                   chain_code=Bip32ChainCode(i_r),
                    curve_type=bip32_obj.CurveType(),
                    depth=bip32_obj.Depth().Increase(),
                    index=index,

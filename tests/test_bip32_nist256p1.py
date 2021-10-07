@@ -279,5 +279,5 @@ class Bip32Nist256p1Tests(unittest.TestCase):
 
         self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["priv_key"]), bip32_ctx.PrivateKey().Raw().ToBytes())
         self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["pub_key"]), bip32_ctx.PublicKey().RawCompressed().ToBytes())
-        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["chain_code"]), bip32_ctx.ChainCode())
+        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["chain_code"]), bip32_ctx.ChainCode().ToBytes())
         self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["parent_fprint"]), bip32_ctx.ParentFingerPrint().ToBytes())

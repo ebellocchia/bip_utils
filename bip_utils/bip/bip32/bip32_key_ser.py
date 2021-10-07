@@ -24,7 +24,7 @@ from typing import Optional, Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import (
-    Bip32FingerPrint, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
 )
 from bip_utils.ecc import IPublicKey, IPrivateKey
 from bip_utils.utils.misc import ConvUtils
@@ -93,7 +93,7 @@ class Bip32KeyDeserializer:
         self.m_key_data = Bip32KeyData(key_net_ver,
                                        Bip32Depth(depth),
                                        Bip32KeyIndex(index),
-                                       chain_code,
+                                       Bip32ChainCode(chain_code),
                                        Bip32FingerPrint(fprint))
 
     def GetKeyParts(self) -> Tuple[bytes, Bip32KeyData]:
@@ -170,23 +170,23 @@ class Bip32KeySerializer:
                   key_net_ver: bytes,
                   depth: Bip32Depth,
                   index: Bip32KeyIndex,
-                  chain_code: bytes,
+                  chain_code: Bip32ChainCode,
                   fprint: Bip32FingerPrint) -> str:
         """ Serialize the specified key bytes.
 
         Args:
-            key_bytes (bytes)               : Key bytes
-            key_net_ver (bytes)             : Key net version
-            depth (Bip32Depth object)       : Key depth
-            index (Bip32KeyIndex object)    : Key index
-            chain_code (bytes)              : Key chain code
-            fprint (Bip32FingerPrint object): Key fingerprint
+            key_bytes (bytes)                 : Key bytes
+            key_net_ver (bytes)               : Key net version
+            depth (Bip32Depth object)         : Key depth
+            index (Bip32KeyIndex object)      : Key index
+            chain_code (Bip32ChainCode object): Key chain code
+            fprint (Bip32FingerPrint object)  : Key fingerprint
 
         Returns:
             str: Serialized key
         """
 
         # Serialize key
-        ser_key = key_net_ver + bytes(depth) + bytes(fprint) + bytes(index) + chain_code + key_bytes
+        ser_key = key_net_ver + bytes(depth) + bytes(fprint) + bytes(index) + bytes(chain_code) + key_bytes
         # Encode it
         return Base58Encoder.CheckEncode(ser_key)
