@@ -23,14 +23,14 @@
 import binascii
 import unittest
 from bip_utils import (
-    MoneroPublicKey, MoneroPrivateKey, MoneroKeyError, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
+    MoneroKeyError, MoneroPrivateKey, MoneroPublicKey, Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey
 )
 from .test_ecc import (
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY, TEST_SR25519_PRIV_KEY,
     TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY, TEST_SR25519_PUB_KEY,
-    TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID,
-    TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES, TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_ED25519_MONERO_PRIV_KEY_BYTES, TEST_ED25519_MONERO_PRIV_KEY
+    TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID, TEST_VECT_ED25519_PUB_KEY_INVALID,
+    TEST_ED25519_MONERO_PRIV_KEY_BYTES, TEST_ED25519_MONERO_PRIV_KEY,
+    TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES, TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES, TEST_ED25519_MONERO_PUB_KEY
 )
 
 
@@ -40,33 +40,34 @@ from .test_ecc import (
 class MoneroKeysTests(unittest.TestCase):
     # Test private key
     def test_priv_key(self):
-        # FromBytesOrKeyObject
-        priv_key = MoneroPrivateKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PRIV_KEY)
-        self.__test_priv_key_obj(priv_key)
+        # FromBytesOrKeyObject (object)
+        self.__test_priv_key_obj(MoneroPrivateKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PRIV_KEY))
+        # FromBytesOrKeyObject (bytes)
+        self.__test_priv_key_obj(MoneroPrivateKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PRIV_KEY_BYTES))
         # FromBytes
-        priv_key = MoneroPrivateKey.FromBytes(TEST_ED25519_MONERO_PRIV_KEY_BYTES)
-        self.__test_priv_key_obj(priv_key)
+        self.__test_priv_key_obj(MoneroPrivateKey.FromBytes(TEST_ED25519_MONERO_PRIV_KEY_BYTES))
 
     # Test public key
     def test_pub_key(self):
-        # FromBytesOrKeyObject
-        pub_key = MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PUB_KEY)
-        self.__test_pub_key_obj(pub_key)
+        # FromBytesOrKeyObject (object)
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PUB_KEY))
+        # FromBytesOrKeyObject (compressed)
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES))
+        # FromBytesOrKeyObject (uncompressed)
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES))
         # FromBytes (compressed)
-        pub_key = MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
-        self.__test_pub_key_obj(pub_key)
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES))
         # FromBytes (uncompressed)
-        pub_key = MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES)
-        self.__test_pub_key_obj(pub_key)
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES))
 
     # Test invalid keys
     def test_invalid_keys(self):
-        for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(MoneroKeyError, MoneroPublicKey.FromBytesOrKeyObject, binascii.unhexlify(test))
-            self.assertRaises(MoneroKeyError, MoneroPublicKey.FromBytes, binascii.unhexlify(test))
         for test in TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID:
             self.assertRaises(MoneroKeyError, MoneroPrivateKey.FromBytesOrKeyObject, binascii.unhexlify(test))
             self.assertRaises(MoneroKeyError, MoneroPrivateKey.FromBytes, binascii.unhexlify(test))
+        for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
+            self.assertRaises(MoneroKeyError, MoneroPublicKey.FromBytesOrKeyObject, binascii.unhexlify(test))
+            self.assertRaises(MoneroKeyError, MoneroPublicKey.FromBytes, binascii.unhexlify(test))
 
     # Test invalid parameters
     def test_invalid_params(self):
