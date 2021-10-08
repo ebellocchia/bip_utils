@@ -150,7 +150,7 @@ TEST_PASSPHRASE = "Substrate"
 #
 # Tests
 #
-class Bip39TestsSubstrate(unittest.TestCase):
+class SubstrateMnemonicTests(unittest.TestCase):
     # Run all tests in substrate test vector for seed generation
     def test_vector(self):
         for test in TEST_VECT:
