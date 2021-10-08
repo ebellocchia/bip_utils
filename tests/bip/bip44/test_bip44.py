@@ -25,7 +25,7 @@ from bip_utils import (
     Bip44BitcoinCashMainNet, Bip44BitcoinCashTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
     Bip44, Bip44Coins, Bip49Coins, Bip84Coins
 )
-from .test_bip44_base import Bip44BaseTestHelper
+from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
 # Results generated with: https://iancoleman.io/bip39
 # Or with coin-specific/multi-coin wallets (e.g. TronLink, Cosmostation, Trust Wallet, Math Wallet)

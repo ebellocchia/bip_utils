@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import SubstratePathError, SubstrateCoins, SubstratePathParser, SubstratePathElem, SubstratePath, Substrate
-from .test_substrate import TEST_SEED
+from tests.substrate.test_substrate import TEST_SEED
 
 # Tests for path elements
 TEST_VECT_PATH_ELEM = [

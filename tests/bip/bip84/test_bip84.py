@@ -22,8 +22,8 @@
 # Imports
 import unittest
 from bip_utils import Bip84, Bip44Coins, Bip49Coins, Bip84Coins
-from .test_bip44 import TEST_SEED
-from .test_bip44_base import Bip44BaseTestHelper
+from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
+from tests.bip.bip44.test_bip44 import TEST_SEED
 
 # Results generated with: https://iancoleman.io/bip39
 # There are some differences from the website and the specs I found for Litecoin testnet (extended keys prefixes) so,

@@ -27,7 +27,6 @@ from bip_utils import (
     Monero
 )
 
-
 # Verified with the official Monero wallet and: https://xmr.llcoins.net/addresstests.html
 TEST_VECT = [
     #

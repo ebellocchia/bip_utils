@@ -26,7 +26,7 @@ from bip_utils import (
     SubstrateKeyError, SubstratePrivateKey, SubstratePublicKey, Sr25519PublicKey, Sr25519PrivateKey
 )
 from bip_utils.substrate.conf.substrate_conf import SubstratePolkadot
-from .test_ecc import *
+from tests.ecc.test_ecc import *
 
 # Test address
 TEST_ADDRESS = "13KVd4f2a4S5pLp4gTTFezyXdPWx27vQ9vS6xBXJ9yWVd7xo"

@@ -25,7 +25,7 @@ import unittest
 from bip_utils import (
     MoneroKeyError, MoneroPrivateKey, MoneroPublicKey, Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey
 )
-from .test_ecc import *
+from tests.ecc.test_ecc import *
 
 
 #

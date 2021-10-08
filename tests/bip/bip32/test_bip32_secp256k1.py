@@ -22,7 +22,7 @@
 # Imports
 import unittest
 from bip_utils import Bip32Secp256k1, Bip32Utils, EllipticCurveTypes
-from .test_bip32_base import Bip32BaseTestHelper
+from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 
 # Tests from BIP32 and SLIP-0010 pages
 TEST_VECT = [

@@ -28,10 +28,7 @@ from bip_utils import (
     Base58ChecksumError,
     WifDecoder, WifEncoder, Secp256k1PrivateKey
 )
-from .test_ecc import (
-    TEST_VECT_SECP256K1_PRIV_KEY_INVALID,
-    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SR25519_PRIV_KEY
-)
+from tests.ecc.test_ecc import *
 
 # Some keys randomly generated from:
 # https://gobittest.appspot.com/PrivateKey

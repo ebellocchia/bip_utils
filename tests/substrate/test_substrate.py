@@ -26,7 +26,7 @@ from bip_utils import (
     SubstrateKeyError, SubstrateCoins, SubstratePublicKey, SubstratePrivateKey, SubstratePathElem, SubstratePath, Substrate,
     Sr25519PrivateKey, Sr25519PublicKey
 )
-from .test_ecc import (
+from tests.ecc.test_ecc import (
     TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY, TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID
 )
 

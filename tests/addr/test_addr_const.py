@@ -20,7 +20,7 @@
 
 
 # Imports
-from .test_ecc import *
+from tests.ecc.test_ecc import *
 
 # Invalid keys for ed25519 coin addresses
 TEST_ED25519_ADDR_INVALID_KEY_TYPES = (TEST_ED25519_BLAKE2B_PUB_KEY,
@@ -52,3 +52,9 @@ TEST_SECP256K1_ADDR_INVALID_KEY_TYPES = (TEST_ED25519_PUB_KEY,
                                          TEST_ED25519_MONERO_PUB_KEY,
                                          TEST_NIST256P1_PUB_KEY,
                                          TEST_SR25519_PUB_KEY)
+# Invalid keys for sr25519 coin addresses
+TEST_SR25519_ADDR_INVALID_KEY_TYPES = (TEST_ED25519_PUB_KEY,
+                                       TEST_ED25519_BLAKE2B_PUB_KEY,
+                                       TEST_ED25519_MONERO_PUB_KEY,
+                                       TEST_NIST256P1_PUB_KEY,
+                                       TEST_SECP256K1_PUB_KEY)
