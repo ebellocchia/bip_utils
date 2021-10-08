@@ -48,7 +48,7 @@ class Bip44PublicKey:
         """
         if pub_key.CurveType() != coin_conf.Bip32Class().CurveType():
             raise ValueError(
-                f"The public key ({pub_key.CurveType()}) elliptic curve shall match"
+                f"The public key elliptic curve ({pub_key.CurveType()}) shall match "
                 f"the coin configuration one ({coin_conf.Bip32Class().CurveType()})"
             )
 
@@ -133,7 +133,7 @@ class Bip44PrivateKey:
         """
         if priv_key.CurveType() != coin_conf.Bip32Class().CurveType():
             raise ValueError(
-                f"The private key ({pub_key.CurveType()}) elliptic curve shall match"
+                f"The private key elliptic curve ({priv_key.CurveType()}) shall match "
                 f"the coin configuration one ({coin_conf.Bip32Class().CurveType()})"
             )
 
