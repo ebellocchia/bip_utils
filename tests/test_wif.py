@@ -25,8 +25,8 @@ import unittest
 from bip_utils import (
     Bip44BitcoinMainNet, Bip44BitcoinTestNet, Bip44DashMainNet, Bip44DashTestNet,
     Bip44DogecoinMainNet, Bip44DogecoinTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
-    WifDecoder, WifEncoder, Base58ChecksumError,
-    Secp256k1PrivateKey
+    Base58ChecksumError,
+    WifDecoder, WifEncoder, Secp256k1PrivateKey
 )
 from .test_ecc import (
     TEST_VECT_SECP256K1_PRIV_KEY_INVALID,
