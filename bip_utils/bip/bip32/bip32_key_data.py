@@ -23,7 +23,7 @@
 from __future__ import annotations
 from typing import Union
 from bip_utils.bip.bip32.bip32_utils import Bip32Utils
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import ConvUtils, DataBytes
 
 
 class Bip32KeyDataConst:
@@ -45,10 +45,8 @@ class Bip32KeyDataConst:
     MASTER_FINGERPRINT: bytes = b"\x00\x00\x00\x00"
 
 
-class Bip32ChainCode:
+class Bip32ChainCode(DataBytes):
     """ BIP32 chaincode class. It represents a BIP32 chaincode. """
-
-    m_chaincode: bytes
 
     def __init__(self,
                  chaincode: bytes = b"\x00" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN) -> None:
@@ -59,29 +57,11 @@ class Bip32ChainCode:
         """
         if len(chaincode) != Bip32KeyDataConst.CHAINCODE_BYTE_LEN:
             raise ValueError(f"Invalid chaincode length ({len(chaincode)})")
-        self.m_chaincode = chaincode
-
-    def ToBytes(self) -> bytes:
-        """ Get fingerprint as bytes.
-
-        Returns:
-            bytes: Fingerprint
-        """
-        return self.m_chaincode
-
-    def __bytes__(self) -> bytes:
-        """ Get fingerprint as bytes.
-
-        Returns:
-            bytes: Fingerprint
-        """
-        return self.ToBytes()
+        super().__init__(chaincode)
 
 
-class Bip32FingerPrint:
+class Bip32FingerPrint(DataBytes):
     """ BIP32 fingerprint class. It represents a BIP32 fingerprint. """
-
-    m_fprint: bytes
 
     def __init__(self,
                  fprint: bytes = Bip32KeyDataConst.MASTER_FINGERPRINT) -> None:
@@ -92,7 +72,7 @@ class Bip32FingerPrint:
         """
         if len(fprint) < Bip32KeyDataConst.FINGERPRINT_BYTE_LEN:
             raise ValueError(f"Invalid fingerprint length ({len(fprint)})")
-        self.m_fprint = fprint[:Bip32KeyDataConst.FINGERPRINT_BYTE_LEN]
+        super().__init__(fprint[:Bip32KeyDataConst.FINGERPRINT_BYTE_LEN])
 
     def IsMasterKey(self) -> bool:
         """ Get if the fingerprint corresponds to a master key.
@@ -100,23 +80,7 @@ class Bip32FingerPrint:
         Returns:
             bool: True if it corresponds to a master key, false otherwise
         """
-        return self.m_fprint == Bip32KeyDataConst.MASTER_FINGERPRINT
-
-    def ToBytes(self) -> bytes:
-        """ Get fingerprint as bytes.
-
-        Returns:
-            bytes: Fingerprint
-        """
-        return self.m_fprint
-
-    def __bytes__(self) -> bytes:
-        """ Get fingerprint as bytes.
-
-        Returns:
-            bytes: Fingerprint
-        """
-        return self.ToBytes()
+        return self.ToBytes() == Bip32KeyDataConst.MASTER_FINGERPRINT
 
 
 class Bip32Depth:

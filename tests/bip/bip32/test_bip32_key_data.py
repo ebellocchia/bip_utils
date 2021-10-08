@@ -20,6 +20,7 @@
 
 
 # Imports
+import binascii
 import os
 import unittest
 from bip_utils import Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyNetVersions, Bip32KeyData
@@ -43,16 +44,22 @@ class Bip32KeyDataTests(unittest.TestCase):
         # Bip32ChainCode
         chaincode_bytes = os.urandom(Bip32KeyDataConst.CHAINCODE_BYTE_LEN)
         chaincode = Bip32ChainCode(chaincode_bytes)
+        self.assertEqual(chaincode.ToHex(), chaincode_bytes.hex())
+        self.assertEqual(str(chaincode), chaincode_bytes.hex())
         self.assertEqual(chaincode.ToBytes(), chaincode_bytes)
         self.assertEqual(bytes(chaincode), chaincode_bytes)
         # Bip32FingerPrint (default)
         fprint = Bip32FingerPrint()
+        self.assertEqual(fprint.ToHex(), Bip32KeyDataConst.MASTER_FINGERPRINT.hex())
+        self.assertEqual(str(fprint), Bip32KeyDataConst.MASTER_FINGERPRINT.hex())
         self.assertEqual(fprint.ToBytes(), Bip32KeyDataConst.MASTER_FINGERPRINT)
         self.assertEqual(bytes(fprint), Bip32KeyDataConst.MASTER_FINGERPRINT)
         self.assertTrue(fprint.IsMasterKey())
         # Bip32FingerPrint (random)
         fprint_bytes = os.urandom(Bip32KeyDataConst.FINGERPRINT_BYTE_LEN)
         fprint = Bip32FingerPrint(fprint_bytes)
+        self.assertEqual(fprint.ToHex(), fprint_bytes.hex())
+        self.assertEqual(str(fprint), fprint_bytes.hex())
         self.assertEqual(fprint.ToBytes(), fprint_bytes)
         self.assertEqual(bytes(fprint), fprint_bytes)
         self.assertFalse(fprint.IsMasterKey())

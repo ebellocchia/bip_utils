@@ -21,7 +21,7 @@
 
 # Imports
 import binascii
-from bip_utils import Bip32KeyError, Bip32Utils, EllipticCurveGetter
+from bip_utils import Bip32KeyError, Bip32Utils, Bip32PublicKey, Bip32PrivateKey, EllipticCurveGetter
 from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 
 # Invalid seed for testing
@@ -46,10 +46,9 @@ class Bip32BaseTestHelper:
 
             # Test index
             ut_class.assertEqual(test["master"]["index"], bip32_ctx.Index())
-            # Test curve type
-            ut_class.assertEqual(test["curve_type"], bip32_ctx.PublicKey().CurveType())
-            ut_class.assertEqual(test["curve_type"], bip32_ctx.PrivateKey().CurveType())
             # Test key objects
+            ut_class.assertTrue(isinstance(bip32_ctx.PublicKey(), Bip32PublicKey))
+            ut_class.assertTrue(isinstance(bip32_ctx.PrivateKey(), Bip32PrivateKey))
             ut_class.assertTrue(isinstance(bip32_ctx.PublicKey().KeyObject(), EllipticCurveGetter.FromType(test["curve_type"]).PublicKeyClass()))
             ut_class.assertTrue(isinstance(bip32_ctx.PrivateKey().KeyObject(), EllipticCurveGetter.FromType(test["curve_type"]).PrivateKeyClass()))
             # Test extended keys
@@ -66,8 +65,15 @@ class Bip32BaseTestHelper:
             ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bip32_ctx.PrivateKey().Raw().ToBytes())
             ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bytes(bip32_ctx.PrivateKey().Raw()))
             # Test chain code
-            ut_class.assertEqual(test["master"]["chain_code"], binascii.hexlify(bip32_ctx.ChainCode().ToBytes()))
-            ut_class.assertEqual(test["master"]["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
+            ut_class.assertEqual(test["master"]["chain_code"], bip32_ctx.ChainCode().ToHex())
+            ut_class.assertEqual(test["master"]["chain_code"], str(bip32_ctx.ChainCode()))
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["chain_code"]), bip32_ctx.ChainCode().ToBytes())
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["chain_code"]), bytes(bip32_ctx.ChainCode()))
+            # Test parent fingerprint
+            ut_class.assertEqual(test["master"]["parent_fprint"], bip32_ctx.ParentFingerPrint().ToHex())
+            ut_class.assertEqual(test["master"]["parent_fprint"], str(bip32_ctx.ParentFingerPrint()))
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["parent_fprint"]), bip32_ctx.ParentFingerPrint().ToBytes())
+            ut_class.assertEqual(binascii.unhexlify(test["master"]["parent_fprint"]), bytes(bip32_ctx.ParentFingerPrint()))
 
             # Test derivation paths
             for der_path in test["der_paths"]:
@@ -84,8 +90,8 @@ class Bip32BaseTestHelper:
                 ut_class.assertEqual(der_path["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
                 ut_class.assertEqual(der_path["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
 
-                ut_class.assertEqual(der_path["chain_code"], binascii.hexlify(bip32_ctx.ChainCode().ToBytes()))
-                ut_class.assertEqual(der_path["parent_fprint"], binascii.hexlify(bip32_ctx.ParentFingerPrint().ToBytes()))
+                ut_class.assertEqual(der_path["chain_code"], bip32_ctx.ChainCode().ToHex())
+                ut_class.assertEqual(der_path["parent_fprint"], bip32_ctx.ParentFingerPrint().ToHex())
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     @staticmethod

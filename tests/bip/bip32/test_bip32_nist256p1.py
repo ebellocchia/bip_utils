@@ -37,8 +37,8 @@ TEST_VECT = [
             "ex_priv": "xprv9s21ZrQH143K3xbxu53vDH2NWbLKw5edQ3BCSX12Pknr1EA7QjAZPnd2jYvGvZ9RSwbcfeCZ5v2qZTTESRMTiAizzfQ1GUDeMWPyaXGcMfF",
             "pub_key": "0266874dc6ade47b3ecd096745ca09bcd29638dd52c2c12117b11ed3e458cfa9e8",
             "priv_key": "612091aaa12e22dd2abef664f8a01a82cae99ad7441b7ef8110424915c268bc2",
-            "chain_code": b"beeb672fe4621673f722f38529c07392fecaa61015c80c34f29ce8b41b3cb6ea",
-            "parent_fprint": b"00000000",
+            "chain_code": "beeb672fe4621673f722f38529c07392fecaa61015c80c34f29ce8b41b3cb6ea",
+            "parent_fprint": "00000000",
         },
         "der_paths": [
             # m/0'
@@ -49,8 +49,8 @@ TEST_VECT = [
                 "ex_priv": "xprv9vJJjmzMMcPT7vuRQ3RUihF5SFms7a4j1CPuxok5NYqMd5dWjwXnmLTh8CzdBZJwHUybU3gSkKEAm86C27yde9ziL2PmahvMQSPhWSVAyVb",
                 "pub_key": "0384610f5ecffe8fda089363a41f56a5c7ffc1d81b59a612d0d649b2d22355590c",
                 "priv_key": "6939694369114c67917a182c59ddb8cafc3004e63ca5d3b84403ba8613debc0c",
-                "chain_code": b"3460cea53e6a6bb5fb391eeef3237ffd8724bf0a40e94943c98b83825342ee11",
-                "parent_fprint": b"be6105b5",
+                "chain_code": "3460cea53e6a6bb5fb391eeef3237ffd8724bf0a40e94943c98b83825342ee11",
+                "parent_fprint": "be6105b5",
             },
             # m/0'/1
             {
@@ -60,8 +60,8 @@ TEST_VECT = [
                 "ex_priv": "xprv9wvN2XR2jhXFtoRvikiU4HhtMgFanjvmmMhRHj5KMKtHi2PN9aZPjAVWDLrjUbi5qejuMeQ3jH4ysGCVjVMMgERS3zCpv9DgbSEeHBnmR5k",
                 "pub_key": "03526c63f8d0b4bbbf9c80df553fe66742df4676b241dabefdef67733e070f6844",
                 "priv_key": "284e9d38d07d21e4e281b645089a94f4cf5a5a81369acf151a1c3a57f18b2129",
-                "chain_code": b"4187afff1aafa8445010097fb99d23aee9f599450c7bd140b6826ac22ba21d0c",
-                "parent_fprint": b"9b02312f",
+                "chain_code": "4187afff1aafa8445010097fb99d23aee9f599450c7bd140b6826ac22ba21d0c",
+                "parent_fprint": "9b02312f",
             },
             # m/0'/1/2'
             {
@@ -71,8 +71,8 @@ TEST_VECT = [
                 "ex_priv": "xprv9z2VpTyrSEs4AL8C9v1YLnB1eH8nJZHD3Je2xDsr6ZCkKPbuuJTQHNevwSHHzswEQqojkg9RnGZPFTwUA4e9q83KCKiCu7cFr7T2gWLtdcu",
                 "pub_key": "0359cf160040778a4b14c5f4d7b76e327ccc8c4a6086dd9451b7482b5a4972dda0",
                 "priv_key": "694596e8a54f252c960eb771a3c41e7e32496d03b954aeb90f61635b8e092aa7",
-                "chain_code": b"98c7514f562e64e74170cc3cf304ee1ce54d6b6da4f880f313e8204c2a185318",
-                "parent_fprint": b"b98005c1",
+                "chain_code": "98c7514f562e64e74170cc3cf304ee1ce54d6b6da4f880f313e8204c2a185318",
+                "parent_fprint": "b98005c1",
             },
             # m/0'/1/2'/2
             {
@@ -82,8 +82,8 @@ TEST_VECT = [
                 "ex_priv": "xprv9zenYLA3Ghj1MRMs8PSfUWGXXYsrL5JU5h5QZNcbnbgYyGV1fsHzy86gB4mYtZYxSKppYHoxQzCrv4QU9VjVuiynQcpC8bDdEGoVFMAsuoS",
                 "pub_key": "029f871f4cb9e1c97f9f4de9ccd0d4a2f2a171110c61178f84430062230833ff20",
                 "priv_key": "5996c37fd3dd2679039b23ed6f70b506c6b56b3cb5e424681fb0fa64caf82aaa",
-                "chain_code": b"ba96f776a5c3907d7fd48bde5620ee374d4acfd540378476019eab70790c63a0",
-                "parent_fprint": b"0e9f3274",
+                "chain_code": "ba96f776a5c3907d7fd48bde5620ee374d4acfd540378476019eab70790c63a0",
+                "parent_fprint": "0e9f3274",
             },
             # m/0'/1/2'/2/1000000000
             {
@@ -93,8 +93,8 @@ TEST_VECT = [
                 "ex_priv": "xprvA3T1xmVE5egg5o6MTtExys1guLv6dBkjyQ5iDbJDZuoUbFCTtSgGWjU3WJjo8qstAV3pXygy91PAHKGA3UiZZCp8poRsezYt5etdF5AvQwJ",
                 "pub_key": "02216cd26d31147f72427a453c443ed2cde8a1e53c9cc44e5ddf739725413fe3f4",
                 "priv_key": "21c4f269ef0a5fd1badf47eeacebeeaa3de22eb8e5b0adcd0f27dd99d34d0119",
-                "chain_code": b"b9b7b82d326bb9cb5b5b121066feea4eb93d5241103c9e7a18aad40f1dde8059",
-                "parent_fprint": b"8b2b5c4b",
+                "chain_code": "b9b7b82d326bb9cb5b5b121066feea4eb93d5241103c9e7a18aad40f1dde8059",
+                "parent_fprint": "8b2b5c4b",
             },
         ],
     },
@@ -107,8 +107,8 @@ TEST_VECT = [
             "ex_priv": "xprv9s21ZrQH143K3ZSLab6vRQo26pZT2EoQMivDWpf99qz9zhTXZ82neWFbQor8oTKHpiBiLaCQ4yEuGFUpCSETgkYx6B67tpaCDsSEx7dV1eh",
             "pub_key": "02c9e16154474b3ed5b38218bb0463e008f89ee03e62d22fdcc8014beab25b48fa",
             "priv_key": "eaa31c2e46ca2962227cf21d73a7ef0ce8b31c756897521eb6c7b39796633357",
-            "chain_code": b"96cd4465a9644e31528eda3592aa35eb39a9527769ce1855beafc1b81055e75d",
-            "parent_fprint": b"00000000",
+            "chain_code": "96cd4465a9644e31528eda3592aa35eb39a9527769ce1855beafc1b81055e75d",
+            "parent_fprint": "00000000",
         },
         "der_paths": [
             # m/0
@@ -119,8 +119,8 @@ TEST_VECT = [
                 "ex_priv": "xprv9ucHRfZXkJ1nKcUniu1XjUX6hQ36Cd8U9xHjsW5pySTfpmTFfZnEAmQuQ4vCSoChGYhBJnD2v7t1joVKiBkPuaAiusUxo84jLifUkipmXZo",
                 "pub_key": "039b6df4bece7b6c81e2adfeea4bcf5c8c8a6e40ea7ffa3cf6e8494c61a1fc82cc",
                 "priv_key": "d7d065f63a62624888500cdb4f88b6d59c2927fee9e6d0cdff9cad555884df6e",
-                "chain_code": b"84e9c258bb8557a40e0d041115b376dd55eda99c0042ce29e81ebe4efed9b86a",
-                "parent_fprint": b"607f628f",
+                "chain_code": "84e9c258bb8557a40e0d041115b376dd55eda99c0042ce29e81ebe4efed9b86a",
+                "parent_fprint": "607f628f",
             },
             # m/0/2147483647'
             {
@@ -130,8 +130,8 @@ TEST_VECT = [
                 "ex_priv": "xprv9wsZH2aigThGRMSkWmfE2Q9tnAQjKHG7P4nNwUmFkEHWRA82JNYhDS4qFhwkb62hQ9LU2MzMdsxAegwoDDhG7w3ZHjkhqJXXuvw6qmCbPyA",
                 "pub_key": "02f89c5deb1cae4fedc9905f98ae6cbf6cbab120d8cb85d5bd9a91a72f4c068c76",
                 "priv_key": "96d2ec9316746a75e7793684ed01e3d51194d81a42a3276858a5b7376d4b94b9",
-                "chain_code": b"f235b2bc5c04606ca9c30027a84f353acf4e4683edbd11f635d0dcc1cd106ea6",
-                "parent_fprint": b"946d2a54",
+                "chain_code": "f235b2bc5c04606ca9c30027a84f353acf4e4683edbd11f635d0dcc1cd106ea6",
+                "parent_fprint": "946d2a54",
             },
             # m/0/2147483647'/1
             {
@@ -141,8 +141,8 @@ TEST_VECT = [
                 "ex_priv": "xprv9xuhcJpU8VhLvKHrFjwQcMN7q6W2rNNPLwPXUned1NRWCsYb3gk274vLSCmbW4tsDHu2rh7cevEkDVeRZZqodJeKSNwMGV7AgDqqEk5MUsV",
                 "pub_key": "03abe0ad54c97c1d654c1852dfdc32d6d3e487e75fa16f0fd6304b9ceae4220c64",
                 "priv_key": "974f9096ea6873a915910e82b29d7c338542ccde39d2064d1cc228f371542bbc",
-                "chain_code": b"7c0b833106235e452eba79d2bdd58d4086e663bc8cc55e9773d2b5eeda313f3b",
-                "parent_fprint": b"218182d8",
+                "chain_code": "7c0b833106235e452eba79d2bdd58d4086e663bc8cc55e9773d2b5eeda313f3b",
+                "parent_fprint": "218182d8",
             },
             # m/0/2147483647'/1/2147483646'
             {
@@ -152,8 +152,8 @@ TEST_VECT = [
                 "ex_priv": "xprvA1dFUZsG4Smtv4Kdj1TtPyiCnaDwL19dB2ZpYp43XeK7S5KzDz4YmCkycwrVjBTTE1BhbBgNQffmTxjZKecVH3Vd4iuTRvDDVDmNWKwGdUd",
                 "pub_key": "03cb8cb067d248691808cd6b5a5a06b48e34ebac4d965cba33e6dc46fe13d9b933",
                 "priv_key": "da29649bbfaff095cd43819eda9a7be74236539a29094cd8336b07ed8d4eff63",
-                "chain_code": b"5794e616eadaf33413aa309318a26ee0fd5163b70466de7a4512fd4b1a5c9e6a",
-                "parent_fprint": b"931223e4",
+                "chain_code": "5794e616eadaf33413aa309318a26ee0fd5163b70466de7a4512fd4b1a5c9e6a",
+                "parent_fprint": "931223e4",
             },
             # m/0/2147483647'/1/2147483646'/2
             {
@@ -163,8 +163,8 @@ TEST_VECT = [
                 "ex_priv": "xprvA3XPVVqLYFuF18tfqC9ZHaR7CTmYzk9rz2ZFBewjrn9E9ecPAiRpM5kxrejBZAfBQ8aVxSYbtpJjtThnZqQC5BMqB6p93ZZt5kVyeXqnxDK",
                 "pub_key": "020ee02e18967237cf62672983b253ee62fa4dd431f8243bfeccdf39dbe181387f",
                 "priv_key": "bb0a77ba01cc31d77205d51d08bd313b979a71ef4de9b062f8958297e746bd67",
-                "chain_code": b"3bfb29ee8ac4484f09db09c2079b520ea5616df7820f071a20320366fbe226a7",
-                "parent_fprint": b"956c4629",
+                "chain_code": "3bfb29ee8ac4484f09db09c2079b520ea5616df7820f071a20320366fbe226a7",
+                "parent_fprint": "956c4629",
             },
         ],
     },
@@ -216,11 +216,11 @@ TEST_VECT_PUBLIC_DER_PUB_KEY = {
 
 # Test for seed that results in an invalid private key
 TEST_RETRY_SEED = {
-    "seed": b"a7305bc8df8d0951f0cb224c0e95d7707cbdf2c6ce7e8d481fec69c7ff5e9446",
-    "pub_key": b"0383619fadcde31063d8c5cb00dbfe1713f3e6fa169d8541a798752a1c1ca0cb20",
-    "priv_key": b"3b8c18469a4634517d6d0b65448f8e6c62091b45540a1743c5846be55d47d88f",
-    "chain_code": b"7762f9729fed06121fd13f326884c82f59aa95c57ac492ce8c9654e60efd130c",
-    "parent_fprint": b"00000000",
+    "seed": "a7305bc8df8d0951f0cb224c0e95d7707cbdf2c6ce7e8d481fec69c7ff5e9446",
+    "pub_key": "0383619fadcde31063d8c5cb00dbfe1713f3e6fa169d8541a798752a1c1ca0cb20",
+    "priv_key": "3b8c18469a4634517d6d0b65448f8e6c62091b45540a1743c5846be55d47d88f",
+    "chain_code": "7762f9729fed06121fd13f326884c82f59aa95c57ac492ce8c9654e60efd130c",
+    "parent_fprint": "00000000",
 }
 
 
@@ -277,7 +277,7 @@ class Bip32Nist256p1Tests(unittest.TestCase):
     def test_retry_seed(self):
         bip32_ctx = Bip32Nist256p1.FromSeed(binascii.unhexlify(TEST_RETRY_SEED["seed"]))
 
-        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["priv_key"]), bip32_ctx.PrivateKey().Raw().ToBytes())
-        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["pub_key"]), bip32_ctx.PublicKey().RawCompressed().ToBytes())
-        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["chain_code"]), bip32_ctx.ChainCode().ToBytes())
-        self.assertEqual(binascii.unhexlify(TEST_RETRY_SEED["parent_fprint"]), bip32_ctx.ParentFingerPrint().ToBytes())
+        self.assertEqual(TEST_RETRY_SEED["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
+        self.assertEqual(TEST_RETRY_SEED["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
+        self.assertEqual(TEST_RETRY_SEED["chain_code"], bip32_ctx.ChainCode().ToHex())
+        self.assertEqual(TEST_RETRY_SEED["parent_fprint"], bip32_ctx.ParentFingerPrint().ToHex())
