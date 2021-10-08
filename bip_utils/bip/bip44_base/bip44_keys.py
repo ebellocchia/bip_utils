@@ -46,6 +46,12 @@ class Bip44PublicKey:
             pub_key (Bip32PublicKey object): Bip32PublicKey object
             coin_conf (BipCoinConf object) : BipCoinConf object
         """
+        if pub_key.CurveType() != coin_conf.Bip32Class().CurveType():
+            raise ValueError(
+                f"The public key ({pub_key.CurveType()}) elliptic curve shall match"
+                f"the coin configuration one ({coin_conf.Bip32Class().CurveType()})"
+            )
+
         self.m_pub_key = pub_key
         self.m_coin_conf = coin_conf
 
@@ -125,6 +131,12 @@ class Bip44PrivateKey:
             priv_key (Bip32PrivateKey object): Bip32PrivateKey object
             coin_conf (BipCoinConf object)   : BipCoinConf object
         """
+        if priv_key.CurveType() != coin_conf.Bip32Class().CurveType():
+            raise ValueError(
+                f"The private key ({pub_key.CurveType()}) elliptic curve shall match"
+                f"the coin configuration one ({coin_conf.Bip32Class().CurveType()})"
+            )
+
         self.m_priv_key = priv_key
         self.m_coin_conf = coin_conf
 
