@@ -22,7 +22,8 @@
 # Imports
 import binascii
 from bip_utils import (
-    Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError, Bip32KeyError, Monero
+    Bip32KeyError, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError,
+    Bip44PublicKey, Bip44PrivateKey, Monero
 )
 
 
@@ -43,6 +44,10 @@ class Bip44BaseTestHelper:
             ut_class.assertEqual(test["names"], (coin_names.Name(), coin_names.Abbreviation()))
             ut_class.assertEqual(test["is_testnet"], bip_obj_ctx.CoinConf().IsTestNet())
 
+            # Test key objects
+            ut_class.assertTrue(isinstance(bip_obj_ctx.PublicKey(), Bip44PublicKey))
+            ut_class.assertTrue(isinstance(bip_obj_ctx.PrivateKey(), Bip44PrivateKey))
+
             # Test master key
             ut_class.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())
             ut_class.assertEqual(test["wif_master"], bip_obj_ctx.PrivateKey().ToWif(False))
@@ -51,9 +56,7 @@ class Bip44BaseTestHelper:
             bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)
             # Test account keys
             ut_class.assertEqual(test["account"]["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
-            ut_class.assertEqual(test["account"]["ex_pub"], bip_obj_ctx.PublicKey().Bip32Key().ToExtended())
             ut_class.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
-            ut_class.assertEqual(test["account"]["ex_priv"], bip_obj_ctx.PrivateKey().Bip32Key().ToExtended())
 
             # Derive external chain
             bip_obj_ctx = bip_obj_ctx.Change(Bip44Changes.CHAIN_EXT)
