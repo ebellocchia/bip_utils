@@ -42,124 +42,30 @@ class Bip32Ed25519Slip(Bip32Ed25519SlipBase):
     """
 
     #
-    # Class methods for construction
+    # Public methods
     #
 
-    @classmethod
-    def FromSeed(cls,
-                 seed_bytes: bytes,
-                 key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
-
-        Args:
-            seed_bytes (bytes)                                : Seed bytes
-            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """ Return the elliptic curve type.
 
         Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            ValueError: If the seed is too short
-            Bip32KeyError: If the seed is not suitable for master key generation
+            EllipticCurveTypes: Curve type
         """
-        return cls._FromSeed(seed_bytes,
-                             Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
-                             key_net_ver,
-                             Bip32Ed25519SlipConst.CURVE_TYPE)
-
-    @classmethod
-    def FromSeedAndPath(cls,
-                        seed_bytes: bytes,
-                        path: Union[str, Bip32Path],
-                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
-
-        Args:
-            seed_bytes (bytes)                                : Seed bytes
-            path (str or Bip32Path object)                    : Path
-            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            ValueError: If the seed length is too short
-            Bip32PathError: If the path is not valid
-            Bip32KeyError: If the seed is not suitable for master key generation
-        """
-        return cls._FromSeedAndPath(seed_bytes,
-                                    Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY,
-                                    path,
-                                    key_net_ver,
-                                    Bip32Ed25519SlipConst.CURVE_TYPE)
-
-    @classmethod
-    def FromExtendedKey(cls,
-                        key_str: str,
-                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified extended key.
-
-        Args:
-            key_str (str)                                     : Extended key string
-            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the key is not valid
-        """
-        return cls._FromExtendedKey(key_str,
-                                    key_net_ver,
-                                    Bip32Ed25519SlipConst.CURVE_TYPE)
-
-    @classmethod
-    def FromPrivateKey(cls,
-                       priv_key: Union[bytes, IPrivateKey],
-                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified private key.
-        The key will be considered a master key with the chain code set to zero,
-        since there is no way to recover the key derivation data.
-
-        Args:
-            priv_key (bytes or IPrivateKey)                   : Private key
-            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the key is not valid
-        """
-        return cls._FromPrivateKey(priv_key,
-                                   key_net_ver,
-                                   Bip32Ed25519SlipConst.CURVE_TYPE)
-
-    @classmethod
-    def FromPublicKey(cls,
-                      pub_key: Union[bytes, IPublicKey],
-                      key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified public key.
-        The key will be considered a public master key with the chain code set to zero,
-        since there is no way to recover the key derivation data.
-
-        Args:
-            pub_key (bytes or IPublicKey)                     : Public key
-            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (BIP32 main net version by default)
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the key is not valid
-        """
-        return cls._FromPublicKey(pub_key,
-                                  key_net_ver,
-                                  Bip32Ed25519SlipConst.CURVE_TYPE)
+        return Bip32Ed25519SlipConst.CURVE_TYPE
 
     #
     # Protected methods
     #
+
+    @staticmethod
+    def _MasterKeyHmacKey() -> bytes:
+        """ Return the HMAC key for generating the master key
+
+        Returns:
+            bytes: HMAC key
+        """
+        return Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY
 
     def _CkdPriv(self,
                  index: Bip32KeyIndex) -> Bip32Base:
