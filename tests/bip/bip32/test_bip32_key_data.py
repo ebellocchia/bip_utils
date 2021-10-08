@@ -20,7 +20,6 @@
 
 
 # Imports
-import binascii
 import os
 import unittest
 from bip_utils import Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyNetVersions, Bip32KeyData

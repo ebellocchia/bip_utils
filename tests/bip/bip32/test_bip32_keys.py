@@ -20,7 +20,6 @@
 
 
 # Imports
-import binascii
 import unittest
 from bip_utils import (
     Bip32KeyError,
