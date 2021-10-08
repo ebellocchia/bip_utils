@@ -37,22 +37,22 @@ class MoneroKeysTests(unittest.TestCase):
         # FromBytesOrKeyObject (object)
         self.__test_priv_key_obj(MoneroPrivateKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PRIV_KEY))
         # FromBytesOrKeyObject (bytes)
-        self.__test_priv_key_obj(MoneroPrivateKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PRIV_KEY_BYTES))
+        self.__test_priv_key_obj(MoneroPrivateKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToBytes()))
         # FromBytes
-        self.__test_priv_key_obj(MoneroPrivateKey.FromBytes(TEST_ED25519_MONERO_PRIV_KEY_BYTES))
+        self.__test_priv_key_obj(MoneroPrivateKey.FromBytes(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToBytes()))
 
     # Test public key
     def test_pub_key(self):
         # FromBytesOrKeyObject (object)
         self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PUB_KEY))
         # FromBytesOrKeyObject (compressed)
-        self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES))
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PUB_KEY.RawCompressed().ToBytes()))
         # FromBytesOrKeyObject (uncompressed)
-        self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES))
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytesOrKeyObject(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToBytes()))
         # FromBytes (compressed)
-        self.__test_pub_key_obj(MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES))
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_PUB_KEY.RawCompressed().ToBytes()))
         # FromBytes (uncompressed)
-        self.__test_pub_key_obj(MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES))
+        self.__test_pub_key_obj(MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToBytes()))
 
     # Test invalid keys
     def test_invalid_keys(self):
@@ -80,10 +80,10 @@ class MoneroKeysTests(unittest.TestCase):
 
     # Test private key object
     def __test_priv_key_obj(self, priv_key):
-        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY_BYTES, priv_key.Raw().ToBytes())
-        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY_BYTES, bytes(priv_key.Raw()))
-        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY_BYTES.hex(), priv_key.Raw().ToHex())
-        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY_BYTES.hex(), str(priv_key.Raw()))
+        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToBytes(), priv_key.Raw().ToBytes())
+        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToBytes(), bytes(priv_key.Raw()))
+        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToHex(), priv_key.Raw().ToHex())
+        self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToHex(), str(priv_key.Raw()))
 
         self.assertTrue(isinstance(priv_key.KeyObject(), Ed25519MoneroPrivateKey))
         # Public key associated to the private one
@@ -91,14 +91,14 @@ class MoneroKeysTests(unittest.TestCase):
 
     # Test public key object
     def __test_pub_key_obj(self, pub_key):
-        self.assertEqual(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES, pub_key.RawCompressed().ToBytes())
-        self.assertEqual(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES, bytes(pub_key.RawCompressed()))
-        self.assertEqual(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES.hex(), pub_key.RawCompressed().ToHex())
-        self.assertEqual(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES.hex(), str(pub_key.RawCompressed()))
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawCompressed().ToBytes(), pub_key.RawCompressed().ToBytes())
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawCompressed().ToBytes(), bytes(pub_key.RawCompressed()))
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawCompressed().ToHex(), pub_key.RawCompressed().ToHex())
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawCompressed().ToHex(), str(pub_key.RawCompressed()))
 
-        self.assertEqual(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES, pub_key.RawUncompressed().ToBytes())
-        self.assertEqual(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES, bytes(pub_key.RawUncompressed()))
-        self.assertEqual(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES.hex(), pub_key.RawUncompressed().ToHex())
-        self.assertEqual(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES.hex(), str(pub_key.RawUncompressed()))
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToBytes(), pub_key.RawUncompressed().ToBytes())
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToBytes(), bytes(pub_key.RawUncompressed()))
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToHex(), pub_key.RawUncompressed().ToHex())
+        self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToHex(), str(pub_key.RawUncompressed()))
 
         self.assertTrue(isinstance(pub_key.KeyObject(), Ed25519MoneroPublicKey))

@@ -41,22 +41,22 @@ class SubstrateKeysTests(unittest.TestCase):
         # FromBytesOrKeyObject (object)
         self.__test_priv_key_obj(SubstratePrivateKey.FromBytesOrKeyObject(TEST_SR25519_PRIV_KEY, SubstratePolkadot))
         # FromBytesOrKeyObject (bytes)
-        self.__test_priv_key_obj(SubstratePrivateKey.FromBytesOrKeyObject(TEST_SR25519_PRIV_KEY_BYTES, SubstratePolkadot))
+        self.__test_priv_key_obj(SubstratePrivateKey.FromBytesOrKeyObject(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), SubstratePolkadot))
         # FromBytes
-        self.__test_priv_key_obj(SubstratePrivateKey.FromBytes(TEST_SR25519_PRIV_KEY_BYTES, SubstratePolkadot))
+        self.__test_priv_key_obj(SubstratePrivateKey.FromBytes(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), SubstratePolkadot))
 
     # Test public key
     def test_pub_key(self):
         # FromBytesOrKeyObject (object)
         self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY, SubstratePolkadot))
         # FromBytesOrKeyObject (compressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_COMPR_PUB_KEY_BYTES, SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), SubstratePolkadot))
         # FromBytesOrKeyObject (uncompressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_UNCOMPR_PUB_KEY_BYTES, SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), SubstratePolkadot))
         # FromBytes (compressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_COMPR_PUB_KEY_BYTES, SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), SubstratePolkadot))
         # FromBytes (uncompressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_UNCOMPR_PUB_KEY_BYTES, SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), SubstratePolkadot))
 
     # Test invalid parameters
     def test_invalid_params(self):
@@ -83,10 +83,10 @@ class SubstrateKeysTests(unittest.TestCase):
 
     # Test private key object
     def __test_priv_key_obj(self, priv_key):
-        self.assertEqual(TEST_SR25519_PRIV_KEY_BYTES, priv_key.Raw().ToBytes())
-        self.assertEqual(TEST_SR25519_PRIV_KEY_BYTES, bytes(priv_key.Raw()))
-        self.assertEqual(TEST_SR25519_PRIV_KEY_BYTES.hex(), priv_key.Raw().ToHex())
-        self.assertEqual(TEST_SR25519_PRIV_KEY_BYTES.hex(), str(priv_key.Raw()))
+        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), priv_key.Raw().ToBytes())
+        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), bytes(priv_key.Raw()))
+        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToHex(), priv_key.Raw().ToHex())
+        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToHex(), str(priv_key.Raw()))
 
         self.assertTrue(isinstance(priv_key.KeyObject(), Sr25519PrivateKey))
         # Public key associated to the private one
@@ -94,15 +94,15 @@ class SubstrateKeysTests(unittest.TestCase):
 
     # Test public key object
     def __test_pub_key_obj(self, pub_key):
-        self.assertEqual(TEST_SR25519_COMPR_PUB_KEY_BYTES, pub_key.RawCompressed().ToBytes())
-        self.assertEqual(TEST_SR25519_COMPR_PUB_KEY_BYTES, bytes(pub_key.RawCompressed()))
-        self.assertEqual(TEST_SR25519_COMPR_PUB_KEY_BYTES.hex(), pub_key.RawCompressed().ToHex())
-        self.assertEqual(TEST_SR25519_COMPR_PUB_KEY_BYTES.hex(), str(pub_key.RawCompressed()))
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), pub_key.RawCompressed().ToBytes())
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), bytes(pub_key.RawCompressed()))
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToHex(), pub_key.RawCompressed().ToHex())
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToHex(), str(pub_key.RawCompressed()))
 
-        self.assertEqual(TEST_SR25519_UNCOMPR_PUB_KEY_BYTES, pub_key.RawUncompressed().ToBytes())
-        self.assertEqual(TEST_SR25519_UNCOMPR_PUB_KEY_BYTES, bytes(pub_key.RawUncompressed()))
-        self.assertEqual(TEST_SR25519_UNCOMPR_PUB_KEY_BYTES.hex(), pub_key.RawUncompressed().ToHex())
-        self.assertEqual(TEST_SR25519_UNCOMPR_PUB_KEY_BYTES.hex(), str(pub_key.RawUncompressed()))
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), pub_key.RawUncompressed().ToBytes())
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), bytes(pub_key.RawUncompressed()))
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToHex(), pub_key.RawUncompressed().ToHex())
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToHex(), str(pub_key.RawUncompressed()))
 
         self.assertEqual(TEST_ADDRESS, pub_key.ToAddress())
 
