@@ -74,9 +74,11 @@ class SubstrateKeysTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Invalid private keys
         for test in TEST_VECT_SR25519_PRIV_KEY_INVALID:
             self.assertRaises(SubstrateKeyError, SubstratePrivateKey.FromBytesOrKeyObject, binascii.unhexlify(test), SubstratePolkadot)
             self.assertRaises(SubstrateKeyError, SubstratePrivateKey.FromBytes, binascii.unhexlify(test), SubstratePolkadot)
+        # Invalid public keys
         for test in TEST_VECT_SR25519_PUB_KEY_INVALID:
             self.assertRaises(SubstrateKeyError, SubstratePublicKey.FromBytesOrKeyObject, binascii.unhexlify(test), SubstratePolkadot)
             self.assertRaises(SubstrateKeyError, SubstratePublicKey.FromBytes, binascii.unhexlify(test), SubstratePolkadot)

@@ -56,9 +56,11 @@ class MoneroKeysTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
+        # Invalid private keys
         for test in TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID:
             self.assertRaises(MoneroKeyError, MoneroPrivateKey.FromBytesOrKeyObject, binascii.unhexlify(test))
             self.assertRaises(MoneroKeyError, MoneroPrivateKey.FromBytes, binascii.unhexlify(test))
+        # Invalid public keys
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
             self.assertRaises(MoneroKeyError, MoneroPublicKey.FromBytesOrKeyObject, binascii.unhexlify(test))
             self.assertRaises(MoneroKeyError, MoneroPublicKey.FromBytes, binascii.unhexlify(test))
