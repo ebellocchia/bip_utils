@@ -54,16 +54,9 @@ class Bip32BaseTestHelper:
             # Test extended keys
             ut_class.assertEqual(test["master"]["ex_pub"], bip32_ctx.PublicKey().ToExtended())
             ut_class.assertEqual(test["master"]["ex_priv"], bip32_ctx.PrivateKey().ToExtended())
-            # Test public key
+            # Test public/private keys
             ut_class.assertEqual(test["master"]["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
-            ut_class.assertEqual(test["master"]["pub_key"], str(bip32_ctx.PublicKey().RawCompressed()))
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bip32_ctx.PublicKey().RawCompressed().ToBytes())
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["pub_key"].encode()), bytes(bip32_ctx.PublicKey().RawCompressed()))
-            # Test private key
             ut_class.assertEqual(test["master"]["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
-            ut_class.assertEqual(test["master"]["priv_key"], str(bip32_ctx.PrivateKey().Raw()))
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bip32_ctx.PrivateKey().Raw().ToBytes())
-            ut_class.assertEqual(binascii.unhexlify(test["master"]["priv_key"].encode()), bytes(bip32_ctx.PrivateKey().Raw()))
             # Test chain code
             ut_class.assertEqual(test["master"]["chain_code"], bip32_ctx.ChainCode().ToHex())
             ut_class.assertEqual(test["master"]["chain_code"], str(bip32_ctx.ChainCode()))
