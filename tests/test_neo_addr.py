@@ -20,40 +20,36 @@
 
 
 # Imports
-import binascii
 import unittest
-from bip_utils import NeoAddr, Nist256p1PublicKey
-from .test_ecc import (
-    TEST_VECT_NIST256P1_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_SECP256K1_PUB_KEY, TEST_SR25519_PUB_KEY
-)
+from bip_utils import NeoAddr
+from .test_addr_base import AddrBaseTestHelper
+from .test_addr_const import *
 
 # Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"03f4890a76acd4ec68537f1bfb5ed18121126babda24f65b6488e2ac57cf9becce",
-        "version": b"\x17",
+        "addr_params": {"ver": b"\x17"},
         "address": "AcLDSGFoA3Re71QFF8nkpH31EoQjhoApkY",
     },
     {
         "pub_key": b"0217a644d0278b30015a15f363eae4c8ea7e619c234bc8be2accac531c2817e7d1",
-        "version": b"\x17",
+        "addr_params": {"ver": b"\x17"},
         "address": "AQos7r7repyb9AUzFuKc8voH4TS9XuQg7H",
     },
     {
         "pub_key": b"03e43cbeea55520fbd8e79b02a7e2ff5ddd881ac3f3603cb48d08423317b805831",
-        "version": b"\x17",
+        "addr_params": {"ver": b"\x17"},
         "address": "AR3UZwqfjzvDuqUHwtdcGREqDSqpB3HDoP",
     },
     {
         "pub_key": b"02c23193a2ae86390b61ccae1302c4e3cfc3429b6d74282de13a368e8dbedbf50e",
-        "version": b"\x17",
+        "addr_params": {"ver": b"\x17"},
         "address": "AUYShq2btNbP1qG4jeN1sBnzu2wv2EdvxF",
     },
     {
         "pub_key": b"02db975db10d75b3581945fb5e2b3d99e27ed2c50a9f2de19f2ec2a878fc4d9901",
-        "version": b"\x17",
+        "addr_params": {"ver": b"\x17"},
         "address": "AMJm3XvdgZdHMK4T8XsWxKbrnPbTAC5ka7",
     },
 ]
@@ -63,26 +59,14 @@ TEST_VECT = [
 # Tests
 #
 class NeoAddrTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_to_addr(self):
-        for test in TEST_VECT:
-            key_bytes = binascii.unhexlify(test["pub_key"])
-
-            # Test with bytes and public key object
-            self.assertEqual(test["address"], NeoAddr.EncodeKey(key_bytes,
-                                                                ver=test["version"]))
-            self.assertEqual(test["address"], NeoAddr.EncodeKey(Nist256p1PublicKey.FromBytes(key_bytes),
-                                                                ver=test["version"]))
+    # Test encode key
+    def test_encode_key(self):
+        AddrBaseTestHelper.test_encode_key(self, NeoAddr, Nist256p1PublicKey, TEST_VECT)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key types
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_PUB_KEY, ver=b"")
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, ver=b"")
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, ver=b"")
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_SECP256K1_PUB_KEY, ver=b"")
-        self.assertRaises(TypeError, NeoAddr.EncodeKey, TEST_SR25519_PUB_KEY, ver=b"")
-
-        # Test vector
-        for test in TEST_VECT_NIST256P1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, NeoAddr.EncodeKey, binascii.unhexlify(test), ver=b"")
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             NeoAddr,
+                                             {"ver": b"\x00"},
+                                             TEST_NIST256P1_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_NIST256P1_PUB_KEY_INVALID)

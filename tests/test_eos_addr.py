@@ -20,35 +20,36 @@
 
 
 # Imports
-import binascii
 import unittest
-from bip_utils import EosAddr, Secp256k1PublicKey
-from .test_ecc import (
-    TEST_VECT_SECP256K1_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
-)
+from bip_utils import EosAddr
+from .test_addr_base import AddrBaseTestHelper
+from .test_addr_const import *
 
 # Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"0290ae9e1951967ea073b242c4e6dba5e728d9f4dca4a7161e1ec7f22114cd72c4",
+        "addr_params": {},
         "address": "EOS5zD4eXtvBmLhzmj9CtvuG2wxwuKcTbYxYwsGpPvKe68ExHjJsc",
     },
     {
         "pub_key": b"03f0c00e0faa983a664b526a3c9fc09362ac1a200159a021ce2ffe07d7938ff725",
+        "addr_params": {},
         "address": "EOS8fGAt3L5oXQeXwnZDpWvXeipNi8FcrfUbL79TiD55za9CZo3pr",
     },
     {
         "pub_key": b"0381c6e21d718774ec71acf702b2f4a4df93ff680096840ad47c0487bd595ecc65",
+        "addr_params": {},
         "address": "EOS7pPWL22sB1tbTkec6zDsSW2GpNE6faQzQJJ9CGc7CC1Q9FQ8r2",
     },
     {
         "pub_key": b"03771a273de43fd0e01ce40dfbb6fe487d0cc88caad8e3af6e3865d39acf534ad3",
+        "addr_params": {},
         "address": "EOS7jgqNtYBCGb4fLDFepiBBxFbpcEPTXCKLihH9GtKf4QiGcV2Xo",
     },
     {
         "pub_key": b"03c2623b9c450d7e5c16c02b41a34b7eff782481a52d99060c8e6e6188e154a98a",
+        "addr_params": {},
         "address": "EOS8JqoRy3T3ok9cN2WtcPkFDYowcpNTtwBs951NLxN56857KDHXa",
     },
 ]
@@ -58,24 +59,14 @@ TEST_VECT = [
 # Tests
 #
 class EosAddrTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_to_addr(self):
-        for test in TEST_VECT:
-            key_bytes = binascii.unhexlify(test["pub_key"])
-
-            # Test with bytes and public key object
-            self.assertEqual(test["address"], EosAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], EosAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes)))
+    # Test encode key
+    def test_encode_key(self):
+        AddrBaseTestHelper.test_encode_key(self, EosAddr, Secp256k1PublicKey, TEST_VECT)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key types
-        self.assertRaises(TypeError, EosAddr.EncodeKey, TEST_ED25519_PUB_KEY)
-        self.assertRaises(TypeError, EosAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, EosAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, EosAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, EosAddr.EncodeKey, TEST_SR25519_PUB_KEY)
-
-        # Test vector
-        for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, EosAddr.EncodeKey, binascii.unhexlify(test))
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             EosAddr,
+                                             {},
+                                             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_SECP256K1_PUB_KEY_INVALID)

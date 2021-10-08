@@ -20,35 +20,36 @@
 
 
 # Imports
-import binascii
 import unittest
-from bip_utils import XrpAddr, Secp256k1PublicKey
-from .test_ecc import (
-    TEST_VECT_SECP256K1_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
-)
+from bip_utils import XrpAddr
+from .test_addr_base import AddrBaseTestHelper
+from .test_addr_const import *
 
 # Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"03db0da69187edd94aba300f1b2e7a09f407a8301d6fff54322a6ee4dde9842681",
+        "addr_params": {},
         "address": "rwypvr27pYpzYQyDrFQBjDUhRDkHiecTHo",
     },
     {
         "pub_key": b"03333f37539bf526280cea9dda98758de4feb15910218e3e0a99ac17d1f5fac406",
+        "addr_params": {},
         "address": "rLynFggnosDyDmoLzcgX6siu6X4yUBb36a",
     },
     {
         "pub_key": b"02553f6711f6ed3e1204dff91d9bf259ea01a2577dcc05383ce47f2cc5a98946bc",
+        "addr_params": {},
         "address": "rJ6twS2cq28qMybswjQHb6BZK7kuwSFfZo",
     },
     {
         "pub_key": b"03530f281debbda165f54090b930c4467842231c3bd2e547d953444c7409ad4c20",
+        "addr_params": {},
         "address": "rhs1osifPgg35Ff8pRk23vRtn6rhivVuTq",
     },
     {
         "pub_key": b"021cf750242895325d49efa12859369f7a45e9c3f5639172e4f2f5df4ae23301cf",
+        "addr_params": {},
         "address": "rsfsErX3u9GRrMH1Nr6Qa4TAyWa53bx48D",
     },
 ]
@@ -58,23 +59,14 @@ TEST_VECT = [
 # Tests
 #
 class XrpAddrTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_to_addr(self):
-        for test in TEST_VECT:
-            key_bytes = binascii.unhexlify(test["pub_key"])
-
-            # Test with bytes and public key object
-            self.assertEqual(test["address"], XrpAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], XrpAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes)))
+    # Test encode key
+    def test_encode_key(self):
+        AddrBaseTestHelper.test_encode_key(self, XrpAddr, Secp256k1PublicKey, TEST_VECT)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key types
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, TEST_ED25519_PUB_KEY)
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, XrpAddr.EncodeKey, TEST_SR25519_PUB_KEY)
-
-        for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, XrpAddr.EncodeKey, binascii.unhexlify(test))
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             XrpAddr,
+                                             {},
+                                             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_SECP256K1_PUB_KEY_INVALID)

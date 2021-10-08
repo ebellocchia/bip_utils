@@ -20,17 +20,13 @@
 
 
 # Imports
-import binascii
 import unittest
 from bip_utils import (
     Bip84BitcoinMainNet, Bip84BitcoinTestNet, Bip84LitecoinMainNet, Bip84LitecoinTestNet,
-    P2WPKHAddr, Secp256k1PublicKey
+    P2WPKHAddr
 )
-from .test_ecc import (
-    TEST_VECT_SECP256K1_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
-)
+from .test_addr_base import AddrBaseTestHelper
+from .test_addr_const import *
 
 # Some random public keys
 TEST_VECT = [
@@ -39,42 +35,42 @@ TEST_VECT = [
     #
     {
         "pub_key": b"03e775fd51f0dfb8cd865d9ff1cca2a158cf651fe997fdc9fee9c1d3b5e995ea77",
+        "addr_params": {"hrp": Bip84BitcoinMainNet.AddrParamsKey("hrp"),
+                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
         "address": "bc1qnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g",
-        "hrp": Bip84BitcoinMainNet.AddrParamsKey("hrp"),
-        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver"),
     },
     {
         "pub_key": b"0299b4cb4809f52dac21bbd8c997d8bf052cf4d68bfe966c638c312fbfff636e17",
+        "addr_params": {"hrp": Bip84BitcoinMainNet.AddrParamsKey("hrp"),
+                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
         "address": "bc1qtet8q6cd5vqm0zjfcfm8mfsydju0a29ggqrmu9",
-        "hrp": Bip84BitcoinMainNet.AddrParamsKey("hrp"),
-        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver"),
     },
     {
         "pub_key": b"021c1750d4a5ad543967b30e9447e50da7a5873e8be133eb25f2ce0ea5638b9d17",
+        "addr_params": {"hrp": Bip84LitecoinMainNet.AddrParamsKey("hrp"),
+                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
         "address": "ltc1qwlezpr3890hcp6vva9twqh27mr6edadreqvhnn",
-        "hrp": Bip84LitecoinMainNet.AddrParamsKey("hrp"),
-        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver"),
     },
     {
         "pub_key": b"0201084ea04fa9619a056281e7c87a97693f67e5baa4ec604e7e8245b84e31cc96",
+        "addr_params": {"hrp": Bip84LitecoinMainNet.AddrParamsKey("hrp"),
+                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
         "address": "ltc1qdjtr2jc5uu6r0ss2fcey3djvkhlu7jux420fhr",
-        "hrp": Bip84LitecoinMainNet.AddrParamsKey("hrp"),
-        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver"),
     },
     #
     # Test nets
     #
     {
         "pub_key": b"02339193c34cd8ecb21ebd48af64ead71d78213470d61d7274f932489d6ba21bd3",
+        "addr_params": {"hrp": Bip84BitcoinTestNet.AddrParamsKey("hrp"),
+                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
         "address": "tb1qxdyjf6h5d6qxap4n2dap97q4j5ps6ua8sll0ct",
-        "hrp": Bip84BitcoinTestNet.AddrParamsKey("hrp"),
-        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver"),
     },
     {
         "pub_key": b"03bb5db212192d5b428c5db726aba21426d0a63b7a453b0104f2398326bca43fc2",
+        "addr_params": {"hrp": Bip84LitecoinTestNet.AddrParamsKey("hrp"),
+                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
         "address": "tltc1q677973lw0w796gttpy52f296jqaaksz0duklcr",
-        "hrp": Bip84LitecoinTestNet.AddrParamsKey("hrp"),
-        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver"),
     },
 ]
 
@@ -83,30 +79,14 @@ TEST_VECT = [
 # Tests
 #
 class P2WPKHTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_to_addr(self):
-        for test in TEST_VECT:
-            key_bytes = binascii.unhexlify(test["pub_key"])
-
-            # Test with bytes and public key object
-            self.assertEqual(test["address"],
-                             P2WPKHAddr.EncodeKey(key_bytes,
-                                                  hrp=test["hrp"],
-                                                  wit_ver=test["wit_ver"]))
-            self.assertEqual(test["address"],
-                             P2WPKHAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes),
-                                                  hrp=test["hrp"],
-                                                  wit_ver=test["wit_ver"]))
+    # Test encode key
+    def test_encode_key(self):
+        AddrBaseTestHelper.test_encode_key(self, P2WPKHAddr, Secp256k1PublicKey, TEST_VECT)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key types
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_PUB_KEY, hrp=b"\x00", wit_ver=0)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, hrp=b"\x00", wit_ver=0)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, hrp=b"\x00", wit_ver=0)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, hrp=b"\x00", wit_ver=0)
-        self.assertRaises(TypeError, P2WPKHAddr.EncodeKey, TEST_SR25519_PUB_KEY, hrp=b"\x00", wit_ver=0)
-
-        # Test vector
-        for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, P2WPKHAddr.EncodeKey, binascii.unhexlify(test), hrp=b"\x00", wit_ver=0)
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             P2WPKHAddr,
+                                             {"hrp": "", "wit_ver": b"\x00"},
+                                             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_SECP256K1_PUB_KEY_INVALID)

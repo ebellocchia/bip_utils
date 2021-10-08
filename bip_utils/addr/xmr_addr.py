@@ -47,8 +47,8 @@ class XmrAddr(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public spend key bytes or object
 
         Other Parameters:
-            pub_view_key (bytes or IPublicKey): Public view key bytes or object
-            net_ver (bytes)                   : Net version
+            pub_vkey (bytes or IPublicKey): Public view key bytes or object
+            net_ver (bytes)               : Net version
 
         Returns:
             str: Address string
@@ -57,11 +57,11 @@ class XmrAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519-monero
         """
-        pub_view_key = kwargs["pub_view_key"]
+        pub_vkey = kwargs["pub_vkey"]
         net_ver = kwargs["net_ver"]
 
         pub_spend_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_key)
-        pub_view_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_view_key)
+        pub_view_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_vkey)
 
         data = net_ver + pub_spend_key_obj.RawCompressed().ToBytes() + pub_view_key_obj.RawCompressed().ToBytes()
         checksum = CryptoUtils.Kekkak256(data)

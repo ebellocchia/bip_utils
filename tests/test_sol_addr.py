@@ -20,35 +20,36 @@
 
 
 # Imports
-import binascii
 import unittest
-from bip_utils import SolAddr, Ed25519PublicKey
-from .test_ecc import (
-    TEST_VECT_ED25519_PUB_KEY_INVALID,
-    TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_SECP256K1_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
-)
+from bip_utils import SolAddr
+from .test_addr_base import AddrBaseTestHelper
+from .test_addr_const import *
 
 # Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"00e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a61499547",
+        "addr_params": {},
         "address": "GjJyeC1r2RgkuoCWMyPYkCWSGSGLcz266EaAkLA27AhL",
     },
     {
         "pub_key": b"008b4564d4b6be05d6ead16d246c5e30773da9459040370284b57c944a3d0a1481",
+        "addr_params": {},
         "address": "ANf3TEKFL6jPWjzkndo4CbnNdUNkBk4KHPggJs2nu8Xi",
     },
     {
         "pub_key": b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832",
+        "addr_params": {},
         "address": "G5DnnAkA9jV3WZ25xh1Z6FcH3vtSyLi6p9nmPpr6dQMX",
     },
     {
         "pub_key": b"e54f392e5ffd3ca8802d3dbaa052667f82f8ff559a9cb23eda39cd386639c6ea",
+        "addr_params": {},
         "address": "GS8RquhotKk9sDguxzjg5sJPM8RhfmKXWNEW61Jzjvvu",
     },
     {
         "pub_key": b"6031798a9f0f4939c3335d313848437fe72aefbe0d700de3268a2d45cebedc7c",
+        "addr_params": {},
         "address": "7UVttrLkRkZFn4FsTuihX5zCJ1ounF5Ts8CkSqPGN2Dh",
     },
 ]
@@ -58,24 +59,14 @@ TEST_VECT = [
 # Tests
 #
 class SolAddrTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_to_addr(self):
-        for test in TEST_VECT:
-            key_bytes = binascii.unhexlify(test["pub_key"])
-
-            # Test with bytes and public key object
-            self.assertEqual(test["address"], SolAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], SolAddr.EncodeKey(Ed25519PublicKey.FromBytes(key_bytes)))
+    # Test encode key
+    def test_encode_key(self):
+        AddrBaseTestHelper.test_encode_key(self, SolAddr, Ed25519PublicKey, TEST_VECT)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key types
-        self.assertRaises(TypeError, SolAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, SolAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, SolAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, SolAddr.EncodeKey, TEST_SECP256K1_PUB_KEY)
-        self.assertRaises(TypeError, SolAddr.EncodeKey, TEST_SR25519_PUB_KEY)
-
-        # Test vector
-        for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, SolAddr.EncodeKey, binascii.unhexlify(test))
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             SolAddr,
+                                             {},
+                                             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_ED25519_PUB_KEY_INVALID)

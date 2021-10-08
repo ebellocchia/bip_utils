@@ -20,35 +20,36 @@
 
 
 # Imports
-import binascii
 import unittest
-from bip_utils import NanoAddr, Ed25519Blake2bPublicKey
-from .test_ecc import (
-    TEST_VECT_ED25519_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_SECP256K1_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
-)
+from bip_utils import NanoAddr
+from .test_addr_base import AddrBaseTestHelper
+from .test_addr_const import *
 
 # Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"0063b14c2b966809da4b4f90c53ee12633be9f708cbd834eb24012f9306f3e8f4a",
+        "addr_params": {},
         "address": "nano_1rxjbioset1bub7nz6879uikeexymxrashe5bts616qs83qmx5tcxoeox6ms",
     },
     {
         "pub_key": b"0089624c7666f0b8004df74ef749a96991bb602273b41fec38e7190fcd2ebcb5f9",
+        "addr_params": {},
         "address": "nano_34d4bju8fw7r138zgmqqb8npm6fue1j99f1zxiwgg8ahsnqdsfhsr6dyoimk",
     },
     {
         "pub_key": b"006bfef755481c161fcd56c7b7902193528a36b117563793cf02a374455e983dcf",
+        "addr_params": {},
         "address": "nano_1tzyyxcni91p5z8ofjxqk1is8nnc8trjgojqkh9i7aunaohbihghw4edxiqj",
     },
     {
         "pub_key": b"8f3330f2d62eb3232b4d23d67193d37d9c61678d12445cc68620e0f648456788",
+        "addr_params": {},
         "address": "nano_35sm85sfedom6eontaypg8bx8zewe7mrt6k6dm5aea91ys66cswa9bw9bg5f",
     },
     {
         "pub_key": b"1594ba7eecada3f311d52d84bc462a8398f4aac71d252cd4db79e946d5511f0d",
+        "addr_params": {},
         "address": "nano_17enqbzgsdf5yeaxcde6qj54o1wrykoeg9b77mcfpyhbauco49rfwgzbact6",
     },
 ]
@@ -58,24 +59,14 @@ TEST_VECT = [
 # Tests
 #
 class NanoAddrTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_to_addr(self):
-        for test in TEST_VECT:
-            key_bytes = binascii.unhexlify(test["pub_key"])
-
-            # Test with bytes and public key object
-            self.assertEqual(test["address"], NanoAddr.EncodeKey(key_bytes))
-            self.assertEqual(test["address"], NanoAddr.EncodeKey(Ed25519Blake2bPublicKey.FromBytes(key_bytes)))
+    # Test encode key
+    def test_encode_key(self):
+        AddrBaseTestHelper.test_encode_key(self, NanoAddr, Ed25519Blake2bPublicKey, TEST_VECT)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key types
-        self.assertRaises(TypeError, NanoAddr.EncodeKey, TEST_ED25519_PUB_KEY)
-        self.assertRaises(TypeError, NanoAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY)
-        self.assertRaises(TypeError, NanoAddr.EncodeKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, NanoAddr.EncodeKey, TEST_SECP256K1_PUB_KEY)
-        self.assertRaises(TypeError, NanoAddr.EncodeKey, TEST_SR25519_PUB_KEY)
-
-        # Test vector
-        for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, NanoAddr.EncodeKey, binascii.unhexlify(test))
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             NanoAddr,
+                                             {},
+                                             TEST_ED25519_BLAKE2B_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_ED25519_PUB_KEY_INVALID)

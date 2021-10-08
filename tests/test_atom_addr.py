@@ -20,75 +20,71 @@
 
 
 # Imports
-import binascii
 import unittest
-from bip_utils import AtomAddr, Secp256k1PublicKey
-from .test_ecc import (
-    TEST_VECT_SECP256K1_PUB_KEY_INVALID,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
-    TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
-)
+from bip_utils import AtomAddr
+from .test_addr_base import AddrBaseTestHelper
+from .test_addr_const import *
 
 # Some random public keys
 TEST_VECT = [
     {
         "pub_key": b"039cb22e5c6ce15e06b76d5725dcf084b87357d926dcdfeeb20d628d3d11ff543b",
-        "hrp": "cosmos",
+        "addr_params": {"hrp": "cosmos"},
         "address": "cosmos1zewfm2c4s6uv5s4rywksqden8dvya4wmqyyvek",
     },
     {
         "pub_key": b"02dc27af24c0fc6b448519e17d4ac6078f158a766bbf8446cb16c61a9e53835c3c",
-        "hrp": "cosmos",
+        "addr_params": {"hrp": "cosmos"},
         "address": "cosmos1n6ugmlarydek7k8wslzuy55seftfe7g2aqncw3",
     },
     {
         "pub_key": b"0356ab0a0717738c794caf972ee2091762525a35d062c881b863733f06f445c585",
-        "hrp": "band",
+        "addr_params": {"hrp": "band"},
         "address": "band16nez6ldt0zp648zgk8g2af50245y0ykjutc2k9",
     },
     {
         "pub_key": b"02b19f4692195f95a8d919edf245d64993bce60bb3c50e4226ba5311686ccf60da",
-        "hrp": "band",
+        "addr_params": {"hrp": "band"},
         "address": "band16a3pvl8jmf84uvreek79mta5jr8llmcn4ptgy2",
     },
     {
         "pub_key": b"0356ab0a0717738c794caf972ee2091762525a35d062c881b863733f06f445c585",
-        "hrp": "kava",
+        "addr_params": {"hrp": "kava"},
         "address": "kava16nez6ldt0zp648zgk8g2af50245y0ykje3v4c2",
     },
     {
         "pub_key": b"02b19f4692195f95a8d919edf245d64993bce60bb3c50e4226ba5311686ccf60da",
-        "hrp": "kava",
+        "addr_params": {"hrp": "kava"},
         "address": "kava16a3pvl8jmf84uvreek79mta5jr8llmcnsmlh29",
     },
     {
         "pub_key": b"02ec5dc71723f11e8ed7ae054f1c09110e849edfa491118d161473b78d72cc4813",
-        "hrp": "iaa",
+        "addr_params": {"hrp": "iaa"},
         "address": "iaa1uxgmjgu4eel6fm2ln88ge36y0y4z90c2knr3d6",
     },
     {
         "pub_key": b"02dc27af24c0fc6b448519e17d4ac6078f158a766bbf8446cb16c61a9e53835c3c",
-        "hrp": "iaa",
+        "addr_params": {"hrp": "iaa"},
         "address": "iaa1n6ugmlarydek7k8wslzuy55seftfe7g2gznfvq",
     },
     {
         "pub_key": b"03de159b5635abfdb91b6ae3bf57317d3ecc4eb7a734ef72cc18f307e83359b854",
-        "hrp": "terra",
+        "addr_params": {"hrp": "terra"},
         "address": "terra1tqgahz3c85x438vgeh57z63rs04cshlcx5ga4z",
     },
     {
         "pub_key": b"033e444813a45a334240087619ffc73e626db10454738e08dbdfc71741fb44af26",
-        "hrp": "terra",
+        "addr_params": {"hrp": "terra"},
         "address": "terra1xtdk54kyldfck05je9daej58e87uex0zk47rz5",
     },
     {
         "pub_key": b"0223d645338396fdbce2d754a14568537d52deb76e1addb940994868feef9c5994",
-        "hrp": "bnb",
+        "addr_params": {"hrp": "bnb"},
         "address": "bnb1lwjdd82uj4fqhu8nqw5d959rhys58dccv9aalj",
     },
     {
         "pub_key": b"03ebbc8a33683fa9d40f4da3b870784d7f66911eec4d464993c2b80d891d452f93",
-        "hrp": "bnb",
+        "addr_params": {"hrp": "bnb"},
         "address": "bnb16kltf5z0kgm3m7x42h3676xehtpl02csg7f3qc",
     },
 ]
@@ -98,26 +94,14 @@ TEST_VECT = [
 # Tests
 #
 class AtomAddrTests(unittest.TestCase):
-    # Run all tests in test vector
-    def test_to_addr(self):
-        for test in TEST_VECT:
-            key_bytes = binascii.unhexlify(test["pub_key"])
-
-            # Test with bytes and public key object
-            self.assertEqual(test["address"], AtomAddr.EncodeKey(key_bytes,
-                                                                 hrp=test["hrp"]))
-            self.assertEqual(test["address"], AtomAddr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes),
-                                                                 hrp=test["hrp"]))
+    # Test encode key
+    def test_encode_key(self):
+        AddrBaseTestHelper.test_encode_key(self, AtomAddr, Secp256k1PublicKey, TEST_VECT)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        # Test with invalid key type
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_PUB_KEY, hrp="cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_BLAKE2B_PUB_KEY, hrp="cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_ED25519_MONERO_PUB_KEY, hrp="cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_NIST256P1_PUB_KEY, hrp="cosmos")
-        self.assertRaises(TypeError, AtomAddr.EncodeKey, TEST_SR25519_PUB_KEY, hrp="cosmos")
-
-        # Test vector
-        for test in TEST_VECT_SECP256K1_PUB_KEY_INVALID:
-            self.assertRaises(ValueError, AtomAddr.EncodeKey, binascii.unhexlify(test), hrp="cosmos")
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             AtomAddr,
+                                             {"hrp": ""},
+                                             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_SECP256K1_PUB_KEY_INVALID)
