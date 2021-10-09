@@ -131,7 +131,7 @@ class ConvUtils:
         Returns:
             str: Bytes converted to hex string
         """
-        return binascii.hexlify(data_bytes).decode(encoding)
+        return AlgoUtils.Decode(binascii.hexlify(data_bytes), encoding)
 
     @staticmethod
     def IntegerToBinaryStr(data_int: int,
