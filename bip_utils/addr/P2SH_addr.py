@@ -44,7 +44,7 @@ class P2SHAddrUtils:
         """ Add script signature to public key and get address bytes.
 
         Args:
-            pub_key (IPublicKey object) : Public key object
+            pub_key (IPublicKey object): Public key object
 
         Returns:
             bytes: Address bytes

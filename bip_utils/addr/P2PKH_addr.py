@@ -38,7 +38,7 @@ class P2PKHAddr(IAddrEncoder):
         """ Get address in P2PKH format.
 
         Args:
-            pub_key (bytes or IPublicKey)          : Public key bytes or object
+            pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
             net_ver (bytes)                        : Net address version
