@@ -13,7 +13,12 @@ However, even in this case it only takes 1 or 2 milliseconds to derive a private
 
 # Running the benchmark
 
-Just set the benchmark variables by editing the *TestsConf* class at the beginning of *benchmark.py* and run the file from this folder (after having installed bip_utils, of course):
+First of all, install *codetimimg* if not yet installed (minimum required version: 1.2):
+
+    pip install codetiming~=1.2
+
+And *bip_utils* itself.\
+Then, set the benchmark variables by editing the *TestsConf* class at the beginning of *benchmark.py* and run the file from this folder:
 
     python ./benchmark.py
 
