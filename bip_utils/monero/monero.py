@@ -233,13 +233,12 @@ class Monero:
         Raises:
             ValueError: If one of the indexes is not valid
         """
-        net_ver = (MoneroConst.ADDR_MAIN_NET_VER
-                   if minor_idx == 0 and major_idx == 0
-                   else MoneroConst.SUBADDR_MAIN_NET_VER)
+        if minor_idx == 0 and major_idx == 0:
+            return self.PrimaryAddress()
 
         return self.m_subaddr.ComputeAndEncodeKeys(minor_idx,
                                                    major_idx,
-                                                   net_ver)
+                                                   MoneroConst.SUBADDR_MAIN_NET_VER)
 
     @staticmethod
     def __ViewFromSpendKey(priv_skey: MoneroPrivateKey) -> MoneroPrivateKey:
