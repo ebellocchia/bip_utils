@@ -1065,10 +1065,10 @@ Whatever implementation or path you choose, the Monero private spend key is comp
     # Print primary address
     print(monero.PrimaryAddress())
     # Print subaddresses
-    print(monero.SubAddress(0))         # Account 0 (default), SubAddress 0 (same as primary address)
-    print(monero.SubAddress(1))         # Account 0 (default), SubAddress 1
-    print(monero.SubAddress(0, 1))      # Account 1, SubAddress 0
-    print(monero.SubAddress(1, 1))      # Account 1, SubAddress 1
+    print(monero.Subaddress(0))         # Account 0 (default), Subaddress 0 (same as primary address)
+    print(monero.Subaddress(1))         # Account 0 (default), Subaddress 1
+    print(monero.Subaddress(0, 1))      # Account 1, Subaddress 0
+    print(monero.Subaddress(1, 1))      # Account 1, Subaddress 1
 
 If you prefer not to perform the kekkak256 of the key bytes, you can just use the *Bip44* private key directly as a Monero seed:
 
@@ -1388,10 +1388,10 @@ A watch-only class can be constructed from the private view key and the public s
     # Print primary address
     print(monero.PrimaryAddress())
     # Print subaddresses
-    print(monero.SubAddress(0))         # Account 0 (default), SubAddress 0 (same as primary address)
-    print(monero.SubAddress(1))         # Account 0 (default), SubAddress 1
-    print(monero.SubAddress(0, 1))      # Account 1, SubAddress 0
-    print(monero.SubAddress(1, 1))      # Account 1, SubAddress 1
+    print(monero.Subaddress(0))         # Account 0 (default), Subaddress 0 (same as primary address)
+    print(monero.Subaddress(1))         # Account 0 (default), Subaddress 1
+    print(monero.Subaddress(0, 1))      # Account 1, Subaddress 0
+    print(monero.Subaddress(1, 1))      # Account 1, Subaddress 1
 
 ## Addresses generation
 
@@ -1796,7 +1796,7 @@ Some examples from mnemonic generation to wallet addresses.
     # Print the first 5 subaddresses for account 0 and 1
     for acc_idx in range(2):
         for subaddr_idx in range(5):
-            print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.SubAddress(subaddr_idx, acc_idx)}")
+            print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.Subaddress(subaddr_idx, acc_idx)}")
 
 **Monero based on official Monero wallet**
 
@@ -1824,7 +1824,7 @@ Some examples from mnemonic generation to wallet addresses.
     # Print the first 5 subaddresses for account 0 and 1
     for acc_idx in range(2):
         for subaddr_idx in range(5):
-            print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.SubAddress(subaddr_idx, acc_idx)}")
+            print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.Subaddress(subaddr_idx, acc_idx)}")
 
 # Buy me a coffee
 
