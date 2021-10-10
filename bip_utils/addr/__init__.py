@@ -17,7 +17,7 @@ from bip_utils.addr.sol_addr import SolAddr
 from bip_utils.addr.substrate_addr import SubstrateEd25519Addr, SubstrateSr25519Addr
 from bip_utils.addr.trx_addr import TrxAddr
 from bip_utils.addr.xlm_addr import XlmAddrTypes, XlmAddr
-from bip_utils.addr.xmr_addr import XmrAddr
+from bip_utils.addr.xmr_addr import XmrIntegratedAddr, XmrAddr
 from bip_utils.addr.xrp_addr import XrpAddr
 from bip_utils.addr.xtz_addr import XtzAddrPrefixes, XtzAddr
 from bip_utils.addr.zil_addr import ZilAddr

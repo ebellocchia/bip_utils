@@ -51,5 +51,5 @@ class AddrBaseTestHelper:
 
     # Test invalid parameters
     @staticmethod
-    def test_invalid_params(ut_class, addr_class, pub_key, err_params):
-        ut_class.assertRaises(TypeError, addr_class.EncodeKey, pub_key, **err_params)
+    def test_invalid_params(ut_class, addr_class, pub_key, err_params, ex_type):
+        ut_class.assertRaises(ex_type, addr_class.EncodeKey, pub_key, **err_params)

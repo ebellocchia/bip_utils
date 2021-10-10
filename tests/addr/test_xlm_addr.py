@@ -73,4 +73,4 @@ class XlmAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params(self, XlmAddr, TEST_ED25519_PUB_KEY, {"addr_type": 0})
+        AddrBaseTestHelper.test_invalid_params(self, XlmAddr, TEST_ED25519_PUB_KEY, {"addr_type": 0}, TypeError)

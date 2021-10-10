@@ -37,6 +37,10 @@ TEST_VECT = [
         "pub_skey": "a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422",
         "pub_vkey": "dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5",
         "primary_address": "483MrwgmB1yTzuzmJPSiWGQmBYC1Z21yTQXQuDWv4MZm6qBnA4CCMXVgsjoFRmGkATR8yeytc2tFJKgvKz1Bbhj5UhSCham",
+        "integrated_address": {
+            "payment_id": b"d6f093554c0daa94",
+            "address": "4Hk2skWFnHVTzuzmJPSiWGQmBYC1Z21yTQXQuDWv4MZm6qBnA4CCMXVgsjoFRmGkATR8yeytc2tFJKgvKz1Bbhj5i7xE3Q5peeVHkkrCWJ",
+        },
         "subaddresses": [
             {
                 "major_idx": 0,
@@ -67,6 +71,10 @@ TEST_VECT = [
         "pub_skey": "323abccb6e92ee89b1a07f6829ab3e16cc4fd276377c11d84a5719808f16ec83",
         "pub_vkey": "4842482c21c0d0459f04dd7a27256b1743fe018727bd395c964a5ae9e3c6f6c1",
         "primary_address": "43XWXXDCyHwQ2oZtBc8LUm4pAs5koPg2kdBHgwQNJBKRNxbwRnYufB5CeQvnbkGiWE4thv1A7GptxGVDDPN4d8ehNpQv99J",
+        "integrated_address": {
+            "payment_id": b"ccc172c2ffcac9d8",
+            "address": "4DEBYL2haZTQ2oZtBc8LUm4pAs5koPg2kdBHgwQNJBKRNxbwRnYufB5CeQvnbkGiWE4thv1A7GptxGVDDPN4d8ehZR6s3aQNNzLRREzGFz",
+        },
         "subaddresses": [
             {
                 "major_idx": 0,
@@ -97,6 +105,10 @@ TEST_VECT = [
         "pub_skey": "310e380533336d850081ee63cece4a9ec6df17db97d67b18f35b4d5b406a2375",
         "pub_vkey": "51fa5e598f6aeb4516aa34e8dc974961cb0a7ef5398f6d329afd69ca2a8045bb",
         "primary_address": "43UvsrFvMbaPFHaZ5G57SyTZLPSKEZbQn5B42ZtErUGSLd9tEAVjSCzCZFEHopF7qrHMiX88Krpkk9TwHtZ31uTrNBNADjb",
+        "integrated_address": {
+            "payment_id": b"6e8b9ea55f3e01af",
+            "address": "4DBbtf5Qxs6PFHaZ5G57SyTZLPSKEZbQn5B42ZtErUGSLd9tEAVjSCzCZFEHopF7qrHMiX88Krpkk9TwHtZ31uTrYMKkzEB2yoELnsszjL",
+        },
         "subaddresses": [
             {
                 "major_idx": 0,
@@ -127,6 +139,10 @@ TEST_VECT = [
         "pub_skey": "3d8d37ef9b2293024073937463ef3f51009e4fe7be55d33f5b0052b14222314b",
         "pub_vkey": "416f39456d631c2969cf3db8ffde66d33344187e32ab994a2d542538530f8af2",
         "primary_address": "43xPtLXf1621Nr1LRDTacWEYpqxoekcV8BbdPmPMdnnCDb5GfWeWyFR7vm9E5ohGe9cKucMULKsF6DQcQZDLMUG9UQ1irHM",
+        "integrated_address": {
+            "payment_id": b"0c0226208617eacd",
+            "address": "4Df4u9M9cMY1Nr1LRDTacWEYpqxoekcV8BbdPmPMdnnCDb5GfWeWyFR7vm9E5ohGe9cKucMULKsF6DQcQZDLMUG9hVABCrkrKS1QD1aF8A",
+        },
         "subaddresses": [
             {
                 "major_idx": 0,
@@ -157,6 +173,10 @@ TEST_VECT = [
         "pub_skey": "aa4e7c95a40fc97b98c4801bee5347842ff0740368cfe0ffcba65ad4270dc45b",
         "pub_vkey": "8af4a1601edb665007c9e53cdf697e928c208fc2935c5aec6d3c0ff9c12dc2a6",
         "primary_address": "485S2N68Hw6Mg3WbxzsTXLP7PAAJVEqXmjnY8wEPhwQwGK5dQ46sdW5EPPw1sqnJbXRWhCX9zdcKjgYdqa7WMAGhKoBhm5U",
+        "integrated_address": {
+            "payment_id": b"63c84b79ab434598",
+            "address": "4Hn73AucuCcMg3WbxzsTXLP7PAAJVEqXmjnY8wEPhwQwGK5dQ46sdW5EPPw1sqnJbXRWhCX9zdcKjgYdqa7WMAGhUqByd94QKTJJ9vmXwN",
+        },
         "subaddresses": [
             {
                 "major_idx": 0,
@@ -186,6 +206,10 @@ TEST_VECT = [
         "priv_vkey": "f4d4ee4630f874cb3b8a7cc630c0ac415b05204119809d59eeb8177b7096d90f",
         "pub_skey": "d1a7da825fcf942f42e5b8669375888d27f58360c7ab10a00e820ddc1030ce8e",
         "pub_vkey": "200c4944454c440b4b87e1581e7ccffe42c0068b415f39abfa75954ffa451133",
+        "integrated_address": {
+            "payment_id": b"07c438e423452c60",
+            "address": "4KGbHEh8kbV8uVemEbKhLBQcPfxkRrbeXTmkWic1iZrmQmnxUL9Rbr32taQrh25jZxjXeZscqKb28VmQX4hLiQ3A9Y4NncT7LZHBt9N68a",
+        },
         "primary_address": "49ZvGRse9Ky8uVemEbKhLBQcPfxkRrbeXTmkWic1iZrmQmnxUL9Rbr32taQrh25jZxjXeZscqKb28VmQX4hLiQ3A6oq7HQs",
         "subaddresses": [
             {
@@ -288,6 +312,10 @@ class MoneroTests(unittest.TestCase):
 
         # Test primary address
         self.assertEqual(test["primary_address"], monero.PrimaryAddress())
+
+        # Test integrated address
+        payment_id = binascii.unhexlify(test["integrated_address"]["payment_id"])
+        self.assertEqual(test["integrated_address"]["address"], monero.IntegratedAddress(payment_id))
 
         # Test subaddresses
         for test_subaddr in test["subaddresses"]:

@@ -73,4 +73,4 @@ class XtzAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params(self, XtzAddr, TEST_ED25519_PUB_KEY, {"prefix": 0})
+        AddrBaseTestHelper.test_invalid_params(self, XtzAddr, TEST_ED25519_PUB_KEY, {"prefix": 0}, TypeError)

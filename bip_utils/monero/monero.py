@@ -23,6 +23,7 @@
 from __future__ import annotations
 from functools import lru_cache
 from typing import Optional, Union
+from bip_utils.addr import XmrIntegratedAddr
 from bip_utils.ecc import Ed25519Monero, Ed25519MoneroPrivateKey, IPrivateKey, IPublicKey
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
@@ -205,6 +206,21 @@ class Monero:
             MoneroPublicKey object: MoneroPublicKey object
         """
         return self.m_pub_vkey
+
+    @lru_cache()
+    def IntegratedAddress(self,
+                          payment_id: bytes) -> str:
+        """ Return the integrated address with the specified payment ID.
+
+        Args:
+            payment_id (bytes): Payment ID
+
+        Returns:
+            str: Integrated address string
+        """
+        return XmrIntegratedAddr.EncodeKey(self.m_pub_skey.KeyObject(),
+                                           pub_vkey=self.m_pub_vkey.KeyObject(),
+                                           payment_id=payment_id)
 
     @lru_cache()
     def PrimaryAddress(self) -> str:
