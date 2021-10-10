@@ -43,7 +43,7 @@ class MoneroSubaddress:
 
     m_priv_vkey: MoneroPrivateKey
     m_pub_skey: MoneroPublicKey
-    m_pub_vkey: Optional[MoneroPublicKey]
+    m_pub_vkey: MoneroPublicKey
 
     def __init__(self,
                  priv_vkey: MoneroPrivateKey,
