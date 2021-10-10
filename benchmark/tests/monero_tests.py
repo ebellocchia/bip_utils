@@ -40,4 +40,4 @@ class MoneroTests(BenchmarkTestsBase):
                 monero_ctx.PublicViewKey().RawUncompressed().ToHex()
                 monero_ctx.PrivateSpendKey().Raw().ToHex()
                 monero_ctx.PrivateViewKey().Raw().ToHex()
-                monero_ctx.SubAddress(i)
+                monero_ctx.Subaddress(i)

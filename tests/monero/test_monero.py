@@ -25,7 +25,7 @@ import unittest
 from bip_utils import (
     MoneroPublicKey, MoneroPrivateKey, MoneroKeyError, Monero, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
 )
-from bip_utils.monero.monero import MoneroConst
+from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 
 # Some random private spend keys
 # Verified with the official Monero wallet and: https://xmr.llcoins.net/addresstests.html
@@ -252,15 +252,14 @@ class MoneroTests(unittest.TestCase):
                                           Ed25519MoneroPublicKey(pub_skey_bytes))
             self.__test_keys_and_addresses(monero, test, True)
 
-
     # Test invalid subaddress indexes
     def test_invalid_subaddress_idx(self):
         monero = Monero.FromSeed(binascii.unhexlify(TEST_SEED))
 
-        self.assertRaises(ValueError, monero.SubAddress, -1, 0)
-        self.assertRaises(ValueError, monero.SubAddress, 0, -1)
-        self.assertRaises(ValueError, monero.SubAddress, MoneroConst.SUBADDR_MAX_IDX + 1, 0)
-        self.assertRaises(ValueError, monero.SubAddress, 0, MoneroConst.SUBADDR_MAX_IDX + 1)
+        self.assertRaises(ValueError, monero.Subaddress, -1, 0)
+        self.assertRaises(ValueError, monero.Subaddress, 0, -1)
+        self.assertRaises(ValueError, monero.Subaddress, MoneroSubaddressConst.SUBADDR_MAX_IDX + 1, 0)
+        self.assertRaises(ValueError, monero.Subaddress, 0, MoneroSubaddressConst.SUBADDR_MAX_IDX + 1)
 
     # Test keys and addresses
     def __test_keys_and_addresses(self, monero, test, is_watch_only):
@@ -292,5 +291,5 @@ class MoneroTests(unittest.TestCase):
 
         # Test subaddresses
         for test_subaddr in test["subaddresses"]:
-            subaddr = monero.SubAddress(test_subaddr["minor_idx"], test_subaddr["major_idx"])
+            subaddr = monero.Subaddress(test_subaddr["minor_idx"], test_subaddr["major_idx"])
             self.assertEqual(test_subaddr["address"], subaddr)

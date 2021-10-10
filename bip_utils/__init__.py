@@ -50,7 +50,7 @@ from bip_utils.bip.conf.bip49 import *
 from bip_utils.bip.conf.bip84 import *
 # Monero
 from bip_utils.monero import (
-    MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, Monero
+    MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, MoneroSubaddress, Monero
 )
 # Monero mnemonic
 from bip_utils.monero.mnemonic import (
