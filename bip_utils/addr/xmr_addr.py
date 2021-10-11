@@ -89,7 +89,7 @@ class XmrAddr(IAddrEncoder):
         Other Parameters:
             pub_vkey (bytes or IPublicKey): Public view key bytes or object
             net_ver (bytes)               : Net version
-            payment_id (bytes, optional)  : Payment ID (only for integrated addresses)
+            payment_id (bytes)            : Payment ID
 
         Returns:
             str: Address string
