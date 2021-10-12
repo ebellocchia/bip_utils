@@ -24,6 +24,7 @@ from typing import Any, Optional, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58XmrEncoder
+from bip_utils.coin_conf import MoneroConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
@@ -35,8 +36,6 @@ class XmrAddrConst:
     CHECKSUM_BYTE_LEN: int = 4
     # Payment ID length in bytes
     PAYMENT_ID_BYTE_LEN: int = 8
-    # Integrated address net version
-    INTEGRATED_ADDR_NET_VER: bytes = b"\x13"
 
 
 class XmrAddrUtils:
@@ -89,7 +88,7 @@ class XmrAddr(IAddrEncoder):
         Other Parameters:
             pub_vkey (bytes or IPublicKey): Public view key bytes or object
             net_ver (bytes)               : Net version
-            payment_id (bytes)            : Payment ID
+            payment_id (bytes, optional)  : Payment ID (only for integrated addresses)
 
         Returns:
             str: Address string
@@ -117,7 +116,7 @@ class XmrIntegratedAddr(IAddrEncoder):
 
         Other Parameters:
             pub_vkey (bytes or IPublicKey): Public view key bytes or object
-            payment_id (bytes, optional)  : Payment ID (only for integrated addresses)
+            payment_id (bytes)            : Payment ID
 
         Returns:
             str: Address string
@@ -129,4 +128,4 @@ class XmrIntegratedAddr(IAddrEncoder):
         pub_vkey = kwargs["pub_vkey"]
         payment_id = kwargs["payment_id"]
 
-        return XmrAddrUtils.EncodeKeyGeneric(pub_key, pub_vkey, XmrAddrConst.INTEGRATED_ADDR_NET_VER, payment_id)
+        return XmrAddrUtils.EncodeKeyGeneric(pub_key, pub_vkey, MoneroConf.ADDR_NET_VER_INT, payment_id)

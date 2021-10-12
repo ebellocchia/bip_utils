@@ -24,6 +24,7 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32Encoder
+from bip_utils.coin_conf import ZilliqaConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
@@ -33,8 +34,6 @@ class ZilAddrConst:
 
     # Digest length in bytes
     DIGEST_BYTE_LEN: int = 20
-    # HRP
-    HRP: str = "zil"
 
 
 class ZilAddr(IAddrEncoder):
@@ -59,5 +58,5 @@ class ZilAddr(IAddrEncoder):
         pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
 
         key_hash = CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())
-        return Bech32Encoder.Encode(ZilAddrConst.HRP,
+        return Bech32Encoder.Encode(ZilliqaConf.ADDR_HRP,
                                     key_hash[-ZilAddrConst.DIGEST_BYTE_LEN:])

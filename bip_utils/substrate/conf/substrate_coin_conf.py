@@ -20,6 +20,7 @@
 
 
 # Imports
+from typing import Dict
 from bip_utils.utils.conf import CoinNames
 
 
@@ -28,6 +29,7 @@ class SubstrateCoinConf:
 
     m_coin_name: CoinNames
     m_ss58_format: int
+    m_addr_params: Dict[str, int]
 
     def __init__(self,
                  coin_name: CoinNames,
@@ -40,6 +42,7 @@ class SubstrateCoinConf:
         """
         self.m_coin_name = coin_name
         self.m_ss58_format = ss58_format
+        self.m_addr_params = {"ss58_format": ss58_format}
 
     def CoinNames(self) -> CoinNames:
         """ Get coin names.
@@ -56,3 +59,11 @@ class SubstrateCoinConf:
             int: SS58 format
         """
         return self.m_ss58_format
+
+    def AddrParams(self) -> Dict[str, int]:
+        """ Get the address parameters.
+
+        Returns:
+            dict: Address parameters
+        """
+        return self.m_addr_params

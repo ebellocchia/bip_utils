@@ -24,15 +24,9 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.base58 import Base58Encoder
+from bip_utils.coin_conf import TronConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
-
-
-class TrxAddrConst:
-    """ Class container for Tron address constants. """
-
-    # Address prefix
-    PREFIX: bytes = b"\x41"
 
 
 class TrxAddr(IAddrEncoder):
@@ -60,4 +54,4 @@ class TrxAddr(IAddrEncoder):
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Add prefix and encode
-        return Base58Encoder.CheckEncode(TrxAddrConst.PREFIX + ConvUtils.HexStringToBytes(eth_addr))
+        return Base58Encoder.CheckEncode(TronConf.ADDR_PREFIX + ConvUtils.HexStringToBytes(eth_addr))

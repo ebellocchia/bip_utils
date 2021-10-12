@@ -124,7 +124,7 @@ class SubstratePublicKey:
             str: Address string
         """
         return SubstrateSr25519Addr.EncodeKey(self.m_pub_key,
-                                              ss58_format=self.m_coin_conf.SS58Format())
+                                              **self.m_coin_conf.AddrParams())
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes) -> IPublicKey:

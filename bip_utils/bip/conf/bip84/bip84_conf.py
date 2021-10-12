@@ -20,10 +20,10 @@
 
 
 # Imports
-from bip_utils.addr import *
+from bip_utils.addr import P2WPKHAddr
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Secp256k1
 from bip_utils.bip.conf.common import *
-from bip_utils.utils.conf import CoinNames
+from bip_utils.coin_conf import BitcoinConf, LitecoinConf
 
 
 # Bitcoin key net version (zpub / zprv)
@@ -32,50 +32,52 @@ _BIP84_BTC_KEY_NET_VER: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\xb2\x47
 
 # Configuration for Bitcoin main net
 Bip84BitcoinMainNet: BipCoinConf = BipCoinConf(
-    coin_name=CoinNames("Bitcoin", "BTC"),
+    coin_name=BitcoinConf.COIN_NAME_MN,
     coin_idx=0,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=_BIP84_BTC_KEY_NET_VER,
-    wif_net_ver=BTC_WIF_NET_VER_MAIN,
+    wif_net_ver=BitcoinConf.WIF_NET_VER_MN,
     bip32_cls=Bip32Secp256k1,
     addr_cls=P2WPKHAddr,
-    addr_params={"hrp": "bc", "wit_ver": 0},
+    addr_params={"hrp": BitcoinConf.P2WPKH_HRP_MN, "wit_ver": BitcoinConf.P2WPKH_WIT_VER_MN},
 )
 # Configuration for Bitcoin test net
 Bip84BitcoinTestNet: BipCoinConf = BipCoinConf(
-    coin_name=CoinNames("Bitcoin TestNet", "BTC"),
+    coin_name=BitcoinConf.COIN_NAME_TN,
     coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"\x04\x5f\x1c\xf6", b"\x04\x5f\x18\xbc"),   # vpub / vprv
-    wif_net_ver=BTC_WIF_NET_VER_TEST,
+    key_net_ver=Bip32KeyNetVersions(b"\x04\x5f\x1c\xf6",
+                                    b"\x04\x5f\x18\xbc"),   # vpub / vprv
+    wif_net_ver=BitcoinConf.WIF_NET_VER_TN,
     bip32_cls=Bip32Secp256k1,
     addr_cls=P2WPKHAddr,
-    addr_params={"hrp": "tb", "wit_ver": 0},
+    addr_params={"hrp": BitcoinConf.P2WPKH_HRP_TN, "wit_ver": BitcoinConf.P2WPKH_WIT_VER_TN},
 )
 
 # Configuration for Litecoin main net
 Bip84LitecoinMainNet: BipCoinConf = BipCoinConf(
-    coin_name=CoinNames("Litecoin", "LTC"),
+    coin_name=LitecoinConf.COIN_NAME_MN,
     coin_idx=2,
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=_BIP84_BTC_KEY_NET_VER,
-    wif_net_ver=b"\xb0",
+    wif_net_ver=LitecoinConf.WIF_NET_VER_MN,
     bip32_cls=Bip32Secp256k1,
     addr_cls=P2WPKHAddr,
-    addr_params={"hrp": "ltc", "wit_ver": 0},
+    addr_params={"hrp": LitecoinConf.P2WPKH_HRP_MN, "wit_ver": LitecoinConf.P2WPKH_WIT_VER_MN},
 )
 # Configuration for Litecoin test net
 Bip84LitecoinTestNet: BipCoinConf = BipCoinConf(
-    coin_name=CoinNames("Litecoin TestNet", "LTC"),
+    coin_name=LitecoinConf.COIN_NAME_TN,
     coin_idx=1,
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1", b"\x04\x36\xef\x7d"),   # ttub / ttpv
-    wif_net_ver=BTC_WIF_NET_VER_TEST,
+    key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
+                                    b"\x04\x36\xef\x7d"),   # ttub / ttpv
+    wif_net_ver=LitecoinConf.WIF_NET_VER_TN,
     bip32_cls=Bip32Secp256k1,
     addr_cls=P2WPKHAddr,
-    addr_params={"hrp": "tltc", "wit_ver": 0},
+    addr_params={"hrp": LitecoinConf.P2WPKH_HRP_TN, "wit_ver": LitecoinConf.P2WPKH_WIT_VER_TN},
 )

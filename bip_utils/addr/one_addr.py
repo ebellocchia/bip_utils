@@ -24,15 +24,9 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.eth_addr import EthAddr
 from bip_utils.bech32 import Bech32Encoder
+from bip_utils.coin_conf import HarmonyOneConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
-
-
-class OneAddrConst:
-    """ Class container for Harmony One address constants. """
-
-    # HRP
-    HRP: str = "one"
 
 
 class OneAddr(IAddrEncoder):
@@ -59,5 +53,5 @@ class OneAddr(IAddrEncoder):
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
 
         # Encode in Bech32 format
-        return Bech32Encoder.Encode(OneAddrConst.HRP,
+        return Bech32Encoder.Encode(HarmonyOneConf.ADDR_HRP,
                                     ConvUtils.HexStringToBytes(eth_addr))

@@ -21,12 +21,10 @@
 
 # Imports
 import unittest
-from bip_utils import (
-    Bip84BitcoinMainNet, Bip84BitcoinTestNet, Bip84LitecoinMainNet, Bip84LitecoinTestNet,
-    P2WPKHAddr
-)
-from .test_addr_base import AddrBaseTestHelper
-from .test_addr_const import *
+from bip_utils import BitcoinConf, LitecoinConf, P2WPKHAddr
+from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
+from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
 
 # Some random public keys
 TEST_VECT = [
@@ -35,26 +33,26 @@ TEST_VECT = [
     #
     {
         "pub_key": b"03e775fd51f0dfb8cd865d9ff1cca2a158cf651fe997fdc9fee9c1d3b5e995ea77",
-        "addr_params": {"hrp": Bip84BitcoinMainNet.AddrParamsKey("hrp"),
-                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
+        "addr_params": {"hrp": BitcoinConf.P2WPKH_HRP_MN,
+                        "wit_ver": BitcoinConf.P2WPKH_WIT_VER_MN},
         "address": "bc1qnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g",
     },
     {
         "pub_key": b"0299b4cb4809f52dac21bbd8c997d8bf052cf4d68bfe966c638c312fbfff636e17",
-        "addr_params": {"hrp": Bip84BitcoinMainNet.AddrParamsKey("hrp"),
-                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
+        "addr_params": {"hrp": BitcoinConf.P2WPKH_HRP_MN,
+                        "wit_ver": BitcoinConf.P2WPKH_WIT_VER_MN},
         "address": "bc1qtet8q6cd5vqm0zjfcfm8mfsydju0a29ggqrmu9",
     },
     {
         "pub_key": b"021c1750d4a5ad543967b30e9447e50da7a5873e8be133eb25f2ce0ea5638b9d17",
-        "addr_params": {"hrp": Bip84LitecoinMainNet.AddrParamsKey("hrp"),
-                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
+        "addr_params": {"hrp": LitecoinConf.P2WPKH_HRP_MN,
+                        "wit_ver": LitecoinConf.P2WPKH_WIT_VER_MN},
         "address": "ltc1qwlezpr3890hcp6vva9twqh27mr6edadreqvhnn",
     },
     {
         "pub_key": b"0201084ea04fa9619a056281e7c87a97693f67e5baa4ec604e7e8245b84e31cc96",
-        "addr_params": {"hrp": Bip84LitecoinMainNet.AddrParamsKey("hrp"),
-                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
+        "addr_params": {"hrp": LitecoinConf.P2WPKH_HRP_MN,
+                        "wit_ver": LitecoinConf.P2WPKH_WIT_VER_MN},
         "address": "ltc1qdjtr2jc5uu6r0ss2fcey3djvkhlu7jux420fhr",
     },
     #
@@ -62,14 +60,14 @@ TEST_VECT = [
     #
     {
         "pub_key": b"02339193c34cd8ecb21ebd48af64ead71d78213470d61d7274f932489d6ba21bd3",
-        "addr_params": {"hrp": Bip84BitcoinTestNet.AddrParamsKey("hrp"),
-                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
+        "addr_params": {"hrp": BitcoinConf.P2WPKH_HRP_TN,
+                        "wit_ver": BitcoinConf.P2WPKH_WIT_VER_TN},
         "address": "tb1qxdyjf6h5d6qxap4n2dap97q4j5ps6ua8sll0ct",
     },
     {
         "pub_key": b"03bb5db212192d5b428c5db726aba21426d0a63b7a453b0104f2398326bca43fc2",
-        "addr_params": {"hrp": Bip84LitecoinTestNet.AddrParamsKey("hrp"),
-                        "wit_ver": Bip84BitcoinMainNet.AddrParamsKey("wit_ver")},
+        "addr_params": {"hrp": LitecoinConf.P2WPKH_HRP_TN,
+                        "wit_ver": LitecoinConf.P2WPKH_WIT_VER_TN},
         "address": "tltc1q677973lw0w796gttpy52f296jqaaksz0duklcr",
     },
 ]

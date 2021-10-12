@@ -24,6 +24,7 @@ from enum import IntEnum, unique
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
+from bip_utils.coin_conf import FilecoinConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.base32 import Base32Encoder
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
@@ -46,8 +47,6 @@ class FilAddrConst:
     DIGEST_BYTE_LEN: int = 20
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
-    # Address prefix
-    PREFIX: str = "f"
 
 
 class FilAddrUtils:
@@ -77,7 +76,7 @@ class FilAddrUtils:
         # Encode to base32
         b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + checksum, FilAddrConst.BASE32_ALPHABET)
 
-        return FilAddrConst.PREFIX + addr_type_str + b32_enc
+        return FilecoinConf.ADDR_PREFIX + addr_type_str + b32_enc
 
 
 class FilSecp256k1Addr(IAddrEncoder):

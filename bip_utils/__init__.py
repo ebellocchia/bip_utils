@@ -68,8 +68,8 @@ from bip_utils.substrate import (
 )
 # Substrate mnemonic
 from bip_utils.substrate.mnemonic import SubstrateBip39SeedGenerator
-# Substrate coins
-from bip_utils.substrate.conf import SubstrateCoins
+# Substrate configuration
+from bip_utils.substrate.conf import *
 # ECC
 from bip_utils.ecc import (
     EllipticCurveGetter, EllipticCurveTypes,

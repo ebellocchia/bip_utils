@@ -20,10 +20,9 @@
 
 
 # Imports
-import unittest
 from bip_utils import (
     Bip32KeyError,
-    Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyNetVersions, Bip32KeyData,
+    Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyData,
     Bip32PublicKey, Bip32PrivateKey
 )
 from bip_utils.bip.bip32.bip32_const import Bip32Const
