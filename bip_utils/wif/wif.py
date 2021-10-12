@@ -101,7 +101,7 @@ class WifDecoder:
         # Check net version
         if key_bytes[0] != ord(net_ver):
             raise ValueError(
-                f"Invalid net version (expected {ord(net_ver):X}, got {key_bytes[0]:X})"
+                f"Invalid net version (expected 0x{ord(net_ver):02X}, got 0x{key_bytes[0]:02X})"
             )
 
         # Remove net version
