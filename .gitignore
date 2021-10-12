@@ -1,14 +1,34 @@
+# Byte-compiled
 *~
 *.pyc
 *.pyo
-__pycache__
-.vs
-.coverage
-.mypy_cache
+__pycache__/
+
+# Distribution
+build/
+dist/
+eggs/
+.eggs/
+sdist/
+*.egg-info/
+*.egg
+
+# Unit test / Coverage reports
 htmlcov
-*.egg-info
+.coverage
+.coverage.*
+.pytest_cache/
+.tox/
+
+# Environments
 .idea
-build
-dist
-venv
-my_tests
+.env
+.venv
+env/
+venv/
+
+# mypy
+.mypy_cache/
+
+# Additional folder
+my_tests/
