@@ -1577,6 +1577,21 @@ These libraries are used internally by the other libraries, but they are availab
     addr = XmrAddr.EncodeKey(pub_skey,
                              pub_vkey=pub_vkey,
                              net_ver=MoneroConf.ADDR_NET_VER_MN)
+    # Equivalent
+    addr = XmrAddr.EncodeKey(pub_skey,
+                             pub_vkey=pub_vkey,
+                             net_ver=MoneroMainNet.AddrNetVersion())
+
+    # Monero integrated address
+    addr = XmrIntegratedAddr.EncodeKey(pub_skey,
+                                       pub_vkey=pub_vkey,
+                                       net_ver=MoneroConf.ADDR_INT_NET_VER_MN,
+                                       payment_id=binascii.unhexlify(b"d7af025ab223b74e"))
+    # Equivalent
+    addr = XmrIntegratedAddr.EncodeKey(pub_skey,
+                                       pub_vkey=pub_vkey,
+                                       net_ver=MoneroMainNet.IntegratedAddrNetVersion(),
+                                       payment_id=binascii.unhexlify(b"d7af025ab223b74e"))
 
     #
     # Addresses that require a nist256p1 curve
