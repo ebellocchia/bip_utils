@@ -110,28 +110,28 @@ By default, *coincurve* will be used but it's possible to disable it when instal
 
 To install the package:
 - Default installation (*coincurve* will be used for secp256k1)
-    - Using setuptools:
+    - Using *setuptools*:
 
             python setup.py install
 
-    - Using pip, from this directory (local):
+    - Using *pip*, from this directory (local):
 
             pip install .
 
-    - Using pip, from PyPI:
+    - Using *pip*, from PyPI:
 
             pip install bip_utils
 
 - Alternative installation (*ecdsa* will be used for secp256k1)
-    - Using setuptools:
+    - Using *setuptools*:
 
             python setup.py install --coincurve=0
 
-    - Using pip, from this directory (local):
+    - Using *pip*, from this directory (local):
 
             pip install . --install-option="--coincurve=0"
 
-    - Using pip, from PyPI:
+    - Using *pip*, from PyPI:
 
             pip install bip_utils --install-option="--coincurve=0"
 
@@ -140,7 +140,7 @@ To run the tests:
 
         python -m unittest discover
 
-- Using *tox*:
+- Using *tox* (it includes code coverage):
 
         pip install tox
 
