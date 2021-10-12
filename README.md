@@ -1548,7 +1548,7 @@ These libraries are used internally by the other libraries, but they are availab
     # Tezos address with custom parameters
     addr = XtzAddr.EncodeKey(pub_key,
                              prefix=XtzAddrPrefixes.TZ1)
-    # Or with the default parameters from BIP/Substrate:
+    # Or with the default parameters from BIP:
     addr = XtzAddr.EncodeKey(pub_key,
                              **Bip44Tezos.AddrParams())
 
@@ -1607,7 +1607,7 @@ These libraries are used internally by the other libraries, but they are availab
     # Or with custom parameters
     addr = NeoAddr.EncodeKey(pub_key,
                              ver=b"\x10")
-    # Or with the default parameters from BIP/Substrate:
+    # Or with the default parameters from BIP:
     addr = NeoAddr.EncodeKey(pub_key,
                              **Bip44Neo.AddrParams())
 
