@@ -6,3 +6,4 @@ exclude_lines =
 [run]
 omit =
     bip_utils\ecc\lib\ed25519_monero_lib.py
+    .tox/*
