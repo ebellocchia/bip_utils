@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    MoneroPublicKey, MoneroPrivateKey, MoneroKeyError, Monero, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
+    MoneroPublicKey, MoneroPrivateKey, MoneroKeyError, MoneroCoins, Monero, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
 )
 from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 
@@ -32,6 +32,7 @@ from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 TEST_VECT = [
     {
         "seed": b"2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107",
+        "coin": MoneroCoins.MONERO_MAINNET,
         "priv_skey": "2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107",
         "priv_vkey": "14467d1b9bb8d1fcfb5b7ae08cc9994367e917efd7e08cf94f9882ffa0629e09",
         "pub_skey": "a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422",
@@ -66,6 +67,7 @@ TEST_VECT = [
     },
     {
         "seed": b"b6514a29ff612189af1bba250606bb5b1e7846fe8f31a91fc0beb393cddb6101",
+        "coin": MoneroCoins.MONERO_MAINNET,
         "priv_skey": "b6514a29ff612189af1bba250606bb5b1e7846fe8f31a91fc0beb393cddb6101",
         "priv_vkey": "8f3461d947f48cebd597dade700b6f345be43af8139b85fef7d577007462b509",
         "pub_skey": "323abccb6e92ee89b1a07f6829ab3e16cc4fd276377c11d84a5719808f16ec83",
@@ -100,6 +102,7 @@ TEST_VECT = [
     },
     {
         "seed": b"b8083b02224454c8671868930d0ae9e1aa347373ec450aaff336478ae32cc10d",
+        "coin": MoneroCoins.MONERO_MAINNET,
         "priv_skey": "b8083b02224454c8671868930d0ae9e1aa347373ec450aaff336478ae32cc10d",
         "priv_vkey": "b10e56f46ac431cc7b8374abe8eb569a30432a8738587416705514460b1f9e0b",
         "pub_skey": "310e380533336d850081ee63cece4a9ec6df17db97d67b18f35b4d5b406a2375",
@@ -134,6 +137,7 @@ TEST_VECT = [
     },
     {
         "seed": b"373d5f961ec5e26982bd08d7b9d19633",
+        "coin": MoneroCoins.MONERO_MAINNET,
         "priv_skey": "1e0ecb4b35a5485194beb301df4bea5ad0cb411c9d3adca9338b4286d6ecc903",
         "priv_vkey": "64221cae902089ae247e24509865cd3e45a1c70f1c030587a709a5414d5c0603",
         "pub_skey": "3d8d37ef9b2293024073937463ef3f51009e4fe7be55d33f5b0052b14222314b",
@@ -168,6 +172,7 @@ TEST_VECT = [
     },
     {
         "seed": b"52ec255a434c3c7b0e3d0357084158e2",
+        "coin": MoneroCoins.MONERO_MAINNET,
         "priv_skey": "83bb85465f189b9328c8cadf0c75260500fbcc9ccd0c5b8d3783934741a9720d",
         "priv_vkey": "b42c6e744db8c45d1320ba28f79d0a1813b1821358fbf195958de4e19b23aa0b",
         "pub_skey": "aa4e7c95a40fc97b98c4801bee5347842ff0740368cfe0ffcba65ad4270dc45b",
@@ -202,6 +207,7 @@ TEST_VECT = [
     },
     {
         "seed": b"3aaba6a0c83ad6127dfb14a469c92afb",
+        "coin": MoneroCoins.MONERO_MAINNET,
         "priv_skey": "5288063e394817d6d3f811ae01d1e144b2c6e099ecc2bb908cafaf9cf46de908",
         "priv_vkey": "f4d4ee4630f874cb3b8a7cc630c0ac415b05204119809d59eeb8177b7096d90f",
         "pub_skey": "d1a7da825fcf942f42e5b8669375888d27f58360c7ab10a00e820ddc1030ce8e",
@@ -234,6 +240,69 @@ TEST_VECT = [
             },
         ]
     },
+    # Test net
+    {
+        "seed": b"a52d32df742c7ecf639be062ef4cd3d726117645542693fbfc44f5a186724307",
+        "coin": MoneroCoins.MONERO_TESTNET,
+        "priv_skey": "a52d32df742c7ecf639be062ef4cd3d726117645542693fbfc44f5a186724307",
+        "priv_vkey": "5a07cb9f334ee0f28078f1dea3b554e8747db04b3e628b61f59fc4e455785f07",
+        "pub_skey": "bff6481aeee5a0cf2949bee430888797b18af5542828ef5377d2d5e457d96235",
+        "pub_vkey": "e81c525c3627f24a322466b4a0c704f58952271dbd115f972d6bf7d1b927a40b",
+        "primary_address": "9zSaACcBx3HbeizJiyvY5USNcoMNtPiQvExkCKzBGJQqA1xpKhWGjDjDQnzBbubxx3i51d9mZCNvrSHcQVRUAK3H2HmhC9w",
+        "subaddresses": [
+            {
+                "major_idx": 0,
+                "minor_idx": 0,
+                "address": "9zSaACcBx3HbeizJiyvY5USNcoMNtPiQvExkCKzBGJQqA1xpKhWGjDjDQnzBbubxx3i51d9mZCNvrSHcQVRUAK3H2HmhC9w",
+            },
+            {
+                "major_idx": 0,
+                "minor_idx": 1,
+                "address": "BgZvFFW75akXq6MUHv67NEaFoHoC1F8LM9djSm6akiV6azL1nv6xh949NwQQZYM438cBUWWjFHaUjSpgA9MtUhNdBZC4Mvw",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 0,
+                "address": "BbwepBiPBYUjCb6tF9d3a4Xi9y9FGgUMvEUh3hJcxqDBFNjmtHULoTiBzGHK9q6y3ZC7pzCUtNP9ueqmNXpMk6reQnCHMd7",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 1,
+                "address": "Bazi9dJJc9g4A4wmgGKFEGKUhEpTH2jeqhPccxDiR8qRE3BXAn5c3qMKxiJZVSBFNP5jiM1uyBj94B93msJZDFzG8GV8NQ4",
+            },
+        ]
+    },
+    {
+        "seed": b"64f39a8746c4d8825944fb896ad5b962f040a8811f2050e7d9edc5a0f17aab0a",
+        "coin": MoneroCoins.MONERO_TESTNET,
+        "priv_skey": "64f39a8746c4d8825944fb896ad5b962f040a8811f2050e7d9edc5a0f17aab0a",
+        "priv_vkey": "22097897de557cac380a5f6eed368364725bb9321ba67632cb776b9d4ca0c903",
+        "pub_skey": "70d532772bf2656a27abf25b3f1cd16c6027b455cc81e69743aec8182731106f",
+        "pub_vkey": "7a68fb0d7f4a046be96b5adc224a4c2f4ecf9879acc113e438cdba773a1278be",
+        "primary_address": "9wSeitNRRdnJkqVqj7fFKvK8NzQVKUsyPSJTLLJNRgMVKeUiSsJ2Pb1K3t1upYkiiw8uwqWfcqa8ifB3DXhMEDEFNXkC44K",
+        "subaddresses": [
+            {
+                "major_idx": 0,
+                "minor_idx": 0,
+                "address": "9wSeitNRRdnJkqVqj7fFKvK8NzQVKUsyPSJTLLJNRgMVKeUiSsJ2Pb1K3t1upYkiiw8uwqWfcqa8ifB3DXhMEDEFNXkC44K",
+            },
+            {
+                "major_idx": 0,
+                "minor_idx": 1,
+                "address": "BcPG7CQd17mQ2J6hqWD59w7FqunPzJwhpCfyz6jzfzriaDnC7mHMhvZhqftw8w632ij2mpq8c1MsJPanrMQTKY547pTBvTq",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 0,
+                "address": "BYdWWX8N45gELret2WxTgKeGkwLLEAxGnFXLjStviAwaBng18qgXqzFDgvwdEsrjKbZAKKunaRGDNWZZiZD4EEczKmgN6K2",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 1,
+                "address": "BbT4WiU2QVQbSn5XFHwJzb88Wxbh8F7YAHiEJGYyNpeFgsfruboReEKdhyxRwjx9veAT3tBvNXfTwJmW7Q19zCS7LVPdM6S",
+            },
+        ]
+    },
 ]
 
 # Generic seed for testing
@@ -247,7 +316,7 @@ class MoneroTests(unittest.TestCase):
     # Run all tests in test vector using FromSeed for construction
     def test_vector_from_seed(self):
         for test in TEST_VECT:
-            monero = Monero.FromSeed(binascii.unhexlify(test["seed"]))
+            monero = Monero.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
             self.__test_keys_and_addresses(monero, test, False)
 
     # Run all tests in test vector using FromPrivateSpendKey for construction
@@ -256,10 +325,10 @@ class MoneroTests(unittest.TestCase):
             priv_skey_bytes = binascii.unhexlify(test["priv_skey"])
 
             # Test from bytes
-            monero = Monero.FromPrivateSpendKey(priv_skey_bytes)
+            monero = Monero.FromPrivateSpendKey(priv_skey_bytes, test["coin"])
             self.__test_keys_and_addresses(monero, test, False)
             # Test from key object
-            monero = Monero.FromPrivateSpendKey(Ed25519MoneroPrivateKey(priv_skey_bytes))
+            monero = Monero.FromPrivateSpendKey(Ed25519MoneroPrivateKey(priv_skey_bytes), test["coin"])
             self.__test_keys_and_addresses(monero, test, False)
 
     # Run all tests in test vector using FromWatchOnly for construction
@@ -269,11 +338,12 @@ class MoneroTests(unittest.TestCase):
             pub_skey_bytes = binascii.unhexlify(test["pub_skey"])
 
             # Test from bytes
-            monero = Monero.FromWatchOnly(priv_vkey_bytes, pub_skey_bytes)
+            monero = Monero.FromWatchOnly(priv_vkey_bytes, pub_skey_bytes, test["coin"])
             self.__test_keys_and_addresses(monero, test, True)
             # Test from key object
             monero = Monero.FromWatchOnly(Ed25519MoneroPrivateKey(priv_vkey_bytes),
-                                          Ed25519MoneroPublicKey(pub_skey_bytes))
+                                          Ed25519MoneroPublicKey(pub_skey_bytes),
+                                          test["coin"])
             self.__test_keys_and_addresses(monero, test, True)
 
     # Test invalid subaddress indexes
@@ -314,8 +384,9 @@ class MoneroTests(unittest.TestCase):
         self.assertEqual(test["primary_address"], monero.PrimaryAddress())
 
         # Test integrated address
-        payment_id = binascii.unhexlify(test["integrated_address"]["payment_id"])
-        self.assertEqual(test["integrated_address"]["address"], monero.IntegratedAddress(payment_id))
+        if "integrated_address" in test:
+            payment_id = binascii.unhexlify(test["integrated_address"]["payment_id"])
+            self.assertEqual(test["integrated_address"]["address"], monero.IntegratedAddress(payment_id))
 
         # Test subaddresses
         for test_subaddr in test["subaddresses"]:

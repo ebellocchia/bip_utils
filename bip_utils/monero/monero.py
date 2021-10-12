@@ -24,8 +24,8 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Optional, Union
 from bip_utils.addr import XmrIntegratedAddr
-from bip_utils.coin_conf import MoneroConf
 from bip_utils.ecc import Ed25519Monero, Ed25519MoneroPrivateKey, IPrivateKey, IPublicKey
+from bip_utils.monero.conf import MoneroCoins, MoneroCoinConf, MoneroConfGetter
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.monero.monero_subaddr import MoneroSubaddress
@@ -57,14 +57,18 @@ class Monero:
     m_priv_vkey: MoneroPrivateKey
     m_pub_skey: MoneroPublicKey
     m_pub_vkey: MoneroPublicKey
+    m_subaddr: MoneroSubaddress
+    m_coin_conf: MoneroCoinConf
 
     @classmethod
     def FromSeed(cls,
-                 seed_bytes: bytes) -> Monero:
+                 seed_bytes: bytes,
+                 coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
         """ Create from seed bytes.
 
         Args:
-            seed_bytes (bytes): Seed bytes
+            seed_bytes (bytes)               : Seed bytes
+            coin_type (MoneroCoins, optional): Coin type (default: main net)
 
         Returns:
             Monero object: Monero object
@@ -72,30 +76,34 @@ class Monero:
         priv_skey_bytes = (seed_bytes
                            if len(seed_bytes) == Ed25519MoneroPrivateKey.Length()
                            else CryptoUtils.Kekkak256(seed_bytes))
-        return cls.FromPrivateSpendKey(MoneroUtils.ScReduce(priv_skey_bytes))
+        return cls.FromPrivateSpendKey(MoneroUtils.ScReduce(priv_skey_bytes), coin_type)
 
     @classmethod
     def FromBip44PrivateKey(cls,
-                            priv_key: Union[bytes, IPrivateKey]) -> Monero:
+                            priv_key: Union[bytes, IPrivateKey],
+                            coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
         """ Create from Bip44 private key bytes.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key
+            priv_key (bytes or IPrivateKey)  : Private key
+            coin_type (MoneroCoins, optional): Coin type (default: main net)
 
         Returns:
             Monero object: Monero object
         """
         if not isinstance(priv_key, bytes):
             priv_key = priv_key.Raw().ToBytes()
-        return cls.FromPrivateSpendKey(MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_key)))
+        return cls.FromPrivateSpendKey(MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_key)), coin_type)
 
     @classmethod
     def FromPrivateSpendKey(cls,
-                            priv_skey: Union[bytes, IPrivateKey]) -> Monero:
+                            priv_skey: Union[bytes, IPrivateKey],
+                            coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
         """ Create from private spend key.
 
         Args:
-            priv_skey (bytes or IPrivateKey): Private spend key
+            priv_skey (bytes or IPrivateKey) : Private spend key
+            coin_type (MoneroCoins, optional): Coin type (default: main net)
 
         Returns:
             Monero object: Monero object
@@ -103,17 +111,20 @@ class Monero:
         Raises:
             MoneroKeyError: If the key constructed from the bytes is not valid
         """
-        return cls(priv_key=priv_skey)
+        return cls(priv_key=priv_skey,
+                   coin_type=coin_type)
 
     @classmethod
     def FromWatchOnly(cls,
                       priv_vkey: Union[bytes, IPrivateKey],
-                      pub_skey: Union[bytes, IPublicKey]) -> Monero:
+                      pub_skey: Union[bytes, IPublicKey],
+                      coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
         """ Create from private view key and public spend key (i.e. watch-only wallet).
 
         Args:
-            priv_vkey (bytes or IPrivateKey): Private view key
-            pub_skey (bytes or IPublicKey) : Public spend key
+            priv_vkey (bytes or IPrivateKey) : Private view key
+            pub_skey (bytes or IPublicKey)   : Public spend key
+            coin_type (MoneroCoins, optional): Coin type (default: main net)
 
         Returns:
             Monero object: Monero object
@@ -122,16 +133,19 @@ class Monero:
             MoneroKeyError: If the key constructed from the bytes is not valid
         """
         return cls(priv_key=priv_vkey,
-                   pub_key=pub_skey)
+                   pub_key=pub_skey,
+                   coin_type=coin_type)
 
     def __init__(self,
                  priv_key: Union[bytes, IPrivateKey],
-                 pub_key: Optional[Union[bytes, IPublicKey]] = None) -> None:
+                 pub_key: Optional[Union[bytes, IPublicKey]] = None,
+                 coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> None:
         """ Construct class.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key (view key if watch-only wallet, otherwise spend key)
-            pub_key (bytes or IPublicKey)  : Public key (spend key, only needed for watch-only wallets, otherwise None)
+            priv_key (bytes or IPrivateKey)  : Private key (view key if watch-only wallet, otherwise spend key)
+            pub_key (bytes or IPublicKey)    : Public key (spend key, only needed for watch-only wallets, otherwise None)
+            coin_type (MoneroCoins, optional): Coin type (default: main net)
 
         Raises:
             MoneroKeyError: If the key constructed from the bytes is not valid
@@ -150,6 +164,7 @@ class Monero:
             self.m_pub_skey = MoneroPublicKey.FromBytesOrKeyObject(pub_key)
             self.m_pub_vkey = self.m_priv_vkey.PublicKey()
 
+        self.m_coin_conf = MoneroConfGetter.GetConfig(coin_type)
         self.m_subaddr = MoneroSubaddress(self.m_priv_vkey, self.m_pub_skey, self.m_pub_vkey)
 
     def IsWatchOnly(self) -> bool:
@@ -223,7 +238,7 @@ class Monero:
         """
         return self.m_subaddr.ComputeAndEncodeKeys(0,
                                                    0,
-                                                   MoneroConf.ADDR_NET_VER_MN)
+                                                   self.m_coin_conf.AddrNetVersion())
 
     @lru_cache()
     def Subaddress(self,
@@ -246,7 +261,7 @@ class Monero:
 
         return self.m_subaddr.ComputeAndEncodeKeys(minor_idx,
                                                    major_idx,
-                                                   MoneroConf.SUBADDR_NET_VER_MN)
+                                                   self.m_coin_conf.SubaddrNetVersion())
 
     @staticmethod
     def __ViewFromSpendKey(priv_skey: MoneroPrivateKey) -> MoneroPrivateKey:

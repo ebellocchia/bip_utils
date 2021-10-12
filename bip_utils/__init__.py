@@ -59,6 +59,8 @@ from bip_utils.monero.mnemonic import (
     MoneroMnemonic, MoneroMnemonicDecoder, MoneroMnemonicEncoder,
     MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator
 )
+# Monero configuration
+from bip_utils.monero.conf import *
 # Substrate
 from bip_utils.substrate import (
     SubstrateKeyError, SubstratePathError,
