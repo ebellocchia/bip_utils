@@ -6,23 +6,18 @@
 
 ## Introduction
 
-This package contains an implementation of some BIP (Bitcoin Improvement Proposal) specifications, allowing to:
-- Generate a mnemonic string from a random entropy
-- Generate a secure seed from the mnemonic string
-- Use the seed to generate the master key of the wallet and derive the children keys (HD-wallet), including address encoding
+This package allows generating mnemonics, seeds, private/public keys and addresses for different types of cryptocurrencies. In particular:
+- Mnemonic and seed generation as defined by [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
+- Keys derivation as defined by [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) and [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md)
+- Derivation of a hierarchy of keys as defined by [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) and [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
+- Mnemonic and seed generation for Substrate (Polkadot/Kusama ecosystem)
+- Keys derivation for Substrate (Polkadot/Kusama ecosystem, same of Polkadot-JS)
+- Mnemonic and seed generation for Monero
+- Keys and addresses/subaddresses generation for Monero (same of official Monero wallet)
 
-The implemented BIP specifications are the following:
-- [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki) for mnemonic and seed generation
-- [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) for master key generation (from the secure seed) and children keys derivation
-- [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) and [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki) for the hierarchy of deterministic wallets, based on BIP-0032 specification
-- [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md) for BIP-0032 derivation with ed25519 and nist256p1 curves
-
-Moreover, it also allows to:
-- Generate seeds and derive keys for Substrate (Polkadot/Kusama ecosystem)
-- Generate mnemonics, keys and addresses/subaddresses for Monero
-
-Other functionalities:
+Other implemented functionalities:
 - Parse BIP-0032 derivation paths
+- Parse Substrate derivation paths
 - Encode addresses for all the supported coins
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
@@ -30,7 +25,7 @@ Other functionalities:
 - Encode/Decode [segwit bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
 - Encode/Decode Bitcoin Cash bech32
 
-Dependencies:
+Package dependencies:
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
 - [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
@@ -40,7 +35,9 @@ Dependencies:
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve
 - [scalecodec](https://pypi.org/project/scalecodec/) for SCALE encoding
 
-The package currently supports the following BIP coins:
+## Supported coins
+
+Supported BIP coins:
 - Algorand
 - Avalanche (all the 3 chains)
 - Band Protocol
@@ -82,9 +79,7 @@ The package currently supports the following BIP coins:
 - Zcash (and related test net)
 - Zilliqa
 
-For what regards Monero, it's also possible to generate the same addresses of the official wallets without using BIP44 derivation.
-
-Moreover, the following Substrate coins are supported (same addresses of Polkadot-JS and similar):
+Supported Substrate coins:
 - Acala
 - Bifrost
 - Chainx
@@ -100,7 +95,9 @@ Moreover, the following Substrate coins are supported (same addresses of Polkado
 - Polkadot
 - Generic Substrate coin
 
-Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...), the generated addresses are valid for all the related tokens.\
+For what regards Monero, it's also possible to generate the same addresses of the official wallets without using BIP44 derivation.
+
+Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...), the generated keys and addresses are valid for all the related tokens.\
 I tried to add more coins from time to time. If you have some suggestions, feel free to contact me.
 
 ## Install the package
@@ -1295,6 +1292,17 @@ Please note that, if a path contains only numbers (e.g. "//123"), it'll be consi
 
 The Monero library allows to generate Monero keys, primary address and subaddresses like the official Monero wallets.
 
+### Coin types
+
+Supported coins enumerative:
+
+|Coin|Enum|
+|---|---|
+|Monero main net|*MoneroCoins.MONERO_MAINNET*|
+|Monero test net|*MoneroCoins.MONERO_TESTNET*|
+
+Coin type is passed to all construction methods. The default type is always Monero main net.
+
 ### Construction from seed
 
 The class can be constructed from a seed, which is usually computed from the Monero mnemonic phrase.\
@@ -1305,14 +1313,17 @@ In case of a 24/25 words phrase, the seed corresponds to the private spend key. 
 **Code example**
 
     import binascii
-    from bip_utils import Monero
+    from bip_utils import MoneroCoins, Monero
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"851466f170f7d1dd88325d9f6b89328166fa23e3af712e74aa27cb16837ac10d")
-    # Create from seed
+    # Create from seed (default: Monero main net)
     monero = Monero.FromSeed(seed_bytes)
     # Return false
     print(monero.IsWatchOnly())
+
+    # Create from seed for Monero test net
+    monero = Monero.FromSeed(seed_bytes, MoneroCoins.MONERO_TESTNET)
 
 ### Construction from private spend key
 
@@ -1321,15 +1332,19 @@ The class can be constructed directly from the private spend key.
 **Code example**
 
     import binascii
-    from bip_utils import Monero, Ed25519MoneroPrivateKey
+    from bip_utils import MoneroCoins, Monero, Ed25519MoneroPrivateKey
 
-    # Create from private spend key bytes
+    # Create from private spend key bytes (default: Monero main net)
     key_bytes = binascii.unhexlify(b"2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107")
     monero = Monero.FromPrivateSpendKey(key_bytes)
     # Or key object directly
     monero = Monero.FromPrivateSpendKey(Ed25519MoneroPrivateKey.FromBytes(key_bytes))
     # Return false
     print(monero.IsWatchOnly())
+
+    # Create from private spend key bytes for Monero test net
+    key_bytes = binascii.unhexlify(b"2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107")
+    monero = Monero.FromPrivateSpendKey(key_bytes, MoneroCoins.MONERO_TESTNET)
 
 ### Construction from Bip44 private key
 
@@ -1342,13 +1357,13 @@ A watch-only class can be constructed from the private view key and the public s
 **Code example**
 
     import binascii
-    from bip_utils import MoneroKeyError, Monero, Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey
+    from bip_utils import MoneroKeyError, MoneroCoins, Monero, Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey
 
     # Keys
     priv_vkey_bytes = binascii.unhexlify(b"14467d1b9bb8d1fcfb5b7ae08cc9994367e917efd7e08cf94f9882ffa0629e09")
     pub_skey_bytes = binascii.unhexlify(b"a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422")
 
-    # Create from private spend key bytes
+    # Create from watch-only keys (default: Monero main net)
     monero = Monero.FromWatchOnly(priv_vkey_bytes, pub_skey_bytes)
     # Or key object directly
     monero = Monero.FromWatchOnly(Ed25519MoneroPrivateKey.FromBytes(priv_vkey_bytes),
@@ -1360,6 +1375,10 @@ A watch-only class can be constructed from the private view key and the public s
         print(monero.PrivateSpendKey().Raw().ToHex())
     except MoneroKeyError as ex:
         print(ex)
+
+
+    # Create from watch-only keys for Monero test net
+    monero = Monero.FromWatchOnly(priv_vkey_bytes, pub_skey_bytes, MoneroCoins.MONERO_TESTNET)
 
 ### Example of usage
 
