@@ -1091,7 +1091,7 @@ For the usage of the *Monero* module alone, see the related paragraph.
 
 The Substrate library allows to [derive keys](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) for coins of the Polkadot ecosystem, since they don't follow BIP44.\
 The module generates the same keys and addresses of Polkadot-JS and uses sr25519 curve for keys derivation.\
-With respect to BIP-0032, Substrate paths are not numbers but strings with a prefix:
+With respect to BIP-0032, Substrate paths can be also strings (in addition to numbers) and they are identified by a prefix:
 - "/" for not-hardened (soft) derivation (e.g. "/soft")
 - "//" for hardened derivation (e.g. "//hard")
 
