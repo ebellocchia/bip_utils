@@ -22,6 +22,7 @@
 # Imports
 import binascii
 
+
 #
 # Helper class for IAddrEncoder child classes, which share the same tests
 #
