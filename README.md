@@ -135,22 +135,22 @@ To install the package:
 
             pip install bip_utils --install-option="--coincurve=0"
 
-To run the tests:
-- Using *unittest*:
+To run tests, install *tox*:
 
-        python -m unittest discover
+    pip install tox
 
-- Using *tox* (it includes code coverage):
+Then:
+- Run tests using *unittest* (no code coverage):
 
-        pip install tox
+        tox -e unittest
 
-    - With *pytest*:
+- Run tests using *pytest* (it includes code coverage and report):
 
-            tox -e pytest
+        tox -e pytest
 
-    - With *coverage*:
+- Run tests using *coverage* (it includes code coverage and report):
 
-            tox -e coverage
+        tox -e coverage
 
 ## BIP-0039 library
 
