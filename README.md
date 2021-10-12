@@ -129,7 +129,7 @@ To install the package:
 
     - Using pip, from this directory (local):
 
-            pip install . --coincurve=0
+            pip install . --install-option="--coincurve=0"
 
     - Using pip, from PyPI:
 
