@@ -1600,7 +1600,11 @@ This library is used internally by the other modules, but it's available also fo
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
     priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
+    # Encode/Decode with default parameters (Bitcoin main net)
+    enc = WifEncoder.Encode(priv_key)
+    dec = WifDecoder.Decode(enc)
     # Encode/Decode with parameters from configuration
+    # (MN = main net, TN = test net)
     enc = WifEncoder.Encode(priv_key,
                             BitcoinConf.WIF_NET_VER_MN)
     dec = WifDecoder.Decode(enc,
@@ -1610,6 +1614,11 @@ This library is used internally by the other modules, but it's available also fo
                             Bip44BitcoinMainNet.WifNetVersion())
     dec = WifDecoder.Decode(enc,
                             Bip44BitcoinMainNet.WifNetVersion())
+    # Encode/Decode with custom parameters
+    enc = WifEncoder.Encode(priv_key,
+                            b"\x00")
+    dec = WifDecoder.Decode(enc,
+                            b"\x00")
 
 ## Base58
 
