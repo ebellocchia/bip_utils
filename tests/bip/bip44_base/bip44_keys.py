@@ -26,7 +26,10 @@ from bip_utils import (
     Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey
 )
 from tests.bip.bip32.test_bip32_keys import TEST_KEY_DATA
-from tests.ecc.test_ecc import *
+from tests.ecc.test_ecc import (
+    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
+    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY
+)
 
 # Public keys for testing
 TEST_PUB_KEYS = [

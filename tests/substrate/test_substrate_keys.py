@@ -23,10 +23,15 @@
 import binascii
 import unittest
 from bip_utils import (
-    SubstrateKeyError, SubstratePrivateKey, SubstratePublicKey, Sr25519PublicKey, Sr25519PrivateKey
+    Sr25519PublicKey, Sr25519PrivateKey, SubstrateKeyError, SubstratePrivateKey, SubstratePublicKey
 )
 from bip_utils.substrate.conf.substrate_conf import SubstratePolkadot
-from tests.ecc.test_ecc import *
+from tests.ecc.test_ecc import (
+    TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID,
+    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
+    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY,
+    TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY,
+)
 
 # Test address
 TEST_ADDRESS = "13KVd4f2a4S5pLp4gTTFezyXdPWx27vQ9vS6xBXJ9yWVd7xo"
