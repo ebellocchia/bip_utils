@@ -1410,29 +1410,47 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
     pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
-    # P2PKH address (use the net version from Bip44 configuration, but you can also pass the parameters you want)
+    # P2PKH/P2SH/P2WPKH address with parameters from configuration
     addr = P2PKHAddr.EncodeKey(pub_key,
-                               net_ver=Bip44BitcoinMainNet.AddrParamsKey("net_ver"))
-    # P2SH address (use the net version from Bip49 configuration, but you can also pass the parameters you want)
+                               net_ver=BitcoinConf.P2PKH_NET_VER_MN)
     addr = P2SHAddr.EncodeKey(pub_key,
-                               net_ver=Bip49BitcoinMainNet.AddrParamsKey("net_ver"))
-    # P2WPKH address (use the net version from Bip84 configuration, but you can also pass the parameters you want)
+                               net_ver=BitcoinConf.P2SH_NET_VER_MN)
     addr = P2WPKHAddr.EncodeKey(pub_key,
-                                hrp=Bip84BitcoinMainNet.AddrParamsKey("hrp"),
-                                wit_ver=Bip84BitcoinMainNet.AddrParamsKey("wit_ver"))
-    # Or simply:
+                                hrp=BitcoinConf.P2WPKH_HRP_MN,
+                                wit_ver=BitcoinConf.P2WPKH_WIT_VER_MN)
+    # Or with custom parameters
+    addr = P2PKHAddr.EncodeKey(pub_key,
+                               net_ver=b"\x01")
+    addr = P2SHAddr.EncodeKey(pub_key,
+                               net_ver=b"\x01")
+    addr = P2WPKHAddr.EncodeKey(pub_key,
+                                hrp="hrp",
+                                wit_ver=0)
+    # Or simply with the default parameters from BIP:
+    addr = P2PKHAddr.EncodeKey(pub_key,
+                               **Bip44BitcoinMainNet.AddrParams())
+    addr = P2SHAddr.EncodeKey(pub_key,
+                               **Bip49BitcoinMainNet.AddrParams())
     addr = P2WPKHAddr.EncodeKey(pub_key,
                                 **Bip84BitcoinMainNet.AddrParams())
 
-    # P2PKH address in Bitcoin Cash format (use the parameters from Bip44 configuration, but you can also pass the parameters you want)
+    # P2PKH/P2SH address in Bitcoin Cash format (net version from configuration)
     addr = BchP2PKHAddr.EncodeKey(pub_key,
-                                  hrp=Bip44BitcoinCashMainNet.AddrParamsKey("hrp"),
-                                  net_ver=Bip44BitcoinCashMainNet.AddrParamsKey("net_ver"))
-    # P2SH address in Bitcoin Cash format (use the parameters from Bip49 configuration, but you can also pass the parameters you want)
+                                  hrp="hrp",
+                                  net_ver=b"\x01")
     addr = BchP2SHAddr.EncodeKey(pub_key,
-                                 hrp=Bip49BitcoinCashMainNet.AddrParamsKey("hrp"),
-                                 net_ver=Bip49BitcoinCashMainNet.AddrParamsKey("net_ver"))
-    # Or simply:
+                                 hrp="hrp",
+                                 net_ver=b"\x01")
+    # Or with custom parameters
+    addr = BchP2PKHAddr.EncodeKey(pub_key,
+                                  hrp=BitcoinCashConf.P2PKH_STD_HRP_MN,
+                                  net_ver=BitcoinCashConf.P2PKH_STD_NET_VER_MN)
+    addr = BchP2SHAddr.EncodeKey(pub_key,
+                                 hrp=BitcoinCashConf.P2SH_STD_HRP_MN,
+                                 net_ver=BitcoinCashConf.P2SH_STD_NET_VER_MN)
+    # Or with the default parameters from BIP:
+    addr = BchP2PKHAddr.EncodeKey(pub_key,
+                                  **Bip44BitcoinCashMainNet.AddrParams())
     addr = BchP2SHAddr.EncodeKey(pub_key,
                                  **Bip49BitcoinCashMainNet.AddrParams())
 
@@ -1443,13 +1461,19 @@ These libraries are used internally by the other libraries, but they are availab
     # AVAX address
     addr = AvaxPChainAddr.EncodeKey(pub_key)
     addr = AvaxXChainAddr.EncodeKey(pub_key)
-    # Atom addresses
+    # Atom addresses with parameters from configuration
     addr = AtomAddr.EncodeKey(pub_key,
-                              hrp="cosmos")
+                              hrp=CosmosConf.ADDR_HRP)
     addr = AtomAddr.EncodeKey(pub_key,
-                              hrp="band")
+                              hrp=BinanceChainConf.ADDR_HRP)
+    # Or with custom parameters
     addr = AtomAddr.EncodeKey(pub_key,
-                              hrp="bnb")
+                              hrp="custom")
+    # Or with the default parameters from BIP:
+    addr = AtomAddr.EncodeKey(pub_key,
+                              **Bip44Cosmos.AddrParams())
+    addr = AtomAddr.EncodeKey(pub_key,
+                              **Bip44Kava.AddrParams())
     # Filecoin address
     addr = FilSecp256k1Addr.EncodeKey(pub_key)
     # OKEx Chain address
@@ -1476,15 +1500,31 @@ These libraries are used internally by the other libraries, but they are availab
 
     # Solana address
     addr = SolAddr.EncodeKey(pub_key)
+
     # Stellar address
     addr = XlmAddr.EncodeKey(pub_key,
                              addr_type=XlmAddrTypes.PUB_KEY)
-    # Substrate address
+    addr = XlmAddr.EncodeKey(pub_key,
+                             **Bip44Stellar.AddrParams())
+
+    # Substrate address with parameters from configuration
     addr = SubstrateEd25519Addr.EncodeKey(pub_key,
-                                          ss58_format=0)
-    # Tezos address
+                                          ss58_format=PolkadotConf.ADDR_SS58_FORMAT)
+    # Or with custom parameters
+    addr = SubstrateEd25519Addr.EncodeKey(pub_key,
+                                          ss58_format=5)
+    # Or with the default parameters from BIP/Substrate:
+    addr = SubstrateEd25519Addr.EncodeKey(pub_key,
+                                          **Bip44PolkadotEd25519Slip.AddrParams())
+    addr = SubstrateEd25519Addr.EncodeKey(pub_key,
+                                          **SubstratePolkadot.AddrParams())
+
+    # Tezos address with custom parameters
     addr = XtzAddr.EncodeKey(pub_key,
                              prefix=XtzAddrPrefixes.TZ1)
+    # Or with the default parameters from BIP/Substrate:
+    addr = XtzAddr.EncodeKey(pub_key,
+                             **Bip44Tezos.AddrParams())
 
     #
     # Addresses that require a ed25519-blake2b curve
@@ -1509,8 +1549,8 @@ These libraries are used internally by the other libraries, but they are availab
 
     # Monero address
     addr = XmrAddr.EncodeKey(pub_skey,
-                             pub_view_key=pub_vkey,
-                             net_ver=b"\x12")
+                             pub_vkey=pub_vkey,
+                             net_ver=MoneroConf.ADDR_NET_VER_MN)
 
     #
     # Addresses that require a nist256p1 curve
@@ -1520,9 +1560,15 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
     pub_key = Nist256p1PublicKey.FromBytes(binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
 
-    # NEO address
+    # NEO address with parameters from configuration
     addr = NeoAddr.EncodeKey(pub_key,
-                             ver=b"\x17")
+                             ver=NeoConf.ADDR_VER)
+    # Or with custom parameters
+    addr = NeoAddr.EncodeKey(pub_key,
+                             ver=b"\x10")
+    # Or with the default parameters from BIP/Substrate:
+    addr = NeoAddr.EncodeKey(pub_key,
+                             **Bip44Neo.AddrParams())
 
     #
     # Addresses that require a sr25519 curve
@@ -1532,9 +1578,14 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = binascii.unhexlify(b"dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     pub_key = Sr25519PublicKey.FromBytes(binascii.unhexlify(b"dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
 
-    # Substrate address
+    # Substrate address (like before)
     addr = SubstrateSr25519Addr.EncodeKey(pub_key,
-                                          ss58_format=0)
+                                          ss58_format=KusamaConf.ADDR_SS58_FORMAT)
+    addr = SubstrateSr25519Addr.EncodeKey(pub_key,
+                                          ss58_format=3)
+    addr = SubstrateSr25519Addr.EncodeKey(pub_key,
+                                          **SubstrateKusama.AddrParams())
+
 
 ## WIF
 
