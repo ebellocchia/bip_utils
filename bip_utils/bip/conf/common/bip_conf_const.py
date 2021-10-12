@@ -22,7 +22,3 @@
 HARDENED_DEF_PATH: str = "0'/0'/0'"
 # Not hardened default path
 NOT_HARDENED_DEF_PATH: str = "0'/0/0"
-# Bitcoin WIF net version for main net
-BTC_WIF_NET_VER_MAIN: bytes = b"\x80"
-# Bitcoin WIF net version for test net
-BTC_WIF_NET_VER_TEST: bytes = b"\xef"
