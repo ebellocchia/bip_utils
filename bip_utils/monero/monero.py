@@ -144,7 +144,7 @@ class Monero:
 
         Args:
             priv_key (bytes or IPrivateKey)  : Private key (view key if watch-only wallet, otherwise spend key)
-            pub_key (bytes or IPublicKey)    : Public key (spend key, only needed for watch-only wallets, otherwise None)
+            pub_key (bytes or IPublicKey)    : Public spend key (only needed for watch-only wallets, otherwise None)
             coin_type (MoneroCoins, optional): Coin type (default: main net)
 
         Raises:

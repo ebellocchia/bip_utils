@@ -238,7 +238,7 @@ class Bip32Base(ABC):
         """ Construct class.
 
         Args:
-            priv_key (bytes or IPrivateKey)                   : Private key (if None, a public-only object will be created)
+            priv_key (bytes or IPrivateKey)                   : Private key (None for a public-only object)
             pub_key (bytes or IPublicKey)                     : Public key (only needed for a public-only object)
                                                                 If priv_key is not None, it'll be discarded
             chain_code (Bip32ChainCode object)                : Chain code

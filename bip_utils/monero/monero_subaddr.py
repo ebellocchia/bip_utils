@@ -93,7 +93,8 @@ class MoneroSubaddress:
                                                    endianness="little")
 
         # m = Kekkak256("SubAddr" + master_priv_vkey + major_idx + minor_idx)
-        m = CryptoUtils.Kekkak256(MoneroSubaddressConst.SUBADDR_PREFIX + self.m_priv_vkey.Raw().ToBytes() + major_idx_bytes + minor_idx_bytes)
+        m = CryptoUtils.Kekkak256(MoneroSubaddressConst.SUBADDR_PREFIX + self.m_priv_vkey.Raw().ToBytes() +
+                                  major_idx_bytes + minor_idx_bytes)
         m_int = ConvUtils.BytesToInteger(m, endianness="little")
 
         # Compute subaddress public spend key

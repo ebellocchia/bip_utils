@@ -251,7 +251,8 @@ class Bip39MnemonicEncoder:
         mnemonic = []
         for i in range(len(mnemonic_bin_str) // Bip39MnemonicConst.WORD_BIT_LEN):
             # Get current word index
-            word_bin_str = mnemonic_bin_str[i * Bip39MnemonicConst.WORD_BIT_LEN:(i + 1) * Bip39MnemonicConst.WORD_BIT_LEN]
+            word_bin_str = (mnemonic_bin_str[i * Bip39MnemonicConst.WORD_BIT_LEN:(i + 1) *
+                            Bip39MnemonicConst.WORD_BIT_LEN])
             word_idx = ConvUtils.BinaryStrToInteger(word_bin_str)
             # Get word at given index
             mnemonic.append(self.m_words_list.GetWordAtIdx(word_idx))

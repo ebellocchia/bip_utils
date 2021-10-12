@@ -68,7 +68,8 @@ class XmrAddrUtils:
         pub_spend_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_skey)
         pub_view_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_vkey)
 
-        data = net_ver + pub_spend_key_obj.RawCompressed().ToBytes() + pub_view_key_obj.RawCompressed().ToBytes() + payment_id
+        data = (net_ver + pub_spend_key_obj.RawCompressed().ToBytes() +
+                pub_view_key_obj.RawCompressed().ToBytes() + payment_id)
         checksum = CryptoUtils.Kekkak256(data)
 
         return Base58XmrEncoder.Encode(data + checksum[:XmrAddrConst.CHECKSUM_BYTE_LEN])

@@ -47,7 +47,8 @@ class MoneroSeedGenerator:
     def Generate(self) -> bytes:
         """ Generate seed. The seed is simply the entropy bytes in Monero case.
         There is no really need of this method, since the seed is always the same, but it's
-        kept in this way to have the same usage of Bip39/Substrate seed generator (i.e. MoneroSeedGenerator(mnemonic).Generate() ).
+        kept in this way to have the same usage of Bip39/Substrate seed generator
+        (i.e. MoneroSeedGenerator(mnemonic).Generate() ).
 
         Returns:
             bytes: Generated seed
