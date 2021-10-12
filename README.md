@@ -1587,7 +1587,6 @@ These libraries are used internally by the other libraries, but they are availab
     addr = SubstrateSr25519Addr.EncodeKey(pub_key,
                                           **SubstrateKusama.AddrParams())
 
-
 ## WIF
 
 This library is used internally by the other modules, but it's available also for external use.
@@ -1595,23 +1594,32 @@ This library is used internally by the other modules, but it's available also fo
 **Code example**
 
     import binascii
-    from bip_utils import Bip44BitcoinMainNet, Secp256k1PrivateKey, WifDecoder, WifEncoder
+    from bip_utils import Bip44BitcoinMainNet, BitcoinConf, Secp256k1PrivateKey, WifDecoder, WifEncoder
 
     # Private key bytes or a private key object can be used
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
     priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
-    # Encode
+    # Encode/Decode with parameters from configuration
+    enc = WifEncoder.Encode(priv_key,
+                            BitcoinConf.WIF_NET_VER_MN)
+    dec = WifDecoder.Decode(enc,
+                            BitcoinConf.WIF_NET_VER_MN)
+    # Encode/Decode with parameters from BIP
     enc = WifEncoder.Encode(priv_key,
                             Bip44BitcoinMainNet.WifNetVersion())
-    # Decode
     dec = WifDecoder.Decode(enc,
                             Bip44BitcoinMainNet.WifNetVersion())
 
 ## Base58
 
 This library is used internally by the other modules, but it's available also for external use.\
-It supports both normal encode/decode and check_encode/check_decode with Bitcoin and Ripple alphabets (if not specified, the Bitcoin one will be used by default).
+It supports both normal encode/decode and check_encode/check_decode with Bitcoin and Ripple alphabets (if not specified, the Bitcoin one will be used by default):
+
+|Alphabet|Enum|
+|---|---|
+|Bitcoin|*Base58Alphabets.BITCOIN*|
+|Ripple|*Base58Alphabets.RIPPLE*|
 
 **Code example**
 
@@ -1653,7 +1661,7 @@ It allows encoding/deconding in SS58 format (2-byte checksum).
     data_bytes = binascii.unhexlify(b"e92b4b43a62fa66293f315486d66a67076e860e2aad76acb8e54f9bb7c925cd9")
 
     # Encode
-    enc = SS58Encoder.Encode(data_bytes, 0)
+    enc = SS58Encoder.Encode(data_bytes, ss58_format=0)
     # Decode
     ss58_format, dec = SS58Decoder.Decode(enc)
 
