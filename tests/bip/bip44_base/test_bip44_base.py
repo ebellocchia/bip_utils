@@ -22,7 +22,7 @@
 # Imports
 import binascii
 from bip_utils import (
-    Bip32KeyError, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError,
+    Bip32KeyError, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError, BipCoinConf,
     Bip44PublicKey, Bip44PrivateKey, Monero
 )
 
@@ -38,6 +38,9 @@ class Bip44BaseTestHelper:
         for test in test_vector:
             # Create from seed
             bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
+
+            # Test coin configuration
+            ut_class.assertTrue(isinstance(bip_obj_ctx.CoinConf(), BipCoinConf))
 
             # Test coin names and test net flag
             coin_names = bip_obj_ctx.CoinConf().CoinNames()
