@@ -22,8 +22,9 @@
 # Imports
 import unittest
 from bip_utils import FilSecp256k1Addr
-from .test_addr_base import AddrBaseTestHelper
-from .test_addr_const import *
+from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
+from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
 
 # Some random public keys
 TEST_VECT = [
