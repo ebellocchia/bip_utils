@@ -1300,6 +1300,7 @@ Supported coins enumerative:
 |Coin|Enum|
 |---|---|
 |Monero main net|*MoneroCoins.MONERO_MAINNET*|
+|Monero stage net|*MoneroCoins.MONERO_STAGENET*|
 |Monero test net|*MoneroCoins.MONERO_TESTNET*|
 
 Coin type is passed to all construction methods. The default type is always Monero main net.
@@ -1323,6 +1324,8 @@ In case of a 24/25 words phrase, the seed corresponds to the private spend key. 
     # Return false
     print(monero.IsWatchOnly())
 
+    # Create from seed for Monero stage net
+    monero = Monero.FromSeed(seed_bytes, MoneroCoins.MONERO_STAGENET)
     # Create from seed for Monero test net
     monero = Monero.FromSeed(seed_bytes, MoneroCoins.MONERO_TESTNET)
 
