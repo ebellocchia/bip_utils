@@ -1387,6 +1387,9 @@ A watch-only class can be constructed from the private view key and the public s
 
     # Print primary address
     print(monero.PrimaryAddress())
+    # Print integrated address
+    payment_id = binascii.unhexlify(b"ccc172c2ffcac9d8")
+    print(monero.IntegratedAddress(payment_id))
     # Print subaddresses
     print(monero.Subaddress(0))         # Account 0 (default), Subaddress 0 (same as primary address)
     print(monero.Subaddress(1))         # Account 0 (default), Subaddress 1
@@ -1832,6 +1835,7 @@ Some examples from mnemonic generation to wallet addresses.
 
 **Monero based on BIP44**
 
+    import binascii
     from bip_utils import (
         Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip44Coins, Bip44, Monero
     )
@@ -1862,6 +1866,9 @@ Some examples from mnemonic generation to wallet addresses.
 
     # Print primary address
     print(f"Monero primary address: {monero.PrimaryAddress()}")
+    # Print integrated address
+    payment_id = binascii.unhexlify(b"d6f093554c0daa94")
+    print(f"Monero integrated address: {monero.IntegratedAddress(payment_id)}")
     # Print the first 5 subaddresses for account 0 and 1
     for acc_idx in range(2):
         for subaddr_idx in range(5):
@@ -1869,6 +1876,7 @@ Some examples from mnemonic generation to wallet addresses.
 
 **Monero based on official Monero wallet**
 
+    import binascii
     from bip_utils import (
         MoneroWordsNum, MoneroMnemonicGenerator, MoneroSeedGenerator, Bip44Changes, Bip44Coins, Bip44, Monero
     )
@@ -1890,6 +1898,9 @@ Some examples from mnemonic generation to wallet addresses.
 
     # Print primary address
     print(f"Monero primary address: {monero.PrimaryAddress()}")
+    # Print integrated address
+    payment_id = binascii.unhexlify(b"d6f093554c0daa94")
+    print(f"Monero integrated address: {monero.IntegratedAddress(payment_id)}")
     # Print the first 5 subaddresses for account 0 and 1
     for acc_idx in range(2):
         for subaddr_idx in range(5):
