@@ -32,6 +32,7 @@ class MoneroConfGetterConst:
     # Map from MoneroCoins to configuration classes
     COIN_TO_CONF: Dict[MoneroCoins, MoneroCoinConf] = {
         MoneroCoins.MONERO_MAINNET: MoneroMainNet,
+        MoneroCoins.MONERO_STAGENET: MoneroStageNet,
         MoneroCoins.MONERO_TESTNET: MoneroTestNet,
     }
 

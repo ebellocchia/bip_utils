@@ -30,6 +30,7 @@ from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 # Some random private spend keys
 # Verified with the official Monero wallet and: https://xmr.llcoins.net/addresstests.html
 TEST_VECT = [
+    # Main net
     {
         "seed": b"2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107",
         "coin": MoneroCoins.MONERO_MAINNET,
@@ -240,6 +241,77 @@ TEST_VECT = [
             },
         ]
     },
+    # Stage net
+    {
+        "seed": b"b4d9eab56043b1f0ac82affae32cd58049536d2289ec948502076961ae7da50e",
+        "coin": MoneroCoins.MONERO_STAGENET,
+        "priv_skey": "b4d9eab56043b1f0ac82affae32cd58049536d2289ec948502076961ae7da50e",
+        "priv_vkey": "b9c02bf2e8e30169cbbe2c22135a65e02cb80531f7bed1105f562cc61ce10b07",
+        "pub_skey": "ee3f0bbbd4ee4d30d05db97b0e28dfa1c624f436f886488fd6014a74a9c47edd",
+        "pub_vkey": "c30355010a0083776b37b32457d4f654fb956e1be535fc78871e170cb3d8a58e",
+        "primary_address": "5Aro6RZf2gc9AZGHkyVLkvU4Qonc8yQ8fR4PZTy9haCVe6NHSMH4TtNLyWhovaP75PFDSUC9cAML7MAGhXS56o16H7BmpEP",
+        "integrated_address": {
+            "payment_id": b"b11e1adb1b805574",
+            "address": "5LZU7EP9dx89AZGHkyVLkvU4Qonc8yQ8fR4PZTy9haCVe6NHSMH4TtNLyWhovaP75PFDSUC9cAML7MAGhXS56o16QsHp2B9FRB2E9gyPSR",
+        },
+        "subaddresses": [
+            {
+                "major_idx": 0,
+                "minor_idx": 0,
+                "address": "5Aro6RZf2gc9AZGHkyVLkvU4Qonc8yQ8fR4PZTy9haCVe6NHSMH4TtNLyWhovaP75PFDSUC9cAML7MAGhXS56o16H7BmpEP",
+            },
+            {
+                "major_idx": 0,
+                "minor_idx": 1,
+                "address": "74oX2Dpt1g53S1AUVmcitNMaatEtSw4P79gi4Dnk8dYH7BAS9PFbcrQA27WWLurvzR9hL87soCikrb8oNvuW7bL8K2YVwh5",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 0,
+                "address": "7BKMWuYs9JTbFsjQzDA2aB4orcscsgUY2ZyWVKpRCbZwVNBCjwpyFSqQDYp7mHE4oGRQDWJwj1KFJeEK1mF4397a8swKjK8",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 1,
+                "address": "75VAUvDcD6mfSt61BgEhh7QxH3FxC1LoAawp3fM9nL4eS6a3ZXPzjq9j2fojYsurn4PtPBRJfnhg1J1NFnupHEyZLLbbKJC",
+            },
+        ]
+    },
+    {
+        "seed": b"d928df59e92de9536d138dcb13c2aec277b23a68ad744fddb1991706df3fe40e",
+        "coin": MoneroCoins.MONERO_STAGENET,
+        "priv_skey": "d928df59e92de9536d138dcb13c2aec277b23a68ad744fddb1991706df3fe40e",
+        "priv_vkey": "261ac9d48ed740ca6ae85e9562246f895fca5be04bc2c75e93f81d5ae40b5708",
+        "pub_skey": "7a9a82b3a466eb41e0463397e3e58c9111d480116c3f289c0db6c8870cf1d777",
+        "pub_vkey": "d583c6ae118d21fb56d60e43d76cd2d262d490ebe2f2722a616b26b1c5165d6d",
+        "primary_address": "56UcuBCz4EvC25fW1TqFKZRGMj1LkrRCKT6v5SSnJyaeM3YLdSV85tCj3JhQtKSr2DcC1UsD8DdCM869NZ6itcUkDPAaTQq",
+        "integrated_address": {
+            "payment_id": b"27d3bf2d7c0a8513",
+            "address": "5GBHuz2UfWSC25fW1TqFKZRGMj1LkrRCKT6v5SSnJyaeM3YLdSV85tCj3JhQtKSr2DcC1UsD8DdCM869NZ6itcUkKFwrhfdHSzQ3FaqMLV",
+        },
+        "subaddresses": [
+            {
+                "major_idx": 0,
+                "minor_idx": 0,
+                "address": "56UcuBCz4EvC25fW1TqFKZRGMj1LkrRCKT6v5SSnJyaeM3YLdSV85tCj3JhQtKSr2DcC1UsD8DdCM869NZ6itcUkDPAaTQq",
+            },
+            {
+                "major_idx": 0,
+                "minor_idx": 1,
+                "address": "73MsDNhZ51MdWRgAk258ExUbhJUkyrkWY6kYHAF7cjrr57LwtzqPbhUKuL5rHYYFBdBCvobvoqZP3V3CMkFDuvrP9XQDS3f",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 0,
+                "address": "77S3nd9BZBn9zXLWBQ8WBK1oK326obn6QQTkjLFV8wVjDouuQKzmjeQ9qQdDU5idoGJt13wshd9xkFUNMph6o27jFfYhvwU",
+            },
+            {
+                "major_idx": 1,
+                "minor_idx": 1,
+                "address": "74GVf2NiLobj8RbHvDzdv2cNVi8UGQ7T9bd22yJDoALpRwzLPDb5ha3eZ4W5ABXZ5ELuG6ichauw2CNZfZBtXZYeSthRo2y",
+            },
+        ]
+    },
     # Test net
     {
         "seed": b"a52d32df742c7ecf639be062ef4cd3d726117645542693fbfc44f5a186724307",
@@ -249,6 +321,10 @@ TEST_VECT = [
         "pub_skey": "bff6481aeee5a0cf2949bee430888797b18af5542828ef5377d2d5e457d96235",
         "pub_vkey": "e81c525c3627f24a322466b4a0c704f58952271dbd115f972d6bf7d1b927a40b",
         "primary_address": "9zSaACcBx3HbeizJiyvY5USNcoMNtPiQvExkCKzBGJQqA1xpKhWGjDjDQnzBbubxx3i51d9mZCNvrSHcQVRUAK3H2HmhC9w",
+        "integrated_address": {
+            "payment_id": b"c39fd3c0f1edeab6",
+            "address": "AA9FB1RgZJobeizJiyvY5USNcoMNtPiQvExkCKzBGJQqA1xpKhWGjDjDQnzBbubxx3i51d9mZCNvrSHcQVRUAK3H2y8NSmq3dB7MZNsYJB",
+        },
         "subaddresses": [
             {
                 "major_idx": 0,
@@ -280,6 +356,10 @@ TEST_VECT = [
         "pub_skey": "70d532772bf2656a27abf25b3f1cd16c6027b455cc81e69743aec8182731106f",
         "pub_vkey": "7a68fb0d7f4a046be96b5adc224a4c2f4ecf9879acc113e438cdba773a1278be",
         "primary_address": "9wSeitNRRdnJkqVqj7fFKvK8NzQVKUsyPSJTLLJNRgMVKeUiSsJ2Pb1K3t1upYkiiw8uwqWfcqa8ifB3DXhMEDEFNXkC44K",
+        "integrated_address": {
+            "payment_id": b"d7af025ab223b74e",
+            "address": "A79KjhBv2uJJkqVqj7fFKvK8NzQVKUsyPSJTLLJNRgMVKeUiSsJ2Pb1K3t1upYkiiw8uwqWfcqa8ifB3DXhMEDEFYvQs7AYR2Hc9uc9ikY",
+        },
         "subaddresses": [
             {
                 "major_idx": 0,
@@ -384,9 +464,8 @@ class MoneroTests(unittest.TestCase):
         self.assertEqual(test["primary_address"], monero.PrimaryAddress())
 
         # Test integrated address
-        if "integrated_address" in test:
-            payment_id = binascii.unhexlify(test["integrated_address"]["payment_id"])
-            self.assertEqual(test["integrated_address"]["address"], monero.IntegratedAddress(payment_id))
+        payment_id = binascii.unhexlify(test["integrated_address"]["payment_id"])
+        self.assertEqual(test["integrated_address"]["address"], monero.IntegratedAddress(payment_id))
 
         # Test subaddresses
         for test_subaddr in test["subaddresses"]:

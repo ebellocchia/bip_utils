@@ -29,22 +29,26 @@ class MoneroCoinConf:
 
     m_coin_name: CoinNames
     m_addr_net_ver: bytes
+    m_int_addr_net_ver: bytes
     m_subaddr_net_ver: bytes
     m_addr_params: Dict[str, bytes]
 
     def __init__(self,
                  coin_name: CoinNames,
                  addr_net_ver: bytes,
+                 int_addr_net_ver: bytes,
                  subaddr_net_ver: bytes) -> None:
         """ Construct class.
 
         Args:
             coin_name (CoinNames object): Coin names
             addr_net_ver (bytes)        : Address net version
+            int_addr_net_ver (bytes)    : Integrated address net version
             subaddr_net_ver (bytes)     : Subaddress net version
         """
         self.m_coin_name = coin_name
         self.m_addr_net_ver = addr_net_ver
+        self.m_int_addr_net_ver = int_addr_net_ver
         self.m_subaddr_net_ver = subaddr_net_ver
 
     def CoinNames(self) -> CoinNames:
@@ -62,6 +66,14 @@ class MoneroCoinConf:
             bytes: Address net version
         """
         return self.m_addr_net_ver
+
+    def IntegratedAddrNetVersion(self) -> bytes:
+        """ Get integrated address net version.
+
+        Returns:
+            bytes: Address net version
+        """
+        return self.m_int_addr_net_ver
 
     def SubaddrNetVersion(self) -> bytes:
         """ Get subaddress net version.

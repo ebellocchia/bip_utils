@@ -279,11 +279,17 @@ class MoneroConf:
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Monero", "XMR")
     ADDR_NET_VER_MN: bytes = b"\x12"
-    ADDR_NET_VER_INT: bytes = b"\x13"
+    ADDR_INT_NET_VER_MN: bytes = b"\x13"
     SUBADDR_NET_VER_MN: bytes = b"\x2a"
+    # Stage net
+    COIN_NAME_SN: CoinNames = CoinNames("Monero StageNet", "XMR")
+    ADDR_NET_VER_SN: bytes = b"\x18"
+    ADDR_INT_NET_VER_SN: bytes = b"\x19"
+    SUBADDR_NET_VER_SN: bytes = b"\x24"
     # Test net
     COIN_NAME_TN: CoinNames = CoinNames("Monero TestNet", "XMR")
     ADDR_NET_VER_TN: bytes = b"\x35"
+    ADDR_INT_NET_VER_TN: bytes = b"\x36"
     SUBADDR_NET_VER_TN: bytes = b"\x3f"
 
 

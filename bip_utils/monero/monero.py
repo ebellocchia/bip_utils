@@ -227,6 +227,7 @@ class Monero:
         """
         return XmrIntegratedAddr.EncodeKey(self.m_pub_skey.KeyObject(),
                                            pub_vkey=self.m_pub_vkey.KeyObject(),
+                                           net_ver=self.m_coin_conf.IntegratedAddrNetVersion(),
                                            payment_id=payment_id)
 
     @lru_cache()

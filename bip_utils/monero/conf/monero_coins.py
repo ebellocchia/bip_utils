@@ -28,4 +28,5 @@ class MoneroCoins(Enum):
     """ Enumerative for supported Monero coins. """
 
     MONERO_MAINNET = auto()
+    MONERO_STAGENET = auto()
     MONERO_TESTNET = auto()

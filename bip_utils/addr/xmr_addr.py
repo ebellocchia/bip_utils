@@ -24,7 +24,6 @@ from typing import Any, Optional, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58XmrEncoder
-from bip_utils.coin_conf import MoneroConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
@@ -117,6 +116,7 @@ class XmrIntegratedAddr(IAddrEncoder):
 
         Other Parameters:
             pub_vkey (bytes or IPublicKey): Public view key bytes or object
+            net_ver (bytes)               : Net version
             payment_id (bytes)            : Payment ID
 
         Returns:
@@ -127,6 +127,7 @@ class XmrIntegratedAddr(IAddrEncoder):
             TypeError: If the public key is not ed25519-monero
         """
         pub_vkey = kwargs["pub_vkey"]
+        net_ver = kwargs["net_ver"]
         payment_id = kwargs["payment_id"]
 
-        return XmrAddrUtils.EncodeKeyGeneric(pub_key, pub_vkey, MoneroConf.ADDR_NET_VER_INT, payment_id)
+        return XmrAddrUtils.EncodeKeyGeneric(pub_key, pub_vkey, net_ver, payment_id)
