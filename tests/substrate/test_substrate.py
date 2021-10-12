@@ -23,8 +23,8 @@
 import binascii
 import unittest
 from bip_utils import (
-    SubstrateKeyError, SubstrateCoins, SubstratePublicKey, SubstratePrivateKey, SubstratePathElem, SubstratePath, Substrate,
-    Sr25519PrivateKey, Sr25519PublicKey
+    SubstrateKeyError, SubstrateCoins, SubstratePublicKey, SubstratePrivateKey, SubstratePathElem, SubstratePath, SubstrateCoinConf,
+    Substrate, Sr25519PrivateKey, Sr25519PublicKey
 )
 from tests.ecc.test_ecc import (
     TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY, TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID
@@ -511,6 +511,9 @@ class SubstrateTests(unittest.TestCase):
         for test in TEST_VECT:
             # Create from seed
             substrate_ctx = Substrate.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
+
+            # Test coin configuration
+            self.assertTrue(isinstance(substrate_ctx.CoinConf(), SubstrateCoinConf))
 
             # Test coin names
             coin_names = substrate_ctx.CoinConf().CoinNames()
