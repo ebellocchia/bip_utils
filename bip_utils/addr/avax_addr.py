@@ -23,18 +23,8 @@
 from typing import Any, Union
 from bip_utils.addr.atom_addr import AtomAddr
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.coin_conf import AvaxPChainConf, AvaxXChainConf
 from bip_utils.ecc import IPublicKey
-
-
-class AvaxAddrConst:
-    """ Class container for Avax address constants. """
-
-    # HRP
-    HRP: str = "avax"
-    # P-Chain prefix
-    PREFIX_P_CHAIN: str = "P-"
-    # X-Chain prefix
-    PREFIX_X_CHAIN: str = "X-"
 
 
 class AvaxPChainAddr(IAddrEncoder):
@@ -56,8 +46,8 @@ class AvaxPChainAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        return AvaxAddrConst.PREFIX_P_CHAIN + AtomAddr.EncodeKey(pub_key,
-                                                                 hrp=AvaxAddrConst.HRP)
+        return AvaxPChainConf.ADDR_PREFIX + AtomAddr.EncodeKey(pub_key,
+                                                               hrp=AvaxPChainConf.ADDR_HRP)
 
 
 class AvaxXChainAddr(IAddrEncoder):
@@ -78,5 +68,5 @@ class AvaxXChainAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        return AvaxAddrConst.PREFIX_X_CHAIN + AtomAddr.EncodeKey(pub_key,
-                                                                 hrp=AvaxAddrConst.HRP)
+        return AvaxXChainConf.ADDR_PREFIX + AtomAddr.EncodeKey(pub_key,
+                                                               hrp=AvaxXChainConf.ADDR_HRP)
