@@ -51,6 +51,9 @@ class Bip84ConfGetter:
 
         Returns:
             BipCoinConf: Coin configuration
+
+        Raises:
+            TypeError: If coin type is not of a Bip84Coins enumerative
         """
         if not isinstance(coin_type, Bip84Coins):
             raise TypeError("Coin type is not an enumerative of Bip84Coins")

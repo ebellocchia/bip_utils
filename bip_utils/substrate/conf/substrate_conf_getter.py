@@ -60,6 +60,9 @@ class SubstrateConfGetter:
 
         Returns:
             SubstrateCoinConf: Coin configuration
+
+        Raises:
+            TypeError: If coin type is not of a SubstrateCoins enumerative
         """
         if not isinstance(coin_type, SubstrateCoins):
             raise TypeError("Coin type is not an enumerative of SubstrateCoins")
