@@ -1411,6 +1411,7 @@ These libraries are used internally by the other libraries, but they are availab
     pub_key = Secp256k1PublicKey.FromBytes(binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2"))
 
     # P2PKH/P2SH/P2WPKH address with parameters from configuration
+    # (MN = main net, TN = test net)
     addr = P2PKHAddr.EncodeKey(pub_key,
                                net_ver=BitcoinConf.P2PKH_NET_VER_MN)
     addr = P2SHAddr.EncodeKey(pub_key,
