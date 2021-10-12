@@ -692,7 +692,7 @@ In case of a public-only object, only public derivation will be supported (only 
     # Same as before...
 
 The other BIP32 classes work exactly in the same way.\
-However, the *Bip32Ed25519Slip* and *Bip32Ed25519Blake2bSlip* classes have some differences:
+However, the *Bip32Ed25519Slip* and *Bip32Ed25519Blake2bSlip* classes have some differences (as written in SLIP-0010):
 - Not-hardened private key derivation is not supported
 - Public key derivation is not supported
 
