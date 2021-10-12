@@ -20,13 +20,10 @@
 
 
 # Imports
-from typing import Union
 from bip_utils.bip.bip32.bip32_base import Bip32Base
-from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
-from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex, Bip32KeyNetVersions
-from bip_utils.bip.bip32.bip32_path import Bip32Path
-from bip_utils.ecc import EllipticCurveTypes, IPrivateKey, IPublicKey
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.ecc import EllipticCurveTypes
 
 
 class Bip32Ed25519SlipConst:
