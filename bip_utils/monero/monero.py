@@ -24,20 +24,12 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Optional, Union
 from bip_utils.addr import XmrIntegratedAddr
+from bip_utils.coin_conf import MoneroConf
 from bip_utils.ecc import Ed25519Monero, Ed25519MoneroPrivateKey, IPrivateKey, IPublicKey
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.monero.monero_subaddr import MoneroSubaddress
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
-
-
-class MoneroConst:
-    """ Class container for Monero keys constants. """
-
-    # Address main net version
-    ADDR_MAIN_NET_VER: bytes = b"\x12"
-    # Subaddress main net version
-    SUBADDR_MAIN_NET_VER: bytes = b"\x2a"
 
 
 class MoneroUtils:
@@ -231,7 +223,7 @@ class Monero:
         """
         return self.m_subaddr.ComputeAndEncodeKeys(0,
                                                    0,
-                                                   MoneroConst.ADDR_MAIN_NET_VER)
+                                                   MoneroConf.ADDR_NET_VER_MN)
 
     @lru_cache()
     def Subaddress(self,
@@ -254,7 +246,7 @@ class Monero:
 
         return self.m_subaddr.ComputeAndEncodeKeys(minor_idx,
                                                    major_idx,
-                                                   MoneroConst.SUBADDR_MAIN_NET_VER)
+                                                   MoneroConf.SUBADDR_NET_VER_MN)
 
     @staticmethod
     def __ViewFromSpendKey(priv_skey: MoneroPrivateKey) -> MoneroPrivateKey:
