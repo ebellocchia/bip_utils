@@ -1,31 +1,25 @@
-import setuptools
+import os
 import re
+import setuptools
 from setuptools.command.install import install
 from setuptools.command.develop import develop
 
 
-# File names
-DESCRIPTION_FILE = "README.md"
-KEYWORDS_FILE = "keywords.txt"
-REQUIREMENTS_FILE = "requirements.txt"
-VERSION_FILE = "bip_utils/_version.py"
-
-
 # Load long description
-def load_long_description():
-    return open(DESCRIPTION_FILE).read()
+def load_long_description(desc_file):
+    return open(desc_file).read()
 
 
 # Load keywords
-def load_keywords():
-    with open(KEYWORDS_FILE, "r") as fin:
+def load_keywords(keywords_file):
+    with open(keywords_file, "r") as fin:
         return ", ".join([line for line in map(str.strip, fin.read().splitlines())
                           if len(line) > 0 and not line.startswith("#")])
 
 
 # Load version
-def load_version():
-    version_line = open(VERSION_FILE).read().rstrip()
+def load_version(*path_parts):
+    version_line = open(os.path.join(*path_parts)).read().rstrip()
     vre = re.compile(r'__version__: str = "([^"]+)"')
     matches = vre.findall(version_line)
 
@@ -36,8 +30,8 @@ def load_version():
 
 
 # Load requirements
-def load_requirements():
-    with open(REQUIREMENTS_FILE, "r") as fin:
+def load_requirements(req_file):
+    with open(req_file, "r") as fin:
         return [line for line in map(str.strip, fin.read().splitlines())
                 if len(line) > 0 and not line.startswith("#")]
 
@@ -102,12 +96,8 @@ class DevelopCommand(CommandBase, develop):
     user_options = getattr(develop, 'user_options', []) + CommandBase.user_options
 
 
-# Load needed files
-long_description = load_long_description()
-keywords = load_keywords()
-install_requires = load_requirements()
-version = load_version()
-
+# Load version
+version = load_version("bip_utils", "_version.py")
 
 # Setup configuration
 setuptools.setup(
@@ -118,7 +108,7 @@ setuptools.setup(
     maintainer="Emanuele Bellocchia",
     maintainer_email="ebellocchia@gmail.com",
     description="Implementation of BIP39, BIP32, BIP44, BIP49 and BIP84 for wallet seeds, keys and addresses generation.",
-    long_description=long_description,
+    long_description=load_long_description("README.md"),
     long_description_content_type="text/markdown",
     url="https://github.com/ebellocchia/bip_utils",
     download_url="https://github.com/ebellocchia/bip_utils/archive/v%s.tar.gz" % version,
@@ -128,7 +118,7 @@ setuptools.setup(
         "install": InstallCommand,
         "develop": DevelopCommand,
     },
-    install_requires=install_requires,
+    install_requires=load_requirements("requirements.txt"),
     packages=setuptools.find_packages(exclude=["tests"]),
     package_data={
         "bip_utils": [
@@ -155,7 +145,7 @@ setuptools.setup(
             "monero/mnemonic/monero_words/spanish.txt",
         ]
     },
-    keywords=keywords,
+    keywords=load_keywords("keywords.txt"),
     platforms=["any"],
     classifiers=[
         "Programming Language :: Python :: 3",
