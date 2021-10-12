@@ -57,8 +57,8 @@ class Monero:
     m_priv_vkey: MoneroPrivateKey
     m_pub_skey: MoneroPublicKey
     m_pub_vkey: MoneroPublicKey
-    m_subaddr: MoneroSubaddress
     m_coin_conf: MoneroCoinConf
+    m_subaddr: MoneroSubaddress
 
     @classmethod
     def FromSeed(cls,
@@ -174,6 +174,14 @@ class Monero:
             bool: True if watch-only, false otherwise
         """
         return self.m_priv_skey is None
+
+    def CoinConf(self) -> MoneroCoinConf:
+        """ Return coin configuration.
+
+        Returns:
+            MoneroCoinConf object: MoneroCoinConf object
+        """
+        return self.m_coin_conf
 
     def PrivateSpendKey(self) -> MoneroPrivateKey:
         """ Return the private spend key.

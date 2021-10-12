@@ -23,7 +23,8 @@
 import binascii
 import unittest
 from bip_utils import (
-    MoneroPublicKey, MoneroPrivateKey, MoneroKeyError, MoneroCoins, Monero, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
+    MoneroPublicKey, MoneroPrivateKey, MoneroKeyError, MoneroCoins, MoneroCoinConf,
+    Monero, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
 )
 from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 
@@ -439,6 +440,7 @@ class MoneroTests(unittest.TestCase):
     def __test_keys_and_addresses(self, monero, test, is_watch_only):
         # Test watch-only flag
         self.assertEqual(monero.IsWatchOnly(), is_watch_only)
+        self.assertTrue(isinstance(monero.CoinConf(), MoneroCoinConf))
 
         # Test key objects
         if not is_watch_only:
