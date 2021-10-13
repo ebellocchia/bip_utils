@@ -131,15 +131,15 @@ To install the package:
 
             pip install bip_utils --install-option="--coincurve=0"
 
-To run tests, install *tox*:
+To run tests:
+
+    python -m unittest discover
+
+Or you can install *tox*:
 
     pip install tox
 
-Then:
-- Run tests using *unittest* (no code coverage):
-
-        tox -e unittest
-
+And then:
 - Run tests using *pytest* (it includes code coverage and report):
 
         tox -e pytest
