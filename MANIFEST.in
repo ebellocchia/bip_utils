@@ -1,4 +1,2 @@
 include keywords.txt
 include requirements.txt
-include .coveragerc
-include tox.ini
