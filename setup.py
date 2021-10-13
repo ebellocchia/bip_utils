@@ -108,7 +108,7 @@ setuptools.setup(
     author_email="ebellocchia@gmail.com",
     maintainer="Emanuele Bellocchia",
     maintainer_email="ebellocchia@gmail.com",
-    description="Implementation of BIP39, BIP32, BIP44, BIP49 and BIP84 for wallet seeds, keys and addresses generation.",
+    description="Generation of mnemonics, seeds, private/public keys and addresses for different types of cryptocurrencies",
     long_description=load_long_description("README.md"),
     long_description_content_type="text/markdown",
     url="https://github.com/ebellocchia/bip_utils",
