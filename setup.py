@@ -120,7 +120,7 @@ setuptools.setup(
         "develop": DevelopCommand,
     },
     install_requires=load_requirements("requirements.txt"),
-    packages=setuptools.find_packages(exclude=["tests"]),
+    packages=setuptools.find_packages(exclude=["*tests*"]),
     package_data={
         "bip_utils": [
             # BIP39
