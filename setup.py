@@ -26,8 +26,8 @@ def load_version(*path_parts):
 
     if matches and len(matches) > 0:
         return matches[0]
-    else:
-        raise RuntimeError(f"Cannot find version string in {version_file}")
+
+    raise RuntimeError(f"Cannot find version string in {version_file}")
 
 
 # Load requirements
@@ -149,7 +149,12 @@ setuptools.setup(
     keywords=load_keywords("keywords.txt"),
     platforms=["any"],
     classifiers=[
-        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
