@@ -604,11 +604,9 @@ class EccTests(unittest.TestCase):
             self.assertRaises(ValueError, Nist256p1PrivateKey.FromBytes, binascii.unhexlify(test))
             self.assertFalse(Nist256p1PrivateKey.IsValidBytes(binascii.unhexlify(test)))
 
-        """
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Secp256k1PrivateKey.FromBytes, binascii.unhexlify(test))
             self.assertFalse(Secp256k1PrivateKey.IsValidBytes(binascii.unhexlify(test)))
-        """
 
         for test in TEST_VECT_SR25519_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Sr25519PrivateKey.FromBytes, binascii.unhexlify(test))
