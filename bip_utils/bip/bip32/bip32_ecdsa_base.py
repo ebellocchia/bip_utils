@@ -18,19 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with BIP32 base class for ECDSA curves."""
 
 # Imports
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
-from bip_utils.bip.bip32.bip32_base import Bip32Base
+from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.ecc import EllipticCurveGetter
 from bip_utils.utils.misc import ConvUtils
 
 
 class Bip32EcdsaBase(Bip32Base):
-    """ BIP32 ECDSA base class. It implements the generic key derivation for ECDSA curves (e.g. secp256k1),
-    since they share the same derivation scheme.
+    """
+    BIP32 ECDSA base class.
+    It implements the generic key derivation for ECDSA curves, since they share the same derivation scheme.
     It shall be derived by the specific ECDSA curve.
     """
 
@@ -41,7 +43,8 @@ class Bip32EcdsaBase(Bip32Base):
 
     @staticmethod
     def IsPublicDerivationSupported() -> bool:
-        """ Get if public derivation is supported.
+        """
+        Get if public derivation is supported.
 
         Returns:
             bool: True if supported, false otherwise.
@@ -50,7 +53,8 @@ class Bip32EcdsaBase(Bip32Base):
 
     @staticmethod
     def IsPrivateUnhardenedDerivationSupported() -> bool:
-        """ Get if private derivation with not-hardened indexes is supported.
+        """
+        Get if private derivation with not-hardened indexes is supported.
 
         Returns:
             bool: True if supported, false otherwise.
@@ -65,7 +69,8 @@ class Bip32EcdsaBase(Bip32Base):
     def _CkdPrivEcdsa(cls,
                       bip32_obj: Bip32Base,
                       index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using private derivation.
+        """
+        Create a child key of the specified index using private derivation.
 
         Args:
             bip32_obj (Bip32Base object): Bip32Base object
@@ -89,7 +94,7 @@ class Bip32EcdsaBase(Bip32Base):
             data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
 
         # Compute HMAC halves
-        i_l, i_r = bip32_obj._HmacHalves(data)
+        i_l, i_r = Bip32BaseUtils.HmacHalves(bip32_obj.ChainCode(), data)
 
         # Construct new key secret from i_l and current private key
         i_l_int = ConvUtils.BytesToInteger(i_l)
@@ -113,7 +118,8 @@ class Bip32EcdsaBase(Bip32Base):
     def _CkdPubEcdsa(cls,
                      bip32_obj: Bip32Base,
                      index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using public derivation.
+        """
+        Create a child key of the specified index using public derivation.
 
         Args:
             bip32_obj (Bip32Base object): Bip32Base object
@@ -131,7 +137,7 @@ class Bip32EcdsaBase(Bip32Base):
         data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
 
         # Get HMAC of data
-        i_l, i_r = bip32_obj._HmacHalves(data)
+        i_l, i_r = Bip32BaseUtils.HmacHalves(bip32_obj.ChainCode(), data)
 
         # Try to construct a new public key from the curve point: pub_key_point + G*i_l
         try:

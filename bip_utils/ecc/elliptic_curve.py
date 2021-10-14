@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for elliptic curves."""
 
 # Imports
 from typing import Type
@@ -25,7 +26,8 @@ from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 
 
 class EllipticCurve:
-    """ Class for a generic elliptic curve.
+    """
+    Class for a generic elliptic curve.
     This is not meant to be complete but just the minimum required to abstract the bip module from
     the specific ECC library.
     """
@@ -44,7 +46,8 @@ class EllipticCurve:
                  point_cls: Type[IPoint],
                  pub_key_cls: Type[IPublicKey],
                  priv_key_cls: Type[IPrivateKey]):
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             name (str)                      : Curve name
@@ -62,7 +65,8 @@ class EllipticCurve:
         self.m_priv_key_cls = priv_key_cls
 
     def Name(self) -> str:
-        """ Return the curve name.
+        """
+        Return the curve name.
 
         Returns:
             str: Curve name
@@ -70,7 +74,8 @@ class EllipticCurve:
         return self.m_name
 
     def Order(self) -> int:
-        """ Return the curve order.
+        """
+        Return the curve order.
 
         Returns:
             int: Curve order
@@ -78,7 +83,8 @@ class EllipticCurve:
         return self.m_order
 
     def Generator(self) -> IPoint:
-        """ Get the curve generator point.
+        """
+        Get the curve generator point.
 
         Returns:
             IPoint object: IPoint object
@@ -86,7 +92,8 @@ class EllipticCurve:
         return self.m_generator
 
     def PointClass(self) -> Type[IPoint]:
-        """ Return the point class.
+        """
+        Return the point class.
 
         Returns:
             IPoint class: Point class
@@ -94,7 +101,8 @@ class EllipticCurve:
         return self.m_point_cls
 
     def PublicKeyClass(self) -> Type[IPublicKey]:
-        """ Return the public key class.
+        """
+        Return the public key class.
 
         Returns:
             IPublicKey class: Public key class
@@ -102,7 +110,8 @@ class EllipticCurve:
         return self.m_pub_key_cls
 
     def PrivateKeyClass(self) -> Type[IPrivateKey]:
-        """ Return the private key class.
+        """
+        Return the private key class.
 
         Returns:
             IPrivateKey class: Private key class

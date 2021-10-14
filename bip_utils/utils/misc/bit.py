@@ -18,14 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with some bits utility functions."""
+
 
 class BitUtils:
-    """ Class container for bit utility functions. """
+    """Class container for bit utility functions."""
 
     @staticmethod
     def IsBitSet(value: int,
                  bit_num: int) -> bool:
-        """ Get if the specified bit is set.
+        """
+        Get if the specified bit is set.
 
         Args:
             value (int): value
@@ -39,7 +42,8 @@ class BitUtils:
     @staticmethod
     def SetBit(value: int,
                bit_num: int) -> int:
-        """ Set the specified bit.
+        """
+        Set the specified bit.
 
         Args:
             value (int): value
@@ -54,7 +58,8 @@ class BitUtils:
     @staticmethod
     def ResetBit(value: int,
                  bit_num: int) -> int:
-        """ Reset the specified bit.
+        """
+        Reset the specified bit.
 
         Args:
             value (int): value

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP32 keys derivation based on ed25519-blake2b curve."""
 
 # Imports
 from bip_utils.bip.bip32.bip32_base import Bip32Base
@@ -27,15 +28,16 @@ from bip_utils.ecc import EllipticCurveTypes
 
 
 class Bip32Ed25519Blake2bSlipConst:
-    """ Class container for BIP32 ed25519-blake2b constants. """
+    """Class container for BIP32 ed25519-blake2b constants."""
 
     # Elliptic curve type
     CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.ED25519_BLAKE2B
 
 
 class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
-    """ BIP32 ed25519-blake2b class. It allows master key generation and children keys derivation
-    using ed25519-blake2b curve.
+    """
+    BIP32 ed25519-blake2b class.
+    It allows master key generation and children keys derivation using ed25519-blake2b curve.
     Derivation based on SLIP-0010.
     """
 
@@ -45,7 +47,8 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Return the elliptic curve type.
+        """
+        Return the elliptic curve type.
 
         Returns:
             EllipticCurveTypes: Curve type
@@ -58,7 +61,8 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
 
     @staticmethod
     def _MasterKeyHmacKey() -> bytes:
-        """ Return the HMAC key for generating the master key
+        """
+        Return the HMAC key for generating the master key.
 
         Returns:
             bytes: HMAC key
@@ -67,7 +71,8 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
 
     def _CkdPriv(self,
                  index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using private derivation.
+        """
+        Create a child key of the specified index using private derivation.
         It shall be implemented by children classes depending on the elliptic curve.
 
         Args:

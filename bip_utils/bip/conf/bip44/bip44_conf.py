@@ -18,13 +18,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP44 coins configuration."""
 
 # Imports
 from bip_utils.addr import *
 from bip_utils.bip.bip32 import (
     Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
 )
-from bip_utils.bip.conf.common import *
+from bip_utils.bip.conf.common import (
+    BipCoinConf, BipBitcoinCashConf, BipLitecoinConf, HARDENED_DEF_PATH, NOT_HARDENED_DEF_PATH
+)
 from bip_utils.coin_conf import *
 
 
@@ -162,7 +165,7 @@ Bip44BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
             "hrp": BitcoinCashConf.P2PKH_STD_HRP_MN,
         },
         "legacy": {
-            "net_ver":  BitcoinCashConf.P2PKH_LEGACY_NET_VER_MN,
+            "net_ver": BitcoinCashConf.P2PKH_LEGACY_NET_VER_MN,
         }
     },
     addr_cls_legacy=P2PKHAddr,

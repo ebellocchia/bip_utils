@@ -18,9 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for coin names."""
+
 
 class CoinNames:
-    """ Helper class for representing coin names. """
+    """Helper class for representing coin names."""
 
     m_name: str
     m_abbr: str
@@ -28,7 +30,8 @@ class CoinNames:
     def __init__(self,
                  name: str,
                  abbr: str) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             name (str): Name
@@ -38,7 +41,8 @@ class CoinNames:
         self.m_abbr = abbr
 
     def Name(self) -> str:
-        """ Get name.
+        """
+        Get name.
 
         Returns :
             str: Name
@@ -46,7 +50,8 @@ class CoinNames:
         return self.m_name
 
     def Abbreviation(self) -> str:
-        """ Get abbreviation.
+        """
+        Get abbreviation.
 
         Returns:
             str: Abbreviation

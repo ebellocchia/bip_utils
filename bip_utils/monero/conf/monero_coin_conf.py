@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for Monero coins configuration handling."""
 
 # Imports
 from typing import Dict
@@ -25,7 +26,7 @@ from bip_utils.utils.conf import CoinNames
 
 
 class MoneroCoinConf:
-    """ Monero coin configuration class. """
+    """Monero coin configuration class."""
 
     m_coin_name: CoinNames
     m_addr_net_ver: bytes
@@ -38,7 +39,8 @@ class MoneroCoinConf:
                  addr_net_ver: bytes,
                  int_addr_net_ver: bytes,
                  subaddr_net_ver: bytes) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             coin_name (CoinNames object): Coin names
@@ -52,7 +54,8 @@ class MoneroCoinConf:
         self.m_subaddr_net_ver = subaddr_net_ver
 
     def CoinNames(self) -> CoinNames:
-        """ Get coin names.
+        """
+        Get coin names.
 
         Returns:
             CoinNames object: CoinNames object
@@ -60,7 +63,8 @@ class MoneroCoinConf:
         return self.m_coin_name
 
     def AddrNetVersion(self) -> bytes:
-        """ Get address net version.
+        """
+        Get address net version.
 
         Returns:
             bytes: Address net version
@@ -68,7 +72,8 @@ class MoneroCoinConf:
         return self.m_addr_net_ver
 
     def IntegratedAddrNetVersion(self) -> bytes:
-        """ Get integrated address net version.
+        """
+        Get integrated address net version.
 
         Returns:
             bytes: Address net version
@@ -76,7 +81,8 @@ class MoneroCoinConf:
         return self.m_int_addr_net_ver
 
     def SubaddrNetVersion(self) -> bytes:
-        """ Get subaddress net version.
+        """
+        Get subaddress net version.
 
         Returns:
             bytes: Subaddress net version

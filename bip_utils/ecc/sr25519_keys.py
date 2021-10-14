@@ -18,10 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for sr25519 keys handling."""
 
 # Imports
-import sr25519
 from typing import Any
+import sr25519
 from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
@@ -29,7 +30,7 @@ from bip_utils.utils.misc import DataBytes
 
 
 class Sr25519KeysConst:
-    """ Class container for ed25519 keys constants. """
+    """Class container for ed25519 keys constants."""
 
     # Compressed public key length in bytes
     PUB_KEY_COMPRESSED_BYTE_LEN: int = 32
@@ -40,19 +41,19 @@ class Sr25519KeysConst:
 
 
 class Sr25519Point(DummyPoint):
-    """ Sr25519 point class. Dummy class since not needed. """
-    pass
+    """Sr25519 point class. Dummy class since not needed."""
 
 
 class Sr25519PublicKey(IPublicKey):
-    """ Sr25519 public key class. """
+    """Sr25519 public key class."""
 
     m_ver_key: bytes
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -68,7 +69,8 @@ class Sr25519PublicKey(IPublicKey):
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
-        """ Construct class from key point.
+        """
+        Construct class from key point.
 
         Args:
             key_point (IPoint object): Key point
@@ -80,12 +82,10 @@ class Sr25519PublicKey(IPublicKey):
             ValueError: If key point is not valid
         """
 
-        # Not needed
-        pass
-
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -103,7 +103,8 @@ class Sr25519PublicKey(IPublicKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -112,7 +113,8 @@ class Sr25519PublicKey(IPublicKey):
 
     @staticmethod
     def CompressedLength() -> int:
-        """ Get the compressed key length.
+        """
+        Get the compressed key length.
 
         Returns:
            int: Compressed key length
@@ -121,7 +123,8 @@ class Sr25519PublicKey(IPublicKey):
 
     @staticmethod
     def UncompressedLength() -> int:
-        """ Get the uncompressed key length.
+        """
+        Get the uncompressed key length.
 
         Returns:
            int: Uncompressed key length
@@ -129,7 +132,8 @@ class Sr25519PublicKey(IPublicKey):
         return Sr25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -137,7 +141,8 @@ class Sr25519PublicKey(IPublicKey):
         return self.m_ver_key
 
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -145,7 +150,8 @@ class Sr25519PublicKey(IPublicKey):
         return DataBytes(self.m_ver_key)
 
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -155,25 +161,24 @@ class Sr25519PublicKey(IPublicKey):
         return self.RawCompressed()
 
     def Point(self) -> IPoint:
-        """ Get public key point.
+        """
+        Get public key point.
 
         Returns:
             IPoint object: IPoint object
         """
 
-        # Not needed
-        pass
-
 
 class Sr25519PrivateKey(IPrivateKey):
-    """ Sr25519 private key class. """
+    """Sr25519 private key class."""
 
     m_sign_key: bytes
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -188,7 +193,8 @@ class Sr25519PrivateKey(IPrivateKey):
 
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -206,7 +212,8 @@ class Sr25519PrivateKey(IPrivateKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -215,7 +222,8 @@ class Sr25519PrivateKey(IPrivateKey):
 
     @staticmethod
     def Length() -> int:
-        """ Get the key length.
+        """
+        Get the key length.
 
         Returns:
            int: Key length
@@ -223,7 +231,8 @@ class Sr25519PrivateKey(IPrivateKey):
         return Sr25519KeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -231,7 +240,8 @@ class Sr25519PrivateKey(IPrivateKey):
         return self.m_sign_key
 
     def Raw(self) -> DataBytes:
-        """ Return raw private key.
+        """
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -239,7 +249,8 @@ class Sr25519PrivateKey(IPrivateKey):
         return DataBytes(self.m_sign_key)
 
     def PublicKey(self) -> IPublicKey:
-        """ Get the public key correspondent to the private one.
+        """
+        Get the public key correspondent to the private one.
 
         Returns:
             IPublicKey object: IPublicKey object

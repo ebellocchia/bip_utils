@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero address computation."""
 
 # Imports
 from typing import Any, Optional, Union
@@ -29,7 +30,7 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class XmrAddrConst:
-    """ Class container for Monero address constants. """
+    """Class container for Monero address constants."""
 
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
@@ -38,14 +39,15 @@ class XmrAddrConst:
 
 
 class XmrAddrUtils:
-    """ Class container for Monero address utility functions. """
+    """Class container for Monero address utility functions."""
 
     @staticmethod
     def EncodeKeyGeneric(pub_skey: Union[bytes, IPublicKey],
                          pub_vkey: Union[bytes, IPublicKey],
                          net_ver: bytes,
                          payment_id: Optional[bytes] = None) -> str:
-        """ Get address in Monero format.
+        """
+        Get address in Monero format.
 
         Args:
             pub_skey (bytes or IPublicKey): Public spend key bytes or object
@@ -67,20 +69,26 @@ class XmrAddrUtils:
         pub_spend_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_skey)
         pub_view_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_vkey)
 
-        data = (net_ver + pub_spend_key_obj.RawCompressed().ToBytes() +
-                pub_view_key_obj.RawCompressed().ToBytes() + payment_id)
+        data = (net_ver
+                + pub_spend_key_obj.RawCompressed().ToBytes()
+                + pub_view_key_obj.RawCompressed().ToBytes()
+                + payment_id)
         checksum = CryptoUtils.Kekkak256(data)
 
         return Base58XmrEncoder.Encode(data + checksum[:XmrAddrConst.CHECKSUM_BYTE_LEN])
 
 
 class XmrAddr(IAddrEncoder):
-    """ Monero address class. It allows the Monero address generation. """
+    """
+    Monero address class.
+    It allows the Monero address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Monero format.
+        """
+        Get address in Monero format.
 
         Args:
             pub_key (bytes or IPublicKey): Public spend key bytes or object
@@ -104,12 +112,16 @@ class XmrAddr(IAddrEncoder):
 
 
 class XmrIntegratedAddr(IAddrEncoder):
-    """ Monero address class. It allows the Monero address generation. """
+    """
+    Monero integrated address class.
+    It allows the Monero integrated address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get Monero integrated address.
+        """
+        Get Monero integrated address.
 
         Args:
             pub_key (bytes or IPublicKey): Public spend key bytes or object

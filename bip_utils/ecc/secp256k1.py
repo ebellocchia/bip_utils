@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with secp256k1 curve definition."""
 
 # Imports
 from typing import Type
@@ -63,7 +64,7 @@ else:
 
 
 class Secp256k1Const:
-    """ Class container for Secp256k1 constants. """
+    """Class container for Secp256k1 constants."""
 
     # Curve name
     NAME: str = "Secp256k1"

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for Base32."""
 
 # Imports
 import base64
@@ -26,7 +27,7 @@ from bip_utils.utils.misc.algo import AlgoUtils
 
 
 class Base32Const:
-    """ Class container for Base32 constants. """
+    """Class container for Base32 constants."""
 
     # Alphabet
     ALPHABET: str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
@@ -35,12 +36,16 @@ class Base32Const:
 
 
 class Base32Encoder:
-    """ Base32 encoder class. It provides methods for encoding to Base32 format. """
+    """
+    Base32 encoder class.
+    It provides methods for encoding to Base32 format.
+    """
 
     @staticmethod
     def Encode(data: Union[bytes, str],
                custom_alphabet: Optional[str] = None) -> str:
-        """ Encode to base32.
+        """
+        Encode to base32.
 
         Args:
             data (str or bytes)            : Data
@@ -58,7 +63,8 @@ class Base32Encoder:
     @staticmethod
     def EncodeNoPadding(data: Union[bytes, str],
                         custom_alphabet: Optional[str] = None) -> str:
-        """ Encode to base32 by removing the final padding.
+        """
+        Encode to base32 by removing the final padding.
 
         Args:
             data (str or bytes)            : Data

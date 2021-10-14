@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero keys computation and derivation."""
 
 # Imports
 from __future__ import annotations
@@ -33,11 +34,12 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class MoneroUtils:
-    """ Class container for Monero utility functions. """
+    """Class container for Monero utility functions."""
 
     @staticmethod
     def ScReduce(data_bytes: bytes) -> bytes:
-        """ Convert the specified bytes to integer and return its lowest 32-bytes modulo ed25519-order.
+        """
+        Convert the specified bytes to integer and return its lowest 32-bytes modulo ed25519-order.
         This ensures that the result is a valid ed25519 scalar to be used as Monero private key.
 
         Args:
@@ -51,7 +53,10 @@ class MoneroUtils:
 
 
 class Monero:
-    """ Monero class. It allows to compute Monero keys and addresses/subaddresses. """
+    """
+    Monero class.
+    It allows to compute Monero keys and addresses/subaddresses.
+    """
 
     m_priv_skey: Optional[MoneroPrivateKey]
     m_priv_vkey: MoneroPrivateKey
@@ -64,7 +69,8 @@ class Monero:
     def FromSeed(cls,
                  seed_bytes: bytes,
                  coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
-        """ Create from seed bytes.
+        """
+        Create from seed bytes.
 
         Args:
             seed_bytes (bytes)               : Seed bytes
@@ -82,7 +88,8 @@ class Monero:
     def FromBip44PrivateKey(cls,
                             priv_key: Union[bytes, IPrivateKey],
                             coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
-        """ Create from Bip44 private key bytes.
+        """
+        Create from Bip44 private key bytes.
 
         Args:
             priv_key (bytes or IPrivateKey)  : Private key
@@ -99,7 +106,8 @@ class Monero:
     def FromPrivateSpendKey(cls,
                             priv_skey: Union[bytes, IPrivateKey],
                             coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
-        """ Create from private spend key.
+        """
+        Create from private spend key.
 
         Args:
             priv_skey (bytes or IPrivateKey) : Private spend key
@@ -119,7 +127,8 @@ class Monero:
                       priv_vkey: Union[bytes, IPrivateKey],
                       pub_skey: Union[bytes, IPublicKey],
                       coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> Monero:
-        """ Create from private view key and public spend key (i.e. watch-only wallet).
+        """
+        Create from private view key and public spend key (i.e. watch-only wallet).
 
         Args:
             priv_vkey (bytes or IPrivateKey) : Private view key
@@ -140,7 +149,8 @@ class Monero:
                  priv_key: Union[bytes, IPrivateKey],
                  pub_key: Optional[Union[bytes, IPublicKey]] = None,
                  coin_type: MoneroCoins = MoneroCoins.MONERO_MAINNET) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             priv_key (bytes or IPrivateKey)  : Private key (view key if watch-only wallet, otherwise spend key)
@@ -168,7 +178,8 @@ class Monero:
         self.m_subaddr = MoneroSubaddress(self.m_priv_vkey, self.m_pub_skey, self.m_pub_vkey)
 
     def IsWatchOnly(self) -> bool:
-        """ Return if it's a watch-only object.
+        """
+        Return if it's a watch-only object.
 
         Returns:
             bool: True if watch-only, false otherwise
@@ -176,7 +187,8 @@ class Monero:
         return self.m_priv_skey is None
 
     def CoinConf(self) -> MoneroCoinConf:
-        """ Return coin configuration.
+        """
+        Return coin configuration.
 
         Returns:
             MoneroCoinConf object: MoneroCoinConf object
@@ -184,7 +196,8 @@ class Monero:
         return self.m_coin_conf
 
     def PrivateSpendKey(self) -> MoneroPrivateKey:
-        """ Return the private spend key.
+        """
+        Return the private spend key.
 
         Returns:
             MoneroPrivateKey object: MoneroPrivateKey object
@@ -199,7 +212,8 @@ class Monero:
         return self.m_priv_skey
 
     def PrivateViewKey(self) -> MoneroPrivateKey:
-        """ Return the private view key.
+        """
+        Return the private view key.
 
         Returns:
             MoneroPrivateKey object: MoneroPrivateKey object
@@ -207,7 +221,8 @@ class Monero:
         return self.m_priv_vkey
 
     def PublicSpendKey(self) -> MoneroPublicKey:
-        """ Return the public spend key.
+        """
+        Return the public spend key.
 
         Returns:
             MoneroPublicKey object: MoneroPublicKey object
@@ -215,7 +230,8 @@ class Monero:
         return self.m_pub_skey
 
     def PublicViewKey(self) -> MoneroPublicKey:
-        """ Return the public view key.
+        """
+        Return the public view key.
 
         Returns:
             MoneroPublicKey object: MoneroPublicKey object
@@ -225,7 +241,8 @@ class Monero:
     @lru_cache()
     def IntegratedAddress(self,
                           payment_id: bytes) -> str:
-        """ Return the integrated address with the specified payment ID.
+        """
+        Return the integrated address with the specified payment ID.
 
         Args:
             payment_id (bytes): Payment ID
@@ -240,7 +257,8 @@ class Monero:
 
     @lru_cache()
     def PrimaryAddress(self) -> str:
-        """ Return the primary address.
+        """
+        Return the primary address.
 
         Returns:
             str: Primary address string
@@ -253,7 +271,8 @@ class Monero:
     def Subaddress(self,
                    minor_idx: int,
                    major_idx: int = 0) -> str:
-        """ Return the specified subaddress.
+        """
+        Return the specified subaddress.
 
         Args:
             minor_idx (int)          : Minor index (i.e. subaddress index)
@@ -274,7 +293,8 @@ class Monero:
 
     @staticmethod
     def __ViewFromSpendKey(priv_skey: MoneroPrivateKey) -> MoneroPrivateKey:
-        """ Get the private view key from the private spend key.
+        """
+        Get the private view key from the private spend key.
 
         Args:
             priv_skey (MoneroPrivateKey object): Private spend key

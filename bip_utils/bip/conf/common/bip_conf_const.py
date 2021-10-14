@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for generic BIP configuration constants."""
+
 # Hardened default path
 HARDENED_DEF_PATH: str = "0'/0'/0'"
 # Not hardened default path

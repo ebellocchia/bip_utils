@@ -18,7 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero exceptions."""
+
 
 class MoneroKeyError(Exception):
-    """ Exception in case of Monero key error. """
-    pass
+    """Exception in case of Monero key error."""

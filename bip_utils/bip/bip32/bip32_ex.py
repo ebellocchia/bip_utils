@@ -18,12 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with BIP32 exceptions."""
+
 
 class Bip32KeyError(Exception):
-    """ Exception in case of key error. """
-    pass
+    """Exception in case of key error."""
 
 
 class Bip32PathError(Exception):
-    """ Expcetion in case of path error. """
-    pass
+    """Exception in case of path error."""

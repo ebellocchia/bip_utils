@@ -18,12 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP49 coins configuration."""
 
 # Imports
 from bip_utils.addr import BchP2SHAddr, P2SHAddr
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Secp256k1
-from bip_utils.bip.conf.common import *
-from bip_utils.coin_conf import *
+from bip_utils.bip.conf.common import (
+    BipCoinConf, BipBitcoinCashConf, BipLitecoinConf, NOT_HARDENED_DEF_PATH
+)
+from bip_utils.coin_conf import (
+    BitcoinConf, BitcoinCashConf, BitcoinSvConf, DashConf, DogecoinConf, LitecoinConf, ZcashConf
+)
 
 
 # Bitcoin key net version for main net (ypub / yprv)

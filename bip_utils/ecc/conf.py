@@ -18,9 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for ECC configuration."""
+
 
 class EccConf:
-    """ ECC configuration class. """
+    """ECC configuration class."""
 
     # True for using coincurve for secp256k1, false for using ecdsa
     USE_COINCURVE: bool = True

@@ -17,7 +17,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
+#
 
+"""Module with BIP44 base class."""
 
 # Imports
 from __future__ import annotations
@@ -34,7 +36,7 @@ from bip_utils.ecc import IPrivateKey
 
 @unique
 class Bip44Changes(IntEnum):
-    """ Enumerative for BIP44 changes. """
+    """Enumerative for BIP44 changes."""
 
     CHAIN_EXT = 0
     CHAIN_INT = 1
@@ -42,7 +44,7 @@ class Bip44Changes(IntEnum):
 
 @unique
 class Bip44Levels(IntEnum):
-    """ Enumerative for BIP44 levels. """
+    """Enumerative for BIP44 levels."""
 
     MASTER = 0
     PURPOSE = 1
@@ -53,10 +55,10 @@ class Bip44Levels(IntEnum):
 
 
 class Bip44Base(ABC):
-    """ BIP44 base class.
-    It allows coin, account, chain and address keys generation in according to BIP44
-    or its extension (e.g. BIP49, BIP84).
-    The class is meant to be derived by classes implementing BIP44 or its extension.
+    """
+    BIP44 base class.
+    It allows coin, account, chain and address keys generation in according to BIP44 or its extensions.
+    The class is meant to be derived by classes implementing BIP44 or its extensions.
     """
 
     m_bip32: Bip32Base
@@ -70,7 +72,8 @@ class Bip44Base(ABC):
     def _FromSeed(cls,
                   seed_bytes: bytes,
                   coin_conf: BipCoinConf) -> Bip44Base:
-        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
+        """
+        Create a Bip object from the specified seed (e.g. BIP39 seed).
         The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
         or purpose keys, you have to specify here if it's a test net.
 
@@ -94,7 +97,8 @@ class Bip44Base(ABC):
     def _FromExtendedKey(cls,
                          key_str: str,
                          coin_conf: BipCoinConf) -> Bip44Base:
-        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
+        """
+        Create a Bip object from the specified extended key.
 
         Args:
             key_str (str)          : Extended key string
@@ -115,7 +119,8 @@ class Bip44Base(ABC):
     def _FromPrivateKey(cls,
                         priv_key: Union[bytes, IPrivateKey],
                         coin_conf: BipCoinConf) -> Bip44Base:
-        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
+        """
+        Create a Bip object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
@@ -141,7 +146,8 @@ class Bip44Base(ABC):
     def __init__(self,
                  bip32_obj: Bip32Base,
                  coin_conf: BipCoinConf) -> None:
-        """ Construct class from a Bip32 object and coin type.
+        """
+        Construct class from a Bip32 object and coin type.
 
         Args:
             bip32_obj (Bip32 object): Bip32 object
@@ -174,7 +180,8 @@ class Bip44Base(ABC):
 
     @lru_cache()
     def PublicKey(self) -> Bip44PublicKey:
-        """ Return the public key.
+        """
+        Return the public key.
 
         Returns:
             Bip44PublicKey object: Bip44PublicKey object
@@ -187,7 +194,8 @@ class Bip44Base(ABC):
 
     @lru_cache()
     def PrivateKey(self) -> Bip44PrivateKey:
-        """ Return the private key.
+        """
+        Return the private key.
 
         Returns:
             Bip44PrivateKey object: Bip44PrivateKey object
@@ -199,7 +207,8 @@ class Bip44Base(ABC):
                                self.m_coin_conf)
 
     def CoinConf(self) -> BipCoinConf:
-        """ Get coin configuration.
+        """
+        Get coin configuration.
 
         Returns:
             BipCoinConf object: BipCoinConf object
@@ -207,7 +216,8 @@ class Bip44Base(ABC):
         return self.m_coin_conf
 
     def IsPublicOnly(self) -> bool:
-        """ Get if it's public-only.
+        """
+        Get if it's public-only.
 
         Returns:
             bool: True if public-only, false otherwise
@@ -216,7 +226,8 @@ class Bip44Base(ABC):
 
     def IsLevel(self,
                 level: Bip44Levels) -> bool:
-        """ Return if the current depth is the specified one.
+        """
+        Return if the current depth is the specified one.
 
         Args:
             level (Bip44Levels): Level to be checked
@@ -240,11 +251,12 @@ class Bip44Base(ABC):
     def _DeriveDefaultPathGeneric(cls,
                                   bip_obj: Bip44Base,
                                   purpose: int) -> Bip44Base:
-        """ Derive the default coin path and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive the default coin path and return a new Bip object.
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object
             purpose (int)             : Purpose
 
         Returns:
@@ -271,11 +283,12 @@ class Bip44Base(ABC):
     def _PurposeGeneric(cls,
                         bip_obj: Bip44Base,
                         purpose: int) -> Bip44Base:
-        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the purpose and return a new Bip object.
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object
             purpose (int)             : Purpose
 
         Returns:
@@ -296,12 +309,12 @@ class Bip44Base(ABC):
     @classmethod
     def _CoinGeneric(cls,
                      bip_obj: Bip44Base) -> Bip44Base:
-        """ Derive a child key from the coin type specified at construction and return
-        a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the coin type specified at construction and return a new Bip object.
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -324,11 +337,12 @@ class Bip44Base(ABC):
     def _AccountGeneric(cls,
                         bip_obj: Bip44Base,
                         acc_idx: int) -> Bip44Base:
-        """ Derive a child key from the specified account index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the specified account index and return a new Bip object.
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object
             acc_idx (int)             : Account index
 
         Returns:
@@ -350,11 +364,12 @@ class Bip44Base(ABC):
     def _ChangeGeneric(cls,
                        bip_obj: Bip44Base,
                        change_type: Bip44Changes) -> Bip44Base:
-        """ Derive a child key from the specified chain type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the specified chain type and return a new Bip object.
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object
             change_type (Bip44Changes): Change type, must a Bip44Changes enum
 
         Returns:
@@ -386,11 +401,12 @@ class Bip44Base(ABC):
     def _AddressIndexGeneric(cls,
                              bip_obj: Bip44Base,
                              addr_idx: int) -> Bip44Base:
-        """ Derive a child key from the specified address index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the specified address index and return a new Bip object.
         It shall be called from a child class.
 
         Args:
-            bip_obj (Bip44Base object): Bip44Base object (e.g. BIP44, BIP49, BIP84)
+            bip_obj (Bip44Base object): Bip44Base object
             addr_idx (int)            : Address index
 
         Returns:
@@ -421,7 +437,8 @@ class Bip44Base(ABC):
     def FromSeed(cls,
                  seed_bytes: bytes,
                  coin_type: BipCoins) -> Bip44Base:
-        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified seed (e.g. BIP39 seed).
+        """
+        Create a Bip object from the specified seed (e.g. BIP39 seed).
         The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
         or purpose keys, you have to specify here if it's a test net.
 
@@ -437,14 +454,14 @@ class Bip44Base(ABC):
             ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        pass
 
     @classmethod
     @abstractmethod
     def FromExtendedKey(cls,
                         key_str: str,
                         coin_type: BipCoins) -> Bip44Base:
-        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified extended key.
+        """
+        Create a Bip object from the specified extended key.
 
         Args:
             key_str (str)       : Extended key string
@@ -457,14 +474,14 @@ class Bip44Base(ABC):
             TypeError: If coin type is not of the correct type
             Bip32KeyError: If the extended key is not valid
         """
-        pass
 
     @classmethod
     @abstractmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
                        coin_type: BipCoins) -> Bip44Base:
-        """ Create a Bip object (e.g. BIP44, BIP49, BIP84) from the specified private key.
+        """
+        Create a Bip object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
@@ -479,11 +496,11 @@ class Bip44Base(ABC):
             TypeError: If coin type is not of the correct type
             Bip32KeyError: If the key is not valid
         """
-        pass
 
     @abstractmethod
     def DeriveDefaultPath(self) -> Bip44Base:
-        """ Derive the default coin path and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive the default coin path and return a new Bip object.
         It calls the underlying _DeriveDefaultPathGeneric method with the current object as parameter.
 
         Returns:
@@ -493,11 +510,11 @@ class Bip44Base(ABC):
             Bip44DepthError: If the current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        pass
 
     @abstractmethod
     def Purpose(self) -> Bip44Base:
-        """ Derive a child key from the purpose and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the purpose and return a new Bip object.
         It calls the underlying _PurposeGeneric method with the current object as parameter.
 
         Returns:
@@ -507,12 +524,11 @@ class Bip44Base(ABC):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        pass
 
     @abstractmethod
     def Coin(self) -> Bip44Base:
-        """ Derive a child key from the coin type specified at construction and return
-        a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the coin type specified at construction and return a new Bip object.
         It calls the underlying _CoinGeneric method with the current object as parameter.
 
         Returns:
@@ -522,13 +538,12 @@ class Bip44Base(ABC):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        pass
 
     @abstractmethod
     def Account(self,
                 acc_idx: int) -> Bip44Base:
-        """ Derive a child key from the specified account index and return
-        a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the specified account index and return a new Bip object.
         It calls the underlying _AccountGeneric method with the current object as parameter.
 
         Args:
@@ -541,12 +556,12 @@ class Bip44Base(ABC):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        pass
 
     @abstractmethod
     def Change(self,
                change_type: Bip44Changes) -> Bip44Base:
-        """ Derive a child key from the specified change type and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the specified change type and return a new Bip object.
         It calls the underlying _ChangeGeneric method with the current object as parameter.
 
         Args:
@@ -560,12 +575,12 @@ class Bip44Base(ABC):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        pass
 
     @abstractmethod
     def AddressIndex(self,
                      addr_idx: int) -> Bip44Base:
-        """ Derive a child key from the specified address index and return a new Bip object (e.g. BIP44, BIP49, BIP84).
+        """
+        Derive a child key from the specified address index and return a new Bip object.
         It calls the underlying _AddressIndexGeneric method with the current object as parameter.
 
         Args:
@@ -578,14 +593,13 @@ class Bip44Base(ABC):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        pass
 
     @staticmethod
     @abstractmethod
     def SpecName() -> str:
-        """ Get specification name.
+        """
+        Get specification name.
 
         Returns:
             str: Specification name
         """
-        pass

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Nano address computation."""
 
 # Imports
 from typing import Any, Union
@@ -30,7 +31,7 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class NanoAddrConst:
-    """ Class container for Nano address constants. """
+    """Class container for Nano address constants."""
 
     # Alphabet for base32
     BASE32_ALPHABET: str = "13456789abcdefghijkmnopqrstuwxyz"
@@ -43,12 +44,16 @@ class NanoAddrConst:
 
 
 class NanoAddr(IAddrEncoder):
-    """ Nano address class. It allows the Nano address generation. """
+    """
+    Nano address class.
+    It allows the Nano address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Nano format.
+        """
+        Get address in Nano format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

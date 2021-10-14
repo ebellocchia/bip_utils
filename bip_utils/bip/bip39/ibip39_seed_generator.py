@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with interface for BIP39 seed generation classes."""
 
 # Imports
 from abc import ABC, abstractmethod
@@ -27,13 +28,14 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class IBip39SeedGenerator(ABC):
-    """ BIP39 seed generator interface. """
+    """BIP39 seed generator interface."""
 
     @abstractmethod
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages]) -> None:
-        """ Construct the class.
+        """
+        Construct the class.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -42,12 +44,12 @@ class IBip39SeedGenerator(ABC):
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        pass
 
     @abstractmethod
     def Generate(self,
                  passphrase: str) -> bytes:
-        """ Generate the seed using the specified passphrase.
+        """
+        Generate the seed using the specified passphrase.
 
         Args:
             passphrase (str, optional): Passphrase, empty if not specified
@@ -55,4 +57,3 @@ class IBip39SeedGenerator(ABC):
         Returns:
             bytes: Generated seed
         """
-        pass

@@ -18,11 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Substrate keys computation and derivation."""
 
 # Imports
 from __future__ import annotations
-import sr25519
 from typing import Optional, Union
+import sr25519
 from bip_utils.ecc import IPrivateKey, IPublicKey
 from bip_utils.substrate.conf import SubstrateCoins, SubstrateCoinConf, SubstrateConfGetter
 from bip_utils.substrate.substrate_ex import SubstrateKeyError
@@ -31,14 +32,17 @@ from bip_utils.substrate.substrate_path import SubstratePathElem, SubstratePath,
 
 
 class SubstrateConst:
-    """ Class container for Substrate constants. """
+    """Class container for Substrate constants."""
 
     # Seed length in bytes
     SEED_BYTE_LEN: int = 32
 
 
 class Substrate:
-    """ Substrate class. It allows to compute Substrate keys and addresses. """
+    """
+    Substrate class.
+    It allows to compute Substrate keys and addresses.
+    """
 
     m_priv_key: Optional[SubstratePrivateKey]
     m_pub_key: SubstratePublicKey
@@ -53,7 +57,8 @@ class Substrate:
     def FromSeed(cls,
                  seed_bytes: bytes,
                  coin_type: SubstrateCoins) -> Substrate:
-        """ Create a Substrate object from the specified seed.
+        """
+        Create a Substrate object from the specified seed.
 
         Args:
             seed_bytes (bytes)        : Seed bytes
@@ -82,7 +87,8 @@ class Substrate:
                         seed_bytes: bytes,
                         path: Union[str, SubstratePath],
                         coin_type: SubstrateCoins) -> Substrate:
-        """ Create a Substrate object from the specified seed and path.
+        """
+        Create a Substrate object from the specified seed and path.
 
         Args:
             seed_bytes (bytes)                : Seed bytes
@@ -104,7 +110,8 @@ class Substrate:
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
                        coin_type: SubstrateCoins) -> Substrate:
-        """ Create a Substrate object from the specified private key.
+        """
+        Create a Substrate object from the specified private key.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key
@@ -126,7 +133,8 @@ class Substrate:
     def FromPublicKey(cls,
                       pub_key: Union[bytes, IPublicKey],
                       coin_type: SubstrateCoins) -> Substrate:
-        """ Create a Substrate object from the specified public key.
+        """
+        Create a Substrate object from the specified public key.
 
         Args:
             pub_key (bytes or IPublicKey): Public key
@@ -156,7 +164,8 @@ class Substrate:
                  pub_key: Optional[Union[bytes, IPublicKey]],
                  path: SubstratePath,
                  coin_conf: SubstrateCoinConf) -> None:
-        """ Construct class from keys.
+        """
+        Construct class from keys.
 
         Args:
             priv_key (bytes or IPrivateKey)     : Private key, if None a public-only object will be created
@@ -189,7 +198,8 @@ class Substrate:
 
     def ChildKey(self,
                  path_elem: Union[str, SubstratePathElem]) -> Substrate:
-        """ Create and return a child key of the current one with the specified path element.
+        """
+        Create and return a child key of the current one with the specified path element.
 
         Args:
             path_elem (str or SubstratePathElem object): Path element
@@ -207,7 +217,8 @@ class Substrate:
 
     def DerivePath(self,
                    path: Union[str, SubstratePath]) -> Substrate:
-        """ Derive children keys from the specified path.
+        """
+        Derive children keys from the specified path.
 
         Args:
             path (str or SubstratePath object): Path
@@ -229,11 +240,12 @@ class Substrate:
         return substrate_obj
 
     def ConvertToPublic(self) -> None:
-        """ Convert a private Substrate object into a public one. """
+        """Convert a private Substrate object into a public one."""
         self.m_priv_key = None
 
     def IsPublicOnly(self) -> bool:
-        """ Get if it's public-only.
+        """
+        Get if it's public-only.
 
         Returns:
             bool: True if public-only, false otherwise
@@ -241,7 +253,8 @@ class Substrate:
         return self.m_priv_key is None
 
     def CoinConf(self) -> SubstrateCoinConf:
-        """ Return coin configuration.
+        """
+        Return coin configuration.
 
         Returns:
             SubstrateCoinConf object: SubstrateCoinConf object
@@ -249,7 +262,8 @@ class Substrate:
         return self.m_coin_conf
 
     def Path(self) -> SubstratePath:
-        """ Return path.
+        """
+        Return path.
 
         Returns:
             SubstratePath object: SubstratePath object
@@ -257,7 +271,8 @@ class Substrate:
         return self.m_path
 
     def PrivateKey(self) -> SubstratePrivateKey:
-        """ Return private key object.
+        """
+        Return private key object.
 
         Returns:
             SubstratePrivateKey object: SubstratePrivateKey object
@@ -272,7 +287,8 @@ class Substrate:
         return self.m_priv_key
 
     def PublicKey(self) -> SubstratePublicKey:
-        """ Return public key object.
+        """
+        Return public key object.
 
         Returns:
             SubstratePublicKey object: SubstratePublicKey object
@@ -285,7 +301,8 @@ class Substrate:
 
     def __CkdPriv(self,
                   path_elem: SubstratePathElem) -> Substrate:
-        """ Create a child key of the specified path element using private derivation.
+        """
+        Create a child key of the specified path element using private derivation.
 
         Args:
             path_elem (SubstratePathElem object): Path element
@@ -309,7 +326,8 @@ class Substrate:
 
     def __CkdPub(self,
                  path_elem: SubstratePathElem) -> Substrate:
-        """ Create a child key of the specified index using public derivation.
+        """
+        Create a child key of the specified index using public derivation.
 
         Args:
             path_elem (SubstratePathElem object): Path element

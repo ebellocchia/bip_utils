@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for P2PKH address computation."""
 
 # Imports
 from typing import Any, Union
@@ -30,12 +31,16 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class P2PKHAddr(IAddrEncoder):
-    """ P2PKH class. It allows the Pay-to-Public-Key-Hash address generation. """
+    """
+    P2PKH class.
+    It allows the Pay-to-Public-Key-Hash address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in P2PKH format.
+        """
+        Get address in P2PKH format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -61,12 +66,16 @@ class P2PKHAddr(IAddrEncoder):
 
 
 class BchP2PKHAddr(IAddrEncoder):
-    """ Bitcoin Cash P2PKH class. It allows the Bitcoin Cash P2PKH generation. """
+    """
+    Bitcoin Cash P2PKH class.
+    It allows the Bitcoin Cash P2PKH generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Bitcoin Cash P2PKH format.
+        """
+        Get address in Bitcoin Cash P2PKH format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

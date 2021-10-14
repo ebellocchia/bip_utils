@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero mnemonic decoding/encoding."""
 
 # Imports
 from __future__ import annotations
@@ -34,7 +35,7 @@ from bip_utils.utils.mnemonic import (
 
 @unique
 class MoneroWordsNum(IntEnum):
-    """ Enumerative for Monero words number. """
+    """Enumerative for Monero words number."""
 
     WORDS_NUM_12 = 12   # No checksum
     WORDS_NUM_13 = 13   # With checksum
@@ -44,7 +45,7 @@ class MoneroWordsNum(IntEnum):
 
 @unique
 class MoneroLanguages(MnemonicLanguages):
-    """ Enumerative for Monero languages. """
+    """Enumerative for Monero languages."""
 
     CHINESE_SIMPLIFIED = auto()
     DUTCH = auto()
@@ -59,7 +60,7 @@ class MoneroLanguages(MnemonicLanguages):
 
 
 class MoneroMnemonicConst:
-    """ Class container for Monero constants. """
+    """Class container for Monero constants."""
 
     # Accepted mnemonic word numbers
     MNEMONIC_WORD_NUM: List[MoneroWordsNum] = [
@@ -122,18 +123,19 @@ class MoneroMnemonicConst:
 
 
 class MoneroMnemonic(Mnemonic):
-    """ Monero mnemonic class (alias for Mnemonic). """
-    pass
+    """Monero mnemonic class (alias for Mnemonic)."""
 
 
 class _MoneroWordsListGetter(MnemonicWordsListGetterBase):
-    """ Monero words list getter class. It allows to get words list by language so that
-    they are loaded from file only once per language (i.e. on the first request).
+    """
+    Monero words list getter class.
+    It allows to get words list by language so that they are loaded from file only once per language.
     """
 
     def GetByLanguage(self,
                       lang: MnemonicLanguages) -> MnemonicWordsList:
-        """ Get words list by language.
+        """
+        Get words list by language.
         Words list of a specific language are loaded from file only the first time they are requested.
 
         Args:
@@ -163,14 +165,15 @@ class _MoneroWordsListGetter(MnemonicWordsListGetterBase):
 
 
 class _MoneroWordsListFinder:
-    """ Monero words list finder class.
+    """
+    Monero words list finder class.
     It automatically finds the correct words list from a mnemonic.
     """
 
     @staticmethod
     def FindLanguage(mnemonic: Mnemonic) -> Tuple[MnemonicWordsList, MoneroLanguages]:
-        """ Automatically find the language of the specified mnemonic and
-        get the correct MnemonicWordsList class for it.
+        """
+        Automatically find the language of the specified mnemonic and get the correct MnemonicWordsList class for it.
 
         Args:
             mnemonic (Mnemonic object): Mnemonic object
@@ -199,12 +202,13 @@ class _MoneroWordsListFinder:
 
 
 class _MoneroMnemonicUtils:
-    """ Utility functions for Monero mnemonic. """
+    """Utility functions for Monero mnemonic."""
 
     @staticmethod
     def ComputeChecksum(mnemonic: List[str],
                         lang: MoneroLanguages) -> str:
-        """ Compute checksum.
+        """
+        Compute checksum.
 
         Args:
             mnemonic (list)       : Mnemonic list of words
@@ -222,14 +226,15 @@ class _MoneroMnemonicUtils:
 
 
 class MoneroMnemonicEncoder:
-    """ Monero mnemonic encoder class. It encodes bytes to the mnemonic phrase. """
+    """Monero mnemonic encoder class. It encodes bytes to the mnemonic phrase."""
 
     m_lang: MoneroLanguages
     m_words_list: MnemonicWordsList
 
     def __init__(self,
                  lang: MoneroLanguages) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             lang (MoneroLanguages): Language
@@ -243,7 +248,8 @@ class MoneroMnemonicEncoder:
 
     def EncodeNoChecksum(self,
                          entropy_bytes: bytes) -> Mnemonic:
-        """ Encode bytes to mnemonic phrase (no checksum).
+        """
+        Encode bytes to mnemonic phrase (no checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
@@ -260,7 +266,8 @@ class MoneroMnemonicEncoder:
 
     def EncodeWithChecksum(self,
                            entropy_bytes: bytes) -> Mnemonic:
-        """ Encode bytes to mnemonic phrase (with checksum).
+        """
+        Encode bytes to mnemonic phrase (with checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
@@ -280,7 +287,8 @@ class MoneroMnemonicEncoder:
 
     def __EncodeToList(self,
                        entropy_bytes: bytes) -> List[str]:
-        """ Encode bytes to list of mnemonic words.
+        """
+        Encode bytes to list of mnemonic words.
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
@@ -302,7 +310,7 @@ class MoneroMnemonicEncoder:
 
         # Consider 4 bytes at a time, 4 bytes represent 3 words
         for i in range(len(entropy_bytes) // 4):
-            x = ConvUtils.BytesToInteger(entropy_bytes[(i*4):(i*4) + 4],
+            x = ConvUtils.BytesToInteger(entropy_bytes[(i * 4):(i * 4) + 4],
                                          endianness="little")
             # Compute words indexes
             w1_idx = x % n
@@ -318,7 +326,7 @@ class MoneroMnemonicEncoder:
 
 
 class MoneroMnemonicDecoder:
-    """ Monero mnemonic decoder class. It decodes a mnemonic phrase to bytes. """
+    """Monero mnemonic decoder class. It decodes a mnemonic phrase to bytes."""
 
     m_lang: Optional[MoneroLanguages]
     m_words_list: Optional[MnemonicWordsList]
@@ -329,7 +337,8 @@ class MoneroMnemonicDecoder:
 
     def __init__(self,
                  lang: Optional[MoneroLanguages] = None) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             lang (MoneroLanguages, optional): Language, None for automatic detection
@@ -345,7 +354,8 @@ class MoneroMnemonicDecoder:
 
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
-        """ Decode a mnemonic phrase to bytes (no checksum).
+        """
+        Decode a mnemonic phrase to bytes (no checksum).
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -384,7 +394,7 @@ class MoneroMnemonicDecoder:
         n = MoneroMnemonicConst.WORDS_LIST_NUM
 
         for i in range(len(words) // 3):
-            word1, word2, word3 = words[(i*3):(i*3) + 3]
+            word1, word2, word3 = words[(i * 3):(i * 3) + 3]
 
             # Get back words indexes
             w1 = words_list.GetWordIdx(word1)

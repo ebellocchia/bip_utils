@@ -18,19 +18,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for generic entropy generator."""
 
 # Imports
 import os
 
 
 class EntropyGenerator:
-    """ Entropy generator class. It generates random entropy bytes with the specified length. """
+    """
+    Entropy generator class.
+    It generates random entropy bytes with the specified length.
+    """
 
     m_byte_len: int
 
     def __init__(self,
                  byte_len: int) -> None:
-        """ Construct class by specifying the bits length.
+        """
+        Construct class by specifying the bits length.
 
         Args:
             byte_len (int): Entropy length in bits
@@ -38,7 +43,8 @@ class EntropyGenerator:
         self.m_byte_len = byte_len
 
     def Generate(self) -> bytes:
-        """ Generate random entropy bytes.
+        """
+        Generate random entropy bytes.
 
         Returns:
             bytes: Generated entropy bytes

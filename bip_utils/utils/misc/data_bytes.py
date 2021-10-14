@@ -18,19 +18,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for data bytes."""
 
 # Imports
 from bip_utils.utils.misc.conversion import ConvUtils
 
 
 class DataBytes:
-    """ Bytes class. It allows to get bytes in different formats. """
+    """
+    Bytes class.
+    It allows to get bytes in different formats.
+    """
 
     m_data_bytes: bytes
 
     def __init__(self,
                  data_bytes: bytes) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             data_bytes (bytes): Key bytes
@@ -38,7 +43,8 @@ class DataBytes:
         self.m_data_bytes = data_bytes
 
     def ToBytes(self) -> bytes:
-        """ Get key bytes.
+        """
+        Get key bytes.
 
         Returns:
             bytes: Key bytes
@@ -46,7 +52,8 @@ class DataBytes:
         return self.m_data_bytes
 
     def ToHex(self) -> str:
-        """ Get key bytes in hex format.
+        """
+        Get key bytes in hex format.
 
         Returns:
             str: Key bytes in hex format
@@ -55,7 +62,8 @@ class DataBytes:
 
     def ToInt(self,
               endianness: str = "big") -> int:
-        """ Get key bytes as an integer.
+        """
+        Get key bytes as an integer.
 
         Args:
             endianness (str, optional): Endianness
@@ -66,7 +74,8 @@ class DataBytes:
         return ConvUtils.BytesToInteger(self.m_data_bytes, endianness)
 
     def __bytes__(self) -> bytes:
-        """ Get key bytes.
+        """
+        Get key bytes.
 
         Returns:
             bytes: Key bytes
@@ -74,7 +83,8 @@ class DataBytes:
         return self.ToBytes()
 
     def __str__(self) -> str:
-        """ Get key bytes as string.
+        """
+        Get key bytes as string.
 
         Returns:
             str: Key bytes as string

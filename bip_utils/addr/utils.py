@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with utility functions for validating address public keys."""
 
 # Imports
 from typing import Type, Union
@@ -29,11 +30,12 @@ from bip_utils.ecc import (
 
 
 class AddrUtils:
-    """ Class container for address utility functions. """
+    """Class container for address utility functions."""
 
     @staticmethod
     def ValidateAndGetEd25519Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
-        """ Validate and get a ed25519 public key.
+        """
+        Validate and get a ed25519 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
@@ -49,7 +51,8 @@ class AddrUtils:
 
     @staticmethod
     def ValidateAndGetEd25519Blake2bKey(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
-        """ Validate and get a ed25519-blake2b public key.
+        """
+        Validate and get a ed25519-blake2b public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
@@ -65,7 +68,8 @@ class AddrUtils:
 
     @staticmethod
     def ValidateAndGetEd25519MoneroKey(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
-        """ Validate and get a ed25519-monero public key.
+        """
+        Validate and get a ed25519-monero public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
@@ -81,7 +85,8 @@ class AddrUtils:
 
     @staticmethod
     def ValidateAndGetNist256p1Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
-        """ Validate and get a nist256p1 public key.
+        """
+        Validate and get a nist256p1 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
@@ -97,7 +102,8 @@ class AddrUtils:
 
     @staticmethod
     def ValidateAndGetSecp256k1Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
-        """ Validate and get a secp256k1 public key.
+        """
+        Validate and get a secp256k1 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
@@ -113,7 +119,8 @@ class AddrUtils:
 
     @staticmethod
     def ValidateAndGetSr25519Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
-        """ Validate and get a sr25519 public key.
+        """
+        Validate and get a sr25519 public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
@@ -130,7 +137,8 @@ class AddrUtils:
     @staticmethod
     def __ValidateAndGetGenericKey(pub_key: Union[bytes, IPublicKey],
                                    pub_key_cls: Type[IPublicKey]) -> IPublicKey:
-        """ Validate and get a generic public key.
+        """
+        Validate and get a generic public key.
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object

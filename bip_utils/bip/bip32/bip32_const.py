@@ -18,13 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with BIP32 constants."""
 
 # Imports
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyNetVersions
 
 
 class Bip32Const:
-    """ Class container for BIP32 constants. """
+    """Class container for BIP32 constants."""
 
     # Main net key net version (xpub / xprv)
     MAIN_NET_KEY_NET_VERSIONS: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x88\xb2\x1e", b"\x04\x88\xad\xe4")

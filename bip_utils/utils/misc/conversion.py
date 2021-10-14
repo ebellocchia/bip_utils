@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with some conversion utility functions."""
 
 # Imports
 import binascii
@@ -27,11 +28,12 @@ from bip_utils.utils.misc.algo import AlgoUtils
 
 
 class ConvUtils:
-    """ Class container for conversion utility functions. """
+    """Class container for conversion utility functions."""
 
     @staticmethod
     def ReverseBytes(data_bytes: bytes) -> bytes:
-        """ Reverse the specified bytes.
+        """
+        Reverse the specified bytes.
 
         Args:
             data_bytes (bytes): Data bytes
@@ -46,7 +48,8 @@ class ConvUtils:
     @staticmethod
     def BytesToInteger(data_bytes: bytes,
                        endianness: str = "big") -> int:
-        """ Convert the specified bytes to integer.
+        """
+        Convert the specified bytes to integer.
 
         Args:
             data_bytes (bytes)        : Data bytes
@@ -61,7 +64,8 @@ class ConvUtils:
     def IntegerToBytes(data_int: int,
                        bytes_num: Optional[int] = None,
                        endianness: str = "big") -> bytes:
-        """ Convert integer to bytes.
+        """
+        Convert integer to bytes.
 
         Args:
             data_int (int)            : Data integer
@@ -82,7 +86,8 @@ class ConvUtils:
     @staticmethod
     def BytesToBinaryStr(data_bytes: bytes,
                          zero_pad_bit_len: int = 0) -> str:
-        """ Convert the specified bytes to a binary string.
+        """
+        Convert the specified bytes to a binary string.
 
         Args:
             data_bytes (bytes)              : Data bytes
@@ -95,7 +100,8 @@ class ConvUtils:
 
     @staticmethod
     def BinaryStrToInteger(data: Union[bytes, str]) -> int:
-        """ Convert the specified binary string to integer.
+        """
+        Convert the specified binary string to integer.
 
         Args:
             data (str or bytes): Data
@@ -108,7 +114,8 @@ class ConvUtils:
     @staticmethod
     def BinaryStrToBytes(data: Union[bytes, str],
                          zero_pad_byte_len: int = 0) -> bytes:
-        """ Convert the specified binary string to bytes.
+        """
+        Convert the specified binary string to bytes.
 
         Args:
             data (str or bytes)              : Data
@@ -122,7 +129,8 @@ class ConvUtils:
     @staticmethod
     def BytesToHexString(data_bytes: bytes,
                          encoding: str = "utf-8") -> str:
-        """ Convert bytes to hex string.
+        """
+        Convert bytes to hex string.
 
         Args:
             data_bytes (bytes)      : Data bytes
@@ -136,7 +144,8 @@ class ConvUtils:
     @staticmethod
     def IntegerToBinaryStr(data_int: int,
                            zero_pad_bit_len: int = 0) -> str:
-        """ Convert the specified integer to a binary string.
+        """
+        Convert the specified integer to a binary string.
 
         Args:
             data_int (int)                  : Data integer
@@ -149,7 +158,8 @@ class ConvUtils:
 
     @staticmethod
     def HexStringToBytes(data: Union[bytes, str]) -> bytes:
-        """ Convert hex string to bytes.
+        """
+        Convert hex string to bytes.
 
         Args:
             data (str or bytes): Data bytes
@@ -161,7 +171,8 @@ class ConvUtils:
 
     @staticmethod
     def NormalizeNfkd(data_str: str) -> str:
-        """ Normalize string using NFKD.
+        """
+        Normalize string using NFKD.
 
         Args:
             data_str (str): Input string
@@ -173,7 +184,8 @@ class ConvUtils:
 
     @staticmethod
     def ListToBytes(data_list: List) -> bytes:
-        """ Convert the specified list to bytes
+        """
+        Convert the specified list to bytes.
 
         Args:
             data_list (list): Data list
@@ -188,7 +200,8 @@ class ConvUtils:
                       from_bits: int,
                       to_bits: int,
                       pad: bool = True) -> Optional[List[int]]:
-        """ Perform generic bits conversion.
+        """
+        Perform generic bits conversion.
 
         Args:
             data (list or bytes): Data to be converted

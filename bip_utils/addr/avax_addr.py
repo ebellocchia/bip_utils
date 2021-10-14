@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Avax address computation."""
 
 # Imports
 from typing import Any, Union
@@ -28,12 +29,16 @@ from bip_utils.ecc import IPublicKey
 
 
 class AvaxPChainAddr(IAddrEncoder):
-    """ Avax P-Chain address class. It allows the Avax P-Chain address generation. """
+    """
+    Avax P-Chain address class.
+    It allows the Avax P-Chain address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Atom format.
+        """
+        Get address in Atom format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -51,12 +56,16 @@ class AvaxPChainAddr(IAddrEncoder):
 
 
 class AvaxXChainAddr(IAddrEncoder):
-    """ Avax X-Chain address class. It allows the Avax X-Chain address generation. """
+    """
+    Avax X-Chain address class.
+    It allows the Avax X-Chain address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Atom format.
+        """
+        Get address in Atom format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

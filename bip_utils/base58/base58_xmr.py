@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for base58-monero decoding/encoding."""
 
 # Imports
 from typing import List
@@ -25,7 +26,7 @@ from bip_utils.base58.base58 import Base58Alphabets, Base58Const, Base58Decoder,
 
 
 class Base58XmrConst:
-    """ Class container for Base58 Monero constants. """
+    """Class container for Base58 Monero constants."""
 
     # Alphabet
     ALPHABET: str = Base58Const.ALPHABETS[Base58Alphabets.BITCOIN]
@@ -40,13 +41,15 @@ class Base58XmrConst:
 
 
 class Base58XmrEncoder:
-    """ Base58 Monero encoder class.
+    """
+    Base58 Monero encoder class.
     It provides methods for encoding to Base58 format with Monero variation (encoding by blocks of 8-byte).
     """
 
     @staticmethod
     def Encode(data_bytes: bytes) -> str:
-        """ Encode bytes into a Base58 string with Monero variation.
+        """
+        Encode bytes into a Base58 string with Monero variation.
 
         Args:
             data_bytes (bytes): Data bytes
@@ -79,7 +82,8 @@ class Base58XmrEncoder:
     @staticmethod
     def __Pad(enc_str: str,
               pad_len: int) -> str:
-        """ Pad the encoded string to the specified length.
+        """
+        Pad the encoded string to the specified length.
 
         Args:
             enc_str (str): Encoded string
@@ -92,13 +96,15 @@ class Base58XmrEncoder:
 
 
 class Base58XmrDecoder:
-    """ Base58 Monero decoder class.
+    """
+    Base58 Monero decoder class.
     It provides methods for decoding Base58 format with Monero variation (encoding by blocks of 8-byte).
     """
 
     @staticmethod
     def Decode(data_str: str) -> bytes:
-        """ Decode bytes from a Base58 string with Monero variation.
+        """
+        Decode bytes from a Base58 string with Monero variation.
 
         Args:
             data_str (str): Data string
@@ -135,7 +141,8 @@ class Base58XmrDecoder:
     @staticmethod
     def __UnPad(dec_bytes: bytes,
                 unpad_len: int) -> bytes:
-        """ Unpad the decoded string to the specified length.
+        """
+        Unpad the decoded string to the specified length.
 
         Args:
             dec_bytes (bytes): Decoded bytes

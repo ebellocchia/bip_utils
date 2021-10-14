@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Substrate keys handling."""
 
 # Imports
 from __future__ import annotations
@@ -31,7 +32,7 @@ from bip_utils.utils.misc import DataBytes
 
 
 class SubstratePublicKey:
-    """ Substrate public key class. """
+    """Substrate public key class."""
 
     m_pub_key: IPublicKey
     m_coin_conf: SubstrateCoinConf
@@ -40,7 +41,8 @@ class SubstratePublicKey:
     def FromBytesOrKeyObject(cls,
                              pub_key: Union[bytes, IPublicKey],
                              coin_conf: SubstrateCoinConf) -> SubstratePublicKey:
-        """ Get the public key from key bytes or object.
+        """
+        Get the public key from key bytes or object.
 
         Args:
             pub_key (bytes or IPublicKey)       : Public key
@@ -60,7 +62,8 @@ class SubstratePublicKey:
     def FromBytes(cls,
                   key_bytes: bytes,
                   coin_conf: SubstrateCoinConf) -> SubstratePublicKey:
-        """ Create from bytes.
+        """
+        Create from bytes.
 
         Args:
             key_bytes (bytes)                   : Key bytes
@@ -75,7 +78,8 @@ class SubstratePublicKey:
     def __init__(self,
                  pub_key: IPublicKey,
                  coin_conf: SubstrateCoinConf) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             pub_key (IPublicKey object)         : Key object
@@ -91,7 +95,8 @@ class SubstratePublicKey:
         self.m_coin_conf = coin_conf
 
     def KeyObject(self) -> IPublicKey:
-        """ Return the key object.
+        """
+        Return the key object.
 
         Returns:
             IPublicKey object: Key object
@@ -100,7 +105,8 @@ class SubstratePublicKey:
 
     @lru_cache()
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -109,7 +115,8 @@ class SubstratePublicKey:
 
     @lru_cache()
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -118,7 +125,8 @@ class SubstratePublicKey:
 
     @lru_cache()
     def ToAddress(self) -> str:
-        """ Return the address correspondent to the public key.
+        """
+        Return the address correspondent to the public key.
 
         Returns:
             str: Address string
@@ -128,7 +136,8 @@ class SubstratePublicKey:
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes) -> IPublicKey:
-        """ Construct key from bytes.
+        """
+        Construct key from bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -146,7 +155,7 @@ class SubstratePublicKey:
 
 
 class SubstratePrivateKey:
-    """ Substrate private key class. """
+    """Substrate private key class."""
 
     m_priv_key: IPrivateKey
     m_coin_conf: SubstrateCoinConf
@@ -155,7 +164,8 @@ class SubstratePrivateKey:
     def FromBytesOrKeyObject(cls,
                              priv_key: Union[bytes, IPrivateKey],
                              coin_conf: SubstrateCoinConf) -> SubstratePrivateKey:
-        """ Get the private key from key bytes or object.
+        """
+        Get the private key from key bytes or object.
 
         Args:
             priv_key (bytes or IPrivateKey)     : Private key
@@ -175,7 +185,8 @@ class SubstratePrivateKey:
     def FromBytes(cls,
                   key_bytes: bytes,
                   coin_conf: SubstrateCoinConf) -> SubstratePrivateKey:
-        """ Create from bytes.
+        """
+        Create from bytes.
 
         Args:
             key_bytes (bytes)                   : Key bytes
@@ -190,7 +201,8 @@ class SubstratePrivateKey:
     def __init__(self,
                  priv_key: IPrivateKey,
                  coin_conf: SubstrateCoinConf) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             priv_key (IPrivateKey object) : Key object
@@ -206,7 +218,8 @@ class SubstratePrivateKey:
         self.m_coin_conf = coin_conf
 
     def KeyObject(self) -> IPrivateKey:
-        """ Return the key object.
+        """
+        Return the key object.
 
         Returns:
             IPrivateKey object: Key object
@@ -215,7 +228,8 @@ class SubstratePrivateKey:
 
     @lru_cache()
     def Raw(self) -> DataBytes:
-        """ Return raw private key.
+        """
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -224,7 +238,8 @@ class SubstratePrivateKey:
 
     @lru_cache()
     def PublicKey(self) -> SubstratePublicKey:
-        """ Get the public key correspondent to the private one.
+        """
+        Get the public key correspondent to the private one.
 
         Returns:
             SubstratePublicKey object: SubstratePublicKey object
@@ -234,7 +249,8 @@ class SubstratePrivateKey:
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes) -> IPrivateKey:
-        """ Construct key from bytes.
+        """
+        Construct key from bytes.
 
         Args:
             key_bytes (bytes): Key bytes

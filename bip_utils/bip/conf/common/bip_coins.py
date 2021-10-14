@@ -18,11 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for generic BIP coins enum."""
 
 # Imports
 from enum import Enum
 
 
 class BipCoins(Enum):
-    """ Base enum for bip coins. """
-    pass
+    """Base enum for bip coins."""

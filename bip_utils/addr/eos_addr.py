@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for EOS address computation."""
 
 # Imports
 from typing import Any, Union
@@ -30,19 +31,23 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class EosAddrConst:
-    """ Class container for EOS address constants. """
+    """Class container for EOS address constants."""
 
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
 
 
 class EosAddr(IAddrEncoder):
-    """ EOS address class. It allows the EOS address generation. """
+    """
+    EOS address class.
+    It allows the EOS address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in EOS format.
+        """
+        Get address in EOS format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

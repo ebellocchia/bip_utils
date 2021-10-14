@@ -18,11 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Secp256k1 curve based on ecdsa library
+"""Module for secp256k1 keys handling based on ecdsa library."""
 
 # Imports
-import ecdsa
 from typing import Any
+import ecdsa
 from ecdsa import curves, ellipticcurve, keys
 from ecdsa.ecdsa import curve_secp256k1
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
@@ -32,14 +32,15 @@ from bip_utils.utils.misc import DataBytes
 
 
 class Secp256k1PointEcdsa(IPoint):
-    """ Secp256k1 point class. """
+    """Secp256k1 point class."""
 
     m_point: ellipticcurve.PointJacobi
 
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
-        """ Construct class from point bytes.
+        """
+        Construct class from point bytes.
 
         Args:
             point_bytes (bytes): Point bytes
@@ -57,7 +58,8 @@ class Secp256k1PointEcdsa(IPoint):
     def FromCoordinates(cls,
                         x: int,
                         y: int) -> IPoint:
-        """ Construct class from point coordinates.
+        """
+        Construct class from point coordinates.
 
         Args:
             x (int): X coordinate of the point
@@ -72,7 +74,8 @@ class Secp256k1PointEcdsa(IPoint):
 
     def __init__(self,
                  point_obj: Any) -> None:
-        """ Construct class from point object.
+        """
+        Construct class from point object.
 
         Args:
             point_obj (class): Point object
@@ -85,7 +88,8 @@ class Secp256k1PointEcdsa(IPoint):
         self.m_point = point_obj
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -93,7 +97,8 @@ class Secp256k1PointEcdsa(IPoint):
         return self.m_point
 
     def X(self) -> int:
-        """ Get point X coordinate.
+        """
+        Get point X coordinate.
 
         Returns:
            int: Point X coordinate
@@ -101,7 +106,8 @@ class Secp256k1PointEcdsa(IPoint):
         return self.m_point.x()
 
     def Y(self) -> int:
-        """ Get point Y coordinate.
+        """
+        Get point Y coordinate.
 
         Returns:
            int: Point Y coordinate
@@ -109,7 +115,8 @@ class Secp256k1PointEcdsa(IPoint):
         return self.m_point.y()
 
     def Raw(self) -> DataBytes:
-        """ Return the point encoded to raw bytes.
+        """
+        Return the point encoded to raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
@@ -118,7 +125,8 @@ class Secp256k1PointEcdsa(IPoint):
 
     def __add__(self,
                 point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -130,7 +138,8 @@ class Secp256k1PointEcdsa(IPoint):
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -142,7 +151,8 @@ class Secp256k1PointEcdsa(IPoint):
 
     def __mul__(self,
                 scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -154,7 +164,8 @@ class Secp256k1PointEcdsa(IPoint):
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -166,14 +177,15 @@ class Secp256k1PointEcdsa(IPoint):
 
 
 class Secp256k1PublicKeyEcdsa(IPublicKey):
-    """ Secp256k1 public key class. """
+    """Secp256k1 public key class."""
 
     m_ver_key: ecdsa.VerifyingKey
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -193,7 +205,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
-        """ Construct class from key point.
+        """
+        Construct class from key point.
 
         Args:
             key_point (IPoint object): Key point
@@ -216,7 +229,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
 
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -230,7 +244,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -239,7 +254,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
 
     @staticmethod
     def CompressedLength() -> int:
-        """ Get the compressed key length.
+        """
+        Get the compressed key length.
 
         Returns:
            int: Compressed key length
@@ -248,7 +264,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
 
     @staticmethod
     def UncompressedLength() -> int:
-        """ Get the uncompressed key length.
+        """
+        Get the uncompressed key length.
 
         Returns:
            int: Uncompressed key length
@@ -256,7 +273,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         return EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -264,7 +282,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         return self.m_ver_key
 
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -272,7 +291,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         return DataBytes(self.m_ver_key.to_string("compressed"))
 
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -280,7 +300,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         return DataBytes(self.m_ver_key.to_string("uncompressed"))
 
     def Point(self) -> IPoint:
-        """ Get public key point.
+        """
+        Get public key point.
 
         Returns:
             IPoint object: IPoint object
@@ -289,14 +310,15 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
 
 
 class Secp256k1PrivateKeyEcdsa(IPrivateKey):
-    """ Secp256k1 private key class. """
+    """Secp256k1 private key class."""
 
     m_sign_key = ecdsa.SigningKey
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -315,7 +337,8 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
 
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -329,7 +352,8 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -338,7 +362,8 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
 
     @staticmethod
     def Length() -> int:
-        """ Get the key length.
+        """
+        Get the key length.
 
         Returns:
            int: Key length
@@ -346,7 +371,8 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
         return EcdsaKeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -354,7 +380,8 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
         return self.m_sign_key
 
     def Raw(self) -> DataBytes:
-        """ Return raw private key.
+        """
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -362,7 +389,8 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
         return DataBytes(self.m_sign_key.to_string())
 
     def PublicKey(self) -> IPublicKey:
-        """ Get the public key correspondent to the private one.
+        """
+        Get the public key correspondent to the private one.
 
         Returns:
             IPublicKey object: IPublicKey object

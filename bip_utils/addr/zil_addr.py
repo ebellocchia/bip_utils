@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Zilliqa address computation."""
 
 # Imports
 from typing import Any, Union
@@ -30,19 +31,23 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class ZilAddrConst:
-    """ Class container for Zilliqa address constants. """
+    """Class container for Zilliqa address constants."""
 
     # Digest length in bytes
     DIGEST_BYTE_LEN: int = 20
 
 
 class ZilAddr(IAddrEncoder):
-    """ Zilliqa address class. It allows the Zilliqa address generation. """
+    """
+    Zilliqa address class.
+    It allows the Zilliqa address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Zilliqa format.
+        """
+        Get address in Zilliqa format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

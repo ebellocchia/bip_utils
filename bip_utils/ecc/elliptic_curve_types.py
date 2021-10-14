@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for elliptic curves enum."""
 
 # Imports
 from enum import Enum, auto, unique
@@ -25,7 +26,7 @@ from enum import Enum, auto, unique
 
 @unique
 class EllipticCurveTypes(Enum):
-    """ Enumerative for elliptic curve types. """
+    """Enumerative for elliptic curve types."""
 
     ED25519 = auto()
     ED25519_BLAKE2B = auto()

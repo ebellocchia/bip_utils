@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with some algorithm utility functions."""
 
 # Imports
 from bisect import bisect_left
@@ -25,12 +26,13 @@ from typing import Any, List, Union
 
 
 class AlgoUtils:
-    """ Class container for algorithm utility functions. """
+    """Class container for algorithm utility functions."""
 
     @staticmethod
     def BinarySearch(arr: List,
                      elem: Any) -> int:
-        """ Binary search algorithm simply implemented by using the bisect library.
+        """
+        Binary search algorithm simply implemented by using the bisect library.
 
         Args:
             arr (list): list of elements
@@ -45,13 +47,14 @@ class AlgoUtils:
         i = bisect_left(arr, elem)
         if i != len(arr) and arr[i] == elem:
             return i
-        else:
-            return invalid_idx
+
+        return invalid_idx
 
     @staticmethod
     def Decode(data: Union[bytes, str],
                encoding: str = "utf-8") -> str:
-        """ Decode from bytes.
+        """
+        Decode from bytes.
 
         Args:
             data (str or bytes): Data
@@ -65,14 +68,15 @@ class AlgoUtils:
         """
         if isinstance(data, str):
             return data
-        elif isinstance(data, bytes):
+        if isinstance(data, bytes):
             return data.decode(encoding)
         raise TypeError("Invalid data type")
 
     @staticmethod
     def Encode(data: Union[bytes, str],
                encoding: str = "utf-8") -> bytes:
-        """ Encode to bytes.
+        """
+        Encode to bytes.
 
         Args:
             data (str or bytes): Data
@@ -86,13 +90,14 @@ class AlgoUtils:
         """
         if isinstance(data, str):
             return data.encode(encoding)
-        elif isinstance(data, bytes):
+        if isinstance(data, bytes):
             return data
         raise TypeError("Invalid data type")
 
     @staticmethod
     def IsStringMixed(data_str: str) -> bool:
-        """ Get if the specified string is in mixed case.
+        """
+        Get if the specified string is in mixed case.
 
         Args:
             data_str (str): string

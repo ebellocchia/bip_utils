@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with interface for address encoding classes."""
 
 # Imports
 from abc import ABC, abstractmethod
@@ -26,13 +27,14 @@ from bip_utils.ecc import IPublicKey
 
 
 class IAddrEncoder(ABC):
-    """ Address encoder interface. """
+    """Address encoder interface."""
 
     @staticmethod
     @abstractmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Encode public key to address.
+        """
+        Encode public key to address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -45,4 +47,3 @@ class IAddrEncoder(ABC):
             ValueError: If the public key is not valid
             TypeError: If the public key is not of the correct type (it depends on the address type)
         """
-        pass

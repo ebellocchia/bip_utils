@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Filecoin address computation."""
 
 # Imports
 from enum import IntEnum, unique
@@ -32,14 +33,14 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 @unique
 class FillAddrTypes(IntEnum):
-    """ Enumerative for Filecoin address types. """
+    """Enumerative for Filecoin address types."""
 
     SECP256K1 = 1
     BLS = 3
 
 
 class FilAddrConst:
-    """ Class container for Filecoin address constants. """
+    """Class container for Filecoin address constants."""
 
     # Alphabet for base32
     BASE32_ALPHABET: str = "abcdefghijklmnopqrstuvwxyz234567"
@@ -50,12 +51,13 @@ class FilAddrConst:
 
 
 class FilAddrUtils:
-    """ Class container for Filecoin address utility functions. """
+    """Class container for Filecoin address utility functions."""
 
     @staticmethod
     def EncodeKeyBytes(pub_key_bytes: bytes,
                        addr_type: FillAddrTypes) -> str:
-        """ Get address in Filecoin format from public key bytes.
+        """
+        Get address in Filecoin format from public key bytes.
 
         Args:
             pub_key_bytes (bytes)    : Public key bytes
@@ -80,12 +82,16 @@ class FilAddrUtils:
 
 
 class FilSecp256k1Addr(IAddrEncoder):
-    """ Filecoin address class based on secp256k1 keys. It allows the Filecoin address generation. """
+    """
+    Filecoin address class based on secp256k1 keys.
+    It allows the Filecoin address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Filecoin format.
+        """
+        Get address in Filecoin format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

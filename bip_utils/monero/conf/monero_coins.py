@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero coins enum."""
 
 # Imports
 from enum import Enum, auto, unique
@@ -25,7 +26,7 @@ from enum import Enum, auto, unique
 
 @unique
 class MoneroCoins(Enum):
-    """ Enumerative for supported Monero coins. """
+    """Enumerative for supported Monero coins."""
 
     MONERO_MAINNET = auto()
     MONERO_STAGENET = auto()

@@ -18,7 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero mnemonic exceptions."""
+
 
 class MoneroChecksumError(Exception):
-    """ Exception in case of checksum error. """
-    pass
+    """Exception in case of checksum error."""

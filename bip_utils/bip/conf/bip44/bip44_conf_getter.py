@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for getting BIP44 coins configuration."""
 
 # Imports
 from typing import Dict
@@ -28,7 +29,7 @@ from bip_utils.bip.conf.common import BipCoins
 
 
 class Bip44ConfGetterConst:
-    """ Class container for Bip44 configuration getter constants. """
+    """Class container for Bip44 configuration getter constants."""
 
     # Map from Bip44Coins to configuration classes
     COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
@@ -91,11 +92,15 @@ class Bip44ConfGetterConst:
 
 
 class Bip44ConfGetter:
-    """ Bip44 configuration getter class. It allows to get the Bip44 configuration of a specific coin. """
+    """
+    Bip44 configuration getter class.
+    It allows to get the Bip44 configuration of a specific coin.
+    """
 
     @staticmethod
     def GetConfig(coin_type: BipCoins) -> BipCoinConf:
-        """ Get coin configuration.
+        """
+        Get coin configuration.
 
         Args:
             coin_type (BipCoins): Coin type

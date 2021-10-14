@@ -18,10 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Reference for formats: https://wiki.polkadot.network/docs/build-ss58-registry
+"""Module for Monero coins configuration."""
 
 # Imports
-from bip_utils.coin_conf import *
+from bip_utils.coin_conf import MoneroConf
 from bip_utils.monero.conf.monero_coin_conf import MoneroCoinConf
 
 

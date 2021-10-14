@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for Litecoin configuration handling."""
 
 # Imports
 from typing import Any, Dict, Type
@@ -28,7 +29,8 @@ from bip_utils.utils.conf import CoinNames
 
 
 class BipLitecoinConf(BipCoinConf):
-    """ Litecoin configuration class.
+    """
+    Litecoin configuration class.
     It allows to return different addresses and key net versions depending on the configuration.
     """
 
@@ -47,7 +49,8 @@ class BipLitecoinConf(BipCoinConf):
                  bip32_cls: Type[Bip32Base],
                  addr_params: Dict[str, Any],
                  addr_cls: Type[IAddrEncoder]) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             coin_name (CoinNames object)                : Coin names
@@ -77,7 +80,8 @@ class BipLitecoinConf(BipCoinConf):
 
     def UseAlternateKeyNetVersions(self,
                                    value: bool) -> None:
-        """ Select if use the alternate key net version.
+        """
+        Select if use the alternate key net version.
 
         Args:
             value (bool): True for using alternate key net version, false for using the standard one
@@ -86,7 +90,8 @@ class BipLitecoinConf(BipCoinConf):
 
     def UseDeprecatedAddress(self,
                              value: bool) -> None:
-        """ Select if use the deprecated address.
+        """
+        Select if use the deprecated address.
 
         Args:
             value (bool): True for using deprecated address, false for using the standard one
@@ -94,7 +99,8 @@ class BipLitecoinConf(BipCoinConf):
         self.m_use_depr_addr = value
 
     def KeyNetVersions(self) -> Bip32KeyNetVersions:
-        """ Get key net versions. It overrides the method in BipCoinConf.
+        """
+        Get key net versions. It overrides the method in BipCoinConf.
         Litecoin overrides the method because it can have 2 different key net versions.
 
         Returns:
@@ -103,7 +109,8 @@ class BipLitecoinConf(BipCoinConf):
         return self.m_alt_key_net_ver if self.m_use_alt_key_net_ver else self.m_key_net_ver
 
     def AddrParams(self) -> Dict[str, Any]:
-        """ Get the address parameters. It overrides the method in BipCoinConf.
+        """
+        Get the address parameters. It overrides the method in BipCoinConf.
 
         Returns:
             dict: Address parameters

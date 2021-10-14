@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP39 mnemonic entropy generation."""
 
 # Imports
 from enum import IntEnum, unique
@@ -27,7 +28,7 @@ from bip_utils.utils.mnemonic import EntropyGenerator
 
 @unique
 class Bip39EntropyBitLen(IntEnum):
-    """ Enumerative for BIP39 entropy bit lengths. """
+    """Enumerative for BIP39 entropy bit lengths."""
 
     BIT_LEN_128 = 128
     BIT_LEN_160 = 160
@@ -37,7 +38,7 @@ class Bip39EntropyBitLen(IntEnum):
 
 
 class Bip39EntropyGeneratorConst:
-    """ Class container for BIP39 entropy generator constants. """
+    """Class container for BIP39 entropy generator constants."""
 
     # Accepted entropy lengths in bit
     ENTROPY_BIT_LEN: List[Bip39EntropyBitLen] = [
@@ -50,11 +51,15 @@ class Bip39EntropyGeneratorConst:
 
 
 class Bip39EntropyGenerator(EntropyGenerator):
-    """ Entropy generator class. It generates random entropy bytes with the specified length. """
+    """
+    Entropy generator class.
+    It generates random entropy bytes with the specified length.
+    """
 
     def __init__(self,
                  bits_len: Union[int, Bip39EntropyBitLen]) -> None:
-        """ Construct class by specifying the bits length.
+        """
+        Construct class by specifying the bits length.
 
         Args:
             bits_len (int or Bip39EntropyBitLen): Entropy length in bits
@@ -68,7 +73,8 @@ class Bip39EntropyGenerator(EntropyGenerator):
 
     @staticmethod
     def IsValidEntropyBitLen(bits_len: Union[int, Bip39EntropyBitLen]) -> bool:
-        """ Get if the specified entropy bit length is valid.
+        """
+        Get if the specified entropy bit length is valid.
 
         Args:
             bits_len (int or Bip39EntropyBitLen): Entropy length in bits
@@ -80,7 +86,8 @@ class Bip39EntropyGenerator(EntropyGenerator):
 
     @staticmethod
     def IsValidEntropyByteLen(bytes_len: int) -> bool:
-        """ Get if the specified entropy byte length is valid.
+        """
+        Get if the specified entropy byte length is valid.
 
         Args:
             bytes_len (int): Entropy length in bytes

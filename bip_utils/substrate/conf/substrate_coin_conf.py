@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for Substrate coins configuration handling."""
 
 # Imports
 from typing import Dict
@@ -25,7 +26,7 @@ from bip_utils.utils.conf import CoinNames
 
 
 class SubstrateCoinConf:
-    """ Substrate coin configuration class. """
+    """Substrate coin configuration class."""
 
     m_coin_name: CoinNames
     m_ss58_format: int
@@ -34,7 +35,8 @@ class SubstrateCoinConf:
     def __init__(self,
                  coin_name: CoinNames,
                  ss58_format: int) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             coin_name (CoinNames object): Coin names
@@ -45,7 +47,8 @@ class SubstrateCoinConf:
         self.m_addr_params = {"ss58_format": ss58_format}
 
     def CoinNames(self) -> CoinNames:
-        """ Get coin names.
+        """
+        Get coin names.
 
         Returns:
             CoinNames object: CoinNames object
@@ -53,7 +56,8 @@ class SubstrateCoinConf:
         return self.m_coin_name
 
     def SS58Format(self) -> int:
-        """ Get SS58 format.
+        """
+        Get SS58 format.
 
         Returns:
             int: SS58 format
@@ -61,7 +65,8 @@ class SubstrateCoinConf:
         return self.m_ss58_format
 
     def AddrParams(self) -> Dict[str, int]:
-        """ Get the address parameters.
+        """
+        Get the address parameters.
 
         Returns:
             dict: Address parameters

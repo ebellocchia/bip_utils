@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for P2SH address computation."""
 
 # Imports
 from typing import Any, Union
@@ -30,18 +31,19 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class P2SHAddrConst:
-    """ Class container for P2SH constants. """
+    """Class container for P2SH constants."""
 
     # Script bytes
     SCRIPT_BYTES: bytes = b"\x00\x14"
 
 
 class P2SHAddrUtils:
-    """ Class container for P2SH utility functions. """
+    """Class container for P2SH utility functions."""
 
     @staticmethod
     def AddScriptSig(pub_key: IPublicKey) -> bytes:
-        """ Add script signature to public key and get address bytes.
+        """
+        Add script signature to public key and get address bytes.
 
         Args:
             pub_key (IPublicKey object): Public key object
@@ -59,12 +61,16 @@ class P2SHAddrUtils:
 
 
 class P2SHAddr(IAddrEncoder):
-    """ P2SH class. It allows the Pay-to-Script-Hash address generation. """
+    """
+    P2SH class.
+    It allows the Pay-to-Script-Hash address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in P2SH format.
+        """
+        Get address in P2SH format.
 
         Args:
             pub_key (bytes or IPublicKey) : Public key bytes or object
@@ -88,12 +94,16 @@ class P2SHAddr(IAddrEncoder):
 
 
 class BchP2SHAddr(IAddrEncoder):
-    """ Bitcoin Cash P2SH class. It allows the Bitcoin Cash P2SH generation. """
+    """
+    Bitcoin Cash P2SH class.
+    It allows the Bitcoin Cash P2SH generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Bitcoin Cash P2SH format.
+        """
+        Get address in Bitcoin Cash P2SH format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

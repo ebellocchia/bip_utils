@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
+"""
+Module for BitcoinCash bech32 decoding/encoding.
+Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md.
+"""
 
 # Imports
 from typing import List, Tuple
@@ -28,7 +31,7 @@ from bip_utils.utils.misc import ConvUtils
 
 
 class BchBech32Const:
-    """ Class container for Bitcoin Cash Bech32 constants. """
+    """Class container for Bitcoin Cash Bech32 constants."""
 
     # Separator
     SEPARATOR: str = ":"
@@ -41,11 +44,12 @@ class BchBech32Const:
 
 
 class BchBech32Utils:
-    """ Class container for Bitcoin Cash utility functions. """
+    """Class container for Bitcoin Cash utility functions."""
 
     @staticmethod
     def PolyMod(values: List[int]) -> int:
-        """ Computes the polynomial modulus.
+        """
+        Computes the polynomial modulus.
 
         Args:
             values (list): List of polynomial coefficients
@@ -75,7 +79,8 @@ class BchBech32Utils:
 
     @staticmethod
     def HrpExpand(hrp: str) -> List[int]:
-        """ Expand the HRP into values for checksum computation.
+        """
+        Expand the HRP into values for checksum computation.
 
         Args:
             hrp (str): HRP
@@ -89,7 +94,8 @@ class BchBech32Utils:
     @staticmethod
     def ComputeChecksum(hrp: str,
                         data: List[int]) -> List[int]:
-        """ Compute the checksum from the specified HRP and data.
+        """
+        Compute the checksum from the specified HRP and data.
 
         Args:
             hrp (str)  : HRP
@@ -106,7 +112,8 @@ class BchBech32Utils:
     @staticmethod
     def VerifyChecksum(hrp: str,
                        data: List[int]) -> bool:
-        """ Verify the checksum from the specified HRP and converted data characters.
+        """
+        Verify the checksum from the specified HRP and converted data characters.
 
         Args:
             hrp  (str) : HRP
@@ -119,13 +126,17 @@ class BchBech32Utils:
 
 
 class BchBech32Encoder(Bech32EncoderBase):
-    """ Bitcoin Cash Bech32 encoder class. It provides methods for encoding to Bitcoin Cash Bech32 format. """
+    """
+    Bitcoin Cash Bech32 encoder class.
+    It provides methods for encoding to Bitcoin Cash Bech32 format.
+    """
 
     @staticmethod
     def Encode(hrp: str,
                net_ver: bytes,
                data: bytes) -> str:
-        """ Encode to Bitcoin Cash Bech32.
+        """
+        Encode to Bitcoin Cash Bech32.
 
         Args:
             hrp (str)      : HRP
@@ -146,7 +157,8 @@ class BchBech32Encoder(Bech32EncoderBase):
     @staticmethod
     def _ComputeChecksum(hrp: str,
                          data: List[int]) -> List[int]:
-        """ Compute the checksum from the specified HRP and data.
+        """
+        Compute the checksum from the specified HRP and data.
 
         Args:
             hrp (str)  : HRP
@@ -159,12 +171,16 @@ class BchBech32Encoder(Bech32EncoderBase):
 
 
 class BchBech32Decoder(Bech32DecoderBase):
-    """ Bitcoin Cash Bech32 decoder class. It provides methods for decoding Bitcoin Cash Bech32 format. """
+    """
+    Bitcoin Cash Bech32 decoder class.
+    It provides methods for decoding Bitcoin Cash Bech32 format.
+    """
 
     @staticmethod
     def Decode(hrp: str,
                addr: str) -> Tuple[int, bytes]:
-        """ Decode from Bitcoin Cash Bech32.
+        """
+        Decode from Bitcoin Cash Bech32.
 
         Args:
             hrp (str) : Human readable part
@@ -189,8 +205,8 @@ class BchBech32Decoder(Bech32DecoderBase):
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
 
         # Check converted data
-        if (len(conv_data) < BchBech32Const.DATA_MIN_BYTE_LEN or
-                len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
+        if (len(conv_data) < BchBech32Const.DATA_MIN_BYTE_LEN
+                or len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
             raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return conv_data[0], ConvUtils.ListToBytes(conv_data[1:])
@@ -198,7 +214,8 @@ class BchBech32Decoder(Bech32DecoderBase):
     @staticmethod
     def _VerifyChecksum(hrp: str,
                         data: List[int]) -> bool:
-        """ Verify the checksum from the specified HRP and converted data characters.
+        """
+        Verify the checksum from the specified HRP and converted data characters.
 
         Args:
             hrp  (str) : HRP

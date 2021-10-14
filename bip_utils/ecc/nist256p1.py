@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with nist256p1 curve definition."""
 
 # Imports
 from ecdsa.ecdsa import generator_256
@@ -27,7 +28,7 @@ from bip_utils.ecc.nist256p1_keys import Nist256p1Point, Nist256p1PublicKey, Nis
 
 
 class Nist256p1Const:
-    """ Class container for Nist256p1 constants. """
+    """Class container for Nist256p1 constants."""
 
     # Curve name
     NAME: str = "Nist256p1"

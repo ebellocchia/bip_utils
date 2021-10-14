@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for P2WPKH address computation."""
 
 # Imports
 from typing import Any, Union
@@ -29,7 +30,8 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class P2WPKHAddr(IAddrEncoder):
-    """ P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation.
+    """
+    P2WPKH class. It allows the Pay-to-Witness-Public-Key-Hash address generation.
     Refer to:
     https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
     https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
@@ -38,7 +40,8 @@ class P2WPKHAddr(IAddrEncoder):
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in P2WPKH format.
+        """
+        Get address in P2WPKH format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

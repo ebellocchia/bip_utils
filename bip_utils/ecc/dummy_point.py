@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for representing a dummy point."""
 
 # Imports
 from typing import Any
@@ -26,7 +27,7 @@ from bip_utils.utils.misc import DataBytes
 
 
 class DummyPoint(IPoint):
-    """ Dummy point class. """
+    """Dummy point class."""
 
     m_x: int
     m_y: int
@@ -34,7 +35,8 @@ class DummyPoint(IPoint):
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
-        """ Construct class from point bytes.
+        """
+        Construct class from point bytes.
 
         Args:
             point_bytes (bytes): Point bytes
@@ -42,13 +44,13 @@ class DummyPoint(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        pass
 
     @classmethod
     def FromCoordinates(cls,
                         x: int,
                         y: int) -> IPoint:
-        """ Construct class from point coordinates.
+        """
+        Construct class from point coordinates.
 
         Args:
             x (int): X coordinate of the point
@@ -61,7 +63,8 @@ class DummyPoint(IPoint):
 
     def __init__(self,
                  point_obj: Any) -> None:
-        """ Construct class from point object.
+        """
+        Construct class from point object.
 
         Args:
             point_obj (class): Point object
@@ -69,24 +72,25 @@ class DummyPoint(IPoint):
         Raises:
             TypeError: If point object is not of the correct type
         """
-        if (not isinstance(point_obj, tuple) or
-                len(point_obj) != 2 or
-                not isinstance(point_obj[0], int) or
-                not isinstance(point_obj[1], int)):
+        if (not isinstance(point_obj, tuple)
+                or len(point_obj) != 2
+                or not isinstance(point_obj[0], int)
+                or not isinstance(point_obj[1], int)):
             raise TypeError("Invalid point object type")
         self.m_x = point_obj[0]
         self.m_y = point_obj[1]
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
         """
-        pass
 
     def X(self) -> int:
-        """ Get point X coordinate.
+        """
+        Get point X coordinate.
 
         Returns:
            int: Point X coordinate
@@ -94,7 +98,8 @@ class DummyPoint(IPoint):
         return self.m_x
 
     def Y(self) -> int:
-        """ Get point Y coordinate.
+        """
+        Get point Y coordinate.
 
         Returns:
            int: Point Y coordinate
@@ -102,16 +107,17 @@ class DummyPoint(IPoint):
         return self.m_y
 
     def Raw(self) -> DataBytes:
-        """ Return the point encoded to raw bytes.
+        """
+        Return the point encoded to raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
         """
-        pass
 
     def __add__(self,
                 point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -119,11 +125,11 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -131,11 +137,11 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
     def __mul__(self,
                 scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -143,11 +149,11 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -155,4 +161,3 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        pass

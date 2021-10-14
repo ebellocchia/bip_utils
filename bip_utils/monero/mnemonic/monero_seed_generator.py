@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero mnemonic seed generation."""
 
 # Imports
 from typing import Optional, Union
@@ -26,14 +27,18 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class MoneroSeedGenerator:
-    """ Monero seed generator class. """
+    """
+    Monero seed generator class.
+    It generates the seed from a mnemonic.
+    """
 
     m_entropy_bytes: bytes
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[MoneroLanguages] = None) -> None:
-        """ Construct the class.
+        """
+        Construct the class.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -45,7 +50,8 @@ class MoneroSeedGenerator:
         self.m_entropy_bytes = MoneroMnemonicDecoder(lang).Decode(mnemonic)
 
     def Generate(self) -> bytes:
-        """ Generate seed. The seed is simply the entropy bytes in Monero case.
+        """
+        Generate seed. The seed is simply the entropy bytes in Monero case.
         There is no really need of this method, since the seed is always the same, but it's
         kept in this way to have the same usage of Bip39/Substrate seed generator
         (i.e. MoneroSeedGenerator(mnemonic).Generate() ).

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for generic BIP coins configuration handling."""
 
 # Imports
 from typing import Any, Dict, Optional, Type
@@ -27,7 +28,7 @@ from bip_utils.utils.conf import CoinNames
 
 
 class BipCoinConf:
-    """ Bip coin configuration class. """
+    """Bip coin configuration class."""
 
     m_coin_name: CoinNames
     m_coin_idx: int
@@ -49,7 +50,8 @@ class BipCoinConf:
                  bip32_cls: Type[Bip32Base],
                  addr_params: Dict[str, Any],
                  addr_cls: Type[IAddrEncoder]) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             coin_name (CoinNames object)            : Coin names
@@ -73,7 +75,8 @@ class BipCoinConf:
         self.m_addr_cls = addr_cls
 
     def CoinNames(self) -> CoinNames:
-        """ Get coin names.
+        """
+        Get coin names.
 
         Returns:
             CoinNames object: CoinNames object
@@ -81,7 +84,8 @@ class BipCoinConf:
         return self.m_coin_name
 
     def CoinIndex(self) -> int:
-        """ Get coin index.
+        """
+        Get coin index.
 
         Returns:
             int: Coin index
@@ -89,7 +93,8 @@ class BipCoinConf:
         return self.m_coin_idx
 
     def IsTestNet(self) -> bool:
-        """ Get if test net.
+        """
+        Get if test net.
 
         Returns:
             bool: True if test net, false otherwise
@@ -97,7 +102,8 @@ class BipCoinConf:
         return self.m_is_testnet
 
     def DefaultPath(self) -> str:
-        """ Get the default derivation path.
+        """
+        Get the default derivation path.
 
         Returns:
             str: Default derivation path
@@ -105,7 +111,8 @@ class BipCoinConf:
         return self.m_def_path
 
     def KeyNetVersions(self) -> Bip32KeyNetVersions:
-        """ Get key net versions.
+        """
+        Get key net versions.
 
         Returns:
             Bip32KeyNetVersions object: Bip32KeyNetVersions object
@@ -113,7 +120,8 @@ class BipCoinConf:
         return self.m_key_net_ver
 
     def WifNetVersion(self) -> Optional[bytes]:
-        """ Get WIF net version.
+        """
+        Get WIF net version.
 
         Returns:
             bytes: WIF net version bytes
@@ -122,7 +130,8 @@ class BipCoinConf:
         return self.m_wif_net_ver
 
     def Bip32Class(self) -> Type[Bip32Base]:
-        """ Get the Bip32 class.
+        """
+        Get the Bip32 class.
 
         Returns:
             Bip32Base class: Bip32Base class
@@ -130,7 +139,8 @@ class BipCoinConf:
         return self.m_bip32_cls
 
     def AddrParams(self) -> Dict[str, Any]:
-        """ Get the address parameters.
+        """
+        Get the address parameters.
 
         Returns:
             dict: Address parameters
@@ -139,7 +149,8 @@ class BipCoinConf:
 
     def AddrParamsKey(self,
                       key: str) -> Any:
-        """ Get the address parameters for the specified key.
+        """
+        Get the address parameters for the specified key.
 
         Args:
             key (str): Key
@@ -150,7 +161,8 @@ class BipCoinConf:
         return self.AddrParams()[key]
 
     def AddrClass(self) -> Type[IAddrEncoder]:
-        """ Get the address class.
+        """
+        Get the address class.
 
         Returns:
             IAddrEncoder class: Address class

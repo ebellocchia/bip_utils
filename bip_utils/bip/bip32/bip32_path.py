@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP32 paths parsing and handling."""
 
 # Import
 from typing import Iterator, List, Optional, Sequence, Tuple, Union
@@ -27,7 +28,7 @@ from bip_utils.bip.bip32.bip32_utils import Bip32Utils
 
 
 class Bip32PathConst:
-    """ Class container for BIP32 path constants. """
+    """Class container for BIP32 path constants."""
 
     # Hardened characters
     HARDENED_CHARS: Tuple[str, str] = ("'", "p")
@@ -36,13 +37,17 @@ class Bip32PathConst:
 
 
 class Bip32Path:
-    """ BIP32 path class. It represents a BIP-0032 path. """
+    """
+    BIP32 path class.
+    It represents a BIP-0032 path.
+    """
 
     m_elems: List[Bip32KeyIndex]
 
     def __init__(self,
                  elems: Optional[Sequence[Union[int, Bip32KeyIndex]]] = None) -> None:
-        """ Construct class by specifying the path elements.
+        """
+        Construct class by specifying the path elements.
 
         Args:
             elems (list, optional): Path elements
@@ -56,7 +61,8 @@ class Bip32Path:
             raise Bip32PathError("The path contains some invalid key indexes") from ex
 
     def Length(self) -> int:
-        """ Get the number of elements of the path.
+        """
+        Get the number of elements of the path.
 
         Returns:
             int: Number of elements
@@ -64,7 +70,8 @@ class Bip32Path:
         return len(self.m_elems)
 
     def ToList(self) -> List[int]:
-        """ Get the path as a list of integers.
+        """
+        Get the path as a list of integers.
 
         Returns:
             list: Path as a list of integers
@@ -72,7 +79,8 @@ class Bip32Path:
         return [int(elem) for elem in self.m_elems]
 
     def ToStr(self) -> str:
-        """ Get the path as a string.
+        """
+        Get the path as a string.
 
         Returns:
             str: Path as a string
@@ -87,7 +95,8 @@ class Bip32Path:
         return path_str[:-1]
 
     def __str__(self) -> str:
-        """ Get the path as a string.
+        """
+        Get the path as a string.
 
         Returns:
             str: Path as a string
@@ -96,7 +105,8 @@ class Bip32Path:
 
     def __getitem__(self,
                     idx: int) -> Bip32KeyIndex:
-        """ Get the specified element index.
+        """
+        Get the specified element index.
 
         Args:
             idx (int): Element index
@@ -107,7 +117,8 @@ class Bip32Path:
         return self.m_elems[idx]
 
     def __iter__(self) -> Iterator[Bip32KeyIndex]:
-        """ Get the iterator to the current element.
+        """
+        Get the iterator to the current element.
 
         Returns:
             Iterator object: Iterator to the current element
@@ -116,11 +127,15 @@ class Bip32Path:
 
 
 class Bip32PathParser:
-    """ BIP32 path parser class. It parses a BIP-0032 path and returns a Bip32Path object. """
+    """
+    BIP32 path parser class.
+    It parses a BIP-0032 path and returns a Bip32Path object.
+    """
 
     @staticmethod
     def Parse(path: str) -> Bip32Path:
-        """ Parse a path and return a Bip32Path object.
+        """
+        Parse a path and return a Bip32Path object.
 
         Args:
             path (str): Path
@@ -141,7 +156,8 @@ class Bip32PathParser:
 
     @staticmethod
     def __ParseElements(path_elems: List[str]) -> Bip32Path:
-        """ Parse path elements and return a Bip32Path object.
+        """
+        Parse path elements and return a Bip32Path object.
 
         Args:
             path_elems (list): Path elements
@@ -163,7 +179,8 @@ class Bip32PathParser:
 
     @staticmethod
     def __ParseElem(path_elem: str) -> int:
-        """ Parse path element and get the correspondent index.
+        """
+        Parse path element and get the correspondent index.
 
         Args:
             path_elem (str): Path element

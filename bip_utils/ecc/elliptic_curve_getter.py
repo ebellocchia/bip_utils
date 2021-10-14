@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for getting elliptic curves classes."""
 
 # Imports
 from typing import Dict
@@ -32,7 +33,7 @@ from bip_utils.ecc.sr25519 import Sr25519
 
 
 class EllipticCurveGetterConst:
-    """ Class container for elliptic curve getter constants. """
+    """Class container for elliptic curve getter constants."""
 
     # Elliptic curve type to instance
     TYPE_TO_INSTANCE: Dict[EllipticCurveTypes, EllipticCurve] = {
@@ -46,11 +47,15 @@ class EllipticCurveGetterConst:
 
 
 class EllipticCurveGetter:
-    """ Elliptic curve getter class. It allows to get the elliptic curve class from its type. """
+    """
+    Elliptic curve getter class.
+    It allows to get the elliptic curve class from its type.
+    """
 
     @staticmethod
     def FromType(curve_type: EllipticCurveTypes) -> EllipticCurve:
-        """ Get the elliptic curve class from its type.
+        """
+        Get the elliptic curve class from its type.
 
         Args:
             curve_type (EllipticCurveTypes): Curve type

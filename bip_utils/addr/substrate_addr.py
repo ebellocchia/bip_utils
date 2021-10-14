@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Substrate address computation."""
 
 # Imports
 from typing import Any, Union
@@ -28,12 +29,16 @@ from bip_utils.ss58 import SS58Encoder
 
 
 class SubstrateEd25519Addr(IAddrEncoder):
-    """ Substrate address class based on ed25519 keys. It allows the Substrate address generation. """
+    """
+    Substrate address class based on ed25519 keys.
+    It allows the Substrate address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Substrate format.
+        """
+        Get address in Substrate format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -55,12 +60,16 @@ class SubstrateEd25519Addr(IAddrEncoder):
 
 
 class SubstrateSr25519Addr(IAddrEncoder):
-    """ Substrate address class based on sr25519 keys. It allows the Substrate address generation. """
+    """
+    Substrate address class based on sr25519 keys.
+    It allows the Substrate address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Substrate format.
+        """
+        Get address in Substrate format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Atom address computation."""
 
 # Imports
 from typing import Any, Union
@@ -29,12 +30,16 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class AtomAddr(IAddrEncoder):
-    """ Atom address class. It allows the Atom address generation. """
+    """
+    Atom address class.
+    It allows the Atom address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Atom format.
+        """
+        Get address in Atom format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

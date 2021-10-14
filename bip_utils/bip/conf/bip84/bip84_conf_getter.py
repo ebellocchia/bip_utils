@@ -18,17 +18,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for getting BIP84 coins configuration."""
 
 # Imports
 from typing import Dict
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.bip.conf.bip84.bip84_coins import Bip84Coins
-from bip_utils.bip.conf.bip84.bip84_conf import *
+from bip_utils.bip.conf.bip84.bip84_conf import (
+    Bip84BitcoinMainNet, Bip84BitcoinTestNet, Bip84LitecoinMainNet, Bip84LitecoinTestNet
+)
 from bip_utils.bip.conf.common import BipCoins
 
 
 class Bip84ConfGetterConst:
-    """ Class container for Bip84 configuration getter constants. """
+    """Class container for Bip84 configuration getter constants."""
 
     # Map from Bip84Coins to configuration classes
     COIN_TO_CONF: Dict[Bip84Coins, BipCoinConf] = {
@@ -40,11 +43,15 @@ class Bip84ConfGetterConst:
 
 
 class Bip84ConfGetter:
-    """ Bip84 configuration getter class. It allows to get the Bip84 configuration of a specific coin. """
+    """
+    Bip84 configuration getter class.
+    It allows to get the Bip84 configuration of a specific coin.
+    """
 
     @staticmethod
     def GetConfig(coin_type: BipCoins) -> BipCoinConf:
-        """ Get coin configuration.
+        """
+        Get coin configuration.
 
         Args:
             coin_type (BipCoins): Coin type

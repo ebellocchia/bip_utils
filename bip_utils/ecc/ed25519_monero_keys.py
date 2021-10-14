@@ -18,17 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for ed25519-monero keys handling."""
 
 # Imports
 from typing import Any, Tuple
-import bip_utils.ecc.lib.ed25519_monero_lib as ed25519_monero_lib
+from bip_utils.ecc.lib import ed25519_monero_lib
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.utils.misc import DataBytes
 
 
 class Ed25519MoneroKeysConst:
-    """ Class container for ed25519-monero keys constants. """
+    """Class container for ed25519-monero keys constants."""
 
     # Compressed public key length in bytes
     PUB_KEY_COMPRESSED_BYTE_LEN: int = 32
@@ -39,14 +40,15 @@ class Ed25519MoneroKeysConst:
 
 
 class Ed25519MoneroPoint(IPoint):
-    """ Ed25519-Monero point class. """
+    """Ed25519-Monero point class."""
 
     m_point: Tuple[int, ...]
 
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
-        """ Construct class from point bytes.
+        """
+        Construct class from point bytes.
 
         Args:
             point_bytes (bytes): Point bytes
@@ -60,7 +62,8 @@ class Ed25519MoneroPoint(IPoint):
     def FromCoordinates(cls,
                         x: int,
                         y: int) -> IPoint:
-        """ Construct class from point coordinates.
+        """
+        Construct class from point coordinates.
 
         Args:
             x (int): X coordinate of the point
@@ -73,7 +76,8 @@ class Ed25519MoneroPoint(IPoint):
 
     def __init__(self,
                  point_obj: Any) -> None:
-        """ Construct class from point object.
+        """
+        Construct class from point object.
 
         Args:
             point_obj (class): Point object
@@ -81,17 +85,18 @@ class Ed25519MoneroPoint(IPoint):
         Raises:
             TypeError: If point object is not of the correct type
         """
-        if (not isinstance(point_obj, tuple) or
-                len(point_obj) != 4 or
-                not isinstance(point_obj[0], int) or
-                not isinstance(point_obj[1], int) or
-                not isinstance(point_obj[2], int) or
-                not isinstance(point_obj[3], int)):
+        if (not isinstance(point_obj, tuple)
+                or len(point_obj) != 4
+                or not isinstance(point_obj[0], int)
+                or not isinstance(point_obj[1], int)
+                or not isinstance(point_obj[2], int)
+                or not isinstance(point_obj[3], int)):
             raise TypeError("Invalid point object type")
         self.m_point = point_obj
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -99,7 +104,8 @@ class Ed25519MoneroPoint(IPoint):
         return self.m_point
 
     def X(self) -> int:
-        """ Get point X coordinate.
+        """
+        Get point X coordinate.
 
         Returns:
            int: Point X coordinate
@@ -107,7 +113,8 @@ class Ed25519MoneroPoint(IPoint):
         return self.m_point[0]
 
     def Y(self) -> int:
-        """ Get point Y coordinate.
+        """
+        Get point Y coordinate.
 
         Returns:
            int: Point Y coordinate
@@ -115,7 +122,8 @@ class Ed25519MoneroPoint(IPoint):
         return self.m_point[1]
 
     def Raw(self) -> DataBytes:
-        """ Return the point encoded to raw bytes.
+        """
+        Return the point encoded to raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
@@ -124,7 +132,8 @@ class Ed25519MoneroPoint(IPoint):
 
     def __add__(self,
                 point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -136,7 +145,8 @@ class Ed25519MoneroPoint(IPoint):
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -148,7 +158,8 @@ class Ed25519MoneroPoint(IPoint):
 
     def __mul__(self,
                 scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -160,12 +171,12 @@ class Ed25519MoneroPoint(IPoint):
         # Use scalarmult_B for generator point, which is more efficient
         if ed25519_monero_lib.is_generator_point(self.m_point):
             return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult_B(scalar))
-        else:
-            return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult(self.m_point, scalar))
+        return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult(self.m_point, scalar))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -177,14 +188,15 @@ class Ed25519MoneroPoint(IPoint):
 
 
 class Ed25519MoneroPublicKey(IPublicKey):
-    """ Ed25519-Monero public key class. """
+    """Ed25519-Monero public key class."""
 
     m_ver_key: bytes
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -200,7 +212,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
-        """ Construct class from key point.
+        """
+        Construct class from key point.
 
         Args:
             key_point (IPoint object): Key point
@@ -215,7 +228,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
 
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -233,7 +247,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -242,7 +257,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
 
     @staticmethod
     def CompressedLength() -> int:
-        """ Get the compressed key length.
+        """
+        Get the compressed key length.
 
         Returns:
            int: Compressed key length
@@ -251,7 +267,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
 
     @staticmethod
     def UncompressedLength() -> int:
-        """ Get the uncompressed key length.
+        """
+        Get the uncompressed key length.
 
         Returns:
            int: Uncompressed key length
@@ -259,7 +276,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
         return Ed25519MoneroKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -267,7 +285,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
         return self.m_ver_key
 
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -275,7 +294,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
         return DataBytes(self.m_ver_key)
 
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -285,7 +305,8 @@ class Ed25519MoneroPublicKey(IPublicKey):
         return self.RawCompressed()
 
     def Point(self) -> IPoint:
-        """ Get public key point.
+        """
+        Get public key point.
 
         Returns:
             IPoint object: IPoint object
@@ -294,14 +315,15 @@ class Ed25519MoneroPublicKey(IPublicKey):
 
 
 class Ed25519MoneroPrivateKey(IPrivateKey):
-    """ Ed25519-Monero private key class. """
+    """Ed25519-Monero private key class."""
 
     m_sign_key: bytes
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -316,7 +338,8 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
 
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -334,7 +357,8 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -343,7 +367,8 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
 
     @staticmethod
     def Length() -> int:
-        """ Get the key length.
+        """
+        Get the key length.
 
         Returns:
            int: Key length
@@ -351,7 +376,8 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         return Ed25519MoneroKeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -359,7 +385,8 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         return self.m_sign_key
 
     def Raw(self) -> DataBytes:
-        """ Return raw private key.
+        """
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -367,7 +394,8 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         return DataBytes(self.m_sign_key)
 
     def PublicKey(self) -> IPublicKey:
-        """ Get the public key correspondent to the private one.
+        """
+        Get the public key correspondent to the private one.
 
         Returns:
             IPublicKey object: IPublicKey object

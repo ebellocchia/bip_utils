@@ -18,8 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0032 reference: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
-# SLIP-0010 reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
+"""
+Module with BIP32 base class.
+BIP-0032 reference: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki.
+SLIP-0010 reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md.
+"""
 
 # Imports
 from __future__ import annotations
@@ -38,7 +41,7 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class Bip32BaseConst:
-    """ Class container for BIP32 base constants. """
+    """Class container for BIP32 base constants."""
 
     # Minimum length in bits for seed
     SEED_MIN_BIT_LEN: int = 128
@@ -46,9 +49,32 @@ class Bip32BaseConst:
     HMAC_HALF_BYTE_LEN: int = 32
 
 
+class Bip32BaseUtils:
+    """Class container for BIP32 base utility functions."""
+
+    @staticmethod
+    def HmacHalves(chain_code: Bip32ChainCode,
+                   data_bytes: bytes) -> Tuple[bytes, bytes]:
+        """
+        Calculate the HMAC-SHA512 of input data using the chain code as key.
+        Returns a tuple of the left and right halves of the HMAC.
+
+        Args:
+            data_bytes (bytes): Data bytes
+
+        Returns:
+            tuple: Left and right halves of the HMAC
+        """
+
+        # Use chain as HMAC key
+        hmac = CryptoUtils.HmacSha512(chain_code.ToBytes(), data_bytes)
+        return hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN], hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]
+
+
 class Bip32Base(ABC):
-    """ BIP32 base class. It allows master key generation and children keys derivation in according
-    to BIP-0032/SLIP-0010.
+    """
+    BIP32 base class.
+    It allows master key generation and children keys derivation in according to BIP-0032/SLIP-0010.
     It shall be derived to implement derivation for a specific elliptic curve.
     """
 
@@ -64,7 +90,8 @@ class Bip32Base(ABC):
     def FromSeed(cls,
                  seed_bytes: bytes,
                  key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified seed (e.g. BIP39 seed).
+        """
+        Create a Bip32 object from the specified seed (e.g. BIP39 seed).
 
         Args:
             seed_bytes (bytes)                      : Seed bytes
@@ -109,7 +136,8 @@ class Bip32Base(ABC):
                         seed_bytes: bytes,
                         path: Union[str, Bip32Path],
                         key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
+        """
+        Create a Bip32 object from the specified seed (e.g. BIP39 seed) and path.
 
         Args:
             seed_bytes (bytes)                      : Seed bytes
@@ -132,7 +160,8 @@ class Bip32Base(ABC):
     def FromExtendedKey(cls,
                         key_str: str,
                         key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified extended key.
+        """
+        Create a Bip32 object from the specified extended key.
 
         Args:
             key_str (str)                           : Extended key string
@@ -178,7 +207,8 @@ class Bip32Base(ABC):
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified private key.
+        """
+        Create a Bip32 object from the specified private key.
         The key will be considered a master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
@@ -202,7 +232,8 @@ class Bip32Base(ABC):
     def FromPublicKey(cls,
                       pub_key: Union[bytes, IPublicKey],
                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
-        """ Create a Bip32 object from the specified public key.
+        """
+        Create a Bip32 object from the specified public key.
         The key will be considered a public master key with the chain code set to zero,
         since there is no way to recover the key derivation data.
 
@@ -235,7 +266,8 @@ class Bip32Base(ABC):
                  index: Bip32KeyIndex = Bip32KeyIndex(0),
                  fprint: Bip32FingerPrint = Bip32FingerPrint(),
                  key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             priv_key (bytes or IPrivateKey)                   : Private key (None for a public-only object)
@@ -282,7 +314,8 @@ class Bip32Base(ABC):
 
     def ChildKey(self,
                  index: Union[int, Bip32KeyIndex]) -> Bip32Base:
-        """ Create and return a child key of the current one with the specified index.
+        """
+        Create and return a child key of the current one with the specified index.
         The index shall be hardened using HardenIndex method to use the private derivation algorithm.
 
         Args:
@@ -301,7 +334,8 @@ class Bip32Base(ABC):
 
     def DerivePath(self,
                    path: Union[str, Bip32Path]) -> Bip32Base:
-        """ Derive children keys from the specified path.
+        """
+        Derive children keys from the specified path.
 
         Args:
             path (str or Bip32Path object): Path
@@ -323,11 +357,12 @@ class Bip32Base(ABC):
         return bip32_obj
 
     def ConvertToPublic(self) -> None:
-        """ Convert a private Bip32 object into a public one. """
+        """Convert a private Bip32 object into a public one."""
         self.m_priv_key = None
 
     def IsPublicOnly(self) -> bool:
-        """ Get if it's public-only.
+        """
+        Get if it's public-only.
 
         Returns:
             bool: True if public-only, false otherwise
@@ -335,7 +370,8 @@ class Bip32Base(ABC):
         return self.m_priv_key is None
 
     def PrivateKey(self) -> Bip32PrivateKey:
-        """ Return private key object.
+        """
+        Return private key object.
 
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
@@ -350,7 +386,8 @@ class Bip32Base(ABC):
         return self.m_priv_key
 
     def PublicKey(self) -> Bip32PublicKey:
-        """ Return public key object.
+        """
+        Return public key object.
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
@@ -358,7 +395,8 @@ class Bip32Base(ABC):
         return self.m_pub_key
 
     def KeyNetVersions(self) -> Bip32KeyNetVersions:
-        """ Get key net versions.
+        """
+        Get key net versions.
 
         Returns:
             Bip32KeyNetVersions object: Bip32KeyNetVersions object
@@ -366,7 +404,8 @@ class Bip32Base(ABC):
         return self.m_pub_key.Data().KeyNetVersions()
 
     def Depth(self) -> Bip32Depth:
-        """ Get current depth.
+        """
+        Get current depth.
 
         Returns:
             Bip32Depth object: Current depth
@@ -374,7 +413,8 @@ class Bip32Base(ABC):
         return self.m_pub_key.Data().Depth()
 
     def Index(self) -> Bip32KeyIndex:
-        """ Get current index.
+        """
+        Get current index.
 
         Returns:
             Bip32KeyIndex object: Current index
@@ -382,7 +422,8 @@ class Bip32Base(ABC):
         return self.m_pub_key.Data().Index()
 
     def ChainCode(self) -> Bip32ChainCode:
-        """ Get chain code.
+        """
+        Get chain code.
 
         Returns:
             Bip32ChainCode: Chain code
@@ -390,7 +431,8 @@ class Bip32Base(ABC):
         return self.m_pub_key.Data().ChainCode()
 
     def FingerPrint(self) -> Bip32FingerPrint:
-        """ Get public key fingerprint.
+        """
+        Get public key fingerprint.
 
         Returns:
             Bip32FingerPrint object: Public key fingerprint bytes
@@ -398,7 +440,8 @@ class Bip32Base(ABC):
         return self.m_pub_key.FingerPrint()
 
     def ParentFingerPrint(self) -> Bip32FingerPrint:
-        """ Get parent fingerprint.
+        """
+        Get parent fingerprint.
 
         Returns:
             Bip32FingerPrint object: Parent fingerprint bytes
@@ -411,8 +454,8 @@ class Bip32Base(ABC):
 
     def _ValidateAndCkdPriv(self,
                             index: Bip32KeyIndex) -> Bip32Base:
-        """ Check the key index validity and create a child key of the specified index
-        using private derivation.
+        """
+        Check the key index validity and create a child key of the specified index using private derivation.
 
         Args:
             index (Bip32KeyIndex object): Key index
@@ -432,8 +475,8 @@ class Bip32Base(ABC):
 
     def _ValidateAndCkdPub(self,
                            index: Bip32KeyIndex) -> Bip32Base:
-        """ Check the key index validity and create a child key of the specified index
-        using public derivation.
+        """
+        Check the key index validity and create a child key of the specified index using public derivation.
 
         Args:
             index (Bip32KeyIndex object): Key index
@@ -455,22 +498,6 @@ class Bip32Base(ABC):
 
         return self._CkdPub(index)
 
-    def _HmacHalves(self,
-                    data_bytes: bytes) -> Tuple[bytes, bytes]:
-        """ Calculate the HMAC-SHA512 of input data using the chain code as key and returns a tuple
-        of the left and right halves of the HMAC.
-
-        Args:
-            data_bytes (bytes): Data bytes
-
-        Returns:
-            tuple: Left and right halves of the HMAC
-        """
-
-        # Use chain as HMAC key
-        hmac = CryptoUtils.HmacSha512(self.ChainCode().ToBytes(), data_bytes)
-        return hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN], hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]
-
     #
     # Abstract methods
     #
@@ -478,47 +505,48 @@ class Bip32Base(ABC):
     @staticmethod
     @abstractmethod
     def IsPublicDerivationSupported() -> bool:
-        """ Get if public derivation is supported.
+        """
+        Get if public derivation is supported.
 
         Returns:
             bool: True if supported, false otherwise.
         """
-        pass
 
     @staticmethod
     @abstractmethod
     def IsPrivateUnhardenedDerivationSupported() -> bool:
-        """ Get if private derivation with not-hardened indexes is supported.
+        """
+        Get if private derivation with not-hardened indexes is supported.
 
         Returns:
             bool: True if supported, false otherwise.
         """
-        pass
 
     @staticmethod
     @abstractmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Return the elliptic curve type.
+        """
+        Return the elliptic curve type.
 
         Returns:
             EllipticCurveTypes: Curve type
         """
-        pass
 
     @staticmethod
     @abstractmethod
     def _MasterKeyHmacKey() -> bytes:
-        """ Return the HMAC key for generating the master key
+        """
+        Return the HMAC key for generating the master key.
 
         Returns:
             bytes: HMAC key
         """
-        pass
 
     @abstractmethod
     def _CkdPriv(self,
                  index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using private derivation.
+        """
+        Create a child key of the specified index using private derivation.
         It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
@@ -530,12 +558,12 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        pass
 
     @abstractmethod
     def _CkdPub(self,
                 index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using public derivation.
+        """
+        Create a child key of the specified index using public derivation.
         It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
@@ -547,4 +575,3 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        pass

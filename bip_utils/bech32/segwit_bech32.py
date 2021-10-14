@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
+"""
+Module for segwit bech32 decoding/encoding.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
+"""
 
 # Imports
 from typing import List, Tuple
@@ -29,7 +32,7 @@ from bip_utils.utils.misc import ConvUtils
 
 
 class SegwitBech32Const:
-    """ Class container for Segwit Bech32 constants. """
+    """Class container for Segwit Bech32 constants."""
 
     # Separator
     SEPARATOR: str = Bech32Const.SEPARATOR
@@ -46,13 +49,17 @@ class SegwitBech32Const:
 
 
 class SegwitBech32Encoder(Bech32EncoderBase):
-    """ Segwit Bech32 encoder class. It provides methods for encoding to Segwit Bech32 format. """
+    """
+    Segwit Bech32 encoder class.
+    It provides methods for encoding to Segwit Bech32 format.
+    """
 
     @staticmethod
     def Encode(hrp: str,
                wit_ver: int,
                wit_prog: bytes) -> str:
-        """ Encode to Segwit Bech32.
+        """
+        Encode to Segwit Bech32.
 
         Args:
             hrp (str)       : HRP
@@ -73,7 +80,8 @@ class SegwitBech32Encoder(Bech32EncoderBase):
     @staticmethod
     def _ComputeChecksum(hrp: str,
                          data: List[int]) -> List[int]:
-        """ Compute the checksum from the specified HRP and data.
+        """
+        Compute the checksum from the specified HRP and data.
 
         Args:
             hrp (str)  : HRP
@@ -86,12 +94,16 @@ class SegwitBech32Encoder(Bech32EncoderBase):
 
 
 class SegwitBech32Decoder(Bech32DecoderBase):
-    """ Segwit Bech32 decoder class. It provides methods for decoding Segwit Bech32 format. """
+    """
+    Segwit Bech32 decoder class.
+    It provides methods for decoding Segwit Bech32 format.
+    """
 
     @staticmethod
     def Decode(hrp: str,
                addr: str) -> Tuple[int, bytes]:
-        """ Decode from Segwit Bech32.
+        """
+        Decode from Segwit Bech32.
 
         Args:
             hrp (str) : Human readable part
@@ -119,12 +131,12 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         conv_data = Bech32BaseUtils.ConvertFromBase32(data[1:])
 
         # Check converted data
-        if (len(conv_data) < SegwitBech32Const.DATA_MIN_BYTE_LEN or
-                len(conv_data) > SegwitBech32Const.DATA_MAX_BYTE_LEN):
+        if (len(conv_data) < SegwitBech32Const.DATA_MIN_BYTE_LEN
+                or len(conv_data) > SegwitBech32Const.DATA_MAX_BYTE_LEN):
             raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
-        elif data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
+        if data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
             raise Bech32FormatError(f"Invalid format (witness version not valid: {data[0]})")
-        elif data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
+        if data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
             raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return data[0], ConvUtils.ListToBytes(conv_data)
@@ -132,7 +144,8 @@ class SegwitBech32Decoder(Bech32DecoderBase):
     @staticmethod
     def _VerifyChecksum(hrp: str,
                         data: List[int]) -> bool:
-        """ Verify the checksum from the specified HRP and converted data characters.
+        """
+        Verify the checksum from the specified HRP and converted data characters.
 
         Args:
             hrp  (str) : HRP

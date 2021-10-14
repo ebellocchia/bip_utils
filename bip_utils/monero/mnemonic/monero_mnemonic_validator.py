@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+"""Module for Monero mnemonic validation."""
 
 # Imports
 from typing import Optional, Union
@@ -28,7 +28,10 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class MoneroMnemonicValidator:
-    """ Monero mnemonic validator class. It validates a mnemonic phrase. """
+    """
+    Monero mnemonic validator class.
+    It validates a mnemonic phrase.
+    """
 
     m_mnemonic_decoder: MoneroMnemonicDecoder
 
@@ -38,7 +41,8 @@ class MoneroMnemonicValidator:
 
     def __init__(self,
                  lang: Optional[MoneroLanguages] = None) -> None:
-        """ Construct the class from mnemonic.
+        """
+        Construct the class from mnemonic.
 
         Args:
             lang (MoneroLanguages, optional): Language, None for automatic detection
@@ -47,7 +51,8 @@ class MoneroMnemonicValidator:
 
     def Validate(self,
                  mnemonic: Union[str, Mnemonic]) -> None:
-        """ Validate the mnemonic specified at construction.
+        """
+        Validate the mnemonic specified at construction.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -62,7 +67,8 @@ class MoneroMnemonicValidator:
 
     def IsValid(self,
                 mnemonic: Union[str, Mnemonic]) -> bool:
-        """ Get if the mnemonic specified at construction is valid.
+        """
+        Get if the mnemonic specified at construction is valid.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Substrate mnemonic seed generation."""
 
 # Imports
 from typing import Optional, Union
@@ -28,7 +29,8 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
-    """ Substrate BIP39 seed generator class. It implements a variant for generating seed introduced by Polkadot.
+    """
+    Substrate BIP39 seed generator class. It implements a variant for generating seed introduced by Polkadot.
     Reference: https://github.com/paritytech/substrate-bip39
     """
 
@@ -37,7 +39,8 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
-        """ Construct the class from a specified mnemonic.
+        """
+        Construct the class from a specified mnemonic.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -50,7 +53,8 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
-        """ Generate the seed using the specified passphrase.
+        """
+        Generate the seed using the specified passphrase.
 
         Args:
             passphrase (str, optional): Passphrase, empty if not specified

@@ -18,12 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for bech32 exceptions."""
+
 
 class Bech32ChecksumError(Exception):
-    """ Exception in case of checksum error. """
-    pass
+    """Exception in case of checksum error."""
 
 
 class Bech32FormatError(Exception):
-    """ Exception in case of format error. """
-    pass
+    """Exception in case of format error."""

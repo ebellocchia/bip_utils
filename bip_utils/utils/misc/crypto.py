@@ -18,27 +18,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with some cryptography utility functions."""
 
 # Imports
 import binascii
 import hashlib
 import hmac
+from typing import Union
 import crcmod.predefined
 from Crypto.Hash import keccak
 from Crypto.Hash import SHA512
-from typing import Union
 from bip_utils.utils.misc.algo import AlgoUtils
 
 
 class CryptoUtils:
-    """ Class container for crypto utility functions. """
+    """Class container for crypto utility functions."""
 
     @staticmethod
     def Blake2b(data: Union[bytes, str],
                 digest_size: int = 64,
                 key: bytes = b"",
                 salt: bytes = b"") -> bytes:
-        """ Compute the Blake2b of the specified bytes.
+        """
+        Compute the Blake2b of the specified bytes.
 
         Args:
             data (str or bytes)        : Data
@@ -56,7 +58,8 @@ class CryptoUtils:
 
     @staticmethod
     def Kekkak256(data: Union[bytes, str]) -> bytes:
-        """ Compute the Kekkak256 of the specified bytes.
+        """
+        Compute the Kekkak256 of the specified bytes.
 
         Args:
             data (str or bytes): Data
@@ -70,7 +73,8 @@ class CryptoUtils:
 
     @staticmethod
     def Sha256(data: Union[bytes, str]) -> bytes:
-        """ Compute the SHA256 of the specified bytes.
+        """
+        Compute the SHA256 of the specified bytes.
 
         Args:
             data (str or bytes): Data
@@ -82,7 +86,8 @@ class CryptoUtils:
 
     @staticmethod
     def Sha256DigestSize() -> int:
-        """ Get the SHA256 digest size in bytes.
+        """
+        Get the SHA256 digest size in bytes.
 
         Returns:
             int: SHA256 digest size in bytes
@@ -91,7 +96,8 @@ class CryptoUtils:
 
     @staticmethod
     def Sha512_256(data: Union[bytes, str]) -> bytes:
-        """ Compute the SHA512/256 of the specified bytes.
+        """
+        Compute the SHA512/256 of the specified bytes.
 
         Args:
             data (str or bytes): Data
@@ -106,7 +112,8 @@ class CryptoUtils:
     @staticmethod
     def HmacSha512(key: Union[bytes, str],
                    data: Union[bytes, str]) -> bytes:
-        """ Compute the HMAC-SHA512 of the specified bytes with the specified key.
+        """
+        Compute the HMAC-SHA512 of the specified bytes with the specified key.
 
         Args:
             key (str or bytes) : Key
@@ -121,7 +128,8 @@ class CryptoUtils:
     def Pbkdf2HmacSha512(password: Union[bytes, str],
                          salt: Union[bytes, str],
                          itr_num: int) -> bytes:
-        """ Compute the PBKDF2 HMAC-SHA512 of the specified password, using the specified keys and iteration number.
+        """
+        Compute the PBKDF2 HMAC-SHA512 of the specified password, using the specified keys and iteration number.
 
         Args:
             password (str or bytes): Password
@@ -135,7 +143,8 @@ class CryptoUtils:
 
     @staticmethod
     def Ripemd160(data: Union[bytes, str]) -> bytes:
-        """ Compute the Bitcoin RIPEMD-160 of the specified bytes.
+        """
+        Compute the Bitcoin RIPEMD-160 of the specified bytes.
 
         Args:
             data (str or bytes): Data
@@ -147,7 +156,8 @@ class CryptoUtils:
 
     @staticmethod
     def Hash160(data: Union[bytes, str]) -> bytes:
-        """ Compute the Bitcoin Hash-160 of the specified bytes.
+        """
+        Compute the Bitcoin Hash-160 of the specified bytes.
 
         Args:
             data (str or bytes): Data
@@ -159,7 +169,8 @@ class CryptoUtils:
 
     @staticmethod
     def Crc32(data: Union[bytes, str]) -> int:
-        """ Compute the CRC32 of the specified bytes.
+        """
+        Compute the CRC32 of the specified bytes.
 
         Args:
             data (str or bytes): Data
@@ -171,7 +182,8 @@ class CryptoUtils:
 
     @staticmethod
     def XModemCrc(data: Union[bytes, str]) -> bytes:
-        """ Compute the XMODEM-CRC of the specified bytes.
+        """
+        Compute the XMODEM-CRC of the specified bytes.
 
         Args:
             data (str or bytes): Data

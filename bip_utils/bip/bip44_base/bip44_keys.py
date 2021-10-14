@@ -18,10 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP44 keys handling."""
 
 # Imports
 from functools import lru_cache
-from bip_utils.addr import *
+from bip_utils.addr import XmrAddr
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.utils.misc import DataBytes
@@ -29,9 +30,9 @@ from bip_utils.wif import WifEncoder
 
 
 class Bip44PublicKey:
-    """ BIP44 public key class.
-    It contains Bip32PublicKey and add the possibility to compute the address
-    from the coin type.
+    """
+    BIP44 public key class.
+    It contains Bip32PublicKey and add the possibility to compute the address from the coin type.
     """
 
     m_pub_key: Bip32PublicKey
@@ -40,7 +41,8 @@ class Bip44PublicKey:
     def __init__(self,
                  pub_key: Bip32PublicKey,
                  coin_conf: BipCoinConf) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             pub_key (Bip32PublicKey object): Bip32PublicKey object
@@ -56,7 +58,8 @@ class Bip44PublicKey:
         self.m_coin_conf = coin_conf
 
     def Bip32Key(self) -> Bip32PublicKey:
-        """ Return the BIP32 key object.
+        """
+        Return the BIP32 key object.
 
         Returns:
             Bip32PublicKey object: BIP32 key object
@@ -64,7 +67,8 @@ class Bip44PublicKey:
         return self.m_pub_key
 
     def ToExtended(self) -> str:
-        """ Return key in serialized extended format.
+        """
+        Return key in serialized extended format.
 
         Returns:
             str: Key in serialized extended format
@@ -72,7 +76,8 @@ class Bip44PublicKey:
         return self.m_pub_key.ToExtended()
 
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -80,7 +85,8 @@ class Bip44PublicKey:
         return self.m_pub_key.RawCompressed()
 
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -89,7 +95,8 @@ class Bip44PublicKey:
 
     @lru_cache()
     def ToAddress(self) -> str:
-        """ Return the address correspondent to the public key.
+        """
+        Return the address correspondent to the public key.
 
         Returns:
             str: Address string
@@ -97,7 +104,8 @@ class Bip44PublicKey:
         return self.__ComputeAddress()
 
     def __ComputeAddress(self) -> str:
-        """ Compute address.
+        """
+        Compute address.
 
         Returns:
             str: Address string
@@ -114,9 +122,9 @@ class Bip44PublicKey:
 
 
 class Bip44PrivateKey:
-    """ BIP44 private key class.
-    It contains Bip32PrivateKey and add the possibility to compute the WIF
-    from the coin type.
+    """
+    BIP44 private key class.
+    It contains Bip32PrivateKey and add the possibility to compute the WIF from the coin type.
     """
 
     m_priv_key: Bip32PrivateKey
@@ -125,7 +133,8 @@ class Bip44PrivateKey:
     def __init__(self,
                  priv_key: Bip32PrivateKey,
                  coin_conf: BipCoinConf) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             priv_key (Bip32PrivateKey object): Bip32PrivateKey object
@@ -141,7 +150,8 @@ class Bip44PrivateKey:
         self.m_coin_conf = coin_conf
 
     def Bip32Key(self) -> Bip32PrivateKey:
-        """ Return the BIP32 key object.
+        """
+        Return the BIP32 key object.
 
         Returns:
             Bip32PublicKey object: BIP32 key object
@@ -149,7 +159,8 @@ class Bip44PrivateKey:
         return self.m_priv_key
 
     def ToExtended(self) -> str:
-        """ Return key in serialized extended format.
+        """
+        Return key in serialized extended format.
 
         Returns:
             str: Key in serialized extended format
@@ -157,7 +168,8 @@ class Bip44PrivateKey:
         return self.m_priv_key.ToExtended()
 
     def Raw(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -167,7 +179,8 @@ class Bip44PrivateKey:
     @lru_cache()
     def ToWif(self,
               compr_pub_key: bool = True) -> str:
-        """ Return key in WIF format.
+        """
+        Return key in WIF format.
 
         Args:
             compr_pub_key (bool) : True if private key corresponds to a compressed public key, false otherwise

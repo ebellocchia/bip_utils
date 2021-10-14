@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP32 extended key serialization/deserialization."""
 
 # Imports
 from typing import Optional, Tuple
@@ -31,14 +32,17 @@ from bip_utils.utils.misc import ConvUtils
 
 
 class Bip32KeyDeserConst:
-    """ Class container for BIP32 key serialize constants. """
+    """Class container for BIP32 key serialize constants."""
 
     # Extended key length in bytes
     EXTENDED_KEY_BYTE_LEN: int = 78
 
 
 class Bip32KeyDeserializer:
-    """ BIP32key deserializer class. It deserializes a key. """
+    """
+    BIP32key deserializer class.
+    It deserializes a key.
+    """
 
     m_key_str: str
     m_key_bytes: bytes
@@ -47,7 +51,8 @@ class Bip32KeyDeserializer:
 
     def __init__(self,
                  key_str: str) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             key_str (str): Serialized key string
@@ -60,7 +65,8 @@ class Bip32KeyDeserializer:
 
     def DeserializeKey(self,
                        key_net_ver: Bip32KeyNetVersions) -> None:
-        """ Deserialize a key.
+        """
+        Deserialize a key.
 
         Args:
             key_net_ver (Bip32KeyNetVersions object): Key net versions object
@@ -97,7 +103,8 @@ class Bip32KeyDeserializer:
                                        Bip32FingerPrint(fprint))
 
     def GetKeyParts(self) -> Tuple[bytes, Bip32KeyData]:
-        """ Get deserialized key parts.
+        """
+        Get deserialized key parts.
 
         Returns:
             tuple: Deserialized key parts
@@ -106,7 +113,8 @@ class Bip32KeyDeserializer:
         return self.m_key_bytes, self.m_key_data
 
     def IsPublic(self) -> bool:
-        """ Get if deserialized key is public.
+        """
+        Get if deserialized key is public.
 
         Returns:
             bool: True if public, false otherwise
@@ -115,12 +123,16 @@ class Bip32KeyDeserializer:
 
 
 class Bip32PrivateKeySerializer:
-    """ BIP32 private key serializer class. It serializes private keys. """
+    """
+    BIP32 private key serializer class.
+    It serializes private keys.
+    """
 
     @staticmethod
     def Serialize(priv_key: IPrivateKey,
                   key_data: Bip32KeyData) -> str:
-        """ Serialize a private key.
+        """
+        Serialize a private key.
 
         Args:
             priv_key (IPrivateKey object): IPrivateKey object
@@ -138,12 +150,16 @@ class Bip32PrivateKeySerializer:
 
 
 class Bip32PublicKeySerializer:
-    """ BIP32 public key serializer class. It serializes public keys. """
+    """
+    BIP32 public key serializer class.
+    It serializes public keys.
+    """
 
     @staticmethod
     def Serialize(pub_key: IPublicKey,
                   key_data: Bip32KeyData) -> str:
-        """ Serialize the a public key.
+        """
+        Serialize the a public key.
 
         Args:
             pub_key (IPublicKey object) : IPublicKey object
@@ -161,7 +177,10 @@ class Bip32PublicKeySerializer:
 
 
 class Bip32KeySerializer:
-    """ BIP32 key serializer class. It serializes private/public keys. """
+    """
+    BIP32 key serializer class.
+    It serializes private/public keys.
+    """
 
     @staticmethod
     def Serialize(key_bytes: bytes,
@@ -170,7 +189,8 @@ class Bip32KeySerializer:
                   index: Bip32KeyIndex,
                   chain_code: Bip32ChainCode,
                   fprint: Bip32FingerPrint) -> str:
-        """ Serialize the specified key bytes.
+        """
+        Serialize the specified key bytes.
 
         Args:
             key_bytes (bytes)                 : Key bytes

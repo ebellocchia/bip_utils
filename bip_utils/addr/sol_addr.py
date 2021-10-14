@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Solana address computation."""
 
 # Imports
 from typing import Any, Union
@@ -28,12 +29,16 @@ from bip_utils.ecc import IPublicKey
 
 
 class SolAddr(IAddrEncoder):
-    """ Solana address class. It allows the Solana address generation. """
+    """
+    Solana address class.
+    It allows the Solana address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Solana format.
+        """
+        Get address in Solana format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

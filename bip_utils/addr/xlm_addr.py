@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Stellar address computation."""
 
 # Imports
 from enum import IntEnum, unique
@@ -31,19 +32,23 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 @unique
 class XlmAddrTypes(IntEnum):
-    """ Enumerative for Stellar address types. """
+    """Enumerative for Stellar address types."""
 
     PUB_KEY = 6 << 3
     PRIV_KEY = 18 << 3
 
 
 class XlmAddr(IAddrEncoder):
-    """ Stellar address class. It allows the Stellar address generation. """
+    """
+    Stellar address class.
+    It allows the Stellar address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Stellar format.
+        """
+        Get address in Stellar format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

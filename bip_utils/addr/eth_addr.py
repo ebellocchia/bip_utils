@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Ethereum address computation."""
 
 # Imports
 from typing import Any, Union
@@ -29,18 +30,19 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class EthAddrConst:
-    """ Class container for Ethereum address constants. """
+    """Class container for Ethereum address constants."""
 
     # Start byte
     START_BYTE: int = 24
 
 
 class EthAddrUtils:
-    """ Class container for Ethereum address utility functions. """
+    """Class container for Ethereum address utility functions."""
 
     @staticmethod
     def ChecksumEncode(addr: str) -> str:
-        """ Checksum encode the specified address.
+        """
+        Checksum encode the specified address.
 
         Args:
             addr (str): Address string
@@ -58,12 +60,16 @@ class EthAddrUtils:
 
 
 class EthAddr(IAddrEncoder):
-    """ Ethereum address class. It allows the Ethereum address generation. """
+    """
+    Ethereum address class.
+    It allows the Ethereum address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Ethereum format.
+        """
+        Get address in Ethereum format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

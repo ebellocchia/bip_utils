@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Tezos address computation."""
 
 # Imports
 from enum import Enum, unique
@@ -31,7 +32,7 @@ from bip_utils.utils.misc import CryptoUtils
 
 @unique
 class XtzAddrPrefixes(Enum):
-    """ Enumerative for Tezos address prefixes. """
+    """Enumerative for Tezos address prefixes."""
 
     TZ1 = b"\x06\xa1\x9f"
     TZ2 = b"\x06\xa1\xa1"
@@ -39,19 +40,23 @@ class XtzAddrPrefixes(Enum):
 
 
 class XtzAddrConst:
-    """ Class container for Tezos address constants. """
+    """Class container for Tezos address constants."""
 
     # Digest length in bytes
     DIGEST_BYTE_LEN: int = 20
 
 
 class XtzAddr(IAddrEncoder):
-    """ Tezos address class. It allows the Tezos address generation. """
+    """
+    Tezos address class.
+    It allows the Tezos address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Tezos format.
+        """
+        Get address in Tezos format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

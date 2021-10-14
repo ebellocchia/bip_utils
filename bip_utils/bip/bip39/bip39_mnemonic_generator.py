@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP39 mnemonic generation."""
 
 # Imports
 from typing import Union
@@ -29,7 +30,8 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class Bip39MnemonicGenerator:
-    """ BIP39 mnemonic generator class. It generates mnemonics in according to BIP39.
+    """
+    BIP39 mnemonic generator class. It generates mnemonics in according to BIP39.
     Mnemonic can be generated randomly from words number or from a specified entropy.
     """
 
@@ -37,7 +39,8 @@ class Bip39MnemonicGenerator:
 
     def __init__(self,
                  lang: Bip39Languages = Bip39Languages.ENGLISH) -> None:
-        """ Construct class from language.
+        """
+        Construct class from language.
 
         Args:
             lang (Bip39Languages, optional): Language (default: English)
@@ -50,7 +53,8 @@ class Bip39MnemonicGenerator:
 
     def FromWordsNumber(self,
                         words_num: Union[int, Bip39WordsNum]) -> Mnemonic:
-        """ Generate mnemonic with the specified words number from random entropy.
+        """
+        Generate mnemonic with the specified words number from random entropy.
 
         Args:
             words_num (int or Bip39WordsNum): Number of words (12, 15, 18, 21, 24)
@@ -75,7 +79,8 @@ class Bip39MnemonicGenerator:
 
     def FromEntropy(self,
                     entropy_bytes: bytes) -> Mnemonic:
-        """ Generate mnemonic from the specified entropy bytes.
+        """
+        Generate mnemonic from the specified entropy bytes.
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 160, 192, 224, 256)
@@ -90,7 +95,8 @@ class Bip39MnemonicGenerator:
 
     @staticmethod
     def __EntropyBitLenFromWordsNum(words_num: int) -> int:
-        """ Get entropy length from words number.
+        """
+        Get entropy length from words number.
 
         Args:
             words_num (int): Words number

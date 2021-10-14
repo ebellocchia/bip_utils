@@ -18,8 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
-
+"""
+Module for BIP39 mnemonic decoding/encoding.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki.
+"""
 # Imports
 from __future__ import annotations
 import os
@@ -35,7 +37,7 @@ from bip_utils.utils.mnemonic import (
 
 @unique
 class Bip39WordsNum(IntEnum):
-    """ Enumerative for BIP39 words number. """
+    """Enumerative for BIP39 words number."""
 
     WORDS_NUM_12 = 12
     WORDS_NUM_15 = 15
@@ -46,7 +48,7 @@ class Bip39WordsNum(IntEnum):
 
 @unique
 class Bip39Languages(MnemonicLanguages):
-    """ Enumerative for BIP39 languages. """
+    """Enumerative for BIP39 languages."""
 
     CHINESE_SIMPLIFIED = auto()
     CHINESE_TRADITIONAL = auto()
@@ -60,7 +62,7 @@ class Bip39Languages(MnemonicLanguages):
 
 
 class Bip39MnemonicConst:
-    """ Class container for BIP39 constants. """
+    """Class container for BIP39 constants."""
 
     # Accepted mnemonic word numbers
     MNEMONIC_WORD_NUM: List[Bip39WordsNum] = [
@@ -104,11 +106,15 @@ class Bip39MnemonicConst:
 
 
 class Bip39Mnemonic(Mnemonic):
-    """ BIP39 mnemonic class. It adds NFKD normalization to mnemonic. """
+    """
+    BIP39 mnemonic class.
+    It adds NFKD normalization to mnemonic.
+    """
 
     def __init__(self,
                  mnemonic_list: List[str]) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             mnemonic_list (list): Mnemonic list
@@ -119,7 +125,8 @@ class Bip39Mnemonic(Mnemonic):
 
     @staticmethod
     def __NormalizeNfkd(mnemonic_list: List[str]) -> List[str]:
-        """ Normalize mnemonic list using NFKD.
+        """
+        Normalize mnemonic list using NFKD.
 
         Args:
             mnemonic_list (list): Mnemonic list
@@ -127,17 +134,19 @@ class Bip39Mnemonic(Mnemonic):
         Returns:
             list: Normalized mnemonic list
         """
-        return list(map(lambda s: ConvUtils.NormalizeNfkd(s), mnemonic_list))
+        return list(map(ConvUtils.NormalizeNfkd, mnemonic_list))
 
 
 class _Bip39WordsListGetter(MnemonicWordsListGetterBase):
-    """ BIP39 words list getter class. It allows to get words list by language so that
-    they are loaded from file only once per language (i.e. on the first request).
+    """
+    BIP39 words list getter class.
+    It allows to get words list by language so that they are loaded from file only once per language.
     """
 
     def GetByLanguage(self,
                       lang: MnemonicLanguages) -> MnemonicWordsList:
-        """ Get words list by language.
+        """
+        Get words list by language.
         Words list of a specific language are loaded from file only the first time they are requested.
 
         Args:
@@ -167,14 +176,15 @@ class _Bip39WordsListGetter(MnemonicWordsListGetterBase):
 
 
 class _Bip39WordsListFinder:
-    """ BIP39 words list finder class.
+    """
+    BIP39 words list finder class.
     It automatically finds the correct words list from a mnemonic.
     """
 
     @staticmethod
     def FindLanguage(mnemonic: Mnemonic) -> MnemonicWordsList:
-        """ Automatically find the language of the specified mnemonic and
-        get the correct MnemonicWordsList class for it.
+        """
+        Automatically find the language of the specified mnemonic and get the correct MnemonicWordsList class for it.
 
         Args:
             mnemonic (Mnemonic object): Mnemonic object
@@ -203,13 +213,17 @@ class _Bip39WordsListFinder:
 
 
 class Bip39MnemonicEncoder:
-    """ BIP39 mnemonic encoder class. It encodes bytes to the mnemonic phrase. """
+    """
+    BIP39 mnemonic encoder class.
+    It encodes bytes to the mnemonic phrase.
+    """
 
     m_words_list: MnemonicWordsList
 
     def __init__(self,
                  lang: Bip39Languages) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             lang (Bip39Languages): Language
@@ -222,7 +236,8 @@ class Bip39MnemonicEncoder:
 
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
-        """ Encode bytes to mnemonic phrase.
+        """
+        Encode bytes to mnemonic phrase.
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 160, 192, 224, 256)
@@ -251,8 +266,8 @@ class Bip39MnemonicEncoder:
         mnemonic = []
         for i in range(len(mnemonic_bin_str) // Bip39MnemonicConst.WORD_BIT_LEN):
             # Get current word index
-            word_bin_str = (mnemonic_bin_str[i * Bip39MnemonicConst.WORD_BIT_LEN:(i + 1) *
-                            Bip39MnemonicConst.WORD_BIT_LEN])
+            word_bin_str = (mnemonic_bin_str[i * Bip39MnemonicConst.WORD_BIT_LEN:(i + 1)
+                            * Bip39MnemonicConst.WORD_BIT_LEN])
             word_idx = ConvUtils.BinaryStrToInteger(word_bin_str)
             # Get word at given index
             mnemonic.append(self.m_words_list.GetWordAtIdx(word_idx))
@@ -261,7 +276,10 @@ class Bip39MnemonicEncoder:
 
 
 class Bip39MnemonicDecoder:
-    """ BIP39 mnemonic decoder class. It decodes a mnemonic phrase to bytes. """
+    """
+    BIP39 mnemonic decoder class.
+    It decodes a mnemonic phrase to bytes.
+    """
 
     m_words_list: Optional[MnemonicWordsList]
 
@@ -271,7 +289,8 @@ class Bip39MnemonicDecoder:
 
     def __init__(self,
                  lang: Optional[Bip39Languages] = None) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             lang (Bip39Languages, optional): Language, None for automatic detection
@@ -286,7 +305,8 @@ class Bip39MnemonicDecoder:
 
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
-        """ Decode a mnemonic phrase to bytes (no checksum).
+        """
+        Decode a mnemonic phrase to bytes (no checksum).
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -304,7 +324,8 @@ class Bip39MnemonicDecoder:
 
     def DecodeWithChecksum(self,
                            mnemonic: Union[str, Mnemonic]) -> bytes:
-        """ Decode a mnemonic phrase to bytes (with checksum).
+        """
+        Decode a mnemonic phrase to bytes (with checksum).
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -328,7 +349,8 @@ class Bip39MnemonicDecoder:
 
     def __DecodeAndVerifyBinaryStr(self,
                                    mnemonic: Union[str, Mnemonic]) -> str:
-        """ Decode a mnemonic phrase to its mnemonic binary string by verifying the checksum.
+        """
+        Decode a mnemonic phrase to its mnemonic binary string by verifying the checksum.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -367,7 +389,8 @@ class Bip39MnemonicDecoder:
 
     def __ComputeChecksumBinaryStr(self,
                                    mnemonic_bin_str: str) -> str:
-        """ Compute checksum from mnemonic binary string.
+        """
+        Compute checksum from mnemonic binary string.
 
         Args:
             mnemonic_bin_str (str): Mnemonic binary string
@@ -387,7 +410,8 @@ class Bip39MnemonicDecoder:
 
     def __EntropyBytesFromBinaryStr(self,
                                     mnemonic_bin_str: str) -> bytes:
-        """ Get entropy bytes from mnemonic binary string.
+        """
+        Get entropy bytes from mnemonic binary string.
 
         Args:
             mnemonic_bin_str (str): Mnemonic binary string
@@ -407,7 +431,8 @@ class Bip39MnemonicDecoder:
     @staticmethod
     def __MnemonicToBinaryStr(mnemonic: Mnemonic,
                               words_list: MnemonicWordsList) -> str:
-        """ Get mnemonic binary string from mnemonic phrase.
+        """
+        Get mnemonic binary string from mnemonic phrase.
 
         Args:
             mnemonic (Mnemonic object)           : Mnemonic object
@@ -429,7 +454,8 @@ class Bip39MnemonicDecoder:
 
     @staticmethod
     def __GetChecksumLen(mnemonic_bin_str: str) -> int:
-        """ Get checksum length from mnemonic binary string.
+        """
+        Get checksum length from mnemonic binary string.
 
         Args:
             mnemonic_bin_str (str): Mnemonic binary string

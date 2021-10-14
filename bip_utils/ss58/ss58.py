@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58)
+"""
+Module for SS58 decoding/encoding.
+Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58).
+"""
 
 # Imports
 from typing import Tuple
@@ -28,7 +31,7 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class SS58Const:
-    """ Class container for SS58 constants. """
+    """Class container for SS58 constants."""
 
     # Max format for simple account
     SIMPLE_ACCOUNT_FORMAT_MAX_VAL: int = 63
@@ -47,11 +50,12 @@ class SS58Const:
 
 
 class SS58Utils:
-    """ Class container for SS58 utility functions. """
+    """Class container for SS58 utility functions."""
 
     @staticmethod
     def ComputeChecksum(data_bytes: bytes) -> bytes:
-        """ Compute SS58 checksum.
+        """
+        Compute SS58 checksum.
 
         Args:
             data_bytes (bytes): Data bytes
@@ -63,12 +67,13 @@ class SS58Utils:
 
 
 class SS58Encoder:
-    """ SS58 encoder class. It provides methods for encoding to SS58 format. """
+    """SS58 encoder class. It provides methods for encoding to SS58 format."""
 
     @staticmethod
     def Encode(data_bytes: bytes,
                ss58_format: int) -> str:
-        """ Encode bytes into a SS58 string.
+        """
+        Encode bytes into a SS58 string.
 
         Args:
             data_bytes (bytes): Data bytes (32-byte length)
@@ -109,11 +114,12 @@ class SS58Encoder:
 
 
 class SS58Decoder:
-    """ SS58 decoder class. It provides methods for decoding SS58 format. """
+    """SS58 decoder class. It provides methods for decoding SS58 format."""
 
     @staticmethod
     def Decode(data_str: str) -> Tuple[int, bytes]:
-        """ Decode bytes from a SS58 string.
+        """
+        Decode bytes from a SS58 string.
 
         Args:
             data_str (string): Data string

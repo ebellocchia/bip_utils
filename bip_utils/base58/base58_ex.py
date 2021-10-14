@@ -18,7 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for base58 exceptions."""
+
 
 class Base58ChecksumError(Exception):
-    """ Exception in case of checksum error. """
-    pass
+    """Exception in case of checksum error."""

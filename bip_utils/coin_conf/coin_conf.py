@@ -18,67 +18,77 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Generic coins configuration
+"""Module with generic coins configuration."""
 
 # Imports
 from bip_utils.utils.conf import CoinNames
 
 
-# Configuration for a Acala
 class AcalaConf:
+    """Configuration for a Acala."""
+
     COIN_NAME: CoinNames = CoinNames("Acala", "ACA")
     ADDR_SS58_FORMAT: int = 10
 
 
-# Configuration for Algorand
 class AlgorandConf:
+    """Configuration for Algorand."""
+
     COIN_NAME: CoinNames = CoinNames("Algorand", "ALGO")
 
 
-# Configuration for Avax C-Chain
 class AvaxCChainConf:
+    """Configuration for Avax C-Chain."""
+
     COIN_NAME: CoinNames = CoinNames("Avax C-Chain", "AVAX")
 
 
-# Configuration for Avax P-Chain
 class AvaxPChainConf:
+    """Configuration for Avax P-Chain."""
+
     COIN_NAME: CoinNames = CoinNames("Avax P-Chain", "AVAX")
     ADDR_HRP: str = "avax"
     ADDR_PREFIX: str = "P-"
 
 
-# Configuration for Avax X-Chain
 class AvaxXChainConf:
+    """Configuration for Avax X-Chain."""
+
     COIN_NAME: CoinNames = CoinNames("Avax X-Chain", "AVAX")
     ADDR_HRP: str = "avax"
     ADDR_PREFIX: str = "X-"
 
 
-# Configuration for Band Protocol
 class BandProtocolConf:
+    """Configuration for Band Protocol."""
+
     COIN_NAME: CoinNames = CoinNames("Band Protocol", "BAND")
     ADDR_HRP: str = "band"
 
 
-# Configuration for a Bifrost
 class BifrostConf:
+    """Configuration for a Bifrost."""
+
     COIN_NAME: CoinNames = CoinNames("Bifrost", "BNC")
     ADDR_SS58_FORMAT: int = 6
 
 
-# Configuration for Binance Chain
 class BinanceChainConf:
+    """Configuration for Binance Chain."""
+
     COIN_NAME: CoinNames = CoinNames("Binance Chain", "BNB")
     ADDR_HRP: str = "bnb"
 
 
-# Configuration for Binance Smart Chain
 class BinanceSmartChainConf:
+    """Configuration for Binance Smart Chain."""
+
     COIN_NAME: CoinNames = CoinNames("Binance Smart Chain", "BNB")
 
 
-# Configuration for Bitcoin
 class BitcoinConf:
+    """Configuration for Bitcoin."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Bitcoin", "BTC")
     P2PKH_NET_VER_MN: bytes = b"\x00"
@@ -95,8 +105,9 @@ class BitcoinConf:
     WIF_NET_VER_TN: bytes = b"\xef"
 
 
-# Configuration for Bitcoin Cash
 class BitcoinCashConf:
+    """Configuration for Bitcoin Cash."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Bitcoin Cash", "BCH")
     P2PKH_STD_HRP_MN: str = "bitcoincash"
@@ -117,8 +128,9 @@ class BitcoinCashConf:
     WIF_NET_VER_TN: bytes = BitcoinConf.WIF_NET_VER_TN
 
 
-# Configuration for BitcoinSV
 class BitcoinSvConf:
+    """Configuration for BitcoinSV."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("BitcoinSV", "BSV")
     P2PKH_NET_VER_MN: bytes = BitcoinConf.P2PKH_NET_VER_MN
@@ -131,20 +143,23 @@ class BitcoinSvConf:
     WIF_NET_VER_TN: bytes = BitcoinConf.WIF_NET_VER_TN
 
 
-# Configuration for a ChainX
 class ChainXConf:
+    """Configuration for a ChainX."""
+
     COIN_NAME: CoinNames = CoinNames("ChainX", "PCX")
     ADDR_SS58_FORMAT: int = 44
 
 
-# Configuration for Cosmos
 class CosmosConf:
+    """Configuration for Cosmos."""
+
     COIN_NAME: CoinNames = CoinNames("Cosmos", "ATOM")
     ADDR_HRP: str = "cosmos"
 
 
-# Configuration for Dash
 class DashConf:
+    """Configuration for Dash."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Dash", "DASH")
     P2PKH_NET_VER_MN: bytes = b"\x4c"
@@ -157,8 +172,9 @@ class DashConf:
     WIF_NET_VER_TN: bytes = BitcoinConf.WIF_NET_VER_TN
 
 
-# Configuration for Dogecoin
 class DogecoinConf:
+    """Configuration for Dogecoin."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Dogecoin", "DOGE")
     P2PKH_NET_VER_MN: bytes = b"\x1e"
@@ -171,89 +187,104 @@ class DogecoinConf:
     WIF_NET_VER_TN: bytes = b"\xf1"
 
 
-# Configuration for a Edgeware
 class EdgewareConf:
+    """Configuration for a Edgeware."""
+
     COIN_NAME: CoinNames = CoinNames("Edgeware", "EDG")
     ADDR_SS58_FORMAT: int = 7
 
 
-# Configuration for Elrond
 class ElrondConf:
+    """Configuration for Elrond."""
+
     COIN_NAME: CoinNames = CoinNames("Elrond eGold", "eGLD")
     ADDR_HRP: str = "erd"
 
 
-# Configuration for Eos
 class EosConf:
+    """Configuration for Eos."""
+
     COIN_NAME: CoinNames = CoinNames("EOS", "EOS")
     ADDR_PREFIX: str = "EOS"
 
 
-# Configuration for Ethereum
 class EthereumConf:
+    """Configuration for Ethereum."""
+
     COIN_NAME: CoinNames = CoinNames("Ethereum", "ETH")
     ADDR_PREFIX: str = "0x"
 
 
-# Configuration for Ethereum Classic
 class EthereumClassicConf:
+    """Configuration for Ethereum Classic."""
+
     COIN_NAME: CoinNames = CoinNames("Ethereum Classic", "ETC")
 
 
-# Configuration for Fantom Opera
 class FantomOperaConf:
+    """Configuration for Fantom Opera."""
+
     COIN_NAME: CoinNames = CoinNames("Fantom Opera", "FTM")
 
 
-# Configuration for Filecoin
 class FilecoinConf:
+    """Configuration for Filecoin."""
+
     COIN_NAME: CoinNames = CoinNames("Filecoin", "FIL")
     ADDR_PREFIX: str = "f"
 
 
-# Configuration for a generic Substrate coin
 class GenericSubstrateConf:
+    """Configuration for a generic Substrate coin."""
+
     COIN_NAME: CoinNames = CoinNames("Generic Substrate", "")
     ADDR_SS58_FORMAT: int = 42
 
 
-# Configuration for Harmony One
 class HarmonyOneConf:
+    """Configuration for Harmony One."""
+
     COIN_NAME: CoinNames = CoinNames("Harmony One", "ONE")
     ADDR_HRP: str = "one"
 
 
-# Configuration for Huobi Chain
 class HuobiChainConf:
+    """Configuration for Huobi Chain."""
+
     COIN_NAME: CoinNames = CoinNames("Huobi Token", "HT")
 
 
-# Configuration for IRISnet
 class IrisNetConf:
+    """Configuration for IRISnet."""
+
     COIN_NAME: CoinNames = CoinNames("IRIS Network", "IRIS")
     ADDR_HRP: str = "iaa"
 
 
-# Configuration for Karura
 class KaruraConf:
+    """Configuration for Karura."""
+
     COIN_NAME: CoinNames = CoinNames("Karura", "KAR")
     ADDR_SS58_FORMAT: int = 8
 
 
-# Configuration for Kava
 class KavaConf:
+    """Configuration for Kava."""
+
     COIN_NAME: CoinNames = CoinNames("Kava", "KAVA")
     ADDR_HRP: str = "kava"
 
 
-# Configuration for Kusama
 class KusamaConf:
+    """Configuration for Kusama."""
+
     COIN_NAME: CoinNames = CoinNames("Kusama", "KSM")
     ADDR_SS58_FORMAT: int = 2
 
 
-# Configuration for Litecoin
 class LitecoinConf:
+    """Configuration for Litecoin."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Litecoin", "LTC")
     P2PKH_STD_NET_VER_MN: bytes = b"\x30"
@@ -274,8 +305,9 @@ class LitecoinConf:
     WIF_NET_VER_TN: bytes = BitcoinConf.WIF_NET_VER_TN
 
 
-# Configuration for Monero
 class MoneroConf:
+    """Configuration for Monero."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Monero", "XMR")
     ADDR_NET_VER_MN: bytes = b"\x12"
@@ -293,127 +325,149 @@ class MoneroConf:
     SUBADDR_NET_VER_TN: bytes = b"\x3f"
 
 
-# Configuration for Moonbeam
 class MoonbeamConf:
+    """Configuration for Moonbeam."""
+
     COIN_NAME: CoinNames = CoinNames("Moonbeam", "GLMR")
     ADDR_SS58_FORMAT: int = 1284
 
 
-# Configuration for Moonriver
 class MoonriverConf:
+    """Configuration for Moonriver."""
+
     COIN_NAME: CoinNames = CoinNames("Moonriver", "MOVR")
     ADDR_SS58_FORMAT: int = 1285
 
 
-# Configuration for OKEx Chain
 class OkexChainConf:
+    """Configuration for OKEx Chain."""
+
     COIN_NAME: CoinNames = CoinNames("OKExChain", "OKT")
     ADDR_HRP: str = "ex"
 
 
-# Configuration for Nano
 class NanoConf:
+    """Configuration for Nano."""
+
     COIN_NAME: CoinNames = CoinNames("Nano", "NANO")
     ADDR_PREFIX: str = "nano_"
 
 
-# Configuration for Neo
 class NeoConf:
+    """Configuration for Neo."""
+
     COIN_NAME: CoinNames = CoinNames("NEO", "NEO")
     ADDR_VER: bytes = b"\x17"
 
 
-# Configuration for Ontology
 class OntologyConf:
+    """Configuration for Ontology."""
+
     COIN_NAME: CoinNames = CoinNames("Ontology", "ONT")
     ADDR_VER: bytes = NeoConf.ADDR_VER
 
 
-# Configuration for NG
 class NineChroniclesGoldConf:
+    """Configuration for NG."""
+
     COIN_NAME: CoinNames = CoinNames("Nine Chronicles Gold", "NCG")
 
 
-# Configuration for Phala
 class PhalaConf:
+    """Configuration for Phala."""
+
     COIN_NAME: CoinNames = CoinNames("Phala Network", "PHA")
     ADDR_SS58_FORMAT: int = 30
 
 
-# Configuration for Plasm
 class PlasmConf:
+    """Configuration for Plasm."""
+
     COIN_NAME: CoinNames = CoinNames("Plasm Network", "PLM")
     ADDR_SS58_FORMAT: int = 5
 
 
-# Configuration for Polkadot
 class PolkadotConf:
+    """Configuration for Polkadot."""
+
     COIN_NAME: CoinNames = CoinNames("Polkadot", "DOT")
     ADDR_SS58_FORMAT: int = 0
 
 
-# Configuration for Polygon
 class PolygonConf:
+    """Configuration for Polygon."""
+
     COIN_NAME: CoinNames = CoinNames("Polygon", "MATIC")
 
 
-# Configuration for Ripple
 class RippleConf:
+    """Configuration for Ripple."""
+
     COIN_NAME: CoinNames = CoinNames("Ripple", "XRP")
     P2PKH_NET_VER: bytes = BitcoinConf.P2PKH_NET_VER_MN
 
 
-# Configuration for Solana
 class SolanaConf:
+    """Configuration for Solana."""
+
     COIN_NAME: CoinNames = CoinNames("Solana", "SOL")
 
 
-# Configuration for Sora
 class SoraConf:
+    """Configuration for Sora."""
+
     COIN_NAME: CoinNames = CoinNames("Sora", "XOR")
     ADDR_SS58_FORMAT: int = 69
 
 
-# Configuration for Stafi
 class StafiConf:
+    """Configuration for Stafi."""
+
     COIN_NAME: CoinNames = CoinNames("Stafi", "FIS")
     ADDR_SS58_FORMAT: int = 20
 
 
-# Configuration for Stellar
 class StellarConf:
+    """Configuration for Stellar."""
+
     COIN_NAME: CoinNames = CoinNames("Stellar", "XLM")
 
 
-# Configuration for Terra
 class TerraConf:
+    """Configuration for Terra."""
+
     COIN_NAME: CoinNames = CoinNames("Terra", "LUNA")
     ADDR_HRP: str = "terra"
 
 
-# Configuration for Tezos
 class TezosConf:
+    """Configuration for Tezos."""
+
     COIN_NAME: CoinNames = CoinNames("Tezos", "XTZ")
 
 
-# Configuration for Theta
 class ThetaConf:
+    """Configuration for Theta."""
+
     COIN_NAME: CoinNames = CoinNames("Theta Network", "THETA")
 
 
-# Configuration for Tron
 class TronConf:
+    """Configuration for Tron."""
+
     COIN_NAME: CoinNames = CoinNames("Tron", "TRX")
     ADDR_PREFIX: bytes = b"\x41"
 
 
-# Configuration for VeChain
 class VeChainConf:
+    """Configuration for VeChain."""
+
     COIN_NAME: CoinNames = CoinNames("VeChain", "VET")
 
 
-# Configuration for Zcash
 class ZcashConf:
+    """Configuration for Zcash."""
+
     # Main net
     COIN_NAME_MN: CoinNames = CoinNames("Zcash", "ZEC")
     P2PKH_NET_VER_MN: bytes = b"\x1c\xb8"
@@ -426,7 +480,8 @@ class ZcashConf:
     WIF_NET_VER_TN: bytes = BitcoinConf.WIF_NET_VER_TN
 
 
-# Configuration for Zilliqa
 class ZilliqaConf:
+    """Configuration for Zilliqa."""
+
     COIN_NAME: CoinNames = CoinNames("Zilliqa", "ZIL")
     ADDR_HRP: str = "zil"

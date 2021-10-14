@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Tron address computation."""
 
 # Imports
 from typing import Any, Union
@@ -30,13 +31,16 @@ from bip_utils.utils.misc import ConvUtils
 
 
 class TrxAddr(IAddrEncoder):
-    """ Tron address class. It allows the Tron address generation. """
+    """
+    Tron address class.
+    It allows the Tron address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Tron format.
-            **kwargs: Not used
+        """
+        Get address in Tron format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP44 coins enum."""
 
 # Imports
 from enum import auto, unique
@@ -26,7 +27,7 @@ from bip_utils.bip.conf.common import BipCoins
 
 @unique
 class Bip44Coins(BipCoins):
-    """ Enumerative for supported BIP44 coins. """
+    """Enumerative for supported BIP44 coins."""
 
     # Main nets
     ALGORAND = auto()

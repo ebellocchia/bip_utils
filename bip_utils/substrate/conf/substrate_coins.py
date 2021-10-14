@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Substrate coins enum."""
 
 # Imports
 from enum import Enum, auto, unique
@@ -25,7 +26,7 @@ from enum import Enum, auto, unique
 
 @unique
 class SubstrateCoins(Enum):
-    """ Enumerative for supported Substrate coins. """
+    """Enumerative for supported Substrate coins."""
 
     ACALA = auto()
     BIFROST = auto()

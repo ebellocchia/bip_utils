@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP32 keys derivation based on secp256k1 curve."""
 
 # Imports
 from bip_utils.bip.bip32.bip32_base import Bip32Base
@@ -27,7 +28,7 @@ from bip_utils.ecc import EllipticCurveTypes
 
 
 class Bip32Secp256k1Const:
-    """ Class container for BIP32 secp256k1 constants. """
+    """Class container for BIP32 secp256k1 constants."""
 
     # Elliptic curve type
     CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.SECP256K1
@@ -36,7 +37,10 @@ class Bip32Secp256k1Const:
 
 
 class Bip32Secp256k1(Bip32EcdsaBase):
-    """ BIP32 secp256k1 class. It allows master key generation and children keys derivation using secp256k1 curve. """
+    """
+    BIP32 secp256k1 class.
+    It allows master key generation and children keys derivation using secp256k1 curve.
+    """
 
     #
     # Public methods
@@ -44,7 +48,8 @@ class Bip32Secp256k1(Bip32EcdsaBase):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Return the elliptic curve type.
+        """
+        Return the elliptic curve type.
 
         Returns:
             EllipticCurveTypes: Curve type
@@ -57,7 +62,8 @@ class Bip32Secp256k1(Bip32EcdsaBase):
 
     @staticmethod
     def _MasterKeyHmacKey() -> bytes:
-        """ Return the HMAC key for generating the master key
+        """
+        Return the HMAC key for generating the master key.
 
         Returns:
             bytes: HMAC key
@@ -66,7 +72,8 @@ class Bip32Secp256k1(Bip32EcdsaBase):
 
     def _CkdPriv(self,
                  index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using private derivation.
+        """
+        Create a child key of the specified index using private derivation.
 
         Args:
             index (Bip32KeyIndex object): Key index
@@ -81,7 +88,8 @@ class Bip32Secp256k1(Bip32EcdsaBase):
 
     def _CkdPub(self,
                 index: Bip32KeyIndex) -> Bip32Base:
-        """ Create a child key of the specified index using public derivation.
+        """
+        Create a child key of the specified index using public derivation.
 
         Args:
             index (Bip32KeyIndex object): Key index

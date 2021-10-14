@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP39 mnemonic validation."""
 
 # Imports
 from typing import Optional, Union
@@ -27,7 +28,10 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class Bip39MnemonicValidator:
-    """ BIP39 mnemonic validator class. It validates a mnemonic phrase. """
+    """
+    BIP39 mnemonic validator class.
+    It validates a mnemonic phrase.
+    """
 
     m_mnemonic_decoder: Bip39MnemonicDecoder
 
@@ -37,7 +41,8 @@ class Bip39MnemonicValidator:
 
     def __init__(self,
                  lang: Optional[Bip39Languages] = None) -> None:
-        """ Construct the class from mnemonic.
+        """
+        Construct the class from mnemonic.
 
         Args:
             lang (Bip39Languages, optional): Language, None for automatic detection
@@ -46,7 +51,8 @@ class Bip39MnemonicValidator:
 
     def Validate(self,
                  mnemonic: Union[str, Mnemonic]) -> None:
-        """ Validate the mnemonic specified at construction.
+        """
+        Validate the mnemonic specified at construction.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -61,7 +67,8 @@ class Bip39MnemonicValidator:
 
     def IsValid(self,
                 mnemonic: Union[str, Mnemonic]) -> bool:
-        """ Get if the mnemonic specified at construction is valid.
+        """
+        Get if the mnemonic specified at construction is valid.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic

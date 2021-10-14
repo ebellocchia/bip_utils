@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with ed25519 curve definition."""
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
@@ -26,7 +27,7 @@ from bip_utils.ecc.ikeys import IPoint
 
 
 class Ed25519Const:
-    """ Class container for Ed25519 constants. """
+    """Class container for Ed25519 constants."""
 
     # Curve name
     NAME: str = "Ed25519"

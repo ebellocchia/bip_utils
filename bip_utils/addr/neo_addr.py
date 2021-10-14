@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Neo address computation."""
 
 # Imports
 from typing import Any, Union
@@ -29,7 +30,7 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class NeoAddrConst:
-    """ Class container for NEO address constants. """
+    """Class container for NEO address constants."""
 
     # Address prefix
     PREFIX: bytes = b"\x21"
@@ -38,12 +39,16 @@ class NeoAddrConst:
 
 
 class NeoAddr(IAddrEncoder):
-    """ Neo address class. It allows the Neo address generation. """
+    """
+    Neo address class.
+    It allows the Neo address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Neo format.
+        """
+        Get address in Neo format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -63,8 +68,8 @@ class NeoAddr(IAddrEncoder):
         pub_key_obj = AddrUtils.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
-        payload = (NeoAddrConst.PREFIX +
-                   pub_key_obj.RawCompressed().ToBytes() +
-                   NeoAddrConst.SUFFIX)
+        payload = (NeoAddrConst.PREFIX
+                   + pub_key_obj.RawCompressed().ToBytes()
+                   + NeoAddrConst.SUFFIX)
         # Encode
         return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload))

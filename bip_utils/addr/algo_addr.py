@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Algorand address computation."""
 
 # Imports
 from typing import Any, Union
@@ -29,19 +30,23 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 class AlgoAddrConst:
-    """ Class container for Algorand address constants. """
+    """Class container for Algorand address constants."""
 
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
 
 
 class AlgoAddr(IAddrEncoder):
-    """ Algorand address class. It allows the Algorand address generation. """
+    """
+    Algorand address class.
+    It allows the Algorand address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Algorand format.
+        """
+        Get address in Algorand format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

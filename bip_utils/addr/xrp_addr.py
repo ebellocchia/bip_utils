@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Ripple address computation."""
 
 # Imports
 from typing import Any, Union
@@ -29,12 +30,16 @@ from bip_utils.ecc import IPublicKey
 
 
 class XrpAddr(IAddrEncoder):
-    """ Ripple address class. It allows the Ripple address generation. """
+    """
+    Ripple address class.
+    It allows the Ripple address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Ripple format.
+        """
+        Get address in Ripple format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

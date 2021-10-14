@@ -18,16 +18,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for getting Monero coins configuration."""
 
 # Imports
 from typing import Dict
 from bip_utils.monero.conf.monero_coin_conf import MoneroCoinConf
 from bip_utils.monero.conf.monero_coins import MoneroCoins
-from bip_utils.monero.conf.monero_conf import *
+from bip_utils.monero.conf.monero_conf import (
+    MoneroMainNet, MoneroStageNet, MoneroTestNet
+)
 
 
 class MoneroConfGetterConst:
-    """ Class container for Monero configuration getter constants. """
+    """Class container for Monero configuration getter constants."""
 
     # Map from MoneroCoins to configuration classes
     COIN_TO_CONF: Dict[MoneroCoins, MoneroCoinConf] = {
@@ -38,11 +41,15 @@ class MoneroConfGetterConst:
 
 
 class MoneroConfGetter:
-    """ Monero configuration getter class. It allows to get the Monero configuration of a specific coin. """
+    """
+    Monero configuration getter class.
+    It allows to get the Monero configuration of a specific coin.
+    """
 
     @staticmethod
     def GetConfig(coin_type: MoneroCoins) -> MoneroCoinConf:
-        """ Get coin configuration.
+        """
+        Get coin configuration.
 
         Args:
             coin_type (MoneroCoins): Coin type

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero subaddress computation."""
 
 # Imports
 from typing import Optional, Tuple
@@ -28,7 +29,7 @@ from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class MoneroSubaddressConst:
-    """ Class container for Monero subaddress constants. """
+    """Class container for Monero subaddress constants."""
 
     # Subaddress prefix
     SUBADDR_PREFIX: bytes = b"SubAddr\x00"
@@ -39,7 +40,7 @@ class MoneroSubaddressConst:
 
 
 class MoneroSubaddress:
-    """ Monero subaddress class. It allows to compute Monero subaddresses. """
+    """Monero subaddress class. It allows to compute Monero subaddresses."""
 
     m_priv_vkey: MoneroPrivateKey
     m_pub_skey: MoneroPublicKey
@@ -49,7 +50,8 @@ class MoneroSubaddress:
                  priv_vkey: MoneroPrivateKey,
                  pub_skey: MoneroPublicKey,
                  pub_vkey: Optional[MoneroPublicKey] = None) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             priv_vkey (MoneroPrivateKey)        : Private view key
@@ -63,7 +65,8 @@ class MoneroSubaddress:
     def ComputeKeys(self,
                     minor_idx: int,
                     major_idx: int) -> Tuple[MoneroPublicKey, MoneroPublicKey]:
-        """ Compute the public keys of the specified subaddress.
+        """
+        Compute the public keys of the specified subaddress.
 
         Args:
             minor_idx (int): Minor index (i.e. subaddress index)
@@ -93,8 +96,10 @@ class MoneroSubaddress:
                                                    endianness="little")
 
         # m = Kekkak256("SubAddr" + master_priv_vkey + major_idx + minor_idx)
-        m = CryptoUtils.Kekkak256(MoneroSubaddressConst.SUBADDR_PREFIX + self.m_priv_vkey.Raw().ToBytes() +
-                                  major_idx_bytes + minor_idx_bytes)
+        m = CryptoUtils.Kekkak256(MoneroSubaddressConst.SUBADDR_PREFIX
+                                  + self.m_priv_vkey.Raw().ToBytes()
+                                  + major_idx_bytes
+                                  + minor_idx_bytes)
         m_int = ConvUtils.BytesToInteger(m, endianness="little")
 
         # Compute subaddress public spend key
@@ -112,7 +117,8 @@ class MoneroSubaddress:
                              minor_idx: int,
                              major_idx: int,
                              net_ver: bytes) -> str:
-        """ Compute the public keys of the specified subaddress and encode them.
+        """
+        Compute the public keys of the specified subaddress and encode them.
 
         Args:
             minor_idx (int): Minor index (i.e. subaddress index)

@@ -18,9 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with some ECDSA keys constants."""
+
 
 class EcdsaKeysConst:
-    """ Class container for ECDSA keys constants. """
+    """Class container for ECDSA keys constants."""
 
     # Compressed public key prefix
     PUB_KEY_COMPRESSED_PREFIX: bytes = b"\x04"
@@ -30,4 +32,3 @@ class EcdsaKeysConst:
     PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 65
     # Private key length in bytes
     PRIV_KEY_BYTE_LEN: int = 32
-

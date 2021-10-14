@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with sr25519 curve definition."""
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
@@ -26,7 +27,7 @@ from bip_utils.ecc.sr25519_keys import Sr25519Point, Sr25519PublicKey, Sr25519Pr
 
 
 class Sr25519Const:
-    """ Class container for Sr25519 constants. """
+    """Class container for Sr25519 constants."""
 
     # Curve name
     NAME: str = "Sr25519"

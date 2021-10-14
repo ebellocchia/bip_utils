@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for getting Substrate coins configuration."""
 
 # Imports
 from typing import Dict
@@ -27,7 +28,7 @@ from bip_utils.substrate.conf.substrate_conf import *
 
 
 class SubstrateConfGetterConst:
-    """ Class container for Substrate configuration getter constants. """
+    """Class container for Substrate configuration getter constants."""
 
     # Map from SubstrateCoins to configuration classes
     COIN_TO_CONF: Dict[SubstrateCoins, SubstrateCoinConf] = {
@@ -49,11 +50,15 @@ class SubstrateConfGetterConst:
 
 
 class SubstrateConfGetter:
-    """ Substrate configuration getter class. It allows to get the Substrate configuration of a specific coin. """
+    """
+    Substrate configuration getter class.
+    It allows to get the Substrate configuration of a specific coin.
+    """
 
     @staticmethod
     def GetConfig(coin_type: SubstrateCoins) -> SubstrateCoinConf:
-        """ Get coin configuration.
+        """
+        Get coin configuration.
 
         Args:
             coin_type (SubstrateCoins): Coin type

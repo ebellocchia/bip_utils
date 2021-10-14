@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for WIF encoding/decoding."""
 
 # Imports
 from typing import Union
@@ -28,20 +29,24 @@ from bip_utils.utils.misc import ConvUtils
 
 
 class WifConst:
-    """ Class container for WIF constants. """
+    """Class container for WIF constants."""
 
     # Suffix to be added if the private key correspond to a compressed public key
     COMPR_PUB_KEY_SUFFIX: bytes = b"\x01"
 
 
 class WifEncoder:
-    """ WIF encoder class. It provides methods for encoding to WIF format. """
+    """
+    WIF encoder class.
+    It provides methods for encoding to WIF format.
+    """
 
     @staticmethod
     def Encode(priv_key: Union[bytes, IPrivateKey],
                net_ver: bytes = BitcoinConf.WIF_NET_VER_MN,
                compr_pub_key: bool = True) -> str:
-        """ Encode key bytes into a WIF string.
+        """
+        Encode key bytes into a WIF string.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key bytes or object
@@ -76,12 +81,16 @@ class WifEncoder:
 
 
 class WifDecoder:
-    """ WIF encoder class. It provides methods for encoding to WIF format."""
+    """
+    WIF encoder class.
+    It provides methods for encoding to WIF format.
+    """
 
     @staticmethod
     def Decode(wif_str: str,
                net_ver: bytes = BitcoinConf.WIF_NET_VER_MN) -> bytes:
-        """ Decode key bytes from a WIF string.
+        """
+        Decode key bytes from a WIF string.
 
         Args:
             wif_str (str)            : WIF string

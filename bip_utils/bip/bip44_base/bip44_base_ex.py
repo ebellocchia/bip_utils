@@ -18,7 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for BIP44 exceptions."""
+
 
 class Bip44DepthError(Exception):
-    """ Exception in case of derivation from wrong depth. """
-    pass
+    """Exception in case of derivation from wrong depth."""

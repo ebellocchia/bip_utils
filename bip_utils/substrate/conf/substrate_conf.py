@@ -18,10 +18,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Reference for formats: https://wiki.polkadot.network/docs/build-ss58-registry
+"""
+Module for Substrate coins configuration.
+Reference: https://wiki.polkadot.network/docs/build-ss58-registry.
+"""
 
 # Imports
-from bip_utils.coin_conf import *
+from bip_utils.coin_conf import (
+    AcalaConf, BifrostConf, ChainXConf, EdgewareConf, GenericSubstrateConf, KaruraConf, KusamaConf,
+    MoonbeamConf, MoonriverConf, PhalaConf, PlasmConf, PolkadotConf, SoraConf, StafiConf
+)
 from bip_utils.substrate.conf.substrate_coin_conf import SubstrateCoinConf
 
 

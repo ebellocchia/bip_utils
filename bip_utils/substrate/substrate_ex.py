@@ -18,13 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Substrate exceptions."""
+
 
 class SubstrateKeyError(Exception):
-    """ Exception in case of Substrate key error. """
-    pass
+    """Exception in case of Substrate key error."""
 
 
 class SubstratePathError(Exception):
-    """ Exception in case of Substrate path error. """
-    pass
-
+    """Exception in case of Substrate path error."""

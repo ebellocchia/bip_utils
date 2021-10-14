@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with helper class for Bitcoin Cash configuration handling."""
 
 # Imports
 from typing import Any, Dict, Type
@@ -28,7 +29,8 @@ from bip_utils.utils.conf import CoinNames
 
 
 class BipBitcoinCashConf(BipCoinConf):
-    """ Bitcoin Cash configuration class.
+    """
+    Bitcoin Cash configuration class.
     It allows to return different addresses depending on the configuration.
     """
 
@@ -46,7 +48,8 @@ class BipBitcoinCashConf(BipCoinConf):
                  addr_params: Dict[str, Any],
                  addr_cls: Type[IAddrEncoder],
                  addr_cls_legacy: Type[IAddrEncoder]) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             coin_name (CoinNames object)            : Coin names
@@ -75,7 +78,8 @@ class BipBitcoinCashConf(BipCoinConf):
 
     def UseLegacyAddress(self,
                          value: bool) -> None:
-        """ Select if use the legacy address.
+        """
+        Select if use the legacy address.
 
         Args:
             value (bool): True for using legacy address, false for using the standard one
@@ -83,7 +87,8 @@ class BipBitcoinCashConf(BipCoinConf):
         self.m_use_legacy_addr = value
 
     def AddrClass(self) -> Type[IAddrEncoder]:
-        """ Get the address type. It overrides the method in BipCoinConf.
+        """
+        Get the address type. It overrides the method in BipCoinConf.
 
         Returns:
             IAddrEncoder class: Address class
@@ -91,7 +96,8 @@ class BipBitcoinCashConf(BipCoinConf):
         return self.m_addr_cls_legacy if self.m_use_legacy_addr else self.m_addr_cls
 
     def AddrParams(self) -> Dict[str, Any]:
-        """ Get the address parameters. It overrides the method in BipCoinConf.
+        """
+        Get the address parameters. It overrides the method in BipCoinConf.
 
         Returns:
             dict: Address parameters

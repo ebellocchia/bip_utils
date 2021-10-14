@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# BIP-0039 reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
+"""
+Module for BIP39 mnemonic seed generation.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki.
+"""
 
 # Imports
 from typing import Optional, Union
@@ -30,7 +33,7 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class Bip39SeedGeneratorConst:
-    """ Class container for BIP39 seed generator constants. """
+    """Class container for BIP39 seed generator constants."""
 
     # Salt modifier for seed generation
     SEED_SALT_MOD: str = "mnemonic"
@@ -41,14 +44,18 @@ class Bip39SeedGeneratorConst:
 
 
 class Bip39SeedGenerator(IBip39SeedGenerator):
-    """ BIP39 seed generator class. It generates the seed from a mnemonic in according to BIP39. """
+    """
+    BIP39 seed generator class.
+    It generates the seed from a mnemonic in according to BIP39.
+    """
 
     m_mnemonic: Mnemonic
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
-        """ Construct the class.
+        """
+        Construct the class.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -67,7 +74,8 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
 
     def Generate(self,
                  passphrase: str = "") -> bytes:
-        """ Generate the seed using the specified passphrase.
+        """
+        Generate the seed using the specified passphrase.
 
         Args:
             passphrase (str, optional): Passphrase, empty if not specified

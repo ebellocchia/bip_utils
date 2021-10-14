@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Specification: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
+"""
+Module for bech32 decoding/encoding.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
+"""
 
 # Imports
 from typing import List
@@ -28,7 +31,7 @@ from bip_utils.utils.misc import ConvUtils
 
 
 class Bech32Const:
-    """ Class container for Bech32 constants. """
+    """Class container for Bech32 constants."""
 
     # Separator
     SEPARATOR: str = "1"
@@ -41,11 +44,12 @@ class Bech32Const:
 
 
 class Bech32Utils:
-    """ Class container for Bech32 utility functions. """
+    """Class container for Bech32 utility functions."""
 
     @staticmethod
     def PolyMod(values: List[int]) -> int:
-        """ Computes the polynomial modulus.
+        """
+        Computes the polynomial modulus.
 
         Args:
             values (list): List of polynomial coefficients
@@ -68,7 +72,8 @@ class Bech32Utils:
 
     @staticmethod
     def HrpExpand(hrp: str) -> List[int]:
-        """ Expand the HRP into values for checksum computation.
+        """
+        Expand the HRP into values for checksum computation.
 
         Args:
             hrp (str): HRP
@@ -82,7 +87,8 @@ class Bech32Utils:
     @staticmethod
     def ComputeChecksum(hrp: str,
                         data: List[int]) -> List[int]:
-        """ Compute the checksum from the specified HRP and data.
+        """
+        Compute the checksum from the specified HRP and data.
 
         Args:
             hrp (str)  : HRP
@@ -99,7 +105,8 @@ class Bech32Utils:
     @staticmethod
     def VerifyChecksum(hrp: str,
                        data: List[int]) -> bool:
-        """ Verify the checksum from the specified HRP and converted data characters.
+        """
+        Verify the checksum from the specified HRP and converted data characters.
 
         Args:
             hrp  (str) : HRP
@@ -112,12 +119,16 @@ class Bech32Utils:
 
 
 class Bech32Encoder(Bech32EncoderBase):
-    """  Bech32 encoder class. It provides methods for encoding to  Bech32 format. """
+    """
+    Bech32 encoder class.
+    It provides methods for encoding to  Bech32 format.
+    """
 
     @staticmethod
     def Encode(hrp: str,
                data: bytes) -> str:
-        """ Encode to  Bech32.
+        """
+        Encode to  Bech32.
 
         Args:
             hrp (str)   : HRP
@@ -135,7 +146,8 @@ class Bech32Encoder(Bech32EncoderBase):
     @staticmethod
     def _ComputeChecksum(hrp: str,
                          data: List[int]) -> List[int]:
-        """ Compute the checksum from the specified HRP and data.
+        """
+        Compute the checksum from the specified HRP and data.
 
         Args:
             hrp (str)  : HRP
@@ -150,12 +162,16 @@ class Bech32Encoder(Bech32EncoderBase):
 
 
 class Bech32Decoder(Bech32DecoderBase):
-    """  Bech32 decoder class. It provides methods for decoding  Bech32 format. """
+    """
+    Bech32 decoder class.
+    It provides methods for decoding  Bech32 format.
+    """
 
     @staticmethod
     def Decode(hrp: str,
                addr: str) -> bytes:
-        """ Decode from  Bech32.
+        """
+        Decode from  Bech32.
 
         Args:
             hrp (str) : Human readable part
@@ -180,8 +196,8 @@ class Bech32Decoder(Bech32DecoderBase):
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
 
         # Check converted data
-        if (len(conv_data) < Bech32Const.DATA_MIN_BYTE_LEN or
-                len(conv_data) > Bech32Const.DATA_MAX_BYTE_LEN):
+        if (len(conv_data) < Bech32Const.DATA_MIN_BYTE_LEN
+                or len(conv_data) > Bech32Const.DATA_MAX_BYTE_LEN):
             raise Bech32FormatError("Invalid format (length not valid)")
 
         return ConvUtils.ListToBytes(conv_data)
@@ -189,7 +205,8 @@ class Bech32Decoder(Bech32DecoderBase):
     @staticmethod
     def _VerifyChecksum(hrp: str,
                         data: List[int]) -> bool:
-        """ Verify the checksum from the specified HRP and converted data characters.
+        """
+        Verify the checksum from the specified HRP and converted data characters.
 
         Args:
             hrp  (str) : HRP

@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero keys handling."""
 
 # Imports
 from __future__ import annotations
@@ -29,14 +30,15 @@ from bip_utils.utils.misc import DataBytes
 
 
 class MoneroPublicKey:
-    """ Monero public key class. """
+    """Monero public key class."""
 
     m_pub_key: IPublicKey
 
     @classmethod
     def FromBytesOrKeyObject(cls,
                              pub_key: Union[bytes, IPublicKey]) -> MoneroPublicKey:
-        """ Get the public key from key bytes or object.
+        """
+        Get the public key from key bytes or object.
 
         Args:
             pub_key (bytes or IPublicKey): Public key
@@ -54,7 +56,8 @@ class MoneroPublicKey:
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> MoneroPublicKey:
-        """ Create from bytes.
+        """
+        Create from bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -66,7 +69,8 @@ class MoneroPublicKey:
 
     def __init__(self,
                  pub_key: IPublicKey) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             pub_key (IPublicKey object): Key object
@@ -80,7 +84,8 @@ class MoneroPublicKey:
         self.m_pub_key = pub_key
 
     def KeyObject(self) -> IPublicKey:
-        """ Return the key object.
+        """
+        Return the key object.
 
         Returns:
             IPublicKey object: Key object
@@ -89,7 +94,8 @@ class MoneroPublicKey:
 
     @lru_cache()
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -98,7 +104,8 @@ class MoneroPublicKey:
 
     @lru_cache()
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -107,7 +114,8 @@ class MoneroPublicKey:
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes) -> IPublicKey:
-        """ Construct key from bytes.
+        """
+        Construct key from bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -125,14 +133,15 @@ class MoneroPublicKey:
 
 
 class MoneroPrivateKey:
-    """ Monero private key class. """
+    """Monero private key class."""
 
     m_priv_key: IPrivateKey
 
     @classmethod
     def FromBytesOrKeyObject(cls,
                              priv_key: Union[bytes, IPrivateKey]) -> MoneroPrivateKey:
-        """ Get the private key from key bytes or object.
+        """
+        Get the private key from key bytes or object.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key
@@ -150,7 +159,8 @@ class MoneroPrivateKey:
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> MoneroPrivateKey:
-        """ Create from bytes.
+        """
+        Create from bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -162,7 +172,8 @@ class MoneroPrivateKey:
 
     def __init__(self,
                  priv_key: IPrivateKey) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             priv_key (IPrivateKey object): Key object
@@ -176,7 +187,8 @@ class MoneroPrivateKey:
         self.m_priv_key = priv_key
 
     def KeyObject(self) -> IPrivateKey:
-        """ Return the key object.
+        """
+        Return the key object.
 
         Returns:
             IPrivateKey object: Key object
@@ -185,7 +197,8 @@ class MoneroPrivateKey:
 
     @lru_cache()
     def Raw(self) -> DataBytes:
-        """ Return raw private key.
+        """
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -194,7 +207,8 @@ class MoneroPrivateKey:
 
     @lru_cache()
     def PublicKey(self) -> MoneroPublicKey:
-        """ Get the public key correspondent to the private one.
+        """
+        Get the public key correspondent to the private one.
 
         Returns:
             MoneroPublicKey object: MoneroPublicKey object
@@ -203,7 +217,8 @@ class MoneroPrivateKey:
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes) -> IPrivateKey:
-        """ Construct key from bytes.
+        """
+        Construct key from bytes.
 
         Args:
             key_bytes (bytes): Key bytes

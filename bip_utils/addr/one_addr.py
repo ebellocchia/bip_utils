@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Harmony One address computation."""
 
 # Imports
 from typing import Any, Union
@@ -30,12 +31,16 @@ from bip_utils.utils.misc import ConvUtils
 
 
 class OneAddr(IAddrEncoder):
-    """ Harmony One address class. It allows the Harmony One address generation. """
+    """
+    Harmony One address class.
+    It allows the Harmony One address generation.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
-        """ Get address in Harmony One format.
+        """
+        Get address in Harmony One format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

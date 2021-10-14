@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for base bech32 decoding/encoding."""
 
 # Imports
 from abc import ABC, abstractmethod
@@ -27,7 +28,7 @@ from bip_utils.utils.misc import AlgoUtils, ConvUtils
 
 
 class Bech32BaseConst:
-    """ Class container for Bech32 constants. """
+    """Class container for Bech32 constants."""
 
     # Character set
     CHARSET: str = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
@@ -38,11 +39,12 @@ class Bech32BaseConst:
 
 
 class Bech32BaseUtils:
-    """ Class container for Bech32 utility functions. """
+    """Class container for Bech32 utility functions."""
 
     @staticmethod
     def ConvertToBase32(data: Union[List[int], bytes]) -> List[int]:
-        """ Convert data to base32.
+        """
+        Convert data to base32.
 
         Args:
             data (list or bytes): Data to be converted
@@ -62,7 +64,8 @@ class Bech32BaseUtils:
 
     @staticmethod
     def ConvertFromBase32(data: Union[List[int], bytes]) -> List[int]:
-        """ Convert data from base32.
+        """
+        Convert data from base32.
 
         Args:
             data (list or bytes): Data to be converted
@@ -82,14 +85,18 @@ class Bech32BaseUtils:
 
 
 class Bech32EncoderBase(ABC):
-    """ Bech32 encoder base class. It provides methods for encoding to Bech32 format. """
+    """
+    Bech32 encoder base class.
+    It provides methods for encoding to Bech32 format.
+    """
 
     @classmethod
     def _EncodeBech32(cls,
                       hrp: str,
                       data: List[int],
                       sep: str) -> str:
-        """ Encode a Bech32 string from the specified HRP and data.
+        """
+        Encode a Bech32 string from the specified HRP and data.
 
         Args:
             hrp (str)  : HRP
@@ -109,7 +116,8 @@ class Bech32EncoderBase(ABC):
     @abstractmethod
     def _ComputeChecksum(hrp: str,
                          data: List[int]) -> List[int]:
-        """ Compute the checksum from the specified HRP and data.
+        """
+        Compute the checksum from the specified HRP and data.
 
         Args:
             hrp (str)  : HRP
@@ -118,18 +126,21 @@ class Bech32EncoderBase(ABC):
         Returns:
             list: Computed checksum
         """
-        pass
 
 
 class Bech32DecoderBase(ABC):
-    """ Bech32 decoder base class. It provides methods for decoding Bech32 format. """
+    """
+    Bech32 decoder base class.
+    It provides methods for decoding Bech32 format.
+    """
 
     @classmethod
     def _DecodeBech32(cls,
                       bech_str: str,
                       sep: str,
                       checksum_len: int) -> Tuple[str, List[int]]:
-        """ Decode and validate a Bech32 string, determining its HRP and data.
+        """
+        Decode and validate a Bech32 string, determining its HRP and data.
 
         Args:
             bech_str (str)    : Bech32 string
@@ -163,8 +174,8 @@ class Bech32DecoderBase(ABC):
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
-        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_BYTE_LEN or
-                not all(x in Bech32BaseConst.CHARSET for x in data_part)):
+        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_BYTE_LEN
+                or not all(x in Bech32BaseConst.CHARSET for x in data_part)):
             raise Bech32FormatError("Invalid bech32 format (data part not valid)")
 
         # Convert back from alphabet and verify checksum
@@ -178,7 +189,8 @@ class Bech32DecoderBase(ABC):
     @abstractmethod
     def _VerifyChecksum(hrp: str,
                         data: List[int]) -> bool:
-        """ Verify the checksum from the specified HRP and converted data characters.
+        """
+        Verify the checksum from the specified HRP and converted data characters.
 
         Args:
             hrp  (str) : HRP
@@ -187,4 +199,3 @@ class Bech32DecoderBase(ABC):
         Returns:
             bool: True if valid, false otherwise
         """
-        pass

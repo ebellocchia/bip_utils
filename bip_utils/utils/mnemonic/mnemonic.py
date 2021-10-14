@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module containing common classes for mnemonic handling."""
 
 # Imports
 from __future__ import annotations
@@ -28,12 +29,12 @@ from bip_utils.utils.misc.conversion import AlgoUtils
 
 
 class MnemonicLanguages(Enum):
-    """ Base enum for mnemonic languages. """
-    pass
+    """Base enum for mnemonic languages."""
 
 
 class Mnemonic:
-    """ Mnemonic class. It represents a generic mnemonic phrase.
+    """
+    Mnemonic class. It represents a generic mnemonic phrase.
     It acts as a simple container with some helper functions, so it doesn't validate the given mnemonic.
     """
 
@@ -42,7 +43,8 @@ class Mnemonic:
     @classmethod
     def FromString(cls,
                    mnemonic_str: str) -> Mnemonic:
-        """ Create a class from mnemonic string.
+        """
+        Create a class from mnemonic string.
 
         Args:
             mnemonic_str (str): Mnemonic string
@@ -55,7 +57,8 @@ class Mnemonic:
     @classmethod
     def FromList(cls,
                  mnemonic_list: List[str]) -> Mnemonic:
-        """ Create a class from mnemonic list.
+        """
+        Create a class from mnemonic list.
 
         Args:
             mnemonic_list (list): Mnemonic list
@@ -67,7 +70,8 @@ class Mnemonic:
 
     def __init__(self,
                  mnemonic_list: List[str]) -> None:
-        """ Construct class.
+        """
+        Construct class.
 
         Args:
             mnemonic_list (list): Mnemonic list
@@ -75,7 +79,8 @@ class Mnemonic:
         self.m_mnemonic_list = mnemonic_list
 
     def WordsCount(self) -> int:
-        """ Get the words count.
+        """
+        Get the words count.
 
         Returns:
             int: Words count
@@ -83,7 +88,8 @@ class Mnemonic:
         return len(self.m_mnemonic_list)
 
     def ToList(self) -> List[str]:
-        """ Get the mnemonic as a list.
+        """
+        Get the mnemonic as a list.
 
         Returns:
             list: Mnemonic as a list
@@ -91,7 +97,8 @@ class Mnemonic:
         return self.m_mnemonic_list
 
     def ToStr(self) -> str:
-        """ Get the mnemonic as a string.
+        """
+        Get the mnemonic as a string.
 
         Returns:
             str: Mnemonic as a string
@@ -99,7 +106,8 @@ class Mnemonic:
         return " ".join(self.m_mnemonic_list)
 
     def __str__(self) -> str:
-        """ Get the mnemonic as a string.
+        """
+        Get the mnemonic as a string.
 
         Returns:
             str: Mnemonic as a string
@@ -108,14 +116,15 @@ class Mnemonic:
 
 
 class MnemonicWordsList:
-    """ Mnemonic words list class. """
+    """Mnemonic words list class."""
 
     m_words_list: List[str]
     m_use_bin_search: bool
 
     def __init__(self,
                  words_list: List[str]) -> None:
-        """ Construct class by reading the words list from file.
+        """
+        Construct class by reading the words list from file.
 
         Args:
             words_list (list): Words list
@@ -125,7 +134,8 @@ class MnemonicWordsList:
 
     def UseBinarySearch(self,
                         flag: bool) -> None:
-        """ Set the usage of binary search.
+        """
+        Set the usage of binary search.
 
         Args:
             flag (bool): True to use binary search, false otherwise
@@ -134,7 +144,8 @@ class MnemonicWordsList:
 
     def GetWordIdx(self,
                    word: str) -> int:
-        """ Get the index of the specified word, by searching it in the list.
+        """
+        Get the index of the specified word, by searching it in the list.
 
         Args:
             word (str): Word to be searched
@@ -158,7 +169,8 @@ class MnemonicWordsList:
 
     def GetWordAtIdx(self,
                      word_idx: int) -> str:
-        """ Get the word at the specified index.
+        """
+        Get the word at the specified index.
 
         Args:
             word_idx (int): Word index
@@ -170,12 +182,16 @@ class MnemonicWordsList:
 
 
 class MnemonicWordsListFileReader:
-    """ Mnemonic words list file reader class. It reads the words list from a file. """
+    """
+    Mnemonic words list file reader class.
+    It reads the words list from a file.
+    """
 
     @staticmethod
     def LoadFile(file_path: str,
                  words_num: int) -> MnemonicWordsList:
-        """ Load words list file correspondent to the specified language.
+        """
+        Load words list file correspondent to the specified language.
 
         Args:
             file_path (str): File name
@@ -200,7 +216,7 @@ class MnemonicWordsListFileReader:
 
 
 class MnemonicWordsListGetterBase(ABC):
-    """ Mnemonic words list getter base class. """
+    """Mnemonic words list getter base class."""
 
     m_words_lists: Dict[MnemonicLanguages, MnemonicWordsList]
 
@@ -208,13 +224,14 @@ class MnemonicWordsListGetterBase(ABC):
     __instance: Optional[MnemonicWordsListGetterBase] = None
 
     def __init__(self):
-        """ Construct class. """
+        """Construct class."""
         self.m_words_lists = {}
 
     @abstractmethod
     def GetByLanguage(self,
                       lang: MnemonicLanguages) -> MnemonicWordsList:
-        """ Get words list by language.
+        """
+        Get words list by language.
         Words list of a specific language are loaded from file only the first time they are requested.
 
         Args:
@@ -227,13 +244,13 @@ class MnemonicWordsListGetterBase(ABC):
             TypeError: If the language is not of the correct enumerative
             ValueError: If loaded words list is not valid
         """
-        pass
 
     @staticmethod
     def _LoadWordsList(file_name: str,
                        words_num: int,
                        bin_search: bool) -> MnemonicWordsList:
-        """ Load words list.
+        """
+        Load words list.
 
         Args:
             file_name (str)  : File name
@@ -253,7 +270,8 @@ class MnemonicWordsListGetterBase(ABC):
 
     @classmethod
     def Instance(cls) -> MnemonicWordsListGetterBase:
-        """ Get the global class instance.
+        """
+        Get the global class instance.
 
         Returns:
             MnemonicWordsListGetterBase object: MnemonicWordsListGetterBase object

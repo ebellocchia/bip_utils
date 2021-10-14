@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module with interfaces for point and public/private keys classes."""
 
 # Imports
 from __future__ import annotations
@@ -28,13 +29,14 @@ from bip_utils.utils.misc import DataBytes
 
 
 class IPoint(ABC):
-    """ Interface for a generic elliptic curve point. """
+    """Interface for a generic elliptic curve point."""
 
     @classmethod
     @abstractmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
-        """ Construct class from point bytes.
+        """
+        Construct class from point bytes.
 
         Args:
             point_bytes (bytes): Point bytes
@@ -42,14 +44,14 @@ class IPoint(ABC):
         Returns:
             IPoint: IPoint object
         """
-        pass
 
     @classmethod
     @abstractmethod
     def FromCoordinates(cls,
                         x: int,
                         y: int) -> IPoint:
-        """ Construct class from point coordinates.
+        """
+        Construct class from point coordinates.
 
         Args:
             x (int): X coordinate of the point
@@ -58,12 +60,12 @@ class IPoint(ABC):
         Returns:
             IPoint: IPoint object
         """
-        pass
 
     @abstractmethod
     def __init__(self,
                  point_obj: Any) -> None:
-        """ Construct class from point object.
+        """
+        Construct class from point object.
 
         Args:
             point_obj (class): Point object
@@ -71,48 +73,48 @@ class IPoint(ABC):
         Raises:
             TypeError: If point object is not of the correct type
         """
-        pass
 
     @abstractmethod
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
         """
-        pass
 
     @abstractmethod
     def X(self) -> int:
-        """ Return X coordinate of the point.
+        """
+        Return X coordinate of the point.
 
         Returns:
             int: X coordinate of the point
         """
-        pass
 
     @abstractmethod
     def Y(self) -> int:
-        """ Return Y coordinate of the point.
+        """
+        Return Y coordinate of the point.
 
         Returns:
             int: Y coordinate of the point
         """
-        pass
 
     @abstractmethod
     def Raw(self) -> DataBytes:
-        """ Return the point encoded to raw bytes.
+        """
+        Return the point encoded to raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
         """
-        pass
 
     @abstractmethod
     def __add__(self,
                 point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -120,12 +122,12 @@ class IPoint(ABC):
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
     @abstractmethod
     def __radd__(self,
                  point: IPoint) -> IPoint:
-        """ Add point to another point.
+        """
+        Add point to another point.
 
         Args:
             point (IPoint object): IPoint object
@@ -133,12 +135,12 @@ class IPoint(ABC):
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
     @abstractmethod
     def __mul__(self,
                 scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -146,12 +148,12 @@ class IPoint(ABC):
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
     @abstractmethod
     def __rmul__(self,
                  scalar: int) -> IPoint:
-        """ Multiply point by a scalar.
+        """
+        Multiply point by a scalar.
 
         Args:
             scalar (int): scalar
@@ -159,11 +161,11 @@ class IPoint(ABC):
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
 
 class IPublicKey(ABC):
-    """ Interface for a generic elliptic curve public key.
+    """
+    Interface for a generic elliptic curve public key.
     Verify method is missing because not needed.
     """
 
@@ -171,7 +173,8 @@ class IPublicKey(ABC):
     @abstractmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -182,13 +185,13 @@ class IPublicKey(ABC):
         Raises:
             ValueError: If key bytes are not valid
         """
-        pass
 
     @classmethod
     @abstractmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
-        """ Construct class from key point.
+        """
+        Construct class from key point.
 
         Args:
             key_point (IPoint object): Key point
@@ -199,12 +202,12 @@ class IPublicKey(ABC):
         Raises:
             ValueError: If key point is not valid
         """
-        pass
 
     @abstractmethod
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -213,22 +216,22 @@ class IPublicKey(ABC):
             TypeError: If key object is not of the correct type
             ValueError: If key is not valid (optional)
         """
-        pass
 
     @staticmethod
     @abstractmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        pass
 
     @classmethod
     def IsValidBytes(cls,
                      key_bytes: bytes) -> bool:
-        """ Return if the specified bytes represents a valid public key.
+        """
+        Return if the specified bytes represents a valid public key.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -245,7 +248,8 @@ class IPublicKey(ABC):
     @classmethod
     def IsValidPoint(cls,
                      key_point: IPoint) -> bool:
-        """ Return if the specified point represents a valid public key.
+        """
+        Return if the specified point represents a valid public key.
 
         Args:
             key_point (IPoint object): Key point
@@ -262,62 +266,63 @@ class IPublicKey(ABC):
     @staticmethod
     @abstractmethod
     def CompressedLength() -> int:
-        """ Get the compressed key length.
+        """
+        Get the compressed key length.
 
         Returns:
            int: Compressed key length
         """
-        pass
 
     @staticmethod
     @abstractmethod
     def UncompressedLength() -> int:
-        """ Get the uncompressed key length.
+        """
+        Get the uncompressed key length.
 
         Returns:
            int: Uncompressed key length
         """
-        pass
 
     @abstractmethod
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
         """
-        pass
 
     @abstractmethod
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
         """
-        pass
 
     @abstractmethod
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
         """
-        pass
 
     @abstractmethod
     def Point(self) -> IPoint:
-        """ Return the public key point.
+        """
+        Return the public key point.
 
         Returns:
             IPoint object: IPoint object
         """
-        pass
 
 
 class IPrivateKey(ABC):
-    """ Interface for a generic elliptic curve private key.
+    """
+    Interface for a generic elliptic curve private key.
     Sign method is missing because not needed.
     """
 
@@ -325,7 +330,8 @@ class IPrivateKey(ABC):
     @abstractmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -336,12 +342,12 @@ class IPrivateKey(ABC):
         Raises:
             ValueError: If key bytes are not valid
         """
-        pass
 
     @abstractmethod
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -350,22 +356,22 @@ class IPrivateKey(ABC):
             TypeError: If key object is not of the correct type
             ValueError: If key is not valid (optional)
         """
-        pass
 
     @staticmethod
     @abstractmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        pass
 
     @classmethod
     def IsValidBytes(cls,
                      key_bytes: bytes) -> bool:
-        """ Return if the specified bytes represent a valid private key.
+        """
+        Return if the specified bytes represent a valid private key.
 
         Args:
             key_bytes (bytes): key bytes
@@ -382,36 +388,36 @@ class IPrivateKey(ABC):
     @staticmethod
     @abstractmethod
     def Length() -> int:
-        """ Get the key length.
+        """
+        Get the key length.
 
         Returns:
            int: Key length
         """
-        pass
 
     @abstractmethod
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
         """
-        pass
 
     @abstractmethod
     def Raw(self) -> DataBytes:
-        """ Return raw private key.
+        """
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
         """
-        pass
 
     @abstractmethod
     def PublicKey(self) -> IPublicKey:
-        """ Get the public key correspondent to the private one.
+        """
+        Get the public key correspondent to the private one.
 
         Returns:
             IPublicKey object: IPublicKey object
         """
-        pass

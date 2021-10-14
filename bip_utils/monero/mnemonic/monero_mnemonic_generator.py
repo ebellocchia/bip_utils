@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for Monero mnemonic generation."""
 
 # Imports
 from typing import Dict, Union
@@ -31,7 +32,7 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class MoneroMnemonicGeneratorConst:
-    """ Class container for Monero mnemonic generator constants. """
+    """Class container for Monero mnemonic generator constants."""
 
     # Entropy length for each words number
     WORDS_NUM_TO_ENTROPY_LEN: Dict[MoneroWordsNum, MoneroEntropyBitLen] = {
@@ -43,7 +44,8 @@ class MoneroMnemonicGeneratorConst:
 
 
 class MoneroMnemonicGenerator:
-    """ Monero mnemonic generator class.
+    """
+    Monero mnemonic generator class.
     Mnemonic can be generated randomly from words number or from a specified entropy.
     """
 
@@ -51,7 +53,8 @@ class MoneroMnemonicGenerator:
 
     def __init__(self,
                  lang: MoneroLanguages = MoneroLanguages.ENGLISH) -> None:
-        """ Construct class from language.
+        """
+        Construct class from language.
 
         Args:
             lang (MoneroLanguages, optional): Language (default: English)
@@ -64,7 +67,8 @@ class MoneroMnemonicGenerator:
 
     def FromWordsNumber(self,
                         words_num: Union[int, MoneroWordsNum]) -> Mnemonic:
-        """ Generate mnemonic with the specified words number from random entropy.
+        """
+        Generate mnemonic with the specified words number from random entropy.
 
         Args:
             words_num (int or MoneroWordsNum): Number of words (12, 13, 24, 25)
@@ -95,7 +99,8 @@ class MoneroMnemonicGenerator:
 
     def FromEntropyNoChecksum(self,
                               entropy_bytes: bytes) -> Mnemonic:
-        """ Generate mnemonic from the specified entropy bytes (no checksum).
+        """
+        Generate mnemonic from the specified entropy bytes (no checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
@@ -110,7 +115,8 @@ class MoneroMnemonicGenerator:
 
     def FromEntropyWithChecksum(self,
                                 entropy_bytes: bytes) -> Mnemonic:
-        """ Generate mnemonic from the specified entropy bytes (with checksum).
+        """
+        Generate mnemonic from the specified entropy bytes (with checksum).
 
         Args:
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)

@@ -18,10 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for ed25519 keys handling."""
 
 # Imports
-from nacl import exceptions, signing
 from typing import Any
+from nacl import exceptions, signing
 from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
@@ -29,7 +30,7 @@ from bip_utils.utils.misc import ConvUtils, DataBytes
 
 
 class Ed25519KeysConst:
-    """ Class container for ed25519 keys constants. """
+    """Class container for ed25519 keys constants."""
 
     # Public key prefix
     PUB_KEY_PREFIX: bytes = b"\x00"
@@ -42,17 +43,17 @@ class Ed25519KeysConst:
 
 
 class Ed25519Point(DummyPoint):
-    """ Ed25519 point class. Dummy class since not needed. """
-    pass
+    """Ed25519 point class. Dummy class since not needed."""
 
 
 class Ed25519PublicKey(IPublicKey):
-    """ Ed25519 public key class. """
+    """Ed25519 public key class."""
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -65,8 +66,8 @@ class Ed25519PublicKey(IPublicKey):
         """
 
         # Remove the prefix if present because nacl requires 32-byte length
-        if (len(key_bytes) == cls.CompressedLength() and
-                key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
+        if (len(key_bytes) == cls.CompressedLength()
+                and key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
 
         try:
@@ -77,7 +78,8 @@ class Ed25519PublicKey(IPublicKey):
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
-        """ Construct class from key point.
+        """
+        Construct class from key point.
 
         Args:
             key_point (IPoint object): Key point
@@ -89,12 +91,10 @@ class Ed25519PublicKey(IPublicKey):
             ValueError: If key point is not valid
         """
 
-        # Not needed
-        pass
-
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -109,7 +109,8 @@ class Ed25519PublicKey(IPublicKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -118,7 +119,8 @@ class Ed25519PublicKey(IPublicKey):
 
     @staticmethod
     def CompressedLength() -> int:
-        """ Get the compressed key length.
+        """
+        Get the compressed key length.
 
         Returns:
            int: Compressed key length
@@ -127,7 +129,8 @@ class Ed25519PublicKey(IPublicKey):
 
     @staticmethod
     def UncompressedLength() -> int:
-        """ Get the uncompressed key length.
+        """
+        Get the uncompressed key length.
 
         Returns:
            int: Uncompressed key length
@@ -135,7 +138,8 @@ class Ed25519PublicKey(IPublicKey):
         return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -143,7 +147,8 @@ class Ed25519PublicKey(IPublicKey):
         return self.m_ver_key
 
     def RawCompressed(self) -> DataBytes:
-        """ Return raw compressed public key.
+        """
+        Return raw compressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -151,7 +156,8 @@ class Ed25519PublicKey(IPublicKey):
         return DataBytes(Ed25519KeysConst.PUB_KEY_PREFIX + bytes(self.m_ver_key))
 
     def RawUncompressed(self) -> DataBytes:
-        """ Return raw uncompressed public key.
+        """
+        Return raw uncompressed public key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -161,23 +167,22 @@ class Ed25519PublicKey(IPublicKey):
         return self.RawCompressed()
 
     def Point(self) -> IPoint:
-        """ Get public key point.
+        """
+        Get public key point.
 
         Returns:
             IPoint object: IPoint object
         """
 
-        # Not needed
-        pass
-
 
 class Ed25519PrivateKey(IPrivateKey):
-    """ Ed25519 private key class. """
+    """Ed25519 private key class."""
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
-        """ Construct class from key bytes.
+        """
+        Construct class from key bytes.
 
         Args:
             key_bytes (bytes): Key bytes
@@ -195,7 +200,8 @@ class Ed25519PrivateKey(IPrivateKey):
 
     def __init__(self,
                  key_obj: Any) -> None:
-        """ Construct class from key object.
+        """
+        Construct class from key object.
 
         Args:
             key_obj (class): Key object
@@ -210,7 +216,8 @@ class Ed25519PrivateKey(IPrivateKey):
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
-        """ Get the elliptic curve type.
+        """
+        Get the elliptic curve type.
 
         Returns:
            EllipticCurveTypes: Elliptic curve type
@@ -219,7 +226,8 @@ class Ed25519PrivateKey(IPrivateKey):
 
     @staticmethod
     def Length() -> int:
-        """ Get the key length.
+        """
+        Get the key length.
 
         Returns:
            int: Key length
@@ -227,7 +235,8 @@ class Ed25519PrivateKey(IPrivateKey):
         return Ed25519KeysConst.PRIV_KEY_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
-        """ Get the underlying object.
+        """
+        Get the underlying object.
 
         Returns:
            Any: Underlying object
@@ -235,7 +244,8 @@ class Ed25519PrivateKey(IPrivateKey):
         return self.m_sign_key
 
     def Raw(self) -> DataBytes:
-        """ Return raw private key.
+        """
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
@@ -243,7 +253,8 @@ class Ed25519PrivateKey(IPrivateKey):
         return DataBytes(bytes(self.m_sign_key))
 
     def PublicKey(self) -> IPublicKey:
-        """ Get the public key correspondent to the private one.
+        """
+        Get the public key correspondent to the private one.
 
         Returns:
             IPublicKey object: IPublicKey object

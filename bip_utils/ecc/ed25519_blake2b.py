@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+"""Module for ed25519-blake2b keys handling."""
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
@@ -28,7 +29,7 @@ from bip_utils.ecc.ikeys import IPoint
 
 
 class Ed25519Blake2bConst:
-    """ Class container for Ed25519-Blake2b constants. """
+    """Class container for Ed25519-Blake2b constants."""
 
     # Curve name
     NAME: str = "Ed25519-Blake2b"
