@@ -71,7 +71,8 @@ def main() -> None:
     print(f"  - Number of iterations for caching: {TestsConf.TEST_CACHE_NUM}\n")
 
     # Generate a seed
-    mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art"
+    mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon"\
+               "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art"
     seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
     # Get tests class type
