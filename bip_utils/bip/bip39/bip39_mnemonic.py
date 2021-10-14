@@ -22,6 +22,7 @@
 Module for BIP39 mnemonic decoding/encoding.
 Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki.
 """
+
 # Imports
 from __future__ import annotations
 import os
