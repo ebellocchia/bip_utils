@@ -1,15 +1,18 @@
-# pip install prospector
-# prospector bip_utils
-
 strictness: high
 test-warnings: false
 doc-warnings: true
 member-warnings: true
 
+ignore-paths:
+  - benchmark
+  - tests
+
 ignore-patterns:
+  - setup.py
   - _version.py
   - ed25519_monero_lib.py
 
+# pylint configuration
 pylint:
   disable:
     - invalid-name
@@ -20,18 +23,21 @@ pylint:
   options:
     max-line-length: 120
 
+# pyflakes configuration
 pyflakes:
   disable:
     - F401    # imported but not used
     - F403    # 'from module import *' used; unable to detect undefined names
     - F405    # name may be undefined, or defined from star imports: module
 
+# mypy configuration
 mypy:
   run: true
   options:
     ignore-missing-imports: true
     follow-imports: skip
 
+# pep257 configuration
 pep257:
   disable:
     - D104    # Missing docstring in public package
@@ -43,6 +49,7 @@ pep257:
     - D407    # Missing dashed underline after section
     - D413    # Missing blank line after last section
 
+# pep8 configuration
 pep8:
   disable:
     - N802    # function name should be lowercase
