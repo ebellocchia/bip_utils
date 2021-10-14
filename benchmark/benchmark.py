@@ -31,11 +31,11 @@ from tests import (
 # Test types
 @unique
 class TestTypes(Enum):
-    SECP256K1 = auto(),
-    NIST256P1 = auto(),
-    ED25519 = auto(),
-    ED25519_BLAKE2B = auto(),
-    SUBSTRATE = auto(),
+    SECP256K1 = auto()
+    NIST256P1 = auto()
+    ED25519 = auto()
+    ED25519_BLAKE2B = auto()
+    SUBSTRATE = auto()
     MONERO = auto()
 
 
