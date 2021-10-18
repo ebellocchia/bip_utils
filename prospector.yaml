@@ -17,7 +17,6 @@ pylint:
   disable:
     - invalid-name
     - missing-module-docstring
-    - super-init-not-called
   options:
     max-line-length: 120
 
