@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with generic coins configuration."""
+"""Module with generic coins configuration for all other modules."""
 
 # Imports
 from bip_utils.coin_conf.coin_conf import CoinConf
