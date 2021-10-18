@@ -62,19 +62,6 @@ class IPoint(ABC):
         """
 
     @abstractmethod
-    def __init__(self,
-                 point_obj: Any) -> None:
-        """
-        Construct class from point object.
-
-        Args:
-            point_obj (class): Point object
-
-        Raises:
-            TypeError: If point object is not of the correct type
-        """
-
-    @abstractmethod
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -203,20 +190,6 @@ class IPublicKey(ABC):
             ValueError: If key point is not valid
         """
 
-    @abstractmethod
-    def __init__(self,
-                 key_obj: Any) -> None:
-        """
-        Construct class from key object.
-
-        Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
-            ValueError: If key is not valid (optional)
-        """
-
     @staticmethod
     @abstractmethod
     def CurveType() -> EllipticCurveTypes:
@@ -341,20 +314,6 @@ class IPrivateKey(ABC):
 
         Raises:
             ValueError: If key bytes are not valid
-        """
-
-    @abstractmethod
-    def __init__(self,
-                 key_obj: Any) -> None:
-        """
-        Construct class from key object.
-
-        Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
-            ValueError: If key is not valid (optional)
         """
 
     @staticmethod
