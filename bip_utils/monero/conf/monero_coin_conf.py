@@ -21,21 +21,40 @@
 """Module with helper class for Monero coins configuration handling."""
 
 # Imports
+from __future__ import annotations
 from typing import Dict
-from bip_utils.utils.conf import CoinNames
+from bip_utils.coin_conf import CoinConf
+from bip_utils.utils.conf import CoinNames as UtilsCoinNames
 
 
 class MoneroCoinConf:
     """Monero coin configuration class."""
 
-    m_coin_name: CoinNames
+    m_coin_names: UtilsCoinNames
     m_addr_net_ver: bytes
     m_int_addr_net_ver: bytes
     m_subaddr_net_ver: bytes
     m_addr_params: Dict[str, bytes]
 
+    @classmethod
+    def FromCoinConf(cls,
+                     coin_conf: CoinConf) -> MoneroCoinConf:
+        """
+        Construct class from generic coin configuration.
+
+        Args:
+            coin_conf (CoinConf object): Generic coin configuration object
+
+        Returns:
+            MoneroCoinConf object: MoneroCoinConf object
+        """
+        return cls(coin_names=coin_conf.CoinNames(),
+                   addr_net_ver=coin_conf.Params("addr_net_ver"),
+                   int_addr_net_ver=coin_conf.Params("addr_int_net_ver"),
+                   subaddr_net_ver=coin_conf.Params("subaddr_net_ver"))
+
     def __init__(self,
-                 coin_name: CoinNames,
+                 coin_names: UtilsCoinNames,
                  addr_net_ver: bytes,
                  int_addr_net_ver: bytes,
                  subaddr_net_ver: bytes) -> None:
@@ -43,24 +62,24 @@ class MoneroCoinConf:
         Construct class.
 
         Args:
-            coin_name (CoinNames object): Coin names
-            addr_net_ver (bytes)        : Address net version
-            int_addr_net_ver (bytes)    : Integrated address net version
-            subaddr_net_ver (bytes)     : Subaddress net version
+            coin_names (CoinNames object): Coin names
+            addr_net_ver (bytes)         : Address net version
+            int_addr_net_ver (bytes)     : Integrated address net version
+            subaddr_net_ver (bytes)      : Subaddress net version
         """
-        self.m_coin_name = coin_name
+        self.m_coin_names = coin_names
         self.m_addr_net_ver = addr_net_ver
         self.m_int_addr_net_ver = int_addr_net_ver
         self.m_subaddr_net_ver = subaddr_net_ver
 
-    def CoinNames(self) -> CoinNames:
+    def CoinNames(self) -> UtilsCoinNames:
         """
         Get coin names.
 
         Returns:
             CoinNames object: CoinNames object
         """
-        return self.m_coin_name
+        return self.m_coin_names
 
     def AddrNetVersion(self) -> bytes:
         """

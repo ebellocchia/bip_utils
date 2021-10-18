@@ -22,9 +22,10 @@
 # Imports
 import binascii
 from bip_utils import (
-    Bip32KeyError, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError, BipCoinConf,
+    Bip32KeyError, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError,
     Bip44PublicKey, Bip44PrivateKey, Monero
 )
+from bip_utils.bip.conf.common import BipCoinConf
 
 
 #

@@ -25,7 +25,7 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.base58 import Base58Encoder
-from bip_utils.coin_conf import EosConf
+from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
@@ -65,4 +65,4 @@ class EosAddr(IAddrEncoder):
 
         checksum = CryptoUtils.Ripemd160(pub_key_bytes)[:EosAddrConst.CHECKSUM_BYTE_LEN]
 
-        return EosConf.ADDR_PREFIX + Base58Encoder.Encode(pub_key_bytes + checksum)
+        return CoinsConf.Eos.Params("addr_prefix") + Base58Encoder.Encode(pub_key_bytes + checksum)

@@ -24,9 +24,7 @@
 from typing import Dict
 from bip_utils.monero.conf.monero_coin_conf import MoneroCoinConf
 from bip_utils.monero.conf.monero_coins import MoneroCoins
-from bip_utils.monero.conf.monero_conf import (
-    MoneroMainNet, MoneroStageNet, MoneroTestNet
-)
+from bip_utils.monero.conf.monero_conf import MoneroConf
 
 
 class MoneroConfGetterConst:
@@ -34,9 +32,9 @@ class MoneroConfGetterConst:
 
     # Map from MoneroCoins to configuration classes
     COIN_TO_CONF: Dict[MoneroCoins, MoneroCoinConf] = {
-        MoneroCoins.MONERO_MAINNET: MoneroMainNet,
-        MoneroCoins.MONERO_STAGENET: MoneroStageNet,
-        MoneroCoins.MONERO_TESTNET: MoneroTestNet,
+        MoneroCoins.MONERO_MAINNET: MoneroConf.MainNet,
+        MoneroCoins.MONERO_STAGENET: MoneroConf.StageNet,
+        MoneroCoins.MONERO_TESTNET: MoneroConf.TestNet,
     }
 
 

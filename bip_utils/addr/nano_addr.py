@@ -24,7 +24,7 @@
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.coin_conf import NanoConf
+from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.base32 import Base32Encoder
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
@@ -77,4 +77,4 @@ class NanoAddr(IAddrEncoder):
         b32_enc = Base32Encoder.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)
 
         # Add prefix
-        return NanoConf.ADDR_PREFIX + b32_enc[NanoAddrConst.ENC_PAYLOAD_PAD_BYTE_LEN:]
+        return CoinsConf.Nano.Params("addr_prefix") + b32_enc[NanoAddrConst.ENC_PAYLOAD_PAD_BYTE_LEN:]

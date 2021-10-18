@@ -24,7 +24,7 @@
 from typing import Dict
 from bip_utils.substrate.conf.substrate_coin_conf import SubstrateCoinConf
 from bip_utils.substrate.conf.substrate_coins import SubstrateCoins
-from bip_utils.substrate.conf.substrate_conf import *
+from bip_utils.substrate.conf.substrate_conf import SubstrateConf
 
 
 class SubstrateConfGetterConst:
@@ -32,20 +32,20 @@ class SubstrateConfGetterConst:
 
     # Map from SubstrateCoins to configuration classes
     COIN_TO_CONF: Dict[SubstrateCoins, SubstrateCoinConf] = {
-        SubstrateCoins.ACALA: SubstrateAcala,
-        SubstrateCoins.BIFROST: SubstrateBifrost,
-        SubstrateCoins.CHAINX: SubstrateChainX,
-        SubstrateCoins.EDGEWARE: SubstrateEdgeware,
-        SubstrateCoins.GENERIC: SubstrateGeneric,
-        SubstrateCoins.KARURA: SubstrateKarura,
-        SubstrateCoins.KUSAMA: SubstrateKusama,
-        SubstrateCoins.MOONBEAM: SubstrateMoonbeam,
-        SubstrateCoins.MOONRIVER: SubstrateMoonriver,
-        SubstrateCoins.PHALA: SubstratePhala,
-        SubstrateCoins.PLASM: SubstratePlasm,
-        SubstrateCoins.POLKADOT: SubstratePolkadot,
-        SubstrateCoins.SORA: SubstrateSora,
-        SubstrateCoins.STAFI: SubstrateStafi,
+        SubstrateCoins.ACALA: SubstrateConf.Acala,
+        SubstrateCoins.BIFROST: SubstrateConf.Bifrost,
+        SubstrateCoins.CHAINX: SubstrateConf.ChainX,
+        SubstrateCoins.EDGEWARE: SubstrateConf.Edgeware,
+        SubstrateCoins.GENERIC: SubstrateConf.Generic,
+        SubstrateCoins.KARURA: SubstrateConf.Karura,
+        SubstrateCoins.KUSAMA: SubstrateConf.Kusama,
+        SubstrateCoins.MOONBEAM: SubstrateConf.Moonbeam,
+        SubstrateCoins.MOONRIVER: SubstrateConf.Moonriver,
+        SubstrateCoins.PHALA: SubstrateConf.Phala,
+        SubstrateCoins.PLASM: SubstrateConf.Plasm,
+        SubstrateCoins.POLKADOT: SubstrateConf.Polkadot,
+        SubstrateCoins.SORA: SubstrateConf.Sora,
+        SubstrateCoins.STAFI: SubstrateConf.Stafi,
     }
 
 

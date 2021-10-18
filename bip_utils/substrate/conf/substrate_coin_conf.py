@@ -21,39 +21,56 @@
 """Module with helper class for Substrate coins configuration handling."""
 
 # Imports
+from __future__ import annotations
 from typing import Dict
-from bip_utils.utils.conf import CoinNames
+from bip_utils.coin_conf import CoinConf
+from bip_utils.utils.conf import CoinNames as UtilsCoinNames
 
 
 class SubstrateCoinConf:
     """Substrate coin configuration class."""
 
-    m_coin_name: CoinNames
+    m_coin_names: UtilsCoinNames
     m_ss58_format: int
     m_addr_params: Dict[str, int]
 
+    @classmethod
+    def FromCoinConf(cls,
+                     coin_conf: CoinConf) -> SubstrateCoinConf:
+        """
+        Construct class from generic coin configuration.
+
+        Args:
+            coin_conf (CoinConf object): Generic coin configuration object
+
+        Returns:
+            SubstrateCoinConf object: SubstrateCoinConf object
+        """
+        return cls(coin_names=coin_conf.CoinNames(),
+                   ss58_format=coin_conf.Params("addr_ss58_format"))
+
     def __init__(self,
-                 coin_name: CoinNames,
+                 coin_names: UtilsCoinNames,
                  ss58_format: int) -> None:
         """
         Construct class.
 
         Args:
-            coin_name (CoinNames object): Coin names
-            ss58_format (int)           : SS58 format
+            coin_names (CoinNames object): Coin names
+            ss58_format (int)            : SS58 format
         """
-        self.m_coin_name = coin_name
+        self.m_coin_names = coin_names
         self.m_ss58_format = ss58_format
         self.m_addr_params = {"ss58_format": ss58_format}
 
-    def CoinNames(self) -> CoinNames:
+    def CoinNames(self) -> UtilsCoinNames:
         """
         Get coin names.
 
         Returns:
             CoinNames object: CoinNames object
         """
-        return self.m_coin_name
+        return self.m_coin_names
 
     def SS58Format(self) -> int:
         """

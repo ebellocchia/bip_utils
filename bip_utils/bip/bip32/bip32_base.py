@@ -60,6 +60,7 @@ class Bip32BaseUtils:
         Returns a tuple of the left and right halves of the HMAC.
 
         Args:
+            chain_code (bytes): Chain code
             data_bytes (bytes): Data bytes
 
         Returns:

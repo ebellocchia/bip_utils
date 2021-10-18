@@ -24,13 +24,13 @@
 from typing import Any, Dict, Optional, Type
 from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base
-from bip_utils.utils.conf import CoinNames
+from bip_utils.utils.conf import CoinNames as UtilsCoinNames
 
 
 class BipCoinConf:
     """Bip coin configuration class."""
 
-    m_coin_name: CoinNames
+    m_coin_names: UtilsCoinNames
     m_coin_idx: int
     m_is_testnet: bool
     m_def_path: str
@@ -41,20 +41,20 @@ class BipCoinConf:
     m_addr_cls: Type[IAddrEncoder]
 
     def __init__(self,
-                 coin_name: CoinNames,
+                 coin_names: UtilsCoinNames,
                  coin_idx: int,
                  is_testnet: bool,
                  def_path: str,
                  key_net_ver: Bip32KeyNetVersions,
                  wif_net_ver: Optional[bytes],
                  bip32_cls: Type[Bip32Base],
-                 addr_params: Dict[str, Any],
-                 addr_cls: Type[IAddrEncoder]) -> None:
+                 addr_cls: Type[IAddrEncoder],
+                 addr_params: Dict[str, Any]) -> None:
         """
         Construct class.
 
         Args:
-            coin_name (CoinNames object)            : Coin names
+            coin_names (CoinNames object)           : Coin names
             coin_idx (int)                          : Coin index
             is_testnet (bool)                       : Test net flag
             def_path (str)                          : Default path
@@ -64,7 +64,7 @@ class BipCoinConf:
             addr_params (dict)                      : Address parameters
             addr_cls (IAddrEncoder class)           : Address class
         """
-        self.m_coin_name = coin_name
+        self.m_coin_names = coin_names
         self.m_coin_idx = coin_idx
         self.m_is_testnet = is_testnet
         self.m_def_path = def_path
@@ -74,14 +74,14 @@ class BipCoinConf:
         self.m_addr_params = addr_params
         self.m_addr_cls = addr_cls
 
-    def CoinNames(self) -> CoinNames:
+    def CoinNames(self) -> UtilsCoinNames:
         """
         Get coin names.
 
         Returns:
             CoinNames object: CoinNames object
         """
-        return self.m_coin_name
+        return self.m_coin_names
 
     def CoinIndex(self) -> int:
         """

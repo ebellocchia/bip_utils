@@ -21,10 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import (
-    Bip44Algorand, Bip44BitcoinMainNet, Bip44Nano, Bip44Neo,
-    Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey
-)
+from bip_utils import Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey
 from tests.bip.bip32.test_bip32_keys import TEST_KEY_DATA
 from tests.ecc.test_ecc import (
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
@@ -35,23 +32,23 @@ from tests.ecc.test_ecc import (
 TEST_PUB_KEYS = [
     {
         "key": TEST_ED25519_PUB_KEY,
-        "conf": Bip44Algorand,
+        "conf": Bip44Conf.Algorand,
         "address": "PVPKAOVRKALJC5XWNX3PN5T27ZYLJWPIWBX2NNDM25F2WHFF45ODDRMTMA",
     },
     {
         "key": TEST_ED25519_BLAKE2B_PUB_KEY,
-        "conf": Bip44Nano,
+        "conf": Bip44Conf.Nano,
         "key_id": b"23e1ef48982188655152d7e651b754e562eb018e",
         "address": "nano_3kw895nbxskizqabuixm8inn3sb7m4r8wgqr4pdng8iagsargo6jbrca19fr",
     },
     {
         "key": TEST_NIST256P1_PUB_KEY,
-        "conf": Bip44Neo,
+        "conf": Bip44Conf.Neo,
         "address": "AMBkJJRc9CsdSLdxqX3FPK6aQe7cTuAVjo",
     },
     {
         "key": TEST_SECP256K1_PUB_KEY,
-        "conf": Bip44BitcoinMainNet,
+        "conf": Bip44Conf.BitcoinMainNet,
         "address": "1MYrWmM3MQtMt8jwf9kLeHnVxnC59rFWK3",
     },
 ]
@@ -60,23 +57,23 @@ TEST_PUB_KEYS = [
 TEST_PRIV_KEYS = [
     {
         "key": TEST_ED25519_PRIV_KEY,
-        "conf": Bip44Algorand,
+        "conf": Bip44Conf.Algorand,
         "wif": "",
     },
     {
         "key": TEST_ED25519_BLAKE2B_PRIV_KEY,
-        "conf": Bip44Nano,
+        "conf": Bip44Conf.Nano,
         "key_id": b"23e1ef48982188655152d7e651b754e562eb018e",
         "wif": "",
     },
     {
         "key": TEST_NIST256P1_PRIV_KEY,
-        "conf": Bip44Neo,
+        "conf": Bip44Conf.Neo,
         "wif": "",
     },
     {
         "key": TEST_SECP256K1_PRIV_KEY,
-        "conf": Bip44BitcoinMainNet,
+        "conf": Bip44Conf.BitcoinMainNet,
         "wif": "L4ngnZNFoErog8jR28jQj8ByPW5vkttUA6GnE4pcZpBzYoVzu1n8",
     },
 ]
@@ -117,5 +114,5 @@ class Bip44KeyDataTests(unittest.TestCase):
     # Test invalid params
     def test_invalid_params(self):
         # Different elliptic curve between BIP32 key and coin configuration
-        self.assertRaises(ValueError, Bip44PublicKey, TEST_BIP32_PUB_KEY, Bip44Neo)
-        self.assertRaises(ValueError, Bip44PrivateKey, TEST_BIP32_PRIV_KEY, Bip44Neo)
+        self.assertRaises(ValueError, Bip44PublicKey, TEST_BIP32_PUB_KEY, Bip44Conf.Neo)
+        self.assertRaises(ValueError, Bip44PrivateKey, TEST_BIP32_PRIV_KEY, Bip44Conf.Neo)

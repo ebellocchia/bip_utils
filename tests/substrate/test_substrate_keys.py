@@ -25,7 +25,7 @@ import unittest
 from bip_utils import (
     Sr25519PublicKey, Sr25519PrivateKey, SubstrateKeyError, SubstratePrivateKey, SubstratePublicKey
 )
-from bip_utils.substrate.conf.substrate_conf import SubstratePolkadot
+from bip_utils.substrate.conf.substrate_conf import SubstrateConf
 from tests.ecc.test_ecc import (
     TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID,
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
@@ -44,49 +44,49 @@ class SubstrateKeysTests(unittest.TestCase):
     # Test private key
     def test_priv_key(self):
         # FromBytesOrKeyObject (object)
-        self.__test_priv_key_obj(SubstratePrivateKey.FromBytesOrKeyObject(TEST_SR25519_PRIV_KEY, SubstratePolkadot))
+        self.__test_priv_key_obj(SubstratePrivateKey.FromBytesOrKeyObject(TEST_SR25519_PRIV_KEY, SubstrateConf.Polkadot))
         # FromBytesOrKeyObject (bytes)
-        self.__test_priv_key_obj(SubstratePrivateKey.FromBytesOrKeyObject(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), SubstratePolkadot))
+        self.__test_priv_key_obj(SubstratePrivateKey.FromBytesOrKeyObject(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), SubstrateConf.Polkadot))
         # FromBytes
-        self.__test_priv_key_obj(SubstratePrivateKey.FromBytes(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), SubstratePolkadot))
+        self.__test_priv_key_obj(SubstratePrivateKey.FromBytes(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), SubstrateConf.Polkadot))
 
     # Test public key
     def test_pub_key(self):
         # FromBytesOrKeyObject (object)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY, SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY, SubstrateConf.Polkadot))
         # FromBytesOrKeyObject (compressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), SubstrateConf.Polkadot))
         # FromBytesOrKeyObject (uncompressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytesOrKeyObject(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), SubstrateConf.Polkadot))
         # FromBytes (compressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), SubstrateConf.Polkadot))
         # FromBytes (uncompressed)
-        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), SubstratePolkadot))
+        self.__test_pub_key_obj(SubstratePublicKey.FromBytes(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), SubstrateConf.Polkadot))
 
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_PRIV_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_MONERO_PRIV_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_NIST256P1_PRIV_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_SECP256K1_PRIV_KEY, SubstratePolkadot)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_PRIV_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_MONERO_PRIV_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_NIST256P1_PRIV_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePrivateKey, TEST_SECP256K1_PRIV_KEY, SubstrateConf.Polkadot)
 
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_PUB_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_BLAKE2B_PUB_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_MONERO_PUB_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_NIST256P1_PUB_KEY, SubstratePolkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_SECP256K1_PUB_KEY, SubstratePolkadot)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_PUB_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_BLAKE2B_PUB_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_MONERO_PUB_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_NIST256P1_PUB_KEY, SubstrateConf.Polkadot)
+        self.assertRaises(TypeError, SubstratePublicKey, TEST_SECP256K1_PUB_KEY, SubstrateConf.Polkadot)
 
     # Test invalid keys
     def test_invalid_keys(self):
         # Invalid private keys
         for test in TEST_VECT_SR25519_PRIV_KEY_INVALID:
-            self.assertRaises(SubstrateKeyError, SubstratePrivateKey.FromBytesOrKeyObject, binascii.unhexlify(test), SubstratePolkadot)
-            self.assertRaises(SubstrateKeyError, SubstratePrivateKey.FromBytes, binascii.unhexlify(test), SubstratePolkadot)
+            self.assertRaises(SubstrateKeyError, SubstratePrivateKey.FromBytesOrKeyObject, binascii.unhexlify(test), SubstrateConf.Polkadot)
+            self.assertRaises(SubstrateKeyError, SubstratePrivateKey.FromBytes, binascii.unhexlify(test), SubstrateConf.Polkadot)
         # Invalid public keys
         for test in TEST_VECT_SR25519_PUB_KEY_INVALID:
-            self.assertRaises(SubstrateKeyError, SubstratePublicKey.FromBytesOrKeyObject, binascii.unhexlify(test), SubstratePolkadot)
-            self.assertRaises(SubstrateKeyError, SubstratePublicKey.FromBytes, binascii.unhexlify(test), SubstratePolkadot)
+            self.assertRaises(SubstrateKeyError, SubstratePublicKey.FromBytesOrKeyObject, binascii.unhexlify(test), SubstrateConf.Polkadot)
+            self.assertRaises(SubstrateKeyError, SubstratePublicKey.FromBytes, binascii.unhexlify(test), SubstrateConf.Polkadot)
 
     # Test private key object
     def __test_priv_key_obj(self, priv_key):

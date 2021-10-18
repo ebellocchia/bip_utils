@@ -24,7 +24,7 @@
 from typing import Dict
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.bip.conf.bip49.bip49_coins import Bip49Coins
-from bip_utils.bip.conf.bip49.bip49_conf import *
+from bip_utils.bip.conf.bip49.bip49_conf import Bip49Conf
 from bip_utils.bip.conf.common import BipCoins
 
 
@@ -33,20 +33,20 @@ class Bip49ConfGetterConst:
 
     # Map from Bip49Coins to configuration classes
     COIN_TO_CONF: Dict[Bip49Coins, BipCoinConf] = {
-        Bip49Coins.BITCOIN: Bip49BitcoinMainNet,
-        Bip49Coins.BITCOIN_TESTNET: Bip49BitcoinTestNet,
-        Bip49Coins.BITCOIN_CASH: Bip49BitcoinCashMainNet,
-        Bip49Coins.BITCOIN_CASH_TESTNET: Bip49BitcoinCashTestNet,
-        Bip49Coins.BITCOIN_SV: Bip49BitcoinSvMainNet,
-        Bip49Coins.BITCOIN_SV_TESTNET: Bip49BitcoinSvTestNet,
-        Bip49Coins.DASH: Bip49DashMainNet,
-        Bip49Coins.DASH_TESTNET: Bip49DashTestNet,
-        Bip49Coins.DOGECOIN: Bip49DogecoinMainNet,
-        Bip49Coins.DOGECOIN_TESTNET: Bip49DogecoinTestNet,
-        Bip49Coins.LITECOIN: Bip49LitecoinMainNet,
-        Bip49Coins.LITECOIN_TESTNET: Bip49LitecoinTestNet,
-        Bip49Coins.ZCASH: Bip49ZcashMainNet,
-        Bip49Coins.ZCASH_TESTNET: Bip49ZcashTestNet,
+        Bip49Coins.BITCOIN: Bip49Conf.BitcoinMainNet,
+        Bip49Coins.BITCOIN_TESTNET: Bip49Conf.BitcoinTestNet,
+        Bip49Coins.BITCOIN_CASH: Bip49Conf.BitcoinCashMainNet,
+        Bip49Coins.BITCOIN_CASH_TESTNET: Bip49Conf.BitcoinCashTestNet,
+        Bip49Coins.BITCOIN_SV: Bip49Conf.BitcoinSvMainNet,
+        Bip49Coins.BITCOIN_SV_TESTNET: Bip49Conf.BitcoinSvTestNet,
+        Bip49Coins.DASH: Bip49Conf.DashMainNet,
+        Bip49Coins.DASH_TESTNET: Bip49Conf.DashTestNet,
+        Bip49Coins.DOGECOIN: Bip49Conf.DogecoinMainNet,
+        Bip49Coins.DOGECOIN_TESTNET: Bip49Conf.DogecoinTestNet,
+        Bip49Coins.LITECOIN: Bip49Conf.LitecoinMainNet,
+        Bip49Coins.LITECOIN_TESTNET: Bip49Conf.LitecoinTestNet,
+        Bip49Coins.ZCASH: Bip49Conf.ZcashMainNet,
+        Bip49Coins.ZCASH_TESTNET: Bip49Conf.ZcashTestNet,
     }
 
 

@@ -20,7 +20,15 @@ from bip_utils.bech32 import (
 # WIF
 from bip_utils.wif import WifDecoder, WifEncoder
 # Address computation
-from bip_utils.addr import *
+from bip_utils.addr import (
+    AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EosAddr,
+    EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr, NeoAddr, OneAddr,
+    P2PKHAddr, BchP2PKHAddr, P2SHAddr, BchP2SHAddr, P2WPKHAddr, SolAddr,
+    SubstrateEd25519Addr, SubstrateSr25519Addr, TrxAddr, XlmAddrTypes, XlmAddr, XmrIntegratedAddr,
+    XmrAddr, XrpAddr, XtzAddrPrefixes, XtzAddr, ZilAddr
+)
+# Generic coins configuration
+from bip_utils.coin_conf import CoinsConf
 # BIP39
 from bip_utils.bip.bip39 import (
     Bip39ChecksumError,
@@ -31,7 +39,7 @@ from bip_utils.bip.bip39 import (
 # BIP32
 from bip_utils.bip.bip32 import (
     Bip32KeyError, Bip32PathError,
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData,
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData,
     Bip32Path, Bip32PathParser,
     Bip32PublicKey, Bip32PrivateKey,
     Bip32Utils,
@@ -45,9 +53,9 @@ from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip49 import Bip49
 from bip_utils.bip.bip84 import Bip84
 # BIP coins configuration
-from bip_utils.bip.conf.bip44 import *
-from bip_utils.bip.conf.bip49 import *
-from bip_utils.bip.conf.bip84 import *
+from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44Conf
+from bip_utils.bip.conf.bip49 import Bip49Coins, Bip49Conf
+from bip_utils.bip.conf.bip84 import Bip84Coins, Bip84Conf
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, MoneroSubaddress, Monero
@@ -60,7 +68,7 @@ from bip_utils.monero.mnemonic import (
     MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator
 )
 # Monero configuration
-from bip_utils.monero.conf import *
+from bip_utils.monero.conf import MoneroCoins, MoneroConf
 # Substrate
 from bip_utils.substrate import (
     SubstrateKeyError, SubstratePathError,
@@ -71,7 +79,7 @@ from bip_utils.substrate import (
 # Substrate mnemonic
 from bip_utils.substrate.mnemonic import SubstrateBip39SeedGenerator
 # Substrate configuration
-from bip_utils.substrate.conf import *
+from bip_utils.substrate.conf import SubstrateCoins, SubstrateConf
 # ECC
 from bip_utils.ecc import (
     EllipticCurveGetter, EllipticCurveTypes,

@@ -24,93 +24,51 @@ Reference: https://wiki.polkadot.network/docs/build-ss58-registry.
 """
 
 # Imports
-from bip_utils.coin_conf import (
-    AcalaConf, BifrostConf, ChainXConf, EdgewareConf, GenericSubstrateConf, KaruraConf, KusamaConf,
-    MoonbeamConf, MoonriverConf, PhalaConf, PlasmConf, PolkadotConf, SoraConf, StafiConf
-)
+from bip_utils.coin_conf import CoinsConf
 from bip_utils.substrate.conf.substrate_coin_conf import SubstrateCoinConf
 
 
-# Configuration for a Acala
-SubstrateAcala: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=AcalaConf.COIN_NAME,
-    ss58_format=AcalaConf.ADDR_SS58_FORMAT,
-)
+class SubstrateConf:
+    """Class container for Substrate configuration."""
 
-# Configuration for a Bifrost
-SubstrateBifrost: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=BifrostConf.COIN_NAME,
-    ss58_format=BifrostConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Acala
+    Acala: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Acala)
 
-# Configuration for a ChainX
-SubstrateChainX: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=ChainXConf.COIN_NAME,
-    ss58_format=ChainXConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Bifrost
+    Bifrost: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Bifrost)
 
-# Configuration for a Edgeware
-SubstrateEdgeware: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=EdgewareConf.COIN_NAME,
-    ss58_format=EdgewareConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for ChainX
+    ChainX: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.ChainX)
 
-# Configuration for a generic Substrate coin
-SubstrateGeneric: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=GenericSubstrateConf.COIN_NAME,
-    ss58_format=GenericSubstrateConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Edgeware
+    Edgeware: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Edgeware)
 
-# Configuration for Karura
-SubstrateKarura: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=KaruraConf.COIN_NAME,
-    ss58_format=KaruraConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for generic Substrate coin
+    Generic: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.GenericSubstrate)
 
-# Configuration for Kusama
-SubstrateKusama: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=KusamaConf.COIN_NAME,
-    ss58_format=KusamaConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Karura
+    Karura: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Karura)
 
-# Configuration for a Moonbeam
-SubstrateMoonbeam: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=MoonbeamConf.COIN_NAME,
-    ss58_format=MoonbeamConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Kusama
+    Kusama: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Kusama)
 
-# Configuration for a Moonriver
-SubstrateMoonriver: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=MoonriverConf.COIN_NAME,
-    ss58_format=MoonriverConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Moonbeam
+    Moonbeam: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Moonbeam)
 
-# Configuration for a Phala
-SubstratePhala: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=PhalaConf.COIN_NAME,
-    ss58_format=PhalaConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Moonriver
+    Moonriver: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Moonriver)
 
-# Configuration for a Plasm
-SubstratePlasm: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=PlasmConf.COIN_NAME,
-    ss58_format=PlasmConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Phala
+    Phala: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Phala)
 
-# Configuration for Polkadot
-SubstratePolkadot: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=PolkadotConf.COIN_NAME,
-    ss58_format=PolkadotConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Plasm
+    Plasm: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Plasm)
 
-# Configuration for a Sora
-SubstrateSora: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=SoraConf.COIN_NAME,
-    ss58_format=SoraConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Polkadot
+    Polkadot: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Polkadot)
 
-# Configuration for a Stafi
-SubstrateStafi: SubstrateCoinConf = SubstrateCoinConf(
-    coin_name=StafiConf.COIN_NAME,
-    ss58_format=StafiConf.ADDR_SS58_FORMAT,
-)
+    # Configuration for Sora
+    Sora: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Sora)
+
+    # Configuration for Stafi
+    Stafi: SubstrateCoinConf = SubstrateCoinConf.FromCoinConf(CoinsConf.Stafi)

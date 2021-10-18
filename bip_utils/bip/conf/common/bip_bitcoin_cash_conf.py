@@ -38,21 +38,21 @@ class BipBitcoinCashConf(BipCoinConf):
     m_use_legacy_addr: bool
 
     def __init__(self,
-                 coin_name: CoinNames,
+                 coin_names: CoinNames,
                  coin_idx: int,
                  is_testnet: bool,
                  def_path: str,
                  key_net_ver: Bip32KeyNetVersions,
                  wif_net_ver: bytes,
                  bip32_cls: Type[Bip32Base],
-                 addr_params: Dict[str, Any],
                  addr_cls: Type[IAddrEncoder],
-                 addr_cls_legacy: Type[IAddrEncoder]) -> None:
+                 addr_cls_legacy: Type[IAddrEncoder],
+                 addr_params: Dict[str, Any]) -> None:
         """
         Construct class.
 
         Args:
-            coin_name (CoinNames object)            : Coin names
+            coin_names (CoinNames object)           : Coin names
             coin_idx (int)                          : Coin index
             is_testnet (bool)                       : Test net flag
             def_path (str)                          : Default path
@@ -63,15 +63,15 @@ class BipBitcoinCashConf(BipCoinConf):
             addr_cls (IAddrEncoder class)           : Address class
             addr_cls_legacy (IAddrEncoder class)    : Legacy ddress class
         """
-        super().__init__(coin_name,
-                         coin_idx,
-                         is_testnet,
-                         def_path,
-                         key_net_ver,
-                         wif_net_ver,
-                         bip32_cls,
-                         addr_params,
-                         addr_cls)
+        super().__init__(coin_names=coin_names,
+                         coin_idx=coin_idx,
+                         is_testnet=is_testnet,
+                         def_path=def_path,
+                         key_net_ver=key_net_ver,
+                         wif_net_ver=wif_net_ver,
+                         bip32_cls=bip32_cls,
+                         addr_cls=addr_cls,
+                         addr_params=addr_params)
 
         self.m_addr_cls_legacy = addr_cls_legacy
         self.m_use_legacy_addr = False

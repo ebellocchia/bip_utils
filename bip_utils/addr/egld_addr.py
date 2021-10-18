@@ -26,7 +26,7 @@ from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32Encoder
-from bip_utils.coin_conf import ElrondConf
+from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 
 
@@ -55,4 +55,4 @@ class EgldAddr(IAddrEncoder):
         """
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-        return Bech32Encoder.Encode(ElrondConf.ADDR_HRP, pub_key_obj.RawCompressed().ToBytes()[1:])
+        return Bech32Encoder.Encode(CoinsConf.Elrond.Params("addr_hrp"), pub_key_obj.RawCompressed().ToBytes()[1:])

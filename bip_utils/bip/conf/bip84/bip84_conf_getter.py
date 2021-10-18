@@ -24,9 +24,7 @@
 from typing import Dict
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.bip.conf.bip84.bip84_coins import Bip84Coins
-from bip_utils.bip.conf.bip84.bip84_conf import (
-    Bip84BitcoinMainNet, Bip84BitcoinTestNet, Bip84LitecoinMainNet, Bip84LitecoinTestNet
-)
+from bip_utils.bip.conf.bip84.bip84_conf import Bip84Conf
 from bip_utils.bip.conf.common import BipCoins
 
 
@@ -35,10 +33,10 @@ class Bip84ConfGetterConst:
 
     # Map from Bip84Coins to configuration classes
     COIN_TO_CONF: Dict[Bip84Coins, BipCoinConf] = {
-        Bip84Coins.BITCOIN: Bip84BitcoinMainNet,
-        Bip84Coins.BITCOIN_TESTNET: Bip84BitcoinTestNet,
-        Bip84Coins.LITECOIN: Bip84LitecoinMainNet,
-        Bip84Coins.LITECOIN_TESTNET: Bip84LitecoinTestNet,
+        Bip84Coins.BITCOIN: Bip84Conf.BitcoinMainNet,
+        Bip84Coins.BITCOIN_TESTNET: Bip84Conf.BitcoinTestNet,
+        Bip84Coins.LITECOIN: Bip84Conf.LitecoinMainNet,
+        Bip84Coins.LITECOIN_TESTNET: Bip84Conf.LitecoinTestNet,
     }
 
 

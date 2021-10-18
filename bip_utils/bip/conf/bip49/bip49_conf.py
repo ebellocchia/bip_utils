@@ -26,9 +26,7 @@ from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Secp256k1
 from bip_utils.bip.conf.common import (
     BipCoinConf, BipBitcoinCashConf, BipLitecoinConf, NOT_HARDENED_DEF_PATH
 )
-from bip_utils.coin_conf import (
-    BitcoinConf, BitcoinCashConf, BitcoinSvConf, DashConf, DogecoinConf, LitecoinConf, ZcashConf
-)
+from bip_utils.coin_conf import CoinsConf
 
 
 # Bitcoin key net version for main net (ypub / yprv)
@@ -38,208 +36,232 @@ _BIP49_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x9
 _BIP49_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x4a\x52\x62",
                                                                        b"\x04\x4a\x4e\x28")
 
-# Configuration for Bitcoin main net
-Bip49BitcoinMainNet: BipCoinConf = BipCoinConf(
-    coin_name=BitcoinConf.COIN_NAME_MN,
-    coin_idx=0,
-    is_testnet=False,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
-    wif_net_ver=BitcoinConf.WIF_NET_VER_MN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": BitcoinConf.P2SH_NET_VER_MN},
-)
-# Configuration for Bitcoin test net
-Bip49BitcoinTestNet: BipCoinConf = BipCoinConf(
-    coin_name=BitcoinConf.COIN_NAME_TN,
-    coin_idx=1,
-    is_testnet=True,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
-    wif_net_ver=BitcoinConf.WIF_NET_VER_TN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": BitcoinConf.P2SH_NET_VER_TN},
-)
 
-# Configuration for Bitcoin Cash main net
-Bip49BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
-    coin_name=BitcoinCashConf.COIN_NAME_MN,
-    coin_idx=145,
-    is_testnet=False,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
-    wif_net_ver=BitcoinCashConf.WIF_NET_VER_MN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=BchP2SHAddr,
-    addr_params={
-        "std": {
-            "net_ver": BitcoinCashConf.P2SH_STD_NET_VER_MN,
-            "hrp": BitcoinCashConf.P2SH_STD_HRP_MN,
+class Bip49Conf:
+    """Class container for Bip49 configuration."""
+
+    # Configuration for Bitcoin main net
+    BitcoinMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.BitcoinMainNet.CoinNames(),
+        coin_idx=0,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.BitcoinMainNet.Params("p2sh_net_ver"),
         },
-        "legacy": {
-            "net_ver": BitcoinCashConf.P2SH_LEGACY_NET_VER_MN,
-        }
-    },
-    addr_cls_legacy=P2SHAddr,
-)
-# Configuration for Bitcoin Cash test net
-Bip49BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
-    coin_name=BitcoinCashConf.COIN_NAME_TN,
-    coin_idx=1,
-    is_testnet=True,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
-    wif_net_ver=BitcoinCashConf.WIF_NET_VER_TN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=BchP2SHAddr,
-    addr_params={
-        "std": {
-            "net_ver": BitcoinCashConf.P2SH_STD_NET_VER_TN,
-            "hrp": BitcoinCashConf.P2SH_STD_HRP_TN,
+    )
+    # Configuration for Bitcoin test net
+    BitcoinTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.BitcoinTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.BitcoinTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.BitcoinTestNet.Params("p2sh_net_ver"),
         },
-        "legacy": {
-            "net_ver": BitcoinCashConf.P2SH_LEGACY_NET_VER_TN,
-        }
-    },
-    addr_cls_legacy=P2SHAddr,
-)
+    )
 
-# Configuration for BitcoinSV main net
-Bip49BitcoinSvMainNet: BipCoinConf = BipCoinConf(
-    coin_name=BitcoinSvConf.COIN_NAME_MN,
-    coin_idx=236,
-    is_testnet=False,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
-    wif_net_ver=BitcoinSvConf.WIF_NET_VER_MN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": BitcoinSvConf.P2SH_NET_VER_MN},
-)
-# Configuration for BitcoinSV test net
-Bip49BitcoinSvTestNet: BipCoinConf = BipCoinConf(
-    coin_name=BitcoinSvConf.COIN_NAME_TN,
-    coin_idx=1,
-    is_testnet=True,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
-    wif_net_ver=BitcoinSvConf.WIF_NET_VER_TN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": BitcoinSvConf.P2SH_NET_VER_TN},
-)
+    # Configuration for Bitcoin Cash main net
+    BitcoinCashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
+        coin_names=CoinsConf.BitcoinCashMainNet.CoinNames(),
+        coin_idx=145,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.BitcoinCashMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=BchP2SHAddr,
+        addr_params={
+            "std": {
+                "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver"),
+                "hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
+            },
+            "legacy": {
+                "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_legacy_net_ver"),
+            }
+        },
+        addr_cls_legacy=P2SHAddr,
+    )
+    # Configuration for Bitcoin Cash test net
+    BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
+        coin_names=CoinsConf.BitcoinCashTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.BitcoinCashTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=BchP2SHAddr,
+        addr_params={
+            "std": {
+                "net_ver": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_net_ver"),
+                "hrp": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_hrp"),
+            },
+            "legacy": {
+                "net_ver": CoinsConf.BitcoinCashTestNet.Params("p2sh_legacy_net_ver"),
+            }
+        },
+        addr_cls_legacy=P2SHAddr,
+    )
 
-# Configuration for Dash main net
-Bip49DashMainNet: BipCoinConf = BipCoinConf(
-    coin_name=DashConf.COIN_NAME_MN,
-    coin_idx=5,
-    is_testnet=False,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
-    wif_net_ver=DashConf.WIF_NET_VER_MN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": DashConf.P2SH_NET_VER_MN},
-)
-# Configuration for Dash test net
-Bip49DashTestNet: BipCoinConf = BipCoinConf(
-    coin_name=DashConf.COIN_NAME_TN,
-    coin_idx=1,
-    is_testnet=True,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
-    wif_net_ver=DashConf.WIF_NET_VER_TN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": DashConf.P2SH_NET_VER_TN},
-)
+    # Configuration for BitcoinSV main net
+    BitcoinSvMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.BitcoinSvMainNet.CoinNames(),
+        coin_idx=236,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.BitcoinSvMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.BitcoinSvMainNet.Params("p2sh_net_ver"),
+        },
+    )
+    # Configuration for BitcoinSV test net
+    BitcoinSvTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.BitcoinSvTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.BitcoinSvTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.BitcoinSvTestNet.Params("p2sh_net_ver"),
+        },
+    )
 
-# Configuration for Dogecoin main net
-Bip49DogecoinMainNet: BipCoinConf = BipCoinConf(
-    coin_name=DogecoinConf.COIN_NAME_MN,
-    coin_idx=3,
-    is_testnet=False,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"\x02\xfa\xca\xfd",
-                                    b"\x02\xfa\xc3\x98"),   # dgub / dgpv
-    wif_net_ver=DogecoinConf.WIF_NET_VER_MN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": DogecoinConf.P2SH_NET_VER_MN},
-)
-# Configuration for Dogecoin test net
-Bip49DogecoinTestNet: BipCoinConf = BipCoinConf(
-    coin_name=DogecoinConf.COIN_NAME_TN,
-    coin_idx=1,
-    is_testnet=True,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"\x04\x32\xa9\xa8",
-                                    b"\x04\x32\xa2\x43"),   # tgub / tgpv
-    wif_net_ver=DogecoinConf.WIF_NET_VER_TN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": DogecoinConf.P2SH_NET_VER_TN},
-)
+    # Configuration for Dash main net
+    DashMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.DashMainNet.CoinNames(),
+        coin_idx=5,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.DashMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.DashMainNet.Params("p2sh_net_ver"),
+        },
+    )
+    # Configuration for Dash test net
+    DashTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.DashTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.DashTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.DashTestNet.Params("p2sh_net_ver"),
+        },
+    )
 
-# Configuration for Litecoin main net
-Bip49LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
-    coin_name=LitecoinConf.COIN_NAME_MN,
-    coin_idx=2,
-    is_testnet=False,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
-    alt_key_net_ver=Bip32KeyNetVersions(b"\x01\xb2\x6e\xf6",
-                                        b"\x01\xb2\x67\x92"),   # Mtpv / Mtub
-    wif_net_ver=LitecoinConf.WIF_NET_VER_MN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={
-        "std_net_ver": LitecoinConf.P2SH_STD_NET_VER_MN,
-        "depr_net_ver": LitecoinConf.P2SH_DEPR_NET_VER_MN,
-    },
-)
-# Configuration for Litecoin test net
-Bip49LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
-    coin_name=LitecoinConf.COIN_NAME_TN,
-    coin_idx=1,
-    is_testnet=True,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
-                                    b"\x04\x36\xef\x7d"),       # ttub / ttpv
-    alt_key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
-                                        b"\x04\x36\xef\x7d"),   # ttub / ttpv
-    wif_net_ver=LitecoinConf.WIF_NET_VER_TN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={
-        "std_net_ver": LitecoinConf.P2SH_STD_NET_VER_TN,
-        "depr_net_ver": LitecoinConf.P2SH_DEPR_NET_VER_TN,
-    },
-)
+    # Configuration for Dogecoin main net
+    DogecoinMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.DogecoinMainNet.CoinNames(),
+        coin_idx=3,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=Bip32KeyNetVersions(b"\x02\xfa\xca\xfd",
+                                        b"\x02\xfa\xc3\x98"),   # dgub / dgpv
+        wif_net_ver=CoinsConf.DogecoinMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.DogecoinMainNet.Params("p2sh_net_ver"),
+        },
+    )
+    # Configuration for Dogecoin test net
+    DogecoinTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.DogecoinTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=Bip32KeyNetVersions(b"\x04\x32\xa9\xa8",
+                                        b"\x04\x32\xa2\x43"),   # tgub / tgpv
+        wif_net_ver=CoinsConf.DogecoinTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.DogecoinTestNet.Params("p2sh_net_ver"),
+        },
+    )
 
-# Configuration for Zcash main net
-Bip49ZcashMainNet: BipCoinConf = BipCoinConf(
-    coin_name=ZcashConf.COIN_NAME_MN,
-    coin_idx=133,
-    is_testnet=False,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
-    wif_net_ver=ZcashConf.WIF_NET_VER_MN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": ZcashConf.P2SH_NET_VER_MN},
-)
-# Configuration for Zcash test net
-Bip49ZcashTestNet: BipCoinConf = BipCoinConf(
-    coin_name=ZcashConf.COIN_NAME_TN,
-    coin_idx=1,
-    is_testnet=True,
-    def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
-    wif_net_ver=ZcashConf.WIF_NET_VER_TN,
-    bip32_cls=Bip32Secp256k1,
-    addr_cls=P2SHAddr,
-    addr_params={"net_ver": ZcashConf.P2SH_NET_VER_TN},
-)
+    # Configuration for Litecoin main net
+    LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
+        coin_names=CoinsConf.LitecoinMainNet.CoinNames(),
+        coin_idx=2,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
+        alt_key_net_ver=Bip32KeyNetVersions(b"\x01\xb2\x6e\xf6",
+                                            b"\x01\xb2\x67\x92"),   # Mtpv / Mtub
+        wif_net_ver=CoinsConf.LitecoinMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "std_net_ver": CoinsConf.LitecoinMainNet.Params("p2sh_std_net_ver"),
+            "depr_net_ver": CoinsConf.LitecoinMainNet.Params("p2sh_depr_net_ver"),
+        },
+    )
+    # Configuration for Litecoin test net
+    LitecoinTestNet: BipLitecoinConf = BipLitecoinConf(
+        coin_names=CoinsConf.LitecoinTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
+                                        b"\x04\x36\xef\x7d"),       # ttub / ttpv
+        alt_key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
+                                            b"\x04\x36\xef\x7d"),   # ttub / ttpv
+        wif_net_ver=CoinsConf.LitecoinTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "std_net_ver": CoinsConf.LitecoinTestNet.Params("p2sh_std_net_ver"),
+            "depr_net_ver": CoinsConf.LitecoinTestNet.Params("p2sh_depr_net_ver"),
+        },
+    )
+
+    # Configuration for Zcash main net
+    ZcashMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.ZcashMainNet.CoinNames(),
+        coin_idx=133,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.ZcashMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.ZcashMainNet.Params("p2sh_net_ver"),
+        },
+    )
+    # Configuration for Zcash test net
+    ZcashTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.ZcashTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP49_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.ZcashTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2SHAddr,
+        addr_params={
+            "net_ver": CoinsConf.ZcashTestNet.Params("p2sh_net_ver"),
+        },
+    )

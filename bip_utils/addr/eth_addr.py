@@ -24,7 +24,7 @@
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.coin_conf import EthereumConf
+from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
@@ -87,4 +87,4 @@ class EthAddr(IAddrEncoder):
         # First byte of the uncompressed key (i.e. 0x04) is not needed
         kekkak_hex = ConvUtils.BytesToHexString(CryptoUtils.Kekkak256(pub_key_obj.RawUncompressed().ToBytes()[1:]))
         addr = kekkak_hex[EthAddrConst.START_BYTE:]
-        return EthereumConf.ADDR_PREFIX + EthAddrUtils.ChecksumEncode(addr)
+        return CoinsConf.Ethereum.Params("addr_prefix") + EthAddrUtils.ChecksumEncode(addr)

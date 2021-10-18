@@ -24,7 +24,7 @@
 from typing import Any, Union
 from bip_utils.addr.atom_addr import AtomAddr
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.coin_conf import AvaxPChainConf, AvaxXChainConf
+from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 
 
@@ -51,8 +51,9 @@ class AvaxPChainAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        return AvaxPChainConf.ADDR_PREFIX + AtomAddr.EncodeKey(pub_key,
-                                                               hrp=AvaxPChainConf.ADDR_HRP)
+        prefix = CoinsConf.AvaxPChain.Params("addr_prefix")
+        return prefix + AtomAddr.EncodeKey(pub_key,
+                                           hrp=CoinsConf.AvaxPChain.Params("addr_hrp"))
 
 
 class AvaxXChainAddr(IAddrEncoder):
@@ -77,5 +78,6 @@ class AvaxXChainAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        return AvaxXChainConf.ADDR_PREFIX + AtomAddr.EncodeKey(pub_key,
-                                                               hrp=AvaxXChainConf.ADDR_HRP)
+        prefix = CoinsConf.AvaxXChain.Params("addr_prefix")
+        return prefix + AtomAddr.EncodeKey(pub_key,
+                                           hrp=CoinsConf.AvaxXChain.Params("addr_hrp"))

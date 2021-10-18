@@ -21,10 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import (
-    Bip44BitcoinCashMainNet, Bip44BitcoinCashTestNet, Bip44LitecoinMainNet, Bip44LitecoinTestNet,
-    Bip44, Bip44Coins, Bip49Coins, Bip84Coins
-)
+from bip_utils import Bip44Conf, Bip44, Bip44Coins, Bip49Coins, Bip84Coins
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
 # Results generated with: https://iancoleman.io/bip39
@@ -245,7 +242,7 @@ TEST_VECT = [
             "ex_priv": "xprvA23NAoVQe24Pe51xMEk6WzZF3JZQc5GpV4wd5BvJkkqgbYfdvZPr38n5xR8cpzWJ6AjAnLRYVcqLWMsCHghvCdQTtcZm9HWTStmvYiT7BTC",
         },
         "addresses_legacy": {
-            "cls": Bip44BitcoinCashMainNet,
+            "cls": Bip44Conf.BitcoinCashMainNet,
             "addresses": [
                 "1mW6fDEMjKrDHvLvoEsaeLxSCzZBf3Bfg",
                 "18Cp2ivkLHyJwHMm9NzDRBh6Gi7m4MC2we",
@@ -677,7 +674,7 @@ TEST_VECT = [
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
-        "ex_master_cls": Bip44LitecoinMainNet,
+        "ex_master_cls": Bip44Conf.LitecoinMainNet,
         "ex_master_alt": "Ltpv71G8qDifUiNetExQFUsQdYezsBDUaB814BhGZsphfZBrT3zqfeXTed3NqdFEoARcM1uJVNKbqmXwJscuMY753LZUtc36GiKqV5anTrnqWfr",
         "wif_master": "6uJgfG4pBbMffTdMSGQVurdK6xBcZjhf1iDU2jtPAw5PzRdhx9m",
         "account": {
@@ -693,7 +690,7 @@ TEST_VECT = [
             "ex_priv_alt": "Ltpv7APhV388fzWLjCMFhZdJ4LuH467JCW5wVZUTYLz9RKvhknSMYVfmEbhycmWcZANDQAFLwURBT8Hyxr5yAYj7VTFpdurJmXBkr4FEKVQPVMv",
         },
         "addresses_depr": {
-            "cls": Bip44LitecoinMainNet,
+            "cls": Bip44Conf.LitecoinMainNet,
             "addresses": [
                 "1AHSLc3DxZnkrkkXxUz9uDhAc5QZqxhR2B",
                 "1KMwfvFubh2KDzP8BE78QBnyZUkYsFq3gL",
@@ -1236,7 +1233,7 @@ TEST_VECT = [
             "ex_priv": "tprv8hi9XJvkuKfu6oRGUsAnPAnQNUKcEjwrLbS2w2hTSPKrFj5YYS3Ax7UDDrZZHd4PSnPLW5whNxAXTW5bBrSNiSD1LUeg9n4j5sdGRJsZZwP",
         },
         "addresses_legacy": {
-            "cls": Bip44BitcoinCashTestNet,
+            "cls": Bip44Conf.BitcoinCashTestNet,
             "addresses": [
                 "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
                 "mzpbWabUQm1w8ijuJnAof5eiSTep27deVH",
@@ -1342,7 +1339,7 @@ TEST_VECT = [
             "ex_priv": "ttpv9ED61mtnTXR9sU1mA3QHzUhsjbM8UCr5WYYLabf6ELEDETF2RuEe4XYTcBgYatfocUBVxF9Fi6Nj3zL7CQpYyeyJ1KA7VLf7yWfPB8Cjufb",
         },
         "addresses_depr": {
-            "cls": Bip44LitecoinTestNet,
+            "cls": Bip44Conf.LitecoinTestNet,
             "addresses": [
                 "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
                 "mzpbWabUQm1w8ijuJnAof5eiSTep27deVH",
