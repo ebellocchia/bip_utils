@@ -40,6 +40,7 @@ class Bip44Coins(BipCoins):
     BITCOIN = auto()
     BITCOIN_CASH = auto()
     BITCOIN_SV = auto()
+    CELO = auto()
     COSMOS = auto()
     DASH = auto()
     DOGECOIN = auto()

@@ -239,6 +239,19 @@ class Bip44Conf:
         },
     )
 
+    # Configuration for Celo
+    Celo: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Celo.CoinNames(),
+        coin_idx=52752,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=EthAddr,
+        addr_params={},
+    )
+
     # Configuration for Cosmos
     Cosmos: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.Cosmos.CoinNames(),

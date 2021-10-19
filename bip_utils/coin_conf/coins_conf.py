@@ -183,6 +183,12 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Celo
+    Celo: CoinConf = CoinConf(
+        coin_name=CoinNames("Celo", "CELO"),
+        params={},
+    )
+
     # Configuration for ChainX
     ChainX: CoinConf = CoinConf(
         coin_name=CoinNames("ChainX", "PCX"),

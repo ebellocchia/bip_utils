@@ -283,6 +283,30 @@ TEST_VECT = [
             "1D4eJS94heKPtAaU5jcfecMEk5i1vzEvAo",
         ],
     },
+    # Celo
+    {
+        "coin": Bip44Coins.CELO,
+        "names": ("Celo", "CELO"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6BxPCegMk3a2zhvm1R9X1y5vLJJ327bLVuX3ZVHZH7TFnbzJ1t2km2FW9dm2gwYzfUZXAuxksECzmyGzzDz9z2c8DxaX6d4mh9u6DhmigUg",
+            "ex_priv": "xprv9xy2o99Tug1jnDrHuPcWeq9BnGTYcesV8gbSm6swimvGuof9ULiWDDw2JLZ4icsQYpumoFnL9mVVCSGKN2ocxLbMmDRJr8BXqwxygauZ3i5",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6Eg2SEFtReDrVUiXFRdWg7fLMMVS5yFKuk94SGrZkg7KjGUqvB9HdeeewNpyb7j23tgR5w7SNwnRkYaXDUGS78QwEQz6ujQfpxoDMe9U8EU",
+            "ex_priv": "xprvA1gg2iizbGfZGze49Q6WJyiboKewgWXUYXDTdtSxCLaLrU9hNdq35rLB64PMPoqVgQfn1fsDq1srW9hkNrmp2Th4DEpv5yauSqPL9auBJSY",
+        },
+        "addresses": [
+            "0xE70E8AfeF87CC8F0D7a61F58535F6EC99cd860cA",
+            "0x3EC275571fDa6E659c18a5D81C90b350a8b34f8A",
+            "0x28140b9DB4a8830912F07AB9481c209F3Df8558F",
+            "0xbe596d1b4Ba1385a0161628e17886F5E476ed73B",
+            "0xB0691D324e0c1026236e72394ea3264b46a383f6",
+        ],
+    },
     # Cosmos
     {
         "coin": Bip44Coins.COSMOS,
@@ -1447,6 +1471,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.BITCOIN_SV,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "1K6LZdwpKT5XkEZo2T2kW197aMXYbYMc4f",
+    },
+    # Celo
+    {
+        "coin": Bip44Coins.CELO,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "0xE70E8AfeF87CC8F0D7a61F58535F6EC99cd860cA",
     },
     # Cosmos
     {
