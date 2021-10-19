@@ -22,7 +22,7 @@
 
 # Imports
 from enum import auto, unique
-from bip_utils.bip.conf.common import BipCoins
+from bip_utils.bip.conf.common.bip_coins import BipCoins
 
 
 @unique

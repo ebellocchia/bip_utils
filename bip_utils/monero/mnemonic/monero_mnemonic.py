@@ -29,8 +29,9 @@ from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 from bip_utils.utils.mnemonic import (
-    MnemonicLanguages, MnemonicWordsList, Mnemonic, MnemonicWordsListGetterBase
+    MnemonicWordsList, Mnemonic, MnemonicWordsListGetterBase
 )
+from bip_utils.utils.mnemonic.mnemonic import MnemonicLanguages
 
 
 @unique

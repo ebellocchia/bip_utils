@@ -22,17 +22,17 @@
 
 # Imports
 from typing import Any, Dict
-from bip_utils.utils.conf import CoinNames
+from bip_utils.utils.conf import CoinNames as ConfCoinNames
 
 
 class CoinConf:
     """Coin configuration class."""
 
-    m_coin_name: CoinNames
+    m_coin_name: ConfCoinNames
     m_params: Dict[str, Any]
 
     def __init__(self,
-                 coin_name: CoinNames,
+                 coin_name: ConfCoinNames,
                  params: Dict[str, Any]) -> None:
         """
         Construct class.
@@ -44,7 +44,7 @@ class CoinConf:
         self.m_coin_name = coin_name
         self.m_params = params
 
-    def CoinNames(self) -> CoinNames:
+    def CoinNames(self) -> ConfCoinNames:
         """
         Get coin names.
 
