@@ -48,6 +48,7 @@ Supported BIP coins:
 - Bitcoin (and related test net)
 - Bitcoin Cash (and related test net)
 - BitcoinSV (and related test net)
+- Celo
 - Cosmos
 - Dash (and related test net)
 - Dogecoin (and related test net)
@@ -786,6 +787,7 @@ Supported coins enumerative for BIP-0044:
 |Bitcoin|*Bip44Coins.BITCOIN*|*Bip44Coins.BITCOIN_TESTNET*|
 |Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
 |BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
+|Celo|*Bip44Coins.CELO*|-|
 |Cosmos|*Bip44Coins.COSMOS*|-|
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
 |Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
