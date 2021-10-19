@@ -32,6 +32,7 @@ bitcoin
 bitcoin cash
 bitcoinsv
 bnb
+celo
 cosmos
 dash
 dogecoin
