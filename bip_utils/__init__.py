@@ -21,6 +21,7 @@ from bip_utils.bech32 import (
 from bip_utils.wif import WifDecoder, WifEncoder
 # Address computation
 from bip_utils.addr import (
+    BchAddrConverter,
     AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EosAddr,
     EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr, NeoAddr, OneAddr,
     P2PKHAddr, BchP2PKHAddr, P2SHAddr, BchP2SHAddr, P2WPKHAddr, SolAddr,
