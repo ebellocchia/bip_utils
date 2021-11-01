@@ -48,6 +48,7 @@ class Bech32BaseUtils:
 
         Args:
             data (list or bytes): Data to be converted
+
         Returns:
             list: Converted data
 
@@ -69,6 +70,7 @@ class Bech32BaseUtils:
 
         Args:
             data (list or bytes): Data to be converted
+
         Returns:
             list: Converted data
 
