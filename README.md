@@ -1636,6 +1636,17 @@ These libraries are used internally by the other libraries, but they are availab
     addr = SubstrateSr25519Addr.EncodeKey(pub_key,
                                           **SubstrateConf.Kusama.AddrParams())
 
+For Bitcoin Cash, it's also possible to convert its addresses by changing the HRP and net version.
+
+**Code example**
+
+    from bip_utils import BchAddrConverter
+
+    # Convert address by change the HRP (the old net version is maintained)
+    conv_addr = BchAddrConverter.Convert("bitcoincash:qp90dvzptg759efdcd93s4dkdw0vuhlkmqlch7letq", "ergon")
+    # Convert address by change both HRP  and net version
+    conv_addr = BchAddrConverter.Convert("bitcoincash:qp90dvzptg759efdcd93s4dkdw0vuhlkmqlch7letq", "customprefix", b"\x01")
+
 ## WIF
 
 This library is used internally by the other modules, but it's available also for external use.
