@@ -32,9 +32,8 @@ from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
 from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 from bip_utils.utils.mnemonic import (
-    Mnemonic, MnemonicWordsList, MnemonicWordsListGetterBase
+    Mnemonic, MnemonicLanguages, MnemonicWordsList, MnemonicWordsListGetterBase
 )
-from bip_utils.utils.mnemonic.mnemonic import MnemonicLanguages
 
 
 @unique
