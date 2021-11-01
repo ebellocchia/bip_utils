@@ -210,6 +210,49 @@ class Bip44Conf:
         addr_cls_legacy=P2PKHAddr,
     )
 
+    # Configuration for Bitcoin Cash Simple Ledger Protocol main net
+    BitcoinCashSlpMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
+        coin_names=CoinsConf.BitcoinCashSlpMainNet.CoinNames(),
+        coin_idx=145,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.BitcoinCashSlpMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=BchP2PKHAddr,
+        addr_params={
+            "std": {
+                "net_ver": CoinsConf.BitcoinCashSlpMainNet.Params("p2pkh_std_net_ver"),
+                "hrp": CoinsConf.BitcoinCashSlpMainNet.Params("p2pkh_std_hrp"),
+            },
+            "legacy": {
+                "net_ver": CoinsConf.BitcoinCashSlpMainNet.Params("p2pkh_legacy_net_ver"),
+            }
+        },
+        addr_cls_legacy=P2PKHAddr,
+    )
+    # Configuration for Bitcoin Cash Simple Ledger Protocol test net
+    BitcoinCashSlpTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
+        coin_names=CoinsConf.BitcoinCashSlpTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.BitcoinCashSlpTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=BchP2PKHAddr,
+        addr_params={
+            "std": {
+                "net_ver": CoinsConf.BitcoinCashSlpTestNet.Params("p2pkh_std_net_ver"),
+                "hrp": CoinsConf.BitcoinCashSlpTestNet.Params("p2pkh_std_hrp"),
+            },
+            "legacy": {
+                "net_ver": CoinsConf.BitcoinCashSlpTestNet.Params("p2pkh_legacy_net_ver"),
+            }
+        },
+        addr_cls_legacy=P2PKHAddr,
+    )
+
     # Configuration for BitcoinSV main net
     BitcoinSvMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.BitcoinSvMainNet.CoinNames(),
@@ -325,6 +368,49 @@ class Bip44Conf:
         addr_params={
             "net_ver": CoinsConf.DogecoinTestNet.Params("p2pkh_net_ver"),
         },
+    )
+
+    # Configuration for eCash main net
+    EcashMainNet: BipBitcoinCashConf = BipBitcoinCashConf(
+        coin_names=CoinsConf.EcashMainNet.CoinNames(),
+        coin_idx=145,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.EcashMainNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=BchP2PKHAddr,
+        addr_params={
+            "std": {
+                "net_ver": CoinsConf.EcashMainNet.Params("p2pkh_std_net_ver"),
+                "hrp": CoinsConf.EcashMainNet.Params("p2pkh_std_hrp"),
+            },
+            "legacy": {
+                "net_ver": CoinsConf.EcashMainNet.Params("p2pkh_legacy_net_ver"),
+            }
+        },
+        addr_cls_legacy=P2PKHAddr,
+    )
+    # Configuration for eCash test net
+    EcashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
+        coin_names=CoinsConf.EcashTestNet.CoinNames(),
+        coin_idx=1,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.EcashTestNet.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=BchP2PKHAddr,
+        addr_params={
+            "std": {
+                "net_ver": CoinsConf.EcashTestNet.Params("p2pkh_std_net_ver"),
+                "hrp": CoinsConf.EcashTestNet.Params("p2pkh_std_hrp"),
+            },
+            "legacy": {
+                "net_ver": CoinsConf.EcashTestNet.Params("p2pkh_legacy_net_ver"),
+            }
+        },
+        addr_cls_legacy=P2PKHAddr,
     )
 
     # Configuration for Elrond

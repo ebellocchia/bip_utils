@@ -259,6 +259,40 @@ TEST_VECT = [
             "bitcoincash:qptzx8m39zjuuyvrf86s3kywuledfht2jcty8we6gv",
         ],
     },
+    # Bitcoin Cash SLP
+    {
+        "coin": Bip44Coins.BITCOIN_CASH_SLP,
+        "names": ("Bitcoin Cash SLP", "SLP"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
+        "account": {
+            "ex_pub": "xpub6ByHsPNSQXTWZ7PLESMY2FufyYWtLXagSUpMQq7Un96SiThZH2iJB1X7pwviH1WtKVeDP6K8d6xxFzzoaFzF3s8BKCZx8oEDdDkNnp4owAZ",
+            "ex_priv": "xprv9xywTsqYa9uDLdJs8QpXf7xwRWgPw4rq5FtkcShsDoZTqfNQjVQ3dDCdyedXX3FqB18U8e8PfVMeFqkhzPGseKVMDjGe5rPdiUXMxy7BQNJ",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6F2iaK2JUPcgrZ6RTGH6t8VybLPu1XzfrHsDsaKvK6NfULznU6i6aw6ZoefDW2DpNruSLw73RwQg46qvpqB3eryeJJ2tkFCF4Z6gbr8Pjja",
+            "ex_priv": "xprvA23NAoVQe24Pe51xMEk6WzZF3JZQc5GpV4wd5BvJkkqgbYfdvZPr38n5xR8cpzWJ6AjAnLRYVcqLWMsCHghvCdQTtcZm9HWTStmvYiT7BTC",
+        },
+        "addresses_legacy": {
+            "cls": Bip44Conf.BitcoinCashSlpMainNet,
+            "addresses": [
+                "1mW6fDEMjKrDHvLvoEsaeLxSCzZBf3Bfg",
+                "18Cp2ivkLHyJwHMm9NzDRBh6Gi7m4MC2we",
+                "15Ax9BJRJ4TABF85UsPpz9QvuBpiJhCfsw",
+                "1H53u5dU1axLgun9VxUjQZMBMxW65DazhB",
+                "18rTBsgLJosVgZodepiQ1wFoGFhhMK3iwL",
+            ]
+        },
+        "addresses": [
+            "simpleledger:qqyx49mu0kkn9ftfj6hje6g2wfer34yfnqcskv437y",
+            "simpleledger:qp8sfdhgjlq68hlzka9lcsxtcnvuvnd0xq28rjhzx2",
+            "simpleledger:qqkuy34ntrye9a2h4xpdstcu4aq5wfrwsc7sk6zeda",
+            "simpleledger:qzcyvxr0e23d408u62ulf6cnspc0k4dyduguavt7dx",
+            "simpleledger:qptzx8m39zjuuyvrf86s3kywuledfht2jc8lv4v6kj",
+        ],
+    },
     # BitcoinSV
     {
         "coin": Bip44Coins.BITCOIN_SV,
@@ -377,6 +411,40 @@ TEST_VECT = [
             "D8K3KyDQ9FXeC3ADCuWW7cnWC7RvjHjV8H",
             "D6RRdXkUbb3pazkYGXAXwbJY5iC8Tyqwzh",
             "DTdrvUHbk5oMyi62tM7LqrjAcXfqB7eaad",
+        ],
+    },
+    # eCash
+    {
+        "coin": Bip44Coins.ECASH,
+        "names": ("eCash", "XEC"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "5HzxC8XHHAtoC5jVvScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
+        "account": {
+            "ex_pub": "xpub6ByHsPNSQXTWZ7PLESMY2FufyYWtLXagSUpMQq7Un96SiThZH2iJB1X7pwviH1WtKVeDP6K8d6xxFzzoaFzF3s8BKCZx8oEDdDkNnp4owAZ",
+            "ex_priv": "xprv9xywTsqYa9uDLdJs8QpXf7xwRWgPw4rq5FtkcShsDoZTqfNQjVQ3dDCdyedXX3FqB18U8e8PfVMeFqkhzPGseKVMDjGe5rPdiUXMxy7BQNJ",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6F2iaK2JUPcgrZ6RTGH6t8VybLPu1XzfrHsDsaKvK6NfULznU6i6aw6ZoefDW2DpNruSLw73RwQg46qvpqB3eryeJJ2tkFCF4Z6gbr8Pjja",
+            "ex_priv": "xprvA23NAoVQe24Pe51xMEk6WzZF3JZQc5GpV4wd5BvJkkqgbYfdvZPr38n5xR8cpzWJ6AjAnLRYVcqLWMsCHghvCdQTtcZm9HWTStmvYiT7BTC",
+        },
+        "addresses_legacy": {
+            "cls": Bip44Conf.EcashMainNet,
+            "addresses": [
+                "1mW6fDEMjKrDHvLvoEsaeLxSCzZBf3Bfg",
+                "18Cp2ivkLHyJwHMm9NzDRBh6Gi7m4MC2we",
+                "15Ax9BJRJ4TABF85UsPpz9QvuBpiJhCfsw",
+                "1H53u5dU1axLgun9VxUjQZMBMxW65DazhB",
+                "18rTBsgLJosVgZodepiQ1wFoGFhhMK3iwL",
+            ]
+        },
+        "addresses": [
+            "ecash:qqyx49mu0kkn9ftfj6hje6g2wfer34yfnqdxfumtxd",
+            "ecash:qp8sfdhgjlq68hlzka9lcsxtcnvuvnd0xql3uzec7r",
+            "ecash:qqkuy34ntrye9a2h4xpdstcu4aq5wfrwsctxf2vr45",
+            "ecash:qzcyvxr0e23d408u62ulf6cnspc0k4dydua2zu9y40",
+            "ecash:qptzx8m39zjuuyvrf86s3kywuledfht2jcjfn9zqwm",
         ],
     },
     # Elrond
@@ -1274,6 +1342,40 @@ TEST_VECT = [
             "bchtest:qr32turulady0gcxhah9mgezqcczjunl6q0d90hm4d",
         ],
     },
+    # Bitcoin Cash SLP test net
+    {
+        "coin": Bip44Coins.BITCOIN_CASH_SLP_TESTNET,
+        "names": ("Bitcoin Cash SLP TestNet", "SLP"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
+        "wif_master": "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
+        "account": {
+            "ex_pub": "tpubDC5FSnBiZDMmhiuCmWAYsLwgLYrrT9rAqvTySfuCCrgsWz8wxMXUS9Tb9iVMvcRbvFcAHGkMD5Kx8koh4GquNGNTfohfk7pgjhaPCdXpoba",
+            "ex_priv": "tprv8fPDJN9UQqg6pFsQsrVxTwHZmXLvHpfGGcsCA9rtnatUgVtBKxhtFeqiyaYKSWydunKpjhvgJf6PwTwgirwuCbFq8YKgpQiaVJf3JCrNmkR",
+        },
+        "chain_ext": {
+            "ex_pub": "tpubDEQBfiy13hMZzGT4NWqNnaSWwVqYQ58kuu2pDYjkrf8F6DLKAprm8c65Pyh7PrzodXHtJuEXFu5yf6JbvYaL8rz7v28zapwbuzZzr7z4UvR",
+            "ex_priv": "tprv8hi9XJvkuKfu6oRGUsAnPAnQNUKcEjwrLbS2w2hTSPKrFj5YYS3Ax7UDDrZZHd4PSnPLW5whNxAXTW5bBrSNiSD1LUeg9n4j5sdGRJsZZwP",
+        },
+        "addresses_legacy": {
+            "cls": Bip44Conf.BitcoinCashSlpTestNet,
+            "addresses": [
+                "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
+                "mzpbWabUQm1w8ijuJnAof5eiSTep27deVH",
+                "mnTkxhNkgx7TsZrEdRcPti564yQTzynGJp",
+                "mpW3iVi2Td1vqDK8Nfie29ddZXf9spmZkX",
+                "n2BMo5arHDyAK2CM8c56eoEd18uEkKnRLC",
+            ]
+        },
+        "addresses": [
+            "slptest:qqaz6s295ncfs53m86qj0uw6sl8u2kuw0yqyv2w75g",
+            "slptest:qrfuppcw3cf6nmpjpufgpzy3y74ptfxq5yaeruqzyg",
+            "slptest:qpxzu2ljsp5sgk5wkcnusw0lyvrtwwa6xq9sh8wuah",
+            "slptest:qp3g60wa822p8xp6padds48mrs8c0ywd2g9837n78f",
+            "slptest:qr32turulady0gcxhah9mgezqcczjunl6q5ez5dv8s",
+        ],
+    },
     # BitcoinSV
     {
         "coin": Bip44Coins.BITCOIN_SV_TESTNET,
@@ -1344,6 +1446,40 @@ TEST_VECT = [
             "nb8xvuyL7K3DWS8QgGH2rxcfKyvMQ1wiYe",
             "ndBFgiJbsywgU5bJRWPGzQBCpYB3M1DZCU",
             "nprZmJBRhatuwtUXBSjjd3nCG9R8DDm3y3",
+        ],
+    },
+    # eCash test net
+    {
+        "coin": Bip44Coins.ECASH_TESTNET,
+        "names": ("eCash TestNet", "XEC"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
+        "wif_master": "91mamsLpsPxwA9EnYnWT14Q6o8yrX6npaygFQBDroDVq5dZG3q3",
+        "account": {
+            "ex_pub": "tpubDC5FSnBiZDMmhiuCmWAYsLwgLYrrT9rAqvTySfuCCrgsWz8wxMXUS9Tb9iVMvcRbvFcAHGkMD5Kx8koh4GquNGNTfohfk7pgjhaPCdXpoba",
+            "ex_priv": "tprv8fPDJN9UQqg6pFsQsrVxTwHZmXLvHpfGGcsCA9rtnatUgVtBKxhtFeqiyaYKSWydunKpjhvgJf6PwTwgirwuCbFq8YKgpQiaVJf3JCrNmkR",
+        },
+        "chain_ext": {
+            "ex_pub": "tpubDEQBfiy13hMZzGT4NWqNnaSWwVqYQ58kuu2pDYjkrf8F6DLKAprm8c65Pyh7PrzodXHtJuEXFu5yf6JbvYaL8rz7v28zapwbuzZzr7z4UvR",
+            "ex_priv": "tprv8hi9XJvkuKfu6oRGUsAnPAnQNUKcEjwrLbS2w2hTSPKrFj5YYS3Ax7UDDrZZHd4PSnPLW5whNxAXTW5bBrSNiSD1LUeg9n4j5sdGRJsZZwP",
+        },
+        "addresses_legacy": {
+            "cls": Bip44Conf.EcashTestNet,
+            "addresses": [
+                "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
+                "mzpbWabUQm1w8ijuJnAof5eiSTep27deVH",
+                "mnTkxhNkgx7TsZrEdRcPti564yQTzynGJp",
+                "mpW3iVi2Td1vqDK8Nfie29ddZXf9spmZkX",
+                "n2BMo5arHDyAK2CM8c56eoEd18uEkKnRLC",
+            ]
+        },
+        "addresses": [
+            "ectest:qqaz6s295ncfs53m86qj0uw6sl8u2kuw0yqy9a2fy0",
+            "ectest:qrfuppcw3cf6nmpjpufgpzy3y74ptfxq5yae2ty450",
+            "ectest:qpxzu2ljsp5sgk5wkcnusw0lyvrtwwa6xq9s7s2tds",
+            "ectest:qp3g60wa822p8xp6padds48mrs8c0ywd2g98cfhfhw",
+            "ectest:qr32turulady0gcxhah9mgezqcczjunl6q5etrfmhh",
         ],
     },
     # Litecoin test net
@@ -1466,6 +1602,12 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "bitcoincash:qqyx49mu0kkn9ftfj6hje6g2wfer34yfnq5tahq3q6",
     },
+    # Bitcoin Cash SLP
+    {
+        "coin": Bip44Coins.BITCOIN_CASH_SLP,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "simpleledger:qqyx49mu0kkn9ftfj6hje6g2wfer34yfnqcskv437y",
+    },
     # BitcoinSV
     {
         "coin": Bip44Coins.BITCOIN_SV,
@@ -1495,6 +1637,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.DOGECOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "DBus3bamQjgJULBJtYXpEzDWQRwF5iwxgC",
+    },
+    # eCash
+    {
+        "coin": Bip44Coins.ECASH,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "ecash:qqyx49mu0kkn9ftfj6hje6g2wfer34yfnqdxfumtxd",
     },
     # Elrond
     {
@@ -1717,6 +1865,12 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "bchtest:qqaz6s295ncfs53m86qj0uw6sl8u2kuw0ymst35fx4",
     },
+    # Bitcoin Cash SLP test net
+    {
+        "coin": Bip44Coins.BITCOIN_CASH_SLP_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "slptest:qqaz6s295ncfs53m86qj0uw6sl8u2kuw0yqyv2w75g",
+    },
     # BitcoinSV
     {
         "coin": Bip44Coins.BITCOIN_SV_TESTNET,
@@ -1734,6 +1888,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.DOGECOIN_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "nZVmfmUtKPmskB9Ds4P9GUJy9eYFqPKHqH",
+    },
+    # eCash test net
+    {
+        "coin": Bip44Coins.ECASH_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "ectest:qqaz6s295ncfs53m86qj0uw6sl8u2kuw0yqy9a2fy0",
     },
     # Litecoin test net
     {

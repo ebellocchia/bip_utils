@@ -163,6 +163,34 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Bitcoin Cash Simple Ledger Protocol main net
+    BitcoinCashSlpMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Bitcoin Cash SLP", "SLP"),
+        params={
+            "p2pkh_std_hrp": "simpleledger",
+            "p2pkh_std_net_ver": b"\x00",
+            "p2pkh_legacy_net_ver": _BTC_P2PKH_NET_VER_MN,
+            "p2sh_std_hrp": "simpleledger",
+            "p2sh_std_net_ver": b"\x08",
+            "p2sh_legacy_net_ver": _BTC_P2SH_NET_VER_MN,
+            "wif_net_ver": _BTC_WIF_NET_VER_MN,
+        },
+    )
+
+    # Configuration for Bitcoin Cash Simple Ledger Protocol test net
+    BitcoinCashSlpTestNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Bitcoin Cash SLP TestNet", "SLP"),
+        params={
+            "p2pkh_std_hrp": "slptest",
+            "p2pkh_std_net_ver": b"\x00",
+            "p2pkh_legacy_net_ver": _BTC_P2PKH_NET_VER_TN,
+            "p2sh_std_hrp": "slptest",
+            "p2sh_std_net_ver": b"\x08",
+            "p2sh_legacy_net_ver": _BTC_P2SH_NET_VER_TN,
+            "wif_net_ver": _BTC_WIF_NET_VER_TN,
+        },
+    )
+
     # Configuration for Bitcoin SV main net
     BitcoinSvMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("BitcoinSV", "BSV"),
@@ -242,6 +270,34 @@ class CoinsConf:
             "p2pkh_net_ver": b"\x71",
             "p2sh_net_ver": _BTC_P2SH_NET_VER_TN,
             "wif_net_ver": b"\xf1",
+        },
+    )
+
+    # Configuration for eCash main net
+    EcashMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("eCash", "XEC"),
+        params={
+            "p2pkh_std_hrp": "ecash",
+            "p2pkh_std_net_ver": b"\x00",
+            "p2pkh_legacy_net_ver": _BTC_P2PKH_NET_VER_MN,
+            "p2sh_std_hrp": "ecash",
+            "p2sh_std_net_ver": b"\x08",
+            "p2sh_legacy_net_ver": _BTC_P2SH_NET_VER_MN,
+            "wif_net_ver": _BTC_WIF_NET_VER_MN,
+        },
+    )
+
+    # Configuration for eCash test net
+    EcashTestNet: CoinConf = CoinConf(
+        coin_name=CoinNames("eCash TestNet", "XEC"),
+        params={
+            "p2pkh_std_hrp": "ectest",
+            "p2pkh_std_net_ver": b"\x00",
+            "p2pkh_legacy_net_ver": _BTC_P2PKH_NET_VER_TN,
+            "p2sh_std_hrp": "ectest",
+            "p2sh_std_net_ver": b"\x08",
+            "p2sh_legacy_net_ver": _BTC_P2SH_NET_VER_TN,
+            "wif_net_ver": _BTC_WIF_NET_VER_TN,
         },
     )
 
