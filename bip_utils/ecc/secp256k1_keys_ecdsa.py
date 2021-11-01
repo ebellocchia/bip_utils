@@ -28,7 +28,7 @@ from ecdsa.ecdsa import curve_secp256k1
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils.misc import DataBytes
+from bip_utils.utils.misc import ConvUtils, DataBytes
 
 
 class Secp256k1PointEcdsa(IPoint):
@@ -53,6 +53,10 @@ class Secp256k1PointEcdsa(IPoint):
                                                             point_bytes))
         except keys.MalformedPointError as ex:
             raise ValueError("Invalid point key bytes") from ex
+        # ECDSA < 0.17 doesn't have from_bytes method for PointJacobi
+        except AttributeError:
+            return cls.FromCoordinates(ConvUtils.BytesToInteger(point_bytes[:EcdsaKeysConst.POINT_BYTE_LEN]),
+                                       ConvUtils.BytesToInteger(point_bytes[EcdsaKeysConst.POINT_BYTE_LEN:]))
 
     @classmethod
     def FromCoordinates(cls,
@@ -121,7 +125,14 @@ class Secp256k1PointEcdsa(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_point.to_bytes())
+        try:
+            return DataBytes(self.m_point.to_bytes())
+        # ECDSA < 0.17 doesn't have to_bytes method for PointJacobi
+        except AttributeError:
+            x_bytes = ConvUtils.IntegerToBytes(self.m_point.x(), EcdsaKeysConst.POINT_BYTE_LEN)
+            y_bytes = ConvUtils.IntegerToBytes(self.m_point.y(), EcdsaKeysConst.POINT_BYTE_LEN)
+
+            return DataBytes(x_bytes + y_bytes)
 
     def __add__(self,
                 point: IPoint) -> IPoint:
