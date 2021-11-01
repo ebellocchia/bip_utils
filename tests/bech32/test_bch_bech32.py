@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    BchBech32Decoder, BchBech32Encoder, Bech32FormatError
+    CoinsConf, BchBech32Decoder, BchBech32Encoder, Bech32FormatError
 )
 
 # Some random public keys
@@ -86,7 +86,7 @@ class BchBech32Tests(unittest.TestCase):
             hrp = test["encode"][:test["encode"].find(":")]
             net_ver, dec = BchBech32Decoder.Decode(hrp, test["encode"])
 
-            self.assertEqual(net_ver, 0)
+            self.assertEqual(net_ver, CoinsConf.BitcoinCashMainNet.Params("p2pkh_std_net_ver"))
             self.assertEqual(binascii.hexlify(dec), test["raw"])
 
     # Test encoder
@@ -94,7 +94,9 @@ class BchBech32Tests(unittest.TestCase):
         for test in TEST_VECT:
             # Test encoder
             hrp = test["encode"][:test["encode"].find(":")]
-            enc = BchBech32Encoder.Encode(hrp, b"\x00", binascii.unhexlify(test["raw"]))
+            enc = BchBech32Encoder.Encode(hrp,
+                                          CoinsConf.BitcoinCashMainNet.Params("p2pkh_std_net_ver"),
+                                          binascii.unhexlify(test["raw"]))
             self.assertEqual(test["encode"], enc)
 
     # Test invalid address

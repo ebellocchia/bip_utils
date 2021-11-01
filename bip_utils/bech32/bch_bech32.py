@@ -178,7 +178,7 @@ class BchBech32Decoder(Bech32DecoderBase):
 
     @staticmethod
     def Decode(hrp: str,
-               addr: str) -> Tuple[int, bytes]:
+               addr: str) -> Tuple[bytes, bytes]:
         """
         Decode from Bitcoin Cash Bech32.
 
@@ -209,7 +209,7 @@ class BchBech32Decoder(Bech32DecoderBase):
                 or len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
             raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
 
-        return conv_data[0], ConvUtils.ListToBytes(conv_data[1:])
+        return ConvUtils.IntegerToBytes(conv_data[0]), ConvUtils.ListToBytes(conv_data[1:])
 
     @staticmethod
     def _VerifyChecksum(hrp: str,
