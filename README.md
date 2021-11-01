@@ -47,11 +47,13 @@ Supported BIP coins:
 - Binance Smart Chain
 - Bitcoin (and related test net)
 - Bitcoin Cash (and related test net)
+- Bitcoin Cash Simple Ledger Protocol (and related test net)
 - BitcoinSV (and related test net)
 - Celo
 - Cosmos
 - Dash (and related test net)
 - Dogecoin (and related test net)
+- eCash (and related test net)
 - Elrond
 - EOS
 - Ethereum
@@ -786,11 +788,13 @@ Supported coins enumerative for BIP-0044:
 |Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
 |Bitcoin|*Bip44Coins.BITCOIN*|*Bip44Coins.BITCOIN_TESTNET*|
 |Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
+|[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|*Bip44Coins.BITCOIN_CASH_SLP*|*Bip44Coins.BITCOIN_CASH_SLP_TESTNET*|
 |BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
 |Celo|*Bip44Coins.CELO*|-|
 |Cosmos|*Bip44Coins.COSMOS*|-|
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
 |Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
+|eCash|*Bip44Coins.ECASH*|*Bip44Coins.ECASH_TESTNET*|
 |Elrond|*Bip44Coins.ELROND*|-|
 |EOS|*Bip44Coins.EOS*|-|
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
@@ -847,9 +851,11 @@ Supported coins enumerative for BIP-0049:
 |---|---|---|
 |Bitcoin|*Bip49Coins.BITCOIN*|*Bip49Coins.BITCOIN_TESTNET*|
 |Bitcoin Cash|*Bip49Coins.BITCOIN_CASH*|*Bip49Coins.BITCOIN_CASH_TESTNET*|
+|[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|*Bip49Coins.BITCOIN_CASH_SLP*|*Bip49Coins.BITCOIN_CASH_SLP_TESTNET*|
 |BitcoinSV|*Bip49Coins.BITCOIN_SV*|*Bip49Coins.BITCOIN_SV_TESTNET*|
 |Dash|*Bip49Coins.DASH*|*Bip49Coins.DASH_TESTNET*|
 |Dogecoin|*Bip49Coins.DOGECOIN*|*Bip49Coins.DOGECOIN_TESTNET*|
+|eCash|*Bip49Coins.ECASH*|*Bip49Coins.ECASH_TESTNET*|
 |Litecoin|*Bip49Coins.LITECOIN*|*Bip49Coins.LITECOIN_TESTNET*|
 |Zcash|*Bip49Coins.ZCASH*|*Bip49Coins.ZCASH_TESTNET*|
 
