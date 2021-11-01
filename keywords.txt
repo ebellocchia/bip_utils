@@ -36,6 +36,7 @@ celo
 cosmos
 dash
 dogecoin
+ecash
 elrond
 eos
 ethereum
