@@ -74,6 +74,7 @@ Supported BIP coins:
 - Polkadot (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
 - Polygon
 - Ripple
+- Secret Network
 - Solana
 - Stellar
 - Terra
@@ -820,6 +821,8 @@ Supported coins enumerative for BIP-0044:
 |Polkadot (ed25519 SLIP-0010)|*Bip44Coins.POLKADOT_ED25519_SLIP*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
+|Secret Network (old path)|*Bip44Coins.SECRET_NETWORK_OLD*|-|
+|Secret Network (new path)|*Bip44Coins.SECRET_NETWORK_NEW*|-|
 |Solana|*Bip44Coins.SOLANA*|-|
 |Stellar|*Bip44Coins.STELLAR*|-|
 |Terra|*Bip44Coins.TERRA*|-|
@@ -1644,7 +1647,7 @@ For Bitcoin Cash, it's also possible to convert its addresses by changing the HR
 
     # Convert address by change the HRP (the old net version is maintained)
     conv_addr = BchAddrConverter.Convert("bitcoincash:qp90dvzptg759efdcd93s4dkdw0vuhlkmqlch7letq", "ergon")
-    # Convert address by change both HRP  and net version
+    # Convert address by change both HRP and net version
     conv_addr = BchAddrConverter.Convert("bitcoincash:qp90dvzptg759efdcd93s4dkdw0vuhlkmqlch7letq", "customprefix", b"\x01")
 
 ## WIF
