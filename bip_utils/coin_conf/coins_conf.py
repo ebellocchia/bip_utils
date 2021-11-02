@@ -519,6 +519,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Osmosis
+    Osmosis: CoinConf = CoinConf(
+        coin_name=CoinNames("Osmosis", "OSMO"),
+        params={
+            "addr_hrp": "osmo",
+        },
+    )
+
     # Configuration for Phala
     Phala: CoinConf = CoinConf(
         coin_name=CoinNames("Phala Network", "PHA"),

@@ -80,6 +80,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.OKEX_CHAIN_ATOM_OLD: Bip44Conf.OkexChainAtomOld,
         Bip44Coins.OKEX_CHAIN_ETH: Bip44Conf.OkexChainEth,
         Bip44Coins.ONTOLOGY: Bip44Conf.Ontology,
+        Bip44Coins.OSMOSIS: Bip44Conf.Osmosis,
         Bip44Coins.POLKADOT_ED25519_SLIP: Bip44Conf.PolkadotEd25519Slip,
         Bip44Coins.POLYGON: Bip44Conf.Polygon,
         Bip44Coins.RIPPLE: Bip44Conf.Ripple,

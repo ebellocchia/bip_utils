@@ -69,6 +69,7 @@ class Bip44Coins(BipCoins):
     OKEX_CHAIN_ATOM_OLD = auto()
     OKEX_CHAIN_ETH = auto()
     ONTOLOGY = auto()
+    OSMOSIS = auto()
     POLKADOT_ED25519_SLIP = auto()
     POLYGON = auto()
     RIPPLE = auto()
