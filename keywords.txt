@@ -57,6 +57,7 @@ nano
 neo
 polygon
 ripple
+secret
 solana
 stellar
 substrate
