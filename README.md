@@ -71,6 +71,7 @@ Supported BIP coins:
 - NEO
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology
+- Osmosis
 - Polkadot (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
 - Polygon
 - Ripple
@@ -818,6 +819,7 @@ Supported coins enumerative for BIP-0044:
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
 |Ontology|*Bip44Coins.ONTOLOGY*|-|
+|Osmosis|*Bip44Coins.OSMOSIS*|-|
 |Polkadot (ed25519 SLIP-0010)|*Bip44Coins.POLKADOT_ED25519_SLIP*|-|
 |Polygon|*Bip44Coins.POLYGON*|-|
 |Ripple|*Bip44Coins.RIPPLE*|-|
