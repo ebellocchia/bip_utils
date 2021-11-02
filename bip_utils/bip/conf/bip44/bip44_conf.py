@@ -783,6 +783,35 @@ class Bip44Conf:
         addr_params={},
     )
 
+    # Configuration for Secret Network (old path)
+    SecretNetworkOld: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.SecretNetwork.CoinNames(),
+        coin_idx=118,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=AtomAddr,
+        addr_params={
+            "hrp": CoinsConf.SecretNetwork.Params("addr_hrp"),
+        },
+    )
+    # Configuration for Secret Network (new path)
+    SecretNetworkNew: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.SecretNetwork.CoinNames(),
+        coin_idx=529,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=AtomAddr,
+        addr_params={
+            "hrp": CoinsConf.SecretNetwork.Params("addr_hrp"),
+        },
+    )
+
     # Configuration for Solana
     Solana: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.Solana.CoinNames(),

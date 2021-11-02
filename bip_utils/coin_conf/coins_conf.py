@@ -557,6 +557,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Secret Network
+    SecretNetwork: CoinConf = CoinConf(
+        coin_name=CoinNames("Secret Network", "SCRT"),
+        params={
+            "addr_hrp": "secret",
+        },
+    )
+
     # Configuration for Solana
     Solana: CoinConf = CoinConf(
         coin_name=CoinNames("Solana", "SOL"),

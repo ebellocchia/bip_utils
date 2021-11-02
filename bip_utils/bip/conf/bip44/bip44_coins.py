@@ -72,6 +72,8 @@ class Bip44Coins(BipCoins):
     POLKADOT_ED25519_SLIP = auto()
     POLYGON = auto()
     RIPPLE = auto()
+    SECRET_NETWORK_OLD = auto()
+    SECRET_NETWORK_NEW = auto()
     SOLANA = auto()
     STELLAR = auto()
     TERRA = auto()

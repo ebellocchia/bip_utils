@@ -83,6 +83,8 @@ class Bip44ConfGetterConst:
         Bip44Coins.POLKADOT_ED25519_SLIP: Bip44Conf.PolkadotEd25519Slip,
         Bip44Coins.POLYGON: Bip44Conf.Polygon,
         Bip44Coins.RIPPLE: Bip44Conf.Ripple,
+        Bip44Coins.SECRET_NETWORK_OLD: Bip44Conf.SecretNetworkOld,
+        Bip44Coins.SECRET_NETWORK_NEW: Bip44Conf.SecretNetworkNew,
         Bip44Coins.SOLANA: Bip44Conf.Solana,
         Bip44Coins.STELLAR: Bip44Conf.Stellar,
         Bip44Coins.TERRA: Bip44Conf.Terra,

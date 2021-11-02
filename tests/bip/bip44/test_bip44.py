@@ -1063,6 +1063,54 @@ TEST_VECT = [
             "rPdQVkTzpZ7ToRqTRBRrUKPoCTty7n3UVj",
         ],
     },
+    # Secret Network (old path)
+    {
+        "coin": Bip44Coins.SECRET_NETWORK_OLD,
+        "names": ("Secret Network", "SCRT"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DGzViq8bmgMLYdVZ3xnLVEdKwzBnGdzzJZ4suG8kVb9TTLAbrwv8YdKBb8FWKdBNinaHKmBv7JpQvqBYx4rxch7WnHzNFzSVrMf8hQepTP",
+            "ex_priv": "xprv9zHe6DJEmQ8484Z2T2RmyMHtmv9hNov9d5dU5WrXCA4Aaf124KdfakJqLGnVYwvBvMP4ttqm7QL5vuPTepiJiEJREiJnhswKmj6zLttwCMu",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EbeQ8h8S7mEGxYTn34gKedwvsmytMW61v51RAc8e6VzgMMLFkkNMN6sYtqvtZQ8TjBKswbxUTzxzj3nZfwr4pzFB7rySMaBUUCJnCuxu33",
+            "ex_priv": "xprvA1cHzdAEbkCw4UTzg1XfxWhDNqwVUtnEeh9QcnCX5ky1oZ2BiDS7oZnPhdgFNqWwGtB3BNebior1tS26wAtbQzCTe5Pty1BhkcwT8QfWQSP",
+        },
+        "addresses": [
+            "secret19rl4cm2hmr8afy4kldpxz3fka4jguq0a79e5zf",
+            "secret1jrkmdcwgq94uaamx6zax2luewlhf7u4k7ajct7",
+            "secret1kng7tv83qesgvv2ze7hxlw4urfrjk8vqzk4fsh",
+            "secret1zuvk68xw4y9swp06796rx8zarjvvkrt6dl80kr",
+            "secret12ecyuddg4wlnhztusgju5zxxjgznkz7fjvqhtu",
+        ],
+    },
+    # Secret Network (new path)
+    {
+        "coin": Bip44Coins.SECRET_NETWORK_NEW,
+        "names": ("Secret Network", "SCRT"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CHxzGiCX6ZdYkQEu8Ys2znp2PDdQA6Q9AxB6ty1YP7Y5mzxaqBqg9fJu1UySQBiPx1CE7niLrXi9ZSVcLZFxZJvVjnVadEJkX5JGToEVXa",
+            "ex_priv": "xprv9yJcamBJgj1LLGKmo71rfrr5UMP8zhNYmx2aJWZPz3aZCyfp3Hsb8MLq3kHFs9tVXzXfxHS9GEgekWBcNP3yUQ5zXNJX2oB7XdPBNhUPsri",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6ETkpwUoXnrSJzJnvYgn6JUy6ogPYmiexetciuUckmbXrb5QvG2oAuCwdDwfzk3QNUXCgmED7u9YY8U9XSGNxj1EANNCQxX2HENNaPby7LF",
+            "ex_priv": "xprvA1UQRRwuhRJ96WEKpX9mjAYEYmqu9JzobRy1vX51CS4YynkGNiiYd6tTmyYvncTtBBE4nJkRQJAqnPttScts953kzmDuBthZgqnaSmCxC5X",
+        },
+        "addresses": [
+            "secret1gkle2qetd47g4qlruxu8kx4m97875t66qsgr0p",
+            "secret1f955dd4z2ugeenxksglm06v6dv6khqsfykxgpd",
+            "secret1udkmxh9jw637tva7g6a734kke7a6w24lkj25j3",
+            "secret1w0y3vzahpw8rr0m0teraw7yfzksza27k7makd5",
+            "secret1uwaacfqpzn2wtgxg5aph7t9p0na8sfw2sqr9pk",
+        ],
+    },
     # Solana
     {
         "coin": Bip44Coins.SOLANA,
@@ -1793,6 +1841,18 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.RIPPLE,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "rHsMGQEkVNJmpGWs8XUBoTBiAAbwxZN5v3",
+    },
+    # Secret Network (old path)
+    {
+        "coin": Bip44Coins.SECRET_NETWORK_OLD,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "secret19rl4cm2hmr8afy4kldpxz3fka4jguq0a79e5zf",
+    },
+    # Secret Network (new path)
+    {
+        "coin": Bip44Coins.SECRET_NETWORK_NEW,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "secret1gkle2qetd47g4qlruxu8kx4m97875t66qsgr0p",
     },
     # Solana
     {
