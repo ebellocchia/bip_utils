@@ -53,6 +53,7 @@ matic
 monero
 okex chain
 ontology
+osmosis
 nano
 neo
 polygon
