@@ -1836,7 +1836,7 @@ Some examples from mnemonic generation to wallet addresses.
 **Substrate based on BIP44**
 
     from bip_utils import (
-        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip44Coins, Bip44
+        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Coins, Bip44
     )
 
     # Generate random mnemonic
@@ -1859,7 +1859,6 @@ Some examples from mnemonic generation to wallet addresses.
 
 **Substrate based on the official Polkadot wallet**
 
-    import binascii
     from bip_utils import (
         Bip39WordsNum, Bip39MnemonicGenerator, SubstrateBip39SeedGenerator, SubstrateCoins, Substrate
     )
@@ -1899,7 +1898,7 @@ Some examples from mnemonic generation to wallet addresses.
 
     import binascii
     from bip_utils import (
-        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip44Coins, Bip44, Monero
+        Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Coins, Bip44, Monero
     )
 
     # Generate random mnemonic
@@ -1934,13 +1933,13 @@ Some examples from mnemonic generation to wallet addresses.
     # Print the first 5 subaddresses for account 0 and 1
     for acc_idx in range(2):
         for subaddr_idx in range(5):
-            print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.Subaddress(subaddr_idx, acc_idx)}")
+            print(f"Subaddress (account: {acc_idx}, index: {subaddr_idx}): {monero.Subaddress(subaddr_idx, acc_idx)}")
 
 **Monero based on official Monero wallet**
 
     import binascii
     from bip_utils import (
-        MoneroWordsNum, MoneroMnemonicGenerator, MoneroSeedGenerator, Bip44Changes, Bip44Coins, Bip44, Monero
+        MoneroWordsNum, MoneroMnemonicGenerator, MoneroSeedGenerator, Monero
     )
 
     # Generate random mnemonic
@@ -1966,7 +1965,7 @@ Some examples from mnemonic generation to wallet addresses.
     # Print the first 5 subaddresses for account 0 and 1
     for acc_idx in range(2):
         for subaddr_idx in range(5):
-            print(f"Subaddress (account: {acc_idx}, {subaddr_idx}): {monero.Subaddress(subaddr_idx, acc_idx)}")
+            print(f"Subaddress (account: {acc_idx}, index: {subaddr_idx}): {monero.Subaddress(subaddr_idx, acc_idx)}")
 
 # Buy me a coffee
 
