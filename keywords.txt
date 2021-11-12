@@ -67,6 +67,7 @@ tezos
 theta
 tron
 vechain
+verge
 zcash
 zilliqa
 
