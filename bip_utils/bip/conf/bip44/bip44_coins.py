@@ -82,6 +82,7 @@ class Bip44Coins(BipCoins):
     THETA = auto()
     TRON = auto()
     VECHAIN = auto()
+    VERGE = auto()
     ZCASH = auto()
     ZILLIQA = auto()
     # Test nets

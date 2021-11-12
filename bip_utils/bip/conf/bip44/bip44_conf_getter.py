@@ -93,6 +93,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.THETA: Bip44Conf.Theta,
         Bip44Coins.TRON: Bip44Conf.Tron,
         Bip44Coins.VECHAIN: Bip44Conf.VeChain,
+        Bip44Coins.VERGE: Bip44Conf.Verge,
         Bip44Coins.ZCASH: Bip44Conf.ZcashMainNet,
         Bip44Coins.ZCASH_TESTNET: Bip44Conf.ZcashTestNet,
         Bip44Coins.ZILLIQA: Bip44Conf.Zilliqa,

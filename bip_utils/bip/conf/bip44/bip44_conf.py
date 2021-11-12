@@ -920,6 +920,21 @@ class Bip44Conf:
         addr_params={},
     )
 
+    # Configuration for Verge
+    Verge: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Verge.CoinNames(),
+        coin_idx=77,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.Verge.Params("wif_net_ver"),
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=P2PKHAddr,
+        addr_params={
+            "net_ver": CoinsConf.Verge.Params("p2pkh_net_ver"),
+        },
+    )
+
     # Configuration for Zcash main net
     ZcashMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.ZcashMainNet.CoinNames(),

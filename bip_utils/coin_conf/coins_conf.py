@@ -635,6 +635,15 @@ class CoinsConf:
         params={},
     )
 
+    # Configuration for Verge
+    Verge: CoinConf = CoinConf(
+        coin_name=CoinNames("Verge", "XVG"),
+        params={
+            "p2pkh_net_ver": b"\x1e",
+            "wif_net_ver": b"\x9e",
+        },
+    )
+
     # Configuration for Zcash main net
     ZcashMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("Zcash", "ZEC"),

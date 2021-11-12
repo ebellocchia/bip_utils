@@ -1303,6 +1303,30 @@ TEST_VECT = [
             "0x076988846613FBf7713ca25453b97b97219f5c05",
         ],
     },
+    # Verge
+    {
+        "coin": Bip44Coins.VERGE,
+        "names": ("Verge", "XVG"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "6JKHV5zEqwBbEhAf7qEWk5qNcu6gs4XtrCwXe3WFH8xR7BcSCbr",
+        "account": {
+            "ex_pub": "xpub6CgRNnJHVCSsRP4hpx5PsW73GyphGN594gDXd3hhZpdoJ3KquKeht51S6Lwt4JNhBuzH1u4EvUP4dp5bczRjquqApF6yre4mHE7yAZF1nkJ",
+            "ex_priv": "xprv9yh4yGmPeptaCtzEivYPWNAJiwzCruMHhTHvpfJ61V6pREzhMnLTLGgxF25cm3uAERCcf9CzpMa2tK5Att6gvVdRJmcMUVVqEMmqmEVJX2C",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6FPnUti7w2nAbF4gK1dDhw5Tf1MgfasYPnw3P3Y54EV8Y9z5vFT62pwNa8uafd8wfRuvpuLiJj5ZZCLSgcuPX1NMJzNu1UZ5JiP8xoEAav8",
+            "ex_priv": "xprvA2QS5PBE6fDsNkzDCz6DLo8j6yXCG89h2a1Saf8TVtx9fMewNi8qV2ctiscMR1ea3rGgM4PXqJi98DEwmtsdFG6FaikEXvq3ZoT5PXwgFwD",
+        },
+        "addresses": [
+            "DDBxSas734KhMp1Btga3LdwWAc1igSER8o",
+            "DCRJ6tV34THRrtGUESQDbdJrvKDd1ChPcs",
+            "D5zRAN1MCdXDhTegRjdZmFbapDgo9ga2z1",
+            "DGnuW6PdMA1tjUeJ1QbkjUd7rXv7dDmhJd",
+            "D97BxVfvdniGCSBSQQxETQkZP8wAFUKHAJ",
+        ],
+    },
     # Zcash
     {
         "coin": Bip44Coins.ZCASH,
@@ -1925,6 +1949,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.VECHAIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "0xE5d846748409dF0b23D5bd47CEB14afc1CBbbcB3",
+    },
+    # Verge
+    {
+        "coin": Bip44Coins.VERGE,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "DDBxSas734KhMp1Btga3LdwWAc1igSER8o",
     },
     # Zcash
     {
