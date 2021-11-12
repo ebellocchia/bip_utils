@@ -83,6 +83,7 @@ Supported BIP coins:
 - Theta Network
 - Tron
 - VeChain
+- Verge
 - Zcash (and related test net)
 - Zilliqa
 
@@ -832,6 +833,7 @@ Supported coins enumerative for BIP-0044:
 |Theta Network|*Bip44Coins.THETA*|-|
 |Tron|*Bip44Coins.TRON*|-|
 |VeChain|*Bip44Coins.VECHAIN*|-|
+|Verge|*Bip44Coins.VERGE*|-|
 |Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
 |Zilliqa|*Bip44Coins.ZILLIQA*|-|
 
