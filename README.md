@@ -37,6 +37,8 @@ Package dependencies:
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve
 - [scalecodec](https://pypi.org/project/scalecodec/) for SCALE encoding
 
+Please note that, for the py-sr25519-bindings library, Rust is required to be installed.
+
 ## Supported coins
 
 Supported BIP coins:
