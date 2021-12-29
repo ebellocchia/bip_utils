@@ -1,4 +1,4 @@
-"""Example of key derivation using BIP32."""
+"""Example of key derivation using BIP32 (secp256k1 curve)."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Secp256k1, EthAddr

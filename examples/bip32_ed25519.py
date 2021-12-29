@@ -1,4 +1,4 @@
-"""Example of key derivation using BIP32."""
+"""Example of key derivation using BIP32 (ed25519 curve based on SLIP-0010)."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Ed25519Slip, SolAddr
