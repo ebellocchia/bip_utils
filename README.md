@@ -1663,31 +1663,40 @@ This library is used internally by the other modules, but it's available also fo
 **Code example**
 
     import binascii
-    from bip_utils import Bip44Conf, CoinsConf, Secp256k1PrivateKey, WifDecoder, WifEncoder
+    from bip_utils import Bip44Conf, CoinsConf, Secp256k1PrivateKey, WifPubKeyModes, WifDecoder, WifEncoder
 
     # Private key bytes or a private key object can be used
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
     priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
-    # Encode/Decode with default parameters (Bitcoin main net)
+    # Encode/Decode with default parameters (Bitcoin main net, compressed public key)
     enc = WifEncoder.Encode(priv_key)
-    dec = WifDecoder.Decode(enc)
-    # Encode/Decode with parameters from configuration
-    # (MN = main net, TN = test net)
+    dec, pub_key_mode = WifDecoder.Decode(enc)
+    # Specify the public key mode (it's returned by the decoding method as second element)
+    enc = WifEncoder.Encode(priv_key, pub_key_mode=WifPubKeyModes.COMPRESSED)
+    enc = WifEncoder.Encode(priv_key, pub_key_mode=WifPubKeyModes.UNCOMPRESSED)
+    dec, pub_key_mode = WifDecoder.Decode(enc)
+    # Encode/Decode with net version from configuration
     enc = WifEncoder.Encode(priv_key,
                             CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
-    dec = WifDecoder.Decode(enc,
+    dec, pub_key_mode = WifDecoder.Decode(enc,
+                                          CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
+    # Encode/Decode with net version from BIP
+    enc = WifEncoder.Encode(priv_key,
+                            Bip44Conf.BitcoinMainNet.WifNetVersion())
+    dec, pub_key_mode = WifDecoder.Decode(enc,
+                                          Bip44Conf.BitcoinMainNet.WifNetVersion())
+    # Encode/Decode with custom net version
+    enc = WifEncoder.Encode(priv_key,
+                            b"\x00")
+    dec, pub_key_mode = WifDecoder.Decode(enc,
+                                          b"\x00")
+
+    # Specify public key mode
+    enc = WifEncoder.Encode(priv_key,
                             CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
-    # Encode/Decode with parameters from BIP
-    enc = WifEncoder.Encode(priv_key,
-                            Bip44Conf.BitcoinMainNet.WifNetVersion())
-    dec = WifDecoder.Decode(enc,
-                            Bip44Conf.BitcoinMainNet.WifNetVersion())
-    # Encode/Decode with custom parameters
-    enc = WifEncoder.Encode(priv_key,
-                            b"\x00")
-    dec = WifDecoder.Decode(enc,
-                            b"\x00")
+    dec, pub_key_mode = WifDecoder.Decode(enc,
+                                          CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
 
 ## Base58
 
