@@ -23,7 +23,7 @@
 import binascii
 from bip_utils import (
     Bip32KeyError, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError,
-    Bip44PublicKey, Bip44PrivateKey, Monero
+    Bip44PublicKey, Bip44PrivateKey, Monero, WifPubKeyModes
 )
 from bip_utils.bip.conf.common import BipCoinConf
 
@@ -54,7 +54,7 @@ class Bip44BaseTestHelper:
 
             # Test master key
             ut_class.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())
-            ut_class.assertEqual(test["wif_master"], bip_obj_ctx.PrivateKey().ToWif(False))
+            ut_class.assertEqual(test["wif_master"], bip_obj_ctx.PrivateKey().ToWif(WifPubKeyModes.UNCOMPRESSED))
 
             # Derive account
             bip_obj_ctx = bip_obj_ctx.Purpose().Coin().Account(0)

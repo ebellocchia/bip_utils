@@ -21,11 +21,20 @@
 """Module for WIF encoding/decoding."""
 
 # Imports
-from typing import Union
+from enum import auto, Enum, unique
+from typing import Tuple, Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
 from bip_utils.utils.misc import ConvUtils
+
+
+@unique
+class WifPubKeyModes(Enum):
+    """Enumerative for WIF public key modes."""
+
+    COMPRESSED = auto()
+    UNCOMPRESSED = auto()
 
 
 class WifConst:
@@ -44,22 +53,24 @@ class WifEncoder:
     @staticmethod
     def Encode(priv_key: Union[bytes, IPrivateKey],
                net_ver: bytes = CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
-               compr_pub_key: bool = True) -> str:
+               pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
         """
         Encode key bytes into a WIF string.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key bytes or object
-            net_ver (bytes, optional)      : Net version (Bitcoin main net by default)
-            compr_pub_key (bools, optional): True if private key corresponds to a compressed public key,
-                                             false otherwise
+            priv_key (bytes or IPrivateKey)        : Private key bytes or object
+            net_ver (bytes, optional)              : Net version (Bitcoin main net by default)
+            pub_key_mode (WifPubKeyModes, optional): Specify if the private key corresponds to a compressed public key
 
         Returns:
             str: WIF encoded string
 
         Raises:
+            TypeError: If pub_key_mode is not a WifPubKeyModes enum
             ValueError: If the key is not valid
         """
+        if not isinstance(pub_key_mode, WifPubKeyModes):
+            raise TypeError("Public key mode is not an enumerative of WifPubKeyModes")
 
         # Convert to private key to check if bytes are valid
         if isinstance(priv_key, bytes):
@@ -70,7 +81,7 @@ class WifEncoder:
         priv_key = priv_key.Raw().ToBytes()
 
         # Add suffix if correspond to a compressed public key
-        if compr_pub_key:
+        if pub_key_mode == WifPubKeyModes.COMPRESSED:
             priv_key += WifConst.COMPR_PUB_KEY_SUFFIX
 
         # Add net address version
@@ -88,7 +99,7 @@ class WifDecoder:
 
     @staticmethod
     def Decode(wif_str: str,
-               net_ver: bytes = CoinsConf.BitcoinMainNet.Params("wif_net_ver")) -> bytes:
+               net_ver: bytes = CoinsConf.BitcoinMainNet.Params("wif_net_ver")) -> Tuple[bytes, WifPubKeyModes]:
         """
         Decode key bytes from a WIF string.
 
@@ -126,7 +137,10 @@ class WifDecoder:
                 )
             # Remove it
             key_bytes = key_bytes[:-1]
-        elif not Secp256k1PrivateKey.IsValidBytes(key_bytes):
-            raise ValueError(f"Invalid decoded key ({ConvUtils.BytesToHexString(key_bytes)})")
+            pub_key_mode = WifPubKeyModes.COMPRESSED
+        else:
+            if not Secp256k1PrivateKey.IsValidBytes(key_bytes):
+                raise ValueError(f"Invalid decoded key ({ConvUtils.BytesToHexString(key_bytes)})")
+            pub_key_mode = WifPubKeyModes.UNCOMPRESSED
 
-        return key_bytes
+        return key_bytes, pub_key_mode

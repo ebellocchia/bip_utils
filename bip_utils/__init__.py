@@ -18,7 +18,7 @@ from bip_utils.bech32 import (
     SegwitBech32Decoder, SegwitBech32Encoder
 )
 # WIF
-from bip_utils.wif import WifDecoder, WifEncoder
+from bip_utils.wif import WifPubKeyModes, WifDecoder, WifEncoder
 # Address computation
 from bip_utils.addr import (
     BchAddrConverter,
@@ -54,9 +54,9 @@ from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip49 import Bip49
 from bip_utils.bip.bip84 import Bip84
 # BIP coins configuration
-from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44Conf
-from bip_utils.bip.conf.bip49 import Bip49Coins, Bip49Conf
-from bip_utils.bip.conf.bip84 import Bip84Coins, Bip84Conf
+from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44Conf, Bip44ConfGetter
+from bip_utils.bip.conf.bip49 import Bip49Coins, Bip49Conf, Bip49ConfGetter
+from bip_utils.bip.conf.bip84 import Bip84Coins, Bip84Conf, Bip84ConfGetter
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, MoneroSubaddress, Monero

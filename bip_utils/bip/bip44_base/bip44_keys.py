@@ -26,7 +26,7 @@ from bip_utils.addr import XmrAddr
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.utils.misc import DataBytes
-from bip_utils.wif import WifEncoder
+from bip_utils.wif import WifPubKeyModes, WifEncoder
 
 
 class Bip44PublicKey:
@@ -178,18 +178,18 @@ class Bip44PrivateKey:
 
     @lru_cache()
     def ToWif(self,
-              compr_pub_key: bool = True) -> str:
+              pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
         """
         Return key in WIF format.
 
         Args:
-            compr_pub_key (bool) : True if private key corresponds to a compressed public key, false otherwise
+            pub_key_mode (WifPubKeyModes): Specify if the private key corresponds to a compressed public key
 
         Returns:
             str: Key in WIF format
         """
         wif_net_ver = self.m_coin_conf.WifNetVersion()
 
-        return (WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), wif_net_ver, compr_pub_key)
+        return (WifEncoder.Encode(self.m_priv_key.Raw().ToBytes(), wif_net_ver, pub_key_mode)
                 if wif_net_ver is not None
                 else "")
