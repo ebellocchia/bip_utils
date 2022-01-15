@@ -66,7 +66,8 @@ class WifEncoder:
             str: WIF encoded string
 
         Raises:
-            TypeError: If pub_key_mode is not a WifPubKeyModes enum
+            TypeError: If pub_key_mode is not a WifPubKeyModes enum or
+                       the private key is not a valid Secp256k1PrivateKey
             ValueError: If the key is not valid
         """
         if not isinstance(pub_key_mode, WifPubKeyModes):
@@ -116,31 +117,31 @@ class WifDecoder:
         """
 
         # Decode string
-        key_bytes = Base58Decoder.CheckDecode(wif_str)
+        priv_key_bytes = Base58Decoder.CheckDecode(wif_str)
 
         # Check net version
-        if key_bytes[0] != ord(net_ver):
+        if priv_key_bytes[0] != ord(net_ver):
             raise ValueError(
-                f"Invalid net version (expected 0x{ord(net_ver):02X}, got 0x{key_bytes[0]:02X})"
+                f"Invalid net version (expected 0x{ord(net_ver):02X}, got 0x{priv_key_bytes[0]:02X})"
             )
 
         # Remove net version
-        key_bytes = key_bytes[1:]
+        priv_key_bytes = priv_key_bytes[1:]
 
         # Remove suffix if correspond to a compressed public key
-        if Secp256k1PrivateKey.IsValidBytes(key_bytes[:-1]):
+        if Secp256k1PrivateKey.IsValidBytes(priv_key_bytes[:-1]):
             # Check the compressed public key suffix
-            if key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
+            if priv_key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
                 raise ValueError(
                     f"Invalid compressed public key suffix (expected 0x{ord(WifConst.COMPR_PUB_KEY_SUFFIX):02X}, "
-                    f"got 0x{key_bytes[-1]:02X})"
+                    f"got 0x{priv_key_bytes[-1]:02X})"
                 )
             # Remove it
-            key_bytes = key_bytes[:-1]
+            priv_key_bytes = priv_key_bytes[:-1]
             pub_key_mode = WifPubKeyModes.COMPRESSED
         else:
-            if not Secp256k1PrivateKey.IsValidBytes(key_bytes):
-                raise ValueError(f"Invalid decoded key ({ConvUtils.BytesToHexString(key_bytes)})")
+            if not Secp256k1PrivateKey.IsValidBytes(priv_key_bytes):
+                raise ValueError(f"Invalid decoded key ({ConvUtils.BytesToHexString(priv_key_bytes)})")
             pub_key_mode = WifPubKeyModes.UNCOMPRESSED
 
-        return key_bytes, pub_key_mode
+        return priv_key_bytes, pub_key_mode
