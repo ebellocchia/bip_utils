@@ -71,6 +71,7 @@ Supported BIP coins:
 - Litecoin (and related test net)
 - Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses of the official wallets but it supports subaddresses generation)
 - Nano
+- Near Protocol
 - NEO
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology
@@ -843,6 +844,7 @@ Supported coins enumerative for BIP-0044:
 |Monero (ed25519 SLIP-0010, please see the Monero paragraph below)|*Bip44Coins.MONERO_ED25519_SLIP*|-|
 |Monero (secp256k1, please see the Monero paragraph below)|*Bip44Coins.MONERO_SECP256K1*|-|
 |Nano|*Bip44Coins.NANO*|-|
+|Near Protocol|*Bip44Coins.NEAR_PROTOCOL*|-|
 |NEO|*Bip44Coins.NEO*|-|
 |OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
 |OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
