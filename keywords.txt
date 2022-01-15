@@ -56,6 +56,8 @@ okex chain
 ontology
 osmosis
 nano
+near
+near protocol
 neo
 polygon
 ripple
