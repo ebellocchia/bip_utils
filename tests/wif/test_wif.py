@@ -135,31 +135,23 @@ TEST_VECT = [
     },
 ]
 
-# Tests for WIF encoded strings with invalid checksum
-TEST_VECT_CHKSUM_INVALID = [
+# Tests for encoded strings with invalid checksum
+TEST_VECT_DEC_CHKSUM_INVALID = [
     "5JXwUhNu98kXkyhR8EpvpaTGRjj8JZEP7hWboB5xscgjbgK3zNk",
     "5HzxC8XHHAtoC5jVeScY8Tr99Ud9MwFdF2pJKYsMTUknJZEurYr",
     "5JCu9q9GHLHHFS1FqGtLfoFkztBx712cxk4ta6S1UizxLQS6eFp",
 ]
 
-# Tests for WIF encoded strings with invalid encoding
-TEST_VECT_ENC_STR_INVALID = [
+# Tests for encoded strings with invalid base58
+TEST_VECT_DEC_BASE58_INVALID = [
     "5JnLHbJUuOcQNc9UC64SizlLYRw9Y2ecbiJW4f8U8htgYLDJVED",
     "5KL1v3EqNOV4bjMHK3x9bxCd9brVhrDt5TbSk43HUfRij7NtZ9p",
     "5JQZOnApGO9pVQLBQXTk6CHoMrzVGcVRGR9NTZizLCQFm4AKa5t",
 ]
 
-# Tests for invalid keys for encoding
-TEST_VECT_ENC_KEY_INVALID = [
-    # Public compressed key
-    b"0338994349b3a804c44bbec55c2824443ebb9e475dfdad14f4b1a01a97d42751b3",
-    # Public uncompressed key
-    b"048ccab10df42f89efaf13ca23a96f8b2063d881601c195b354f6f49c3b5978dd4e17e3a1b1505fcb5e7d13b042fa5c8eff83c1efe17d8a56e3cf3fa9250cb80fe",
-]
-
-# Tests for invalid keys for decoding
+# Tests for invalid private keys
 # These wrong encodings were generated on purpose by slightly modifying the WifEncoder.Encode method
-TEST_VECT_DEC_KEY_INVALID = [
+TEST_VECT_DEC_PRIV_KEY_INVALID = [
     # Valid private key with wrong net version prefix (0x79 instead of 0x80)
     {
         "enc": "54fKtD9rQfDYgbQ4XpQQPC5r3j6sTpFqEXxBfdveRtM7kJ4s4nK",
@@ -207,19 +199,24 @@ class WifTests(unittest.TestCase):
                                                test["net_ver"],
                                                test["pub_key_mode"]))
 
-    # Test invalid checksum
-    def test_invalid_checksum(self):
-        for test in TEST_VECT_CHKSUM_INVALID:
+    # Test invalid checksum for decoding
+    def test_dec_invalid_checksum(self):
+        for test in TEST_VECT_DEC_CHKSUM_INVALID:
             # "with" is required because the exception is raised by Base58 module
             with self.assertRaises(Base58ChecksumError):
                 WifDecoder.Decode(test, CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
 
-    # Test invalid encoding
-    def test_invalid_encoding(self):
-        for test in TEST_VECT_ENC_STR_INVALID:
+    # Test invalid base58 encoding for decoding
+    def test_dec_invalid_base58(self):
+        for test in TEST_VECT_DEC_BASE58_INVALID:
             # "with" is required because the exception is raised by Base58 module
             with self.assertRaises(ValueError):
                 WifDecoder.Decode(test, CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
+
+    # Test invalid private keys for decoding
+    def test_dec_invalid_priv_keys(self):
+        for test in TEST_VECT_DEC_PRIV_KEY_INVALID:
+            self.assertRaises(ValueError, WifDecoder.Decode, test["enc"], test["net_ver"])
 
     # Test invalid keys for encoding
     def test_enc_invalid_keys(self):
@@ -230,11 +227,3 @@ class WifTests(unittest.TestCase):
 
         for test in TEST_VECT_SECP256K1_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test), b"\x00")
-
-        for test in TEST_VECT_ENC_KEY_INVALID:
-            self.assertRaises(ValueError, WifEncoder.Encode, binascii.unhexlify(test), b"\x00")
-
-    # Test invalid keys for decoding
-    def test_dec_invalid_keys(self):
-        for test in TEST_VECT_DEC_KEY_INVALID:
-            self.assertRaises(ValueError, WifDecoder.Decode, test["enc"], test["net_ver"])
