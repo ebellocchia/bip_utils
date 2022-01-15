@@ -23,7 +23,7 @@ from bip_utils.wif import WifPubKeyModes, WifDecoder, WifEncoder
 from bip_utils.addr import (
     BchAddrConverter,
     AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EosAddr,
-    EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr, NeoAddr, OneAddr,
+    EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr, NearAddr, NeoAddr, OneAddr,
     P2PKHAddr, BchP2PKHAddr, P2SHAddr, BchP2SHAddr, P2WPKHAddr, SolAddr,
     SubstrateEd25519Addr, SubstrateSr25519Addr, TrxAddr, XlmAddrTypes, XlmAddr, XmrIntegratedAddr,
     XmrAddr, XrpAddr, XtzAddrPrefixes, XtzAddr, ZilAddr

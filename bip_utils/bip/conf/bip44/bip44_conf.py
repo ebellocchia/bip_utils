@@ -23,7 +23,7 @@
 # Imports
 from bip_utils.addr import (
     AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr,
-    EosAddr, EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr,
+    EosAddr, EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr, NearAddr,
     NeoAddr, OneAddr, P2PKHAddr, BchP2PKHAddr, SolAddr,
     SubstrateEd25519Addr, TrxAddr, XlmAddrTypes, XlmAddr, XmrAddr,
     XrpAddr, XtzAddrPrefixes, XtzAddr, ZilAddr
@@ -657,6 +657,19 @@ class Bip44Conf:
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Blake2bSlip,
         addr_cls=NanoAddr,
+        addr_params={},
+    )
+
+    # Configuration for Near Protocol
+    NearProtocol: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.NearProtocol.CoinNames(),
+        coin_idx=397,
+        is_testnet=False,
+        def_path="0'",
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Ed25519Slip,
+        addr_cls=NearAddr,
         addr_params={},
     )
 

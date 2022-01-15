@@ -74,6 +74,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.MONERO_ED25519_SLIP: Bip44Conf.MoneroEd25519Slip,
         Bip44Coins.MONERO_SECP256K1: Bip44Conf.MoneroSecp256k1,
         Bip44Coins.NANO: Bip44Conf.Nano,
+        Bip44Coins.NEAR_PROTOCOL: Bip44Conf.NearProtocol,
         Bip44Coins.NEO: Bip44Conf.Neo,
         Bip44Coins.NINE_CHRONICLES_GOLD: Bip44Conf.NineChroniclesGold,
         Bip44Coins.OKEX_CHAIN_ATOM: Bip44Conf.OkexChainAtom,

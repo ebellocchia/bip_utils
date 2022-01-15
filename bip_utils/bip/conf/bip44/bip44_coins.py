@@ -63,6 +63,7 @@ class Bip44Coins(BipCoins):
     MONERO_ED25519_SLIP = auto()
     MONERO_SECP256K1 = auto()
     NANO = auto()
+    NEAR_PROTOCOL = auto()
     NEO = auto()
     NINE_CHRONICLES_GOLD = auto()
     OKEX_CHAIN_ATOM = auto()

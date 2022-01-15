@@ -489,6 +489,12 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Near Protocol
+    NearProtocol: CoinConf = CoinConf(
+        coin_name=CoinNames("Near Protocol", "NEAR"),
+        params={},
+    )
+
     # Configuration for Neo
     Neo: CoinConf = CoinConf(
         coin_name=CoinNames("NEO", "NEO"),

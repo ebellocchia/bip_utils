@@ -871,6 +871,30 @@ TEST_VECT = [
             "nano_1bk6bt8qp4tepperhtmw3bc8uef9rumzqz6113rrkt1er3qkr6kgbrxzr393",
         ],
     },
+    # Near Protocol
+    {
+        "coin": Bip44Coins.NEAR_PROTOCOL,
+        "names": ("Near Protocol", "NEAR"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6BivJaGdbdwEdt1r4TqppZqi5zGfxQNW9B6f4YEtBqo3XMctriaLvddQ8PAySAJJUgswXxtE1M1Kx81F4zM3Fw8zBxnBqLgVVYwi3AbiHkj",
+            "ex_priv": "xprv9xjZu4jjmGNwRPwNxSJpTRtyXxSBYweemxB4G9qGdWG4eZHkKBG6NqJvHBUZ89cV4vJ5SQdFwefyWff5fJbQFmxVwJmJpPcARE5UFLbCq3Z",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6Dd3gE8nWhnsrxF4yHQD6wqGxqVePtTNGeA7JZb4w8CAKwyXs95ra9j1kiohfECnTpVNzuQxhCnW7XK3WJouoehD7EUxhkoYdyZdUdc6GWq",
+            "ex_priv": "xprv9zdhGibtgLEaeUAbsFsCjotYQof9zRjWuREWWBBTNnfBT9ePKbmc2MQXuXf3us3WMKJz5sh3ahhSgh9mok77Xqgtc5tPjPPDNz6cfAjZfFy",
+        },
+        "addresses": [
+            "4e7de0a21d8a20f970c86b6edf407906d7ba9e205979c3268270eef80a286e2d",
+            "c571e33e2e36c2c728d617ea77a88e2320c8697eac8b463adfc0128b96825cbf",
+            "04e44f5c15a091a7604954b3e33afa5c35a31b70d60d9377e4fe01d828016329",
+            "aa90f19be57d31b40a250a180efd6d2098a7015afbeac0c16b106bf54a9802c2",
+            "21e15d74f7e2a0f8a855a11626e1b1b67df8fadb125e209e212e765406033db1",
+        ],
+    },
     # NEO
     {
         "coin": Bip44Coins.NEO,
@@ -1841,6 +1865,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.NANO,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "nano_1p6hocygi1pzjidi3hho3wn85qiw3ykapg7khu9b45dwf7momgqoytn1c1jz",
+    },
+    # Near Protocol
+    {
+        "coin": Bip44Coins.NEAR_PROTOCOL,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "5510e2b44cae6eb807e3e0e45d579dda058c274abcba15e5cb84636f5d1ee412",
     },
     # NEO
     {
