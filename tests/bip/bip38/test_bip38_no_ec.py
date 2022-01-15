@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+
 # Imports
 import binascii
 import unittest
@@ -27,7 +28,6 @@ from tests.ecc.test_ecc import (
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY,
     TEST_NIST256P1_PRIV_KEY, TEST_SR25519_PRIV_KEY
 )
-
 
 # Tests from BIP38 page (without EC multiplication)
 # https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
