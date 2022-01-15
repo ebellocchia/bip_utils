@@ -10,6 +10,7 @@
 
 This package allows generating mnemonics, seeds, private/public keys and addresses for different types of cryptocurrencies. In particular:
 - Mnemonic and seed generation as defined by [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
+- Private key encryption/decryption as defined by [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki)
 - Keys derivation as defined by [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) and [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md)
 - Derivation of a hierarchy of keys as defined by [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) and [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
@@ -450,6 +451,31 @@ Also in this case, the language can be specified or automatically detected.
     # Generate specifying the language
     seed_bytes = MoneroSeedGenerator(mnemonic, MoneroLanguages.SPANISH).Generate()
 
+## BIP-0038 library
+
+The BIP-0038 library allows encrypting/decrypting private keys as defined by [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki).
+
+The library supports only compressed public key mode, since uncompressed public key with Bitcoin are very rare in modern wallets.
+
+**Code example**
+
+    import binascii
+    from bip_utils import Bip38Decrypter, Bip38Encrypter, Secp256k1PrivateKey
+
+    passphrase = "DummyPassphrase"
+
+    # Private key bytes or a private key object can be used
+    priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
+    priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
+
+    # Encrypt without EC multiplication
+    enc = Bip38Encrypter.EncryptNoEc(priv_key, passphrase)
+    print(enc)
+
+    # Decrypt without EC multiplication
+    dec = Bip38Decrypter.DecryptNoEc(enc, passphrase)
+    print(binascii.hexlify(dec))
+
 ## BIP-0032 library
 
 The BIP-0032 library allows deriving children keys as defined by [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) and [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md).
@@ -480,7 +506,7 @@ The constructed class is the master path, so printing the private key will resul
     # Specify seed manually
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
 
-    # Construct from seed. In case it's a test net, pass True as second parameter. Derivation path returned: m
+    # Construct from seed, derivation path returned: m
     bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
     # Print master key in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
