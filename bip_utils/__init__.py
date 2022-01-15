@@ -30,6 +30,8 @@ from bip_utils.addr import (
 )
 # Generic coins configuration
 from bip_utils.coin_conf import CoinsConf
+# BIP38
+from bip_utils.bip.bip38.bip38 import Bip38Decrypter, Bip38Encrypter
 # BIP39
 from bip_utils.bip.bip39 import (
     Bip39ChecksumError,

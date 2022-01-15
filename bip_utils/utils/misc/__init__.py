@@ -1,3 +1,4 @@
+from bip_utils.utils.misc.aes_ecb import AesEcbDecrypter, AesEcbEncrypter
 from bip_utils.utils.misc.algo import AlgoUtils
 from bip_utils.utils.misc.bit import BitUtils
 from bip_utils.utils.misc.conversion import ConvUtils

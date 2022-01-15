@@ -46,6 +46,24 @@ class ConvUtils:
         return bytes(tmp)
 
     @staticmethod
+    def XorBytes(data_bytes_1: bytes,
+                 data_bytes_2: bytes) -> bytes:
+        """
+        XOR the specified bytes.
+
+        Args:
+            data_bytes_1 (bytes): Data bytes 1
+            data_bytes_2 (bytes): Data bytes 2
+
+        Returns:
+            bytes: XORed bytes
+        """
+        res = bytearray()
+        for b1, b2 in zip(data_bytes_1, data_bytes_2):
+            res.append(b1 ^ b2)
+        return bytes(res)
+
+    @staticmethod
     def BytesToInteger(data_bytes: bytes,
                        endianness: str = "big") -> int:
         """
@@ -168,6 +186,19 @@ class ConvUtils:
             bytes: Hex string converted to bytes
         """
         return binascii.unhexlify(AlgoUtils.Encode(data))
+
+    @staticmethod
+    def NormalizeNfc(data_str: str) -> str:
+        """
+        Normalize string using NFC.
+
+        Args:
+            data_str (str): Input string
+
+        Returns:
+            str: Normalized string
+        """
+        return unicodedata.normalize("NFC", data_str)
 
     @staticmethod
     def NormalizeNfkd(data_str: str) -> str:

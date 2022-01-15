@@ -28,6 +28,7 @@ from typing import Union
 import crcmod.predefined
 from Crypto.Hash import keccak
 from Crypto.Hash import SHA512
+from Crypto.Protocol.KDF import scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
 
 
@@ -85,6 +86,19 @@ class CryptoUtils:
         return hashlib.sha256(AlgoUtils.Encode(data)).digest()
 
     @staticmethod
+    def DoubleSha256(data: Union[bytes, str]) -> bytes:
+        """
+        Compute the double SHA256 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed SHA256
+        """
+        return CryptoUtils.Sha256(CryptoUtils.Sha256(data))
+
+    @staticmethod
     def Sha256DigestSize() -> int:
         """
         Get the SHA256 digest size in bytes.
@@ -140,6 +154,29 @@ class CryptoUtils:
             bytes: Computed PBKDF2 HMAC-SHA512
         """
         return hashlib.pbkdf2_hmac("sha512", AlgoUtils.Encode(password), AlgoUtils.Encode(salt), itr_num)
+
+    @staticmethod
+    def Scrypt(password: Union[bytes, str],
+               salt: Union[bytes, str],
+               key_len: int,
+               n: int,
+               r: int,
+               p: int) -> bytes:
+        """
+        Compute the scrypt of the specified password, using the specified parameters.
+
+        Args:
+            password (str or bytes): Password
+            salt (str or bytes)    : Salt
+            key_len (int)          : Length of the derived key
+            n (int)                : CPU/Memory cost parameter
+            r (int)                : Block size parameter
+            p (int)                : Parallelization parameter
+
+        Returns:
+            bytes: Computed scrypt
+        """
+        return scrypt(AlgoUtils.Encode(password), AlgoUtils.Encode(salt), key_len=key_len, N=n, r=r, p=p)
 
     @staticmethod
     def Ripemd160(data: Union[bytes, str]) -> bytes:

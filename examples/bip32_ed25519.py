@@ -5,7 +5,7 @@ from bip_utils import (
 )
 
 # Generate random mnemonic
-mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+mnemonic = "wrap inquiry hip shrimp patient merry sheriff curve employ still all else" # Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
 print(f"Mnemonic string: {mnemonic}")
 # Generate seed from mnemonic
 seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
@@ -17,7 +17,7 @@ print(f"Master key (bytes): {bip32_mst_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Master key (extended): {bip32_mst_ctx.PrivateKey().ToExtended()}")
 
 # Derive a path
-bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/501'/0'")
+bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/397'/0'")
 # Print key
 print(f"Derived private key (bytes): {bip32_der_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Derived private key (extended): {bip32_der_ctx.PrivateKey().ToExtended()}")

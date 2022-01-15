@@ -63,7 +63,7 @@ class Base58Utils:
         Returns:
             bytes: Computed checksum
         """
-        return CryptoUtils.Sha256(CryptoUtils.Sha256(data_bytes))[:Base58Const.CHECKSUM_BYTE_LEN]
+        return CryptoUtils.DoubleSha256(data_bytes)[:Base58Const.CHECKSUM_BYTE_LEN]
 
 
 class Base58Encoder:
