@@ -25,6 +25,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki.
 
 # Imports
 from typing import Union
+from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes
 from bip_utils.bip.bip38.bip38_no_ec import Bip38NoEcDecrypter, Bip38NoEcEncrypter
 from bip_utils.ecc import IPrivateKey
 
@@ -37,13 +38,15 @@ class Bip38Encrypter:
 
     @staticmethod
     def EncryptNoEc(priv_key: Union[bytes, IPrivateKey],
-                    passphrase: str) -> str:
+                    passphrase: str,
+                    pub_key_mode: Bip38PubKeyModes = Bip38PubKeyModes.COMPRESSED) -> str:
         """
         Encrypt the specified private key without EC multiplication.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key bytes or object
             passphrase (str)               : Passphrase
+            pub_key_mode (Bip38PubKeyModes): Public key mode
 
         Returns:
             str: Encrypted private key
@@ -52,7 +55,7 @@ class Bip38Encrypter:
             TypeError: If the private key is not a Secp256k1PrivateKey
             ValueError: If the private key bytes are not valid
         """
-        return Bip38NoEcEncrypter.Encrypt(priv_key, passphrase)
+        return Bip38NoEcEncrypter.Encrypt(priv_key, passphrase, pub_key_mode)
 
 
 class Bip38Decrypter:

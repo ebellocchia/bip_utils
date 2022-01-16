@@ -26,8 +26,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki.
 # Imports
 from typing import Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.bip.bip44 import Bip44
-from bip_utils.bip.conf.bip44 import Bip44Coins
+from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes, Bip38Addr
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
 from bip_utils.utils.misc import AesEcbDecrypter, AesEcbEncrypter, ConvUtils, CryptoUtils
 
@@ -41,6 +40,8 @@ class Bip38NoEcConst:
     ENC_PREFIX: bytes = b"\x01\x42"
     # Flag byte for compressed public key
     COMPRESSED_FLAGBYTE: bytes = b"\xe0"
+    # Flag byte for uncompressed public key
+    UNCOMPRESSED_FLAGBYTE: bytes = b"\xc0"
     # Address hash length
     ADDR_HASH_LEN: int = 4
     # Parameters for scrypt algorithm
@@ -54,19 +55,21 @@ class Bip38NoEcUtils:
     """Class container for BIP38 utility functions."""
 
     @staticmethod
-    def AddressHash(priv_key_bytes: bytes) -> bytes:
+    def AddressHash(priv_key_bytes: bytes,
+                    pub_key_mode: Bip38PubKeyModes) -> bytes:
         """
         Compute the address hash as specified in BIP38 (without EC multiplication).
 
         Args:
-            priv_key_bytes (bytes): private key bytes
+            priv_key_bytes (bytes)         : private key bytes
+            pub_key_mode (Bip38PubKeyModes): Public key mode
 
         Returns:
             bytes: Address hash
         """
 
         # Compute the Bitcoin address (ASCII)
-        address = Bip44.FromPrivateKey(priv_key_bytes, Bip44Coins.BITCOIN).PublicKey().ToAddress()
+        address = Bip38Addr.EncodeKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes).PublicKey(), pub_key_mode)
         # Take the first four bytes of SHA256(SHA256())
         return CryptoUtils.DoubleSha256(address)[:Bip38NoEcConst.ADDR_HASH_LEN]
 
@@ -99,13 +102,15 @@ class Bip38NoEcEncrypter:
 
     @staticmethod
     def Encrypt(priv_key: Union[bytes, IPrivateKey],
-                passphrase: str) -> str:
+                passphrase: str,
+                pub_key_mode: Bip38PubKeyModes) -> str:
         """
         Encrypt the specified private key.
 
         Args:
             priv_key (bytes or IPrivateKey): Private key bytes or object
             passphrase (str)               : Passphrase
+            pub_key_mode (Bip38PubKeyModes): Public key mode
 
         Returns:
             str: Encrypted private key
@@ -123,7 +128,7 @@ class Bip38NoEcEncrypter:
 
         # Compute address hash
         priv_key_bytes = priv_key.Raw().ToBytes()
-        address_hash = Bip38NoEcUtils.AddressHash(priv_key_bytes)
+        address_hash = Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
 
         # Derive a key from the passphrase using scrypt
         key = Bip38NoEcUtils.Scrypt(passphrase, address_hash)
@@ -140,9 +145,13 @@ class Bip38NoEcEncrypter:
         # Do AES256Encrypt(block = bitcoinprivkey[16...31] xor derivedhalf1[16...31], key = derivedhalf2)
         encrypted_half_2 = aes_enc.Encrypt(ConvUtils.XorBytes(priv_key_bytes[16:], derived_half_1[16:]))
 
+        # Get flagbyte
+        flagbyte = (Bip38NoEcConst.COMPRESSED_FLAGBYTE
+                    if pub_key_mode == Bip38PubKeyModes.COMPRESSED
+                    else Bip38NoEcConst.UNCOMPRESSED_FLAGBYTE)
+
         # Concatenate all parts
-        enc_key_bytes = (Bip38NoEcConst.ENC_PREFIX + Bip38NoEcConst.COMPRESSED_FLAGBYTE + address_hash
-                         + encrypted_half_1 + encrypted_half_2)
+        enc_key_bytes = Bip38NoEcConst.ENC_PREFIX + flagbyte + address_hash + encrypted_half_1 + encrypted_half_2
 
         # Encode in Base58Check
         return Base58Encoder.CheckEncode(enc_key_bytes)
@@ -188,7 +197,7 @@ class Bip38NoEcDecrypter:
         # Check prefix and flagbyte
         if prefix != Bip38NoEcConst.ENC_PREFIX:
             raise ValueError(f"Invalid prefix ({ConvUtils.BytesToHexString(prefix)})")
-        if flagbyte != Bip38NoEcConst.COMPRESSED_FLAGBYTE:
+        if flagbyte not in (Bip38NoEcConst.COMPRESSED_FLAGBYTE, Bip38NoEcConst.UNCOMPRESSED_FLAGBYTE):
             raise ValueError(f"Invalid flagbyte ({ConvUtils.BytesToHexString(flagbyte)})")
 
         # Derive the two halves by passing the passphrase and addresshash into scrypt function
@@ -206,8 +215,13 @@ class Bip38NoEcDecrypter:
         # Get the private key back by XORing bytes
         priv_key_bytes = ConvUtils.XorBytes(decrypted_half_1 + decrypted_half_2, derived_half_1)
 
+        # Get public key mode
+        pub_key_mode = (Bip38PubKeyModes.COMPRESSED
+                        if flagbyte == Bip38NoEcConst.COMPRESSED_FLAGBYTE
+                        else Bip38PubKeyModes.UNCOMPRESSED)
+
         # Check the address hash
-        got_address_hash = Bip38NoEcUtils.AddressHash(priv_key_bytes)
+        got_address_hash = Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
         if address_hash != got_address_hash:
             raise ValueError(
                 f"Invalid address hash (expected: {ConvUtils.BytesToHexString(address_hash)}, "

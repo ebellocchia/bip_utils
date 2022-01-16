@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Base58ChecksumError, Bip38Decrypter, Bip38Encrypter
+from bip_utils import Base58ChecksumError, Bip38PubKeyModes, Bip38Decrypter, Bip38Encrypter
 from tests.ecc.test_ecc import (
     TEST_VECT_SECP256K1_PRIV_KEY_INVALID,
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY,
@@ -33,11 +33,25 @@ from tests.ecc.test_ecc import (
 # https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
 TEST_VECT = [
     {
+        "pub_key_mode": Bip38PubKeyModes.UNCOMPRESSED,
+        "passphrase": "TestingOneTwoThree",
+        "priv_key_bytes": b"cbf4b9f70470856bb4f40f80b87edb90865997ffee6df315ab166d713af433a5",
+        "encrypted": "6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg",
+    },
+    {
+        "pub_key_mode": Bip38PubKeyModes.UNCOMPRESSED,
+        "passphrase": "Satoshi",
+        "priv_key_bytes": b"09c2686880095b1a4c249ee3ac4eea8a014f11e6f986d0b5025ac1f39afbd9ae",
+        "encrypted": "6PRNFFkZc2NZ6dJqFfhRoFNMR9Lnyj7dYGrzdgXXVMXcxoKTePPX1dWByq",
+    },
+    {
+        "pub_key_mode": Bip38PubKeyModes.COMPRESSED,
         "passphrase": "TestingOneTwoThree",
         "priv_key_bytes": b"cbf4b9f70470856bb4f40f80b87edb90865997ffee6df315ab166d713af433a5",
         "encrypted": "6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeo",
     },
     {
+        "pub_key_mode": Bip38PubKeyModes.COMPRESSED,
         "passphrase": "Satoshi",
         "priv_key_bytes": b"09c2686880095b1a4c249ee3ac4eea8a014f11e6f986d0b5025ac1f39afbd9ae",
         "encrypted": "6PYLtMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7",
@@ -64,8 +78,6 @@ TEST_VECT_DEC_ENCODING_INVALID = [
     "6PJQrGM5jUZ2mSug3ZKcy6W72T54dbu1wZSD8Q2TWRJ3q9qHiQPEBkafwL",
     # Invalid address hash
     "6PYTRmk5E6ddFqtiPZZu6BpZ1LXAVazbvkmUys9R2qz6o3eSsW9GDknHNu",
-    # Invalid private key
-
 ]
 
 
@@ -77,7 +89,7 @@ class Bip38NoEcTests(unittest.TestCase):
     def test_vector(self):
         for test in TEST_VECT:
             # Test encryption
-            enc = Bip38Encrypter.EncryptNoEc(binascii.unhexlify(test["priv_key_bytes"]), test["passphrase"])
+            enc = Bip38Encrypter.EncryptNoEc(binascii.unhexlify(test["priv_key_bytes"]), test["passphrase"], test["pub_key_mode"])
             self.assertEqual(test["encrypted"], enc)
             # Test decryption
             dec = Bip38Decrypter.DecryptNoEc(test["encrypted"], test["passphrase"])
