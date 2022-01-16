@@ -456,21 +456,28 @@ Also in this case, the language can be specified or automatically detected.
 
 The BIP-0038 library allows encrypting/decrypting private keys as defined by [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki).
 
-The library supports only compressed public key mode, since uncompressed public key with Bitcoin are very rare in modern wallets.
-
 **Code example**
 
     import binascii
-    from bip_utils import Bip38Decrypter, Bip38Encrypter, Secp256k1PrivateKey
+    from bip_utils import Bip38PubKeyModes, Bip38Decrypter, Bip38Encrypter, Secp256k1PrivateKey
 
     passphrase = "DummyPassphrase"
 
     # Private key bytes or a private key object can be used
     priv_key = binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67')
-    priv_key = Secp256k1PrivateKey.FromBytes(binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
+    priv_key = Secp256k1PrivateKey.FromBytes(
+        binascii.unhexlify(b'1837c1be8e2995ec11cda2b066151be2cfb48adf9e47b151d46adab3a21cdf67'))
 
-    # Encrypt without EC multiplication
-    enc = Bip38Encrypter.EncryptNoEc(priv_key, passphrase)
+    # Encrypt without EC multiplication (compressed public key)
+    enc = Bip38Encrypter.EncryptNoEc(priv_key, passphrase, Bip38PubKeyModes.COMPRESSED)
+    print(enc)
+
+    # Decrypt without EC multiplication
+    dec = Bip38Decrypter.DecryptNoEc(enc, passphrase)
+    print(binascii.hexlify(dec))
+
+    # Encrypt without EC multiplication (uncompressed public key)
+    enc = Bip38Encrypter.EncryptNoEc(priv_key, passphrase, Bip38PubKeyModes.UNCOMPRESSED)
     print(enc)
 
     # Decrypt without EC multiplication
