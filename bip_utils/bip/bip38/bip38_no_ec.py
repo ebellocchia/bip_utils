@@ -24,7 +24,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki.
 """
 
 # Imports
-from typing import Union
+from typing import Tuple, Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes, Bip38Addr
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
@@ -165,7 +165,7 @@ class Bip38NoEcDecrypter:
 
     @staticmethod
     def Decrypt(priv_key_enc: str,
-                passphrase: str) -> bytes:
+                passphrase: str) -> Tuple[bytes, Bip38PubKeyModes]:
         """
         Decrypt the specified private key.
 
@@ -174,7 +174,7 @@ class Bip38NoEcDecrypter:
             passphrase (str)  : Passphrase
 
         Returns:
-            bytes: Decrypted private key
+            tuple: Decrypted private key (index 0), public key mode (index 1)
 
         Raises:
             Base58ChecksumError: If base58 checksum is not valid
@@ -228,4 +228,4 @@ class Bip38NoEcDecrypter:
                 f"got: {ConvUtils.BytesToHexString(got_address_hash)}"
             )
 
-        return priv_key_bytes
+        return priv_key_bytes, pub_key_mode

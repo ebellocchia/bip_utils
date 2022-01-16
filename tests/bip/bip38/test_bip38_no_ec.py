@@ -92,8 +92,9 @@ class Bip38NoEcTests(unittest.TestCase):
             enc = Bip38Encrypter.EncryptNoEc(binascii.unhexlify(test["priv_key_bytes"]), test["passphrase"], test["pub_key_mode"])
             self.assertEqual(test["encrypted"], enc)
             # Test decryption
-            dec = Bip38Decrypter.DecryptNoEc(test["encrypted"], test["passphrase"])
+            dec, pub_key_mode = Bip38Decrypter.DecryptNoEc(test["encrypted"], test["passphrase"])
             self.assertEqual(test["priv_key_bytes"], binascii.hexlify(dec))
+            self.assertEqual(test["pub_key_mode"], pub_key_mode)
 
     # Test invalid checksum for decoding
     def test_dec_invalid_checksum(self):

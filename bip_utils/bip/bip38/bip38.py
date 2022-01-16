@@ -24,7 +24,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki.
 """
 
 # Imports
-from typing import Union
+from typing import Tuple, Union
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes
 from bip_utils.bip.bip38.bip38_no_ec import Bip38NoEcDecrypter, Bip38NoEcEncrypter
 from bip_utils.ecc import IPrivateKey
@@ -66,7 +66,7 @@ class Bip38Decrypter:
 
     @staticmethod
     def DecryptNoEc(priv_key_enc: str,
-                    passphrase: str) -> bytes:
+                    passphrase: str) -> Tuple[bytes, Bip38PubKeyModes]:
         """
         Decrypt the specified private key without EC multiplication.
 
@@ -75,7 +75,7 @@ class Bip38Decrypter:
             passphrase (str)  : Passphrase
 
         Returns:
-            bytes: Decrypted private key
+            tuple: Decrypted private key (index 0), public key mode (index 1)
 
         Raises:
             Base58ChecksumError: If base58 checksum is not valid
