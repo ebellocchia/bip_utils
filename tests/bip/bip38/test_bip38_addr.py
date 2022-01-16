@@ -30,7 +30,7 @@ from tests.ecc.test_ecc import (
     TEST_NIST256P1_PUB_KEY, TEST_SR25519_PUB_KEY
 )
 
-# private keys for testing
+# Public keys for testing
 TEST_VECT = [
     {
         "pub_key_mode": Bip38PubKeyModes.COMPRESSED,
