@@ -35,9 +35,9 @@ from bip_utils.utils.misc import AesEcbDecrypter, AesEcbEncrypter, ConvUtils, Cr
 class Bip38NoEcConst:
     """Class container for BIP38 constants."""
 
-    # Encrypted length for not EC multiplication
+    # Encrypted length
     ENC_LEN: int = 39
-    # Prefix for not EC multiplication
+    # Encrypted prefix
     ENC_PREFIX: bytes = b"\x01\x42"
     # Flag byte for compressed public key
     COMPRESSED_FLAGBYTE: bytes = b"\xe0"
@@ -205,10 +205,6 @@ class Bip38NoEcDecrypter:
         decrypted_half_2 = aes_dec.Decrypt(encrypted_half_2)
         # Get the private key back by XORing bytes
         priv_key_bytes = ConvUtils.XorBytes(decrypted_half_1 + decrypted_half_2, derived_half_1)
-
-        # Check private key
-        if not Secp256k1PrivateKey.IsValidBytes(priv_key_bytes):
-            raise ValueError(f"Invalid decrypted key ({ConvUtils.BytesToHexString(priv_key_bytes)})")
 
         # Check the address hash
         got_address_hash = Bip38NoEcUtils.AddressHash(priv_key_bytes)
