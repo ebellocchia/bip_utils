@@ -473,7 +473,7 @@ The BIP-0038 library allows encrypting/decrypting private keys as defined by [BI
     print(enc)
 
     # Decrypt without EC multiplication
-    dec = Bip38Decrypter.DecryptNoEc(enc, passphrase)
+    dec, pub_key_mode = Bip38Decrypter.DecryptNoEc(enc, passphrase)
     print(binascii.hexlify(dec))
 
     # Encrypt without EC multiplication (uncompressed public key)
@@ -481,7 +481,7 @@ The BIP-0038 library allows encrypting/decrypting private keys as defined by [BI
     print(enc)
 
     # Decrypt without EC multiplication
-    dec = Bip38Decrypter.DecryptNoEc(enc, passphrase)
+    dec, pub_key_mode = Bip38Decrypter.DecryptNoEc(enc, passphrase)
     print(binascii.hexlify(dec))
 
 ## BIP-0032 library
