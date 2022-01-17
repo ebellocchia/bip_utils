@@ -32,18 +32,16 @@ from bip_utils.utils.misc import AesEcbDecrypter, AesEcbEncrypter, ConvUtils, Cr
 
 
 class Bip38NoEcConst:
-    """Class container for BIP38 constants."""
+    """Class container for BIP38 no EC constants."""
 
-    # Encrypted length
-    ENC_LEN: int = 39
-    # Encrypted prefix
-    ENC_PREFIX: bytes = b"\x01\x42"
-    # Flag byte for compressed public key
-    COMPRESSED_FLAGBYTE: bytes = b"\xe0"
-    # Flag byte for uncompressed public key
-    UNCOMPRESSED_FLAGBYTE: bytes = b"\xc0"
-    # Address hash length
-    ADDR_HASH_LEN: int = 4
+    # Encrypted key byte length
+    ENC_KEY_BYTE_LEN: int = 39
+    # Encrypted key prefix
+    ENC_KEY_PREFIX: bytes = b"\x01\x42"
+    # Flagbyte for compressed public key
+    FLAGBYTE_COMPRESSED: bytes = b"\xe0"
+    # Flagbyte for uncompressed public key
+    FLAGBYTE_UNCOMPRESSED: bytes = b"\xc0"
     # Parameters for scrypt algorithm
     SCRYPT_KEY_LEN: int = 64
     SCRYPT_N: int = 16384
@@ -66,6 +64,9 @@ class _Bip38NoEcUtils:
 
         Returns:
             bytes: Address hash
+
+        Raises:
+            ValueError: If the private key is not valid
         """
         return Bip38Addr.AddressHash(Secp256k1PrivateKey.FromBytes(priv_key_bytes).PublicKey(),
                                      pub_key_mode)
@@ -78,8 +79,8 @@ class _Bip38NoEcUtils:
         and derive the two key halves.
 
         Args:
-            passphrase (str)  : Passphrase
-            address_hash (str): Address hash
+            passphrase (str)    : Passphrase
+            address_hash (bytes): Address hash
 
         Returns:
             tuple: Derived key halves
@@ -137,26 +138,48 @@ class Bip38NoEcEncrypter:
 
         # Derive key halves from the passphrase and address hash
         derived_half_1, derived_half_2 = _Bip38NoEcUtils.DeriveKeyHalves(passphrase, address_hash)
+        # Encrypt private key in two halves
+        encrypted_half_1, encrypted_half_2 = Bip38NoEcEncrypter.__EncryptPrivateKey(priv_key_bytes,
+                                                                                    derived_half_1,
+                                                                                    derived_half_2)
+
+        # Get flagbyte
+        flagbyte = (Bip38NoEcConst.FLAGBYTE_COMPRESSED
+                    if pub_key_mode == Bip38PubKeyModes.COMPRESSED
+                    else Bip38NoEcConst.FLAGBYTE_UNCOMPRESSED)
+
+        # Concatenate all parts
+        enc_key_bytes = Bip38NoEcConst.ENC_KEY_PREFIX + flagbyte + address_hash + encrypted_half_1 + encrypted_half_2
+
+        # Encode in Base58Check
+        return Base58Encoder.CheckEncode(enc_key_bytes)
+
+    @staticmethod
+    def __EncryptPrivateKey(priv_key_bytes: bytes,
+                            derived_half_1: bytes,
+                            derived_half_2: bytes) -> Tuple[bytes, bytes]:
+        """
+        Encrypt private key in two halves.
+
+        Args:
+            priv_key_bytes (bytes): Private key
+            derived_half_1 (bytes): First half of derived key
+            derived_half_2 (bytes): Second half of derived key
+
+        Returns:
+            tuple: Two encrypted halves
+        """
 
         # Use derived_half_2 as AES key
         aes_enc = AesEcbEncrypter(derived_half_2)
         aes_enc.AutoPad(False)
 
-        # Do AES256Encrypt(block = bitcoinprivkey[0...15] xor derivedhalf1[0...15], key = derivedhalf2)
+        # Encrypt the first half: priv_key[0...15] xor derived_half_1[0...15]
         encrypted_half_1 = aes_enc.Encrypt(ConvUtils.XorBytes(priv_key_bytes[:16], derived_half_1[:16]))
-        # Do AES256Encrypt(block = bitcoinprivkey[16...31] xor derivedhalf1[16...31], key = derivedhalf2)
+        # Encrypt the second half: priv_key[16...31] xor derived_half_1[16...31]
         encrypted_half_2 = aes_enc.Encrypt(ConvUtils.XorBytes(priv_key_bytes[16:], derived_half_1[16:]))
 
-        # Get flagbyte
-        flagbyte = (Bip38NoEcConst.COMPRESSED_FLAGBYTE
-                    if pub_key_mode == Bip38PubKeyModes.COMPRESSED
-                    else Bip38NoEcConst.UNCOMPRESSED_FLAGBYTE)
-
-        # Concatenate all parts
-        enc_key_bytes = Bip38NoEcConst.ENC_PREFIX + flagbyte + address_hash + encrypted_half_1 + encrypted_half_2
-
-        # Encode in Base58Check
-        return Base58Encoder.CheckEncode(enc_key_bytes)
+        return encrypted_half_1, encrypted_half_2
 
 
 class Bip38NoEcDecrypter:
@@ -185,9 +208,9 @@ class Bip38NoEcDecrypter:
 
         # Decode private key
         priv_key_enc_bytes = Base58Decoder.CheckDecode(priv_key_enc)
-        # Check encrypted length
-        if len(priv_key_enc_bytes) != Bip38NoEcConst.ENC_LEN:
-            raise ValueError(f"Invalid encrypted length ({len(priv_key_enc_bytes)})")
+        # Check length
+        if len(priv_key_enc_bytes) != Bip38NoEcConst.ENC_KEY_BYTE_LEN:
+            raise ValueError(f"Invalid encrypted key length ({len(priv_key_enc_bytes)})")
 
         # Get all the parts back
         prefix = priv_key_enc_bytes[:2]
@@ -197,27 +220,22 @@ class Bip38NoEcDecrypter:
         encrypted_half_2 = priv_key_enc_bytes[23:]
 
         # Check prefix and flagbyte
-        if prefix != Bip38NoEcConst.ENC_PREFIX:
+        if prefix != Bip38NoEcConst.ENC_KEY_PREFIX:
             raise ValueError(f"Invalid prefix ({ConvUtils.BytesToHexString(prefix)})")
-        if flagbyte not in (Bip38NoEcConst.COMPRESSED_FLAGBYTE, Bip38NoEcConst.UNCOMPRESSED_FLAGBYTE):
+        if flagbyte not in (Bip38NoEcConst.FLAGBYTE_COMPRESSED, Bip38NoEcConst.FLAGBYTE_UNCOMPRESSED):
             raise ValueError(f"Invalid flagbyte ({ConvUtils.BytesToHexString(flagbyte)})")
 
         # Derive key halves from the passphrase and address hash
         derived_half_1, derived_half_2 = _Bip38NoEcUtils.DeriveKeyHalves(passphrase, address_hash)
-
-        # Use derived_half_2 as AES key
-        aes_dec = AesEcbDecrypter(derived_half_2)
-        aes_dec.AutoUnPad(False)
-
-        # Decrypt using AES256Decrypt
-        decrypted_half_1 = aes_dec.Decrypt(encrypted_half_1)
-        decrypted_half_2 = aes_dec.Decrypt(encrypted_half_2)
-        # Get the private key back by XORing bytes
-        priv_key_bytes = ConvUtils.XorBytes(decrypted_half_1 + decrypted_half_2, derived_half_1)
+        # Get the private key back by decrypting
+        priv_key_bytes = Bip38NoEcDecrypter.__DecryptAndGetPrivKey(encrypted_half_1,
+                                                                   encrypted_half_2,
+                                                                   derived_half_1,
+                                                                   derived_half_2)
 
         # Get public key mode
         pub_key_mode = (Bip38PubKeyModes.COMPRESSED
-                        if flagbyte == Bip38NoEcConst.COMPRESSED_FLAGBYTE
+                        if flagbyte == Bip38NoEcConst.FLAGBYTE_COMPRESSED
                         else Bip38PubKeyModes.UNCOMPRESSED)
 
         # Check the address hash
@@ -229,3 +247,32 @@ class Bip38NoEcDecrypter:
             )
 
         return priv_key_bytes, pub_key_mode
+
+    @staticmethod
+    def __DecryptAndGetPrivKey(encrypted_half_1: bytes,
+                               encrypted_half_2: bytes,
+                               derived_half_1: bytes,
+                               derived_half_2: bytes) -> bytes:
+        """
+        Decrypt and get back private key.
+
+        Args:
+            encrypted_half_1 (bytes): First encrypted half
+            encrypted_half_2 (bytes): Second encrypted half
+            derived_half_1 (bytes)  : First half of derived key
+            derived_half_2 (bytes)  : Second half of derived key
+
+        Returns:
+            bytes: Decrypted private key
+        """
+
+        # Use derived_half_2 as AES key
+        aes_dec = AesEcbDecrypter(derived_half_2)
+        aes_dec.AutoUnPad(False)
+
+        # Decrypt using AES256Decrypt
+        decrypted_half_1 = aes_dec.Decrypt(encrypted_half_1)
+        decrypted_half_2 = aes_dec.Decrypt(encrypted_half_2)
+
+        # Get the private key back by XORing bytes
+        return ConvUtils.XorBytes(decrypted_half_1 + decrypted_half_2, derived_half_1)
