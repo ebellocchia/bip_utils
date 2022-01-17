@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Base58ChecksumError, Bip38PubKeyModes, Secp256k1PublicKey
+from bip_utils import Bip38PubKeyModes, Secp256k1PublicKey
 from bip_utils.bip.bip38.bip38_addr import Bip38Addr
 from tests.ecc.test_ecc import (
     TEST_VECT_SECP256K1_PUB_KEY_INVALID,
@@ -35,21 +35,25 @@ TEST_VECT = [
     {
         "pub_key_mode": Bip38PubKeyModes.COMPRESSED,
         "pub_key": b"03aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e",
+        "address_hash": b"a374deb6",
         "address": "1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA",
     },
     {
         "pub_key_mode": Bip38PubKeyModes.UNCOMPRESSED,
         "pub_key": b"03aaeb52dd7494c361049de67cc680e83ebcbbbdbeb13637d92cd845f70308af5e",
+        "address_hash": b"6a531625",
         "address": "18LhnLKXjcTw5xJFiTxntnKit2Gd63eWFm",
     },
     {
         "pub_key_mode": Bip38PubKeyModes.COMPRESSED,
         "pub_key": b"02b5cbfe6ee73b7c5e968e1c515a964894f306a7c882dd18433ab4e16a66d36972",
+        "address_hash": b"97c1e671",
         "address": "1BMZTqDtNogSEs1oZoGxRqfR6jS2tVxvHX",
     },
     {
         "pub_key_mode": Bip38PubKeyModes.UNCOMPRESSED,
         "pub_key": b"02b5cbfe6ee73b7c5e968e1c515a964894f306a7c882dd18433ab4e16a66d36972",
+        "address_hash": b"8805ef61",
         "address": "1NYKWcokisTwneDVzEV87EX8diaEAii2s3",
     },
 ]
@@ -67,6 +71,9 @@ class Bip38AddrTests(unittest.TestCase):
             # Test with bytes and public key object
             self.assertEqual(test["address"], Bip38Addr.EncodeKey(key_bytes, test["pub_key_mode"]))
             self.assertEqual(test["address"], Bip38Addr.EncodeKey(Secp256k1PublicKey.FromBytes(key_bytes), test["pub_key_mode"]))
+            # Test address hash
+            address_hash = Bip38Addr.AddressHash(Secp256k1PublicKey.FromBytes(key_bytes), test["pub_key_mode"])
+            self.assertEqual(test["address_hash"], binascii.hexlify(address_hash))
 
     # Tests invalid keys
     def test_invalid_keys(self):

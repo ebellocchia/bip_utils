@@ -33,6 +33,13 @@ from bip_utils.wif import WifPubKeyModes
 Bip38PubKeyModes = WifPubKeyModes
 
 
+class Bip38AddrConst:
+    """Class container for BIP38 address constants."""
+
+    # Address hash length
+    ADDR_HASH_LEN: int = 4
+
+
 class Bip38Addr:
     """Class for BIP38 address computation."""
 
@@ -68,3 +75,22 @@ class Bip38Addr:
         # Encode key to address
         net_ver = CoinsConf.BitcoinMainNet.Params("p2pkh_net_ver")
         return Base58Encoder.CheckEncode(net_ver + CryptoUtils.Hash160(pub_key_bytes))
+
+    @staticmethod
+    def AddressHash(pub_key: Union[bytes, IPublicKey],
+                    pub_key_mode: Bip38PubKeyModes) -> bytes:
+        """
+        Compute the address hash as specified in BIP38.
+
+        Args:
+            pub_key (bytes or IPublicKey)  : Public key bytes or object
+            pub_key_mode (Bip38PubKeyModes): Public key mode
+
+        Returns:
+            bytes: Address hash
+        """
+
+        # Compute the Bitcoin address
+        address = Bip38Addr.EncodeKey(pub_key, pub_key_mode)
+        # Take the first four bytes of SHA256(SHA256())
+        return CryptoUtils.DoubleSha256(address)[:Bip38AddrConst.ADDR_HASH_LEN]

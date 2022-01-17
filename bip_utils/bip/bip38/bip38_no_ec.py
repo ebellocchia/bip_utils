@@ -67,11 +67,8 @@ class Bip38NoEcUtils:
         Returns:
             bytes: Address hash
         """
-
-        # Compute the Bitcoin address (ASCII)
-        address = Bip38Addr.EncodeKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes).PublicKey(), pub_key_mode)
-        # Take the first four bytes of SHA256(SHA256())
-        return CryptoUtils.DoubleSha256(address)[:Bip38NoEcConst.ADDR_HASH_LEN]
+        return Bip38Addr.AddressHash(Secp256k1PrivateKey.FromBytes(priv_key_bytes).PublicKey(),
+                                     pub_key_mode)
 
     @staticmethod
     def Scrypt(passphrase: str,
