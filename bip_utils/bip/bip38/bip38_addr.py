@@ -88,6 +88,10 @@ class Bip38Addr:
 
         Returns:
             bytes: Address hash
+
+        Raises:
+            TypeError: If the public key is not a Secp256k1PublicKey
+            ValueError: If the public key bytes are not valid
         """
 
         # Compute the Bitcoin address
