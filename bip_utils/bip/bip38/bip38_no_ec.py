@@ -71,24 +71,32 @@ class _Bip38NoEcUtils:
                                      pub_key_mode)
 
     @staticmethod
-    def Scrypt(passphrase: str,
-               address_hash: bytes) -> bytes:
+    def DeriveKeyHalves(passphrase: str,
+                        address_hash: bytes) -> Tuple[bytes, bytes]:
         """
-        Compute the scrypt as specified in BIP38 (without EC multiplication).
+        Compute the scrypt as specified in BIP38 (without EC multiplication)
+        and derive the two key halves.
 
         Args:
             passphrase (str)  : Passphrase
             address_hash (str): Address hash
 
         Returns:
-            bytes: Derived key
+            tuple: Derived key halves
         """
-        return CryptoUtils.Scrypt(ConvUtils.NormalizeNfc(passphrase),
-                                  address_hash,
-                                  key_len=Bip38NoEcConst.SCRYPT_KEY_LEN,
-                                  n=Bip38NoEcConst.SCRYPT_N,
-                                  r=Bip38NoEcConst.SCRYPT_R,
-                                  p=Bip38NoEcConst.SCRYPT_P)
+
+        # Derive a key from passphrase and address hash
+        key = CryptoUtils.Scrypt(ConvUtils.NormalizeNfc(passphrase),
+                                 address_hash,
+                                 key_len=Bip38NoEcConst.SCRYPT_KEY_LEN,
+                                 n=Bip38NoEcConst.SCRYPT_N,
+                                 r=Bip38NoEcConst.SCRYPT_R,
+                                 p=Bip38NoEcConst.SCRYPT_P)
+        # Split the resulting 64 bytes in half
+        derived_half_1 = key[:Bip38NoEcConst.SCRYPT_KEY_LEN // 2]
+        derived_half_2 = key[Bip38NoEcConst.SCRYPT_KEY_LEN // 2:]
+
+        return derived_half_1, derived_half_2
 
 
 class Bip38NoEcEncrypter:
@@ -127,11 +135,8 @@ class Bip38NoEcEncrypter:
         priv_key_bytes = priv_key.Raw().ToBytes()
         address_hash = _Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
 
-        # Derive a key from the passphrase using scrypt
-        key = _Bip38NoEcUtils.Scrypt(passphrase, address_hash)
-        # Split the resulting 64 bytes in half
-        derived_half_1 = key[:Bip38NoEcConst.SCRYPT_KEY_LEN // 2]
-        derived_half_2 = key[Bip38NoEcConst.SCRYPT_KEY_LEN // 2:]
+        # Derive key halves from the passphrase and address hash
+        derived_half_1, derived_half_2 = _Bip38NoEcUtils.DeriveKeyHalves(passphrase, address_hash)
 
         # Use derived_half_2 as AES key
         aes_enc = AesEcbEncrypter(derived_half_2)
@@ -197,10 +202,8 @@ class Bip38NoEcDecrypter:
         if flagbyte not in (Bip38NoEcConst.COMPRESSED_FLAGBYTE, Bip38NoEcConst.UNCOMPRESSED_FLAGBYTE):
             raise ValueError(f"Invalid flagbyte ({ConvUtils.BytesToHexString(flagbyte)})")
 
-        # Derive the two halves by passing the passphrase and addresshash into scrypt function
-        key = _Bip38NoEcUtils.Scrypt(passphrase, address_hash)
-        derived_half_1 = key[:Bip38NoEcConst.SCRYPT_KEY_LEN // 2]
-        derived_half_2 = key[Bip38NoEcConst.SCRYPT_KEY_LEN // 2:]
+        # Derive key halves from the passphrase and address hash
+        derived_half_1, derived_half_2 = _Bip38NoEcUtils.DeriveKeyHalves(passphrase, address_hash)
 
         # Use derived_half_2 as AES key
         aes_dec = AesEcbDecrypter(derived_half_2)
