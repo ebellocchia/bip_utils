@@ -28,7 +28,7 @@ class Bip32UtilsConst:
     """Class container for BIP32 utility constants."""
 
     # Hardened bit index
-    HARDENED_BIT_IDX: int = 30
+    HARDENED_BIT_IDX: int = 31
 
 
 class Bip32Utils:

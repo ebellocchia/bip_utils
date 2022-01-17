@@ -31,13 +31,13 @@ class BitUtils:
         Get if the specified bit is set.
 
         Args:
-            value (int): value
-            bit_num (int): bit number to check
+            value (int)  : Value
+            bit_num (int): Bit number to check
 
         Returns:
             bool: True if bit is set, false otherwise
         """
-        return (value & (2 << bit_num)) != 0
+        return (value & (1 << bit_num)) != 0
 
     @staticmethod
     def SetBit(value: int,
@@ -46,13 +46,13 @@ class BitUtils:
         Set the specified bit.
 
         Args:
-            value (int): value
-            bit_num (int): bit number to check
+            value (int)  : Value
+            bit_num (int): Bit number to check
 
         Returns:
-            int: value with the specified bit set
+            int: Value with the specified bit set
         """
-        value = value | (2 << bit_num)
+        value = value | (1 << bit_num)
         return value
 
     @staticmethod
@@ -62,11 +62,11 @@ class BitUtils:
         Reset the specified bit.
 
         Args:
-            value (int): value
-            bit_num (int): bit number to check
+            value (int)  : Value
+            bit_num (int): Bit number to check
 
         Returns:
-            int: value with the specified bit reset
+            int: Value with the specified bit reset
         """
-        value = value & ~(2 << bit_num)
+        value = value & ~(1 << bit_num)
         return value
