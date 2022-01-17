@@ -51,8 +51,8 @@ class Bip38NoEcConst:
     SCRYPT_R: int = 8
 
 
-class Bip38NoEcUtils:
-    """Class container for BIP38 utility functions."""
+class _Bip38NoEcUtils:
+    """Class container for BIP38 no EC utility functions."""
 
     @staticmethod
     def AddressHash(priv_key_bytes: bytes,
@@ -125,10 +125,10 @@ class Bip38NoEcEncrypter:
 
         # Compute address hash
         priv_key_bytes = priv_key.Raw().ToBytes()
-        address_hash = Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
+        address_hash = _Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
 
         # Derive a key from the passphrase using scrypt
-        key = Bip38NoEcUtils.Scrypt(passphrase, address_hash)
+        key = _Bip38NoEcUtils.Scrypt(passphrase, address_hash)
         # Split the resulting 64 bytes in half
         derived_half_1 = key[:Bip38NoEcConst.SCRYPT_KEY_LEN // 2]
         derived_half_2 = key[Bip38NoEcConst.SCRYPT_KEY_LEN // 2:]
@@ -198,7 +198,7 @@ class Bip38NoEcDecrypter:
             raise ValueError(f"Invalid flagbyte ({ConvUtils.BytesToHexString(flagbyte)})")
 
         # Derive the two halves by passing the passphrase and addresshash into scrypt function
-        key = Bip38NoEcUtils.Scrypt(passphrase, address_hash)
+        key = _Bip38NoEcUtils.Scrypt(passphrase, address_hash)
         derived_half_1 = key[:Bip38NoEcConst.SCRYPT_KEY_LEN // 2]
         derived_half_2 = key[Bip38NoEcConst.SCRYPT_KEY_LEN // 2:]
 
@@ -218,7 +218,7 @@ class Bip38NoEcDecrypter:
                         else Bip38PubKeyModes.UNCOMPRESSED)
 
         # Check the address hash
-        got_address_hash = Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
+        got_address_hash = _Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
         if address_hash != got_address_hash:
             raise ValueError(
                 f"Invalid address hash (expected: {ConvUtils.BytesToHexString(address_hash)}, "
