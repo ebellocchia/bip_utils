@@ -24,8 +24,9 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki.
 """
 
 # Imports
-from typing import Tuple, Union
+from typing import Optional, Tuple, Union
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes
+from bip_utils.bip.bip38.bip38_ec import Bip38EcKeysGenerator, Bip38EcDecrypter
 from bip_utils.bip.bip38.bip38_no_ec import Bip38NoEcDecrypter, Bip38NoEcEncrypter
 from bip_utils.ecc import IPrivateKey
 
@@ -44,9 +45,9 @@ class Bip38Encrypter:
         Encrypt the specified private key without EC multiplication.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key bytes or object
-            passphrase (str)               : Passphrase
-            pub_key_mode (Bip38PubKeyModes): Public key mode
+            priv_key (bytes or IPrivateKey)          : Private key bytes or object
+            passphrase (str)                         : Passphrase
+            pub_key_mode (Bip38PubKeyModes, optional): Public key mode
 
         Returns:
             str: Encrypted private key
@@ -56,6 +57,29 @@ class Bip38Encrypter:
             ValueError: If the private key bytes are not valid
         """
         return Bip38NoEcEncrypter.Encrypt(priv_key, passphrase, pub_key_mode)
+
+    @staticmethod
+    def GeneratePrivateKeyEc(passphrase: str,
+                             pub_key_mode: Bip38PubKeyModes = Bip38PubKeyModes.COMPRESSED,
+                             lot_num: Optional[int] = None,
+                             sequence_num: Optional[int] = None) -> str:
+        """
+        Generate a random encrypted private key with EC multiplication, using the specified parameters.
+        This will generate the intermediate passphrase and use it immediately for generating the private key.
+
+        Args:
+            passphrase (str)                         : Passphrase
+            pub_key_mode (Bip38PubKeyModes, optional): Public key mode
+            lot_num (int, optional)                  : Lot number
+            sequence_num (int, optional)             : Sequence number
+
+        Returns:
+            str: Encrypted private key
+        """
+        int_pass = Bip38EcKeysGenerator.GenerateIntermediatePassphrase(passphrase,
+                                                                       lot_num,
+                                                                       sequence_num)
+        return Bip38EcKeysGenerator.GeneratePrivateKey(int_pass, pub_key_mode)
 
 
 class Bip38Decrypter:
@@ -82,3 +106,22 @@ class Bip38Decrypter:
             ValueError: If the encrypted key is not valid
         """
         return Bip38NoEcDecrypter.Decrypt(priv_key_enc, passphrase)
+
+    @staticmethod
+    def DecryptEc(priv_key_enc: str,
+                  passphrase: str) -> Tuple[bytes, Bip38PubKeyModes]:
+        """
+        Decrypt the specified private key with EC multiplication.
+
+        Args:
+            priv_key_enc (str): Encrypted private key bytes
+            passphrase (str)  : Passphrase
+
+        Returns:
+            tuple: Decrypted private key (index 0), public key mode (index 1)
+
+        Raises:
+            Base58ChecksumError: If base58 checksum is not valid
+            ValueError: If the encrypted key is not valid
+        """
+        return Bip38EcDecrypter.Decrypt(priv_key_enc, passphrase)
