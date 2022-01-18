@@ -75,8 +75,7 @@ class _Bip38NoEcUtils:
     def DeriveKeyHalves(passphrase: str,
                         address_hash: bytes) -> Tuple[bytes, bytes]:
         """
-        Compute the scrypt as specified in BIP38 (without EC multiplication)
-        and derive the two key halves.
+        Compute the scrypt as specified in BIP38 (without EC multiplication) and derive the two key halves.
 
         Args:
             passphrase (str)    : Passphrase
@@ -238,7 +237,7 @@ class Bip38NoEcDecrypter:
                         if flagbyte == Bip38NoEcConst.FLAGBYTE_COMPRESSED
                         else Bip38PubKeyModes.UNCOMPRESSED)
 
-        # Check the address hash
+        # Verify the address hash
         got_address_hash = _Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
         if address_hash != got_address_hash:
             raise ValueError(
