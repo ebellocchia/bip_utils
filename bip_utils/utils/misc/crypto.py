@@ -176,7 +176,10 @@ class CryptoUtils:
         Returns:
             bytes: Computed scrypt
         """
-        return scrypt(AlgoUtils.Encode(password), AlgoUtils.Encode(salt), key_len=key_len, N=n, r=r, p=p)
+
+        # Type for password and salt should be Union[bytes, str] in pycryptodome but it's only str,
+        # so we ignore the mypy warning
+        return scrypt(AlgoUtils.Encode(password), AlgoUtils.Encode(salt), key_len=key_len, N=n, r=r, p=p)   # type: ignore
 
     @staticmethod
     def Ripemd160(data: Union[bytes, str]) -> bytes:
