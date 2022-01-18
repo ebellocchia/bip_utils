@@ -58,27 +58,27 @@ TEST_VECT = [
     },
 ]
 
-# Tests for encrypted strings with invalid checksum
-TEST_VECT_DEC_CHKSUM_INVALID = [
-    "6PYRZqGd3ecBNWQhrkyJmJGcTnUv7pmiDRxQ3ipJjenAHBNiokh2HTV1BU",
-    "6PYV1dQkF66uex9TVxW9JQhjsr4bHkwu1zfjHtvZD7VcJssY4awDjGgc26",
-]
-
-# Tests for encrypted strings with invalid encoding
-TEST_VECT_DEC_ENCODING_INVALID = [
-    # Invalid base58 encoding
-    "6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeO",
-    "6PYltMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7",
-    # Invalid length
-    "H3VYWSrgqLzqdXreTTfkL83ZJASYVFvy78q7j69nnt5WAcgMfq3eX2i",
-    "cGAd8AVkr5wZEQpJ7wzyc4BKerkEwiyGVPUnJ2cV6wgLhpVuXPr71eh1G1Hm7Gu",
-    # Invalid prefix
-    "6SSstNWVoV33gBrLYEbxUDj7xdnWcX6SNZvCedM3812j7vLysouLGzeFz9",
-    # Invalid flagbyte
-    "6PJQrGM5jUZ2mSug3ZKcy6W72T54dbu1wZSD8Q2TWRJ3q9qHiQPEBkafwL",
-    # Invalid address hash
-    "6PYTRmk5E6ddFqtiPZZu6BpZ1LXAVazbvkmUys9R2qz6o3eSsW9GDknHNu",
-]
+# Tests for invalid encrypted strings
+TEST_VECT_DEC_INVALID = {
+    Base58ChecksumError: [
+        "6PYRZqGd3ecBNWQhrkyJmJGcTnUv7pmiDRxQ3ipJjenAHBNiokh2HTV1BU",
+        "6PYV1dQkF66uex9TVxW9JQhjsr4bHkwu1zfjHtvZD7VcJssY4awDjGgc26",
+    ],
+    ValueError: [
+        # Invalid base58 encoding
+        "6PYNKZ1EAgYgmQfmNVamxyXVWHzK5s6DGhwP4J5o44cvXdoY7sRzhtpUeO",
+        "6PYltMnXvfG3oJde97zRyLYFZCYizPU5T3LwgdYJz1fRhh16bU7u6PPmY7",
+        # Invalid length
+        "H3VYWSrgqLzqdXreTTfkL83ZJASYVFvy78q7j69nnt5WAcgMfq3eX2i",
+        "cGAd8AVkr5wZEQpJ7wzyc4BKerkEwiyGVPUnJ2cV6wgLhpVuXPr71eh1G1Hm7Gu",
+        # Invalid prefix
+        "6SSstNWVoV33gBrLYEbxUDj7xdnWcX6SNZvCedM3812j7vLysouLGzeFz9",
+        # Invalid flagbyte
+        "6PJQrGM5jUZ2mSug3ZKcy6W72T54dbu1wZSD8Q2TWRJ3q9qHiQPEBkafwL",
+        # Invalid address hash
+        "6PYTRmk5E6ddFqtiPZZu6BpZ1LXAVazbvkmUys9R2qz6o3eSsW9GDknHNu",
+    ],
+}
 
 
 #
@@ -96,19 +96,13 @@ class Bip38NoEcTests(unittest.TestCase):
             self.assertEqual(test["priv_key_bytes"], binascii.hexlify(dec))
             self.assertEqual(test["pub_key_mode"], pub_key_mode)
 
-    # Test invalid checksum for decoding
-    def test_dec_invalid_checksum(self):
-        for test in TEST_VECT_DEC_CHKSUM_INVALID:
-            # "with" is required because the exception is raised by Base58 module
-            with self.assertRaises(Base58ChecksumError):
-                Bip38Decrypter.DecryptNoEc(test, "")
-
-    # Test invalid encoding for decoding
-    def test_dec_invalid_encoding(self):
-        for test in TEST_VECT_DEC_ENCODING_INVALID:
-            # "with" is required because the exception is raised by Base58 module
-            with self.assertRaises(ValueError):
-                Bip38Decrypter.DecryptNoEc(test, "")
+    # Test invalid for decoding
+    def test_dec_invalid(self):
+        for ex, tests in TEST_VECT_DEC_INVALID.items():
+            for test in tests:
+                # "with" is needed because some exceptions are raised by Base58 module
+                with self.assertRaises(ex):
+                    Bip38Decrypter.DecryptNoEc(test, "")
 
     # Tests invalid keys for encrypting
     def test_enc_invalid_keys(self):
