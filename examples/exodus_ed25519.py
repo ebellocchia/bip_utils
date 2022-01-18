@@ -6,8 +6,7 @@ Then, for the coins based on the ed25519 curve (e.g. Algorand, Solana, Stellar, 
 It's not the only wallet doing this (Atomic Wallet does the same), because in this way the developers don't have to implement other derivation schemes beside secp256k1.
 """
 
-from bip_utils import Bip39SeedGenerator, Bip32Secp256k1, Bip44Coins, Bip44
-from bip_utils.bip.conf.bip44 import Bip44ConfGetter
+from bip_utils import Bip39SeedGenerator, Bip32Secp256k1, Bip44Coins, Bip44ConfGetter, Bip44
 
 # Coin that we want
 coin_type = Bip44Coins.SOLANA
