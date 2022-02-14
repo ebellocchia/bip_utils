@@ -22,24 +22,59 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.bech32 import Bech32Encoder
+from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
 
-class AtomAddr(IAddrEncoder):
+class AtomAddrConst:
+    """Class container for Atom address constants."""
+
+    # Decoded length in bytes
+    DEC_BYTE_LEN: int = 20
+
+
+class AtomAddr(IAddrDecoder, IAddrEncoder):
     """
     Atom address class.
-    It allows the Atom address generation.
+    It allows the Atom address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an Algorand address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        hrp = kwargs["hrp"]
+
+        try:
+            addr_dec = Bech32Decoder.Decode(hrp, addr)
+        except (Bech32ChecksumError, Bech32FormatError) as ex:
+            raise ValueError("Invalid Bech32 encoding") from ex
+        else:
+            if len(addr_dec) != AtomAddrConst.DEC_BYTE_LEN:
+                raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+            return addr_dec
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Atom format.
+        Encode a public key to Atom address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

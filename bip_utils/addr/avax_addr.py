@@ -23,26 +23,74 @@
 # Imports
 from typing import Any, Union
 from bip_utils.addr.atom_addr import AtomAddr
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 
 
-class AvaxPChainAddr(IAddrEncoder):
+class _AvaxAddrUtils:
+    """Avax address utility class."""
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   prefix: str,
+                   hrp: str) -> bytes:
+        """
+        Decode an Avax address to bytes.
+
+        Args:
+            addr (str)  : Address string
+            prefix (str): Address prefix
+            hrp (str)   : Address HRP
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        prefix_got = addr[:len(prefix)]
+        if prefix != prefix_got:
+            raise ValueError(f"Invalid prefix (expected {prefix}, got {prefix_got}")
+        return AtomAddr.DecodeAddr(addr[len(prefix):], hrp=hrp)
+
+
+class AvaxPChainAddr(IAddrDecoder, IAddrEncoder):
     """
     Avax P-Chain address class.
-    It allows the Avax P-Chain address generation.
+    It allows the Avax P-Chain address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an Avax P-Chain address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        return _AvaxAddrUtils.DecodeAddr(addr,
+                                         CoinsConf.AvaxPChain.Params("addr_prefix"),
+                                         CoinsConf.AvaxPChain.Params("addr_hrp"))
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Atom format.
+        Encode a public key to Avax P-Chain format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -56,20 +104,41 @@ class AvaxPChainAddr(IAddrEncoder):
                                            hrp=CoinsConf.AvaxPChain.Params("addr_hrp"))
 
 
-class AvaxXChainAddr(IAddrEncoder):
+class AvaxXChainAddr(IAddrDecoder, IAddrEncoder):
     """
     Avax X-Chain address class.
-    It allows the Avax X-Chain address generation.
+    It allows the Avax X-Chain address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an Avax X-Chain address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        return _AvaxAddrUtils.DecodeAddr(addr,
+                                         CoinsConf.AvaxXChain.Params("addr_prefix"),
+                                         CoinsConf.AvaxXChain.Params("addr_hrp"))
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Atom format.
+        Encode a public key to Avax X-Chain format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
+            **kwargs                     : Not used
 
         Returns:
             str: Address string

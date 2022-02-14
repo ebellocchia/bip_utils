@@ -22,11 +22,12 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.ecc import IPublicKey
-from bip_utils.utils.base32 import Base32Encoder
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.ecc import Ed25519PublicKey, IPublicKey
+from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class AlgoAddrConst:
@@ -36,21 +37,74 @@ class AlgoAddrConst:
     CHECKSUM_BYTE_LEN: int = 4
 
 
-class AlgoAddr(IAddrEncoder):
+class _AlgoAddrUtils:
+    """Algorand address utility class."""
+
+    @staticmethod
+    def ComputeChecksum(pub_key_bytes: bytes) -> bytes:
+        """
+        Compute checksum in Algorand format.
+
+        Args:
+            pub_key_bytes (bytes): Public key bytes
+
+        Returns:
+            bytes: Computed checksum
+        """
+        return CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
+
+
+class AlgoAddr(IAddrDecoder, IAddrEncoder):
     """
     Algorand address class.
-    It allows the Algorand address generation.
+    It allows the Algorand address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an Algorand address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Decode from base32
+        addr_dec = Base32Decoder.Decode(addr)
+        # Check length
+        if len(addr_dec) != (Ed25519PublicKey.CompressedLength() + AlgoAddrConst.CHECKSUM_BYTE_LEN - 1):
+            raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+        # Get back checksum and public key bytes
+        checksum = addr_dec[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
+        pub_key_bytes = addr_dec[:-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN]
+        # Verify checksum
+        checksum_got = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
+        if checksum != checksum_got:
+            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum)}, "
+                             f"got {ConvUtils.BytesToHexString(checksum_got)})")
+        # Check public key
+        if not Ed25519PublicKey.IsValidBytes(pub_key_bytes):
+            raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
+
+        return pub_key_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Algorand format.
+        Encode a public key to Algorand address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -63,6 +117,6 @@ class AlgoAddr(IAddrEncoder):
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
-        checksum = CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
+        checksum = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
         # Encode to base32
         return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum)

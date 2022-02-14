@@ -22,28 +22,27 @@
 
 # Imports
 from abc import ABC, abstractmethod
-from typing import Any, Union
-from bip_utils.ecc import IPublicKey
+from typing import Any
 
 
-class IAddrEncoder(ABC):
-    """Address encoder interface."""
+class IAddrDecoder(ABC):
+    """Address decoder interface."""
 
     @staticmethod
     @abstractmethod
-    def EncodeKey(pub_key: Union[bytes, IPublicKey],
-                  **kwargs: Any) -> str:
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
         """
-        Encode public key to address.
+        Decode an address to bytes.
+        Depending on the coin, the result can be a public key or a public key hash bytes.
 
         Args:
-            pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs                     : Arbitrary arguments depending on the address type
+            addr (str): Address string
+            **kwargs  : Arbitrary arguments depending on the address type
 
         Returns:
-            str: Address string
+            bytes: Public key bytes or public key hash
 
-        Raised:
-            ValueError: If the public key is not valid
-            TypeError: If the public key is not of the correct type (it depends on the address type)
+        Raises:
+            ValueError: If the address encoding is not valid
         """
