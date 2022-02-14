@@ -178,7 +178,7 @@ class Bech32Decoder(Bech32DecoderBase):
             addr (str): Address
 
         Returns:
-            bytes: Data
+            bytes: Decoded address
 
         Raises:
             Bech32FormatError: If the bech32 string is not valid
