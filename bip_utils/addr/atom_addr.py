@@ -51,7 +51,9 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
 
         Args:
             addr (str): Address string
-            **kwargs  : Not used
+
+        Other Parameters:
+            hrp (str): HRP
 
         Returns:
             bytes: Public key hash bytes
