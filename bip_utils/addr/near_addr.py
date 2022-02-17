@@ -22,22 +22,46 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.ecc import IPublicKey
+from bip_utils.ecc import Ed25519PublicKey, IPublicKey
+from bip_utils.utils.misc import ConvUtils
 
 
-class NearAddr(IAddrEncoder):
+class NearAddr(IAddrDecoder, IAddrEncoder):
     """
     Near address class.
-    It allows the Near Protocol address generation.
+    It allows the Near Protocol address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Near Protocol address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        pub_key_bytes = ConvUtils.HexStringToBytes(addr)
+        if not Ed25519PublicKey.IsValidBytes(pub_key_bytes):
+            raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
+
+        return pub_key_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Near Protocol format.
+        Encode a public key to Near Protocol address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -49,7 +73,7 @@ class NearAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         # The address is simply the public key in hex format
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         return pub_key_obj.RawCompressed().ToHex()[2:]
