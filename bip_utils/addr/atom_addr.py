@@ -94,6 +94,5 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
         hrp = kwargs["hrp"]
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
-
         return Bech32Encoder.Encode(hrp,
                                     CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

@@ -129,11 +129,11 @@ class _FilAddrUtils:
         addr_type_str = chr(addr_type + ord("0"))
 
         # Compute public key hash and checksum
-        pub_key_hash = CryptoUtils.Blake2b(pub_key_bytes,
-                                           digest_size=FilAddrConst.DIGEST_BYTE_LEN)
-        checksum = _FilAddrUtils.ComputeChecksum(pub_key_hash, addr_type)
+        pub_key_hash_bytes = CryptoUtils.Blake2b(pub_key_bytes,
+                                                 digest_size=FilAddrConst.DIGEST_BYTE_LEN)
+        checksum = _FilAddrUtils.ComputeChecksum(pub_key_hash_bytes, addr_type)
         # Encode to base32
-        b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + checksum, FilAddrConst.BASE32_ALPHABET)
+        b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash_bytes + checksum, FilAddrConst.BASE32_ALPHABET)
 
         return CoinsConf.Filecoin.Params("addr_prefix") + addr_type_str + b32_enc
 
