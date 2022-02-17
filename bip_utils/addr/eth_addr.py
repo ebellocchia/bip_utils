@@ -76,7 +76,9 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
 
         Args:
             addr (str): Address string
-            **kwargs  : Not used
+
+        Other Parameters:
+            skip_chksum_enc (bool, optional): True to skip checksum encoding verification, false otherwise (default)
 
         Returns:
             bytes: Public key hash bytes
@@ -84,6 +86,7 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
         Raises:
             ValueError: If the address encoding is not valid
         """
+        skip_chksum_enc = kwargs.get("skip_chksum_enc", False)
 
         # Check prefix
         prefix = CoinsConf.Ethereum.Params("addr_prefix")
@@ -96,8 +99,7 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
         if len(addr_no_prefix) != EthAddrConst.ADDR_LEN:
             raise ValueError(f"Invalid length {len(addr_no_prefix)}")
         # Check checksum encoding
-        print("addr_no_prefix", addr_no_prefix, _EthAddrUtils.ChecksumEncode(addr_no_prefix))
-        if addr_no_prefix != _EthAddrUtils.ChecksumEncode(addr_no_prefix):
+        if not skip_chksum_enc and addr_no_prefix != _EthAddrUtils.ChecksumEncode(addr_no_prefix):
             raise ValueError("Invalid checksum encode")
 
         return ConvUtils.HexStringToBytes(addr_no_prefix)
@@ -110,7 +112,9 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs                     : Not used
+
+        Other Parameters:
+            skip_chksum_enc (bool, optional): True to skip checksum encoding, false otherwise (default)
 
         Returns:
             str: Address string
@@ -119,9 +123,13 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
+        skip_chksum_enc = kwargs.get("skip_chksum_enc", False)
+
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
         # First byte of the uncompressed key (i.e. 0x04) is not needed
         kekkak_hex = ConvUtils.BytesToHexString(CryptoUtils.Kekkak256(pub_key_obj.RawUncompressed().ToBytes()[1:]))
         addr = kekkak_hex[EthAddrConst.START_BYTE:]
-        return CoinsConf.Ethereum.Params("addr_prefix") + _EthAddrUtils.ChecksumEncode(addr)
+        return CoinsConf.Ethereum.Params("addr_prefix") + (_EthAddrUtils.ChecksumEncode(addr)
+                                                           if not skip_chksum_enc
+                                                           else addr)

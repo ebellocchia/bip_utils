@@ -49,14 +49,14 @@ TEST_VECT = [
     {
         "pub_key": b"0226c4d55f5437ad010a6fb1cb6b7c37731a31516c77e5403af3b36fc80dfd2c59",
         "dec_addr": b"A2cA1D082016421489b7891091CA1CF0D2d1220e",
-        "addr_params": {},
-        "address": "0xA2cA1D082016421489b7891091CA1CF0D2d1220e",
+        "addr_params": {"skip_chksum_enc": True},
+        "address": "0xa2ca1d082016421489b7891091ca1cf0d2d1220e",
     },
     {
         "pub_key": b"0261d015de607c9b8cfb77f658fabe6af3c7d6865740169026f2f2e95b6e5db14d",
         "dec_addr": b"CaAB0bbEDD3d903832053F4e21CCD6DF48A66870",
-        "addr_params": {},
-        "address": "0xCaAB0bbEDD3d903832053F4e21CCD6DF48A66870",
+        "addr_params": {"skip_chksum_enc": True},
+        "address": "0xcaab0bbedd3d903832053f4e21ccd6df48a66870",
     },
 ]
 
