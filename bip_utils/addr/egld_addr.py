@@ -32,13 +32,6 @@ from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class EgldAddrConst:
-    """Class container for Elrond address constants."""
-
-    # Decoded length in bytes
-    DEC_BYTE_LEN: int = 32
-
-
 class EgldAddr(IAddrDecoder, IAddrEncoder):
     """
     Elrond address class.
@@ -68,7 +61,7 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
             raise ValueError("Invalid Bech32 encoding") from ex
         else:
             # Check length
-            if len(addr_dec) != EgldAddrConst.DEC_BYTE_LEN:
+            if len(addr_dec) != (Ed25519PublicKey.CompressedLength() - 1):
                 raise ValueError(f"Invalid decoded length {len(addr_dec)}")
             # Check public key
             if not Ed25519PublicKey.IsValidBytes(addr_dec):
