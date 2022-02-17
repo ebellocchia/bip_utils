@@ -65,6 +65,7 @@ class NearAddr(IAddrDecoder, IAddrEncoder):
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
