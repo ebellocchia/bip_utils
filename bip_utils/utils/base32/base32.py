@@ -61,18 +61,20 @@ class _Base32Utils:
 
     @staticmethod
     def TranslateAlphabet(data: str,
-                          custom_alphabet: str) -> str:
+                          from_alphabet: str,
+                          to_alphabet: str) -> str:
         """
         Translate the standard Base32 alphabet to a custom one.
 
         Args:
-            data (str)           : Data
-            custom_alphabet (str): Custom alphabet string
+            data (str)         : Data
+            from_alphabet (str): Starting alphabet string
+            to_alphabet (str)  : Final alphabet string
 
         Returns:
             str: String with translated alphabet
         """
-        return data.translate(str.maketrans(Base32Const.ALPHABET, custom_alphabet))
+        return data.translate(str.maketrans(from_alphabet, to_alphabet))
 
 
 class Base32Decoder:
@@ -100,7 +102,7 @@ class Base32Decoder:
         try:
             data_dec = _Base32Utils.AddPadding(data)
             if custom_alphabet is not None:
-                data_dec = _Base32Utils.TranslateAlphabet(data_dec, custom_alphabet)
+                data_dec = _Base32Utils.TranslateAlphabet(data_dec, custom_alphabet, Base32Const.ALPHABET)
 
             return base64.b32decode(data_dec)
         except binascii.Error as ex:
@@ -128,7 +130,7 @@ class Base32Encoder:
         """
         b32_enc = AlgoUtils.Decode(base64.b32encode(AlgoUtils.Encode(data)))
         if custom_alphabet is not None:
-            b32_enc = _Base32Utils.TranslateAlphabet(b32_enc, custom_alphabet)
+            b32_enc = _Base32Utils.TranslateAlphabet(b32_enc, Base32Const.ALPHABET, custom_alphabet)
 
         return b32_enc
 
