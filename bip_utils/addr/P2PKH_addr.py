@@ -23,7 +23,7 @@
 # Imports
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.base58 import Base58Encoder, Base58Alphabets
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.ecc import IPublicKey
@@ -59,7 +59,7 @@ class P2PKHAddr(IAddrEncoder):
         net_ver = kwargs["net_ver"]
         base58_alph = kwargs.get("base58_alph", Base58Alphabets.BITCOIN)
 
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
         return Base58Encoder.CheckEncode(net_ver + CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
                                          base58_alph)
@@ -94,7 +94,7 @@ class BchP2PKHAddr(IAddrEncoder):
         hrp = kwargs["hrp"]
         net_ver = kwargs["net_ver"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
         return BchBech32Encoder.Encode(hrp,
                                        net_ver,

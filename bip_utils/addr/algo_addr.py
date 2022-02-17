@@ -22,9 +22,9 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
@@ -114,7 +114,7 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum

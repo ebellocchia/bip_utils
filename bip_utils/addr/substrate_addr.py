@@ -23,7 +23,7 @@
 # Imports
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.ecc import IPublicKey
 from bip_utils.ss58 import SS58Encoder
 
@@ -54,7 +54,7 @@ class SubstrateEd25519Addr(IAddrEncoder):
         """
         ss58_format = kwargs["ss58_format"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], ss58_format)
 
@@ -85,6 +85,6 @@ class SubstrateSr25519Addr(IAddrEncoder):
         """
         ss58_format = kwargs["ss58_format"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetSr25519Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSr25519Key(pub_key)
 
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes(), ss58_format)

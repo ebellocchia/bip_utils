@@ -22,9 +22,9 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
@@ -93,7 +93,7 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
         """
         hrp = kwargs["hrp"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
         return Bech32Encoder.Encode(hrp,
                                     CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

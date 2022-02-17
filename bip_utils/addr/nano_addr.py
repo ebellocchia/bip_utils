@@ -23,7 +23,7 @@
 # Imports
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.base32 import Base32Encoder
@@ -66,7 +66,7 @@ class NanoAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519-blake2b
         """
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Blake2bKey(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Blake2bKey(pub_key)
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum

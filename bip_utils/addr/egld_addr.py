@@ -23,9 +23,9 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
 from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
@@ -84,7 +84,7 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -93,7 +93,7 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         return Bech32Encoder.Encode(CoinsConf.Elrond.Params("addr_hrp"),
                                     pub_key_obj.RawCompressed().ToBytes()[1:])

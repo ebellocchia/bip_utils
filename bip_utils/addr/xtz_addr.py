@@ -24,7 +24,7 @@
 from enum import Enum, unique
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.base58 import Base58Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
@@ -79,7 +79,7 @@ class XtzAddr(IAddrEncoder):
             raise TypeError("Address type is not an enumerative of XtzAddrPrefixes")
 
         # Get public key
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         # Compute Blake2b and encode in Base58 with checksum
         blake = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],

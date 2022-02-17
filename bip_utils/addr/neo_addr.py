@@ -23,7 +23,7 @@
 # Imports
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.base58 import Base58Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
@@ -65,7 +65,7 @@ class NeoAddr(IAddrEncoder):
         """
         ver = kwargs["ver"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetNist256p1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
         payload = (NeoAddrConst.PREFIX

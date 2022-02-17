@@ -23,7 +23,7 @@
 # Imports
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.bech32 import Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
@@ -60,7 +60,7 @@ class ZilAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
         key_hash = CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())
         return Bech32Encoder.Encode(CoinsConf.Zilliqa.Params("addr_hrp"),

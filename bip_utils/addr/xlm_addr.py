@@ -24,7 +24,7 @@
 from enum import IntEnum, unique
 from typing import Any, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.base32 import Base32Encoder
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
@@ -71,7 +71,7 @@ class XlmAddr(IAddrEncoder):
             raise TypeError("Address type is not an enumerative of XlmAddrTypes")
 
         # Get public key
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         payload = ConvUtils.IntegerToBytes(addr_type) + pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum

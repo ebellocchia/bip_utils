@@ -23,7 +23,7 @@
 # Imports
 from typing import Any, Optional, Union
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.base58 import Base58XmrEncoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
@@ -66,8 +66,8 @@ class XmrAddrUtils:
             raise ValueError("Invalid payment ID")
 
         payment_id = b"" if payment_id is None else payment_id
-        pub_spend_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_skey)
-        pub_view_key_obj = AddrUtils.ValidateAndGetEd25519MoneroKey(pub_vkey)
+        pub_spend_key_obj = AddrKeyValidator.ValidateAndGetEd25519MoneroKey(pub_skey)
+        pub_view_key_obj = AddrKeyValidator.ValidateAndGetEd25519MoneroKey(pub_vkey)
 
         data = (net_ver
                 + pub_spend_key_obj.RawCompressed().ToBytes()
