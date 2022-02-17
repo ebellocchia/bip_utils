@@ -105,11 +105,12 @@ TEST_VECT = [
 # Tests for decoding with invalid strings
 TEST_VECT_DEC_INVALID = [
     # Invalid checksum
-    "cosmos1n6ugmlarydek7k8wslzuy55seftfe7g2aqncw4",
+    "cosmos19c3mc3hp8y624tae0mfnmxse9h49kv2pqltkj0",
     # Invalid encoding
     "cosmos1lwjdd82uj4fqhu8nqw5d959rhys58dccwpz37u1",
     # Invalid lengths
     "cosmos15ntf6hy42g9lpucr4rfdpgaey9pmwxq3al8gd",
+    "cosmos1zx807pf53fgwnhnu6du3xvsqk6yruz7adepaaz6q0szyp57m63hqpwdtkp",
 ]
 
 
@@ -121,7 +122,7 @@ class AtomAddrTests(unittest.TestCase):
     def test_encode_key(self):
         AddrBaseTestHelper.test_encode_key(self, AtomAddr, Secp256k1PublicKey, TEST_VECT)
 
-    # Test decode addr
+    # Test decode address
     def test_decode_addr(self):
         AddrBaseTestHelper.test_decode_addr(self, AtomAddr, TEST_VECT)
 

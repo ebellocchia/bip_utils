@@ -58,7 +58,7 @@ TEST_VECT = {
     ],
 }
 
-# Tests for decoding with invalid strings
+# Tests for decoding with invalid strings (the majority of cases are already covered by AtomAddr tests)
 TEST_VECT_DEC_INVALID = [
     # Invalid prefix
     "A-avax1e4wshkjvqpfcuu86acl69xad8sl7zsgg723xu3",
@@ -74,7 +74,7 @@ class AvaxAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_encode_key(self, AvaxPChainAddr, Secp256k1PublicKey, TEST_VECT["p_chain"])
         AddrBaseTestHelper.test_encode_key(self, AvaxXChainAddr, Secp256k1PublicKey, TEST_VECT["x_chain"])
 
-    # Test decode addr
+    # Test decode address
     def test_decode_addr(self):
         AddrBaseTestHelper.test_decode_addr(self, AvaxPChainAddr, TEST_VECT["p_chain"])
         AddrBaseTestHelper.test_decode_addr(self, AvaxXChainAddr, TEST_VECT["x_chain"])

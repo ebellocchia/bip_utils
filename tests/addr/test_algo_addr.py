@@ -80,7 +80,7 @@ class AlgoAddrTests(unittest.TestCase):
     def test_encode_key(self):
         AddrBaseTestHelper.test_encode_key(self, AlgoAddr, Ed25519PublicKey, TEST_VECT)
 
-    # Test decode addr
+    # Test decode address
     def test_decode_addr(self):
         AddrBaseTestHelper.test_decode_addr(self, AlgoAddr, TEST_VECT)
 

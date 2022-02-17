@@ -85,6 +85,7 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
         # Get back checksum and public key bytes
         checksum = addr_dec[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
         pub_key_bytes = addr_dec[:-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN]
+
         # Verify checksum
         checksum_got = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
         if checksum != checksum_got:

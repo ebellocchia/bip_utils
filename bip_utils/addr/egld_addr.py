@@ -23,24 +23,64 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.utils import AddrUtils
-from bip_utils.bech32 import Bech32Encoder
+from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
-from bip_utils.ecc import IPublicKey
+from bip_utils.ecc import Ed25519PublicKey, IPublicKey
+from bip_utils.utils.misc import ConvUtils
 
 
-class EgldAddr(IAddrEncoder):
+class EgldAddrConst:
+    """Class container for Elrond address constants."""
+
+    # Decoded length in bytes
+    DEC_BYTE_LEN: int = 32
+
+
+class EgldAddr(IAddrDecoder, IAddrEncoder):
     """
     Elrond address class.
-    It allows the Elrond address generation.
+    It allows the Elrond address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an Elrond address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        try:
+            addr_dec = Bech32Decoder.Decode(CoinsConf.Elrond.Params("addr_hrp"),
+                                            addr)
+        except (Bech32ChecksumError, Bech32FormatError) as ex:
+            raise ValueError("Invalid Bech32 encoding") from ex
+        else:
+            # Check length
+            if len(addr_dec) != EgldAddrConst.DEC_BYTE_LEN:
+                raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+            # Check public key
+            if not Ed25519PublicKey.IsValidBytes(addr_dec):
+                raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(addr_dec)}")
+
+            return addr_dec
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Elrond format.
+        Encode a public key to Elrond format.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -55,4 +95,5 @@ class EgldAddr(IAddrEncoder):
         """
         pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
 
-        return Bech32Encoder.Encode(CoinsConf.Elrond.Params("addr_hrp"), pub_key_obj.RawCompressed().ToBytes()[1:])
+        return Bech32Encoder.Encode(CoinsConf.Elrond.Params("addr_hrp"),
+                                    pub_key_obj.RawCompressed().ToBytes()[1:])
