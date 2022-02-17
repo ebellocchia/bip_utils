@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -78,26 +79,20 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the address encoding is not valid
         """
 
-        # Check prefix
-        prefix = CoinsConf.Eos.Params("addr_prefix")
-        prefix_got = addr[:len(prefix)]
-        if prefix != prefix_got:
-            raise ValueError(f"Invalid prefix (expected {prefix}, got {prefix_got}")
-
+        # Validate and remove prefix
+        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
+                                                              CoinsConf.Eos.Params("addr_prefix"))
         # Decode from base58
-        addr_dec = Base58Decoder.Decode(addr[len(prefix):])
+        addr_dec = Base58Decoder.Decode(addr_no_prefix)
         # Check length
         if len(addr_dec) != (Secp256k1PublicKey.CompressedLength() + EosAddrConst.CHECKSUM_BYTE_LEN):
             raise ValueError(f"Invalid decoded length {len(addr_dec)}")
-        # Get back checksum and public key bytes
-        checksum = addr_dec[-1 * EosAddrConst.CHECKSUM_BYTE_LEN:]
-        pub_key_bytes = addr_dec[:-1 * EosAddrConst.CHECKSUM_BYTE_LEN]
 
-        # Verify checksum
-        checksum_got = _EosAddrUtils.ComputeChecksum(pub_key_bytes)
-        if checksum != checksum_got:
-            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum)}, "
-                             f"got {ConvUtils.BytesToHexString(checksum_got)})")
+        # Get back checksum and public key bytes
+        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec, EosAddrConst.CHECKSUM_BYTE_LEN)
+
+        # Validate checksum
+        AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _EosAddrUtils.ComputeChecksum)
         # Check public key
         if not Secp256k1PublicKey.IsValidBytes(pub_key_bytes):
             raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")

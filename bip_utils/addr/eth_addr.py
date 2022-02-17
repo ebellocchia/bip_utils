@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -72,7 +73,7 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
         """
-        Decode an Algorand address to bytes.
+        Decode an Ethereum address to bytes.
 
         Args:
             addr (str): Address string
@@ -88,13 +89,9 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
         """
         skip_chksum_enc = kwargs.get("skip_chksum_enc", False)
 
-        # Check prefix
-        prefix = CoinsConf.Ethereum.Params("addr_prefix")
-        prefix_got = addr[:len(prefix)]
-        if prefix != prefix_got:
-            raise ValueError(f"Invalid prefix (expected {prefix}, got {prefix_got}")
-        # Remove it
-        addr_no_prefix = addr[len(prefix):]
+        # Validate and remove prefix
+        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
+                                                              CoinsConf.Ethereum.Params("addr_prefix"))
         # Check length
         if len(addr_no_prefix) != EthAddrConst.ADDR_LEN:
             raise ValueError(f"Invalid length {len(addr_no_prefix)}")

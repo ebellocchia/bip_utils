@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -82,15 +83,12 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
         # Check length
         if len(addr_dec) != (Ed25519PublicKey.CompressedLength() + AlgoAddrConst.CHECKSUM_BYTE_LEN - 1):
             raise ValueError(f"Invalid decoded length {len(addr_dec)}")
-        # Get back checksum and public key bytes
-        checksum = addr_dec[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
-        pub_key_bytes = addr_dec[:-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN]
 
-        # Verify checksum
-        checksum_got = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
-        if checksum != checksum_got:
-            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum)}, "
-                             f"got {ConvUtils.BytesToHexString(checksum_got)})")
+        # Get back checksum and public key bytes
+        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec, AlgoAddrConst.CHECKSUM_BYTE_LEN)
+
+        # Validate checksum
+        AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _AlgoAddrUtils.ComputeChecksum)
         # Check public key
         if not Ed25519PublicKey.IsValidBytes(pub_key_bytes):
             raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")

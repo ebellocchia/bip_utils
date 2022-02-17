@@ -23,11 +23,13 @@
 # Imports
 from enum import IntEnum, unique
 from typing import Any, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.base32 import Base32Encoder
+from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
@@ -50,14 +52,70 @@ class FilAddrConst:
     CHECKSUM_BYTE_LEN: int = 4
 
 
-class FilAddrUtils:
+class _FilAddrUtils:
     """Class container for Filecoin address utility functions."""
+
+    @staticmethod
+    def ComputeChecksum(pub_key_hash: bytes,
+                        addr_type: FillAddrTypes) -> bytes:
+        """
+        Compute checksum in EOS format.
+
+        Args:
+            pub_key_hash (bytes)     : Public key hash
+            addr_type (FillAddrTypes): Address type
+
+        Returns:
+            bytes: Computed checksum
+        """
+        addr_type_byte = ConvUtils.IntegerToBytes(addr_type)
+        return CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
+                                   digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   addr_type: FillAddrTypes) -> bytes:
+        """
+        Decode a Filecoin address to bytes.
+
+        Args:
+            addr (str)               : Address string
+            addr_type (FillAddrTypes): Address type
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Validate and remove prefix
+        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr, CoinsConf.Filecoin.Params("addr_prefix"))
+        # Check address type
+        addr_type_got = ord(addr_no_prefix[0]) - ord("0")
+        if addr_type != addr_type_got:
+            raise ValueError(f"Invalid address type (expected {addr_type}, got {addr_type_got})")
+        # Decode from base32
+        addr_dec = Base32Decoder.Decode(addr_no_prefix[1:], FilAddrConst.BASE32_ALPHABET)
+        # Check length
+        if len(addr_dec) != (FilAddrConst.DIGEST_BYTE_LEN + FilAddrConst.CHECKSUM_BYTE_LEN):
+            raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+
+        # Get back checksum and public key bytes
+        pub_key_hash_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec,
+                                                                                 FilAddrConst.CHECKSUM_BYTE_LEN)
+        # Validate checksum
+        AddrDecUtils.ValidateChecksum(pub_key_hash_bytes,
+                                      checksum_bytes,
+                                      lambda pub_key_bytes: _FilAddrUtils.ComputeChecksum(pub_key_bytes, addr_type))
+
+        return pub_key_hash_bytes
 
     @staticmethod
     def EncodeKeyBytes(pub_key_bytes: bytes,
                        addr_type: FillAddrTypes) -> str:
         """
-        Get address in Filecoin format from public key bytes.
+        Encode a public key to Filecoin address.
 
         Args:
             pub_key_bytes (bytes)    : Public key bytes
@@ -66,36 +124,53 @@ class FilAddrUtils:
         Returns:
             str: Address string
         """
+
         # Get address type
         addr_type_str = chr(addr_type + ord("0"))
-        addr_type_byte = ConvUtils.IntegerToBytes(addr_type)
 
         # Compute public key hash and checksum
         pub_key_hash = CryptoUtils.Blake2b(pub_key_bytes,
                                            digest_size=FilAddrConst.DIGEST_BYTE_LEN)
-        checksum = CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
-                                       digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
+        checksum = _FilAddrUtils.ComputeChecksum(pub_key_hash, addr_type)
         # Encode to base32
         b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash + checksum, FilAddrConst.BASE32_ALPHABET)
 
         return CoinsConf.Filecoin.Params("addr_prefix") + addr_type_str + b32_enc
 
 
-class FilSecp256k1Addr(IAddrEncoder):
+class FilSecp256k1Addr(IAddrDecoder, IAddrEncoder):
     """
-    Filecoin address class based on secp256k1 keys.
-    It allows the Filecoin address generation.
+    Filecoin address class based on secp256k1 curve.
+    It allows the Filecoin address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Filecoin address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        return _FilAddrUtils.DecodeAddr(addr, FillAddrTypes.SECP256K1)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Filecoin format.
+        Encode a public key to Filecoin address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -107,4 +182,4 @@ class FilSecp256k1Addr(IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
         pub_key_bytes = pub_key_obj.RawUncompressed().ToBytes()
 
-        return FilAddrUtils.EncodeKeyBytes(pub_key_bytes, FillAddrTypes.SECP256K1)
+        return _FilAddrUtils.EncodeKeyBytes(pub_key_bytes, FillAddrTypes.SECP256K1)
