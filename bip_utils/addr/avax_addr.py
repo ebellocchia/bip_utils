@@ -86,7 +86,7 @@ class AvaxPChainAddr(IAddrDecoder, IAddrEncoder):
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Encode a public key to Avax P-Chain format.
+        Encode a public key to Avax P-Chain address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -134,7 +134,7 @@ class AvaxXChainAddr(IAddrDecoder, IAddrEncoder):
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Encode a public key to Avax X-Chain format.
+        Encode a public key to Avax X-Chain address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object

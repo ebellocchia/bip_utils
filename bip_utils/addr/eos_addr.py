@@ -108,7 +108,7 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Encode a public key to EOS format.
+        Encode a public key to EOS address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
