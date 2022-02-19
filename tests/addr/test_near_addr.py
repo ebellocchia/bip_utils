@@ -60,6 +60,13 @@ TEST_VECT = [
     },
 ]
 
+# Tests for decoding with invalid strings
+TEST_VECT_DEC_INVALID = [
+    # Invalid lengths
+    "4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d132",
+    "4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d1328400",
+]
+
 
 #
 # Tests
@@ -72,6 +79,10 @@ class NearAddrTests(unittest.TestCase):
     # Test decode address
     def test_decode_addr(self):
         AddrBaseTestHelper.test_decode_addr(self, NearAddr, TEST_VECT)
+
+    # Test invalid decoding
+    def test_invalid_dec(self):
+        AddrBaseTestHelper.test_invalid_dec(self, NearAddr, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):

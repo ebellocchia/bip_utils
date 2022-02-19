@@ -21,7 +21,7 @@
 """Module with utility functions for address decoding."""
 
 # Imports
-from typing import Callable, Tuple
+from typing import Callable, overload, Tuple, Union
 from bip_utils.utils.misc import ConvUtils
 
 
@@ -29,25 +29,71 @@ class AddrDecUtils:
     """Class container for address decoding utility functions."""
 
     @staticmethod
+    @overload
+    def ValidateAndRemovePrefix(addr: bytes,
+                                prefix: bytes) -> bytes: ...
+
+    @staticmethod
+    @overload
     def ValidateAndRemovePrefix(addr: str,
-                                prefix: str) -> str:
+                                prefix: str) -> str: ...
+
+    @staticmethod
+    def ValidateAndRemovePrefix(addr: Union[bytes, str],
+                                prefix: Union[bytes, str]) -> Union[bytes, str]:
         """
-        Validate and get a ed25519 public key.
+        Validate and remove prefix from an address.
 
         Args:
-            addr (str)  : Address string
-            prefix (str): Address prefix
+            addr (bytes or str)  : Address string or bytes
+            prefix (bytes or str): Address prefix
 
         Returns:
-            str: Address string with prefix removed
+            bytes or str: Address string or bytes with prefix removed
 
         Raises:
             ValueError: If the prefix is not valid
         """
         prefix_got = addr[:len(prefix)]
         if prefix != prefix_got:
-            raise ValueError(f"Invalid prefix (expected {prefix}, got {prefix_got}")
+            raise ValueError(f"Invalid prefix (expected {prefix!r}, got {prefix_got!r}")
         return addr[len(prefix):]
+
+    @staticmethod
+    def ValidateLength(addr: Union[bytes, str],
+                       expected_len: int) -> None:
+        """
+        Validate address length.
+
+        Args:
+            addr (str)        : Address string or bytes
+            expected_len (int): Expected address length
+
+        Raises:
+            ValueError: If the length is not valid
+        """
+        if len(addr) != expected_len:
+            raise ValueError(f"Invalid length {len(addr)}")
+
+    @staticmethod
+    def ValidateChecksum(pub_key_bytes: bytes,
+                         checksum_bytes: bytes,
+                         checksum_fct: Callable[[bytes], bytes]) -> None:
+        """
+        Validate address checksum.
+
+        Args:
+            pub_key_bytes (bytes)  : Public key (or hash) bytes
+            checksum_bytes (bytes) : Checksum bytes
+            checksum_fct (function): Function for computing checksum
+
+        Raises:
+            ValueError: If the computed checksum is not equal tot he specified one
+        """
+        checksum_got = checksum_fct(pub_key_bytes)
+        if checksum_bytes != checksum_got:
+            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes)}, "
+                             f"got {ConvUtils.BytesToHexString(checksum_got)})")
 
     @staticmethod
     def SplitChecksumAndPubKey(addr_bytes: bytes,
@@ -65,23 +111,3 @@ class AddrDecUtils:
         checksum = addr_bytes[-1 * checksum_len:]
         pub_key_bytes = addr_bytes[:-1 * checksum_len]
         return pub_key_bytes, checksum
-
-    @staticmethod
-    def ValidateChecksum(pub_key_bytes: bytes,
-                         checksum_bytes: bytes,
-                         checksum_fct: Callable[[bytes], bytes]) -> None:
-        """
-        Validate checksum.
-
-        Args:
-            pub_key_bytes (bytes)  : Public key (or hash) bytes
-            checksum_bytes (bytes) : Checksum bytes
-            checksum_fct (function): Function for computing checksum
-
-        Raises:
-            ValueError: If the computed checksum is not equal tot he specified one
-        """
-        checksum_got = checksum_fct(pub_key_bytes)
-        if checksum_bytes != checksum_got:
-            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes)}, "
-                             f"got {ConvUtils.BytesToHexString(checksum_got)})")

@@ -70,7 +70,7 @@ TEST_VECT_DEC_INVALID = [
     "EOS7nSvqZzS3zVr3CLvdz29nnSaxtB1rFyeXPTeJRex7SFF67r3Ze",
     # Invalid public key
     "EOS1xDQ9DtsmxpSaTECu82Hpz7qd324jjMHcB8urMxy9R5mFNVYaw",
-    # Invalid length
+    # Invalid lengths
     "EOS2Y997vhCZrH3xKtBnzKqfU4XoeRUP32xdLb8Yb8h8MDk4gFMH",
     "EOSWwbSdNcVaCnKSh4wkEg5o5ZvuesCkR72d88bdupWFQRs7fPsFP2",
 ]

@@ -22,11 +22,13 @@
 
 # Imports
 from typing import Any, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.base58 import Base58Encoder
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class NeoAddrConst:
@@ -36,19 +38,53 @@ class NeoAddrConst:
     PREFIX: bytes = b"\x21"
     # Address suffix
     SUFFIX: bytes = b"\xac"
+    # Address length in bytes
+    ADDR_BYTE_LEN: int = 21
 
 
-class NeoAddr(IAddrEncoder):
+class NeoAddr(IAddrDecoder, IAddrEncoder):
     """
     Neo address class.
-    It allows the Neo address generation.
+    It allows the Neo address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Neo address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            ver (bytes): Version
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        ver = kwargs["ver"]
+
+        # Decode from base58
+        addr_dec = Base58Decoder.CheckDecode(addr)
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec, NeoAddrConst.ADDR_BYTE_LEN)
+        # Check version
+        ver_got = ConvUtils.IntegerToBytes(addr_dec[0])
+        if ver != ver_got:
+            raise ValueError(f"Invalid version (expected {ConvUtils.BytesToHexString(ver)}, "
+                             f"got {ConvUtils.BytesToHexString(ver_got)}")
+
+        return addr_dec[1:]
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Neo format.
+        Encode a public key to Neo address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -71,5 +107,5 @@ class NeoAddr(IAddrEncoder):
         payload = (NeoAddrConst.PREFIX
                    + pub_key_obj.RawCompressed().ToBytes()
                    + NeoAddrConst.SUFFIX)
-        # Encode
+        # Encode to base58
         return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload))

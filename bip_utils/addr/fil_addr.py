@@ -97,9 +97,9 @@ class _FilAddrUtils:
             raise ValueError(f"Invalid address type (expected {addr_type}, got {addr_type_got})")
         # Decode from base32
         addr_dec = Base32Decoder.Decode(addr_no_prefix[1:], FilAddrConst.BASE32_ALPHABET)
-        # Check length
-        if len(addr_dec) != (FilAddrConst.DIGEST_BYTE_LEN + FilAddrConst.CHECKSUM_BYTE_LEN):
-            raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec,
+                                    FilAddrConst.DIGEST_BYTE_LEN + FilAddrConst.CHECKSUM_BYTE_LEN)
 
         # Get back checksum and public key bytes
         pub_key_hash_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec,

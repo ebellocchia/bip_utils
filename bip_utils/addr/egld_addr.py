@@ -23,6 +23,7 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -60,9 +61,9 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
         except (Bech32ChecksumError, Bech32FormatError) as ex:
             raise ValueError("Invalid Bech32 encoding") from ex
         else:
-            # Check length
-            if len(addr_dec) != (Ed25519PublicKey.CompressedLength() - 1):
-                raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec,
+                                        Ed25519PublicKey.CompressedLength() - 1)
             # Check public key
             if not Ed25519PublicKey.IsValidBytes(addr_dec):
                 raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(addr_dec)}")

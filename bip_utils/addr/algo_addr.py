@@ -80,10 +80,9 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
 
         # Decode from base32
         addr_dec = Base32Decoder.Decode(addr)
-        # Check length
-        if len(addr_dec) != (Ed25519PublicKey.CompressedLength() + AlgoAddrConst.CHECKSUM_BYTE_LEN - 1):
-            raise ValueError(f"Invalid decoded length {len(addr_dec)}")
-
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec,
+                                    Ed25519PublicKey.CompressedLength() + AlgoAddrConst.CHECKSUM_BYTE_LEN - 1)
         # Get back checksum and public key bytes
         pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec, AlgoAddrConst.CHECKSUM_BYTE_LEN)
 

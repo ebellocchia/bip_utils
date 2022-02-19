@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -68,8 +69,7 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
         except (Bech32ChecksumError, Bech32FormatError) as ex:
             raise ValueError("Invalid Bech32 encoding") from ex
         else:
-            if len(addr_dec) != AtomAddrConst.DEC_BYTE_LEN:
-                raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+            AddrDecUtils.ValidateLength(addr_dec, AtomAddrConst.DEC_BYTE_LEN)
             return addr_dec
 
     @staticmethod

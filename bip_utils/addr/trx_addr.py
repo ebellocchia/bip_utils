@@ -22,29 +22,66 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.base58 import Base58Encoder
+from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class TrxAddr(IAddrEncoder):
+class TrxAddrConst:
+    """Class container for Tron address constants."""
+
+    # Address length in bytes
+    ADDR_BYTE_LEN: int = 21
+
+
+class TrxAddr(IAddrDecoder, IAddrEncoder):
     """
     Tron address class.
-    It allows the Tron address generation.
+    It allows the Tron address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Tron address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Decode from base58
+        addr_dec = Base58Decoder.CheckDecode(addr)
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec, TrxAddrConst.ADDR_BYTE_LEN)
+        # Validate and remove prefix
+        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
+                                                              CoinsConf.Tron.Params("addr_prefix"))
+
+        return EthAddr.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_no_prefix),
+                                  skip_chksum_enc=True)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Tron format.
+        Encode a public key to Tron address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -56,6 +93,5 @@ class TrxAddr(IAddrEncoder):
 
         # Get address in Ethereum format (remove "0x" at the beginning)
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
-
         # Add prefix and encode
         return Base58Encoder.CheckEncode(CoinsConf.Tron.Params("addr_prefix") + ConvUtils.HexStringToBytes(eth_addr))

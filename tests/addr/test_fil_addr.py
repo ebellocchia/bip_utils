@@ -68,7 +68,7 @@ TEST_VECT_DEC_INVALID = [
     "f2m24kgttzcfhdbrwy7fxljbuhrl6dtdcqhy4xnla",
     # Invalid checksum
     "f1y7pzdgdbeuuhazhrreys26a22fcv4ycjpi6hrxa",
-    # Invalid length
+    # Invalid lengths
     "f1y7pzdgdbeuuhazhrreys26a22fcv4ycjrxwpq",
     "f1y7pzdgdbeuuhazhrreys26a22fcv4ycjlelq3qtb",
 ]

@@ -22,25 +22,51 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.bech32 import Bech32Encoder
+from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class OneAddr(IAddrEncoder):
+class OneAddr(IAddrDecoder, IAddrEncoder):
     """
     Harmony One address class.
-    It allows the Harmony One address generation.
+    It allows the Harmony One address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a OKEx Chain address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        try:
+            addr_dec = Bech32Decoder.Decode(CoinsConf.HarmonyOne.Params("addr_hrp"),
+                                            addr)
+        except (Bech32ChecksumError, Bech32FormatError) as ex:
+            raise ValueError("Invalid Bech32 encoding") from ex
+        else:
+            return EthAddr.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_dec),
+                                      skip_chksum_enc=True)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Harmony One format.
+        Encode a public key to Harmony One address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -56,7 +82,6 @@ class OneAddr(IAddrEncoder):
 
         # Get address in Ethereum format (remove "0x" at the beginning)
         eth_addr = EthAddr.EncodeKey(pub_key)[2:]
-
         # Encode in Bech32 format
         return Bech32Encoder.Encode(CoinsConf.HarmonyOne.Params("addr_hrp"),
                                     ConvUtils.HexStringToBytes(eth_addr))

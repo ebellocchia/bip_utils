@@ -92,9 +92,8 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
         # Validate and remove prefix
         addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
                                                               CoinsConf.Ethereum.Params("addr_prefix"))
-        # Check length
-        if len(addr_no_prefix) != EthAddrConst.ADDR_LEN:
-            raise ValueError(f"Invalid length {len(addr_no_prefix)}")
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_no_prefix, EthAddrConst.ADDR_LEN)
         # Check checksum encoding
         if not skip_chksum_enc and addr_no_prefix != _EthAddrUtils.ChecksumEncode(addr_no_prefix):
             raise ValueError("Invalid checksum encode")

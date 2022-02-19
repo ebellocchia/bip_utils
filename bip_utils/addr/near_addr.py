@@ -22,9 +22,10 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
@@ -52,6 +53,10 @@ class NearAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the address encoding is not valid
         """
         pub_key_bytes = ConvUtils.HexStringToBytes(addr)
+        # Validate length
+        AddrDecUtils.ValidateLength(pub_key_bytes,
+                                    Ed25519PublicKey.CompressedLength() - 1)
+        # Check public key
         if not Ed25519PublicKey.IsValidBytes(pub_key_bytes):
             raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
 

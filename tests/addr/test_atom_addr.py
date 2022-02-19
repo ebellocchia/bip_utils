@@ -104,6 +104,8 @@ TEST_VECT = [
 
 # Tests for decoding with invalid strings
 TEST_VECT_DEC_INVALID = [
+    # Invalid HRP
+    "cosmis1zewfm2c4s6uv5s4rywksqden8dvya4wmqyyvek",
     # Invalid checksum
     "cosmos19c3mc3hp8y624tae0mfnmxse9h49kv2pqltkj0",
     # Invalid encoding

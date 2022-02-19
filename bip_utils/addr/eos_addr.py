@@ -84,9 +84,9 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
                                                               CoinsConf.Eos.Params("addr_prefix"))
         # Decode from base58
         addr_dec = Base58Decoder.Decode(addr_no_prefix)
-        # Check length
-        if len(addr_dec) != (Secp256k1PublicKey.CompressedLength() + EosAddrConst.CHECKSUM_BYTE_LEN):
-            raise ValueError(f"Invalid decoded length {len(addr_dec)}")
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec,
+                                    Secp256k1PublicKey.CompressedLength() + EosAddrConst.CHECKSUM_BYTE_LEN)
 
         # Get back checksum and public key bytes
         pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec, EosAddrConst.CHECKSUM_BYTE_LEN)

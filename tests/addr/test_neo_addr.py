@@ -30,31 +30,44 @@ from tests.ecc.test_ecc import TEST_VECT_NIST256P1_PUB_KEY_INVALID, Nist256p1Pub
 TEST_VECT = [
     {
         "pub_key": b"03f4890a76acd4ec68537f1bfb5ed18121126babda24f65b6488e2ac57cf9becce",
+        "dec_addr": b"e1805874901439aa0697ae493603b704826cee62",
         "addr_params": {"ver": CoinsConf.Neo.Params("addr_ver")},
         "address": "AcLDSGFoA3Re71QFF8nkpH31EoQjhoApkY",
     },
     {
         "pub_key": b"0217a644d0278b30015a15f363eae4c8ea7e619c234bc8be2accac531c2817e7d1",
+        "dec_addr": b"631985d8f74183a8780658162e5b12d8c024cd35",
         "addr_params": {"ver": CoinsConf.Neo.Params("addr_ver")},
         "address": "AQos7r7repyb9AUzFuKc8voH4TS9XuQg7H",
     },
     {
         "pub_key": b"03e43cbeea55520fbd8e79b02a7e2ff5ddd881ac3f3603cb48d08423317b805831",
+        "dec_addr": b"65ac85c23feea989ffba6a317687a2b044fcf622",
         "addr_params": {"ver": CoinsConf.Neo.Params("addr_ver")},
         "address": "AR3UZwqfjzvDuqUHwtdcGREqDSqpB3HDoP",
     },
     {
         "pub_key": b"02c23193a2ae86390b61ccae1302c4e3cfc3429b6d74282de13a368e8dbedbf50e",
+        "dec_addr": b"8c0f681b9d3ba062befe8693504611110ea75a98",
         "addr_params": {"ver": CoinsConf.Neo.Params("addr_ver")},
         "address": "AUYShq2btNbP1qG4jeN1sBnzu2wv2EdvxF",
     },
     {
         "pub_key": b"02db975db10d75b3581945fb5e2b3d99e27ed2c50a9f2de19f2ec2a878fc4d9901",
+        "dec_addr": b"3cb0031040e8fdbf5dc5a5df608dc238c4d64719",
         "addr_params": {"ver": CoinsConf.Neo.Params("addr_ver")},
         "address": "AMJm3XvdgZdHMK4T8XsWxKbrnPbTAC5ka7",
     },
 ]
 
+# Tests for decoding with invalid strings
+TEST_VECT_DEC_INVALID = [
+    # Invalid version
+    "A5CqiijKBC8WCQ7yiE2hP4XDGXgyLCe7hR",
+    # Invalid length
+    "31eKhHWNQ4n4bPTKrf8BDNMy6C6eaiN6x",
+    "iGdPQBViud19AeiELFFyDB6rjLj4S9snbFi",
+]
 
 #
 # Tests
@@ -63,6 +76,17 @@ class NeoAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
         AddrBaseTestHelper.test_encode_key(self, NeoAddr, Nist256p1PublicKey, TEST_VECT)
+
+    # Test decode address
+    def test_decode_addr(self):
+        AddrBaseTestHelper.test_decode_addr(self, NeoAddr, TEST_VECT)
+
+    # Test invalid decoding
+    def test_invalid_dec(self):
+        AddrBaseTestHelper.test_invalid_dec(self,
+                                            NeoAddr,
+                                            {"ver": CoinsConf.Neo.Params("addr_ver")},
+                                            TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
