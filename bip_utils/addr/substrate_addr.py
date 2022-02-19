@@ -21,24 +21,82 @@
 """Module for Substrate address computation."""
 
 # Imports
-from typing import Any, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from typing import Any, Type, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.ecc import IPublicKey
-from bip_utils.ss58 import SS58Encoder
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.ecc import Ed25519PublicKey, IPublicKey, Sr25519PublicKey
+from bip_utils.ss58 import SS58ChecksumError, SS58Decoder, SS58Encoder
 
 
-class SubstrateEd25519Addr(IAddrEncoder):
+class _SubstrateAddrUtils:
+    """Substrate address utility class."""
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   ss58_format: int,
+                   pub_key_cls: Type[IPublicKey]) -> bytes:
+        """
+        Decode a Substrate address to bytes.
+
+        Args:
+            addr (str)              : Address string
+            ss58_format (int)       : SS58 format
+            pub_key_cls (IPublicKey): Public key class type
+
+        Returns:
+            bytes: Public key bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        try:
+            # Decode from SS58 (SS58Decoder.Decode also checks the length)
+            ss58_format_got, addr_dec = SS58Decoder.Decode(addr)
+        except SS58ChecksumError as ex:
+            raise ValueError("Invalid SS58 encoding") from ex
+        # Check SS58 format
+        if ss58_format != ss58_format_got:
+            raise ValueError(f"Invalid SS58 format (expected {ss58_format}, got {ss58_format_got})")
+        # Validate public key
+        AddrDecUtils.ValidatePubKey(addr_dec, pub_key_cls)
+
+        return addr_dec
+
+
+class SubstrateEd25519Addr(IAddrDecoder, IAddrEncoder):
     """
     Substrate address class based on ed25519 keys.
-    It allows the Substrate address generation.
+    It allows the Substrate address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Substrate address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            ss58_format (int): SS58 format
+
+        Returns:
+            bytes: Public key bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        return _SubstrateAddrUtils.DecodeAddr(addr, kwargs["ss58_format"], Ed25519PublicKey)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Substrate format.
+        Encode a public key to Substrate address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -55,21 +113,39 @@ class SubstrateEd25519Addr(IAddrEncoder):
         ss58_format = kwargs["ss58_format"]
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
-
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], ss58_format)
 
 
 class SubstrateSr25519Addr(IAddrEncoder):
     """
     Substrate address class based on sr25519 keys.
-    It allows the Substrate address generation.
+    It allows the Substrate address encoding/decoding.
     """
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Substrate address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            ss58_format (int): SS58 format
+
+        Returns:
+            bytes: Public key bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        return _SubstrateAddrUtils.DecodeAddr(addr, kwargs["ss58_format"], Sr25519PublicKey)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Substrate format.
+        Encode a public key to Substrate address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -86,5 +162,4 @@ class SubstrateSr25519Addr(IAddrEncoder):
         ss58_format = kwargs["ss58_format"]
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSr25519Key(pub_key)
-
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes(), ss58_format)

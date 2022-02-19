@@ -34,34 +34,52 @@ from tests.ecc.test_ecc import (
 TEST_VECT = [
     {
         "pub_key": b"46ebddef8cd9bb167dc30878d7113b7e168e6f0646beffd77d69d39bad76b47a",
+        "dec_addr": b"46ebddef8cd9bb167dc30878d7113b7e168e6f0646beffd77d69d39bad76b47a",
         "addr_params": {"ss58_format": 0},
         "address": "12bzRJfh7arnnfPPUZHeJUaE62QLEwhK48QnH9LXeK2m1iZU",
     },
     {
         "pub_key": b"e8474b9c29d44d45c0755077d4f8a21dc611c76e36e261773b5410b8e5bf15a1",
+        "dec_addr": b"e8474b9c29d44d45c0755077d4f8a21dc611c76e36e261773b5410b8e5bf15a1",
         "addr_params": {"ss58_format": 7},
         "address": "nmB6fx6ehzHwA4wyfFVZig28cCAcathGwfShrNsvueitzZC",
     },
     {
         "pub_key": b"8b4564d4b6be05d6ead16d246c5e30773da9459040370284b57c944a3d0a1481",
+        "dec_addr": b"8b4564d4b6be05d6ead16d246c5e30773da9459040370284b57c944a3d0a1481",
         "addr_params": {"ss58_format": 18},
         "address": "2rKUvXu7WpfC9VyEvqwVVxxRVKqNp4CgXYwStmfiqqpFAkSC",
     },
     {
         "pub_key": b"8ebb52da3030f06e0c0c5f7d0fbacf6a22cedb1229bb4824a230fbe84bf89304",
+        "dec_addr": b"8ebb52da3030f06e0c0c5f7d0fbacf6a22cedb1229bb4824a230fbe84bf89304",
         "addr_params": {"ss58_format": 2},
         "address": "FoTxsgYKH4AUngJAJNsqgmK85RzCc6cerkrsN18wiFfwBrn",
     },
     {
         "pub_key": b"e92b4b43a62fa66293f315486d66a67076e860e2aad76acb8e54f9bb7c925cd9",
+        "dec_addr": b"e92b4b43a62fa66293f315486d66a67076e860e2aad76acb8e54f9bb7c925cd9",
         "addr_params": {"ss58_format": 42},
         "address": "5HLRsimRtdb11HX73JtRd79avhCMruocgDJUXdosSJK1s6nz",
     },
     {
         "pub_key": b"2b0538c7c738a370385dc9404fbde697e29d1243d7d7f5c5e558bf4be738b82c",
+        "dec_addr": b"2b0538c7c738a370385dc9404fbde697e29d1243d7d7f5c5e558bf4be738b82c",
         "addr_params": {"ss58_format": 70},
         "address": "ctpqudSL8v7QCi3dVRZkBK55i6JGLQuyCAxqFsTho4DCMmw87",
     },
+]
+
+# Tests for decoding with invalid strings
+TEST_VECT_DEC_INVALID = [
+    # Invalid SS58 format
+    "7GxSrBqAvmpYo6xumaFgmsnhhYYrZTptPSg2hopyr1yTZS6",
+    "5cBkW2kn1Hy3G3iBusjiKCbPUuGoqbdZFquuxKBmwAXGuaz1",
+    # Invalid checksum
+    "1yQcPrEKujc5M6rFPGcwkMqkahHKAfcaaRsesbvdqAqxfJc",
+    # Invalid lengths
+    "1DnE1C9umaDUiiCcRz1SYaGaSJjfZ6aSHBcwoMbortAjWF",
+    "15HyDDrHpTm3pBipNVHweeNzBMio1BfS3CYnaAM9jZcT6Rx5T",
 ]
 
 
@@ -73,6 +91,16 @@ class SubstrateAddrTests(unittest.TestCase):
     def test_encode_key(self):
         AddrBaseTestHelper.test_encode_key(self, SubstrateEd25519Addr, Ed25519PublicKey, TEST_VECT)
         AddrBaseTestHelper.test_encode_key(self, SubstrateSr25519Addr, Sr25519PublicKey, TEST_VECT)
+
+    # Test decode address
+    def test_decode_addr(self):
+        AddrBaseTestHelper.test_decode_addr(self, SubstrateEd25519Addr, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, SubstrateSr25519Addr, TEST_VECT)
+
+    # Test invalid decoding
+    def test_invalid_dec(self):
+        AddrBaseTestHelper.test_invalid_dec(self, SubstrateEd25519Addr, {"ss58_format": 0}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, SubstrateSr25519Addr, {"ss58_format": 0}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
