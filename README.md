@@ -21,7 +21,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
 Other implemented functionalities:
 - Parse BIP-0032 derivation paths
 - Parse Substrate derivation paths
-- Encode addresses for all the supported coins
+- Encode/Decode addresses for all the supported coins
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
 - Encode/Decode [ss58](https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58))
