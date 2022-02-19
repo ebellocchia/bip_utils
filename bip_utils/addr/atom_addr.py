@@ -35,7 +35,7 @@ class AtomAddrConst:
     """Class container for Atom address constants."""
 
     # Decoded length in bytes
-    DEC_BYTE_LEN: int = 20
+    ADDR_DEC_BYTE_LEN: int = 20
 
 
 class AtomAddr(IAddrDecoder, IAddrEncoder):
@@ -69,7 +69,7 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
         except (Bech32ChecksumError, Bech32FormatError) as ex:
             raise ValueError("Invalid Bech32 encoding") from ex
         else:
-            AddrDecUtils.ValidateLength(addr_dec, AtomAddrConst.DEC_BYTE_LEN)
+            AddrDecUtils.ValidateLength(addr_dec, AtomAddrConst.ADDR_DEC_BYTE_LEN)
             return addr_dec
 
     @staticmethod
