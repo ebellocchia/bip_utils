@@ -66,6 +66,8 @@ TEST_VECT_DEC_INVALID = [
     "g1k3gidardziywl37nbnfwad6eaeomq74xwcs2wxq",
     # Invalid address type
     "f2m24kgttzcfhdbrwy7fxljbuhrl6dtdcqhy4xnla",
+    # Invalid encoding
+    "f1hqdqidehi276cscqehffoyr7qzxn2f0umjpq5zq",
     # Invalid checksum
     "f1y7pzdgdbeuuhazhrreys26a22fcv4ycjpi6hrxa",
     # Invalid lengths
