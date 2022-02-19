@@ -142,7 +142,7 @@ class AddrKeyValidator:
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
-            pub_key_cls (IPublicKey): Public key class type
+            pub_key_cls (IPublicKey)            : Public key class type
 
         Returns:
             IPublicKey object: IPublicKey object
