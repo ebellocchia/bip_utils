@@ -21,7 +21,8 @@
 """Module with utility functions for address decoding."""
 
 # Imports
-from typing import Callable, overload, Tuple, Union
+from typing import Callable, overload, Tuple, Type, Union
+from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
@@ -31,12 +32,14 @@ class AddrDecUtils:
     @staticmethod
     @overload
     def ValidateAndRemovePrefix(addr: bytes,
-                                prefix: bytes) -> bytes: ...
+                                prefix: bytes) -> bytes:
+        ...
 
     @staticmethod
     @overload
     def ValidateAndRemovePrefix(addr: str,
-                                prefix: str) -> str: ...
+                                prefix: str) -> str:
+        ...
 
     @staticmethod
     def ValidateAndRemovePrefix(addr: Union[bytes, str],
@@ -76,23 +79,40 @@ class AddrDecUtils:
             raise ValueError(f"Invalid length {len(addr)}")
 
     @staticmethod
+    def ValidatePubKey(pub_key_bytes: bytes,
+                       pub_key_cls: Type[IPublicKey]) -> None:
+        """
+        Validate address length.
+
+        Args:
+            pub_key_bytes (bytes)   : Public key bytes
+            pub_key_cls (IPublicKey): Public key class type
+
+        Raises:
+            ValueError: If the public key is not valid
+        """
+        if not pub_key_cls.IsValidBytes(pub_key_bytes):
+            raise ValueError(f"Invalid {pub_key_cls.CurveType()} "
+                             f"public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
+
+    @staticmethod
     def ValidateChecksum(pub_key_bytes: bytes,
-                         checksum_bytes: bytes,
+                         exp_checksum_bytes: bytes,
                          checksum_fct: Callable[[bytes], bytes]) -> None:
         """
         Validate address checksum.
 
         Args:
-            pub_key_bytes (bytes)  : Public key (or hash) bytes
-            checksum_bytes (bytes) : Checksum bytes
-            checksum_fct (function): Function for computing checksum
+            pub_key_bytes (bytes)     : Public key (or hash) bytes
+            exp_checksum_bytes (bytes): Expected checksum bytes
+            checksum_fct (function)   : Function for computing checksum
 
         Raises:
             ValueError: If the computed checksum is not equal tot he specified one
         """
         checksum_got = checksum_fct(pub_key_bytes)
-        if checksum_bytes != checksum_got:
-            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes)}, "
+        if exp_checksum_bytes != checksum_got:
+            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(exp_checksum_bytes)}, "
                              f"got {ConvUtils.BytesToHexString(checksum_got)})")
 
     @staticmethod

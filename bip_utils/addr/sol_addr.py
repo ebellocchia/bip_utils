@@ -28,7 +28,6 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
-from bip_utils.utils.misc import ConvUtils
 
 
 class SolAddr(IAddrDecoder, IAddrEncoder):
@@ -59,9 +58,8 @@ class SolAddr(IAddrDecoder, IAddrEncoder):
         # Validate length
         AddrDecUtils.ValidateLength(addr_dec,
                                     Ed25519PublicKey.CompressedLength() - 1)
-        # Check public key
-        if not Ed25519PublicKey.IsValidBytes(addr_dec):
-            raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(addr_dec)}")
+        # Validate public key
+        AddrDecUtils.ValidatePubKey(addr_dec, Ed25519PublicKey)
 
         return addr_dec
 

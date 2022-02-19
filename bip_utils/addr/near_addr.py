@@ -56,9 +56,8 @@ class NearAddr(IAddrDecoder, IAddrEncoder):
         # Validate length
         AddrDecUtils.ValidateLength(pub_key_bytes,
                                     Ed25519PublicKey.CompressedLength() - 1)
-        # Check public key
-        if not Ed25519PublicKey.IsValidBytes(pub_key_bytes):
-            raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
+        # Validate public key
+        AddrDecUtils.ValidatePubKey(pub_key_bytes, Ed25519PublicKey)
 
         return pub_key_bytes
 

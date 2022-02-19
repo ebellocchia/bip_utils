@@ -28,7 +28,7 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class AlgoAddrConst:
@@ -88,9 +88,8 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
 
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _AlgoAddrUtils.ComputeChecksum)
-        # Check public key
-        if not Ed25519PublicKey.IsValidBytes(pub_key_bytes):
-            raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
+        # Validate public key
+        AddrDecUtils.ValidatePubKey(pub_key_bytes, Ed25519PublicKey)
 
         return pub_key_bytes
 

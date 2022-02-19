@@ -29,7 +29,7 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import CryptoUtils
 
 
 class EosAddrConst:
@@ -90,12 +90,10 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
 
         # Get back checksum and public key bytes
         pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec, EosAddrConst.CHECKSUM_BYTE_LEN)
-
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _EosAddrUtils.ComputeChecksum)
-        # Check public key
-        if not Secp256k1PublicKey.IsValidBytes(pub_key_bytes):
-            raise ValueError(f"Invalid public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
+        # Validate public key
+        AddrDecUtils.ValidatePubKey(pub_key_bytes, Secp256k1PublicKey)
 
         return pub_key_bytes
 
