@@ -28,20 +28,6 @@ from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1Pub
 
 # Some random public keys
 TEST_VECT = {
-    "x_chain": [
-        {
-            "pub_key": b"02add530ea489143b936d2430e8412182984cdb26c020ce18ddc34dbf24a442b7d",
-            "address_dec": b"54517930c6a96e7f21ecb2b582fb1d39a2cad514",
-            "address_params": {},
-            "address": "X-avax123ghjvxx49h87g0vk26c97ca8x3v44g5n9mzha",
-        },
-        {
-            "pub_key": b"03465789245ff8a454efc9a72608521f30bcc49e35f1bf26272d0a6cb7a7b91876",
-            "address_dec": b"d56df34d4a10d48a82bb8d9f1110f0b0c281ae3a",
-            "address_params": {},
-            "address": "X-avax164klxn22zr2g4q4m3k03zy8skrpgrt36sqm5r4",
-        },
-    ],
     "p_chain": [
         {
             "pub_key": b"03a90de501b386356e40d9800431f06698241414590498903b80f0aeb184dfa537",
@@ -56,13 +42,55 @@ TEST_VECT = {
             "address": "P-avax1e4wshkjvqpfcuu86acl69xad8sl7zsgg723xu3",
         },
     ],
+    "x_chain": [
+        {
+            "pub_key": b"02add530ea489143b936d2430e8412182984cdb26c020ce18ddc34dbf24a442b7d",
+            "address_dec": b"54517930c6a96e7f21ecb2b582fb1d39a2cad514",
+            "address_params": {},
+            "address": "X-avax123ghjvxx49h87g0vk26c97ca8x3v44g5n9mzha",
+        },
+        {
+            "pub_key": b"03465789245ff8a454efc9a72608521f30bcc49e35f1bf26272d0a6cb7a7b91876",
+            "address_dec": b"d56df34d4a10d48a82bb8d9f1110f0b0c281ae3a",
+            "address_params": {},
+            "address": "X-avax164klxn22zr2g4q4m3k03zy8skrpgrt36sqm5r4",
+        },
+    ],
 }
 
-# Tests for decoding with invalid strings (the majority of cases are already covered by AtomAddr tests)
-TEST_VECT_DEC_INVALID = [
-    # Invalid prefix
-    "A-avax1e4wshkjvqpfcuu86acl69xad8sl7zsgg723xu3",
-]
+# Tests for decoding with invalid strings
+TEST_VECT_DEC_INVALID = {
+    "p_chain": [
+        # Invalid prefix
+        "A-avax1e4wshkjvqpfcuu86acl69xad8sl7zsgg723xu3",
+        # Invalid HRP
+        "X-avex1pgmhz30d29akc670hkaje398hl6hvh0ca9lxea",
+        # No separator
+        "X-avax23ghjvxx49h87g0vk26c97ca8x3v44g5n9mzha",
+        # Invalid checksum
+        "X-avax1pgmhz30d29akc670hkaje398hl6hvh0c08x5zj",
+        # Invalid encoding
+        "X-avax123ghjvxx49h87g0vk26c97cb8x3v44g5n9mzha",
+        # Invalid lengths
+        "X-avax1xac5tm230dkxhnaahvkvffal74m9m7qxvlpx0",
+        "X-avax1pgmhz30d29akc670hkaje398hl6hvh0cqqwp8qmk",
+    ],
+    "x_chain": [
+        # Invalid prefix
+        "A-avax1e4wshkjvqpfcuu86acl69xad8sl7zsgg723xu3",
+        # Invalid HRP
+        "P-avex1pgmhz30d29akc670hkaje398hl6hvh0ca9lxea",
+        # No separator
+        "P-avaxpgmhz30d29akc670hkaje398hl6hvh0cvhvgw4",
+        # Invalid checksum
+        "P-avax1pgmhz30d29akc670hkaje398hl6hvh0c08x5zj",
+        # Invalid encoding
+        "P-avax1pgmhz30d29akc670hkbje398hl6hvh0cvhvgw4",
+        # Invalid lengths
+        "P-avax1xac5tm230dkxhnaahvkvffal74m9m7qxvlpx0",
+        "P-avax1pgmhz30d29akc670hkaje398hl6hvh0cqqwp8qmk",
+    ],
+}
 
 
 #
@@ -81,8 +109,8 @@ class AvaxAddrTests(unittest.TestCase):
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, AvaxPChainAddr, {}, TEST_VECT_DEC_INVALID)
-        AddrBaseTestHelper.test_invalid_dec(self, AvaxXChainAddr, {}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, AvaxPChainAddr, {}, TEST_VECT_DEC_INVALID["p_chain"])
+        AddrBaseTestHelper.test_invalid_dec(self, AvaxXChainAddr, {}, TEST_VECT_DEC_INVALID["x_chain"])
 
     # Test invalid keys
     def test_invalid_keys(self):
