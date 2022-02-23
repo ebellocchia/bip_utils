@@ -23,9 +23,11 @@
 # Imports
 from enum import Enum, unique
 from typing import Any, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.base58 import Base58Encoder
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
@@ -46,21 +48,59 @@ class XtzAddrConst:
     DIGEST_BYTE_LEN: int = 20
 
 
-class XtzAddr(IAddrEncoder):
+class XtzAddr(IAddrDecoder, IAddrEncoder):
     """
     Tezos address class.
-    It allows the Tezos address generation.
+    It allows the Tezos address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Tezos address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            prefix (XtzAddrPrefixes): Address prefix
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+            TypeError: If the prefix is not a XtzAddrPrefixes enum
+        """
+
+        # Get and check prefix
+        prefix = kwargs["prefix"]
+        if not isinstance(prefix, XtzAddrPrefixes):
+            raise TypeError("Address type is not an enumerative of XtzAddrPrefixes")
+
+        # Decode from base58
+        try:
+            addr_dec_bytes = Base58Decoder.CheckDecode(addr)
+        except Base58ChecksumError as ex:
+            raise ValueError("Invalid Base58 checksum") from ex
+        else:
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        len(prefix.value) + XtzAddrConst.DIGEST_BYTE_LEN)
+            # Validate and remove prefix
+            blake_bytes = AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix.value)
+
+            return blake_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Tezos format.
+        Encode a public key to Tezos address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
 
         Other Parameters:
             prefix (XtzAddrPrefixes): Address prefix
@@ -70,10 +110,10 @@ class XtzAddr(IAddrEncoder):
 
         Raises:
             ValueError: If the public key is not valid
-            TypeError: If the public key is not ed25519
+            TypeError: If the public key is not ed25519 or the prefix is not a XtzAddrPrefixes enum
         """
 
-        # Get and check address type
+        # Get and check prefix
         prefix = kwargs["prefix"]
         if not isinstance(prefix, XtzAddrPrefixes):
             raise TypeError("Address type is not an enumerative of XtzAddrPrefixes")
@@ -81,7 +121,8 @@ class XtzAddr(IAddrEncoder):
         # Get public key
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
-        # Compute Blake2b and encode in Base58 with checksum
-        blake = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
-                                    digest_size=XtzAddrConst.DIGEST_BYTE_LEN)
-        return Base58Encoder.CheckEncode(prefix.value + blake)
+        # Compute Blake2b and encode in base58 with checksum
+        blake_bytes = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
+                                          digest_size=XtzAddrConst.DIGEST_BYTE_LEN)
+
+        return Base58Encoder.CheckEncode(prefix.value + blake_bytes)

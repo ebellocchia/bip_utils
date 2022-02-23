@@ -22,9 +22,11 @@
 
 # Imports
 from typing import Any, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.bech32 import Bech32Encoder
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
@@ -37,21 +39,46 @@ class ZilAddrConst:
     DIGEST_BYTE_LEN: int = 20
 
 
-class ZilAddr(IAddrEncoder):
+class ZilAddr(IAddrDecoder, IAddrEncoder):
     """
     Zilliqa address class.
-    It allows the Zilliqa address generation.
+    It allows the Zilliqa address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Zilliqa address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        try:
+            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Zilliqa.Params("addr_hrp"),
+                                                  addr)
+        except (Bech32ChecksumError, Bech32FormatError) as ex:
+            raise ValueError("Invalid Bech32 encoding") from ex
+        else:
+            AddrDecUtils.ValidateLength(addr_dec_bytes, ZilAddrConst.DIGEST_BYTE_LEN)
+            return addr_dec_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Zilliqa format.
+        Encode a public key to Zilliqa address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
