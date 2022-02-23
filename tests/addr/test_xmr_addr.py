@@ -135,14 +135,14 @@ class XmrAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params(
+        AddrBaseTestHelper.test_invalid_params_enc(
             self,
             XmrIntegratedAddr,
             TEST_ED25519_MONERO_PUB_KEY,
             {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY, "net_ver": b"", "payment_id": b"\x00" * (XmrAddrConst.PAYMENT_ID_BYTE_LEN - 1)},
             ValueError
         )
-        AddrBaseTestHelper.test_invalid_params(
+        AddrBaseTestHelper.test_invalid_params_enc(
             self,
             XmrIntegratedAddr,
             TEST_ED25519_MONERO_PUB_KEY,
