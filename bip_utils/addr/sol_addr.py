@@ -47,7 +47,7 @@ class SolAddr(IAddrDecoder, IAddrEncoder):
             **kwargs  : Not used
 
         Returns:
-            bytes: Public key hash bytes
+            bytes: Public key bytes
 
         Raises:
             ValueError: If the address encoding is not valid
