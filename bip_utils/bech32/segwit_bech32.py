@@ -118,13 +118,13 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         """
 
         # Decode string
-        hrpgot, data = SegwitBech32Decoder._DecodeBech32(addr,
-                                                         SegwitBech32Const.SEPARATOR,
-                                                         SegwitBech32Const.CHECKSUM_BYTE_LEN)
+        hrp_got, data = SegwitBech32Decoder._DecodeBech32(addr,
+                                                          SegwitBech32Const.SEPARATOR,
+                                                          SegwitBech32Const.CHECKSUM_BYTE_LEN)
         # Check HRP
-        if hrpgot != hrp:
+        if hrp != hrp_got:
             raise Bech32FormatError(
-                f"Invalid format (HRP not valid, expected {hrp}, got {hrpgot})"
+                f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})"
             )
 
         # Convert back from base32

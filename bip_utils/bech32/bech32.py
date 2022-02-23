@@ -186,11 +186,11 @@ class Bech32Decoder(Bech32DecoderBase):
         """
 
         # Decode string
-        hrpgot, data = Bech32Decoder._DecodeBech32(addr, Bech32Const.SEPARATOR, Bech32Const.CHECKSUM_BYTE_LEN)
+        hrp_got, data = Bech32Decoder._DecodeBech32(addr, Bech32Const.SEPARATOR, Bech32Const.CHECKSUM_BYTE_LEN)
 
         # Check HRP
-        if hrpgot != hrp:
-            raise Bech32FormatError(f"Invalid format (HRP not valid, expected {hrp}, got {hrpgot})")
+        if hrp != hrp_got:
+            raise Bech32FormatError(f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})")
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
