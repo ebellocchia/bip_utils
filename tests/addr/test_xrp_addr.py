@@ -30,27 +30,27 @@ from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1Pub
 TEST_VECT = [
     {
         "pub_key": b"03db0da69187edd94aba300f1b2e7a09f407a8301d6fff54322a6ee4dde9842681",
-        "addr_params": {},
+        "address_params": {},
         "address": "rwypvr27pYpzYQyDrFQBjDUhRDkHiecTHo",
     },
     {
         "pub_key": b"03333f37539bf526280cea9dda98758de4feb15910218e3e0a99ac17d1f5fac406",
-        "addr_params": {},
+        "address_params": {},
         "address": "rLynFggnosDyDmoLzcgX6siu6X4yUBb36a",
     },
     {
         "pub_key": b"02553f6711f6ed3e1204dff91d9bf259ea01a2577dcc05383ce47f2cc5a98946bc",
-        "addr_params": {},
+        "address_params": {},
         "address": "rJ6twS2cq28qMybswjQHb6BZK7kuwSFfZo",
     },
     {
         "pub_key": b"03530f281debbda165f54090b930c4467842231c3bd2e547d953444c7409ad4c20",
-        "addr_params": {},
+        "address_params": {},
         "address": "rhs1osifPgg35Ff8pRk23vRtn6rhivVuTq",
     },
     {
         "pub_key": b"021cf750242895325d49efa12859369f7a45e9c3f5639172e4f2f5df4ae23301cf",
-        "addr_params": {},
+        "address_params": {},
         "address": "rsfsErX3u9GRrMH1Nr6Qa4TAyWa53bx48D",
     },
 ]

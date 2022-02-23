@@ -30,32 +30,32 @@ from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1Pub
 TEST_VECT = [
     {
         "pub_key": b"0258742e7596b2cb998b42dddffd7b5c7ba30702876f899d6f7188d23285fc3208",
-        "dec_addr": b"3c07040c8746bfe1485021ca57623f866edd15d4",
-        "addr_params": {},
+        "address_dec": b"3c07040c8746bfe1485021ca57623f866edd15d4",
+        "address_params": {},
         "address": "f1hqdqidehi276cscqehffoyr7qzxn2foumjpq5zq",
     },
     {
         "pub_key": b"03ad9c631c2fac4adca03c1abf9e473dc9bd6dca7868e6b961ebb81547819c6e8c",
-        "dec_addr": b"b3f7b860d78adcde02e33a19d141782bebfed9ca",
-        "addr_params": {},
+        "address_dec": b"b3f7b860d78adcde02e33a19d141782bebfed9ca",
+        "address_params": {},
         "address": "f1wp33qygxrlon4axdhim5cqlyfpv75wokvcfdgyy",
     },
     {
         "pub_key": b"036d34f7fde5eedcea7c35e59112abee4786190cec263469b8a92fa15222999cff",
-        "dec_addr": b"9ddfdb18c55926e6817d4545c1886a30a487d8dc",
-        "addr_params": {},
+        "address_dec": b"9ddfdb18c55926e6817d4545c1886a30a487d8dc",
+        "address_params": {},
         "address": "f1txp5wggfletonal5ivc4dcdkgcsipwg4fte42wi",
     },
     {
         "pub_key": b"03560c22685ce5837b897bd553a4e23af0bf464ef72ddbb32d252d1fbcec4f8c81",
-        "dec_addr": b"56cc818223ca3165efed0b4b600fc4011cc87f97",
-        "addr_params": {},
+        "address_dec": b"56cc818223ca3165efed0b4b600fc4011cc87f97",
+        "address_params": {},
         "address": "f1k3gidardziywl37nbnfwad6eaeomq74xwcs2wxq",
     },
     {
         "pub_key": b"021e8c1330274bd99ba01e019f2cbe07e8822f8b8919f4c1cb38d389903d67f158",
-        "dec_addr": b"66b8a34e79114e30c6d8f96eb486878afc398c50",
-        "addr_params": {},
+        "address_dec": b"66b8a34e79114e30c6d8f96eb486878afc398c50",
+        "address_params": {},
         "address": "f1m24kgttzcfhdbrwy7fxljbuhrl6dtdcqhy4xnla",
     },
 ]

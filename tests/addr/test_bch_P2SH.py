@@ -31,21 +31,21 @@ TEST_VECT = [
     # Main nets
     {
         "pub_key": b"039b3b694b8fc5b5e07fb069c783cac754f5d38c3e08bed1960e31fdb1dda35c24",
-        "addr_params": {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
-                        "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
+        "address_params": {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
+                           "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
         "address": "bitcoincash:pqlmd62cztjhhdrfr7dy5c5gv2np5nmknvhfvqp85n",
     },
     {
         "pub_key": b"025c3cd8658ff360e3ab7aec091d33d386fd02173fb4d9bd08713dae4b13c9b869",
-        "addr_params": {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
-                        "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
+        "address_params": {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
+                           "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
         "address": "bitcoincash:prlqav3u50a76ln0u8hy7rj5pnjvz68yd5tkse7wf8",
     },
     # Test nets
     {
         "pub_key": b"03b22d357d64aa0c10caffcdaeb22fca282b31f011c8c2c8c6d5e56a676d52c803",
-        "addr_params": {"hrp": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_hrp"),
-                        "net_ver": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_net_ver")},
+        "address_params": {"hrp": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_hrp"),
+                           "net_ver": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_net_ver")},
         "address": "bchtest:pzqawj7d8qxqtau3686vsxph2ew7exerfg60w5xcq0",
     },
 ]

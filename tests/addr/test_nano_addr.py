@@ -30,32 +30,32 @@ from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519Blake2b
 TEST_VECT = [
     {
         "pub_key": b"0063b14c2b966809da4b4f90c53ee12633be9f708cbd834eb24012f9306f3e8f4a",
-        "dec_addr": b"63b14c2b966809da4b4f90c53ee12633be9f708cbd834eb24012f9306f3e8f4a",
-        "addr_params": {},
+        "address_dec": b"63b14c2b966809da4b4f90c53ee12633be9f708cbd834eb24012f9306f3e8f4a",
+        "address_params": {},
         "address": "nano_1rxjbioset1bub7nz6879uikeexymxrashe5bts616qs83qmx5tcxoeox6ms",
     },
     {
         "pub_key": b"0089624c7666f0b8004df74ef749a96991bb602273b41fec38e7190fcd2ebcb5f9",
-        "dec_addr": b"89624c7666f0b8004df74ef749a96991bb602273b41fec38e7190fcd2ebcb5f9",
-        "addr_params": {},
+        "address_dec": b"89624c7666f0b8004df74ef749a96991bb602273b41fec38e7190fcd2ebcb5f9",
+        "address_params": {},
         "address": "nano_34d4bju8fw7r138zgmqqb8npm6fue1j99f1zxiwgg8ahsnqdsfhsr6dyoimk",
     },
     {
         "pub_key": b"006bfef755481c161fcd56c7b7902193528a36b117563793cf02a374455e983dcf",
-        "dec_addr": b"6bfef755481c161fcd56c7b7902193528a36b117563793cf02a374455e983dcf",
-        "addr_params": {},
+        "address_dec": b"6bfef755481c161fcd56c7b7902193528a36b117563793cf02a374455e983dcf",
+        "address_params": {},
         "address": "nano_1tzyyxcni91p5z8ofjxqk1is8nnc8trjgojqkh9i7aunaohbihghw4edxiqj",
     },
     {
         "pub_key": b"8f3330f2d62eb3232b4d23d67193d37d9c61678d12445cc68620e0f648456788",
-        "dec_addr": b"8f3330f2d62eb3232b4d23d67193d37d9c61678d12445cc68620e0f648456788",
-        "addr_params": {},
+        "address_dec": b"8f3330f2d62eb3232b4d23d67193d37d9c61678d12445cc68620e0f648456788",
+        "address_params": {},
         "address": "nano_35sm85sfedom6eontaypg8bx8zewe7mrt6k6dm5aea91ys66cswa9bw9bg5f",
     },
     {
         "pub_key": b"1594ba7eecada3f311d52d84bc462a8398f4aac71d252cd4db79e946d5511f0d",
-        "dec_addr": b"1594ba7eecada3f311d52d84bc462a8398f4aac71d252cd4db79e946d5511f0d",
-        "addr_params": {},
+        "address_dec": b"1594ba7eecada3f311d52d84bc462a8398f4aac71d252cd4db79e946d5511f0d",
+        "address_params": {},
         "address": "nano_17enqbzgsdf5yeaxcde6qj54o1wrykoeg9b77mcfpyhbauco49rfwgzbact6",
     },
 ]

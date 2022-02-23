@@ -30,32 +30,32 @@ from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1Pub
 TEST_VECT = [
     {
         "pub_key": b"03c41826497a000dd077b3becc10bea5765651c30c37e7bd63ed8562f919720126",
-        "dec_addr": b"4d46542bdA7ff01f583e8459125c91D56D2426Cf",
-        "addr_params": {},
+        "address_dec": b"4d46542bdA7ff01f583e8459125c91D56D2426Cf",
+        "address_params": {},
         "address": "0x4d46542bdA7ff01f583e8459125c91D56D2426Cf",
     },
     {
         "pub_key": b"02d72bce774eb5d79384da08c3080ce3bd7996843a7f3efc008a5c45449aab3b0f",
-        "dec_addr": b"8C5F5279DD5a5deE331d629620FE6f3e7c73d21e",
-        "addr_params": {},
+        "address_dec": b"8C5F5279DD5a5deE331d629620FE6f3e7c73d21e",
+        "address_params": {},
         "address": "0x8C5F5279DD5a5deE331d629620FE6f3e7c73d21e",
     },
     {
         "pub_key": b"027c323f3d80fa0c4891b3a36c3b2790cd04705bc8c66b79f356cc5c304d3eb45b",
-        "dec_addr": b"8BC53Cd1c3ba83bd0D11F2F4Bfe0819Be8fb9794",
-        "addr_params": {},
+        "address_dec": b"8BC53Cd1c3ba83bd0D11F2F4Bfe0819Be8fb9794",
+        "address_params": {},
         "address": "0x8BC53Cd1c3ba83bd0D11F2F4Bfe0819Be8fb9794",
     },
     {
         "pub_key": b"0226c4d55f5437ad010a6fb1cb6b7c37731a31516c77e5403af3b36fc80dfd2c59",
-        "dec_addr": b"A2cA1D082016421489b7891091CA1CF0D2d1220e",
-        "addr_params": {"skip_chksum_enc": True},
+        "address_dec": b"A2cA1D082016421489b7891091CA1CF0D2d1220e",
+        "address_params": {"skip_chksum_enc": True},
         "address": "0xa2ca1d082016421489b7891091ca1cf0d2d1220e",
     },
     {
         "pub_key": b"0261d015de607c9b8cfb77f658fabe6af3c7d6865740169026f2f2e95b6e5db14d",
-        "dec_addr": b"CaAB0bbEDD3d903832053F4e21CCD6DF48A66870",
-        "addr_params": {"skip_chksum_enc": True},
+        "address_dec": b"CaAB0bbEDD3d903832053F4e21CCD6DF48A66870",
+        "address_params": {"skip_chksum_enc": True},
         "address": "0xcaab0bbedd3d903832053f4e21ccd6df48a66870",
     },
 ]

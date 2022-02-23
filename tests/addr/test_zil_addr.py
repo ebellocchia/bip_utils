@@ -30,32 +30,32 @@ from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1Pub
 TEST_VECT = [
     {
         "pub_key": b"03abdbfd282eb1d9e64ea9fc4f912a514ed993b8dcaa13c7732ae91ebf48ecbd57",
-        "dec_addr": b"46df832e67fe113f9c9772154f1457b7316f7eeb",
-        "addr_params": {},
+        "address_dec": b"46df832e67fe113f9c9772154f1457b7316f7eeb",
+        "address_params": {},
         "address": "zil1gm0cxtn8lcgnl8yhwg2579zhkuck7lhtutmelc",
     },
     {
         "pub_key": b"03f33e10bf145cd1936b054c5b32a3fa0d865c80fb0b76c9a6398f21b429f1efeb",
-        "dec_addr": b"8a8ff33646dbc0454c20e50f864e2bdfd00d7ba9",
-        "addr_params": {},
+        "address_dec": b"8a8ff33646dbc0454c20e50f864e2bdfd00d7ba9",
+        "address_params": {},
         "address": "zil1328lxdjxm0qy2npqu58cvn3tmlgq67af7gdqlc",
     },
     {
         "pub_key": b"039d6004660240dfa2c818e97f1056504c7bb3367602615fcb6cc894ff0098b14b",
-        "dec_addr": b"de6fb3108dcc1742329f687e29242cba36ed5f56",
-        "addr_params": {},
+        "address_dec": b"de6fb3108dcc1742329f687e29242cba36ed5f56",
+        "address_params": {},
         "address": "zil1mehmxyydest5yv5ldplzjfpvhgmw6h6ke5dq0g",
     },
     {
         "pub_key": b"03228350bd31aaa0fa07446e161840cb48d97752956ee362e28f79df764f24bd96",
-        "dec_addr": b"875f0c8e9c887c1dbcec3c19ad174cac4fa95a2f",
-        "addr_params": {},
+        "address_dec": b"875f0c8e9c887c1dbcec3c19ad174cac4fa95a2f",
+        "address_params": {},
         "address": "zil1sa0ser5u3p7pm08v8sv6696v4386jk30cd777w",
     },
     {
         "pub_key": b"03f6d222b568d850218c1901f4e8dc3f0eba861c5b59ef1726801274175821cb30",
-        "dec_addr": b"9b2b35fac0d261c0aa5b07cddd1e94c60c504184",
-        "addr_params": {},
+        "address_dec": b"9b2b35fac0d261c0aa5b07cddd1e94c60c504184",
+        "address_params": {},
         "address": "zil1nv4nt7kq6fsup2jmqlxa6855ccx9qsvylxt3vh",
     },
 ]
@@ -87,6 +87,10 @@ class ZilAddrTests(unittest.TestCase):
     # Test decode address
     def test_decode_addr(self):
         AddrBaseTestHelper.test_decode_addr(self, ZilAddr, TEST_VECT)
+
+    # Test invalid decoding
+    def test_invalid_dec(self):
+        AddrBaseTestHelper.test_invalid_dec(self, ZilAddr, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):

@@ -30,32 +30,32 @@ from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicK
 TEST_VECT = [
     {
         "pub_key": b"008dc5989dcb090a36b348f7bb236e1fc8e7c2c25d8b0f8221ffa04169cee9e96a",
-        "dec_addr": b"8dc5989dcb090a36b348f7bb236e1fc8e7c2c25d8b0f8221ffa04169cee9e96a",
-        "addr_params": {},
+        "address_dec": b"8dc5989dcb090a36b348f7bb236e1fc8e7c2c25d8b0f8221ffa04169cee9e96a",
+        "address_params": {},
         "address": "8dc5989dcb090a36b348f7bb236e1fc8e7c2c25d8b0f8221ffa04169cee9e96a",
     },
     {
         "pub_key": b"00e881e7d40d573405cb90213637261330329a809608220cf01288eefd55156c14",
-        "dec_addr": b"e881e7d40d573405cb90213637261330329a809608220cf01288eefd55156c14",
-        "addr_params": {},
+        "address_dec": b"e881e7d40d573405cb90213637261330329a809608220cf01288eefd55156c14",
+        "address_params": {},
         "address": "e881e7d40d573405cb90213637261330329a809608220cf01288eefd55156c14",
     },
     {
         "pub_key": b"0049c93960fd3f49e671b4a712d3e95c5ae3d8e66552cb97879c897374599a22c1",
-        "dec_addr": b"49c93960fd3f49e671b4a712d3e95c5ae3d8e66552cb97879c897374599a22c1",
-        "addr_params": {},
+        "address_dec": b"49c93960fd3f49e671b4a712d3e95c5ae3d8e66552cb97879c897374599a22c1",
+        "address_params": {},
         "address": "49c93960fd3f49e671b4a712d3e95c5ae3d8e66552cb97879c897374599a22c1",
     },
     {
         "pub_key": b"b4072e7e5001caf7f7003e03e942fe37bc31184b3395ec9ac8c5bfad4b379f8f",
-        "dec_addr": b"b4072e7e5001caf7f7003e03e942fe37bc31184b3395ec9ac8c5bfad4b379f8f",
-        "addr_params": {},
+        "address_dec": b"b4072e7e5001caf7f7003e03e942fe37bc31184b3395ec9ac8c5bfad4b379f8f",
+        "address_params": {},
         "address": "b4072e7e5001caf7f7003e03e942fe37bc31184b3395ec9ac8c5bfad4b379f8f",
     },
     {
         "pub_key": b"4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d13284",
-        "dec_addr": b"4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d13284",
-        "addr_params": {},
+        "address_dec": b"4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d13284",
+        "address_params": {},
         "address": "4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d13284",
     },
 ]
