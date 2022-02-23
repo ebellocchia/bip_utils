@@ -22,25 +22,60 @@
 
 # Imports
 from typing import Any, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.base58 import Base58Encoder, Base58Alphabets
-from bip_utils.bech32 import BchBech32Encoder
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.base58 import Base58Alphabets, Base58ChecksumError, Base58Decoder, Base58Encoder
+from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, BchBech32Decoder, BchBech32Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
-class P2PKHAddr(IAddrEncoder):
+class P2PKHAddr(IAddrDecoder, IAddrEncoder):
     """
     P2PKH class.
-    It allows the Pay-to-Public-Key-Hash address generation.
+    It allows the Pay-to-Public-Key-Hash address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a P2PKH address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            net_ver (bytes)                        : Net address version
+            base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin alphabet by default
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        net_ver_bytes = kwargs["net_ver"]
+        base58_alph = kwargs.get("base58_alph", Base58Alphabets.BITCOIN)
+
+        try:
+            addr_dec_bytes = Base58Decoder.CheckDecode(addr, base58_alph)
+        except Base58ChecksumError as ex:
+            raise ValueError("Invalid base58 checksum") from ex
+        else:
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        CryptoUtils.Hash160DigestSize() + len(net_ver_bytes))
+            # Validate and remove prefix
+            return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, net_ver_bytes)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in P2PKH format.
+        Encode a public key to P2PKH address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -56,26 +91,61 @@ class P2PKHAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        net_ver = kwargs["net_ver"]
+        net_ver_bytes = kwargs["net_ver"]
         base58_alph = kwargs.get("base58_alph", Base58Alphabets.BITCOIN)
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
-
-        return Base58Encoder.CheckEncode(net_ver + CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
+        return Base58Encoder.CheckEncode(net_ver_bytes + CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
                                          base58_alph)
 
 
-class BchP2PKHAddr(IAddrEncoder):
+class BchP2PKHAddr(IAddrDecoder, IAddrEncoder):
     """
     Bitcoin Cash P2PKH class.
-    It allows the Bitcoin Cash P2PKH generation.
+    It allows the Bitcoin Cash P2PKH encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Bitcoin Cash P2PKH address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            hrp (str)      : HRP
+            net_ver (bytes): Net address version
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        hrp = kwargs["hrp"]
+        net_ver_bytes = kwargs["net_ver"]
+
+        try:
+            net_ver_bytes_got, addr_dec_bytes = BchBech32Decoder.Decode(hrp, addr)
+        except (Bech32ChecksumError, Bech32FormatError) as ex:
+            raise ValueError("Invalid bech32 encoding") from ex
+        else:
+            # Check net version
+            if net_ver_bytes != net_ver_bytes_got:
+                raise ValueError(f"Invalid net version (expected {ConvUtils.BytesToHexString(net_ver_bytes)}, "
+                                 f"got {ConvUtils.BytesToHexString(net_ver_bytes_got)})")
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        CryptoUtils.Hash160DigestSize())
+            return addr_dec_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Bitcoin Cash P2PKH format.
+        Encode a public key to Bitcoin Cash P2PKH address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -92,10 +162,9 @@ class BchP2PKHAddr(IAddrEncoder):
             TypeError: If the public key is not secp256k1
         """
         hrp = kwargs["hrp"]
-        net_ver = kwargs["net_ver"]
+        net_ver_bytes = kwargs["net_ver"]
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
-
         return BchBech32Encoder.Encode(hrp,
-                                       net_ver,
+                                       net_ver_bytes,
                                        CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))

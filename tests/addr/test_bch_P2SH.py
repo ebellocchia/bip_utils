@@ -31,12 +31,14 @@ TEST_VECT = [
     # Main nets
     {
         "pub_key": b"039b3b694b8fc5b5e07fb069c783cac754f5d38c3e08bed1960e31fdb1dda35c24",
+        "address_dec": b"3fb6e95812e57bb4691f9a4a628862a61a4f769b",
         "address_params": {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
                            "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
         "address": "bitcoincash:pqlmd62cztjhhdrfr7dy5c5gv2np5nmknvhfvqp85n",
     },
     {
         "pub_key": b"025c3cd8658ff360e3ab7aec091d33d386fd02173fb4d9bd08713dae4b13c9b869",
+        "address_dec": b"fe0eb23ca3fbed7e6fe1ee4f0e540ce4c168e46d",
         "address_params": {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
                            "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
         "address": "bitcoincash:prlqav3u50a76ln0u8hy7rj5pnjvz68yd5tkse7wf8",
@@ -44,10 +46,28 @@ TEST_VECT = [
     # Test nets
     {
         "pub_key": b"03b22d357d64aa0c10caffcdaeb22fca282b31f011c8c2c8c6d5e56a676d52c803",
+        "address_dec": b"81d74bcd380c05f791d1f4c81837565dec9b234a",
         "address_params": {"hrp": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_hrp"),
                            "net_ver": CoinsConf.BitcoinCashTestNet.Params("p2sh_std_net_ver")},
         "address": "bchtest:pzqawj7d8qxqtau3686vsxph2ew7exerfg60w5xcq0",
     },
+]
+
+# Tests for decoding with invalid strings
+TEST_VECT_DEC_INVALID = [
+    # Invalid HRP
+    "bitcaincash:qq9rwu29a4ghkmrte77mktxy57ll2ajalq07scrad4",
+    # Invalid net version
+    "bitcoincash:qy9rwu29a4ghkmrte77mktxy57ll2ajalqlusxt7x5",
+    # No separator
+    "bitcoincashqrvcdmgpk73zyfd8pmdl9wnuld36zh9n4gms8s0u59",
+    # Invalid checksum
+    "bitcoincash:qy9rwu29a4ghkmrte77mktxy57ll2ajalqdhut084g",
+    # Invalid encoding
+    "bitcoincash:qy9rwu29b4ghkmrte77mktxy57ll2ajalqlusxt7x5",
+    # Invalid lengths
+    "bitcoincash:qqmhz30d29akc670hkaje398hl6hvh0cxn9sqwnk",
+    "bitcoincash:qq9rwu29a4ghkmrte77mktxy57ll2ajalqqqawuuxup8",
 ]
 
 
@@ -58,6 +78,18 @@ class P2SHTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
         AddrBaseTestHelper.test_encode_key(self, BchP2SHAddr, Secp256k1PublicKey, TEST_VECT)
+
+    # Test decode address
+    def test_decode_addr(self):
+        AddrBaseTestHelper.test_decode_addr(self, BchP2SHAddr, TEST_VECT)
+
+    # Test invalid decoding
+    def test_invalid_dec(self):
+        AddrBaseTestHelper.test_invalid_dec(self,
+                                            BchP2SHAddr,
+                                            {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
+                                             "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
+                                            TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):

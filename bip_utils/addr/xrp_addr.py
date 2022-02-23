@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.P2PKH_addr import P2PKHAddr
 from bip_utils.base58 import Base58Alphabets
@@ -29,21 +30,43 @@ from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 
 
-class XrpAddr(IAddrEncoder):
+class XrpAddr(IAddrDecoder, IAddrEncoder):
     """
     Ripple address class.
-    It allows the Ripple address generation.
+    It allows the Ripple address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Ripple address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Ripple address is just a P2PKH address with a different Base58 alphabet
+        return P2PKHAddr.DecodeAddr(addr,
+                                    net_ver=CoinsConf.Ripple.Params("p2pkh_net_ver"),
+                                    base58_alph=Base58Alphabets.RIPPLE)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Ripple format.
+        Encode a public key to Ripple address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
