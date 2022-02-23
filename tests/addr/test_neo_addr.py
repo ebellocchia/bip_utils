@@ -64,6 +64,8 @@ TEST_VECT = [
 TEST_VECT_DEC_INVALID = [
     # Invalid version
     "A5CqiijKBC8WCQ7yiE2hP4XDGXgyLCe7hR",
+    # Invalid checksum
+    "AMJm3XvdgZdHMK4T8XsWxKbrnPbTB6k6Bx",
     # Invalid length
     "31eKhHWNQ4n4bPTKrf8BDNMy6C6eaiN6x",
     "iGdPQBViud19AeiELFFyDB6rjLj4S9snbFi",
