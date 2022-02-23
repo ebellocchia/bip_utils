@@ -140,7 +140,7 @@ class CoinsConf:
         coin_name=CoinNames("Bitcoin Cash", "BCH"),
         params={
             "p2pkh_std_hrp": "bitcoincash",
-            "p2pkh_std_net_ver": b"\x00",
+            "p2pkh_std_net_ver": _BTC_P2PKH_NET_VER_MN,
             "p2pkh_legacy_net_ver": _BTC_P2PKH_NET_VER_MN,
             "p2sh_std_hrp": "bitcoincash",
             "p2sh_std_net_ver": b"\x08",
