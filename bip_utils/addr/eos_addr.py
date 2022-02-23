@@ -83,13 +83,13 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
         addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
                                                               CoinsConf.Eos.Params("addr_prefix"))
         # Decode from base58
-        addr_dec = Base58Decoder.Decode(addr_no_prefix)
+        addr_dec_bytes = Base58Decoder.Decode(addr_no_prefix)
         # Validate length
-        AddrDecUtils.ValidateLength(addr_dec,
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     Secp256k1PublicKey.CompressedLength() + EosAddrConst.CHECKSUM_BYTE_LEN)
 
         # Get back checksum and public key bytes
-        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec, EosAddrConst.CHECKSUM_BYTE_LEN)
+        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes, EosAddrConst.CHECKSUM_BYTE_LEN)
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _EosAddrUtils.ComputeChecksum)
         # Validate public key
@@ -117,6 +117,6 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()
 
-        checksum = _EosAddrUtils.ComputeChecksum(pub_key_bytes)
+        checksum_bytes = _EosAddrUtils.ComputeChecksum(pub_key_bytes)
 
-        return CoinsConf.Eos.Params("addr_prefix") + Base58Encoder.Encode(pub_key_bytes + checksum)
+        return CoinsConf.Eos.Params("addr_prefix") + Base58Encoder.Encode(pub_key_bytes + checksum_bytes)

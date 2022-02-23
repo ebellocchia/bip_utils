@@ -96,38 +96,38 @@ class AddrDecUtils:
                              f"public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
 
     @staticmethod
-    def ValidateChecksum(pub_key_bytes: bytes,
-                         exp_checksum_bytes: bytes,
+    def ValidateChecksum(payload_bytes: bytes,
+                         checksum_bytes_exp: bytes,
                          checksum_fct: Callable[[bytes], bytes]) -> None:
         """
         Validate address checksum.
 
         Args:
-            pub_key_bytes (bytes)     : Public key (or hash) bytes
-            exp_checksum_bytes (bytes): Expected checksum bytes
+            payload_bytes (bytes)     : Payload bytes
+            checksum_bytes_exp (bytes): Expected checksum bytes
             checksum_fct (function)   : Function for computing checksum
 
         Raises:
             ValueError: If the computed checksum is not equal tot he specified one
         """
-        checksum_got = checksum_fct(pub_key_bytes)
-        if exp_checksum_bytes != checksum_got:
-            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(exp_checksum_bytes)}, "
-                             f"got {ConvUtils.BytesToHexString(checksum_got)})")
+        checksum_bytes_got = checksum_fct(payload_bytes)
+        if checksum_bytes_exp != checksum_bytes_got:
+            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes_exp)}, "
+                             f"got {ConvUtils.BytesToHexString(checksum_bytes_got)})")
 
     @staticmethod
-    def SplitChecksumAndPubKey(addr_bytes: bytes,
-                               checksum_len: int) -> Tuple[bytes, bytes]:
+    def SplitPartsByChecksum(addr_bytes: bytes,
+                             checksum_len: int) -> Tuple[bytes, bytes]:
         """
-        Split address in the public key and checksum parts.
+        Split address in two parts, considering the checksum at the end of it.
 
         Args:
             addr_bytes (bytes): Address bytes
             checksum_len (int): Checksum length
 
         Returns:
-            tuple: public key (or hash) bytes (index 0) and checksum bytes (index 1)
+            tuple: Payload bytes (index 0) and checksum bytes (index 1)
         """
-        checksum = addr_bytes[-1 * checksum_len:]
-        pub_key_bytes = addr_bytes[:-1 * checksum_len]
-        return pub_key_bytes, checksum
+        checksum_bytes = addr_bytes[-1 * checksum_len:]
+        payload_bytes = addr_bytes[:-1 * checksum_len]
+        return payload_bytes, checksum_bytes

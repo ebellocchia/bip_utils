@@ -158,12 +158,12 @@ class SS58Decoder:
             raise ValueError(f"Invalid data length ({len(data_bytes)})")
 
         # Compute checksum
-        checksum_got = SS58Utils.ComputeChecksum(dec_bytes[:-SS58Const.CHECKSUM_BYTE_LEN])
+        checksum_bytes_got = SS58Utils.ComputeChecksum(dec_bytes[:-SS58Const.CHECKSUM_BYTE_LEN])
 
         # Verify checksum
-        if checksum_bytes != checksum_got:
+        if checksum_bytes != checksum_bytes_got:
             raise SS58ChecksumError(
-                f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_got)}, "
+                f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes_got)}, "
                 f"got {ConvUtils.BytesToHexString(checksum_bytes)})"
             )
 

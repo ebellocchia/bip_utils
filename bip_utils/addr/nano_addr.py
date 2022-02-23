@@ -90,17 +90,17 @@ class NanoAddr(IAddrDecoder, IAddrEncoder):
         addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
                                                               CoinsConf.Nano.Params("addr_prefix"))
         # Decode from base32
-        addr_dec = Base32Decoder.Decode(NanoAddrConst.PAYLOAD_PAD_ENC + addr_no_prefix,
-                                        NanoAddrConst.BASE32_ALPHABET)
+        addr_dec_bytes = Base32Decoder.Decode(NanoAddrConst.PAYLOAD_PAD_ENC + addr_no_prefix,
+                                              NanoAddrConst.BASE32_ALPHABET)
         # Validate length
-        AddrDecUtils.ValidateLength(addr_dec,
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     Ed25519PublicKey.CompressedLength() + NanoAddrConst.CHECKSUM_BYTE_LEN
                                     + len(NanoAddrConst.PAYLOAD_PAD_DEC) - 1)
 
         # Get back checksum and public key bytes
-        addr_dec = addr_dec[len(NanoAddrConst.PAYLOAD_PAD_DEC):]
-        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec,
-                                                                            NanoAddrConst.CHECKSUM_BYTE_LEN)
+        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(
+            addr_dec_bytes[len(NanoAddrConst.PAYLOAD_PAD_DEC):],
+            NanoAddrConst.CHECKSUM_BYTE_LEN)
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _NanoAddrUtils.ComputeChecksum)
         # Validate public key
@@ -129,10 +129,10 @@ class NanoAddr(IAddrDecoder, IAddrEncoder):
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
-        checksum = _NanoAddrUtils.ComputeChecksum(pub_key_bytes)
+        checksum_bytes = _NanoAddrUtils.ComputeChecksum(pub_key_bytes)
         # Encode to base32
-        payload = NanoAddrConst.PAYLOAD_PAD_DEC + pub_key_bytes + checksum
-        b32_enc = Base32Encoder.EncodeNoPadding(payload, NanoAddrConst.BASE32_ALPHABET)
+        payload_bytes = NanoAddrConst.PAYLOAD_PAD_DEC + pub_key_bytes + checksum_bytes
+        b32_enc = Base32Encoder.EncodeNoPadding(payload_bytes, NanoAddrConst.BASE32_ALPHABET)
 
         # Add prefix
         return CoinsConf.Nano.Params("addr_prefix") + b32_enc[len(NanoAddrConst.PAYLOAD_PAD_ENC):]

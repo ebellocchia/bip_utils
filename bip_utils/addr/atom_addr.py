@@ -65,12 +65,12 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
         hrp = kwargs["hrp"]
 
         try:
-            addr_dec = Bech32Decoder.Decode(hrp, addr)
+            addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
         except (Bech32ChecksumError, Bech32FormatError) as ex:
             raise ValueError("Invalid Bech32 encoding") from ex
         else:
-            AddrDecUtils.ValidateLength(addr_dec, AtomAddrConst.ADDR_DEC_BYTE_LEN)
-            return addr_dec
+            AddrDecUtils.ValidateLength(addr_dec_bytes, AtomAddrConst.ADDR_DEC_BYTE_LEN)
+            return addr_dec_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],

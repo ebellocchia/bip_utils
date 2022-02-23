@@ -54,14 +54,14 @@ class SolAddr(IAddrDecoder, IAddrEncoder):
         """
 
         # Decode from base58
-        addr_dec = Base58Decoder.Decode(addr)
+        addr_dec_bytes = Base58Decoder.Decode(addr)
         # Validate length
-        AddrDecUtils.ValidateLength(addr_dec,
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     Ed25519PublicKey.CompressedLength() - 1)
         # Validate public key
-        AddrDecUtils.ValidatePubKey(addr_dec, Ed25519PublicKey)
+        AddrDecUtils.ValidatePubKey(addr_dec_bytes, Ed25519PublicKey)
 
-        return addr_dec
+        return addr_dec_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],

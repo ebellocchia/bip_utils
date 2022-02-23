@@ -26,7 +26,7 @@ from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.base58 import Base58Decoder, Base58Encoder
+from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
@@ -66,19 +66,23 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
         Raises:
             ValueError: If the address encoding is not valid
         """
-        ver = kwargs["ver"]
+        ver_byte = kwargs["ver"]
 
-        # Decode from base58
-        addr_dec = Base58Decoder.CheckDecode(addr)
-        # Validate length
-        AddrDecUtils.ValidateLength(addr_dec, NeoAddrConst.ADDR_BYTE_LEN)
-        # Check version
-        ver_got = ConvUtils.IntegerToBytes(addr_dec[0])
-        if ver != ver_got:
-            raise ValueError(f"Invalid version (expected {ConvUtils.BytesToHexString(ver)}, "
-                             f"got {ConvUtils.BytesToHexString(ver_got)}")
+        try:
+            # Decode from base58
+            addr_dec_bytes = Base58Decoder.CheckDecode(addr)
+        except Base58ChecksumError as ex:
+            raise ValueError("Invalid base58 checksum") from ex
+        else:
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec_bytes, NeoAddrConst.ADDR_BYTE_LEN)
+            # Check version
+            ver_got = ConvUtils.IntegerToBytes(addr_dec_bytes[0])
+            if ver_byte != ver_got:
+                raise ValueError(f"Invalid version (expected {ConvUtils.BytesToHexString(ver_byte)}, "
+                                 f"got {ConvUtils.BytesToHexString(ver_got)}")
 
-        return addr_dec[1:]
+            return addr_dec_bytes[1:]
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -104,8 +108,8 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
-        payload = (NeoAddrConst.PREFIX
-                   + pub_key_obj.RawCompressed().ToBytes()
-                   + NeoAddrConst.SUFFIX)
+        payload_bytes = (NeoAddrConst.PREFIX
+                         + pub_key_obj.RawCompressed().ToBytes()
+                         + NeoAddrConst.SUFFIX)
         # Encode to base58
-        return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload))
+        return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload_bytes))

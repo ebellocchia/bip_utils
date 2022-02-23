@@ -54,16 +54,16 @@ class _SubstrateAddrUtils:
 
         try:
             # Decode from SS58 (SS58Decoder.Decode also checks the length)
-            ss58_format_got, addr_dec = SS58Decoder.Decode(addr)
+            ss58_format_got, addr_dec_bytes = SS58Decoder.Decode(addr)
         except SS58ChecksumError as ex:
             raise ValueError("Invalid SS58 encoding") from ex
         # Check SS58 format
         if ss58_format != ss58_format_got:
             raise ValueError(f"Invalid SS58 format (expected {ss58_format}, got {ss58_format_got})")
         # Validate public key
-        AddrDecUtils.ValidatePubKey(addr_dec, pub_key_cls)
+        AddrDecUtils.ValidatePubKey(addr_dec_bytes, pub_key_cls)
 
-        return addr_dec
+        return addr_dec_bytes
 
 
 class SubstrateEd25519Addr(IAddrDecoder, IAddrEncoder):
@@ -116,11 +116,12 @@ class SubstrateEd25519Addr(IAddrDecoder, IAddrEncoder):
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], ss58_format)
 
 
-class SubstrateSr25519Addr(IAddrEncoder):
+class SubstrateSr25519Addr(IAddrDecoder, IAddrEncoder):
     """
     Substrate address class based on sr25519 keys.
     It allows the Substrate address encoding/decoding.
     """
+
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:

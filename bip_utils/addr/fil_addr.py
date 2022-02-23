@@ -96,17 +96,16 @@ class _FilAddrUtils:
         if addr_type != addr_type_got:
             raise ValueError(f"Invalid address type (expected {addr_type}, got {addr_type_got})")
         # Decode from base32
-        addr_dec = Base32Decoder.Decode(addr_no_prefix[1:], FilAddrConst.BASE32_ALPHABET)
+        addr_dec_bytes = Base32Decoder.Decode(addr_no_prefix[1:], FilAddrConst.BASE32_ALPHABET)
         # Validate length
-        AddrDecUtils.ValidateLength(addr_dec,
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     FilAddrConst.DIGEST_BYTE_LEN + FilAddrConst.CHECKSUM_BYTE_LEN)
 
         # Get back checksum and public key bytes
-        pub_key_hash_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec,
-                                                                                 FilAddrConst.CHECKSUM_BYTE_LEN)
+        pub_key_hash_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
+                                                                               FilAddrConst.CHECKSUM_BYTE_LEN)
         # Validate checksum
-        AddrDecUtils.ValidateChecksum(pub_key_hash_bytes,
-                                      checksum_bytes,
+        AddrDecUtils.ValidateChecksum(pub_key_hash_bytes, checksum_bytes,
                                       lambda pub_key_bytes: _FilAddrUtils.ComputeChecksum(pub_key_bytes, addr_type))
 
         return pub_key_hash_bytes
@@ -131,9 +130,9 @@ class _FilAddrUtils:
         # Compute public key hash and checksum
         pub_key_hash_bytes = CryptoUtils.Blake2b(pub_key_bytes,
                                                  digest_size=FilAddrConst.DIGEST_BYTE_LEN)
-        checksum = _FilAddrUtils.ComputeChecksum(pub_key_hash_bytes, addr_type)
+        checksum_bytes = _FilAddrUtils.ComputeChecksum(pub_key_hash_bytes, addr_type)
         # Encode to base32
-        b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash_bytes + checksum, FilAddrConst.BASE32_ALPHABET)
+        b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash_bytes + checksum_bytes, FilAddrConst.BASE32_ALPHABET)
 
         return CoinsConf.Filecoin.Params("addr_prefix") + addr_type_str + b32_enc
 

@@ -79,12 +79,13 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
         """
 
         # Decode from base32
-        addr_dec = Base32Decoder.Decode(addr)
+        addr_dec_bytes = Base32Decoder.Decode(addr)
         # Validate length
-        AddrDecUtils.ValidateLength(addr_dec,
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     Ed25519PublicKey.CompressedLength() + AlgoAddrConst.CHECKSUM_BYTE_LEN - 1)
         # Get back checksum and public key bytes
-        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitChecksumAndPubKey(addr_dec, AlgoAddrConst.CHECKSUM_BYTE_LEN)
+        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
+                                                                          AlgoAddrConst.CHECKSUM_BYTE_LEN)
 
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _AlgoAddrUtils.ComputeChecksum)
@@ -114,6 +115,6 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
-        checksum = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
+        checksum_bytes = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
         # Encode to base32
-        return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum)
+        return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum_bytes)

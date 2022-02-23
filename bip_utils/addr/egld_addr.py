@@ -55,16 +55,16 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the address encoding is not valid
         """
         try:
-            addr_dec = Bech32Decoder.Decode(CoinsConf.Elrond.Params("addr_hrp"),
-                                            addr)
+            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Elrond.Params("addr_hrp"),
+                                                  addr)
         except (Bech32ChecksumError, Bech32FormatError) as ex:
             raise ValueError("Invalid Bech32 encoding") from ex
         else:
-            AddrDecUtils.ValidateLength(addr_dec,
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
                                         Ed25519PublicKey.CompressedLength() - 1)
-            AddrDecUtils.ValidatePubKey(addr_dec, Ed25519PublicKey)
+            AddrDecUtils.ValidatePubKey(addr_dec_bytes, Ed25519PublicKey)
 
-            return addr_dec
+            return addr_dec_bytes
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -84,6 +84,5 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
             TypeError: If the public key is not ed25519
         """
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
-
         return Bech32Encoder.Encode(CoinsConf.Elrond.Params("addr_hrp"),
                                     pub_key_obj.RawCompressed().ToBytes()[1:])
