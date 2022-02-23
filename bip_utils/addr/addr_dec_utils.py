@@ -59,7 +59,7 @@ class AddrDecUtils:
         """
         prefix_got = addr[:len(prefix)]
         if prefix != prefix_got:
-            raise ValueError(f"Invalid prefix (expected {prefix!r}, got {prefix_got!r}")
+            raise ValueError(f"Invalid prefix (expected {prefix!r}, got {prefix_got!r})")
         return addr[len(prefix):]
 
     @staticmethod
