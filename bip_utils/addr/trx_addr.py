@@ -63,7 +63,7 @@ class TrxAddr(IAddrDecoder, IAddrEncoder):
         else:
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec,
-                                        EthAddrConst.ADDR_LEN + len(CoinsConf.Tron.Params("addr_prefix")))
+                                        (EthAddrConst.ADDR_LEN // 2) + len(CoinsConf.Tron.Params("addr_prefix")))
             # Validate and remove prefix
             addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
                                                                   CoinsConf.Tron.Params("addr_prefix"))
