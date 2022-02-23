@@ -72,7 +72,7 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
             # Decode from base58
             addr_dec_bytes = Base58Decoder.CheckDecode(addr)
         except Base58ChecksumError as ex:
-            raise ValueError("Invalid base58 checksum") from ex
+            raise ValueError("Invalid Base58 checksum") from ex
         else:
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec_bytes, NeoAddrConst.ADDR_BYTE_LEN)
