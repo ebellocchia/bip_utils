@@ -109,7 +109,7 @@ Supported Substrate coins:
 
 For what regards Monero, it's also possible to generate the same addresses of the official wallets without using BIP44 derivation.
 
-Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...), the generated keys and addresses are valid for all the related tokens.\
+Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...), the generated keys and addresses are valid for all the related tokens.
 
 ## Install the package
 
