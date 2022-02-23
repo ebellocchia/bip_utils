@@ -35,8 +35,8 @@ from bip_utils.utils.misc import CryptoUtils
 class ZilAddrConst:
     """Class container for Zilliqa address constants."""
 
-    # Digest length in bytes
-    DIGEST_BYTE_LEN: int = 20
+    # SHA-256 length in bytes
+    SHA256_BYTE_LEN: int = 20
 
 
 class ZilAddr(IAddrDecoder, IAddrEncoder):
@@ -65,9 +65,9 @@ class ZilAddr(IAddrDecoder, IAddrEncoder):
             addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Zilliqa.Params("addr_hrp"),
                                                   addr)
         except (Bech32ChecksumError, Bech32FormatError) as ex:
-            raise ValueError("Invalid Bech32 encoding") from ex
+            raise ValueError("Invalid bech32 encoding") from ex
         else:
-            AddrDecUtils.ValidateLength(addr_dec_bytes, ZilAddrConst.DIGEST_BYTE_LEN)
+            AddrDecUtils.ValidateLength(addr_dec_bytes, ZilAddrConst.SHA256_BYTE_LEN)
             return addr_dec_bytes
 
     @staticmethod
@@ -91,4 +91,4 @@ class ZilAddr(IAddrDecoder, IAddrEncoder):
 
         key_hash = CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())
         return Bech32Encoder.Encode(CoinsConf.Zilliqa.Params("addr_hrp"),
-                                    key_hash[-ZilAddrConst.DIGEST_BYTE_LEN:])
+                                    key_hash[-ZilAddrConst.SHA256_BYTE_LEN:])

@@ -89,7 +89,8 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
                                     Secp256k1PublicKey.CompressedLength() + EosAddrConst.CHECKSUM_BYTE_LEN)
 
         # Get back checksum and public key bytes
-        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes, EosAddrConst.CHECKSUM_BYTE_LEN)
+        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
+                                                                          EosAddrConst.CHECKSUM_BYTE_LEN)
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _EosAddrUtils.ComputeChecksum)
         # Validate public key

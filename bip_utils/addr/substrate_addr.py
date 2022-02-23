@@ -53,7 +53,7 @@ class _SubstrateAddrUtils:
         """
 
         try:
-            # Decode from SS58 (SS58Decoder.Decode also checks the length)
+            # Decode from SS58 (SS58Decoder.Decode also validates the length)
             ss58_format_got, addr_dec_bytes = SS58Decoder.Decode(addr)
         except SS58ChecksumError as ex:
             raise ValueError("Invalid SS58 encoding") from ex

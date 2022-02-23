@@ -38,8 +38,6 @@ class NeoAddrConst:
     PREFIX: bytes = b"\x21"
     # Address suffix
     SUFFIX: bytes = b"\xac"
-    # Address length in bytes
-    ADDR_BYTE_LEN: int = 21
 
 
 class NeoAddr(IAddrDecoder, IAddrEncoder):
@@ -66,7 +64,7 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
         Raises:
             ValueError: If the address encoding is not valid
         """
-        ver_byte = kwargs["ver"]
+        ver_bytes = kwargs["ver"]
 
         try:
             # Decode from base58
@@ -75,11 +73,12 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
             raise ValueError("Invalid Base58 checksum") from ex
         else:
             # Validate length
-            AddrDecUtils.ValidateLength(addr_dec_bytes, NeoAddrConst.ADDR_BYTE_LEN)
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        CryptoUtils.Hash160DigestSize() + len(ver_bytes))
             # Check version
             ver_got = ConvUtils.IntegerToBytes(addr_dec_bytes[0])
-            if ver_byte != ver_got:
-                raise ValueError(f"Invalid version (expected {ConvUtils.BytesToHexString(ver_byte)}, "
+            if ver_bytes != ver_got:
+                raise ValueError(f"Invalid version (expected {ConvUtils.BytesToHexString(ver_bytes)}, "
                                  f"got {ConvUtils.BytesToHexString(ver_got)}")
 
             return addr_dec_bytes[1:]
@@ -103,7 +102,7 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        ver = kwargs["ver"]
+        ver_bytes = kwargs["ver"]
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetNist256p1Key(pub_key)
 
@@ -112,4 +111,4 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
                          + pub_key_obj.RawCompressed().ToBytes()
                          + NeoAddrConst.SUFFIX)
         # Encode to base58
-        return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload_bytes))
+        return Base58Encoder.CheckEncode(ver_bytes + CryptoUtils.Hash160(payload_bytes))

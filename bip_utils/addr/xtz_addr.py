@@ -44,8 +44,8 @@ class XtzAddrPrefixes(Enum):
 class XtzAddrConst:
     """Class container for Tezos address constants."""
 
-    # Digest length in bytes
-    DIGEST_BYTE_LEN: int = 20
+    # Blake2b length in bytes
+    BLAKE2B_BYTE_LEN: int = 20
 
 
 class XtzAddr(IAddrDecoder, IAddrEncoder):
@@ -83,11 +83,11 @@ class XtzAddr(IAddrDecoder, IAddrEncoder):
         try:
             addr_dec_bytes = Base58Decoder.CheckDecode(addr)
         except Base58ChecksumError as ex:
-            raise ValueError("Invalid Base58 checksum") from ex
+            raise ValueError("Invalid base58 checksum") from ex
         else:
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        len(prefix.value) + XtzAddrConst.DIGEST_BYTE_LEN)
+                                        len(prefix.value) + XtzAddrConst.BLAKE2B_BYTE_LEN)
             # Validate and remove prefix
             blake_bytes = AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix.value)
 
@@ -123,6 +123,6 @@ class XtzAddr(IAddrDecoder, IAddrEncoder):
 
         # Compute Blake2b and encode in base58 with checksum
         blake_bytes = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
-                                          digest_size=XtzAddrConst.DIGEST_BYTE_LEN)
+                                          digest_size=XtzAddrConst.BLAKE2B_BYTE_LEN)
 
         return Base58Encoder.CheckEncode(prefix.value + blake_bytes)

@@ -58,7 +58,7 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
             addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Elrond.Params("addr_hrp"),
                                                   addr)
         except (Bech32ChecksumError, Bech32FormatError) as ex:
-            raise ValueError("Invalid Bech32 encoding") from ex
+            raise ValueError("Invalid bech32 encoding") from ex
         else:
             AddrDecUtils.ValidateLength(addr_dec_bytes,
                                         Ed25519PublicKey.CompressedLength() - 1)

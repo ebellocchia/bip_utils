@@ -31,13 +31,6 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
 
-class AtomAddrConst:
-    """Class container for Atom address constants."""
-
-    # Decoded length in bytes
-    ADDR_DEC_BYTE_LEN: int = 20
-
-
 class AtomAddr(IAddrDecoder, IAddrEncoder):
     """
     Atom address class.
@@ -67,9 +60,10 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
         try:
             addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
         except (Bech32ChecksumError, Bech32FormatError) as ex:
-            raise ValueError("Invalid Bech32 encoding") from ex
+            raise ValueError("Invalid bech32 encoding") from ex
         else:
-            AddrDecUtils.ValidateLength(addr_dec_bytes, AtomAddrConst.ADDR_DEC_BYTE_LEN)
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        CryptoUtils.Hash160DigestSize())
             return addr_dec_bytes
 
     @staticmethod

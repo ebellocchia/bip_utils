@@ -57,7 +57,7 @@ class OkexAddr(IAddrDecoder, IAddrEncoder):
             addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.OkexChain.Params("addr_hrp"),
                                                   addr)
         except (Bech32ChecksumError, Bech32FormatError) as ex:
-            raise ValueError("Invalid Bech32 encoding") from ex
+            raise ValueError("Invalid bech32 encoding") from ex
         else:
             return EthAddr.DecodeAddr(
                 CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_dec_bytes),

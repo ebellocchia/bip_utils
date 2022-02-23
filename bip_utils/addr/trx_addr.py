@@ -25,18 +25,11 @@ from typing import Any, Union
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.base58 import Base58Decoder, Base58Encoder
+from bip_utils.addr.eth_addr import EthAddrConst, EthAddr
+from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
-
-
-class TrxAddrConst:
-    """Class container for Tron address constants."""
-
-    # Address length in bytes
-    ADDR_BYTE_LEN: int = 21
 
 
 class TrxAddr(IAddrDecoder, IAddrEncoder):
@@ -62,16 +55,21 @@ class TrxAddr(IAddrDecoder, IAddrEncoder):
             ValueError: If the address encoding is not valid
         """
 
-        # Decode from base58
-        addr_dec = Base58Decoder.CheckDecode(addr)
-        # Validate length
-        AddrDecUtils.ValidateLength(addr_dec, TrxAddrConst.ADDR_BYTE_LEN)
-        # Validate and remove prefix
-        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
-                                                              CoinsConf.Tron.Params("addr_prefix"))
+        try:
+            # Decode from base58
+            addr_dec = Base58Decoder.CheckDecode(addr)
+        except Base58ChecksumError as ex:
+            raise ValueError("Invalid base58 checksum") from ex
+        else:
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec,
+                                        EthAddrConst.ADDR_LEN + len(CoinsConf.Tron.Params("addr_prefix")))
+            # Validate and remove prefix
+            addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
+                                                                  CoinsConf.Tron.Params("addr_prefix"))
 
-        return EthAddr.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_no_prefix),
-                                  skip_chksum_enc=True)
+            return EthAddr.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_no_prefix),
+                                      skip_chksum_enc=True)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],

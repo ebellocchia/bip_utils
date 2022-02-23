@@ -46,8 +46,8 @@ class FilAddrConst:
 
     # Alphabet for base32
     BASE32_ALPHABET: str = "abcdefghijklmnopqrstuvwxyz234567"
-    # Digest length in bytes
-    DIGEST_BYTE_LEN: int = 20
+    # Blake2b length in bytes
+    BLAKE2B_BYTE_LEN: int = 20
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
 
@@ -99,7 +99,7 @@ class _FilAddrUtils:
         addr_dec_bytes = Base32Decoder.Decode(addr_no_prefix[1:], FilAddrConst.BASE32_ALPHABET)
         # Validate length
         AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                    FilAddrConst.DIGEST_BYTE_LEN + FilAddrConst.CHECKSUM_BYTE_LEN)
+                                    FilAddrConst.BLAKE2B_BYTE_LEN + FilAddrConst.CHECKSUM_BYTE_LEN)
 
         # Get back checksum and public key bytes
         pub_key_hash_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
@@ -129,7 +129,7 @@ class _FilAddrUtils:
 
         # Compute public key hash and checksum
         pub_key_hash_bytes = CryptoUtils.Blake2b(pub_key_bytes,
-                                                 digest_size=FilAddrConst.DIGEST_BYTE_LEN)
+                                                 digest_size=FilAddrConst.BLAKE2B_BYTE_LEN)
         checksum_bytes = _FilAddrUtils.ComputeChecksum(pub_key_hash_bytes, addr_type)
         # Encode to base32
         b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash_bytes + checksum_bytes, FilAddrConst.BASE32_ALPHABET)
