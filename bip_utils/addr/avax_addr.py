@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.atom_addr import AtomAddr
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -50,10 +51,8 @@ class _AvaxAddrUtils:
         Raises:
             ValueError: If the address encoding is not valid
         """
-        prefix_got = addr[:len(prefix)]
-        if prefix != prefix_got:
-            raise ValueError(f"Invalid prefix (expected {prefix}, got {prefix_got}")
-        return AtomAddr.DecodeAddr(addr[len(prefix):], hrp=hrp)
+        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr, prefix)
+        return AtomAddr.DecodeAddr(addr_no_prefix, hrp=hrp)
 
 
 class AvaxPChainAddr(IAddrDecoder, IAddrEncoder):
