@@ -65,9 +65,9 @@ TEST_VECT_DEC_INVALID = [
     # Invalid prefix
     "EAS5zD4eXtvBmLhzmj9CtvuG2wxwuKcTbYxYwsGpPvKe68ExHjJsc",
     # Invalid checksum
-    "EOS8fGAt3L5oXQeXwnZDpWvXeipNi8FcrfUbL79TiD55za9CZO3pr",
+    "EOS8JqoRy3T3ok9cN2WtcPkFDYowcpNTtwBs951NLxN5685CU8jMo",
     # Invalid encoding
-    "EOS7nSvqZzS3zVr3CLvdz29nnSaxtB1rFyeXPTeJRex7SFF67r3Ze",
+    "EOS7jgqNtYBCGb4fLDFepiBBxFbpcEPTXCKLihH9GtKf4QiGcV2X0",
     # Invalid public key
     "EOS1xDQ9DtsmxpSaTECu82Hpz7qd324jjMHcB8urMxy9R5mFNVYaw",
     # Invalid lengths
