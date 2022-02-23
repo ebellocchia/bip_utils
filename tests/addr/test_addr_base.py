@@ -66,7 +66,12 @@ class AddrBaseTestHelper:
         for key in test_vector_inv_keys:
             ut_class.assertRaises(ValueError, addr_class.EncodeKey, key, **addr_params)
 
-    # Test invalid parameters
+    # Test invalid parameters (decoding)
     @staticmethod
-    def test_invalid_params(ut_class, addr_class, pub_key, err_params, ex_type):
+    def test_invalid_params_dec(ut_class, addr_class, pub_key, err_params, ex_type):
+        ut_class.assertRaises(ex_type, addr_class.DecodeAddr, pub_key, **err_params)
+
+    # Test invalid parameters (encoding)
+    @staticmethod
+    def test_invalid_params_enc(ut_class, addr_class, pub_key, err_params, ex_type):
         ut_class.assertRaises(ex_type, addr_class.EncodeKey, pub_key, **err_params)
