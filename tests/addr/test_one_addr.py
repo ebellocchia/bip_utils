@@ -63,11 +63,13 @@ TEST_VECT = [
 # Tests for decoding with invalid strings
 TEST_VECT_DEC_INVALID = [
     # Invalid HRP
-    "ine1exasl02q0arrfkfmafvp7eq4samqa7m7qe4lv6",
+    "ine1wj4nhg2k54aersyvjrgkv9js4sq74tajqxe3ej",
+    # No separator
+    "oneexasl02q0arrfkfmafvp7eq4samqa7m7qe4lv6",
     # Invalid checksum
     "one13ml09c5zxqgtn0quzgwn8xvx79qe5p4x04nmur",
     # Invalid encoding
-    "one1exasl02q0arrfkfmafvp7eq4samqa7m7qe4lv61",
+    "one1exasl02q0brrfkfmafvp7eq4samqa7m7qe4lv6",
     # Invalid lengths
     "one1lmew9q3szzumc8qjr5eenph3gxdqdfszc5jv6",
     "one1rj80auhzsgcppwdursfp6vuesmc5rxsx5cuckdqn"

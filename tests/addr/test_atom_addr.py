@@ -105,11 +105,13 @@ TEST_VECT = [
 # Tests for decoding with invalid strings
 TEST_VECT_DEC_INVALID = [
     # Invalid HRP
-    "cosmis1zewfm2c4s6uv5s4rywksqden8dvya4wmqyyvek",
+    "cosmis1pgmhz30d29akc670hkaje398hl6hvh0c5w0gly",
+    # No separator
+    "cosmoszewfm2c4s6uv5s4rywksqden8dvya4wmqyyvek",
     # Invalid checksum
     "cosmos19c3mc3hp8y624tae0mfnmxse9h49kv2pqltkj0",
     # Invalid encoding
-    "cosmos1lwjdd82uj4fqhu8nqw5d959rhys58dccwpz37u1",
+    "cosmos1lwjdb82uj4fqhu8nqw5d959rhys58dccwpz37u",
     # Invalid lengths
     "cosmos15ntf6hy42g9lpucr4rfdpgaey9pmwxq3al8gd",
     "cosmos1zx807pf53fgwnhnu6du3xvsqk6yruz7adepaaz6q0szyp57m63hqpwdtkp",
