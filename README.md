@@ -1508,8 +1508,9 @@ A watch-only class can be constructed from the private view key and the public s
 
 ## Addresses encoding/decoding
 
-These libraries are used internally by the other modules, but they are available also for external use.
-When decoding an address, *ValueError* will be raised in case the encoding is not valid.
+These libraries are used internally by the other modules, but they are available also for external use.\
+When decoding an address, *ValueError* will be raised in case the encoding is not valid.\
+So, to validate an address, just try to decode it and catch the *ValueError* exception.
 
 **Code example**
 
@@ -1865,7 +1866,9 @@ It supports both normal encode/decode and check_encode/check_decode with Bitcoin
 
     # Normal decode
     dec = Base58Decoder.Decode(enc)
-    # Check decode, Base58ChecksumError is raised if checksum verification fails
+    # Check decode
+    # Base58ChecksumError is raised if checksum verification fails
+    # ValueError is raised in case of encoding errors
     chk_dec = Base58Decoder.CheckDecode(chk_enc)
 
     # Same as before with Ripple alphabet
@@ -1910,7 +1913,9 @@ This library is used internally by the other modules, but it's available also fo
 
     # Encode with bech32
     enc = Bech32Encoder.Encode("cosmos", data_bytes)
-    # Decode with bech32, Bech32ChecksumError is raised if checksum verification fails
+    # Decode with bech32
+    # Bech32ChecksumError is raised if checksum verification fails
+    # ValueError is raised  in case of encoding errors
     dec = Bech32Decoder.Decode("cosmos", enc)
 
     # Encode with segwit bech32
