@@ -295,6 +295,21 @@ class Bip44Conf:
         addr_params={},
     )
 
+    # Configuration for Chihuahua
+    Chihuahua: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Chihuahua.CoinNames(),
+        coin_idx=118,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=AtomAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.Chihuahua.Params("addr_hrp"),
+        },
+    )
+
     # Configuration for Cosmos
     Cosmos: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.Cosmos.CoinNames(),

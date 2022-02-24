@@ -42,6 +42,7 @@ class Bip44Coins(BipCoins):
     BITCOIN_CASH_SLP = auto()
     BITCOIN_SV = auto()
     CELO = auto()
+    CHIHUAHUA = auto()
     COSMOS = auto()
     DASH = auto()
     DOGECOIN = auto()

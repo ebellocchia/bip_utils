@@ -49,6 +49,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.BITCOIN_SV: Bip44Conf.BitcoinSvMainNet,
         Bip44Coins.BITCOIN_SV_TESTNET: Bip44Conf.BitcoinSvTestNet,
         Bip44Coins.CELO: Bip44Conf.Celo,
+        Bip44Coins.CHIHUAHUA: Bip44Conf.Chihuahua,
         Bip44Coins.COSMOS: Bip44Conf.Cosmos,
         Bip44Coins.DASH: Bip44Conf.DashMainNet,
         Bip44Coins.DASH_TESTNET: Bip44Conf.DashTestNet,

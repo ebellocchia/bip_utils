@@ -225,6 +225,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Chihuahua
+    Chihuahua: CoinConf = CoinConf(
+        coin_name=CoinNames("Chihuahua", "HUAHUA"),
+        params={
+            "addr_hrp": "chihuahua",
+        },
+    )
+
     # Configuration for Cosmos
     Cosmos: CoinConf = CoinConf(
         coin_name=CoinNames("Cosmos", "ATOM"),
