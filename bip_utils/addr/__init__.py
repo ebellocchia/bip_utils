@@ -23,18 +23,18 @@ from bip_utils.addr.P2SH_addr import (
     BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr,
     P2SHAddrDecoder, P2SHAddrEncoder, P2SHAddr
 )
-from bip_utils.addr.P2WPKH_addr import P2WPKHAddrDecoder, P2WPKHAddrEncoder
-from bip_utils.addr.sol_addr import SolAddrDecoder, SolAddrEncoder
+from bip_utils.addr.P2WPKH_addr import P2WPKHAddrDecoder, P2WPKHAddrEncoder, P2WPKHAddr
+from bip_utils.addr.sol_addr import SolAddrDecoder, SolAddrEncoder, SolAddr
 from bip_utils.addr.substrate_addr import (
     SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateEd25519Addr,
     SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SubstrateSr25519Addr
 )
-from bip_utils.addr.trx_addr import TrxAddrDecoder, TrxAddrEncoder
-from bip_utils.addr.xlm_addr import XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder
+from bip_utils.addr.trx_addr import TrxAddrDecoder, TrxAddrEncoder, TrxAddr
+from bip_utils.addr.xlm_addr import XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder, XlmAddr
 from bip_utils.addr.xmr_addr import (
     XmrAddrDecoder, XmrAddrEncoder, XmrAddr,
     XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XmrIntegratedAddr
 )
-from bip_utils.addr.xrp_addr import XrpAddrDecoder, XrpAddrEncoder
-from bip_utils.addr.xtz_addr import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder
-from bip_utils.addr.zil_addr import ZilAddrDecoder, ZilAddrEncoder
+from bip_utils.addr.xrp_addr import XrpAddrDecoder, XrpAddrEncoder, XrpAddr
+from bip_utils.addr.xtz_addr import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder, XtzAddr
+from bip_utils.addr.zil_addr import ZilAddrDecoder, ZilAddrEncoder, ZilAddr

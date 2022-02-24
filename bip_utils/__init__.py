@@ -39,17 +39,17 @@ from bip_utils.addr import (
     P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHAddr,
     BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr,
     P2SHAddrDecoder, P2SHAddrEncoder, P2SHAddr,
-    P2WPKHAddrDecoder, P2WPKHAddrEncoder,
-    SolAddrDecoder, SolAddrEncoder,
+    P2WPKHAddrDecoder, P2WPKHAddrEncoder, P2WPKHAddr,
+    SolAddrDecoder, SolAddrEncoder, SolAddr,
     SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateEd25519Addr,
     SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SubstrateSr25519Addr,
-    TrxAddrDecoder, TrxAddrEncoder,
-    XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder,
+    TrxAddrDecoder, TrxAddrEncoder, TrxAddr,
+    XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder, XlmAddr,
     XmrAddrDecoder, XmrAddrEncoder, XmrAddr,
     XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XmrIntegratedAddr,
-    XrpAddrDecoder, XrpAddrEncoder,
-    XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder,
-    ZilAddrDecoder, ZilAddrEncoder
+    XrpAddrDecoder, XrpAddrEncoder, XrpAddr,
+    XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder, XtzAddr,
+    ZilAddrDecoder, ZilAddrEncoder, ZilAddr
 )
 # Generic coins configuration
 from bip_utils.coin_conf import CoinsConf
