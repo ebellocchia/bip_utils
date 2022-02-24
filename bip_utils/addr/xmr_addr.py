@@ -22,11 +22,13 @@
 
 # Imports
 from typing import Any, Optional, Union
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.base58 import Base58XmrEncoder
-from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.base58 import Base58XmrDecoder, Base58XmrEncoder
+from bip_utils.ecc import Ed25519MoneroPublicKey, IPublicKey
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class XmrAddrConst:
@@ -38,22 +40,92 @@ class XmrAddrConst:
     PAYMENT_ID_BYTE_LEN: int = 8
 
 
-class XmrAddrUtils:
+class _XmrAddrUtils:
     """Class container for Monero address utility functions."""
 
     @staticmethod
-    def EncodeKeyGeneric(pub_skey: Union[bytes, IPublicKey],
-                         pub_vkey: Union[bytes, IPublicKey],
-                         net_ver: bytes,
-                         payment_id: Optional[bytes] = None) -> str:
+    def ComputeChecksum(payload_bytes: bytes) -> bytes:
         """
-        Get address in Monero format.
+        Compute checksum in EOS format.
 
         Args:
-            pub_skey (bytes or IPublicKey): Public spend key bytes or object
-            pub_vkey (bytes or IPublicKey): Public view key bytes or object
-            net_ver (bytes)               : Net version
-            payment_id (bytes, optional)  : Payment ID (only for integrated addresses)
+            payload_bytes (bytes): Payload bytes
+
+        Returns:
+            bytes: Computed checksum
+        """
+        return CryptoUtils.Kekkak256(payload_bytes)[:XmrAddrConst.CHECKSUM_BYTE_LEN]
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   net_ver_bytes: bytes,
+                   payment_id_bytes: Optional[bytes] = None) -> bytes:
+        """
+        Decode a Monero address to bytes.
+
+        Args:
+            addr (str)                       : Address string
+            net_ver_bytes (bytes)            : Net version
+           payment_id_bytes (bytes, optional): Payment ID (only for integrated addresses)
+
+        Returns:
+            bytes: Public spend (first) and view (second) keys joined together
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Decode from base58 XMR
+        addr_dec_bytes = Base58XmrDecoder.Decode(addr)
+        # Validate, remove prefix and split
+        payload_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
+                                                                          XmrAddrConst.CHECKSUM_BYTE_LEN)
+        # Validate checksum
+        AddrDecUtils.ValidateChecksum(payload_bytes, checksum_bytes, _XmrAddrUtils.ComputeChecksum)
+        # Validate and remove prefix
+        payload_bytes = AddrDecUtils.ValidateAndRemovePrefix(payload_bytes, net_ver_bytes)
+
+        try:
+            # Validate length without payment ID
+            AddrDecUtils.ValidateLength(payload_bytes,
+                                        Ed25519MoneroPublicKey.CompressedLength() * 2)
+        except ValueError:
+            # Validate length with payment ID
+            AddrDecUtils.ValidateLength(payload_bytes,
+                                        (Ed25519MoneroPublicKey.CompressedLength() * 2)
+                                        + XmrAddrConst.PAYMENT_ID_BYTE_LEN)
+            # Check payment ID
+            if payment_id_bytes is None or len(payment_id_bytes) != XmrAddrConst.PAYMENT_ID_BYTE_LEN:
+                raise ValueError("Invalid payment ID length")
+
+            payment_id_got_bytes = payload_bytes[-XmrAddrConst.PAYMENT_ID_BYTE_LEN:]
+            if payment_id_bytes != payment_id_got_bytes:
+                raise ValueError(f"Invalid payment ID (expected {ConvUtils.BytesToHexString(payment_id_bytes)}, "
+                                 f"got {ConvUtils.BytesToHexString(payment_id_got_bytes)})")
+
+        # Validate public spend key
+        pub_spend_key_bytes = payload_bytes[:Ed25519MoneroPublicKey.CompressedLength()]
+        AddrDecUtils.ValidatePubKey(pub_spend_key_bytes, Ed25519MoneroPublicKey)
+        # Validate public view key
+        pub_view_key_bytes = payload_bytes[Ed25519MoneroPublicKey.CompressedLength():
+                                           Ed25519MoneroPublicKey.CompressedLength() * 2]
+        AddrDecUtils.ValidatePubKey(pub_view_key_bytes, Ed25519MoneroPublicKey)
+
+        return pub_spend_key_bytes + pub_view_key_bytes
+
+    @staticmethod
+    def EncodeKey(pub_skey: Union[bytes, IPublicKey],
+                  pub_vkey: Union[bytes, IPublicKey],
+                  net_ver_bytes: bytes,
+                  payment_id_bytes: Optional[bytes] = None) -> str:
+        """
+        Encode a public key to Monero address.
+
+        Args:
+            pub_skey (bytes or IPublicKey)    : Public spend key bytes or object
+            pub_vkey (bytes or IPublicKey)    : Public view key bytes or object
+            net_ver_bytes (bytes)             : Net version
+            payment_id_bytes (bytes, optional): Payment ID (only for integrated addresses)
 
         Returns:
             str: Address string
@@ -62,33 +134,54 @@ class XmrAddrUtils:
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519-monero
         """
-        if payment_id is not None and len(payment_id) != XmrAddrConst.PAYMENT_ID_BYTE_LEN:
-            raise ValueError("Invalid payment ID")
+        if payment_id_bytes is not None and len(payment_id_bytes) != XmrAddrConst.PAYMENT_ID_BYTE_LEN:
+            raise ValueError("Invalid payment ID length")
 
-        payment_id = b"" if payment_id is None else payment_id
+        payment_id_bytes = b"" if payment_id_bytes is None else payment_id_bytes
         pub_spend_key_obj = AddrKeyValidator.ValidateAndGetEd25519MoneroKey(pub_skey)
         pub_view_key_obj = AddrKeyValidator.ValidateAndGetEd25519MoneroKey(pub_vkey)
 
-        data = (net_ver
-                + pub_spend_key_obj.RawCompressed().ToBytes()
-                + pub_view_key_obj.RawCompressed().ToBytes()
-                + payment_id)
-        checksum = CryptoUtils.Kekkak256(data)
+        payload_bytes = (net_ver_bytes
+                         + pub_spend_key_obj.RawCompressed().ToBytes()
+                         + pub_view_key_obj.RawCompressed().ToBytes()
+                         + payment_id_bytes)
 
-        return Base58XmrEncoder.Encode(data + checksum[:XmrAddrConst.CHECKSUM_BYTE_LEN])
+        return Base58XmrEncoder.Encode(payload_bytes + _XmrAddrUtils.ComputeChecksum(payload_bytes))
 
 
-class XmrAddr(IAddrEncoder):
+class XmrAddr(IAddrDecoder, IAddrEncoder):
     """
     Monero address class.
-    It allows the Monero address generation.
+    It allows the Monero address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Monero address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            net_ver (bytes): Net version
+
+        Returns:
+            bytes: Public spend (first) and view (second) keys joined together
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        net_ver = kwargs["net_ver"]
+
+        return _XmrAddrUtils.DecodeAddr(addr, net_ver)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Monero format.
+        Encode a public key to Monero format.
 
         Args:
             pub_key (bytes or IPublicKey): Public spend key bytes or object
@@ -108,20 +201,44 @@ class XmrAddr(IAddrEncoder):
         pub_vkey = kwargs["pub_vkey"]
         net_ver = kwargs["net_ver"]
 
-        return XmrAddrUtils.EncodeKeyGeneric(pub_key, pub_vkey, net_ver)
+        return _XmrAddrUtils.EncodeKey(pub_key, pub_vkey, net_ver)
 
 
-class XmrIntegratedAddr(IAddrEncoder):
+class XmrIntegratedAddr(IAddrDecoder, IAddrEncoder):
     """
     Monero integrated address class.
-    It allows the Monero integrated address generation.
+    It allows the Monero integrated address encoding/decoding.
     """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Monero address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            net_ver (bytes)   : Net version
+            payment_id (bytes): Payment ID
+
+        Returns:
+            bytes: Public spend (first) and view (second) keys joined together
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        net_ver = kwargs["net_ver"]
+        payment_id = kwargs["payment_id"]
+
+        return _XmrAddrUtils.DecodeAddr(addr, net_ver, payment_id)
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get Monero integrated address.
+        Encode a public key to Monero integrated address.
 
         Args:
             pub_key (bytes or IPublicKey): Public spend key bytes or object
@@ -142,4 +259,4 @@ class XmrIntegratedAddr(IAddrEncoder):
         net_ver = kwargs["net_ver"]
         payment_id = kwargs["payment_id"]
 
-        return XmrAddrUtils.EncodeKeyGeneric(pub_key, pub_vkey, net_ver, payment_id)
+        return _XmrAddrUtils.EncodeKey(pub_key, pub_vkey, net_ver, payment_id)
