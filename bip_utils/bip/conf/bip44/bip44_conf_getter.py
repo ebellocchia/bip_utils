@@ -33,6 +33,7 @@ class Bip44ConfGetterConst:
 
     # Map from Bip44Coins to configuration classes
     COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
+        Bip44Coins.AKASH_NETWORK: Bip44Conf.AkashNetwork,
         Bip44Coins.ALGORAND: Bip44Conf.Algorand,
         Bip44Coins.AVAX_C_CHAIN: Bip44Conf.AvaxCChain,
         Bip44Coins.AVAX_P_CHAIN: Bip44Conf.AvaxPChain,
@@ -49,6 +50,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.BITCOIN_SV: Bip44Conf.BitcoinSvMainNet,
         Bip44Coins.BITCOIN_SV_TESTNET: Bip44Conf.BitcoinSvTestNet,
         Bip44Coins.CELO: Bip44Conf.Celo,
+        Bip44Coins.CERTIK: Bip44Conf.Certik,
         Bip44Coins.CHIHUAHUA: Bip44Conf.Chihuahua,
         Bip44Coins.COSMOS: Bip44Conf.Cosmos,
         Bip44Coins.DASH: Bip44Conf.DashMainNet,

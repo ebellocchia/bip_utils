@@ -46,6 +46,21 @@ _BIP44_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32Const.TEST_NET_KEY_NET_V
 class Bip44Conf:
     """Class container for Bip44 configuration."""
 
+    # Configuration for Akash Network
+    AkashNetwork: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.AkashNetwork.CoinNames(),
+        coin_idx=118,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=AtomAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.AkashNetwork.Params("addr_hrp"),
+        },
+    )
+
     # Configuration for Algorand
     Algorand: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.Algorand.CoinNames(),
@@ -293,6 +308,21 @@ class Bip44Conf:
         bip32_cls=Bip32Secp256k1,
         addr_cls=EthAddrEncoder,
         addr_params={},
+    )
+
+    # Configuration for Certik
+    Certik: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Certik.CoinNames(),
+        coin_idx=118,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=AtomAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.Certik.Params("addr_hrp"),
+        },
     )
 
     # Configuration for Chihuahua

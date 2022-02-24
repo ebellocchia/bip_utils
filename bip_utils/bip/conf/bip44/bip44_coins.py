@@ -30,6 +30,7 @@ class Bip44Coins(BipCoins):
     """Enumerative for supported BIP44 coins."""
 
     # Main nets
+    AKASH_NETWORK = auto()
     ALGORAND = auto()
     AVAX_C_CHAIN = auto()
     AVAX_P_CHAIN = auto()
@@ -42,6 +43,7 @@ class Bip44Coins(BipCoins):
     BITCOIN_CASH_SLP = auto()
     BITCOIN_SV = auto()
     CELO = auto()
+    CERTIK = auto()
     CHIHUAHUA = auto()
     COSMOS = auto()
     DASH = auto()

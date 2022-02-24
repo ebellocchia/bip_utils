@@ -51,6 +51,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Akash Network
+    AkashNetwork: CoinConf = CoinConf(
+        coin_name=CoinNames("Akash Network", "AKT"),
+        params={
+            "addr_hrp": "akash",
+        },
+    )
+
     # Configuration for Algorand
     Algorand: CoinConf = CoinConf(
         coin_name=CoinNames("Algorand", "ALGO"),
@@ -215,6 +223,14 @@ class CoinsConf:
     Celo: CoinConf = CoinConf(
         coin_name=CoinNames("Celo", "CELO"),
         params={},
+    )
+
+    # Configuration for Certik
+    Certik: CoinConf = CoinConf(
+        coin_name=CoinNames("Certik", "CTK"),
+        params={
+            "addr_hrp": "certik",
+        },
     )
 
     # Configuration for ChainX
