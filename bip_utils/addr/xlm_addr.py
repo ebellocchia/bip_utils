@@ -29,7 +29,7 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 
 
 @unique
@@ -61,7 +61,7 @@ class _XlmAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        return ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload_bytes))
+        return BytesUtils.Reverse(CryptoUtils.XModemCrc(payload_bytes))
 
 
 class XlmAddrDecoder(IAddrDecoder):
@@ -151,7 +151,7 @@ class XlmAddrEncoder(IAddrEncoder):
 
         # Get public key
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
-        payload_bytes = ConvUtils.IntegerToBytes(addr_type) + pub_key_obj.RawCompressed().ToBytes()[1:]
+        payload_bytes = IntegerUtils.ToBytes(addr_type) + pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
         checksum_bytes = _XlmAddrUtils.ComputeChecksum(payload_bytes)

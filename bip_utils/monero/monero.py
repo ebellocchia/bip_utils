@@ -30,7 +30,7 @@ from bip_utils.monero.conf import MoneroCoins, MoneroCoinConf, MoneroConfGetter
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.monero.monero_subaddr import MoneroSubaddress
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 
 
 class MoneroUtils:
@@ -48,8 +48,8 @@ class MoneroUtils:
         Returns:
             bytes: Lowest 32-bytes modulo ed25519-order
         """
-        data_int = ConvUtils.BytesToInteger(data_bytes, endianness="little")
-        return ConvUtils.IntegerToBytes(data_int % Ed25519Monero.Order(), bytes_num=32, endianness="little")
+        data_int = BytesUtils.ToInteger(data_bytes, endianness="little")
+        return IntegerUtils.ToBytes(data_int % Ed25519Monero.Order(), bytes_num=32, endianness="little")
 
 
 class Monero:

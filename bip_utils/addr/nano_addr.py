@@ -29,7 +29,7 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import Ed25519Blake2bPublicKey, IPublicKey
 from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils
 
 
 class NanoAddrConst:
@@ -59,8 +59,8 @@ class _NanoAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        return ConvUtils.ReverseBytes(CryptoUtils.Blake2b(pub_key_bytes,
-                                                          digest_size=NanoAddrConst.CHECKSUM_BYTE_LEN))
+        return BytesUtils.Reverse(CryptoUtils.Blake2b(pub_key_bytes,
+                                                      digest_size=NanoAddrConst.CHECKSUM_BYTE_LEN))
 
 
 class NanoAddrDecoder(IAddrDecoder):

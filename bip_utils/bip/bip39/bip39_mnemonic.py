@@ -30,7 +30,7 @@ from enum import auto, IntEnum, unique
 from typing import Dict, List, Optional, Union
 from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
 from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils, StringUtils
 from bip_utils.utils.mnemonic import (
     Mnemonic, MnemonicLanguages, MnemonicWordsList, MnemonicWordsListGetterBase
 )
@@ -135,7 +135,7 @@ class Bip39Mnemonic(Mnemonic):
         Returns:
             list: Normalized mnemonic list
         """
-        return list(map(ConvUtils.NormalizeNfkd, mnemonic_list))
+        return list(map(StringUtils.NormalizeNfkd, mnemonic_list))
 
 
 class _Bip39WordsListGetter(MnemonicWordsListGetterBase):
@@ -256,10 +256,10 @@ class Bip39MnemonicEncoder:
             raise ValueError(f"Entropy byte length ({entropy_byte_len}) is not valid")
 
         # Convert entropy to binary string
-        entropy_bin_str = ConvUtils.BytesToBinaryStr(entropy_bytes, entropy_byte_len * 8)
+        entropy_bin_str = BytesUtils.ToBinaryStr(entropy_bytes, entropy_byte_len * 8)
         # Get entropy hash as binary string
-        entropy_hash_bin_str = ConvUtils.BytesToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
-                                                          CryptoUtils.Sha256DigestSize() * 8)
+        entropy_hash_bin_str = BytesUtils.ToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
+                                                      CryptoUtils.Sha256DigestSize() * 8)
         # Get mnemonic binary string by concatenating entropy and checksum
         mnemonic_bin_str = entropy_bin_str + entropy_hash_bin_str[:entropy_byte_len // 4]
 
@@ -269,7 +269,7 @@ class Bip39MnemonicEncoder:
             # Get current word index
             word_bin_str = (mnemonic_bin_str[i * Bip39MnemonicConst.WORD_BIT_LEN:(i + 1)
                             * Bip39MnemonicConst.WORD_BIT_LEN])
-            word_idx = ConvUtils.BinaryStrToInteger(word_bin_str)
+            word_idx = IntegerUtils.FromBinaryStr(word_bin_str)
             # Get word at given index
             mnemonic.append(self.m_words_list.GetWordAtIdx(word_idx))
 
@@ -346,7 +346,7 @@ class Bip39MnemonicDecoder:
                        if mnemonic_bit_len % 8 == 0
                        else mnemonic_bit_len + (8 - mnemonic_bit_len % 8))
 
-        return ConvUtils.BinaryStrToBytes(mnemonic_bin_str, pad_bit_len // 4)
+        return BytesUtils.FromBinaryStr(mnemonic_bin_str, pad_bit_len // 4)
 
     def __DecodeAndVerifyBinaryStr(self,
                                    mnemonic: Union[str, Mnemonic]) -> str:
@@ -403,8 +403,8 @@ class Bip39MnemonicDecoder:
         # Get entropy bytes
         entropy_bytes = self.__EntropyBytesFromBinaryStr(mnemonic_bin_str)
         # Convert entropy hash to binary string
-        entropy_hash_bin_str = ConvUtils.BytesToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
-                                                          CryptoUtils.Sha256DigestSize() * 8)
+        entropy_hash_bin_str = BytesUtils.ToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
+                                                      CryptoUtils.Sha256DigestSize() * 8)
 
         # Return checksum
         return entropy_hash_bin_str[:self.__GetChecksumLen(mnemonic_bin_str)]
@@ -427,7 +427,7 @@ class Bip39MnemonicDecoder:
         entropy_bin_str = mnemonic_bin_str[:-checksum_len]
 
         # Get entropy bytes from binary string
-        return ConvUtils.BinaryStrToBytes(entropy_bin_str, checksum_len * 8)
+        return BytesUtils.FromBinaryStr(entropy_bin_str, checksum_len * 8)
 
     @staticmethod
     def __MnemonicToBinaryStr(mnemonic: Mnemonic,
@@ -447,8 +447,8 @@ class Bip39MnemonicDecoder:
         """
 
         # Convert each word to its index in binary format
-        mnemonic_bin_str = map(lambda word: ConvUtils.IntegerToBinaryStr(words_list.GetWordIdx(word),
-                                                                         Bip39MnemonicConst.WORD_BIT_LEN),
+        mnemonic_bin_str = map(lambda word: IntegerUtils.ToBinaryStr(words_list.GetWordIdx(word),
+                                                                     Bip39MnemonicConst.WORD_BIT_LEN),
                                mnemonic.ToList())
 
         return "".join(mnemonic_bin_str)

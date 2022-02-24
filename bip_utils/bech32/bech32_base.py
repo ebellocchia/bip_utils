@@ -24,7 +24,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Tuple, Union
 from bip_utils.bech32.bech32_ex import Bech32ChecksumError
-from bip_utils.utils.misc import AlgoUtils, ConvUtils
+from bip_utils.utils.misc import AlgoUtils, BitUtils
 
 
 class Bech32BaseConst:
@@ -57,7 +57,7 @@ class Bech32BaseUtils:
         """
 
         # Convert to base32
-        conv_data = ConvUtils.ConvertToBits(data, 8, 5)
+        conv_data = BitUtils.Convert(data, 8, 5)
         if conv_data is None:
             raise ValueError("Invalid data, cannot perform conversion to base32")
 
@@ -78,8 +78,8 @@ class Bech32BaseUtils:
             ValueError: If the string is not valid
         """
 
-        # Convert to base32
-        conv_data = ConvUtils.ConvertToBits(data, 5, 8, False)
+        # Convert from base32
+        conv_data = BitUtils.Convert(data, 5, 8, False)
         if conv_data is None:
             raise ValueError("Invalid data, cannot perform conversion from base32")
 

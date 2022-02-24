@@ -26,7 +26,7 @@ import coincurve
 from bip_utils.ecc.ecdsa_keys import EcdsaKeysConst
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils.misc import ConvUtils, DataBytes
+from bip_utils.utils.misc import DataBytes, IntegerUtils
 
 
 class Secp256k1PointCoincurve(IPoint):
@@ -162,7 +162,7 @@ class Secp256k1PointCoincurve(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1PointCoincurve(self.m_pub_key.multiply(ConvUtils.IntegerToBytes(scalar)))
+        return Secp256k1PointCoincurve(self.m_pub_key.multiply(IntegerUtils.ToBytes(scalar)))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:

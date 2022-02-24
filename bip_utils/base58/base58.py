@@ -24,7 +24,7 @@
 from enum import Enum, auto, unique
 from typing import Dict
 from bip_utils.base58.base58_ex import Base58ChecksumError
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils
 
 
 @unique
@@ -94,7 +94,7 @@ class Base58Encoder:
         alphabet = Base58Const.ALPHABETS[alph_idx]
 
         # Convert bytes to integer
-        val = ConvUtils.BytesToInteger(data_bytes)
+        val = BytesUtils.ToInteger(data_bytes)
 
         # Algorithm implementation
         while val > 0:
@@ -198,8 +198,8 @@ class Base58Decoder:
         # Verify checksum
         if checksum_bytes != checksum_bytes_got:
             raise Base58ChecksumError(
-                f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes_got)}, "
-                f"got {ConvUtils.BytesToHexString(checksum_bytes)})"
+                f"Invalid checksum (expected {BytesUtils.ToHexString(checksum_bytes_got)}, "
+                f"got {BytesUtils.ToHexString(checksum_bytes)})"
             )
 
         return data_bytes

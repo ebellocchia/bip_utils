@@ -25,7 +25,7 @@ from typing import Optional, Tuple
 from bip_utils.addr import XmrAddrEncoder
 from bip_utils.ecc import Ed25519Monero
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 
 
 class MoneroSubaddressConst:
@@ -88,19 +88,17 @@ class MoneroSubaddress:
             return self.m_pub_skey, self.m_pub_vkey
 
         # Convert indexes to bytes
-        major_idx_bytes = ConvUtils.IntegerToBytes(major_idx,
-                                                   bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
-                                                   endianness="little")
-        minor_idx_bytes = ConvUtils.IntegerToBytes(minor_idx,
-                                                   bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
-                                                   endianness="little")
+        major_idx_bytes = IntegerUtils.ToBytes(major_idx, bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
+                                               endianness="little")
+        minor_idx_bytes = IntegerUtils.ToBytes(minor_idx, bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
+                                               endianness="little")
 
         # m = Kekkak256("SubAddr" + master_priv_vkey + major_idx + minor_idx)
         m = CryptoUtils.Kekkak256(MoneroSubaddressConst.SUBADDR_PREFIX
                                   + self.m_priv_vkey.Raw().ToBytes()
                                   + major_idx_bytes
                                   + minor_idx_bytes)
-        m_int = ConvUtils.BytesToInteger(m, endianness="little")
+        m_int = BytesUtils.ToInteger(m, endianness="little")
 
         # Compute subaddress public spend key
         # D = master_pub_skey + m * B

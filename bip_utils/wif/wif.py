@@ -26,7 +26,7 @@ from typing import Tuple, Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 @unique
@@ -141,7 +141,7 @@ class WifDecoder:
             pub_key_mode = WifPubKeyModes.COMPRESSED
         else:
             if not Secp256k1PrivateKey.IsValidBytes(priv_key_bytes):
-                raise ValueError(f"Invalid decoded key ({ConvUtils.BytesToHexString(priv_key_bytes)})")
+                raise ValueError(f"Invalid decoded key ({BytesUtils.ToHexString(priv_key_bytes)})")
             pub_key_mode = WifPubKeyModes.UNCOMPRESSED
 
         return priv_key_bytes, pub_key_mode

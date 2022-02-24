@@ -26,7 +26,7 @@ Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/ca
 # Imports
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 class BchBech32Const:
@@ -208,7 +208,7 @@ class BchBech32Decoder(Bech32DecoderBase):
                 or len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
             raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
-        return ConvUtils.IntegerToBytes(conv_data[0]), ConvUtils.ListToBytes(conv_data[1:])
+        return IntegerUtils.ToBytes(conv_data[0]), BytesUtils.FromList(conv_data[1:])
 
     @staticmethod
     def _VerifyChecksum(hrp: str,

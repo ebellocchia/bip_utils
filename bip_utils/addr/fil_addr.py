@@ -30,7 +30,7 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import CryptoUtils, IntegerUtils
 
 
 @unique
@@ -68,7 +68,7 @@ class _FilAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        addr_type_byte = ConvUtils.IntegerToBytes(addr_type)
+        addr_type_byte = IntegerUtils.ToBytes(addr_type)
         return CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
                                    digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
 

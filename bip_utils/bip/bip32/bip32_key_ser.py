@@ -28,7 +28,7 @@ from bip_utils.bip.bip32.bip32_key_data import (
     Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
 )
 from bip_utils.ecc import IPublicKey, IPrivateKey
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 class Bip32KeyDeserConst:
@@ -87,13 +87,13 @@ class Bip32KeyDeserializer:
             self.m_is_public = False
         else:
             raise Bip32KeyError(
-                f"Invalid extended key (wrong net version: {ConvUtils.BytesToHexString(key_net_ver_got)})"
+                f"Invalid extended key (wrong net version: {BytesUtils.ToHexString(key_net_ver_got)})"
             )
 
         # De-serialize key
         depth = ex_key_bytes[4]
         fprint = ex_key_bytes[5:9]
-        index = ConvUtils.BytesToInteger(ex_key_bytes[9:13])
+        index = BytesUtils.ToInteger(ex_key_bytes[9:13])
         chain_code = ex_key_bytes[13:45]
         self.m_key_bytes = ex_key_bytes[45:78]
         self.m_key_data = Bip32KeyData(key_net_ver,

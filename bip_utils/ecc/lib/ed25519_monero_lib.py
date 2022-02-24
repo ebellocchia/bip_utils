@@ -38,7 +38,7 @@ import six
 import sys
 
 # Added
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 if sys.version_info >= (3,): # pragma: no cover
@@ -222,7 +222,7 @@ def isoncurve(P):
 def decodeint(s):
     #return sum(2 ** i * bit(s, i) for i in range(0, b))
     # Modified
-    return ConvUtils.BytesToInteger(s, endianness="little")
+    return BytesUtils.ToInteger(s, endianness="little")
 
 
 def decodepoint(s):

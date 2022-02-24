@@ -26,7 +26,7 @@ from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.ecc import EllipticCurveGetter
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 class Bip32EcdsaBase(Bip32Base):
@@ -97,12 +97,12 @@ class Bip32EcdsaBase(Bip32Base):
         i_l, i_r = Bip32BaseUtils.HmacHalves(bip32_obj.ChainCode(), data)
 
         # Construct new key secret from i_l and current private key
-        i_l_int = ConvUtils.BytesToInteger(i_l)
-        key_int = ConvUtils.BytesToInteger(bip32_obj.m_priv_key.Raw().ToBytes())
+        i_l_int = BytesUtils.ToInteger(i_l)
+        key_int = BytesUtils.ToInteger(bip32_obj.m_priv_key.Raw().ToBytes())
         new_key_int = (i_l_int + key_int) % curve.Order()
 
         # Convert to string and pad with zeros
-        new_priv_key_bytes = ConvUtils.IntegerToBytes(new_key_int).rjust(curve.PrivateKeyClass().Length(), b"\x00")
+        new_priv_key_bytes = IntegerUtils.ToBytes(new_key_int).rjust(curve.PrivateKeyClass().Length(), b"\x00")
 
         # Construct and return a new Bip32 object
         return cls(priv_key=new_priv_key_bytes,
@@ -141,7 +141,7 @@ class Bip32EcdsaBase(Bip32Base):
 
         # Try to construct a new public key from the curve point: pub_key_point + G*i_l
         try:
-            new_point = bip32_obj.m_pub_key.Point() + (curve.Generator() * ConvUtils.BytesToInteger(i_l))
+            new_point = bip32_obj.m_pub_key.Point() + (curve.Generator() * BytesUtils.ToInteger(i_l))
             pub_key = curve.PublicKeyClass().FromPoint(new_point)
         except ValueError as ex:
             raise Bip32KeyError("Computed public child key is not valid, very unlucky index") from ex

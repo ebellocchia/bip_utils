@@ -37,7 +37,7 @@ from bip_utils import (
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import IntegerUtils
 from bip_utils.ecc.conf import EccConf
 
 # ed25519 order and generator
@@ -91,18 +91,18 @@ TEST_VECT_ED25519_PRIV_KEY_INVALID = TEST_VECT_PRIV_KEY_INVALID_LEN
 
 # Tests for ed25519-monero invalid private keys (add key equal to curve order)
 TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID = TEST_VECT_PRIV_KEY_INVALID_LEN + [
-    binascii.hexlify(ConvUtils.IntegerToBytes(Ed25519Monero.Order(), bytes_num=32, endianness="little")),
+    binascii.hexlify(IntegerUtils.ToBytes(Ed25519Monero.Order(), bytes_num=32, endianness="little")),
 ]
 
 # Tests for nist256p1 invalid private keys (add zero key and key equal to curve order)
 TEST_VECT_NIST256P1_PRIV_KEY_INVALID = TEST_VECT_PRIV_KEY_INVALID_LEN + [
     b"0000000000000000000000000000000000000000000000000000000000000000",
-    binascii.hexlify(ConvUtils.IntegerToBytes(Nist256p1.Order(), bytes_num=32)),
+    binascii.hexlify(IntegerUtils.ToBytes(Nist256p1.Order(), bytes_num=32)),
 ]
 # Tests for secp256k1 invalid private keys (add zero key and key equal to curve order)
 TEST_VECT_SECP256K1_PRIV_KEY_INVALID = TEST_VECT_PRIV_KEY_INVALID_LEN + [
     b"0000000000000000000000000000000000000000000000000000000000000000",
-    binascii.hexlify(ConvUtils.IntegerToBytes(Secp256k1.Order(), bytes_num=32)),
+    binascii.hexlify(IntegerUtils.ToBytes(Secp256k1.Order(), bytes_num=32)),
 ]
 
 # Tests for sr25519 invalid private keys

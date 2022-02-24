@@ -27,7 +27,7 @@ from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 class NearAddrDecoder(IAddrDecoder):
@@ -52,7 +52,7 @@ class NearAddrDecoder(IAddrDecoder):
         Raises:
             ValueError: If the address encoding is not valid
         """
-        pub_key_bytes = ConvUtils.HexStringToBytes(addr)
+        pub_key_bytes = BytesUtils.FromHexString(addr)
         # Validate length
         AddrDecUtils.ValidateLength(pub_key_bytes,
                                     Ed25519PublicKey.CompressedLength() - 1)

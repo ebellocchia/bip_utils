@@ -26,7 +26,7 @@ from nacl import exceptions, signing
 from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils.misc import ConvUtils, DataBytes
+from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
 class Ed25519KeysConst:
@@ -67,7 +67,7 @@ class Ed25519PublicKey(IPublicKey):
 
         # Remove the prefix if present because nacl requires 32-byte length
         if (len(key_bytes) == cls.CompressedLength()
-                and key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
+                and key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
 
         try:

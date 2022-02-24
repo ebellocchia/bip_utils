@@ -24,7 +24,7 @@
 from __future__ import annotations
 from typing import Union
 from bip_utils.bip.bip32.bip32_utils import Bip32Utils
-from bip_utils.utils.misc import ConvUtils, DataBytes
+from bip_utils.utils.misc import DataBytes, IntegerUtils
 
 
 class Bip32KeyDataConst:
@@ -129,8 +129,7 @@ class Bip32Depth:
         Returns:
             bytes: Depth bytes
         """
-        return ConvUtils.IntegerToBytes(self.m_depth,
-                                        bytes_num=Bip32KeyDataConst.DEPTH_BYTE_LEN)
+        return IntegerUtils.ToBytes(self.m_depth, bytes_num=Bip32KeyDataConst.DEPTH_BYTE_LEN)
 
     def ToInt(self) -> int:
         """
@@ -244,8 +243,7 @@ class Bip32KeyIndex:
         Returns:
             bytes: Key bytes
         """
-        return ConvUtils.IntegerToBytes(self.m_idx,
-                                        bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
+        return IntegerUtils.ToBytes(self.m_idx, bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
 
     def ToInt(self) -> int:
         """

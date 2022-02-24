@@ -28,7 +28,7 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58XmrDecoder, Base58XmrEncoder
 from bip_utils.ecc import Ed25519MoneroPublicKey, IPublicKey
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils
 
 
 class XmrAddrConst:
@@ -100,8 +100,8 @@ class _XmrAddrUtils:
 
             payment_id_got_bytes = payload_bytes[-XmrAddrConst.PAYMENT_ID_BYTE_LEN:]
             if payment_id_bytes != payment_id_got_bytes:
-                raise ValueError(f"Invalid payment ID (expected {ConvUtils.BytesToHexString(payment_id_bytes)}, "
-                                 f"got {ConvUtils.BytesToHexString(payment_id_got_bytes)})")
+                raise ValueError(f"Invalid payment ID (expected {BytesUtils.ToHexString(payment_id_bytes)}, "
+                                 f"got {BytesUtils.ToHexString(payment_id_got_bytes)})")
 
         # Validate public spend key
         pub_spend_key_bytes = payload_bytes[:Ed25519MoneroPublicKey.CompressedLength()]

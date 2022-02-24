@@ -26,7 +26,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
 # Imports
 from typing import List
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 class Bech32Const:
@@ -199,7 +199,7 @@ class Bech32Decoder(Bech32DecoderBase):
                 or len(conv_data) > Bech32Const.DATA_MAX_BYTE_LEN):
             raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
-        return ConvUtils.ListToBytes(conv_data)
+        return BytesUtils.FromList(conv_data)
 
     @staticmethod
     def _VerifyChecksum(hrp: str,

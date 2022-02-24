@@ -27,7 +27,7 @@ Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-
 from typing import Tuple
 from bip_utils.ss58.ss58_ex import SS58ChecksumError
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 
 
 class SS58Const:
@@ -96,7 +96,7 @@ class SS58Encoder:
 
         # Simple account
         if ss58_format <= SS58Const.SIMPLE_ACCOUNT_FORMAT_MAX_VAL:
-            ss58_format_bytes = ConvUtils.IntegerToBytes(ss58_format)
+            ss58_format_bytes = IntegerUtils.ToBytes(ss58_format)
         # Full address
         else:
             # 0b00HHHHHH_MMLLLLLL -> (0b01LLLLLL, 0bHHHHHHMM)
@@ -163,8 +163,8 @@ class SS58Decoder:
         # Verify checksum
         if checksum_bytes != checksum_bytes_got:
             raise SS58ChecksumError(
-                f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes_got)}, "
-                f"got {ConvUtils.BytesToHexString(checksum_bytes)})"
+                f"Invalid checksum (expected {BytesUtils.ToHexString(checksum_bytes_got)}, "
+                f"got {BytesUtils.ToHexString(checksum_bytes)})"
             )
 
         return ss58_format, data_bytes

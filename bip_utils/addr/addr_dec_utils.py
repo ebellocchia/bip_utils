@@ -23,7 +23,7 @@
 # Imports
 from typing import Callable, overload, Tuple, Type, Union
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 class AddrDecUtils:
@@ -93,7 +93,7 @@ class AddrDecUtils:
         """
         if not pub_key_cls.IsValidBytes(pub_key_bytes):
             raise ValueError(f"Invalid {pub_key_cls.CurveType()} "
-                             f"public key {ConvUtils.BytesToHexString(pub_key_bytes)}")
+                             f"public key {BytesUtils.ToHexString(pub_key_bytes)}")
 
     @staticmethod
     def ValidateChecksum(payload_bytes: bytes,
@@ -112,8 +112,8 @@ class AddrDecUtils:
         """
         checksum_bytes_got = checksum_fct(payload_bytes)
         if checksum_bytes_exp != checksum_bytes_got:
-            raise ValueError(f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes_exp)}, "
-                             f"got {ConvUtils.BytesToHexString(checksum_bytes_got)})")
+            raise ValueError(f"Invalid checksum (expected {BytesUtils.ToHexString(checksum_bytes_exp)}, "
+                             f"got {BytesUtils.ToHexString(checksum_bytes_got)})")
 
     @staticmethod
     def SplitPartsByChecksum(addr_bytes: bytes,

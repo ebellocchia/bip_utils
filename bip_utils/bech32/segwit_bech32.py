@@ -27,7 +27,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.bech32.bech32 import Bech32Const, Bech32Utils
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 class SegwitBech32Const:
@@ -138,7 +138,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         if data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
             raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
-        return data[0], ConvUtils.ListToBytes(conv_data)
+        return data[0], BytesUtils.FromList(conv_data)
 
     @staticmethod
     def _VerifyChecksum(hrp: str,

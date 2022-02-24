@@ -27,7 +27,7 @@ from enum import auto, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple
 from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 from bip_utils.utils.mnemonic import (
     MnemonicWordsList, MnemonicLanguages, Mnemonic, MnemonicWordsListGetterBase
 )
@@ -310,8 +310,7 @@ class MoneroMnemonicEncoder:
 
         # Consider 4 bytes at a time, 4 bytes represent 3 words
         for i in range(len(entropy_bytes) // 4):
-            x = ConvUtils.BytesToInteger(entropy_bytes[(i * 4):(i * 4) + 4],
-                                         endianness="little")
+            x = BytesUtils.ToInteger(entropy_bytes[(i * 4):(i * 4) + 4], endianness="little")
             # Compute words indexes
             w1_idx = x % n
             w2_idx = ((x // n) + w1_idx) % n
@@ -404,6 +403,6 @@ class MoneroMnemonicDecoder:
             # Get back bytes
             x = w1 + (n * ((w2 - w1) % n)) + (n * n * ((w3 - w2) % n))
 
-            entropy_bytes += ConvUtils.IntegerToBytes(x, bytes_num=4, endianness="little")
+            entropy_bytes += IntegerUtils.ToBytes(x, bytes_num=4, endianness="little")
 
         return entropy_bytes

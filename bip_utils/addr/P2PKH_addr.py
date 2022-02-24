@@ -29,7 +29,7 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Alphabets, Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.bech32 import Bech32ChecksumError, BchBech32Decoder, BchBech32Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import ConvUtils, CryptoUtils
+from bip_utils.utils.misc import BytesUtils, CryptoUtils
 
 
 class P2PKHAddrDecoder(IAddrDecoder):
@@ -148,8 +148,8 @@ class BchP2PKHAddrDecoder(IAddrDecoder):
         else:
             # Check net version
             if net_ver_bytes != net_ver_bytes_got:
-                raise ValueError(f"Invalid net version (expected {ConvUtils.BytesToHexString(net_ver_bytes)}, "
-                                 f"got {ConvUtils.BytesToHexString(net_ver_bytes_got)})")
+                raise ValueError(f"Invalid net version (expected {BytesUtils.ToHexString(net_ver_bytes)}, "
+                                 f"got {BytesUtils.ToHexString(net_ver_bytes_got)})")
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec_bytes,
                                         CryptoUtils.Hash160DigestSize())

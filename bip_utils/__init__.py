@@ -118,5 +118,5 @@ from bip_utils.ecc import (
 )
 # Utils
 from bip_utils.utils.misc import (
-    AlgoUtils, BitUtils, ConvUtils, CryptoUtils, DataBytes
+    AlgoUtils, BitUtils, BytesUtils, CryptoUtils, DataBytes
 )

@@ -21,7 +21,7 @@
 """Module with helper class for data bytes."""
 
 # Imports
-from bip_utils.utils.misc.conversion import ConvUtils
+from bip_utils.utils.misc.bytes import BytesUtils
 
 
 class DataBytes:
@@ -58,7 +58,7 @@ class DataBytes:
         Returns:
             str: Key bytes in hex format
         """
-        return ConvUtils.BytesToHexString(self.m_data_bytes)
+        return BytesUtils.ToHexString(self.m_data_bytes)
 
     def ToInt(self,
               endianness: str = "big") -> int:
@@ -71,7 +71,7 @@ class DataBytes:
         Returns:
             int: Key bytes as an integer
         """
-        return ConvUtils.BytesToInteger(self.m_data_bytes, endianness)
+        return BytesUtils.ToInteger(self.m_data_bytes, endianness)
 
     def __bytes__(self) -> bytes:
         """

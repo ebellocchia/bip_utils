@@ -26,7 +26,7 @@ import ed25519_blake2b
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519_keys import Ed25519KeysConst
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.utils.misc import ConvUtils, DataBytes
+from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
 class Ed25519Blake2bPublicKey(IPublicKey):
@@ -52,7 +52,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
 
         # Remove the first 0x00 if present
         if (len(key_bytes) == cls.CompressedLength()
-                and key_bytes[0] == ConvUtils.BytesToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
+                and key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
         # Check here because the library does not raise any exception
         elif len(key_bytes) != cls.CompressedLength() - 1:

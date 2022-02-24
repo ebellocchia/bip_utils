@@ -29,7 +29,7 @@ from bip_utils.addr.eth_addr import EthAddrConst, EthAddrDecoder, EthAddrEncoder
 from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 class TrxAddrDecoder(IAddrDecoder):
@@ -69,7 +69,7 @@ class TrxAddrDecoder(IAddrDecoder):
                                                                   CoinsConf.Tron.Params("addr_prefix"))
 
             return EthAddrDecoder.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix")
-                                             + ConvUtils.BytesToHexString(addr_no_prefix),
+                                             + BytesUtils.ToHexString(addr_no_prefix),
                                              skip_chksum_enc=True)
 
 
@@ -100,7 +100,7 @@ class TrxAddrEncoder(IAddrEncoder):
         # Get address in Ethereum format (remove "0x" at the beginning)
         eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Add prefix and encode
-        return Base58Encoder.CheckEncode(CoinsConf.Tron.Params("addr_prefix") + ConvUtils.HexStringToBytes(eth_addr))
+        return Base58Encoder.CheckEncode(CoinsConf.Tron.Params("addr_prefix") + BytesUtils.FromHexString(eth_addr))
 
 
 class TrxAddr(TrxAddrEncoder):

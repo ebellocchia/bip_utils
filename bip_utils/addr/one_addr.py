@@ -28,7 +28,7 @@ from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import ConvUtils
+from bip_utils.utils.misc import BytesUtils
 
 
 class OneAddrDecoder(IAddrDecoder):
@@ -60,7 +60,7 @@ class OneAddrDecoder(IAddrDecoder):
             raise ValueError("Invalid bech32 checksum") from ex
         else:
             return EthAddrDecoder.DecodeAddr(
-                CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_dec_bytes),
+                CoinsConf.Ethereum.Params("addr_prefix") + BytesUtils.ToHexString(addr_dec_bytes),
                 skip_chksum_enc=True
             )
 
@@ -93,7 +93,7 @@ class OneAddrEncoder(IAddrEncoder):
         eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Encode in Bech32 format
         return Bech32Encoder.Encode(CoinsConf.HarmonyOne.Params("addr_hrp"),
-                                    ConvUtils.HexStringToBytes(eth_addr))
+                                    BytesUtils.FromHexString(eth_addr))
 
 
 class OneAddr(OneAddrEncoder):

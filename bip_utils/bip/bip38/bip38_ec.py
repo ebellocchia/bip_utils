@@ -29,7 +29,9 @@ from typing import Optional, Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes, Bip38Addr
 from bip_utils.ecc import Secp256k1PrivateKey, Secp256k1PublicKey, Secp256k1
-from bip_utils.utils.misc import AesEcbDecrypter, AesEcbEncrypter, BitUtils, ConvUtils, CryptoUtils
+from bip_utils.utils.misc import (
+    AesEcbDecrypter, AesEcbEncrypter, BitUtils, BytesUtils, CryptoUtils, IntegerUtils, StringUtils
+)
 
 
 class Bip38EcConst:
@@ -105,8 +107,8 @@ class _Bip38EcUtils:
         # Generate random owner salt (4 bytes)
         owner_salt = os.urandom(Bip38EcConst.OWNER_SALT_WITH_LOT_SEQ_BYTE_LEN)
         # Compute lot sequence
-        lot_sequence = ConvUtils.IntegerToBytes((lot_num * (Bip38EcConst.SEQ_NUM_MAX_VAL + 1)) + sequence_num,
-                                                bytes_num=4)
+        lot_sequence = IntegerUtils.ToBytes((lot_num * (Bip38EcConst.SEQ_NUM_MAX_VAL + 1)) + sequence_num,
+                                            bytes_num=4)
         # Compute owner entropy
         return owner_salt + lot_sequence
 
@@ -156,7 +158,7 @@ class _Bip38EcUtils:
         """
 
         # Compute the prefactor
-        prefactor = CryptoUtils.Scrypt(ConvUtils.NormalizeNfc(passphrase),
+        prefactor = CryptoUtils.Scrypt(StringUtils.NormalizeNfc(passphrase),
                                        _Bip38EcUtils.OwnerSaltFromEntropy(owner_entropy, has_lot_seq),
                                        key_len=Bip38EcConst.SCRYPT_PREFACTOR_KEY_LEN,
                                        n=Bip38EcConst.SCRYPT_PREFACTOR_N,
@@ -183,7 +185,7 @@ class _Bip38EcUtils:
         """
 
         # Compute passpoint
-        passpoint = Secp256k1PublicKey.FromPoint(Secp256k1.Generator() * ConvUtils.BytesToInteger(passfactor))
+        passpoint = Secp256k1PublicKey.FromPoint(Secp256k1.Generator() * BytesUtils.ToInteger(passfactor))
         # Return it as a compressed public key
         return passpoint.RawCompressed().ToBytes()
 
@@ -289,7 +291,7 @@ class Bip38EcKeysGenerator:
 
         # Check magic
         if magic not in (Bip38EcConst.INT_PASS_MAGIC_NO_LOT_SEQ, Bip38EcConst.INT_PASS_MAGIC_WITH_LOT_SEQ):
-            raise ValueError(f"Invalid magic ({ConvUtils.BytesToHexString(magic)})")
+            raise ValueError(f"Invalid magic ({BytesUtils.ToHexString(magic)})")
 
         # Generate seedb
         seedb = os.urandom(Bip38EcConst.SEED_B_BYTE_LEN)
@@ -298,7 +300,7 @@ class Bip38EcKeysGenerator:
 
         # Compute address hash
         address_hash = Bip38Addr.AddressHash(
-            Secp256k1PublicKey.FromPoint(passpoint.Point() * ConvUtils.BytesToInteger(factorb)),
+            Secp256k1PublicKey.FromPoint(passpoint.Point() * BytesUtils.ToInteger(factorb)),
             pub_key_mode
         )
         # Derive key halves from the passpoint, address hash and owner entropy
@@ -340,9 +342,9 @@ class Bip38EcKeysGenerator:
         aes_enc.AutoPad(False)
 
         # Encrypt the first part: seedb[0...15] xor derived_half_1[0...15]
-        encrypted_part_1 = aes_enc.Encrypt(ConvUtils.XorBytes(seedb[:16], derived_half_1[:16]))
+        encrypted_part_1 = aes_enc.Encrypt(BytesUtils.Xor(seedb[:16], derived_half_1[:16]))
         # Encrypt the second part: (encrypted_part_1[8...15] + seedb[16...23])) xor derivedhalf1[16...31]
-        encrypted_part_2 = aes_enc.Encrypt(ConvUtils.XorBytes(encrypted_part_1[8:] + seedb[16:], derived_half_1[16:]))
+        encrypted_part_2 = aes_enc.Encrypt(BytesUtils.Xor(encrypted_part_1[8:] + seedb[16:], derived_half_1[16:]))
 
         return encrypted_part_1, encrypted_part_2
 
@@ -365,7 +367,7 @@ class Bip38EcKeysGenerator:
         if magic == Bip38EcConst.INT_PASS_MAGIC_WITH_LOT_SEQ:
             flagbyte_int = BitUtils.SetBit(flagbyte_int, Bip38EcConst.FLAG_BIT_LOT_SEQ)
 
-        return ConvUtils.IntegerToBytes(flagbyte_int)
+        return IntegerUtils.ToBytes(flagbyte_int)
 
 
 class Bip38EcDecrypter:
@@ -400,7 +402,7 @@ class Bip38EcDecrypter:
 
         # Get all the parts back
         prefix = priv_key_enc_bytes[:2]
-        flagbyte = ConvUtils.IntegerToBytes(priv_key_enc_bytes[2])
+        flagbyte = IntegerUtils.ToBytes(priv_key_enc_bytes[2])
         address_hash = priv_key_enc_bytes[3:7]
         owner_entropy = priv_key_enc_bytes[7:15]
         encrypted_part_1_lower = priv_key_enc_bytes[15:23]
@@ -408,7 +410,7 @@ class Bip38EcDecrypter:
 
         # Check prefix
         if prefix != Bip38EcConst.ENC_KEY_PREFIX:
-            raise ValueError(f"Invalid prefix ({ConvUtils.BytesToHexString(prefix)})")
+            raise ValueError(f"Invalid prefix ({BytesUtils.ToHexString(prefix)})")
         # Get flagbyte options
         pub_key_mode, has_lot_seq = Bip38EcDecrypter.__GetFlagbyteOptions(flagbyte)
 
@@ -432,8 +434,8 @@ class Bip38EcDecrypter:
                                                  pub_key_mode)
         if address_hash != address_hash_got:
             raise ValueError(
-                f"Invalid address hash (expected: {ConvUtils.BytesToHexString(address_hash)}, "
-                f"got: {ConvUtils.BytesToHexString(address_hash_got)})"
+                f"Invalid address hash (expected: {BytesUtils.ToHexString(address_hash)}, "
+                f"got: {BytesUtils.ToHexString(address_hash_got)})"
             )
 
         return priv_key_bytes, pub_key_mode
@@ -461,13 +463,13 @@ class Bip38EcDecrypter:
         aes_dec.AutoUnPad(False)
 
         # Decrypt the second part and get back the higher parts of seedb and encrypted half 1
-        decrypted_part_2 = ConvUtils.XorBytes(aes_dec.Decrypt(encrypted_part_2), derived_half_1[16:])
+        decrypted_part_2 = BytesUtils.Xor(aes_dec.Decrypt(encrypted_part_2), derived_half_1[16:])
         encrypted_part_1_higher = decrypted_part_2[:8]
         seedb_part_2 = decrypted_part_2[8:]
 
         # Decrypt the first part to get the lower part of seedb
-        seedb_part_1 = ConvUtils.XorBytes(aes_dec.Decrypt(encrypted_part_1_lower + encrypted_part_1_higher),
-                                          derived_half_1[:16])
+        seedb_part_1 = BytesUtils.Xor(aes_dec.Decrypt(encrypted_part_1_lower + encrypted_part_1_higher),
+                                      derived_half_1[:16])
         # Rebuild the complete seedb
         seedb = seedb_part_1 + seedb_part_2
 
@@ -489,8 +491,8 @@ class Bip38EcDecrypter:
         """
 
         # Private key: (passfactor * factorb) mod N
-        priv_key_int = (ConvUtils.BytesToInteger(passfactor) * ConvUtils.BytesToInteger(factorb)) % Secp256k1.Order()
-        return ConvUtils.IntegerToBytes(priv_key_int, bytes_num=Secp256k1PrivateKey.Length())
+        priv_key_int = (BytesUtils.ToInteger(passfactor) * BytesUtils.ToInteger(factorb)) % Secp256k1.Order()
+        return IntegerUtils.ToBytes(priv_key_int, bytes_num=Secp256k1PrivateKey.Length())
 
     @staticmethod
     def __GetFlagbyteOptions(flagbyte: bytes) -> Tuple[Bip38PubKeyModes, bool]:
@@ -505,7 +507,7 @@ class Bip38EcDecrypter:
         """
 
         # Convert flagbyte to integer
-        flagbyte_int = ConvUtils.BytesToInteger(flagbyte)
+        flagbyte_int = BytesUtils.ToInteger(flagbyte)
         # Get bit set in flagbyte
         has_lot_seq = BitUtils.IsBitSet(flagbyte_int, Bip38EcConst.FLAG_BIT_LOT_SEQ)
         pub_key_mode = (Bip38PubKeyModes.COMPRESSED
@@ -515,6 +517,6 @@ class Bip38EcDecrypter:
         flagbyte_int = BitUtils.ResetBit(flagbyte_int, Bip38EcConst.FLAG_BIT_LOT_SEQ)
         flagbyte_int = BitUtils.ResetBit(flagbyte_int, Bip38EcConst.FLAG_BIT_COMPRESSED)
         if flagbyte_int != 0:
-            raise ValueError(f"Invalid flagbyte ({ConvUtils.BytesToHexString(flagbyte)})")
+            raise ValueError(f"Invalid flagbyte ({BytesUtils.ToHexString(flagbyte)})")
 
         return pub_key_mode, has_lot_seq

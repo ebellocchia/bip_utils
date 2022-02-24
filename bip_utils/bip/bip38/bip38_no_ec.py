@@ -28,7 +28,9 @@ from typing import Tuple, Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes, Bip38Addr
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
-from bip_utils.utils.misc import AesEcbDecrypter, AesEcbEncrypter, ConvUtils, CryptoUtils
+from bip_utils.utils.misc import (
+    AesEcbDecrypter, AesEcbEncrypter, BytesUtils, CryptoUtils, IntegerUtils, StringUtils
+)
 
 
 class Bip38NoEcConst:
@@ -86,7 +88,7 @@ class _Bip38NoEcUtils:
         """
 
         # Derive a key from passphrase and address hash
-        key = CryptoUtils.Scrypt(ConvUtils.NormalizeNfc(passphrase),
+        key = CryptoUtils.Scrypt(StringUtils.NormalizeNfc(passphrase),
                                  address_hash,
                                  key_len=Bip38NoEcConst.SCRYPT_KEY_LEN,
                                  n=Bip38NoEcConst.SCRYPT_N,
@@ -174,9 +176,9 @@ class Bip38NoEcEncrypter:
         aes_enc.AutoPad(False)
 
         # Encrypt the first half: priv_key[0...15] xor derived_half_1[0...15]
-        encrypted_half_1 = aes_enc.Encrypt(ConvUtils.XorBytes(priv_key_bytes[:16], derived_half_1[:16]))
+        encrypted_half_1 = aes_enc.Encrypt(BytesUtils.Xor(priv_key_bytes[:16], derived_half_1[:16]))
         # Encrypt the second half: priv_key[16...31] xor derived_half_1[16...31]
-        encrypted_half_2 = aes_enc.Encrypt(ConvUtils.XorBytes(priv_key_bytes[16:], derived_half_1[16:]))
+        encrypted_half_2 = aes_enc.Encrypt(BytesUtils.Xor(priv_key_bytes[16:], derived_half_1[16:]))
 
         return encrypted_half_1, encrypted_half_2
 
@@ -213,16 +215,16 @@ class Bip38NoEcDecrypter:
 
         # Get all the parts back
         prefix = priv_key_enc_bytes[:2]
-        flagbyte = ConvUtils.IntegerToBytes(priv_key_enc_bytes[2])
+        flagbyte = IntegerUtils.ToBytes(priv_key_enc_bytes[2])
         address_hash = priv_key_enc_bytes[3:7]
         encrypted_half_1 = priv_key_enc_bytes[7:23]
         encrypted_half_2 = priv_key_enc_bytes[23:]
 
         # Check prefix and flagbyte
         if prefix != Bip38NoEcConst.ENC_KEY_PREFIX:
-            raise ValueError(f"Invalid prefix ({ConvUtils.BytesToHexString(prefix)})")
+            raise ValueError(f"Invalid prefix ({BytesUtils.ToHexString(prefix)})")
         if flagbyte not in (Bip38NoEcConst.FLAGBYTE_COMPRESSED, Bip38NoEcConst.FLAGBYTE_UNCOMPRESSED):
-            raise ValueError(f"Invalid flagbyte ({ConvUtils.BytesToHexString(flagbyte)})")
+            raise ValueError(f"Invalid flagbyte ({BytesUtils.ToHexString(flagbyte)})")
 
         # Derive key halves from the passphrase and address hash
         derived_half_1, derived_half_2 = _Bip38NoEcUtils.DeriveKeyHalves(passphrase, address_hash)
@@ -241,8 +243,8 @@ class Bip38NoEcDecrypter:
         got_address_hash = _Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
         if address_hash != got_address_hash:
             raise ValueError(
-                f"Invalid address hash (expected: {ConvUtils.BytesToHexString(address_hash)}, "
-                f"got: {ConvUtils.BytesToHexString(got_address_hash)})"
+                f"Invalid address hash (expected: {BytesUtils.ToHexString(address_hash)}, "
+                f"got: {BytesUtils.ToHexString(got_address_hash)})"
             )
 
         return priv_key_bytes, pub_key_mode
@@ -274,4 +276,4 @@ class Bip38NoEcDecrypter:
         decrypted_half_2 = aes_dec.Decrypt(encrypted_half_2)
 
         # Get the private key back by XORing bytes
-        return ConvUtils.XorBytes(decrypted_half_1 + decrypted_half_2, derived_half_1)
+        return BytesUtils.Xor(decrypted_half_1 + decrypted_half_2, derived_half_1)
