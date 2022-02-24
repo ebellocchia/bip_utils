@@ -26,8 +26,7 @@ import hashlib
 import hmac
 from typing import Union
 import crcmod.predefined
-from Crypto.Hash import keccak
-from Crypto.Hash import SHA512
+from Crypto.Hash import keccak, SHA512
 from Crypto.Protocol.KDF import scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
 
