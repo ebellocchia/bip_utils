@@ -43,6 +43,7 @@ Please note that, for the py-sr25519-bindings library, Rust is required to be in
 ## Supported coins
 
 Supported BIP coins:
+- Akash Network
 - Algorand
 - Avalanche (all the 3 chains)
 - Band Protocol
@@ -53,6 +54,7 @@ Supported BIP coins:
 - Bitcoin Cash Simple Ledger Protocol (and related test net)
 - BitcoinSV (and related test net)
 - Celo
+- Certik
 - Cosmos
 - Dash (and related test net)
 - Dogecoin (and related test net)
@@ -852,6 +854,7 @@ Supported coins enumerative for BIP-0044:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
+|Akash Network|*Bip44Coins.AKASH_NETWORK*|-|
 |Algorand|*Bip44Coins.ALGORAND*|-|
 |Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
 |Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
@@ -864,6 +867,8 @@ Supported coins enumerative for BIP-0044:
 |[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|*Bip44Coins.BITCOIN_CASH_SLP*|*Bip44Coins.BITCOIN_CASH_SLP_TESTNET*|
 |BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
 |Celo|*Bip44Coins.CELO*|-|
+|Certik|*Bip44Coins.CERTIK*|-|
+|Chihuahua|*Bip44Coins.CHIHUAHUA*|-|
 |Cosmos|*Bip44Coins.COSMOS*|-|
 |Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
 |Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
