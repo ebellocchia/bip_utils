@@ -18,12 +18,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for P2SH address computation."""
+"""Module for P2SH address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
+from bip_utils.addr.P2PKH_addr import BchP2PKHAddrDecoder, P2PKHAddrDecoder
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.ecc import IPublicKey
@@ -37,7 +39,7 @@ class P2SHAddrConst:
     SCRIPT_BYTES: bytes = b"\x00\x14"
 
 
-class P2SHAddrUtils:
+class _P2SHAddrUtils:
     """Class container for P2SH utility functions."""
 
     @staticmethod
@@ -53,24 +55,53 @@ class P2SHAddrUtils:
         """
 
         # Key hash: Hash160(public_key)
-        key_hash = CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes())
+        key_hash_bytes = CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes())
         # Script signature: 0x0014 | Hash160(public_key)
-        script_sig = P2SHAddrConst.SCRIPT_BYTES + key_hash
+        script_sig_bytes = P2SHAddrConst.SCRIPT_BYTES + key_hash_bytes
         # Address bytes = Hash160(script_signature)
-        return CryptoUtils.Hash160(script_sig)
+        return CryptoUtils.Hash160(script_sig_bytes)
 
 
-class P2SHAddr(IAddrEncoder):
+class P2SHAddrDecoder(IAddrDecoder):
     """
-    P2SH class.
-    It allows the Pay-to-Script-Hash address generation.
+    P2SH address decoder class.
+    It allows the Pay-to-Script-Hash address decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a P2SH address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            net_ver (bytes): Net address version
+
+        Returns:
+            bytes: Script signature hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # The decoding steps are the same of P2PKH
+        return P2PKHAddrDecoder.DecodeAddr(addr, net_ver=kwargs["net_ver"])
+
+
+class P2SHAddrEncoder(IAddrEncoder):
+    """
+    P2SH address encoder class.
+    It allows the Pay-to-Script-Hash address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in P2SH format.
+        Encode a public key to P2SH address.
 
         Args:
             pub_key (bytes or IPublicKey) : Public key bytes or object
@@ -85,25 +116,60 @@ class P2SHAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        net_ver = kwargs["net_ver"]
+        net_ver_bytes = kwargs["net_ver"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
-
-        # Final address: Base58Check(addr_prefix | address_bytes)
-        return Base58Encoder.CheckEncode(net_ver + P2SHAddrUtils.AddScriptSig(pub_key_obj))
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
+        return Base58Encoder.CheckEncode(net_ver_bytes + _P2SHAddrUtils.AddScriptSig(pub_key_obj))
 
 
-class BchP2SHAddr(IAddrEncoder):
+class P2SHAddr(P2SHAddrEncoder):
     """
-    Bitcoin Cash P2SH class.
-    It allows the Bitcoin Cash P2SH generation.
+    P2SH address class.
+    Only kept for compatibility, P2SHAddrEncoder shall be used instead.
+    """
+
+
+class BchP2SHAddrDecoder(IAddrDecoder):
+    """
+    Bitcoin Cash P2SH address decoder class.
+    It allows the Bitcoin Cash P2SH decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Bitcoin Cash P2SH address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            hrp (str)      : HRP
+            net_ver (bytes): Net address version
+
+        Returns:
+            bytes: Script signature hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # The decoding steps are the same of P2PKH
+        return BchP2PKHAddrDecoder.DecodeAddr(addr, hrp=kwargs["hrp"], net_ver=kwargs["net_ver"])
+
+
+class BchP2SHAddrEncoder(IAddrEncoder):
+    """
+    Bitcoin Cash P2SH address encoder class.
+    It allows the Bitcoin Cash P2SH encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Bitcoin Cash P2SH format.
+        Encode a public key to Bitcoin Cash P2SH address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -120,8 +186,14 @@ class BchP2SHAddr(IAddrEncoder):
             TypeError: If the public key is not secp256k1
         """
         hrp = kwargs["hrp"]
-        net_ver = kwargs["net_ver"]
+        net_ver_bytes = kwargs["net_ver"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
+        return BchBech32Encoder.Encode(hrp, net_ver_bytes, _P2SHAddrUtils.AddScriptSig(pub_key_obj))
 
-        return BchBech32Encoder.Encode(hrp, net_ver, P2SHAddrUtils.AddScriptSig(pub_key_obj))
+
+class BchP2SHAddr(BchP2SHAddrEncoder):
+    """
+    Bitcoin Cash P2SH address class.
+    Only kept for compatibility, BchP2SHAddrEncoder shall be used instead.
+    """

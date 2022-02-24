@@ -18,33 +18,76 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Tron address computation."""
+"""Module for Tron address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.eth_addr import EthAddr
-from bip_utils.base58 import Base58Encoder
+from bip_utils.addr.eth_addr import EthAddrConst, EthAddrDecoder, EthAddrEncoder
+from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class TrxAddr(IAddrEncoder):
+class TrxAddrDecoder(IAddrDecoder):
     """
-    Tron address class.
-    It allows the Tron address generation.
+    Tron address decoder class.
+    It allows the Tron address decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Tron address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        try:
+            # Decode from base58
+            addr_dec = Base58Decoder.CheckDecode(addr)
+        except Base58ChecksumError as ex:
+            raise ValueError("Invalid base58 checksum") from ex
+        else:
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec,
+                                        (EthAddrConst.ADDR_LEN // 2) + len(CoinsConf.Tron.Params("addr_prefix")))
+            # Validate and remove prefix
+            addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
+                                                                  CoinsConf.Tron.Params("addr_prefix"))
+
+            return EthAddrDecoder.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix")
+                                             + ConvUtils.BytesToHexString(addr_no_prefix),
+                                             skip_chksum_enc=True)
+
+
+class TrxAddrEncoder(IAddrEncoder):
+    """
+    Tron address encoder class.
+    It allows the Tron address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Tron format.
+        Encode a public key to Tron address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -55,7 +98,13 @@ class TrxAddr(IAddrEncoder):
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
-
+        eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Add prefix and encode
         return Base58Encoder.CheckEncode(CoinsConf.Tron.Params("addr_prefix") + ConvUtils.HexStringToBytes(eth_addr))
+
+
+class TrxAddr(TrxAddrEncoder):
+    """
+    Tron address class.
+    Only kept for compatibility, TrxAddrEncoder shall be used instead.
+    """

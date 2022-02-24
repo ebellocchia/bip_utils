@@ -26,8 +26,7 @@ import hashlib
 import hmac
 from typing import Union
 import crcmod.predefined
-from Crypto.Hash import keccak
-from Crypto.Hash import SHA512
+from Crypto.Hash import keccak, SHA512
 from Crypto.Protocol.KDF import scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
 
@@ -189,7 +188,7 @@ class CryptoUtils:
     @staticmethod
     def Ripemd160(data: Union[bytes, str]) -> bytes:
         """
-        Compute the Bitcoin RIPEMD-160 of the specified bytes.
+        Compute the RIPEMD-160 of the specified bytes.
 
         Args:
             data (str or bytes): Data
@@ -198,6 +197,16 @@ class CryptoUtils:
             bytes: Computed RIPEMD-160
         """
         return hashlib.new("ripemd160", AlgoUtils.Encode(data)).digest()
+
+    @staticmethod
+    def Ripemd160DigestSize() -> int:
+        """
+        Get the RIPEMD-160 size in bytes.
+
+        Returns:
+            int: RIPEMD-160 size in bytes
+        """
+        return hashlib.new("ripemd160").digest_size
 
     @staticmethod
     def Hash160(data: Union[bytes, str]) -> bytes:
@@ -211,6 +220,16 @@ class CryptoUtils:
             bytes: Computed Hash-160
         """
         return CryptoUtils.Ripemd160(CryptoUtils.Sha256(data))
+
+    @staticmethod
+    def Hash160DigestSize() -> int:
+        """
+        Get the Hash-160 size in bytes.
+
+        Returns:
+            int: Hash-160 size in bytes
+        """
+        return CryptoUtils.Ripemd160DigestSize()
 
     @staticmethod
     def Crc32(data: Union[bytes, str]) -> int:

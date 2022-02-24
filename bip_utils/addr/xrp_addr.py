@@ -18,32 +18,62 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Ripple address computation."""
+"""Module for Ripple address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.P2PKH_addr import P2PKHAddr
+from bip_utils.addr.P2PKH_addr import P2PKHAddrDecoder, P2PKHAddrEncoder
 from bip_utils.base58 import Base58Alphabets
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 
 
-class XrpAddr(IAddrEncoder):
+class XrpAddrDecoder(IAddrDecoder):
     """
-    Ripple address class.
-    It allows the Ripple address generation.
+    Ripple address decoder class.
+    It allows the Ripple address decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Ripple address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Ripple address is just a P2PKH address with a different Base58 alphabet
+        return P2PKHAddrDecoder.DecodeAddr(addr,
+                                           net_ver=CoinsConf.Ripple.Params("p2pkh_net_ver"),
+                                           base58_alph=Base58Alphabets.RIPPLE)
+
+
+class XrpAddrEncoder(IAddrEncoder):
+    """
+    Ripple address encoder class.
+    It allows the Ripple address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Ripple format.
+        Encode a public key to Ripple address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -54,6 +84,13 @@ class XrpAddr(IAddrEncoder):
         """
 
         # Ripple address is just a P2PKH address with a different Base58 alphabet
-        return P2PKHAddr.EncodeKey(pub_key,
-                                   net_ver=CoinsConf.Ripple.Params("p2pkh_net_ver"),
-                                   base58_alph=Base58Alphabets.RIPPLE)
+        return P2PKHAddrEncoder.EncodeKey(pub_key,
+                                          net_ver=CoinsConf.Ripple.Params("p2pkh_net_ver"),
+                                          base58_alph=Base58Alphabets.RIPPLE)
+
+
+class XrpAddr(XrpAddrEncoder):
+    """
+    Ripple address class.
+    Only kept for compatibility, XrpAddrEncoder shall be used instead.
+    """

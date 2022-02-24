@@ -18,15 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Neo address computation."""
+"""Module for Neo address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
-from bip_utils.base58 import Base58Encoder
+from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
 class NeoAddrConst:
@@ -38,17 +40,61 @@ class NeoAddrConst:
     SUFFIX: bytes = b"\xac"
 
 
-class NeoAddr(IAddrEncoder):
+class NeoAddrDecoder(IAddrDecoder):
     """
-    Neo address class.
-    It allows the Neo address generation.
+    Neo address decoder class.
+    It allows the Neo address decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Neo address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            ver (bytes): Version
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        ver_bytes = kwargs["ver"]
+
+        try:
+            # Decode from base58
+            addr_dec_bytes = Base58Decoder.CheckDecode(addr)
+        except Base58ChecksumError as ex:
+            raise ValueError("Invalid base58 checksum") from ex
+        else:
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        CryptoUtils.Hash160DigestSize() + len(ver_bytes))
+            # Check version
+            ver_got = ConvUtils.IntegerToBytes(addr_dec_bytes[0])
+            if ver_bytes != ver_got:
+                raise ValueError(f"Invalid version (expected {ConvUtils.BytesToHexString(ver_bytes)}, "
+                                 f"got {ConvUtils.BytesToHexString(ver_got)})")
+
+            return addr_dec_bytes[1:]
+
+
+class NeoAddrEncoder(IAddrEncoder):
+    """
+    Neo address encoder class.
+    It allows the Neo address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Neo format.
+        Encode a public key to Neo address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -63,13 +109,20 @@ class NeoAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        ver = kwargs["ver"]
+        ver_bytes = kwargs["ver"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetNist256p1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
-        payload = (NeoAddrConst.PREFIX
-                   + pub_key_obj.RawCompressed().ToBytes()
-                   + NeoAddrConst.SUFFIX)
-        # Encode
-        return Base58Encoder.CheckEncode(ver + CryptoUtils.Hash160(payload))
+        payload_bytes = (NeoAddrConst.PREFIX
+                         + pub_key_obj.RawCompressed().ToBytes()
+                         + NeoAddrConst.SUFFIX)
+        # Encode to base58
+        return Base58Encoder.CheckEncode(ver_bytes + CryptoUtils.Hash160(payload_bytes))
+
+
+class NeoAddr(NeoAddrEncoder):
+    """
+    Neo address class.
+    Only kept for compatibility, NeoAddrEncoder shall be used instead.
+    """

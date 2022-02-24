@@ -193,12 +193,12 @@ class Base58Decoder:
         checksum_bytes = dec_bytes[-Base58Const.CHECKSUM_BYTE_LEN:]
 
         # Compute checksum
-        comp_checksum = Base58Utils.ComputeChecksum(data_bytes)
+        checksum_bytes_got = Base58Utils.ComputeChecksum(data_bytes)
 
         # Verify checksum
-        if checksum_bytes != comp_checksum:
+        if checksum_bytes != checksum_bytes_got:
             raise Base58ChecksumError(
-                f"Invalid checksum (expected {ConvUtils.BytesToHexString(comp_checksum)}, "
+                f"Invalid checksum (expected {ConvUtils.BytesToHexString(checksum_bytes_got)}, "
                 f"got {ConvUtils.BytesToHexString(checksum_bytes)})"
             )
 

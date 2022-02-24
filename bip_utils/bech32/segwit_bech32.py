@@ -26,7 +26,6 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
 # Imports
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.bech32.bech32 import Bech32Const, Bech32Utils
 from bip_utils.utils.misc import ConvUtils
 
@@ -70,7 +69,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
             str: Encoded address
 
         Raises:
-            Bech32FormatError: If the data is not valid
+            ValueError: If the data is not valid
         """
 
         return SegwitBech32Encoder._EncodeBech32(hrp,
@@ -113,18 +112,18 @@ class SegwitBech32Decoder(Bech32DecoderBase):
             tuple: Witness version (index 0) and witness program (index 1)
 
         Raises:
-            Bech32FormatError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
+            ValueError: If the bech32 string is not valid
         """
 
         # Decode string
-        hrpgot, data = SegwitBech32Decoder._DecodeBech32(addr,
-                                                         SegwitBech32Const.SEPARATOR,
-                                                         SegwitBech32Const.CHECKSUM_BYTE_LEN)
+        hrp_got, data = SegwitBech32Decoder._DecodeBech32(addr,
+                                                          SegwitBech32Const.SEPARATOR,
+                                                          SegwitBech32Const.CHECKSUM_BYTE_LEN)
         # Check HRP
-        if hrpgot != hrp:
-            raise Bech32FormatError(
-                f"Invalid format (HRP not valid, expected {hrp}, got {hrpgot})"
+        if hrp != hrp_got:
+            raise ValueError(
+                f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})"
             )
 
         # Convert back from base32
@@ -133,11 +132,11 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         # Check converted data
         if (len(conv_data) < SegwitBech32Const.DATA_MIN_BYTE_LEN
                 or len(conv_data) > SegwitBech32Const.DATA_MAX_BYTE_LEN):
-            raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
+            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
         if data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
-            raise Bech32FormatError(f"Invalid format (witness version not valid: {data[0]})")
+            raise ValueError(f"Invalid format (witness version not valid: {data[0]})")
         if data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
-            raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
+            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return data[0], ConvUtils.ListToBytes(conv_data)
 

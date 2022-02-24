@@ -18,28 +18,66 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Atom address computation."""
+"""Module for Atom address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
-from bip_utils.bech32 import Bech32Encoder
+from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
 
-class AtomAddr(IAddrEncoder):
+class AtomAddrDecoder(IAddrDecoder):
     """
-    Atom address class.
-    It allows the Atom address generation.
+    Atom address decoder class.
+    It allows the Atom address decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an Algorand address to bytes.
+
+        Args:
+            addr (str): Address string
+
+        Other Parameters:
+            hrp (str): HRP
+
+        Returns:
+            bytes: Public key hash bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+        hrp = kwargs["hrp"]
+
+        try:
+            addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
+        except Bech32ChecksumError as ex:
+            raise ValueError("Invalid bech32 checksum") from ex
+        else:
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        CryptoUtils.Hash160DigestSize())
+            return addr_dec_bytes
+
+
+class AtomAddrEncoder(IAddrEncoder):
+    """
+    Atom address encoder class.
+    It allows the Atom address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Atom format.
+        Encode a public key to Atom address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -56,6 +94,13 @@ class AtomAddr(IAddrEncoder):
         """
         hrp = kwargs["hrp"]
 
-        pub_key_obj = AddrUtils.ValidateAndGetSecp256k1Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
+        return Bech32Encoder.Encode(hrp,
+                                    CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
 
-        return Bech32Encoder.Encode(hrp, CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+
+class AtomAddr(AtomAddrEncoder):
+    """
+    Atom address class.
+    Only kept for compatibility, AtomAddrEncoder shall be used instead.
+    """

@@ -38,7 +38,7 @@ class IAddrEncoder(ABC):
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Arbitrary arguments depending on the address type
+            **kwargs                     : Arbitrary arguments depending on the address type
 
         Returns:
             str: Address string

@@ -18,8 +18,31 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for bech32 exceptions."""
+"""Module with interface for address encoding classes."""
+
+# Imports
+from abc import ABC, abstractmethod
+from typing import Any
 
 
-class Bech32ChecksumError(Exception):
-    """Exception in case of checksum error."""
+class IAddrDecoder(ABC):
+    """Address decoder interface."""
+
+    @staticmethod
+    @abstractmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an address to bytes.
+        Depending on the coin, the result can be a public key or a public key hash bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Arbitrary arguments depending on the address type
+
+        Returns:
+            bytes: Public key bytes or public key hash
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """

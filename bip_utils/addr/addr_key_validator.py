@@ -29,7 +29,7 @@ from bip_utils.ecc import (
 )
 
 
-class AddrUtils:
+class AddrKeyValidator:
     """Class container for address utility functions."""
 
     @staticmethod
@@ -47,7 +47,7 @@ class AddrUtils:
             TypeError: If the public key is not ed25519
             ValueError: If the public key is not valid
         """
-        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Ed25519PublicKey)
+        return AddrKeyValidator.__ValidateAndGetGenericKey(pub_key, Ed25519PublicKey)
 
     @staticmethod
     def ValidateAndGetEd25519Blake2bKey(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
@@ -64,7 +64,7 @@ class AddrUtils:
             TypeError: If the public key is not ed25519-blake2b
             ValueError: If the public key is not valid
         """
-        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Ed25519Blake2bPublicKey)
+        return AddrKeyValidator.__ValidateAndGetGenericKey(pub_key, Ed25519Blake2bPublicKey)
 
     @staticmethod
     def ValidateAndGetEd25519MoneroKey(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
@@ -81,7 +81,7 @@ class AddrUtils:
             TypeError: If the public key is not ed25519-monero
             ValueError: If the public key is not valid
         """
-        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Ed25519MoneroPublicKey)
+        return AddrKeyValidator.__ValidateAndGetGenericKey(pub_key, Ed25519MoneroPublicKey)
 
     @staticmethod
     def ValidateAndGetNist256p1Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
@@ -98,7 +98,7 @@ class AddrUtils:
             TypeError: If the public key is not nist256p1
             ValueError: If the public key is not valid
         """
-        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Nist256p1PublicKey)
+        return AddrKeyValidator.__ValidateAndGetGenericKey(pub_key, Nist256p1PublicKey)
 
     @staticmethod
     def ValidateAndGetSecp256k1Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
@@ -115,7 +115,7 @@ class AddrUtils:
             TypeError: If the public key is not secp256k1
             ValueError: If the public key is not valid
         """
-        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Secp256k1PublicKey)
+        return AddrKeyValidator.__ValidateAndGetGenericKey(pub_key, Secp256k1PublicKey)
 
     @staticmethod
     def ValidateAndGetSr25519Key(pub_key: Union[bytes, IPublicKey]) -> IPublicKey:
@@ -132,7 +132,7 @@ class AddrUtils:
             TypeError: If the public key is not sr25519
             ValueError: If the public key is not valid
         """
-        return AddrUtils.__ValidateAndGetGenericKey(pub_key, Sr25519PublicKey)
+        return AddrKeyValidator.__ValidateAndGetGenericKey(pub_key, Sr25519PublicKey)
 
     @staticmethod
     def __ValidateAndGetGenericKey(pub_key: Union[bytes, IPublicKey],
@@ -142,7 +142,7 @@ class AddrUtils:
 
         Args:
             pub_key (bytes or IPublicKey object): Public key bytes or object
-            pub_key_cls (IPublicKey): Public key class type
+            pub_key_cls (IPublicKey)            : Public key class type
 
         Returns:
             IPublicKey object: IPublicKey object

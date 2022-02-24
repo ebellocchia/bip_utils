@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import AlgoAddr
+from bip_utils import AlgoAddrDecoder, AlgoAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey
@@ -30,29 +30,45 @@ from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicK
 TEST_VECT = [
     {
         "pub_key": b"00999418b6fb585a05e91dc8312b15364eb1a5c5b92fef7472b9e877c44cd6486c",
-        "addr_params": {},
+        "address_dec": b"999418b6fb585a05e91dc8312b15364eb1a5c5b92fef7472b9e877c44cd6486c",
+        "address_params": {},
         "address": "TGKBRNX3LBNAL2I5ZAYSWFJWJ2Y2LRNZF7XXI4VZ5B34ITGWJBWBQ7O4GE",
     },
     {
         "pub_key": b"009b8c7c402880a43afa68da22a6ad1aa792194e17794a509ff73f2ffe4ea42501",
-        "addr_params": {},
+        "address_dec": b"9b8c7c402880a43afa68da22a6ad1aa792194e17794a509ff73f2ffe4ea42501",
+        "address_params": {},
         "address": "TOGHYQBIQCSDV6TI3IRKNLI2U6JBSTQXPFFFBH7XH4X74TVEEUAVQ22HNU",
     },
     {
         "pub_key": b"007de3673552c74087237a6ffa56c7ae33c85afde8bac8faf2cc9f4c494a894613",
-        "addr_params": {},
+        "address_dec": b"7de3673552c74087237a6ffa56c7ae33c85afde8bac8faf2cc9f4c494a894613",
+        "address_params": {},
         "address": "PXRWONKSY5AIOI32N75FNR5OGPEFV7PIXLEPV4WMT5GESSUJIYJ2ZBJRXY",
     },
     {
         "pub_key": b"fc48f2c911ddfd84c794d158f8e406195f5f16723c4747731a8aae01c1f78150",
-        "addr_params": {},
+        "address_dec": b"fc48f2c911ddfd84c794d158f8e406195f5f16723c4747731a8aae01c1f78150",
+        "address_params": {},
         "address": "7REPFSIR3X6YJR4U2FMPRZAGDFPV6FTSHRDUO4Y2RKXADQPXQFIJBXUDTI",
     },
     {
         "pub_key": b"fc426991054edcb0ab81bb079df952ba4bdaa0dcfcbb3c32748cf86082950285",
-        "addr_params": {},
+        "address_dec": b"fc426991054edcb0ab81bb079df952ba4bdaa0dcfcbb3c32748cf86082950285",
+        "address_params": {},
         "address": "7RBGTEIFJ3OLBK4BXMDZ36KSXJF5VIG47S5TYMTURT4GBAUVAKCURE6GDQ",
     },
+]
+
+# Tests for decoding with invalid strings
+TEST_VECT_DEC_INVALID = [
+    # Invalid encoding
+    "TGKBRNX3LBNAL2I5ZAYSWFJWJ2Y2LRNZF7XXI4VZ5B34ITGWJBWBEJKP0M",
+    # Invalid checksum
+    "TGKBRNX3LBNAL2I5ZAYSWFJWJ2Y2LRNZF7XXI4VZ5B34ITGWJBWBEJKP5M",
+    # Invalid lengths
+    "TGKBRNX3LBNAL2I5ZAYSWFJWJ2Y2LRNZF7XXI4VZ5B34ITGWJBWH3XBR",
+    "TGKBRNX3LBNAL2I5ZAYSWFJWJ2Y2LRNZF7XXI4VZ5B34ITGWJBWKYGD53QYQ",
 ]
 
 
@@ -62,12 +78,20 @@ TEST_VECT = [
 class AlgoAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, AlgoAddr, Ed25519PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, AlgoAddrEncoder, Ed25519PublicKey, TEST_VECT)
+
+    # Test decode address
+    def test_decode_addr(self):
+        AddrBaseTestHelper.test_decode_addr(self, AlgoAddrDecoder, TEST_VECT)
+
+    # Test invalid decoding
+    def test_invalid_dec(self):
+        AddrBaseTestHelper.test_invalid_dec(self, AlgoAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             AlgoAddr,
+                                             AlgoAddrEncoder,
                                              {},
                                              TEST_ED25519_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_ED25519_PUB_KEY_INVALID)

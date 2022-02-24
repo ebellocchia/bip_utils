@@ -26,7 +26,6 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
 # Imports
 from typing import List
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.utils.misc import ConvUtils
 
 
@@ -138,7 +137,7 @@ class Bech32Encoder(Bech32EncoderBase):
             str: Encoded address
 
         Raises:
-            Bech32FormatError: If the data is not valid
+            ValueError: If the data is not valid
         """
 
         return Bech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(data), Bech32Const.SEPARATOR)
@@ -178,19 +177,19 @@ class Bech32Decoder(Bech32DecoderBase):
             addr (str): Address
 
         Returns:
-            bytes: Data
+            bytes: Decoded address
 
         Raises:
-            Bech32FormatError: If the bech32 string is not valid
+            ValueError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
 
         # Decode string
-        hrpgot, data = Bech32Decoder._DecodeBech32(addr, Bech32Const.SEPARATOR, Bech32Const.CHECKSUM_BYTE_LEN)
+        hrp_got, data = Bech32Decoder._DecodeBech32(addr, Bech32Const.SEPARATOR, Bech32Const.CHECKSUM_BYTE_LEN)
 
         # Check HRP
-        if hrpgot != hrp:
-            raise Bech32FormatError(f"Invalid format (HRP not valid, expected {hrp}, got {hrpgot})")
+        if hrp != hrp_got:
+            raise ValueError(f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})")
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
@@ -198,7 +197,7 @@ class Bech32Decoder(Bech32DecoderBase):
         # Check converted data
         if (len(conv_data) < Bech32Const.DATA_MIN_BYTE_LEN
                 or len(conv_data) > Bech32Const.DATA_MAX_BYTE_LEN):
-            raise Bech32FormatError("Invalid format (length not valid)")
+            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return ConvUtils.ListToBytes(conv_data)
 

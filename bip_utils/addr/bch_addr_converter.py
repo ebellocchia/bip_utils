@@ -47,8 +47,8 @@ class BchAddrConverter:
             str: Converted address string
 
         Raises:
-            Bech32FormatError: If the address string is not valid
             Bech32ChecksumError: If the address checksum is not valid
+            ValueError: If the address string is not valid
         """
 
         # Decode address

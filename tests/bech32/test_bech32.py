@@ -22,9 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import (
-    Bech32Decoder, Bech32Encoder, Bech32FormatError
-)
+from bip_utils import Bech32Decoder, Bech32Encoder
 
 # Some random public keys
 TEST_VECT = [
@@ -90,4 +88,4 @@ class Bech32Tests(unittest.TestCase):
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
-            self.assertRaises(Bech32FormatError, Bech32Decoder.Decode, test["hrp"], test["addr"])
+            self.assertRaises(ValueError, Bech32Decoder.Decode, test["hrp"], test["addr"])

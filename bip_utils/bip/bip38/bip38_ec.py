@@ -428,12 +428,12 @@ class Bip38EcDecrypter:
         priv_key_bytes = Bip38EcDecrypter.__ComputePrivateKey(passfactor, factorb)
 
         # Verify the address hash
-        got_address_hash = Bip38Addr.AddressHash(Secp256k1PrivateKey.FromBytes(priv_key_bytes).PublicKey(),
+        address_hash_got = Bip38Addr.AddressHash(Secp256k1PrivateKey.FromBytes(priv_key_bytes).PublicKey(),
                                                  pub_key_mode)
-        if address_hash != got_address_hash:
+        if address_hash != address_hash_got:
             raise ValueError(
                 f"Invalid address hash (expected: {ConvUtils.BytesToHexString(address_hash)}, "
-                f"got: {ConvUtils.BytesToHexString(got_address_hash)}"
+                f"got: {ConvUtils.BytesToHexString(address_hash_got)})"
             )
 
         return priv_key_bytes, pub_key_mode

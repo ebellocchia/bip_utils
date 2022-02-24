@@ -18,14 +18,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Algorand address computation."""
+"""Module for Algorand address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
-from bip_utils.ecc import IPublicKey
-from bip_utils.utils.base32 import Base32Encoder
+from bip_utils.ecc import Ed25519PublicKey, IPublicKey
+from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
 from bip_utils.utils.misc import CryptoUtils
 
 
@@ -36,21 +38,78 @@ class AlgoAddrConst:
     CHECKSUM_BYTE_LEN: int = 4
 
 
-class AlgoAddr(IAddrEncoder):
+class _AlgoAddrUtils:
+    """Algorand address utility class."""
+
+    @staticmethod
+    def ComputeChecksum(pub_key_bytes: bytes) -> bytes:
+        """
+        Compute checksum in Algorand format.
+
+        Args:
+            pub_key_bytes (bytes): Public key bytes
+
+        Returns:
+            bytes: Computed checksum
+        """
+        return CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
+
+
+class AlgoAddrDecoder(IAddrDecoder):
     """
-    Algorand address class.
-    It allows the Algorand address generation.
+    Algorand address decoder class.
+    It allows the Algorand address decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode an Algorand address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Decode from base32
+        addr_dec_bytes = Base32Decoder.Decode(addr)
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    Ed25519PublicKey.CompressedLength() + AlgoAddrConst.CHECKSUM_BYTE_LEN - 1)
+        # Get back checksum and public key bytes
+        pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
+                                                                          AlgoAddrConst.CHECKSUM_BYTE_LEN)
+
+        # Validate checksum
+        AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _AlgoAddrUtils.ComputeChecksum)
+        # Validate public key
+        AddrDecUtils.ValidatePubKey(pub_key_bytes, Ed25519PublicKey)
+
+        return pub_key_bytes
+
+
+class AlgoAddrEncoder(IAddrEncoder):
+    """
+    Algorand address encoder class.
+    It allows the Algorand address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Algorand format.
+        Encode a public key to Algorand address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -59,10 +118,17 @@ class AlgoAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
 
         # Compute checksum
-        checksum = CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
+        checksum_bytes = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
         # Encode to base32
-        return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum)
+        return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum_bytes)
+
+
+class AlgoAddr(AlgoAddrEncoder):
+    """
+    Algorand address class.
+    Only kept for compatibility, AlgoAddrEncoder shall be used instead.
+    """

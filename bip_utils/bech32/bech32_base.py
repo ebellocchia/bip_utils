@@ -23,7 +23,7 @@
 # Imports
 from abc import ABC, abstractmethod
 from typing import List, Tuple, Union
-from bip_utils.bech32.bech32_ex import Bech32ChecksumError, Bech32FormatError
+from bip_utils.bech32.bech32_ex import Bech32ChecksumError
 from bip_utils.utils.misc import AlgoUtils, ConvUtils
 
 
@@ -53,13 +53,13 @@ class Bech32BaseUtils:
             list: Converted data
 
         Raises:
-            Bech32FormatError: If the string is not valid
+            ValueError: If the string is not valid
         """
 
         # Convert to base32
         conv_data = ConvUtils.ConvertToBits(data, 8, 5)
         if conv_data is None:
-            raise Bech32FormatError("Invalid data, cannot perform conversion to base32")
+            raise ValueError("Invalid data, cannot perform conversion to base32")
 
         return conv_data
 
@@ -75,13 +75,13 @@ class Bech32BaseUtils:
             list: Converted data
 
         Raises:
-            Bech32FormatError: If the string is not valid
+            ValueError: If the string is not valid
         """
 
         # Convert to base32
         conv_data = ConvUtils.ConvertToBits(data, 5, 8, False)
         if conv_data is None:
-            raise Bech32FormatError("Invalid data, cannot perform conversion from base32")
+            raise ValueError("Invalid data, cannot perform conversion from base32")
 
         return conv_data
 
@@ -153,13 +153,13 @@ class Bech32DecoderBase(ABC):
             tuple: HRP (index 0) and data part (index 1)
 
         Raises:
-            Bech32FormatError: If the string is not valid
+            ValueError: If the string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
 
         # Check string length and case
         if len(bech_str) > Bech32BaseConst.MAX_STR_BYTE_LEN or AlgoUtils.IsStringMixed(bech_str):
-            raise Bech32FormatError("Invalid bech32 format (length not valid)")
+            raise ValueError("Invalid bech32 format (length not valid)")
 
         # Lower string
         bech_str = bech_str.lower()
@@ -167,18 +167,18 @@ class Bech32DecoderBase(ABC):
         # Find separator and check its position
         sep_pos = bech_str.rfind(sep)
         if sep_pos == -1:
-            raise Bech32FormatError("Invalid bech32 format (no separator found)")
+            raise ValueError("Invalid bech32 format (no separator found)")
 
         # Get HRP and check it
         hrp = bech_str[:sep_pos]
         if len(hrp) == 0 or any(ord(x) < 33 or ord(x) > 126 for x in hrp):
-            raise Bech32FormatError("Invalid bech32 format (HRP not valid)")
+            raise ValueError(f"Invalid bech32 format (HRP not valid: {hrp})")
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
         if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_BYTE_LEN
                 or not all(x in Bech32BaseConst.CHARSET for x in data_part)):
-            raise Bech32FormatError("Invalid bech32 format (data part not valid)")
+            raise ValueError("Invalid bech32 format (data part not valid)")
 
         # Convert back from alphabet and verify checksum
         int_data = [Bech32BaseConst.CHARSET.find(x) for x in data_part]

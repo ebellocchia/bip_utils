@@ -18,31 +18,67 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Solana address computation."""
+"""Module for Solana address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.addr_key_validator import AddrKeyValidator
+from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.utils import AddrUtils
-from bip_utils.base58 import Base58Encoder
-from bip_utils.ecc import IPublicKey
+from bip_utils.base58 import Base58Decoder, Base58Encoder
+from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 
 
-class SolAddr(IAddrEncoder):
+class SolAddrDecoder(IAddrDecoder):
     """
-    Solana address class.
-    It allows the Solana address generation.
+    Solana address decoder class.
+    It allows the Solana address decoding.
+    """
+
+    @staticmethod
+    def DecodeAddr(addr: str,
+                   **kwargs: Any) -> bytes:
+        """
+        Decode a Solana address to bytes.
+
+        Args:
+            addr (str): Address string
+            **kwargs  : Not used
+
+        Returns:
+            bytes: Public key bytes
+
+        Raises:
+            ValueError: If the address encoding is not valid
+        """
+
+        # Decode from base58
+        addr_dec_bytes = Base58Decoder.Decode(addr)
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    Ed25519PublicKey.CompressedLength() - 1)
+        # Validate public key
+        AddrDecUtils.ValidatePubKey(addr_dec_bytes, Ed25519PublicKey)
+
+        return addr_dec_bytes
+
+
+class SolAddrEncoder(IAddrEncoder):
+    """
+    Solana address encoder class.
+    It allows the Solana address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Get address in Solana format.
+        Encode a public key to Solana address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs: Not used
+            **kwargs                     : Not used
 
         Returns:
             str: Address string
@@ -51,6 +87,12 @@ class SolAddr(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key_obj = AddrUtils.ValidateAndGetEd25519Key(pub_key)
-
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         return Base58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:])
+
+
+class SolAddr(SolAddrEncoder):
+    """
+    Solana address class.
+    Only kept for compatibility, SolAddrEncoder shall be used instead.
+    """

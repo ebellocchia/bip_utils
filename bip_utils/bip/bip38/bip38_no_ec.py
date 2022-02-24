@@ -242,7 +242,7 @@ class Bip38NoEcDecrypter:
         if address_hash != got_address_hash:
             raise ValueError(
                 f"Invalid address hash (expected: {ConvUtils.BytesToHexString(address_hash)}, "
-                f"got: {ConvUtils.BytesToHexString(got_address_hash)}"
+                f"got: {ConvUtils.BytesToHexString(got_address_hash)})"
             )
 
         return priv_key_bytes, pub_key_mode

@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import EosAddr
+from bip_utils import EosAddrDecoder, EosAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -30,29 +30,49 @@ from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1Pub
 TEST_VECT = [
     {
         "pub_key": b"0290ae9e1951967ea073b242c4e6dba5e728d9f4dca4a7161e1ec7f22114cd72c4",
-        "addr_params": {},
+        "address_dec": b"0290ae9e1951967ea073b242c4e6dba5e728d9f4dca4a7161e1ec7f22114cd72c4",
+        "address_params": {},
         "address": "EOS5zD4eXtvBmLhzmj9CtvuG2wxwuKcTbYxYwsGpPvKe68ExHjJsc",
     },
     {
         "pub_key": b"03f0c00e0faa983a664b526a3c9fc09362ac1a200159a021ce2ffe07d7938ff725",
-        "addr_params": {},
+        "address_dec": b"03f0c00e0faa983a664b526a3c9fc09362ac1a200159a021ce2ffe07d7938ff725",
+        "address_params": {},
         "address": "EOS8fGAt3L5oXQeXwnZDpWvXeipNi8FcrfUbL79TiD55za9CZo3pr",
     },
     {
         "pub_key": b"0381c6e21d718774ec71acf702b2f4a4df93ff680096840ad47c0487bd595ecc65",
-        "addr_params": {},
+        "address_dec": b"0381c6e21d718774ec71acf702b2f4a4df93ff680096840ad47c0487bd595ecc65",
+        "address_params": {},
         "address": "EOS7pPWL22sB1tbTkec6zDsSW2GpNE6faQzQJJ9CGc7CC1Q9FQ8r2",
     },
     {
         "pub_key": b"03771a273de43fd0e01ce40dfbb6fe487d0cc88caad8e3af6e3865d39acf534ad3",
-        "addr_params": {},
+        "address_dec": b"03771a273de43fd0e01ce40dfbb6fe487d0cc88caad8e3af6e3865d39acf534ad3",
+        "address_params": {},
         "address": "EOS7jgqNtYBCGb4fLDFepiBBxFbpcEPTXCKLihH9GtKf4QiGcV2Xo",
     },
     {
         "pub_key": b"03c2623b9c450d7e5c16c02b41a34b7eff782481a52d99060c8e6e6188e154a98a",
-        "addr_params": {},
+        "address_dec": b"03c2623b9c450d7e5c16c02b41a34b7eff782481a52d99060c8e6e6188e154a98a",
+        "address_params": {},
         "address": "EOS8JqoRy3T3ok9cN2WtcPkFDYowcpNTtwBs951NLxN56857KDHXa",
     },
+]
+
+# Tests for decoding with invalid strings
+TEST_VECT_DEC_INVALID = [
+    # Invalid prefix
+    "EAS5zD4eXtvBmLhzmj9CtvuG2wxwuKcTbYxYwsGpPvKe68ExHjJsc",
+    # Invalid checksum
+    "EOS8JqoRy3T3ok9cN2WtcPkFDYowcpNTtwBs951NLxN5685CU8jMo",
+    # Invalid encoding
+    "EOS7jgqNtYBCGb4fLDFepiBBxFbpcEPTXCKLihH9GtKf4QiGcV2X0",
+    # Invalid public key
+    "EOS1xDQ9DtsmxpSaTECu82Hpz7qd324jjMHcB8urMxy9R5mFNVYaw",
+    # Invalid lengths
+    "EOS2Y997vhCZrH3xKtBnzKqfU4XoeRUP32xdLb8Yb8h8MDk4gFMH",
+    "EOSWwbSdNcVaCnKSh4wkEg5o5ZvuesCkR72d88bdupWFQRs7fPsFP2",
 ]
 
 
@@ -62,12 +82,20 @@ TEST_VECT = [
 class EosAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, EosAddr, Secp256k1PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, EosAddrEncoder, Secp256k1PublicKey, TEST_VECT)
+
+    # Test decode address
+    def test_decode_addr(self):
+        AddrBaseTestHelper.test_decode_addr(self, EosAddrDecoder, TEST_VECT)
+
+    # Test invalid decoding
+    def test_invalid_dec(self):
+        AddrBaseTestHelper.test_invalid_dec(self, EosAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             EosAddr,
+                                             EosAddrEncoder,
                                              {},
                                              TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_SECP256K1_PUB_KEY_INVALID)
