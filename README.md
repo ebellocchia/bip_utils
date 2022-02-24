@@ -1508,7 +1508,8 @@ A watch-only class can be constructed from the private view key and the public s
 
 ## Addresses encoding/decoding
 
-These libraries are used internally by the other libraries, but they are available also for external use.
+These libraries are used internally by the other modules, but they are available also for external use.
+When decoding an address, *ValueError* will be raised in case the encoding is not valid.
 
 **Code example**
 
