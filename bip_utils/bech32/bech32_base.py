@@ -172,7 +172,7 @@ class Bech32DecoderBase(ABC):
         # Get HRP and check it
         hrp = bech_str[:sep_pos]
         if len(hrp) == 0 or any(ord(x) < 33 or ord(x) > 126 for x in hrp):
-            raise ValueError("Invalid bech32 format (HRP not valid)")
+            raise ValueError(f"Invalid bech32 format (HRP not valid: {hrp})")
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]

@@ -96,7 +96,7 @@ class _XmrAddrUtils:
                                         + XmrAddrConst.PAYMENT_ID_BYTE_LEN)
             # Check payment ID
             if payment_id_bytes is None or len(payment_id_bytes) != XmrAddrConst.PAYMENT_ID_BYTE_LEN:
-                raise ValueError("Invalid payment ID length")
+                raise ValueError("Invalid payment ID")
 
             payment_id_got_bytes = payload_bytes[-XmrAddrConst.PAYMENT_ID_BYTE_LEN:]
             if payment_id_bytes != payment_id_got_bytes:

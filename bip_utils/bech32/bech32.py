@@ -197,7 +197,7 @@ class Bech32Decoder(Bech32DecoderBase):
         # Check converted data
         if (len(conv_data) < Bech32Const.DATA_MIN_BYTE_LEN
                 or len(conv_data) > Bech32Const.DATA_MAX_BYTE_LEN):
-            raise ValueError("Invalid format (length not valid)")
+            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return ConvUtils.ListToBytes(conv_data)
 
