@@ -43,8 +43,6 @@ class AddrBaseTestHelper:
     @staticmethod
     def test_decode_addr(ut_class, addr_class, test_vector):
         for test in test_vector:
-            print(test["pub_key"], binascii.hexlify(addr_class.DecodeAddr(test["address"], **test["address_params"])))
-
             dec_bytes = binascii.unhexlify(test["address_dec"])
             ut_class.assertEqual(dec_bytes, addr_class.DecodeAddr(test["address"],
                                                                   **test["address_params"]))
@@ -68,8 +66,8 @@ class AddrBaseTestHelper:
 
     # Test invalid parameters (decoding)
     @staticmethod
-    def test_invalid_params_dec(ut_class, addr_class, pub_key, err_params, ex_type):
-        ut_class.assertRaises(ex_type, addr_class.DecodeAddr, pub_key, **err_params)
+    def test_invalid_params_dec(ut_class, addr_class, addr, err_params, ex_type):
+        ut_class.assertRaises(ex_type, addr_class.DecodeAddr, addr, **err_params)
 
     # Test invalid parameters (encoding)
     @staticmethod
