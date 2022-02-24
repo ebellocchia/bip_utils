@@ -27,7 +27,7 @@ from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Alphabets, Base58ChecksumError, Base58Decoder, Base58Encoder
-from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, BchBech32Decoder, BchBech32Encoder
+from bip_utils.bech32 import Bech32ChecksumError, BchBech32Decoder, BchBech32Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
@@ -143,8 +143,8 @@ class BchP2PKHAddrDecoder(IAddrDecoder):
 
         try:
             net_ver_bytes_got, addr_dec_bytes = BchBech32Decoder.Decode(hrp, addr)
-        except (Bech32ChecksumError, Bech32FormatError) as ex:
-            raise ValueError("Invalid bech32 encoding") from ex
+        except Bech32ChecksumError as ex:
+            raise ValueError("Invalid bech32 checksum") from ex
         else:
             # Check net version
             if net_ver_bytes != net_ver_bytes_got:

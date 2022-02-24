@@ -23,7 +23,3 @@
 
 class Bech32ChecksumError(Exception):
     """Exception in case of checksum error."""
-
-
-class Bech32FormatError(Exception):
-    """Exception in case of format error."""

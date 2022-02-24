@@ -31,7 +31,7 @@ from typing import Any, Union
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, SegwitBech32Decoder, SegwitBech32Encoder
+from bip_utils.bech32 import Bech32ChecksumError, SegwitBech32Decoder, SegwitBech32Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
@@ -67,8 +67,8 @@ class P2WPKHAddrDecoder(IAddrDecoder):
         try:
             # SegwitBech32Decoder also validates the length
             wit_ver_got, addr_dec_bytes = SegwitBech32Decoder.Decode(hrp, addr)
-        except (Bech32ChecksumError, Bech32FormatError) as ex:
-            raise ValueError("Invalid bech32 encoding") from ex
+        except Bech32ChecksumError as ex:
+            raise ValueError("Invalid bech32 checksum") from ex
         else:
             # Check witness version
             if wit_ver != wit_ver_got:

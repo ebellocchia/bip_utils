@@ -26,7 +26,6 @@ Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/ca
 # Imports
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.bech32_ex import Bech32FormatError
 from bip_utils.utils.misc import ConvUtils
 
 
@@ -147,7 +146,7 @@ class BchBech32Encoder(Bech32EncoderBase):
             str: Encoded address
 
         Raises:
-            Bech32FormatError: If the data is not valid
+            ValueError: If the data is not valid
         """
 
         return BchBech32Encoder._EncodeBech32(hrp,
@@ -190,7 +189,7 @@ class BchBech32Decoder(Bech32DecoderBase):
             tuple: Net version (index 0) and data (index 1)
 
         Raises:
-            Bech32FormatError: If the bech32 string is not valid
+            ValueError: If the bech32 string is not valid
             Bech32ChecksumError: If the checksum is not valid
         """
 
@@ -199,7 +198,7 @@ class BchBech32Decoder(Bech32DecoderBase):
 
         # Check HRP
         if hrp != hrp_got:
-            raise Bech32FormatError(f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})")
+            raise ValueError(f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})")
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
@@ -207,7 +206,7 @@ class BchBech32Decoder(Bech32DecoderBase):
         # Check converted data
         if (len(conv_data) < BchBech32Const.DATA_MIN_BYTE_LEN
                 or len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
-            raise Bech32FormatError(f"Invalid format (length not valid: {len(conv_data)})")
+            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return ConvUtils.IntegerToBytes(conv_data[0]), ConvUtils.ListToBytes(conv_data[1:])
 

@@ -26,7 +26,7 @@ from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
+from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
@@ -64,8 +64,8 @@ class ZilAddrDecoder(IAddrDecoder):
         try:
             addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Zilliqa.Params("addr_hrp"),
                                                   addr)
-        except (Bech32ChecksumError, Bech32FormatError) as ex:
-            raise ValueError("Invalid bech32 encoding") from ex
+        except Bech32ChecksumError as ex:
+            raise ValueError("Invalid bech32 checksum") from ex
         else:
             AddrDecUtils.ValidateLength(addr_dec_bytes, ZilAddrConst.SHA256_BYTE_LEN)
             return addr_dec_bytes

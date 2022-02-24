@@ -12,7 +12,7 @@ from bip_utils.ss58 import (
 )
 # Bech32
 from bip_utils.bech32 import (
-    Bech32ChecksumError, Bech32FormatError,
+    Bech32ChecksumError,
     Bech32Decoder, Bech32Encoder,
     BchBech32Decoder, BchBech32Encoder,
     SegwitBech32Decoder, SegwitBech32Encoder
