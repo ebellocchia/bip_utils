@@ -1910,7 +1910,7 @@ This library is used internally by the other modules, but it's available also fo
 
     # Encode with bech32
     enc = Bech32Encoder.Encode("cosmos", data_bytes)
-    # Decode with bech32
+    # Decode with bech32, Bech32ChecksumError is raised if checksum verification fails
     dec = Bech32Decoder.Decode("cosmos", enc)
 
     # Encode with segwit bech32
