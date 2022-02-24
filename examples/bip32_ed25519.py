@@ -17,7 +17,7 @@ print(f"Master key (bytes): {bip32_mst_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Master key (extended): {bip32_mst_ctx.PrivateKey().ToExtended()}")
 
 # Derive a path
-bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/397'/0'")
+bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/501'/0'")
 # Print key
 print(f"Derived private key (bytes): {bip32_der_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Derived private key (extended): {bip32_der_ctx.PrivateKey().ToExtended()}")
