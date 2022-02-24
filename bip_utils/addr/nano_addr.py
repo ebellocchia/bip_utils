@@ -27,7 +27,7 @@ from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
-from bip_utils.ecc import Ed25519PublicKey, IPublicKey
+from bip_utils.ecc import Ed25519Blake2bPublicKey, IPublicKey
 from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
@@ -94,7 +94,7 @@ class NanoAddrDecoder(IAddrDecoder):
                                               NanoAddrConst.BASE32_ALPHABET)
         # Validate length
         AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                    Ed25519PublicKey.CompressedLength() + NanoAddrConst.CHECKSUM_BYTE_LEN
+                                    Ed25519Blake2bPublicKey.CompressedLength() + NanoAddrConst.CHECKSUM_BYTE_LEN
                                     + len(NanoAddrConst.PAYLOAD_PAD_DEC) - 1)
 
         # Get back checksum and public key bytes
@@ -104,7 +104,7 @@ class NanoAddrDecoder(IAddrDecoder):
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _NanoAddrUtils.ComputeChecksum)
         # Validate public key
-        AddrDecUtils.ValidatePubKey(pub_key_bytes, Ed25519PublicKey)
+        AddrDecUtils.ValidatePubKey(pub_key_bytes, Ed25519Blake2bPublicKey)
 
         return pub_key_bytes
 
