@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Near Protocol address computation."""
+"""Module for Near Protocol address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -30,10 +30,10 @@ from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class NearAddr(IAddrDecoder, IAddrEncoder):
+class NearAddrDecoder(IAddrDecoder):
     """
-    Near address class.
-    It allows the Near Protocol address encoding/decoding.
+    Near address decoder class.
+    It allows the Near Protocol address decoding.
     """
 
     @staticmethod
@@ -61,6 +61,13 @@ class NearAddr(IAddrDecoder, IAddrEncoder):
 
         return pub_key_bytes
 
+
+class NearAddrEncoder(IAddrEncoder):
+    """
+    Near address encoder class.
+    It allows the Near Protocol address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -82,3 +89,10 @@ class NearAddr(IAddrDecoder, IAddrEncoder):
         # The address is simply the public key in hex format
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         return pub_key_obj.RawCompressed().ToHex()[2:]
+
+
+class NearAddr(NearAddrEncoder):
+    """
+    Near address class.
+    Only kept for compatibility, NearAddrEncoder shall be used instead.
+    """

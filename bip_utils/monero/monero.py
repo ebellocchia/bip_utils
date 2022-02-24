@@ -24,7 +24,7 @@
 from __future__ import annotations
 from functools import lru_cache
 from typing import Optional, Union
-from bip_utils.addr import XmrIntegratedAddr
+from bip_utils.addr import XmrIntegratedAddrEncoder
 from bip_utils.ecc import Ed25519Monero, Ed25519MoneroPrivateKey, IPrivateKey, IPublicKey
 from bip_utils.monero.conf import MoneroCoins, MoneroCoinConf, MoneroConfGetter
 from bip_utils.monero.monero_ex import MoneroKeyError
@@ -250,10 +250,10 @@ class Monero:
         Returns:
             str: Integrated address string
         """
-        return XmrIntegratedAddr.EncodeKey(self.m_pub_skey.KeyObject(),
-                                           pub_vkey=self.m_pub_vkey.KeyObject(),
-                                           net_ver=self.m_coin_conf.IntegratedAddrNetVersion(),
-                                           payment_id=payment_id)
+        return XmrIntegratedAddrEncoder.EncodeKey(self.m_pub_skey.KeyObject(),
+                                                  pub_vkey=self.m_pub_vkey.KeyObject(),
+                                                  net_ver=self.m_coin_conf.IntegratedAddrNetVersion(),
+                                                  payment_id=payment_id)
 
     @lru_cache()
     def PrimaryAddress(self) -> str:

@@ -1,7 +1,7 @@
 """Example of key derivation using BIP32 (secp256k1 curve)."""
 
 from bip_utils import (
-    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Secp256k1, EthAddr
+    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Secp256k1, EthAddrEncoder
 )
 
 # Generate random mnemonic
@@ -26,5 +26,5 @@ print(f"Derived public key (extended): {bip32_der_ctx.PublicKey().ToExtended()}"
 
 # Print address in Ethereum encoding
 # Like before, the BIP32 elliptic curve shall be the same one expected by the Ethereum address (secp256k1 in this case)
-eth_addr = EthAddr.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
+eth_addr = EthAddrEncoder.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
 print(f"Address (ETH): {eth_addr}")

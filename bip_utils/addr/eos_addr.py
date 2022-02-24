@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for EOS address computation."""
+"""Module for EOS address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -56,10 +56,10 @@ class _EosAddrUtils:
         return CryptoUtils.Ripemd160(pub_key_bytes)[:EosAddrConst.CHECKSUM_BYTE_LEN]
 
 
-class EosAddr(IAddrDecoder, IAddrEncoder):
+class EosAddrDecoder(IAddrDecoder):
     """
-    EOS address class.
-    It allows the EOS address encoding/decoding.
+    EOS address decoder class.
+    It allows the EOS address decoding.
     """
 
     @staticmethod
@@ -98,6 +98,13 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
 
         return pub_key_bytes
 
+
+class EosAddrEncoder(IAddrEncoder):
+    """
+    EOS address encoder class.
+    It allows the EOS address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -121,3 +128,10 @@ class EosAddr(IAddrDecoder, IAddrEncoder):
         checksum_bytes = _EosAddrUtils.ComputeChecksum(pub_key_bytes)
 
         return CoinsConf.Eos.Params("addr_prefix") + Base58Encoder.Encode(pub_key_bytes + checksum_bytes)
+
+
+class EosAddr(EosAddrEncoder):
+    """
+    EOS address class.
+    Only kept for compatibility, EosAddrEncoder shall be used instead.
+    """

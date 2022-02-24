@@ -22,7 +22,7 @@
 
 # Imports
 from typing import Optional, Tuple
-from bip_utils.addr import XmrAddr
+from bip_utils.addr import XmrAddrEncoder
 from bip_utils.ecc import Ed25519Monero
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
@@ -134,6 +134,6 @@ class MoneroSubaddress:
         pub_skey, pub_vkey = self.ComputeKeys(minor_idx, major_idx)
 
         # Encode subaddress
-        return XmrAddr.EncodeKey(pub_skey.KeyObject(),
-                                 pub_vkey=pub_vkey.KeyObject(),
-                                 net_ver=net_ver)
+        return XmrAddrEncoder.EncodeKey(pub_skey.KeyObject(),
+                                        pub_vkey=pub_vkey.KeyObject(),
+                                        net_ver=net_ver)

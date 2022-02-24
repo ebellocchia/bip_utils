@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import CoinsConf, BchP2SHAddr
+from bip_utils import CoinsConf, BchP2SHAddrDecoder, BchP2SHAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -77,16 +77,16 @@ TEST_VECT_DEC_INVALID = [
 class P2SHTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, BchP2SHAddr, Secp256k1PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, BchP2SHAddrEncoder, Secp256k1PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, BchP2SHAddr, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, BchP2SHAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
         AddrBaseTestHelper.test_invalid_dec(self,
-                                            BchP2SHAddr,
+                                            BchP2SHAddrDecoder,
                                             {"hrp": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
                                              "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver")},
                                             TEST_VECT_DEC_INVALID)
@@ -94,7 +94,7 @@ class P2SHTests(unittest.TestCase):
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             BchP2SHAddr,
+                                             BchP2SHAddrEncoder,
                                              {"hrp": "", "net_ver": b"\x00"},
                                              TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_SECP256K1_PUB_KEY_INVALID)

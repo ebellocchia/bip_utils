@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import CoinsConf, XmrIntegratedAddr, XmrAddr
+from bip_utils import CoinsConf, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder
 from bip_utils.addr.xmr_addr import XmrAddrConst
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES
@@ -156,71 +156,58 @@ TEST_VECT_DEC_INTEGRATED_INVALID = [
 class XmrAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, XmrAddr, Ed25519MoneroPublicKey, TEST_VECT)
-        AddrBaseTestHelper.test_encode_key(self, XmrIntegratedAddr, Ed25519MoneroPublicKey, TEST_VECT_INTEGRATED)
+        AddrBaseTestHelper.test_encode_key(self, XmrAddrEncoder, Ed25519MoneroPublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, XmrIntegratedAddrEncoder, Ed25519MoneroPublicKey, TEST_VECT_INTEGRATED)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, XmrAddr, TEST_VECT)
-        AddrBaseTestHelper.test_decode_addr(self, XmrIntegratedAddr, TEST_VECT_INTEGRATED)
+        AddrBaseTestHelper.test_decode_addr(self, XmrAddrDecoder, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, XmrIntegratedAddrDecoder, TEST_VECT_INTEGRATED)
 
     # Test invalid decoding
     def test_invalid_dec(self):
         AddrBaseTestHelper.test_invalid_dec(self,
-                                            XmrAddr,
+                                            XmrAddrDecoder,
                                             {"net_ver": CoinsConf.MoneroMainNet.Params("addr_net_ver")},
                                             TEST_VECT_DEC_INVALID)
         AddrBaseTestHelper.test_invalid_dec(self,
-                                            XmrIntegratedAddr,
+                                            XmrIntegratedAddrDecoder,
                                             {"net_ver": CoinsConf.MoneroMainNet.Params("addr_net_ver"),
                                              "payment_id": binascii.unhexlify(b"1111111111111111")},
                                             TEST_VECT_DEC_INTEGRATED_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
-            XmrAddr,
-            {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
-             "net_ver": b""},
-            TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES,
-            TEST_VECT_ED25519_PUB_KEY_INVALID
-        )
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
-            XmrIntegratedAddr,
-            {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
-             "net_ver": b"",
-             "payment_id": b"\x00" * XmrAddrConst.PAYMENT_ID_BYTE_LEN},
-            TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES,
-            TEST_VECT_ED25519_PUB_KEY_INVALID
-        )
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             XmrAddrEncoder,
+                                             {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
+                                              "net_ver": b""},
+                                             TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_ED25519_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(self,
+                                             XmrIntegratedAddrEncoder,
+                                             {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
+                                              "net_ver": b"",
+                                              "payment_id": b"\x00" * XmrAddrConst.PAYMENT_ID_BYTE_LEN},
+                                             TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES,
+                                             TEST_VECT_ED25519_PUB_KEY_INVALID)
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(
-            self,
-            XmrIntegratedAddr,
-            "4DrC7i9aDrgEJ532nkrBRxRqgCFgozQeCDmvaAVASdw5hVTmtiTEaKeDFW9XJj3VTK36Qm6PCxGjyLc9vXh1YmKph8qJwcHBaeWT21kw6w",
-            {"net_ver": CoinsConf.MoneroMainNet.Params("addr_int_net_ver"),
-             "payment_id": None},
-            ValueError
-        )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
-            XmrIntegratedAddr,
-            TEST_ED25519_MONERO_PUB_KEY,
-            {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
-             "net_ver": b"",
-             "payment_id": b"\x00" * (XmrAddrConst.PAYMENT_ID_BYTE_LEN - 1)},
-            ValueError
-        )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
-            XmrIntegratedAddr,
-            TEST_ED25519_MONERO_PUB_KEY,
-            {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
-             "net_ver": b"",
-             "payment_id": b"\x00" * (XmrAddrConst.PAYMENT_ID_BYTE_LEN + 1)},
-            ValueError
-        )
+        AddrBaseTestHelper.test_invalid_params_dec(self, XmrIntegratedAddrDecoder,
+                                                   "4DrC7i9aDrgEJ532nkrBRxRqgCFgozQeCDmvaAVASdw5hVTmtiTEaKeDFW9XJj3VTK36Qm6PCxGjyLc9vXh1YmKph8qJwcHBaeWT21kw6w",
+                                                   {"net_ver": CoinsConf.MoneroMainNet.Params("addr_int_net_ver"),
+                                                    "payment_id": None},
+                                                   ValueError)
+        AddrBaseTestHelper.test_invalid_params_enc(self, XmrIntegratedAddrEncoder,
+                                                   TEST_ED25519_MONERO_PUB_KEY,
+                                                   {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
+                                                    "net_ver": b"",
+                                                    "payment_id": b"\x00" * (XmrAddrConst.PAYMENT_ID_BYTE_LEN - 1)},
+                                                   ValueError)
+        AddrBaseTestHelper.test_invalid_params_enc(self, XmrIntegratedAddrEncoder,
+                                                   TEST_ED25519_MONERO_PUB_KEY,
+                                                   {"pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
+                                                    "net_ver": b"",
+                                                    "payment_id": b"\x00" * (XmrAddrConst.PAYMENT_ID_BYTE_LEN + 1)},
+                                                   ValueError)

@@ -22,7 +22,7 @@
 # Imports
 import unittest
 from bip_utils import (
-    SubstrateEd25519Addr, SubstrateSr25519Addr,
+    SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder
 )
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES, TEST_SR25519_ADDR_INVALID_KEY_TYPES
@@ -89,28 +89,28 @@ TEST_VECT_DEC_INVALID = [
 class SubstrateAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, SubstrateEd25519Addr, Ed25519PublicKey, TEST_VECT)
-        AddrBaseTestHelper.test_encode_key(self, SubstrateSr25519Addr, Sr25519PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, SubstrateEd25519AddrEncoder, Ed25519PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, SubstrateSr25519AddrEncoder, Sr25519PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, SubstrateEd25519Addr, TEST_VECT)
-        AddrBaseTestHelper.test_decode_addr(self, SubstrateSr25519Addr, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, SubstrateEd25519AddrDecoder, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, SubstrateSr25519AddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, SubstrateEd25519Addr, {"ss58_format": 0}, TEST_VECT_DEC_INVALID)
-        AddrBaseTestHelper.test_invalid_dec(self, SubstrateSr25519Addr, {"ss58_format": 0}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, SubstrateEd25519AddrDecoder, {"ss58_format": 0}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, SubstrateSr25519AddrDecoder, {"ss58_format": 0}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             SubstrateEd25519Addr,
+                                             SubstrateEd25519AddrEncoder,
                                              {"ss58_format": 0},
                                              TEST_ED25519_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_ED25519_PUB_KEY_INVALID)
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             SubstrateSr25519Addr,
+                                             SubstrateSr25519AddrEncoder,
                                              {"ss58_format": 0},
                                              TEST_SR25519_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_SR25519_PUB_KEY_INVALID)

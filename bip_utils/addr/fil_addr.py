@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Filecoin address computation."""
+"""Module for Filecoin address encoding/decoding."""
 
 # Imports
 from enum import IntEnum, unique
@@ -137,10 +137,10 @@ class _FilAddrUtils:
         return CoinsConf.Filecoin.Params("addr_prefix") + addr_type_str + b32_enc
 
 
-class FilSecp256k1Addr(IAddrDecoder, IAddrEncoder):
+class FilSecp256k1AddrDecoder(IAddrDecoder):
     """
-    Filecoin address class based on secp256k1 curve.
-    It allows the Filecoin address encoding/decoding.
+    Filecoin address decoder class, based on secp256k1 curve.
+    It allows the Filecoin address decoding.
     """
 
     @staticmethod
@@ -160,6 +160,13 @@ class FilSecp256k1Addr(IAddrDecoder, IAddrEncoder):
             ValueError: If the address encoding is not valid
         """
         return _FilAddrUtils.DecodeAddr(addr, FillAddrTypes.SECP256K1)
+
+
+class FilSecp256k1AddrEncoder(IAddrEncoder):
+    """
+    Filecoin address encoder class, based on secp256k1 curve.
+    It allows the Filecoin address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -182,3 +189,10 @@ class FilSecp256k1Addr(IAddrDecoder, IAddrEncoder):
         pub_key_bytes = pub_key_obj.RawUncompressed().ToBytes()
 
         return _FilAddrUtils.EncodeKeyBytes(pub_key_bytes, FillAddrTypes.SECP256K1)
+
+
+class FilSecp256k1Addr(FilSecp256k1AddrEncoder):
+    """
+    Filecoin address class, based on secp256k1 curve.
+    Only kept for compatibility, FilSecp256k1AddrEncoder shall be used instead.
+    """

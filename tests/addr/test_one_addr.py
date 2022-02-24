@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import OneAddr
+from bip_utils import OneAddrDecoder, OneAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -82,20 +82,20 @@ TEST_VECT_DEC_INVALID = [
 class OneAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, OneAddr, Secp256k1PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, OneAddrEncoder, Secp256k1PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, OneAddr, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, OneAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, OneAddr, {}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, OneAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             OneAddr,
+                                             OneAddrEncoder,
                                              {},
                                              TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_SECP256K1_PUB_KEY_INVALID)

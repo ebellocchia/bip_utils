@@ -18,24 +18,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Tron address computation."""
+"""Module for Tron address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.eth_addr import EthAddrConst, EthAddr
+from bip_utils.addr.eth_addr import EthAddrConst, EthAddrDecoder, EthAddrEncoder
 from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class TrxAddr(IAddrDecoder, IAddrEncoder):
+class TrxAddrDecoder(IAddrDecoder):
     """
-    Tron address class.
-    It allows the Tron address encoding/decoding.
+    Tron address decoder class.
+    It allows the Tron address decoding.
     """
 
     @staticmethod
@@ -68,8 +68,16 @@ class TrxAddr(IAddrDecoder, IAddrEncoder):
             addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
                                                                   CoinsConf.Tron.Params("addr_prefix"))
 
-            return EthAddr.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_no_prefix),
-                                      skip_chksum_enc=True)
+            return EthAddrDecoder.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix")
+                                             + ConvUtils.BytesToHexString(addr_no_prefix),
+                                             skip_chksum_enc=True)
+
+
+class TrxAddrEncoder(IAddrEncoder):
+    """
+    Tron address encoder class.
+    It allows the Tron address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -90,6 +98,13 @@ class TrxAddr(IAddrDecoder, IAddrEncoder):
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
+        eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Add prefix and encode
         return Base58Encoder.CheckEncode(CoinsConf.Tron.Params("addr_prefix") + ConvUtils.HexStringToBytes(eth_addr))
+
+
+class TrxAddr(TrxAddrEncoder):
+    """
+    Tron address class.
+    Only kept for compatibility, TrxAddrEncoder shall be used instead.
+    """

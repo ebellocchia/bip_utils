@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Elrond address computation."""
+"""Module for Elrond address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -32,10 +32,10 @@ from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
 
 
-class EgldAddr(IAddrDecoder, IAddrEncoder):
+class EgldAddrDecoder(IAddrDecoder):
     """
-    Elrond address class.
-    It allows the Elrond address encoding/decoding.
+    Elrond address decoder class.
+    It allows the Elrond address decoding.
     """
 
     @staticmethod
@@ -66,6 +66,13 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
 
             return addr_dec_bytes
 
+
+class EgldAddrEncoder(IAddrEncoder):
+    """
+    Elrond address encoder class.
+    It allows the Elrond address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -86,3 +93,10 @@ class EgldAddr(IAddrDecoder, IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         return Bech32Encoder.Encode(CoinsConf.Elrond.Params("addr_hrp"),
                                     pub_key_obj.RawCompressed().ToBytes()[1:])
+
+
+class EgldAddr(EgldAddrEncoder):
+    """
+    Elrond address class.
+    Only kept for compatibility, EgldAddrEncoder shall be used instead.
+    """

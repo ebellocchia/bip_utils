@@ -24,7 +24,7 @@
 from __future__ import annotations
 from functools import lru_cache
 from typing import Union
-from bip_utils.addr import SubstrateSr25519Addr
+from bip_utils.addr import SubstrateSr25519AddrEncoder
 from bip_utils.substrate.conf import SubstrateCoinConf
 from bip_utils.ecc import IPrivateKey, IPublicKey, Sr25519PrivateKey, Sr25519PublicKey
 from bip_utils.substrate.substrate_ex import SubstrateKeyError
@@ -131,8 +131,8 @@ class SubstratePublicKey:
         Returns:
             str: Address string
         """
-        return SubstrateSr25519Addr.EncodeKey(self.m_pub_key,
-                                              **self.m_coin_conf.AddrParams())
+        return SubstrateSr25519AddrEncoder.EncodeKey(self.m_pub_key,
+                                                     **self.m_coin_conf.AddrParams())
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes) -> IPublicKey:

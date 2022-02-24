@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Substrate address computation."""
+"""Module for Substrate address encoding/decoding."""
 
 # Imports
 from typing import Any, Type, Union
@@ -66,10 +66,10 @@ class _SubstrateAddrUtils:
         return addr_dec_bytes
 
 
-class SubstrateEd25519Addr(IAddrDecoder, IAddrEncoder):
+class SubstrateEd25519AddrDecoder(IAddrDecoder):
     """
-    Substrate address class based on ed25519 keys.
-    It allows the Substrate address encoding/decoding.
+    Substrate address decoder class, based on ed25519 curve.
+    It allows the Substrate address decoding.
     """
 
     @staticmethod
@@ -91,6 +91,13 @@ class SubstrateEd25519Addr(IAddrDecoder, IAddrEncoder):
             ValueError: If the address encoding is not valid
         """
         return _SubstrateAddrUtils.DecodeAddr(addr, kwargs["ss58_format"], Ed25519PublicKey)
+
+
+class SubstrateEd25519AddrEncoder(IAddrEncoder):
+    """
+    Substrate address encoder class, based on ed25519 curve.
+    It allows the Substrate address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -116,10 +123,17 @@ class SubstrateEd25519Addr(IAddrDecoder, IAddrEncoder):
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], ss58_format)
 
 
-class SubstrateSr25519Addr(IAddrDecoder, IAddrEncoder):
+class SubstrateEd25519Addr(SubstrateEd25519AddrEncoder):
     """
-    Substrate address class based on sr25519 keys.
-    It allows the Substrate address encoding/decoding.
+    Substrate address class, based on ed25519 curve.
+    Only kept for compatibility, SubstrateEd25519AddrEncoder shall be used instead.
+    """
+
+
+class SubstrateSr25519AddrDecoder(IAddrDecoder):
+    """
+    Substrate address decoder class, based on sr25519 curve.
+    It allows the Substrate address decoding.
     """
 
     @staticmethod
@@ -141,6 +155,13 @@ class SubstrateSr25519Addr(IAddrDecoder, IAddrEncoder):
             ValueError: If the address encoding is not valid
         """
         return _SubstrateAddrUtils.DecodeAddr(addr, kwargs["ss58_format"], Sr25519PublicKey)
+
+
+class SubstrateSr25519AddrEncoder(IAddrEncoder):
+    """
+    Substrate address encoder class, based on sr25519 curve.
+    It allows the Substrate address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -164,3 +185,10 @@ class SubstrateSr25519Addr(IAddrDecoder, IAddrEncoder):
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSr25519Key(pub_key)
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes(), ss58_format)
+
+
+class SubstrateSr25519Addr(SubstrateSr25519AddrEncoder):
+    """
+    Substrate address class, based on sr25519 curve.
+    Only kept for compatibility, SubstrateSr25519AddrEncoder shall be used instead.
+    """

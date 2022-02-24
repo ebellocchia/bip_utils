@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Algorand address computation."""
+"""Module for Algorand address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -55,10 +55,10 @@ class _AlgoAddrUtils:
         return CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
 
 
-class AlgoAddr(IAddrDecoder, IAddrEncoder):
+class AlgoAddrDecoder(IAddrDecoder):
     """
-    Algorand address class.
-    It allows the Algorand address encoding/decoding.
+    Algorand address decoder class.
+    It allows the Algorand address decoding.
     """
 
     @staticmethod
@@ -94,6 +94,13 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
 
         return pub_key_bytes
 
+
+class AlgoAddrEncoder(IAddrEncoder):
+    """
+    Algorand address encoder class.
+    It allows the Algorand address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -118,3 +125,10 @@ class AlgoAddr(IAddrDecoder, IAddrEncoder):
         checksum_bytes = _AlgoAddrUtils.ComputeChecksum(pub_key_bytes)
         # Encode to base32
         return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum_bytes)
+
+
+class AlgoAddr(AlgoAddrEncoder):
+    """
+    Algorand address class.
+    Only kept for compatibility, AlgoAddrEncoder shall be used instead.
+    """

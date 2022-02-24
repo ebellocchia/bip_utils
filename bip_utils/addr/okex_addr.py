@@ -18,23 +18,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for OKEx address computation."""
+"""Module for OKEx address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.eth_addr import EthAddr
+from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class OkexAddr(IAddrDecoder, IAddrEncoder):
+class OkexAddrDecoder(IAddrDecoder):
     """
-    OKEx Chain address class.
-    It allows the OKEx Chain address encoding/decoding.
+    OKEx Chain address decoder class.
+    It allows the OKEx Chain address decoding.
     """
 
     @staticmethod
@@ -59,10 +59,17 @@ class OkexAddr(IAddrDecoder, IAddrEncoder):
         except (Bech32ChecksumError, Bech32FormatError) as ex:
             raise ValueError("Invalid bech32 encoding") from ex
         else:
-            return EthAddr.DecodeAddr(
+            return EthAddrDecoder.DecodeAddr(
                 CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_dec_bytes),
                 skip_chksum_enc=True
             )
+
+
+class OkexAddrEncoder(IAddrEncoder):
+    """
+    OKEx Chain address encoder class.
+    It allows the OKEx Chain address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -83,7 +90,14 @@ class OkexAddr(IAddrDecoder, IAddrEncoder):
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
+        eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Encode in Bech32 format
         return Bech32Encoder.Encode(CoinsConf.OkexChain.Params("addr_hrp"),
                                     ConvUtils.HexStringToBytes(eth_addr))
+
+
+class OkexAddr(OkexAddrEncoder):
+    """
+    OKEx address class.
+    Only kept for compatibility, OkexAddrEncoder shall be used instead.
+    """

@@ -22,7 +22,7 @@
 
 # Imports
 from functools import lru_cache
-from bip_utils.addr import XmrAddr
+from bip_utils.addr import XmrAddrEncoder
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.utils.misc import DataBytes
@@ -115,7 +115,7 @@ class Bip44PublicKey:
         pub_key_obj = self.Bip32Key().KeyObject()
 
         # Exception for Monero
-        if addr_cls is XmrAddr:
+        if addr_cls is XmrAddrEncoder:
             raise ValueError("Use the Monero class to get Monero addresses")
 
         return addr_cls.EncodeKey(pub_key_obj, **addr_params)

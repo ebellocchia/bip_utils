@@ -22,11 +22,11 @@
 
 # Imports
 from bip_utils.addr import (
-    AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr,
-    EosAddr, EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr, NearAddr,
-    NeoAddr, OneAddr, P2PKHAddr, BchP2PKHAddr, SolAddr,
-    SubstrateEd25519Addr, TrxAddr, XlmAddrTypes, XlmAddr, XmrAddr,
-    XrpAddr, XtzAddrPrefixes, XtzAddr, ZilAddr
+    AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder, BchP2PKHAddrEncoder,
+    EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder, NearAddrEncoder,
+    NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
+    SubstrateEd25519AddrEncoder, TrxAddrEncoder, XlmAddrTypes, XlmAddrEncoder, XmrAddrEncoder,
+    XrpAddrEncoder, XtzAddrPrefixes, XtzAddrEncoder, ZilAddrEncoder
 )
 from bip_utils.bip.bip32 import (
     Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
@@ -55,7 +55,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=AlgoAddr,
+        addr_cls=AlgoAddrEncoder,
         addr_params={},
     )
 
@@ -68,7 +68,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
     # Configuration for Avax P-Chain
@@ -80,7 +80,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AvaxPChainAddr,
+        addr_cls=AvaxPChainAddrEncoder,
         addr_params={},
     )
     # Configuration for Avax X-Chain
@@ -92,7 +92,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AvaxXChainAddr,
+        addr_cls=AvaxXChainAddrEncoder,
         addr_params={},
     )
 
@@ -105,7 +105,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BandProtocol.Params("addr_hrp"),
         },
@@ -120,7 +120,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BinanceChain.Params("addr_hrp"),
         },
@@ -134,7 +134,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -147,7 +147,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.BitcoinMainNet.Params("p2pkh_net_ver"),
         },
@@ -161,7 +161,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.BitcoinTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.BitcoinTestNet.Params("p2pkh_net_ver"),
         },
@@ -176,7 +176,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.BitcoinCashMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=BchP2PKHAddr,
+        addr_cls=BchP2PKHAddrEncoder,
         addr_params={
             "std": {
                 "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2pkh_std_net_ver"),
@@ -186,7 +186,7 @@ class Bip44Conf:
                 "net_ver": CoinsConf.BitcoinCashMainNet.Params("p2pkh_legacy_net_ver"),
             }
         },
-        addr_cls_legacy=P2PKHAddr,
+        addr_cls_legacy=P2PKHAddrEncoder,
     )
     # Configuration for Bitcoin Cash test net
     BitcoinCashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
@@ -197,7 +197,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.BitcoinCashTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=BchP2PKHAddr,
+        addr_cls=BchP2PKHAddrEncoder,
         addr_params={
             "std": {
                 "net_ver": CoinsConf.BitcoinCashTestNet.Params("p2pkh_std_net_ver"),
@@ -207,7 +207,7 @@ class Bip44Conf:
                 "net_ver": CoinsConf.BitcoinCashTestNet.Params("p2pkh_legacy_net_ver"),
             }
         },
-        addr_cls_legacy=P2PKHAddr,
+        addr_cls_legacy=P2PKHAddrEncoder,
     )
 
     # Configuration for Bitcoin Cash Simple Ledger Protocol main net
@@ -219,7 +219,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.BitcoinCashSlpMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=BchP2PKHAddr,
+        addr_cls=BchP2PKHAddrEncoder,
         addr_params={
             "std": {
                 "net_ver": CoinsConf.BitcoinCashSlpMainNet.Params("p2pkh_std_net_ver"),
@@ -229,7 +229,7 @@ class Bip44Conf:
                 "net_ver": CoinsConf.BitcoinCashSlpMainNet.Params("p2pkh_legacy_net_ver"),
             }
         },
-        addr_cls_legacy=P2PKHAddr,
+        addr_cls_legacy=P2PKHAddrEncoder,
     )
     # Configuration for Bitcoin Cash Simple Ledger Protocol test net
     BitcoinCashSlpTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
@@ -240,7 +240,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.BitcoinCashSlpTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=BchP2PKHAddr,
+        addr_cls=BchP2PKHAddrEncoder,
         addr_params={
             "std": {
                 "net_ver": CoinsConf.BitcoinCashSlpTestNet.Params("p2pkh_std_net_ver"),
@@ -250,7 +250,7 @@ class Bip44Conf:
                 "net_ver": CoinsConf.BitcoinCashSlpTestNet.Params("p2pkh_legacy_net_ver"),
             }
         },
-        addr_cls_legacy=P2PKHAddr,
+        addr_cls_legacy=P2PKHAddrEncoder,
     )
 
     # Configuration for BitcoinSV main net
@@ -262,7 +262,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.BitcoinSvMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.BitcoinSvMainNet.Params("p2pkh_net_ver"),
         },
@@ -276,7 +276,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.BitcoinSvTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.BitcoinSvTestNet.Params("p2pkh_net_ver"),
         },
@@ -291,7 +291,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -304,7 +304,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.Cosmos.Params("addr_hrp"),
         },
@@ -319,7 +319,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.DashMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.DashMainNet.Params("p2pkh_net_ver"),
         },
@@ -333,7 +333,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.DashTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.DashTestNet.Params("p2pkh_net_ver"),
         },
@@ -349,7 +349,7 @@ class Bip44Conf:
                                         b"\x02\xfa\xc3\x98"),   # dgub / dgpv
         wif_net_ver=CoinsConf.DogecoinMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.DogecoinMainNet.Params("p2pkh_net_ver"),
         },
@@ -364,7 +364,7 @@ class Bip44Conf:
                                         b"\x04\x32\xa2\x43"),   # tgub / tgpv
         wif_net_ver=CoinsConf.DogecoinTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.DogecoinTestNet.Params("p2pkh_net_ver"),
         },
@@ -379,7 +379,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.EcashMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=BchP2PKHAddr,
+        addr_cls=BchP2PKHAddrEncoder,
         addr_params={
             "std": {
                 "net_ver": CoinsConf.EcashMainNet.Params("p2pkh_std_net_ver"),
@@ -389,7 +389,7 @@ class Bip44Conf:
                 "net_ver": CoinsConf.EcashMainNet.Params("p2pkh_legacy_net_ver"),
             }
         },
-        addr_cls_legacy=P2PKHAddr,
+        addr_cls_legacy=P2PKHAddrEncoder,
     )
     # Configuration for eCash test net
     EcashTestNet: BipBitcoinCashConf = BipBitcoinCashConf(
@@ -400,7 +400,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.EcashTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=BchP2PKHAddr,
+        addr_cls=BchP2PKHAddrEncoder,
         addr_params={
             "std": {
                 "net_ver": CoinsConf.EcashTestNet.Params("p2pkh_std_net_ver"),
@@ -410,7 +410,7 @@ class Bip44Conf:
                 "net_ver": CoinsConf.EcashTestNet.Params("p2pkh_legacy_net_ver"),
             }
         },
-        addr_cls_legacy=P2PKHAddr,
+        addr_cls_legacy=P2PKHAddrEncoder,
     )
 
     # Configuration for Elrond
@@ -422,7 +422,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=EgldAddr,
+        addr_cls=EgldAddrEncoder,
         addr_params={},
     )
 
@@ -435,7 +435,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EosAddr,
+        addr_cls=EosAddrEncoder,
         addr_params={},
     )
 
@@ -448,7 +448,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
     # Configuration for Ethereum Classic
@@ -460,7 +460,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -473,7 +473,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -486,7 +486,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=FilSecp256k1Addr,
+        addr_cls=FilSecp256k1AddrEncoder,
         addr_params={},
     )
 
@@ -499,7 +499,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
     # Configuration for Harmony One (Ethereum address)
@@ -511,7 +511,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
     # Configuration for Harmony One (Atom address)
@@ -523,7 +523,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=OneAddr,
+        addr_cls=OneAddrEncoder,
         addr_params={},
     )
 
@@ -536,7 +536,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -549,7 +549,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.IrisNet.Params("addr_hrp"),
         },
@@ -564,7 +564,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.Kava.Params("addr_hrp"),
         },
@@ -579,7 +579,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=SubstrateEd25519Addr,
+        addr_cls=SubstrateEd25519AddrEncoder,
         addr_params={
             "ss58_format": CoinsConf.Kusama.Params("addr_ss58_format"),
         },
@@ -596,7 +596,7 @@ class Bip44Conf:
                                             b"\x01\x9d\x9c\xfe"),   # Ltpv / Ltub
         wif_net_ver=CoinsConf.LitecoinMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "std_net_ver": CoinsConf.LitecoinMainNet.Params("p2pkh_std_net_ver"),
             "depr_net_ver": CoinsConf.LitecoinMainNet.Params("p2pkh_depr_net_ver"),
@@ -614,7 +614,7 @@ class Bip44Conf:
                                             b"\x04\x36\xef\x7d"),   # ttub / ttpv
         wif_net_ver=CoinsConf.LitecoinTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "std_net_ver": CoinsConf.LitecoinTestNet.Params("p2pkh_std_net_ver"),
             "depr_net_ver": CoinsConf.LitecoinTestNet.Params("p2pkh_depr_net_ver"),
@@ -630,7 +630,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=XmrAddr,
+        addr_cls=XmrAddrEncoder,
         addr_params={},
     )
 
@@ -643,7 +643,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=XmrAddr,
+        addr_cls=XmrAddrEncoder,
         addr_params={},
     )
 
@@ -656,7 +656,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Blake2bSlip,
-        addr_cls=NanoAddr,
+        addr_cls=NanoAddrEncoder,
         addr_params={},
     )
 
@@ -669,7 +669,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=NearAddr,
+        addr_cls=NearAddrEncoder,
         addr_params={},
     )
 
@@ -682,7 +682,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Nist256p1,
-        addr_cls=NeoAddr,
+        addr_cls=NeoAddrEncoder,
         addr_params={
             "ver": CoinsConf.Neo.Params("addr_ver"),
         },
@@ -697,7 +697,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -710,7 +710,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -723,7 +723,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=OkexAddr,
+        addr_cls=OkexAddrEncoder,
         addr_params={},
     )
 
@@ -736,7 +736,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=OkexAddr,
+        addr_cls=OkexAddrEncoder,
         addr_params={},
     )
 
@@ -749,7 +749,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Nist256p1,
-        addr_cls=NeoAddr,
+        addr_cls=NeoAddrEncoder,
         addr_params={
             "ver": CoinsConf.Ontology.Params("addr_ver"),
         },
@@ -764,7 +764,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.Osmosis.Params("addr_hrp"),
         },
@@ -779,7 +779,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=SubstrateEd25519Addr,
+        addr_cls=SubstrateEd25519AddrEncoder,
         addr_params={
             "ss58_format": CoinsConf.Polkadot.Params("addr_ss58_format"),
         },
@@ -794,7 +794,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -807,7 +807,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=XrpAddr,
+        addr_cls=XrpAddrEncoder,
         addr_params={},
     )
 
@@ -820,7 +820,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.SecretNetwork.Params("addr_hrp"),
         },
@@ -834,7 +834,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.SecretNetwork.Params("addr_hrp"),
         },
@@ -849,7 +849,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=SolAddr,
+        addr_cls=SolAddrEncoder,
         addr_params={},
     )
 
@@ -862,7 +862,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=XlmAddr,
+        addr_cls=XlmAddrEncoder,
         addr_params={"addr_type": XlmAddrTypes.PUB_KEY},
     )
 
@@ -875,7 +875,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=AtomAddr,
+        addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.Terra.Params("addr_hrp"),
         },
@@ -890,7 +890,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Slip,
-        addr_cls=XtzAddr,
+        addr_cls=XtzAddrEncoder,
         addr_params={"prefix": XtzAddrPrefixes.TZ1},
     )
 
@@ -903,7 +903,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -916,7 +916,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=TrxAddr,
+        addr_cls=TrxAddrEncoder,
         addr_params={},
     )
 
@@ -929,7 +929,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=EthAddr,
+        addr_cls=EthAddrEncoder,
         addr_params={},
     )
 
@@ -942,7 +942,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.Verge.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.Verge.Params("p2pkh_net_ver"),
         },
@@ -957,7 +957,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=CoinsConf.ZcashMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.ZcashMainNet.Params("p2pkh_net_ver"),
         },
@@ -971,7 +971,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.ZcashTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2PKHAddr,
+        addr_cls=P2PKHAddrEncoder,
         addr_params={
             "net_ver": CoinsConf.ZcashTestNet.Params("p2pkh_net_ver"),
         },
@@ -986,6 +986,6 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Secp256k1,
-        addr_cls=ZilAddr,
+        addr_cls=ZilAddrEncoder,
         addr_params={},
     )

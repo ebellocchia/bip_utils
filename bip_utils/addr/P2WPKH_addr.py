@@ -18,7 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for P2WPKH address computation."""
+"""
+Module for P2WPKH address encoding/decoding.
+
+References:
+    https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
+    https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
+"""
 
 # Imports
 from typing import Any, Union
@@ -30,14 +36,10 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
 
-class P2WPKHAddr(IAddrDecoder, IAddrEncoder):
+class P2WPKHAddrDecoder(IAddrDecoder):
     """
-    P2WPKH address class.
-    It allows the Pay-to-Witness-Public-Key-Hash address encoding/decoding.
-
-    Refer to:
-    https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki
-    https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
+    P2WPKH address decoder class.
+    It allows the Pay-to-Witness-Public-Key-Hash address decoding.
     """
 
     @staticmethod
@@ -73,6 +75,13 @@ class P2WPKHAddr(IAddrDecoder, IAddrEncoder):
                 raise ValueError(f"Invalid witness version (expected {wit_ver}, got {wit_ver_got})")
             return addr_dec_bytes
 
+
+class P2WPKHAddrEncoder(IAddrEncoder):
+    """
+    P2WPKH address encoder class.
+    It allows the Pay-to-Witness-Public-Key-Hash address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -100,3 +109,10 @@ class P2WPKHAddr(IAddrDecoder, IAddrEncoder):
         return SegwitBech32Encoder.Encode(hrp,
                                           wit_ver,
                                           CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+
+
+class P2WPKHAddr(P2WPKHAddrEncoder):
+    """
+    P2WPKH address class.
+    Only kept for compatibility, P2WPKHAddrEncoder shall be used instead.
+    """

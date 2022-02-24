@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Neo address computation."""
+"""Module for Neo address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -40,10 +40,10 @@ class NeoAddrConst:
     SUFFIX: bytes = b"\xac"
 
 
-class NeoAddr(IAddrDecoder, IAddrEncoder):
+class NeoAddrDecoder(IAddrDecoder):
     """
-    Neo address class.
-    It allows the Neo address encoding/decoding.
+    Neo address decoder class.
+    It allows the Neo address decoding.
     """
 
     @staticmethod
@@ -83,6 +83,13 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
 
             return addr_dec_bytes[1:]
 
+
+class NeoAddrEncoder(IAddrEncoder):
+    """
+    Neo address encoder class.
+    It allows the Neo address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -112,3 +119,10 @@ class NeoAddr(IAddrDecoder, IAddrEncoder):
                          + NeoAddrConst.SUFFIX)
         # Encode to base58
         return Base58Encoder.CheckEncode(ver_bytes + CryptoUtils.Hash160(payload_bytes))
+
+
+class NeoAddr(NeoAddrEncoder):
+    """
+    Neo address class.
+    Only kept for compatibility, NeoAddrEncoder shall be used instead.
+    """

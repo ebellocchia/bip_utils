@@ -18,12 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Avax address computation."""
+"""Module for Avax address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
-from bip_utils.addr.atom_addr import AtomAddr
+from bip_utils.addr.atom_addr import AtomAddrDecoder, AtomAddrEncoder
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
@@ -52,13 +52,13 @@ class _AvaxAddrUtils:
             ValueError: If the address encoding is not valid
         """
         addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr, prefix)
-        return AtomAddr.DecodeAddr(addr_no_prefix, hrp=hrp)
+        return AtomAddrDecoder.DecodeAddr(addr_no_prefix, hrp=hrp)
 
 
-class AvaxPChainAddr(IAddrDecoder, IAddrEncoder):
+class AvaxPChainAddrDecoder(IAddrDecoder):
     """
-    Avax P-Chain address class.
-    It allows the Avax P-Chain address encoding/decoding.
+    Avax P-Chain address decoder class.
+    It allows the Avax P-Chain address decoding.
     """
 
     @staticmethod
@@ -81,6 +81,13 @@ class AvaxPChainAddr(IAddrDecoder, IAddrEncoder):
                                          CoinsConf.AvaxPChain.Params("addr_prefix"),
                                          CoinsConf.AvaxPChain.Params("addr_hrp"))
 
+
+class AvaxPChainAddrEncoder(IAddrEncoder):
+    """
+    Avax P-Chain address encoder class.
+    It allows the Avax P-Chain address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -99,14 +106,21 @@ class AvaxPChainAddr(IAddrDecoder, IAddrEncoder):
             TypeError: If the public key is not secp256k1
         """
         prefix = CoinsConf.AvaxPChain.Params("addr_prefix")
-        return prefix + AtomAddr.EncodeKey(pub_key,
-                                           hrp=CoinsConf.AvaxPChain.Params("addr_hrp"))
+        return prefix + AtomAddrEncoder.EncodeKey(pub_key,
+                                                  hrp=CoinsConf.AvaxPChain.Params("addr_hrp"))
 
 
-class AvaxXChainAddr(IAddrDecoder, IAddrEncoder):
+class AvaxPChainAddr(AvaxPChainAddrEncoder):
     """
-    Avax X-Chain address class.
-    It allows the Avax X-Chain address encoding/decoding.
+    Avax P-Chain address class.
+    Only kept for compatibility, AvaxPChainAddrEncoder shall be used instead.
+    """
+
+
+class AvaxXChainAddrDecoder(IAddrDecoder):
+    """
+    Avax X-Chain address decoder class.
+    It allows the Avax X-Chain address decoding.
     """
 
     @staticmethod
@@ -129,6 +143,13 @@ class AvaxXChainAddr(IAddrDecoder, IAddrEncoder):
                                          CoinsConf.AvaxXChain.Params("addr_prefix"),
                                          CoinsConf.AvaxXChain.Params("addr_hrp"))
 
+
+class AvaxXChainAddrEncoder(IAddrEncoder):
+    """
+    Avax X-Chain address encoder class.
+    It allows the Avax X-Chain address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -147,5 +168,12 @@ class AvaxXChainAddr(IAddrDecoder, IAddrEncoder):
             TypeError: If the public key is not secp256k1
         """
         prefix = CoinsConf.AvaxXChain.Params("addr_prefix")
-        return prefix + AtomAddr.EncodeKey(pub_key,
-                                           hrp=CoinsConf.AvaxXChain.Params("addr_hrp"))
+        return prefix + AtomAddrEncoder.EncodeKey(pub_key,
+                                                  hrp=CoinsConf.AvaxXChain.Params("addr_hrp"))
+
+
+class AvaxXChainAddr(AvaxXChainAddrEncoder):
+    """
+    Avax X-Chain address class.
+    Only kept for compatibility, AvaxXChainAddrEncoder shall be used instead.
+    """

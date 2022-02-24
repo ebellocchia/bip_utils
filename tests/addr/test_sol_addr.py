@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import SolAddr
+from bip_utils import SolAddrDecoder, SolAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey
@@ -74,20 +74,20 @@ TEST_VECT_DEC_INVALID = [
 class SolAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, SolAddr, Ed25519PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, SolAddrEncoder, Ed25519PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, SolAddr, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, SolAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, SolAddr, {}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, SolAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             SolAddr,
+                                             SolAddrEncoder,
                                              {},
                                              TEST_ED25519_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_ED25519_PUB_KEY_INVALID)

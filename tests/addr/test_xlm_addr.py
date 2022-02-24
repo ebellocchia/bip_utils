@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import XlmAddrTypes, XlmAddr
+from bip_utils import XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_PUB_KEY, Ed25519PublicKey
@@ -80,23 +80,20 @@ TEST_VECT_DEC_INVALID = [
 class XlmAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, XlmAddr, Ed25519PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, XlmAddrEncoder, Ed25519PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, XlmAddr, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, XlmAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self,
-                                            XlmAddr,
-                                            {"addr_type": XlmAddrTypes.PUB_KEY},
-                                            TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, XlmAddrDecoder, {"addr_type": XlmAddrTypes.PUB_KEY}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             XlmAddr,
+                                             XlmAddrEncoder,
                                              {"addr_type": XlmAddrTypes.PUB_KEY},
                                              TEST_ED25519_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_ED25519_PUB_KEY_INVALID)
@@ -104,8 +101,12 @@ class XlmAddrTests(unittest.TestCase):
     # Test invalid parameters
     def test_invalid_params(self):
         AddrBaseTestHelper.test_invalid_params_dec(self,
-                                                   XlmAddr,
+                                                   XlmAddrDecoder,
                                                    "GACG4MLLYMQHMOHZDAR3WSBCYZLC5CXPCXZ447RV3527PP3AQH6YCMW5",
                                                    {"addr_type": 0},
                                                    TypeError)
-        AddrBaseTestHelper.test_invalid_params_enc(self, XlmAddr, TEST_ED25519_PUB_KEY, {"addr_type": 0}, TypeError)
+        AddrBaseTestHelper.test_invalid_params_enc(self,
+                                                   XlmAddrEncoder,
+                                                   TEST_ED25519_PUB_KEY,
+                                                   {"addr_type": 0},
+                                                   TypeError)

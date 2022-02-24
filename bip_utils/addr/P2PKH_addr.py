@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for P2PKH address computation."""
+"""Module for P2PKH address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -32,10 +32,10 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils, CryptoUtils
 
 
-class P2PKHAddr(IAddrDecoder, IAddrEncoder):
+class P2PKHAddrDecoder(IAddrDecoder):
     """
-    P2PKH class.
-    It allows the Pay-to-Public-Key-Hash address encoding/decoding.
+    P2PKH address decoder class.
+    It allows the Pay-to-Public-Key-Hash address decoding.
     """
 
     @staticmethod
@@ -71,6 +71,13 @@ class P2PKHAddr(IAddrDecoder, IAddrEncoder):
             # Validate and remove prefix
             return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, net_ver_bytes)
 
+
+class P2PKHAddrEncoder(IAddrEncoder):
+    """
+    P2PKH address encoder class.
+    It allows the Pay-to-Public-Key-Hash address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -99,10 +106,17 @@ class P2PKHAddr(IAddrDecoder, IAddrEncoder):
                                          base58_alph)
 
 
-class BchP2PKHAddr(IAddrDecoder, IAddrEncoder):
+class P2PKHAddr(P2PKHAddrEncoder):
     """
-    Bitcoin Cash P2PKH class.
-    It allows the Bitcoin Cash P2PKH encoding/decoding.
+    P2PKH address class.
+    Only kept for compatibility, P2PKHAddrEncoder shall be used instead.
+    """
+
+
+class BchP2PKHAddrDecoder(IAddrDecoder):
+    """
+    Bitcoin Cash P2PKH address decoder class.
+    It allows the Bitcoin Cash P2PKH decoding.
     """
 
     @staticmethod
@@ -141,6 +155,13 @@ class BchP2PKHAddr(IAddrDecoder, IAddrEncoder):
                                         CryptoUtils.Hash160DigestSize())
             return addr_dec_bytes
 
+
+class BchP2PKHAddrEncoder(IAddrEncoder):
+    """
+    Bitcoin Cash P2PKH address encoder class.
+    It allows the Bitcoin Cash P2PKH encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -168,3 +189,10 @@ class BchP2PKHAddr(IAddrDecoder, IAddrEncoder):
         return BchBech32Encoder.Encode(hrp,
                                        net_ver_bytes,
                                        CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+
+
+class BchP2PKHAddr(BchP2PKHAddrEncoder):
+    """
+    Bitcoin Cash P2PKH address.
+    Only kept for compatibility, BchP2PKHAddrEncoder shall be used instead.
+    """

@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Nano address computation."""
+"""Module for Nano address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -63,10 +63,10 @@ class _NanoAddrUtils:
                                                           digest_size=NanoAddrConst.CHECKSUM_BYTE_LEN))
 
 
-class NanoAddr(IAddrDecoder, IAddrEncoder):
+class NanoAddrDecoder(IAddrDecoder):
     """
-    Nano address class.
-    It allows the Nano address encoding/decoding.
+    Nano address decoder class.
+    It allows the Nano address decoding.
     """
 
     @staticmethod
@@ -108,6 +108,13 @@ class NanoAddr(IAddrDecoder, IAddrEncoder):
 
         return pub_key_bytes
 
+
+class NanoAddrEncoder(IAddrEncoder):
+    """
+    Nano address encoder class.
+    It allows the Nano address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -136,3 +143,10 @@ class NanoAddr(IAddrDecoder, IAddrEncoder):
 
         # Add prefix
         return CoinsConf.Nano.Params("addr_prefix") + b32_enc[len(NanoAddrConst.PAYLOAD_PAD_ENC):]
+
+
+class NanoAddr(NanoAddrEncoder):
+    """
+    Nano address class.
+    Only kept for compatibility, NanoAddrEncoder shall be used instead.
+    """

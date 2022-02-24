@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Stellar address computation."""
+"""Module for Stellar address encoding/decoding."""
 
 # Imports
 from enum import IntEnum, unique
@@ -64,10 +64,10 @@ class _XlmAddrUtils:
         return ConvUtils.ReverseBytes(CryptoUtils.XModemCrc(payload_bytes))
 
 
-class XlmAddr(IAddrDecoder, IAddrEncoder):
+class XlmAddrDecoder(IAddrDecoder):
     """
-    Stellar address class.
-    It allows the Stellar address encoding/decoding.
+    Stellar address decoder class.
+    It allows the Stellar address decoding.
     """
 
     @staticmethod
@@ -117,6 +117,13 @@ class XlmAddr(IAddrDecoder, IAddrEncoder):
 
         return pub_key_bytes
 
+
+class XlmAddrEncoder(IAddrEncoder):
+    """
+    Stellar address encoder class.
+    It allows the Stellar address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -150,3 +157,10 @@ class XlmAddr(IAddrDecoder, IAddrEncoder):
         checksum_bytes = _XlmAddrUtils.ComputeChecksum(payload_bytes)
         # Encode to base32
         return Base32Encoder.EncodeNoPadding(payload_bytes + checksum_bytes)
+
+
+class XlmAddr(XlmAddrEncoder):
+    """
+    Stellar address class.
+    Only kept for compatibility, XlmAddrEncoder shall be used instead.
+    """

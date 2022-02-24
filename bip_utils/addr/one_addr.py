@@ -18,23 +18,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Harmony One address computation."""
+"""Module for Harmony One address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.eth_addr import EthAddr
+from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32FormatError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import ConvUtils
 
 
-class OneAddr(IAddrDecoder, IAddrEncoder):
+class OneAddrDecoder(IAddrDecoder):
     """
-    Harmony One address class.
-    It allows the Harmony One address encoding/decoding.
+    Harmony One address decoder class.
+    It allows the Harmony One address decoding.
     """
 
     @staticmethod
@@ -59,10 +59,17 @@ class OneAddr(IAddrDecoder, IAddrEncoder):
         except (Bech32ChecksumError, Bech32FormatError) as ex:
             raise ValueError("Invalid bech32 encoding") from ex
         else:
-            return EthAddr.DecodeAddr(
+            return EthAddrDecoder.DecodeAddr(
                 CoinsConf.Ethereum.Params("addr_prefix") + ConvUtils.BytesToHexString(addr_dec_bytes),
                 skip_chksum_enc=True
             )
+
+
+class OneAddrEncoder(IAddrEncoder):
+    """
+    Harmony One address encoder class.
+    It allows the Harmony One address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -83,7 +90,14 @@ class OneAddr(IAddrDecoder, IAddrEncoder):
         """
 
         # Get address in Ethereum format (remove "0x" at the beginning)
-        eth_addr = EthAddr.EncodeKey(pub_key)[2:]
+        eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Encode in Bech32 format
         return Bech32Encoder.Encode(CoinsConf.HarmonyOne.Params("addr_hrp"),
                                     ConvUtils.HexStringToBytes(eth_addr))
+
+
+class OneAddr(OneAddrEncoder):
+    """
+    Harmony One address class.
+    Only kept for compatibility, OneAddrEncoder shall be used instead.
+    """

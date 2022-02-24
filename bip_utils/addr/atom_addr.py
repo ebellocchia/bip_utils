@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Atom address computation."""
+"""Module for Atom address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -31,10 +31,10 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
 
-class AtomAddr(IAddrDecoder, IAddrEncoder):
+class AtomAddrDecoder(IAddrDecoder):
     """
-    Atom address class.
-    It allows the Atom address encoding/decoding.
+    Atom address decoder class.
+    It allows the Atom address decoding.
     """
 
     @staticmethod
@@ -66,6 +66,13 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
                                         CryptoUtils.Hash160DigestSize())
             return addr_dec_bytes
 
+
+class AtomAddrEncoder(IAddrEncoder):
+    """
+    Atom address encoder class.
+    It allows the Atom address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -90,3 +97,10 @@ class AtomAddr(IAddrDecoder, IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
         return Bech32Encoder.Encode(hrp,
                                     CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+
+
+class AtomAddr(AtomAddrEncoder):
+    """
+    Atom address class.
+    Only kept for compatibility, AtomAddrEncoder shall be used instead.
+    """

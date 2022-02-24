@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Monero address computation."""
+"""Module for Monero address encoding/decoding."""
 
 # Imports
 from typing import Any, Optional, Union
@@ -149,10 +149,10 @@ class _XmrAddrUtils:
         return Base58XmrEncoder.Encode(payload_bytes + _XmrAddrUtils.ComputeChecksum(payload_bytes))
 
 
-class XmrAddr(IAddrDecoder, IAddrEncoder):
+class XmrAddrDecoder(IAddrDecoder):
     """
-    Monero address class.
-    It allows the Monero address encoding/decoding.
+    Monero address decoder class.
+    It allows the Monero address decoding.
     """
 
     @staticmethod
@@ -176,6 +176,13 @@ class XmrAddr(IAddrDecoder, IAddrEncoder):
         net_ver = kwargs["net_ver"]
 
         return _XmrAddrUtils.DecodeAddr(addr, net_ver)
+
+
+class XmrAddrEncoder(IAddrEncoder):
+    """
+    Monero address encoder class.
+    It allows the Monero address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -204,10 +211,17 @@ class XmrAddr(IAddrDecoder, IAddrEncoder):
         return _XmrAddrUtils.EncodeKey(pub_key, pub_vkey, net_ver)
 
 
-class XmrIntegratedAddr(IAddrDecoder, IAddrEncoder):
+class XmrAddr(XmrAddrEncoder):
     """
-    Monero integrated address class.
-    It allows the Monero integrated address encoding/decoding.
+    Monero address class.
+    Only kept for compatibility, XmrAddrEncoder shall be used instead.
+    """
+
+
+class XmrIntegratedAddrDecoder(IAddrDecoder):
+    """
+    Monero integrated address decoder class.
+    It allows the Monero integrated address decoding.
     """
 
     @staticmethod
@@ -233,6 +247,13 @@ class XmrIntegratedAddr(IAddrDecoder, IAddrEncoder):
         payment_id = kwargs["payment_id"]
 
         return _XmrAddrUtils.DecodeAddr(addr, net_ver, payment_id)
+
+
+class XmrIntegratedAddrEncoder(IAddrEncoder):
+    """
+    Monero integrated address encoder class.
+    It allows the Monero integrated address encoding.
+    """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
@@ -260,3 +281,10 @@ class XmrIntegratedAddr(IAddrDecoder, IAddrEncoder):
         payment_id = kwargs["payment_id"]
 
         return _XmrAddrUtils.EncodeKey(pub_key, pub_vkey, net_ver, payment_id)
+
+
+class XmrIntegratedAddr(XmrIntegratedAddrEncoder):
+    """
+    Monero integrated address class.
+    Only kept for compatibility, XmrIntegratedAddrEncoder shall be used instead.
+    """

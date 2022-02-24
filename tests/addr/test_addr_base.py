@@ -29,47 +29,47 @@ import binascii
 class AddrBaseTestHelper:
     # Test encode key
     @staticmethod
-    def test_encode_key(ut_class, addr_class, pub_key_class, test_vector):
+    def test_encode_key(ut_class, addr_enc_class, pub_key_class, test_vector):
         for test in test_vector:
             key_bytes = binascii.unhexlify(test["pub_key"])
 
             # Test with bytes and public key object
-            ut_class.assertEqual(test["address"], addr_class.EncodeKey(key_bytes,
-                                                                       **test["address_params"]))
-            ut_class.assertEqual(test["address"], addr_class.EncodeKey(pub_key_class.FromBytes(key_bytes),
-                                                                       **test["address_params"]))
+            ut_class.assertEqual(test["address"], addr_enc_class.EncodeKey(key_bytes,
+                                                                           **test["address_params"]))
+            ut_class.assertEqual(test["address"], addr_enc_class.EncodeKey(pub_key_class.FromBytes(key_bytes),
+                                                                           **test["address_params"]))
 
     # Test decode address
     @staticmethod
-    def test_decode_addr(ut_class, addr_class, test_vector):
+    def test_decode_addr(ut_class, addr_dec_class, test_vector):
         for test in test_vector:
             dec_bytes = binascii.unhexlify(test["address_dec"])
-            ut_class.assertEqual(dec_bytes, addr_class.DecodeAddr(test["address"],
-                                                                  **test["address_params"]))
+            ut_class.assertEqual(dec_bytes, addr_dec_class.DecodeAddr(test["address"],
+                                                                      **test["address_params"]))
 
     # Test invalid decoding
     @staticmethod
-    def test_invalid_dec(ut_class, addr_class, addr_params, test_vector):
+    def test_invalid_dec(ut_class, addr_dec_class, addr_params, test_vector):
         for addr in test_vector:
-            ut_class.assertRaises(ValueError, addr_class.DecodeAddr, addr, **addr_params)
+            ut_class.assertRaises(ValueError, addr_dec_class.DecodeAddr, addr, **addr_params)
 
     # Test invalid keys
     @staticmethod
-    def test_invalid_keys(ut_class, addr_class, addr_params, test_vector_inv_types, test_vector_inv_keys):
+    def test_invalid_keys(ut_class, addr_enc_class, addr_params, test_vector_inv_types, test_vector_inv_keys):
         # Invalid key types
         for key in test_vector_inv_types:
-            ut_class.assertRaises(TypeError, addr_class.EncodeKey, key, **addr_params)
+            ut_class.assertRaises(TypeError, addr_enc_class.EncodeKey, key, **addr_params)
 
         # Invalid public keys
         for key in test_vector_inv_keys:
-            ut_class.assertRaises(ValueError, addr_class.EncodeKey, key, **addr_params)
+            ut_class.assertRaises(ValueError, addr_enc_class.EncodeKey, key, **addr_params)
 
     # Test invalid parameters (decoding)
     @staticmethod
-    def test_invalid_params_dec(ut_class, addr_class, addr, err_params, ex_type):
-        ut_class.assertRaises(ex_type, addr_class.DecodeAddr, addr, **err_params)
+    def test_invalid_params_dec(ut_class, addr_dec_class, addr, err_params, ex_type):
+        ut_class.assertRaises(ex_type, addr_dec_class.DecodeAddr, addr, **err_params)
 
     # Test invalid parameters (encoding)
     @staticmethod
-    def test_invalid_params_enc(ut_class, addr_class, pub_key, err_params, ex_type):
-        ut_class.assertRaises(ex_type, addr_class.EncodeKey, pub_key, **err_params)
+    def test_invalid_params_enc(ut_class, addr_enc_class, pub_key, err_params, ex_type):
+        ut_class.assertRaises(ex_type, addr_enc_class.EncodeKey, pub_key, **err_params)

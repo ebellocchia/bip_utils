@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Ethereum address computation."""
+"""Module for Ethereum address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -63,10 +63,10 @@ class _EthAddrUtils:
         return "".join(enc_addr)
 
 
-class EthAddr(IAddrDecoder, IAddrEncoder):
+class EthAddrDecoder(IAddrDecoder):
     """
-    Ethereum address class.
-    It allows the Ethereum address encoding/decoding.
+    Ethereum address decoder class.
+    It allows the Ethereum address decoding.
     """
 
     @staticmethod
@@ -100,6 +100,13 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
 
         return ConvUtils.HexStringToBytes(addr_no_prefix)
 
+
+class EthAddrEncoder(IAddrEncoder):
+    """
+    Ethereum address encoder class.
+    It allows the Ethereum address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -129,3 +136,10 @@ class EthAddr(IAddrDecoder, IAddrEncoder):
         return CoinsConf.Ethereum.Params("addr_prefix") + (_EthAddrUtils.ChecksumEncode(addr)
                                                            if not skip_chksum_enc
                                                            else addr)
+
+
+class EthAddr(EthAddrEncoder):
+    """
+    Ethereum address class.
+    Only kept for compatibility, EthAddrEncoder shall be used instead.
+    """

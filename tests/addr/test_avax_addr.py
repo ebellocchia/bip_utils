@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import AvaxPChainAddr, AvaxXChainAddr
+from bip_utils import AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxXChainAddrDecoder, AvaxXChainAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -99,28 +99,28 @@ TEST_VECT_DEC_INVALID = {
 class AvaxAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, AvaxPChainAddr, Secp256k1PublicKey, TEST_VECT["p_chain"])
-        AddrBaseTestHelper.test_encode_key(self, AvaxXChainAddr, Secp256k1PublicKey, TEST_VECT["x_chain"])
+        AddrBaseTestHelper.test_encode_key(self, AvaxPChainAddrEncoder, Secp256k1PublicKey, TEST_VECT["p_chain"])
+        AddrBaseTestHelper.test_encode_key(self, AvaxXChainAddrEncoder, Secp256k1PublicKey, TEST_VECT["x_chain"])
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, AvaxPChainAddr, TEST_VECT["p_chain"])
-        AddrBaseTestHelper.test_decode_addr(self, AvaxXChainAddr, TEST_VECT["x_chain"])
+        AddrBaseTestHelper.test_decode_addr(self, AvaxPChainAddrDecoder, TEST_VECT["p_chain"])
+        AddrBaseTestHelper.test_decode_addr(self, AvaxXChainAddrDecoder, TEST_VECT["x_chain"])
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, AvaxPChainAddr, {}, TEST_VECT_DEC_INVALID["p_chain"])
-        AddrBaseTestHelper.test_invalid_dec(self, AvaxXChainAddr, {}, TEST_VECT_DEC_INVALID["x_chain"])
+        AddrBaseTestHelper.test_invalid_dec(self, AvaxPChainAddrDecoder, {}, TEST_VECT_DEC_INVALID["p_chain"])
+        AddrBaseTestHelper.test_invalid_dec(self, AvaxXChainAddrDecoder, {}, TEST_VECT_DEC_INVALID["x_chain"])
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             AvaxPChainAddr,
+                                             AvaxPChainAddrEncoder,
                                              {},
                                              TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_SECP256K1_PUB_KEY_INVALID)
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             AvaxXChainAddr,
+                                             AvaxXChainAddrEncoder,
                                              {},
                                              TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_SECP256K1_PUB_KEY_INVALID)

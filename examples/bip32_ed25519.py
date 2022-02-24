@@ -1,11 +1,11 @@
 """Example of key derivation using BIP32 (ed25519 curve based on SLIP-0010)."""
 
 from bip_utils import (
-    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Ed25519Slip, SolAddr
+    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Ed25519Slip, SolAddrEncoder
 )
 
 # Generate random mnemonic
-mnemonic = "wrap inquiry hip shrimp patient merry sheriff curve employ still all else" # Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
 print(f"Mnemonic string: {mnemonic}")
 # Generate seed from mnemonic
 seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
@@ -26,5 +26,5 @@ print(f"Derived public key (extended): {bip32_der_ctx.PublicKey().ToExtended()}"
 
 # Print address in Solana encoding
 # Like before, the BIP32 elliptic curve shall be the same one expected by the Solana address (ed25519 in this case)
-sol_addr = SolAddr.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
+sol_addr = SolAddrEncoder.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
 print(f"Address (SOL): {sol_addr}")

@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Tezos address computation."""
+"""Module for Tezos address encoding/decoding."""
 
 # Imports
 from enum import Enum, unique
@@ -48,10 +48,10 @@ class XtzAddrConst:
     BLAKE2B_BYTE_LEN: int = 20
 
 
-class XtzAddr(IAddrDecoder, IAddrEncoder):
+class XtzAddrDecoder(IAddrDecoder):
     """
-    Tezos address class.
-    It allows the Tezos address encoding/decoding.
+    Tezos address decoder class.
+    It allows the Tezos address decoding.
     """
 
     @staticmethod
@@ -93,6 +93,13 @@ class XtzAddr(IAddrDecoder, IAddrEncoder):
 
             return blake_bytes
 
+
+class XtzAddrEncoder(IAddrEncoder):
+    """
+    Tezos address encoder class.
+    It allows the Tezos address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -126,3 +133,10 @@ class XtzAddr(IAddrDecoder, IAddrEncoder):
                                           digest_size=XtzAddrConst.BLAKE2B_BYTE_LEN)
 
         return Base58Encoder.CheckEncode(prefix.value + blake_bytes)
+
+
+class XtzAddr(XtzAddrEncoder):
+    """
+    Tezos address class.
+    Only kept for compatibility, XtzAddrEncoder shall be used instead.
+    """

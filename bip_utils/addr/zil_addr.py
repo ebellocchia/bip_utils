@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Zilliqa address computation."""
+"""Module for Zilliqa address encoding/decoding."""
 
 # Imports
 from typing import Any, Union
@@ -39,10 +39,10 @@ class ZilAddrConst:
     SHA256_BYTE_LEN: int = 20
 
 
-class ZilAddr(IAddrDecoder, IAddrEncoder):
+class ZilAddrDecoder(IAddrDecoder):
     """
-    Zilliqa address class.
-    It allows the Zilliqa address encoding/decoding.
+    Zilliqa address decoder class.
+    It allows the Zilliqa address decoding.
     """
 
     @staticmethod
@@ -70,6 +70,13 @@ class ZilAddr(IAddrDecoder, IAddrEncoder):
             AddrDecUtils.ValidateLength(addr_dec_bytes, ZilAddrConst.SHA256_BYTE_LEN)
             return addr_dec_bytes
 
+
+class ZilAddrEncoder(IAddrEncoder):
+    """
+    Zilliqa address encoder class.
+    It allows the Zilliqa address encoding.
+    """
+
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -92,3 +99,10 @@ class ZilAddr(IAddrDecoder, IAddrEncoder):
         key_hash = CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())
         return Bech32Encoder.Encode(CoinsConf.Zilliqa.Params("addr_hrp"),
                                     key_hash[-ZilAddrConst.SHA256_BYTE_LEN:])
+
+
+class ZilAddr(ZilAddrEncoder):
+    """
+    Zilliqa address class.
+    Only kept for compatibility, ZilAddrEncoder shall be used instead.
+    """

@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import NanoAddr
+from bip_utils import NanoAddrDecoder, NanoAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_BLAKE2B_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519Blake2bPublicKey
@@ -80,20 +80,20 @@ TEST_VECT_DEC_INVALID = [
 class NanoAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, NanoAddr, Ed25519Blake2bPublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, NanoAddrEncoder, Ed25519Blake2bPublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, NanoAddr, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, NanoAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, NanoAddr, {}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(self, NanoAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             NanoAddr,
+                                             NanoAddrEncoder,
                                              {},
                                              TEST_ED25519_BLAKE2B_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_ED25519_PUB_KEY_INVALID)

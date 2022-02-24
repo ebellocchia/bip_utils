@@ -21,7 +21,7 @@
 """Module for BIP84 coins configuration."""
 
 # Imports
-from bip_utils.addr import P2WPKHAddr
+from bip_utils.addr import P2WPKHAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Secp256k1
 from bip_utils.bip.conf.common import BipCoinConf, NOT_HARDENED_DEF_PATH
 from bip_utils.coin_conf import CoinsConf
@@ -44,7 +44,7 @@ class Bip84Conf:
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
         wif_net_ver=CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2WPKHAddr,
+        addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"),
             "wit_ver": CoinsConf.BitcoinMainNet.Params("p2wpkh_wit_ver"),
@@ -60,7 +60,7 @@ class Bip84Conf:
                                         b"\x04\x5f\x18\xbc"),   # vpub / vprv
         wif_net_ver=CoinsConf.BitcoinTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2WPKHAddr,
+        addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinTestNet.Params("p2wpkh_hrp"),
             "wit_ver": CoinsConf.BitcoinTestNet.Params("p2wpkh_wit_ver"),
@@ -76,7 +76,7 @@ class Bip84Conf:
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
         wif_net_ver=CoinsConf.LitecoinMainNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2WPKHAddr,
+        addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.LitecoinMainNet.Params("p2wpkh_hrp"),
             "wit_ver": CoinsConf.LitecoinMainNet.Params("p2wpkh_wit_ver"),
@@ -92,7 +92,7 @@ class Bip84Conf:
                                         b"\x04\x36\xef\x7d"),   # ttub / ttpv
         wif_net_ver=CoinsConf.LitecoinTestNet.Params("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
-        addr_cls=P2WPKHAddr,
+        addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.LitecoinTestNet.Params("p2wpkh_hrp"),
             "wit_ver": CoinsConf.LitecoinTestNet.Params("p2wpkh_wit_ver"),

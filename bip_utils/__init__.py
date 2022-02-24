@@ -22,11 +22,34 @@ from bip_utils.wif import WifPubKeyModes, WifDecoder, WifEncoder
 # Address computation
 from bip_utils.addr import (
     BchAddrConverter,
-    AlgoAddr, AtomAddr, AvaxPChainAddr, AvaxXChainAddr, EgldAddr, EosAddr,
-    EthAddr, FilSecp256k1Addr, OkexAddr, NanoAddr, NearAddr, NeoAddr, OneAddr,
-    P2PKHAddr, BchP2PKHAddr, P2SHAddr, BchP2SHAddr, P2WPKHAddr, SolAddr,
-    SubstrateEd25519Addr, SubstrateSr25519Addr, TrxAddr, XlmAddrTypes, XlmAddr, XmrIntegratedAddr,
-    XmrAddr, XrpAddr, XtzAddrPrefixes, XtzAddr, ZilAddr
+    AlgoAddrDecoder, AlgoAddrEncoder, AlgoAddr,
+    AtomAddrDecoder, AtomAddrEncoder, AtomAddr,
+    AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxPChainAddr,
+    AvaxXChainAddrDecoder, AvaxXChainAddrEncoder, AvaxXChainAddr,
+    EgldAddrDecoder, EgldAddrEncoder, EgldAddr,
+    EosAddrDecoder, EosAddrEncoder, EosAddr,
+    EthAddrDecoder, EthAddrEncoder, EthAddr,
+    FilSecp256k1AddrDecoder, FilSecp256k1AddrEncoder, FilSecp256k1Addr,
+    NanoAddrDecoder, NanoAddrEncoder, NanoAddr,
+    NearAddrDecoder, NearAddrEncoder, NearAddr,
+    NeoAddrDecoder, NeoAddrEncoder, NeoAddr,
+    OkexAddrDecoder, OkexAddrEncoder, OkexAddr,
+    OneAddrDecoder, OneAddrEncoder, OneAddr,
+    BchP2PKHAddrDecoder, BchP2PKHAddrEncoder, BchP2PKHAddr,
+    P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHAddr,
+    BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr,
+    P2SHAddrDecoder, P2SHAddrEncoder, P2SHAddr,
+    P2WPKHAddrDecoder, P2WPKHAddrEncoder,
+    SolAddrDecoder, SolAddrEncoder,
+    SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateEd25519Addr,
+    SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SubstrateSr25519Addr,
+    TrxAddrDecoder, TrxAddrEncoder,
+    XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder,
+    XmrAddrDecoder, XmrAddrEncoder, XmrAddr,
+    XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XmrIntegratedAddr,
+    XrpAddrDecoder, XrpAddrEncoder,
+    XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder,
+    ZilAddrDecoder, ZilAddrEncoder
 )
 # Generic coins configuration
 from bip_utils.coin_conf import CoinsConf
