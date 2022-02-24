@@ -103,5 +103,9 @@ class XtzAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(self, XtzAddr, TEST_ED25519_PUB_KEY, {"prefix": 0}, TypeError)
+        AddrBaseTestHelper.test_invalid_params_dec(self,
+                                                   XtzAddr,
+                                                   "tz1NPgUeafMfD7VZbsKkzoJiR8pRynViiTE3",
+                                                   {"prefix": 0},
+                                                   TypeError)
         AddrBaseTestHelper.test_invalid_params_enc(self, XtzAddr, TEST_ED25519_PUB_KEY, {"prefix": 0}, TypeError)

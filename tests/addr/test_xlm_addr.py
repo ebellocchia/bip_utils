@@ -103,5 +103,9 @@ class XlmAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(self, XlmAddr, TEST_ED25519_PUB_KEY, {"addr_type": 0}, TypeError)
+        AddrBaseTestHelper.test_invalid_params_dec(self,
+                                                   XlmAddr,
+                                                   "GACG4MLLYMQHMOHZDAR3WSBCYZLC5CXPCXZ447RV3527PP3AQH6YCMW5",
+                                                   {"addr_type": 0},
+                                                   TypeError)
         AddrBaseTestHelper.test_invalid_params_enc(self, XlmAddr, TEST_ED25519_PUB_KEY, {"addr_type": 0}, TypeError)
