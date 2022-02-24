@@ -25,6 +25,6 @@ print(f"Derived public key (bytes): {bip32_der_ctx.PublicKey().RawCompressed().T
 print(f"Derived public key (extended): {bip32_der_ctx.PublicKey().ToExtended()}")
 
 # Print address in Solana encoding
-# Like before, the BIP32 elliptic curve shall be the same one expected by the Solana address (ed25519 in this case)
+# The BIP32 elliptic curve shall be the same one expected by Solana (ed25519 in this case)
 sol_addr = SolAddrEncoder.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
 print(f"Address (SOL): {sol_addr}")
