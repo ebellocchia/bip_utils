@@ -34,7 +34,7 @@ class Bech32Const:
 
     # Separator
     SEPARATOR: str = "1"
-    # Checkum length in bytes
+    # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 6
     # Minimum data length in bytes
     DATA_MIN_BYTE_LEN: int = 2
@@ -120,14 +120,14 @@ class Bech32Utils:
 class Bech32Encoder(Bech32EncoderBase):
     """
     Bech32 encoder class.
-    It provides methods for encoding to  Bech32 format.
+    It provides methods for encoding to Bech32 format.
     """
 
     @staticmethod
     def Encode(hrp: str,
                data: bytes) -> str:
         """
-        Encode to  Bech32.
+        Encode to Bech32.
 
         Args:
             hrp (str)   : HRP
@@ -170,7 +170,7 @@ class Bech32Decoder(Bech32DecoderBase):
     def Decode(hrp: str,
                addr: str) -> bytes:
         """
-        Decode from  Bech32.
+        Decode from Bech32.
 
         Args:
             hrp (str) : Human readable part

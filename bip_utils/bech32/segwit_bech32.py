@@ -35,7 +35,7 @@ class SegwitBech32Const:
 
     # Separator
     SEPARATOR: str = Bech32Const.SEPARATOR
-    # Checkum length in bytes
+    # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = Bech32Const.CHECKSUM_BYTE_LEN
     # Minimum data length in bytes
     DATA_MIN_BYTE_LEN: int = Bech32Const.DATA_MIN_BYTE_LEN

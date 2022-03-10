@@ -34,7 +34,7 @@ class BchBech32Const:
 
     # Separator
     SEPARATOR: str = ":"
-    # Checkum length in bytes
+    # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 8
     # Minimum data length in bytes
     DATA_MIN_BYTE_LEN: int = 2
