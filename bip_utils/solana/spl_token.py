@@ -126,6 +126,7 @@ class SplToken:
             if len(seed) > Ed25519PublicKey.CompressedLength() - 1:
                 raise ValueError(f"Seed length is not valid ({len(seeds)})")
 
+        program_id_bytes = SolAddrDecoder.DecodeAddr(program_id)
         bump_seed = SplTokenConst.SEED_BUMP_MAX_VAL
         for _ in range(SplTokenConst.SEED_BUMP_MAX_VAL):
             # Add bump to seeds
@@ -133,7 +134,7 @@ class SplToken:
             seeds_with_bump.append(IntegerUtils.ToBytes(bump_seed))
             # Try to create PDA
             try:
-                return SplToken.__CreatePda(seeds_with_bump, SolAddrDecoder.DecodeAddr(program_id))
+                return SplToken.__CreatePda(seeds_with_bump, program_id_bytes)
             except ValueError:
                 # Continue with the next bump seed if PDA is not valid
                 bump_seed -= 1
