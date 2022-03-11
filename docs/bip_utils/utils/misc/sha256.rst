@@ -1,0 +1,7 @@
+sha256
+======
+
+.. automodule:: bip_utils.utils.misc.sha256
+   :members:
+   :undoc-members:
+   :show-inheritance:
