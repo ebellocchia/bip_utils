@@ -24,7 +24,7 @@
 from typing import Any, Tuple
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.ecc.lib import ed25519_monero_lib
+from bip_utils.ecc.lib import ed25519_monero
 from bip_utils.utils.misc import DataBytes
 
 
@@ -56,7 +56,7 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        return cls(ed25519_monero_lib.decodepoint(point_bytes))
+        return cls(ed25519_monero.decodepoint(point_bytes))
 
     @classmethod
     def FromCoordinates(cls,
@@ -72,7 +72,7 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        return cls(ed25519_monero_lib.decodepointxy(x, y))
+        return cls(ed25519_monero.decodepointxy(x, y))
 
     def __init__(self,
                  point_obj: Any) -> None:
@@ -128,7 +128,7 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(ed25519_monero_lib.encodepoint(self.m_point))
+        return DataBytes(ed25519_monero.encodepoint(self.m_point))
 
     def __add__(self,
                 point: IPoint) -> IPoint:
@@ -141,7 +141,7 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519MoneroPoint(ed25519_monero_lib.edwards_add(self.m_point, point.UnderlyingObject()))
+        return Ed25519MoneroPoint(ed25519_monero.edwards_add(self.m_point, point.UnderlyingObject()))
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -169,9 +169,9 @@ class Ed25519MoneroPoint(IPoint):
         """
 
         # Use scalarmult_B for generator point, which is more efficient
-        if ed25519_monero_lib.is_generator_point(self.m_point):
-            return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult_B(scalar))
-        return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult(self.m_point, scalar))
+        if ed25519_monero.is_generator_point(self.m_point):
+            return Ed25519MoneroPoint(ed25519_monero.scalarmult_B(scalar))
+        return Ed25519MoneroPoint(ed25519_monero.scalarmult(self.m_point, scalar))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
@@ -240,7 +240,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         """
         if not isinstance(key_obj, bytes):
             raise TypeError("Invalid public key object type")
-        if not ed25519_monero_lib.is_valid_pub_key(key_obj):
+        if not ed25519_monero.is_valid_pub_key(key_obj):
             raise ValueError("Invalid public key")
 
         self.m_ver_key = key_obj
@@ -350,7 +350,7 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         """
         if not isinstance(key_obj, bytes):
             raise TypeError("Invalid private key object type")
-        if not ed25519_monero_lib.is_valid_priv_key(key_obj):
+        if not ed25519_monero.is_valid_priv_key(key_obj):
             raise ValueError("Invalid private key")
 
         self.m_sign_key = key_obj
@@ -400,4 +400,4 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Ed25519MoneroPublicKey(ed25519_monero_lib.public_from_secret(self.m_sign_key))
+        return Ed25519MoneroPublicKey(ed25519_monero.public_from_secret(self.m_sign_key))
