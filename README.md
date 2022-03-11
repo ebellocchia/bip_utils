@@ -145,6 +145,8 @@ To install the package:
 
             pip install bip_utils --install-option="--coincurve=0"
 
+**NOTE:** if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0 otherwise it won't work.
+
 To run tests:
 
     python -m unittest discover
