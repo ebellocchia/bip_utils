@@ -61,6 +61,8 @@ TEST_VECT_ECDSA_PUB_KEY_INVALID = [
 
 # Tests for ed25519 invalid public keys
 TEST_VECT_ED25519_PUB_KEY_INVALID = [
+    # Public key that doesn't lie on the curve
+    b"dbfe097cbed0f8f10d8980e51c92f29aaea5b69e4e4fd243f41bedb3f73b8756",
     # Public key with valid length but wrong version
     b"01e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a61499547",
     # Public keys with invalid length
@@ -68,11 +70,16 @@ TEST_VECT_ED25519_PUB_KEY_INVALID = [
     b"00e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a6149",
 ]
 
-# Tests for nist256p1 invalid public keys
-TEST_VECT_NIST256P1_PUB_KEY_INVALID = TEST_VECT_ECDSA_PUB_KEY_INVALID
-# Tests for secp256k1 invalid public keys
-TEST_VECT_SECP256K1_PUB_KEY_INVALID = TEST_VECT_ECDSA_PUB_KEY_INVALID
+#806d505c14d62fe343ddce60333515b74fcfedf711862def4a528c1cc4f23985
 
+# Tests for nist256p1 invalid public keys (add public key that doesn't lie on the curve)
+TEST_VECT_NIST256P1_PUB_KEY_INVALID = TEST_VECT_ECDSA_PUB_KEY_INVALID + [
+    b"d24cb27bce768be8e037c48d1f03d4bd641fa6d212738f61d19677fa08385202"
+]
+# Tests for secp256k1 invalid public keys (add public key that doesn't lie on the curve)
+TEST_VECT_SECP256K1_PUB_KEY_INVALID = TEST_VECT_ECDSA_PUB_KEY_INVALID + [
+    b"02343fd9a30542d798106de1c5a62d4403c8af7c842e11badc578d21eabcf4b5a6"
+]
 # Tests for sr25519 invalid public keys
 TEST_VECT_SR25519_PUB_KEY_INVALID = [
     # Public keys with invalid length

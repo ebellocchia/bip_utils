@@ -62,6 +62,8 @@ TEST_VECT = [
 
 # Tests for decoding with invalid strings
 TEST_VECT_DEC_INVALID = [
+    # Invalid public key
+    "d24cb27bce768be8e037c48d1f03d4bd641fa6d212738f61d19677fa08385202",
     # Invalid lengths
     "4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d132",
     "4a39721ffc10430e22720ff8473074938005a5d5781533267e664ad9c1d1328400",

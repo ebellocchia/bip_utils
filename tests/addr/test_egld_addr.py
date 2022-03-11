@@ -70,6 +70,8 @@ TEST_VECT_DEC_INVALID = [
     "erd10402qw432qtfzahkdhm0dan6lectfk0gkph6ddrv6a96k899uawq2q0nka",
     # Invalid encoding
     "erd185ujdxb2dxqdguq87z3sckxr7n8hfftjxr74rtys5y9z5mcnvmes47zq24",
+    # Invalid public key
+    "erd16fxty77ww6973cphcjx37q75h4jplfkjzfec7cw3jeml5zpc2gpqgd0ty5",
     # Invalid lengths
     "erd1ae53ncvkn7u7cwkkg5qrrtjqzk84xv6ecq9x842up4c07xmy2u2s9wl9",
     "erd1qr5wu6geuxtflw0v8tty2qp34eqptr6nxdvuqznr64wq6u8lrdj9wzh52s6",
