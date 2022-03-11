@@ -26,6 +26,7 @@ import ed25519_blake2b
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519_keys import Ed25519KeysConst
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
+from bip_utils.ecc.lib import ed25519_helper
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
@@ -54,8 +55,12 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         if (len(key_bytes) == cls.CompressedLength()
                 and key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
-        # Check here because the library does not raise any exception
+        # The library does not raise any exception in case of length error
         elif len(key_bytes) != cls.CompressedLength() - 1:
+            raise ValueError("Invalid public key bytes")
+
+        # The library doesn't check if the point lies on curve
+        if not ed25519_helper.is_on_curve(key_bytes):
             raise ValueError("Invalid public key bytes")
 
         return cls(ed25519_blake2b.VerifyingKey(key_bytes))
