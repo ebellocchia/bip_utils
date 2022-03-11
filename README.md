@@ -27,6 +27,7 @@ Other implemented functionalities:
 - Encode/Decode [ss58](https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58))
 - Encode/Decode [segwit bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
 - Encode/Decode Bitcoin Cash bech32
+- Get token account addresses for SPL tokens (Solana)
 
 Package dependencies:
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
@@ -1806,6 +1807,25 @@ For Bitcoin Cash, it's also possible to convert its addresses by changing the HR
     conv_addr = BchAddrConverter.Convert("bitcoincash:qp90dvzptg759efdcd93s4dkdw0vuhlkmqlch7letq", "ergon")
     # Convert address by change both HRP and net version
     conv_addr = BchAddrConverter.Convert("bitcoincash:qp90dvzptg759efdcd93s4dkdw0vuhlkmqlch7letq", "customprefix", b"\x01")
+
+## Solana SPL tokens
+
+The SPL token library allows generating token account addresses for Solana SPl tokens.
+
+**Code example**
+
+    from bip_utils import SplToken
+    
+    wallet_addr = "GP5XXWmhT2UKetabxr57VSX9o9yWNtGYWykwUNiEhw74"
+    
+    # Get address for USDC token
+    usdc_addr = SplToken.GetAssociatedTokenAddress(wallet_addr,
+                                                   "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v")
+    print(usdc_addr)
+    # Get address for Serum token
+    srm_addr = SplToken.GetAssociatedTokenAddress(wallet_addr,
+                                                  "SRMuApVNdxXokk5GT7XD5cUUgXMBCoAz2LHeuAoKWRt")
+    print(srm_addr)
 
 ## WIF
 
