@@ -9,7 +9,8 @@ Therefore, the derived keys and addresses were completely different to other wal
 from bip_utils import Bip39MnemonicDecoder, Bip44Changes, Bip44Coins, Bip44
 
 # Mnemonic
-mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art"
+mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon " \
+           "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon art"
 
 # Get back entropy bytes from mnemonic
 entropy_bytes = Bip39MnemonicDecoder().Decode(mnemonic)
