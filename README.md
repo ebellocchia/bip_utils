@@ -1958,7 +1958,7 @@ This library is used internally by the other modules, but it's available also fo
 
 ## Documentation
 
-The library documentation is available at [bip-utils.readthedocs.io](bip-utils.readthedocs.io).
+The library documentation is available at [bip-utils.readthedocs.io](https://bip-utils.readthedocs.io).
 
 ## Code examples
 
