@@ -137,14 +137,14 @@ def create_doc_index(d: str, dirs: List[str], files: List[str]) -> None:
         print(f"Create index file: {index_file}")
 
 
-def create_doc(dir: str) -> None:
-    files = listdir_files(dir)
-    dirs = listdir_dirs(dir)
+def create_doc(d: str) -> None:
+    files = listdir_files(d)
+    dirs = listdir_dirs(d)
 
     for f in files:
         create_doc_file(f)
 
-    create_doc_index(dir, dirs, files)
+    create_doc_index(d, dirs, files)
 
     for d in dirs:
         create_doc_dir(d)
