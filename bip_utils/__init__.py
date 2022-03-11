@@ -102,6 +102,8 @@ from bip_utils.substrate import (
     SubstratePathElem, SubstratePath, SubstratePathParser,
     Substrate
 )
+# Solana
+from bip_utils.solana import SplToken
 # Substrate mnemonic
 from bip_utils.substrate.mnemonic import SubstrateBip39SeedGenerator
 # Substrate configuration
