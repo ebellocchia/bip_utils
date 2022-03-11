@@ -6,5 +6,6 @@ exclude_lines =
 
 [run]
 omit =
-    bip_utils\ecc\lib\ed25519_monero_lib.py
+    bip_utils\ecc\lib\ed25519_helper.py
+    bip_utils\ecc\lib\ed25519_monero.py
     .tox/*
