@@ -46,7 +46,7 @@ class MoneroEntropyGeneratorConst:
 
 class MoneroEntropyGenerator(EntropyGenerator):
     """
-    Entropy generator class.
+    Monero entropy generator class.
     It generates random entropy bytes with the specified length.
     """
 

@@ -52,7 +52,7 @@ class Bip39EntropyGeneratorConst:
 
 class Bip39EntropyGenerator(EntropyGenerator):
     """
-    Entropy generator class.
+    BIP39 entropy generator class.
     It generates random entropy bytes with the specified length.
     """
 
