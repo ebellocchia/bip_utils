@@ -87,19 +87,6 @@ class Bip39MnemonicConst:
         Bip39Languages.KOREAN: "bip39_words/korean.txt",
     }
 
-    # Languages binary search support
-    LANGUAGE_BIN_SEARCH: Dict[Bip39Languages, bool] = {
-        Bip39Languages.ENGLISH: True,
-        Bip39Languages.ITALIAN: True,
-        Bip39Languages.FRENCH: False,
-        Bip39Languages.SPANISH: False,
-        Bip39Languages.PORTUGUESE: False,
-        Bip39Languages.CZECH: True,
-        Bip39Languages.CHINESE_SIMPLIFIED: False,
-        Bip39Languages.CHINESE_TRADITIONAL: False,
-        Bip39Languages.KOREAN: False,
-    }
-
     # Total number of words
     WORDS_LIST_NUM: int = 2048
     # Word length in bit
@@ -167,13 +154,24 @@ class _Bip39WordsListGetter(MnemonicWordsListGetterBase):
         try:
             return self.m_words_lists[lang]
         except KeyError:
-            file_name = os.path.join(os.path.dirname(__file__), Bip39MnemonicConst.LANGUAGE_FILES[lang])
-            words_num = Bip39MnemonicConst.WORDS_LIST_NUM
-            bin_search = Bip39MnemonicConst.LANGUAGE_BIN_SEARCH[lang]
-
-            self.m_words_lists[lang] = self._LoadWordsList(file_name, words_num, bin_search)
+            self.m_words_lists[lang] = self._LoadWordsList(self.__GetLanguageFile(lang),
+                                                           Bip39MnemonicConst.WORDS_LIST_NUM)
 
             return self.m_words_lists[lang]
+
+    @staticmethod
+    def __GetLanguageFile(lang: Bip39Languages) -> str:
+        """
+        Get the specified language file name.
+
+        Args:
+            lang (Bip39Languages): Language
+
+        Returns:
+            str: Language file name
+        """
+        return os.path.join(os.path.dirname(__file__),
+                            Bip39MnemonicConst.LANGUAGE_FILES[lang])
 
 
 class _Bip39WordsListFinder:

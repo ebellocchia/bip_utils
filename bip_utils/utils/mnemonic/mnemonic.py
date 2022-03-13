@@ -25,7 +25,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import Dict, List, Optional
-from bip_utils.utils.misc.bytes import AlgoUtils
 
 
 class MnemonicLanguages(Enum):
@@ -118,8 +117,8 @@ class Mnemonic:
 class MnemonicWordsList:
     """Mnemonic words list class."""
 
-    m_words_list: List[str]
-    m_use_bin_search: bool
+    m_idx_to_words: List[str]
+    m_words_to_idx: Dict[str, int]
 
     def __init__(self,
                  words_list: List[str]) -> None:
@@ -129,23 +128,14 @@ class MnemonicWordsList:
         Args:
             words_list (list): Words list
         """
-        self.m_words_list = words_list
-        self.m_use_bin_search = False
-
-    def UseBinarySearch(self,
-                        flag: bool) -> None:
-        """
-        Set the usage of binary search.
-
-        Args:
-            flag (bool): True to use binary search, false otherwise
-        """
-        self.m_use_bin_search = flag
+        self.m_idx_to_words = words_list
+        # Map strings to indexes as well for a quick word searching
+        self.m_words_to_idx = {words_list[i]: i for i in range(len(words_list))}
 
     def GetWordIdx(self,
                    word: str) -> int:
         """
-        Get the index of the specified word, by searching it in the list.
+        Get the index of the specified word.
 
         Args:
             word (str): Word to be searched
@@ -156,16 +146,10 @@ class MnemonicWordsList:
         Raises:
             ValueError: If the word is not found
         """
-
-        # Use binary search if possible
-        if self.m_use_bin_search:
-            idx = AlgoUtils.BinarySearch(self.m_words_list, word)
-            if idx == -1:
-                raise ValueError(f"Word '{word}' is not existent in word list")
-        else:
-            idx = self.m_words_list.index(word)
-
-        return idx
+        try:
+            return self.m_words_to_idx[word]
+        except KeyError as ex:
+            raise ValueError(f"Unable to find word {word}") from ex
 
     def GetWordAtIdx(self,
                      word_idx: int) -> str:
@@ -178,7 +162,7 @@ class MnemonicWordsList:
         Returns:
             str: Word at the specified index
         """
-        return self.m_words_list[word_idx]
+        return self.m_idx_to_words[word_idx]
 
 
 class MnemonicWordsListFileReader:
@@ -247,15 +231,13 @@ class MnemonicWordsListGetterBase(ABC):
 
     @staticmethod
     def _LoadWordsList(file_name: str,
-                       words_num: int,
-                       bin_search: bool) -> MnemonicWordsList:
+                       words_num: int) -> MnemonicWordsList:
         """
         Load words list.
 
         Args:
-            file_name (str)  : File name
-            words_num (int)  : Number of expected words
-            bin_search (bool): Binary search flag
+            file_name (str): File name
+            words_num (int): Number of expected words
 
         Returns:
             MnemonicWordsList object: MnemonicWordsList object
@@ -264,7 +246,6 @@ class MnemonicWordsListGetterBase(ABC):
             ValueError: If loaded words list is not valid
         """
         words_list = MnemonicWordsListFileReader.LoadFile(file_name, words_num)
-        words_list.UseBinarySearch(bin_search)
 
         return words_list
 

@@ -104,20 +104,6 @@ class MoneroMnemonicConst:
         MoneroLanguages.RUSSIAN: "monero_words/russian.txt",
     }
 
-    # Languages supporting binary search
-    LANGUAGE_BIN_SEARCH: Dict[MoneroLanguages, bool] = {
-        MoneroLanguages.CHINESE_SIMPLIFIED: False,
-        MoneroLanguages.DUTCH: True,
-        MoneroLanguages.ENGLISH: True,
-        MoneroLanguages.FRENCH: False,
-        MoneroLanguages.GERMAN: False,
-        MoneroLanguages.ITALIAN: True,
-        MoneroLanguages.JAPANESE: False,
-        MoneroLanguages.PORTUGUESE: False,
-        MoneroLanguages.SPANISH: False,
-        MoneroLanguages.RUSSIAN: False,
-    }
-
     # Total number of words
     WORDS_LIST_NUM: int = 1626
 
@@ -155,13 +141,24 @@ class _MoneroWordsListGetter(MnemonicWordsListGetterBase):
         try:
             return self.m_words_lists[lang]
         except KeyError:
-            file_name = os.path.join(os.path.dirname(__file__), MoneroMnemonicConst.LANGUAGE_FILES[lang])
-            words_num = MoneroMnemonicConst.WORDS_LIST_NUM
-            bin_search = MoneroMnemonicConst.LANGUAGE_BIN_SEARCH[lang]
-
-            self.m_words_lists[lang] = self._LoadWordsList(file_name, words_num, bin_search)
+            self.m_words_lists[lang] = self._LoadWordsList(self.__GetLanguageFile(lang),
+                                                           MoneroMnemonicConst.WORDS_LIST_NUM)
 
             return self.m_words_lists[lang]
+
+    @staticmethod
+    def __GetLanguageFile(lang: MoneroLanguages) -> str:
+        """
+        Get the specified language file name.
+
+        Args:
+            lang (MoneroLanguages): Language
+
+        Returns:
+            str: Language file name
+        """
+        return os.path.join(os.path.dirname(__file__),
+                            MoneroMnemonicConst.LANGUAGE_FILES[lang])
 
 
 class _MoneroWordsListFinder:
