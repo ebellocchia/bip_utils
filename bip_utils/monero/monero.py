@@ -33,7 +33,7 @@ from bip_utils.monero.monero_subaddr import MoneroSubaddress
 from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 
 
-class MoneroUtils:
+class _MoneroUtils:
     """Class container for Monero utility functions."""
 
     @staticmethod
@@ -82,7 +82,7 @@ class Monero:
         priv_skey_bytes = (seed_bytes
                            if len(seed_bytes) == Ed25519MoneroPrivateKey.Length()
                            else CryptoUtils.Kekkak256(seed_bytes))
-        return cls.FromPrivateSpendKey(MoneroUtils.ScReduce(priv_skey_bytes), coin_type)
+        return cls.FromPrivateSpendKey(_MoneroUtils.ScReduce(priv_skey_bytes), coin_type)
 
     @classmethod
     def FromBip44PrivateKey(cls,
@@ -100,7 +100,7 @@ class Monero:
         """
         if not isinstance(priv_key, bytes):
             priv_key = priv_key.Raw().ToBytes()
-        return cls.FromPrivateSpendKey(MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_key)), coin_type)
+        return cls.FromPrivateSpendKey(_MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_key)), coin_type)
 
     @classmethod
     def FromPrivateSpendKey(cls,
@@ -302,5 +302,5 @@ class Monero:
         Returns:
             MoneroPrivateKey object: Private view key
         """
-        priv_vkey_bytes = MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_skey.Raw().ToBytes()))
+        priv_vkey_bytes = _MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_skey.Raw().ToBytes()))
         return MoneroPrivateKey.FromBytes(priv_vkey_bytes)

@@ -49,7 +49,7 @@ class SS58Const:
     CHECKSUM_PREFIX: bytes = b"SS58PRE"
 
 
-class SS58Utils:
+class _SS58Utils:
     """Class container for SS58 utility functions."""
 
     @staticmethod
@@ -108,7 +108,7 @@ class SS58Encoder:
         # Get payload
         payload = ss58_format_bytes + data_bytes
         # Compute checksum
-        checksum = SS58Utils.ComputeChecksum(payload)
+        checksum = _SS58Utils.ComputeChecksum(payload)
         # Encode
         return Base58Encoder.Encode(payload + checksum)
 
@@ -158,7 +158,7 @@ class SS58Decoder:
             raise ValueError(f"Invalid data length ({len(data_bytes)})")
 
         # Compute checksum
-        checksum_bytes_got = SS58Utils.ComputeChecksum(dec_bytes[:-SS58Const.CHECKSUM_BYTE_LEN])
+        checksum_bytes_got = _SS58Utils.ComputeChecksum(dec_bytes[:-SS58Const.CHECKSUM_BYTE_LEN])
 
         # Verify checksum
         if checksum_bytes != checksum_bytes_got:
