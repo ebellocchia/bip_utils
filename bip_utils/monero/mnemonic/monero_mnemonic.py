@@ -21,7 +21,6 @@
 """Module for Monero mnemonic decoding/encoding."""
 
 # Imports
-from __future__ import annotations
 import os
 from enum import auto, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple

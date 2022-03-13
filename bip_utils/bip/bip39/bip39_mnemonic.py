@@ -24,7 +24,6 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki.
 """
 
 # Imports
-from __future__ import annotations
 import os
 from enum import auto, IntEnum, unique
 from typing import Dict, List, Optional, Union
