@@ -24,6 +24,8 @@ DOC_INDEX_FILE: str = "index" + DOC_EXT
 
 UNDERLINE_CHAR: str = "="
 
+TOCTREE_MAX_DEPTH: int = 10
+
 DOC_FILE_TEMPLATE: str = """{module_name}
 {title_underline}
 
@@ -36,7 +38,7 @@ DOC_FILE_TEMPLATE: str = """{module_name}
 DOC_INDEX_TEMPLATE: str = """{index_name}
 {title_underline}
 .. toctree::
-   :maxdepth: 10
+   :maxdepth: {toctree_max_depth}
 
 {modules_list}
 """
@@ -133,6 +135,7 @@ def create_doc_index(d: str, dirs: List[str], files: List[str]) -> None:
         index_name = get_index_name(d)
         fout.write(DOC_INDEX_TEMPLATE.format(index_name=index_name,
                                              title_underline=get_title_underline(index_name),
+                                             toctree_max_depth=TOCTREE_MAX_DEPTH,
                                              modules_list=get_index_modules_list(dirs, files)))
         print(f"Create index file: {index_file}")
 
