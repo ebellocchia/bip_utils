@@ -51,7 +51,7 @@ class Mnemonic:
         Returns:
             Mnemonic: Mnemonic object
         """
-        return cls.FromList(mnemonic_str.split(" "))
+        return cls.FromList(mnemonic_str.lower().split(" "))
 
     @classmethod
     def FromList(cls,
