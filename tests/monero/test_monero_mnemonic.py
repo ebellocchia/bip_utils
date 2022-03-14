@@ -22,7 +22,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    MoneroChecksumError, MoneroWordsNum, MoneroEntropyBitLen, MoneroLanguages,
+    MoneroMnemonicChecksumError, MoneroWordsNum, MoneroEntropyBitLen, MoneroLanguages,
     MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator, MoneroMnemonicDecoder,
     Monero
 )
@@ -254,7 +254,7 @@ TEST_VECT_MNEMONIC_INVALID = [
     # Wrong checksum
     {
         "mnemonic": "abbey abbey abbey abbey abbey abbey abbey abbey abbey abbey abbey abbey abducts",
-        "exception": MoneroChecksumError,
+        "exception": MoneroMnemonicChecksumError,
     },
     # Not existent word
     {

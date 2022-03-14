@@ -88,7 +88,7 @@ from bip_utils.monero import (
 )
 # Monero mnemonic
 from bip_utils.monero.mnemonic import (
-    MoneroChecksumError,
+    MoneroMnemonicChecksumError,
     MoneroEntropyBitLen, MoneroLanguages, MoneroWordsNum,
     MoneroMnemonic, MoneroMnemonicDecoder, MoneroMnemonicEncoder,
     MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator

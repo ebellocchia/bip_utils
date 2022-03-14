@@ -24,7 +24,7 @@
 import os
 from enum import auto, IntEnum, unique
 from typing import Dict, List, Optional, Union, Tuple
-from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
+from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroMnemonicChecksumError
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 from bip_utils.utils.mnemonic import (
@@ -222,7 +222,10 @@ class _MoneroMnemonicUtils:
 
 
 class MoneroMnemonicEncoder:
-    """Monero mnemonic encoder class. It encodes bytes to the mnemonic phrase."""
+    """
+    Monero mnemonic encoder class.
+    It encodes bytes to the mnemonic phrase.
+    """
 
     m_lang: MoneroLanguages
     m_words_list: MnemonicWordsList
@@ -321,7 +324,10 @@ class MoneroMnemonicEncoder:
 
 
 class MoneroMnemonicDecoder:
-    """Monero mnemonic decoder class. It decodes a mnemonic phrase to bytes."""
+    """
+    Monero mnemonic decoder class.
+    It decodes a mnemonic phrase to bytes.
+    """
 
     m_lang: Optional[MoneroLanguages]
     m_words_list: Optional[MnemonicWordsList]
@@ -359,7 +365,7 @@ class MoneroMnemonicDecoder:
             bytes: Decoded bytes
 
         Raises:
-            MoneroChecksumError: If checksum is not valid
+            MoneroMnemonicChecksumError: If checksum is not valid
             ValueError: If mnemonic is not valid
         """
         mnemonic_obj = MoneroMnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
@@ -382,7 +388,7 @@ class MoneroMnemonicDecoder:
         if mnemonic_obj.WordsCount() in MoneroMnemonicConst.MNEMONIC_WORD_NUM_CHKSUM:
             chksum_word = _MoneroMnemonicUtils.ComputeChecksum(words[:-1], lang)
             if words[-1] != chksum_word:
-                raise MoneroChecksumError(f"Invalid checksum (expected {chksum_word}, got {words[-1]})")
+                raise MoneroMnemonicChecksumError(f"Invalid checksum (expected {chksum_word}, got {words[-1]})")
 
         # Consider 3 words at a time, 3 words represent 4 bytes
         entropy_bytes = b""

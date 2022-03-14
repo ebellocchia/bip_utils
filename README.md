@@ -412,7 +412,7 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
 **Code example**
 
     from bip_utils import (
-        MoneroChecksumError, MoneroLanguages, MoneroWordsNum, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroMnemonicDecoder
+        MoneroMnemonicChecksumError, MoneroLanguages, MoneroWordsNum, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroMnemonicDecoder
     )
 
     # Mnemonic can be generated with MoneroMnemonicGenerator
@@ -426,7 +426,7 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
     try:
         MoneroMnemonicValidator().Validate(mnemonic)
         # Valid...
-    except MoneroChecksumError:
+    except MoneroMnemonicChecksumError:
         # Invalid checksum...
         pass
     except ValueError:

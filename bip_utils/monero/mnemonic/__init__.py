@@ -1,4 +1,4 @@
-from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
+from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroMnemonicChecksumError
 from bip_utils.monero.mnemonic.monero_mnemonic import (
     MoneroLanguages, MoneroWordsNum, MoneroMnemonic, MoneroMnemonicDecoder, MoneroMnemonicEncoder
 )

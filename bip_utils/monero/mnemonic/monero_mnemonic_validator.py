@@ -22,7 +22,7 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroChecksumError
+from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroMnemonicChecksumError
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicDecoder
 from bip_utils.utils.mnemonic import Mnemonic
 
@@ -58,7 +58,7 @@ class MoneroMnemonicValidator:
             mnemonic (str or Mnemonic object): Mnemonic
 
         Raises:
-            MoneroChecksumError: If checksum is not valid
+            MoneroMnemonicChecksumError: If checksum is not valid
             ValueError: If mnemonic is not valid
         """
 
@@ -81,5 +81,5 @@ class MoneroMnemonicValidator:
         try:
             self.Validate(mnemonic)
             return True
-        except (ValueError, MoneroChecksumError):
+        except (ValueError, MoneroMnemonicChecksumError):
             return False

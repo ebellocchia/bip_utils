@@ -21,5 +21,5 @@
 """Module for Monero mnemonic exceptions."""
 
 
-class MoneroChecksumError(Exception):
+class MoneroMnemonicChecksumError(Exception):
     """Exception in case of checksum error."""
