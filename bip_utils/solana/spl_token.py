@@ -23,7 +23,7 @@
 #
 # Imports
 #
-from typing import List, Optional
+from typing import List
 from bip_utils.addr import SolAddrDecoder
 from bip_utils.base58 import Base58Encoder
 from bip_utils.ecc import Ed25519PublicKey
