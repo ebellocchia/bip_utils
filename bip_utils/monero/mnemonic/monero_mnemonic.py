@@ -304,23 +304,33 @@ class MoneroMnemonicEncoder:
         if not MoneroEntropyGenerator.IsValidEntropyByteLen(entropy_byte_len):
             raise ValueError(f"Entropy byte length ({entropy_byte_len}) is not valid")
 
-        words = []
-        n = MoneroMnemonicConst.WORDS_LIST_NUM
-
         # Consider 4 bytes at a time, 4 bytes represent 3 words
+        words = []
         for i in range(len(entropy_bytes) // 4):
-            x = BytesUtils.ToInteger(entropy_bytes[(i * 4):(i * 4) + 4], endianness="little")
-            # Compute words indexes
-            w1_idx = x % n
-            w2_idx = ((x // n) + w1_idx) % n
-            w3_idx = ((x // n // n) + w2_idx) % n
-
-            # Get words
-            words += [self.m_words_list.GetWordAtIdx(w1_idx),
-                      self.m_words_list.GetWordAtIdx(w2_idx),
-                      self.m_words_list.GetWordAtIdx(w3_idx)]
+            words += self.__BytesChunkToWords(entropy_bytes[i * 4:(i * 4) + 4])
 
         return words
+
+    def __BytesChunkToWords(self,
+                            bytes_chunk: bytes) -> List[str]:
+        """
+        Get words from a bytes chunk.
+
+        Args:
+            bytes_chunk (bytes): Bytes chunk
+
+        Returns:
+            Tuple: 3 word indexes
+        """
+        n = MoneroMnemonicConst.WORDS_LIST_NUM
+
+        int_chunk = BytesUtils.ToInteger(bytes_chunk, endianness="little")
+
+        word1_idx = int_chunk % n
+        word2_idx = ((int_chunk // n) + word1_idx) % n
+        word3_idx = ((int_chunk // n // n) + word2_idx) % n
+
+        return [self.m_words_list.GetWordAtIdx(w) for w in (word1_idx, word2_idx, word3_idx)]
 
 
 class MoneroMnemonicDecoder:
@@ -384,27 +394,62 @@ class MoneroMnemonicDecoder:
         # Get words
         words = mnemonic_obj.ToList()
 
-        # Verify checksum if needed
+        # Validate checksum
+        self.__ValidateChecksum(mnemonic_obj, lang)
+
+        # Consider 3 words at a time, 3 words represent 4 bytes
+        entropy_bytes = b""
+
+        for i in range(len(words) // 3):
+            word1, word2, word3 = words[i * 3:(i * 3) + 3]
+            entropy_bytes += self.__WordsToBytesChunk(word1, word2, word3, words_list)
+
+        return entropy_bytes
+
+    @staticmethod
+    def __ValidateChecksum(mnemonic_obj: Mnemonic,
+                           lang: MoneroLanguages) -> None:
+        """
+        Validate a mnemonic checksum.
+
+        Args:
+            mnemonic_obj (Mnemonic object): Mnemonic object
+            lang (MoneroLanguages)        : Language
+
+        Raises:
+            MoneroMnemonicChecksumError: If checksum is not valid
+        """
         if mnemonic_obj.WordsCount() in MoneroMnemonicConst.MNEMONIC_WORD_NUM_CHKSUM:
+            words = mnemonic_obj.ToList()
             chksum_word = _MoneroMnemonicUtils.ComputeChecksum(words[:-1], lang)
             if words[-1] != chksum_word:
                 raise MoneroMnemonicChecksumError(f"Invalid checksum (expected {chksum_word}, got {words[-1]})")
 
-        # Consider 3 words at a time, 3 words represent 4 bytes
-        entropy_bytes = b""
+    @staticmethod
+    def __WordsToBytesChunk(word1: str,
+                            word2: str,
+                            word3: str,
+                            words_list: MnemonicWordsList) -> bytes:
+        """
+        Get bytes chunk from words.
+
+        Args:
+            word1 (str)                          : Word 1
+            word2 (str)                          : Word 2
+            word3 (str)                          : Word 3
+            words_list (MnemonicWordsList object): Mnemonic list
+
+        Returns:
+            bytes: Bytes chunk
+        """
         n = MoneroMnemonicConst.WORDS_LIST_NUM
 
-        for i in range(len(words) // 3):
-            word1, word2, word3 = words[(i * 3):(i * 3) + 3]
+        # Get the word indexes
+        word1_idx = words_list.GetWordIdx(word1)
+        word2_idx = words_list.GetWordIdx(word2) % n
+        word3_idx = words_list.GetWordIdx(word3) % n
 
-            # Get back words indexes
-            w1 = words_list.GetWordIdx(word1)
-            w2 = words_list.GetWordIdx(word2) % n
-            w3 = words_list.GetWordIdx(word3) % n
+        # Get back the bytes chunk
+        bytes_chunk = word1_idx + (n * ((word2_idx - word1_idx) % n)) + (n * n * ((word3_idx - word2_idx) % n))
 
-            # Get back bytes
-            x = w1 + (n * ((w2 - w1) % n)) + (n * n * ((w3 - w2) % n))
-
-            entropy_bytes += IntegerUtils.ToBytes(x, bytes_num=4, endianness="little")
-
-        return entropy_bytes
+        return IntegerUtils.ToBytes(bytes_chunk, bytes_num=4, endianness="little")
