@@ -395,11 +395,10 @@ class MoneroMnemonicDecoder:
         words = mnemonic_obj.ToList()
 
         # Validate checksum
-        self.__ValidateChecksum(mnemonic_obj, lang)
+        self.__ValidateChecksum(words, lang)
 
         # Consider 3 words at a time, 3 words represent 4 bytes
         entropy_bytes = b""
-
         for i in range(len(words) // 3):
             word1, word2, word3 = words[i * 3:(i * 3) + 3]
             entropy_bytes += self.__WordsToBytesChunk(word1, word2, word3, words_list)
@@ -407,20 +406,19 @@ class MoneroMnemonicDecoder:
         return entropy_bytes
 
     @staticmethod
-    def __ValidateChecksum(mnemonic_obj: Mnemonic,
+    def __ValidateChecksum(words: List[str],
                            lang: MoneroLanguages) -> None:
         """
         Validate a mnemonic checksum.
 
         Args:
-            mnemonic_obj (Mnemonic object): Mnemonic object
-            lang (MoneroLanguages)        : Language
+            words (list)          : Words list
+            lang (MoneroLanguages): Language
 
         Raises:
             MoneroMnemonicChecksumError: If checksum is not valid
         """
-        if mnemonic_obj.WordsCount() in MoneroMnemonicConst.MNEMONIC_WORD_NUM_CHKSUM:
-            words = mnemonic_obj.ToList()
+        if len(words) in MoneroMnemonicConst.MNEMONIC_WORD_NUM_CHKSUM:
             chksum_word = _MoneroMnemonicUtils.ComputeChecksum(words[:-1], lang)
             if words[-1] != chksum_word:
                 raise MoneroMnemonicChecksumError(f"Invalid checksum (expected {chksum_word}, got {words[-1]})")

@@ -240,11 +240,11 @@ class Bip38NoEcDecrypter:
                         else Bip38PubKeyModes.UNCOMPRESSED)
 
         # Verify the address hash
-        got_address_hash = _Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
-        if address_hash != got_address_hash:
+        address_hash_got = _Bip38NoEcUtils.AddressHash(priv_key_bytes, pub_key_mode)
+        if address_hash != address_hash_got:
             raise ValueError(
                 f"Invalid address hash (expected: {BytesUtils.ToHexString(address_hash)}, "
-                f"got: {BytesUtils.ToHexString(got_address_hash)})"
+                f"got: {BytesUtils.ToHexString(address_hash_got)})"
             )
 
         return priv_key_bytes, pub_key_mode

@@ -64,19 +64,19 @@ class AddrDecUtils:
 
     @staticmethod
     def ValidateLength(addr: Union[bytes, str],
-                       expected_len: int) -> None:
+                       len_exp: int) -> None:
         """
         Validate address length.
 
         Args:
-            addr (str)        : Address string or bytes
-            expected_len (int): Expected address length
+            addr (str)   : Address string or bytes
+            len_exp (int): Expected address length
 
         Raises:
             ValueError: If the length is not valid
         """
-        if len(addr) != expected_len:
-            raise ValueError(f"Invalid length {len(addr)}")
+        if len(addr) != len_exp:
+            raise ValueError(f"Invalid length (expected {len_exp}, got {len(addr)})")
 
     @staticmethod
     def ValidatePubKey(pub_key_bytes: bytes,
