@@ -89,19 +89,19 @@ class _XmrAddrUtils:
             # Validate length without payment ID
             AddrDecUtils.ValidateLength(payload_bytes,
                                         Ed25519MoneroPublicKey.CompressedLength() * 2)
-        except ValueError:
+        except ValueError as ex:
             # Validate length with payment ID
             AddrDecUtils.ValidateLength(payload_bytes,
                                         (Ed25519MoneroPublicKey.CompressedLength() * 2)
                                         + XmrAddrConst.PAYMENT_ID_BYTE_LEN)
             # Check payment ID
             if payment_id_bytes is None or len(payment_id_bytes) != XmrAddrConst.PAYMENT_ID_BYTE_LEN:
-                raise ValueError("Invalid payment ID")
+                raise ValueError("Invalid payment ID") from ex
 
             payment_id_got_bytes = payload_bytes[-XmrAddrConst.PAYMENT_ID_BYTE_LEN:]
             if payment_id_bytes != payment_id_got_bytes:
                 raise ValueError(f"Invalid payment ID (expected {BytesUtils.ToHexString(payment_id_bytes)}, "
-                                 f"got {BytesUtils.ToHexString(payment_id_got_bytes)})")
+                                 f"got {BytesUtils.ToHexString(payment_id_got_bytes)})") from ex
 
         # Validate public spend key
         pub_spend_key_bytes = payload_bytes[:Ed25519MoneroPublicKey.CompressedLength()]
