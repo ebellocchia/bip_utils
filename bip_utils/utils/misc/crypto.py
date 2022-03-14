@@ -120,10 +120,10 @@ class CryptoUtils:
         """
         if "sha512_256" in hashlib.algorithms_available:
             return hashlib.new("sha512_256", AlgoUtils.Encode(data)).digest()
-        else:
-            h = SHA512.new(truncate="256")
-            h.update(AlgoUtils.Encode(data))
-            return h.digest()
+        # Use Cryptodome if not implemented in hashlib
+        h = SHA512.new(truncate="256")
+        h.update(AlgoUtils.Encode(data))
+        return h.digest()
 
     @staticmethod
     def HmacSha512(key: Union[bytes, str],
@@ -201,10 +201,10 @@ class CryptoUtils:
         """
         if "ripemd160" in hashlib.algorithms_available:
             return hashlib.new("ripemd160", AlgoUtils.Encode(data)).digest()
-        else:
-            h = RIPEMD160.new()
-            h.update(AlgoUtils.Encode(data))
-            return h.digest()
+        # Use Cryptodome if not implemented in hashlib
+        h = RIPEMD160.new()
+        h.update(AlgoUtils.Encode(data))
+        return h.digest()
 
     @staticmethod
     def Ripemd160DigestSize() -> int:
