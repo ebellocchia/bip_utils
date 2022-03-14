@@ -26,7 +26,7 @@ import hashlib
 import hmac
 from typing import Union
 import crcmod.predefined
-from Crypto.Hash import keccak, SHA512
+from Crypto.Hash import keccak, RIPEMD160, SHA512
 from Crypto.Protocol.KDF import scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
 
@@ -118,9 +118,12 @@ class CryptoUtils:
         Returns:
             bytes: Computed SHA512/256
         """
-        h = SHA512.new(truncate="256")
-        h.update(AlgoUtils.Encode(data))
-        return h.digest()
+        if "sha512_256" in hashlib.algorithms_available:
+            return hashlib.new("sha512_256", AlgoUtils.Encode(data)).digest()
+        else:
+            h = SHA512.new(truncate="256")
+            h.update(AlgoUtils.Encode(data))
+            return h.digest()
 
     @staticmethod
     def HmacSha512(key: Union[bytes, str],
@@ -196,7 +199,12 @@ class CryptoUtils:
         Returns:
             bytes: Computed RIPEMD-160
         """
-        return hashlib.new("ripemd160", AlgoUtils.Encode(data)).digest()
+        if "ripemd160" in hashlib.algorithms_available:
+            return hashlib.new("ripemd160", AlgoUtils.Encode(data)).digest()
+        else:
+            h = RIPEMD160.new()
+            h.update(AlgoUtils.Encode(data))
+            return h.digest()
 
     @staticmethod
     def Ripemd160DigestSize() -> int:
