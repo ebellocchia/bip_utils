@@ -62,7 +62,7 @@ class Bip39Languages(MnemonicLanguages):
 
 
 class Bip39MnemonicConst:
-    """Class container for BIP39 constants."""
+    """Class container for BIP39 mnemonic constants."""
 
     # Accepted mnemonic word numbers
     MNEMONIC_WORD_NUM: List[Bip39WordsNum] = [

@@ -59,7 +59,7 @@ class MoneroLanguages(MnemonicLanguages):
 
 
 class MoneroMnemonicConst:
-    """Class container for Monero constants."""
+    """Class container for Monero mnemonic constants."""
 
     # Accepted mnemonic word numbers
     MNEMONIC_WORD_NUM: List[MoneroWordsNum] = [
