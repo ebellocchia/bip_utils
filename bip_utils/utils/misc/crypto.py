@@ -34,6 +34,7 @@ from bip_utils.utils.misc.algo import AlgoUtils
 HASHLIB_USE_RIPEMD160: bool = "ripemd160" in hashlib.algorithms_available
 HASHLIB_USE_SHA512_256: bool = "sha512_256" in hashlib.algorithms_available
 
+
 class CryptoUtils:
     """Class container for crypto utility functions."""
 

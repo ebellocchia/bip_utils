@@ -94,13 +94,12 @@ class BitUtils:
         Returns:
             list: List of converted values, None in case of errors
         """
+        max_out_val = (1 << to_bits) - 1
+        max_acc = (1 << (from_bits + to_bits - 1)) - 1
 
         acc = 0
         bits = 0
         ret = []
-
-        max_out_val = (1 << to_bits) - 1
-        max_acc = (1 << (from_bits + to_bits - 1)) - 1
 
         for value in data:
             # Value shall not be less than zero or greater than 2^from_bits
