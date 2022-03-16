@@ -348,7 +348,7 @@ The usage of the Algorand mnemonic library is basically equivalent to the BIP-00
 Supported words number:
 
 |Words number|Enum|
-|---|---|---|
+|---|---|
 |25|*AlgorandWordsNum.WORDS_NUM_25*|
 
 Supported entropy bits:
