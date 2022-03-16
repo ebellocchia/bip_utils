@@ -27,7 +27,7 @@ from bip_utils.monero.mnemonic.monero_mnemonic_utils import (
     MoneroWordsListFinder, MoneroWordsListGetter, MoneroMnemonicUtils
 )
 from bip_utils.utils.misc import IntegerUtils
-from bip_utils.utils.mnemonic import MnemonicDecoderBase, MnemonicChecksumError, MnemonicWordsList, Mnemonic
+from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicWordsList
 
 
 class MoneroMnemonicDecoder(MnemonicDecoderBase):

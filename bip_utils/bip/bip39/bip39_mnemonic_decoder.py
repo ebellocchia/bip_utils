@@ -28,7 +28,7 @@ from typing import Optional, Union
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst, Bip39Languages, Bip39Mnemonic
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
 from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
-from bip_utils.utils.mnemonic import MnemonicDecoderBase, MnemonicChecksumError, Mnemonic, MnemonicWordsList
+from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicWordsList
 
 
 class Bip39MnemonicDecoder(MnemonicDecoderBase):
