@@ -22,9 +22,9 @@
 
 # Imports
 from abc import ABC, abstractmethod
-from typing import List, Tuple, Union
+from typing import List, Optional, Tuple, Union
 from bip_utils.bech32.bech32_ex import Bech32ChecksumError
-from bip_utils.utils.misc import AlgoUtils, BitUtils
+from bip_utils.utils.misc import AlgoUtils
 
 
 class Bech32BaseConst:
@@ -57,7 +57,7 @@ class Bech32BaseUtils:
         """
 
         # Convert to base32
-        conv_data = BitUtils.Convert(data, 8, 5)
+        conv_data = Bech32BaseUtils.ConvertBits(data, 8, 5)
         if conv_data is None:
             raise ValueError("Invalid data, cannot perform conversion to base32")
 
@@ -79,11 +79,57 @@ class Bech32BaseUtils:
         """
 
         # Convert from base32
-        conv_data = BitUtils.Convert(data, 5, 8, False)
+        conv_data = Bech32BaseUtils.ConvertBits(data, 5, 8, False)
         if conv_data is None:
             raise ValueError("Invalid data, cannot perform conversion from base32")
 
         return conv_data
+
+    @staticmethod
+    def ConvertBits(data: Union[bytes, List[int]],
+                    from_bits: int,
+                    to_bits: int,
+                    pad: bool = True) -> Optional[List[int]]:
+        """
+        Perform bit conversion.
+        The function takes the input data (list of integers or byte sequence) and convert every value from
+        the specified number of bits to the specified one.
+        It returns a list of integer where every number is less than 2^to_bits.
+
+        Args:
+            data (list or bytes): Data to be converted
+            from_bits (int)     : Number of bits to start from
+            to_bits (int)       : Number of bits to end with
+            pad (bool, optional): True if data must be padded with zeros, false otherwise
+
+        Returns:
+            list: List of converted values, None in case of errors
+        """
+        max_out_val = (1 << to_bits) - 1
+        max_acc = (1 << (from_bits + to_bits - 1)) - 1
+
+        acc = 0
+        bits = 0
+        ret = []
+
+        for value in data:
+            # Value shall not be less than zero or greater than 2^from_bits
+            if value < 0 or (value >> from_bits):
+                return None
+            # Continue accumulating until greater than to_bits
+            acc = ((acc << from_bits) | value) & max_acc
+            bits += from_bits
+            while bits >= to_bits:
+                bits -= to_bits
+                ret.append((acc >> bits) & max_out_val)
+        if pad:
+            if bits:
+                # Pad the value with zeros to reach to_bits
+                ret.append((acc << (to_bits - bits)) & max_out_val)
+        elif bits >= from_bits or ((acc << (to_bits - bits)) & max_out_val):
+            return None
+
+        return ret
 
 
 class Bech32EncoderBase(ABC):
