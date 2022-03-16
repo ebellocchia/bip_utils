@@ -35,7 +35,7 @@ class MnemonicDecoderBase(ABC):
     It decodes a mnemonic phrase to bytes.
     """
 
-    m_lang: MnemonicLanguages
+    m_lang: Optional[MnemonicLanguages]
     m_words_list: Optional[MnemonicWordsList]
     m_words_list_finder_cls: Type[MnemonicWordsListFinderBase]
 
@@ -80,6 +80,18 @@ class MnemonicDecoderBase(ABC):
 
     def _FindLanguage(self,
                       mnemonic: Mnemonic) -> Tuple[MnemonicWordsList, MnemonicLanguages]:
-        return (self.m_words_list_finder_cls.FindLanguage(mnemonic)
-                if self.m_words_list is None
-                else (self.m_words_list, self.m_lang))
+        """
+        Find mnemonic language.
+
+        Args:
+            mnemonic (Mnemonic object): Mnemonic
+
+        Returns:
+           Tuple: MnemonicWordsList object (index 0), mnemonic language (index 1)
+
+        Raises:
+            ValueError: If the mnemonic language cannot be found
+        """
+        if self.m_lang is None or self.m_words_list is None:
+            return self.m_words_list_finder_cls.FindLanguage(mnemonic)
+        return self.m_words_list, self.m_lang
