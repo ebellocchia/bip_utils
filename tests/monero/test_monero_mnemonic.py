@@ -305,10 +305,10 @@ class MoneroMnemonicTests(unittest.TestCase):
                 mnemonic_validator = MoneroMnemonicValidator()
                 self.assertTrue(mnemonic_validator.IsValid(mnemonic))
 
-                # Test decoder wit no checksum (language specified)
+                # Test decoder with no checksum (language specified)
                 entropy = MoneroMnemonicDecoder(lang).Decode(mnemonic)
                 self.assertEqual(test["entropy"], binascii.hexlify(entropy))
-                # Test decoder wit no checksum (automatic language detection)
+                # Test decoder with no checksum (automatic language detection)
                 entropy = MoneroMnemonicDecoder().Decode(mnemonic)
                 self.assertEqual(test["entropy"], binascii.hexlify(entropy))
 

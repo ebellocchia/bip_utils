@@ -387,10 +387,10 @@ class Bip39Tests(unittest.TestCase):
             mnemonic_validator = Bip39MnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
 
-            # Test decoder wit no checksum (language specified)
+            # Test decoder (language specified)
             entropy = Bip39MnemonicDecoder(lang).Decode(mnemonic)
             self.assertEqual(test["entropy"], binascii.hexlify(entropy))
-            # Test decoder wit no checksum (automatic language detection)
+            # Test decoder (automatic language detection)
             entropy = Bip39MnemonicDecoder().Decode(mnemonic)
             self.assertEqual(test["entropy"], binascii.hexlify(entropy))
 
