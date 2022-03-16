@@ -1,5 +1,6 @@
 from bip_utils.utils.misc.aes_ecb import AesEcbDecrypter, AesEcbEncrypter
 from bip_utils.utils.misc.algo import AlgoUtils
+from bip_utils.utils.misc.base32 import Base32Decoder, Base32Encoder
 from bip_utils.utils.misc.bit import BitUtils
 from bip_utils.utils.misc.bytes import BytesUtils
 from bip_utils.utils.misc.crypto import CryptoUtils

@@ -28,8 +28,7 @@ from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
-from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
-from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.misc import Base32Decoder, Base32Encoder, BytesUtils, CryptoUtils, IntegerUtils
 
 
 @unique

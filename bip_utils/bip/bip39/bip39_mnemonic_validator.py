@@ -21,23 +21,17 @@
 """Module for BIP39 mnemonic validation."""
 
 # Imports
-from typing import Optional, Union
-from bip_utils.bip.bip39.bip39_ex import Bip39ChecksumError
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39MnemonicDecoder
-from bip_utils.utils.mnemonic import Mnemonic
+from typing import Optional
+from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages
+from bip_utils.bip.bip39.bip39_mnemonic_decoder import Bip39MnemonicDecoder
+from bip_utils.utils.mnemonic import MnemonicValidator
 
 
-class Bip39MnemonicValidator:
+class Bip39MnemonicValidator(MnemonicValidator):
     """
     BIP39 mnemonic validator class.
     It validates a mnemonic phrase.
     """
-
-    m_mnemonic_decoder: Bip39MnemonicDecoder
-
-    #
-    # Public methods
-    #
 
     def __init__(self,
                  lang: Optional[Bip39Languages] = None) -> None:
@@ -47,39 +41,4 @@ class Bip39MnemonicValidator:
         Args:
             lang (Bip39Languages, optional): Language, None for automatic detection
         """
-        self.m_mnemonic_decoder = Bip39MnemonicDecoder(lang)
-
-    def Validate(self,
-                 mnemonic: Union[str, Mnemonic]) -> None:
-        """
-        Validate the mnemonic specified at construction.
-
-        Args:
-            mnemonic (str or Mnemonic object): Mnemonic
-
-        Raises:
-            Bip39ChecksumError: If checksum is not valid
-            ValueError: If mnemonic is not valid
-        """
-
-        # Just get entropy bytes without returning it, since it will validate the mnemonic
-        self.m_mnemonic_decoder.Decode(mnemonic)
-
-    def IsValid(self,
-                mnemonic: Union[str, Mnemonic]) -> bool:
-        """
-        Get if the mnemonic specified at construction is valid.
-
-        Args:
-            mnemonic (str or Mnemonic object): Mnemonic
-
-        Returns:
-            bool: True if valid, False otherwise
-        """
-
-        # Simply try to validate
-        try:
-            self.Validate(mnemonic)
-            return True
-        except (ValueError, Bip39ChecksumError):
-            return False
+        super().__init__(Bip39MnemonicDecoder(lang))

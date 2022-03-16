@@ -57,7 +57,6 @@ from bip_utils.coin_conf import CoinsConf
 from bip_utils.bip.bip38 import Bip38PubKeyModes, Bip38EcKeysGenerator, Bip38Decrypter, Bip38Encrypter
 # BIP39
 from bip_utils.bip.bip39 import (
-    Bip39ChecksumError,
     Bip39EntropyBitLen, Bip39Languages, Bip39WordsNum,
     Bip39Mnemonic, Bip39MnemonicDecoder, Bip39MnemonicEncoder,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator
@@ -88,10 +87,12 @@ from bip_utils.monero import (
 )
 # Monero mnemonic
 from bip_utils.monero.mnemonic import (
-    MoneroMnemonicChecksumError,
     MoneroEntropyBitLen, MoneroLanguages, MoneroWordsNum,
-    MoneroMnemonic, MoneroMnemonicDecoder, MoneroMnemonicEncoder,
-    MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator
+    MoneroEntropyGenerator,
+    MoneroMnemonic,
+    MoneroMnemonicNoChecksumEncoder, MoneroMnemonicWithChecksumEncoder, MoneroMnemonicDecoder,
+    MoneroMnemonicEncoder,
+    MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator
 )
 # Monero configuration
 from bip_utils.monero.conf import MoneroCoins, MoneroConf
@@ -122,3 +123,4 @@ from bip_utils.ecc import (
 from bip_utils.utils.misc import (
     AlgoUtils, BitUtils, BytesUtils, CryptoUtils, DataBytes, IntegerUtils, StringUtils
 )
+from bip_utils.utils.mnemonic import MnemonicChecksumError

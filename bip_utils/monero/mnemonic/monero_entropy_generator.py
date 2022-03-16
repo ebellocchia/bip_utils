@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Monero mnemonic entropy generation."""
+"""Module for Monero entropy generation."""
 
 # Imports
 from enum import IntEnum, unique

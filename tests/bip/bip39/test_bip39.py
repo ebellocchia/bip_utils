@@ -23,7 +23,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    Bip39ChecksumError, Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
+    MnemonicChecksumError, Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
     Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator, Bip39MnemonicDecoder
 )
 
@@ -342,7 +342,7 @@ TEST_VECT_MNEMONIC_INVALID = [
     # Wrong checksum
     {
         "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon any",
-        "exception": Bip39ChecksumError,
+        "exception": MnemonicChecksumError,
     },
     # Not existent word
     {

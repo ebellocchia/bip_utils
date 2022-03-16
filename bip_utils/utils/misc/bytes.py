@@ -137,14 +137,27 @@ class BytesUtils:
         return binascii.unhexlify(AlgoUtils.Encode(data))
 
     @staticmethod
-    def FromList(data_list: List) -> bytes:
+    def FromList(data_list: List[int]) -> bytes:
         """
-        Convert the specified list to bytes.
+        Convert the specified list of integers to bytes.
 
         Args:
-            data_list (list): Data list
+            data_list (list): List of integers
 
         Returns:
-            bytes: Correspondent bytes representation
+            bytes: Bytes representation
         """
-        return bytes(bytearray(data_list))
+        return bytes(data_list)
+
+    @staticmethod
+    def ToList(data_bytes: bytes) -> List[int]:
+        """
+        Convert the specified bytes to a list of integers.
+
+        Args:
+            data_bytes (bytes): Data bytes
+
+        Returns:
+            list: List of integers
+        """
+        return list(data_bytes)

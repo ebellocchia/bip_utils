@@ -28,8 +28,7 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import Ed25519Blake2bPublicKey, IPublicKey
-from bip_utils.utils.base32 import Base32Decoder, Base32Encoder
-from bip_utils.utils.misc import BytesUtils, CryptoUtils
+from bip_utils.utils.misc import Base32Decoder, Base32Encoder, BytesUtils, CryptoUtils
 
 
 class NanoAddrConst:

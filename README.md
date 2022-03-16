@@ -215,12 +215,14 @@ Supported languages:
 **Code example**
 
     import binascii
-    from bip_utils import Bip39EntropyBitLen, Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39WordsNum, Bip39Languages
-
+    from bip_utils import (
+        Bip39EntropyBitLen, Bip39EntropyGenerator, Bip39WordsNum, Bip39Languages, Bip39MnemonicGenerator, Bip39MnemonicEncoder
+    )
+    
     # Generate a random mnemonic string of 12 words with default language (English)
     # A Mnemonic object will be returned
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
-
+    
     # Get words count
     print(mnemonic.WordsCount())
     # Get as string
@@ -228,18 +230,21 @@ Supported languages:
     print(str(mnemonic))
     # Get as list of strings
     print(mnemonic.ToList())
-
+    
     # Generate a random mnemonic string of 15 words by specifying the language
     mnemonic = Bip39MnemonicGenerator(Bip39Languages.ITALIAN).FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
-
+    
     # Generate the mnemonic string from entropy bytes
     entropy_bytes = binascii.unhexlify(b"00000000000000000000000000000000")
     mnemonic = Bip39MnemonicGenerator().FromEntropy(entropy_bytes)
     mnemonic = Bip39MnemonicGenerator(Bip39Languages.FRENCH).FromEntropy(entropy_bytes)
-
+    
     # Generate mnemonic from random 192-bit entropy
     entropy_bytes = Bip39EntropyGenerator(Bip39EntropyBitLen.BIT_LEN_192).Generate()
     mnemonic = Bip39MnemonicGenerator().FromEntropy(entropy_bytes)
+    
+    # Alternatively, the mnemonic can be generated from entropy using the encoder
+    mnemonic = Bip39MnemonicEncoder(Bip39Languages.ENGLISH).Encode(entropy_bytes)
 
 ### Mnemonic validation
 
@@ -250,7 +255,7 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
 **Code example**
 
     from bip_utils import (
-        Bip39ChecksumError, Bip39Languages, Bip39WordsNum, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39MnemonicDecoder
+        MnemonicChecksumError, Bip39Languages, Bip39WordsNum, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39MnemonicDecoder
     )
 
     # Mnemonic can be generated with Bip39MnemonicGenerator
@@ -264,7 +269,7 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
     try:
         Bip39MnemonicValidator().Validate(mnemonic)
         # Valid...
-    except Bip39ChecksumError:
+    except MnemonicChecksumError:
         # Invalid checksum...
         pass
     except ValueError:
@@ -376,12 +381,15 @@ Supported languages:
 **Code example**
 
     import binascii
-    from bip_utils import MoneroEntropyBitLen, MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroWordsNum, MoneroLanguages
-
+    from bip_utils import (
+        MoneroEntropyBitLen, MoneroEntropyGenerator, MoneroLanguages, MoneroWordsNum, MoneroMnemonicGenerator,
+        MoneroMnemonicEncoder
+    )
+    
     # Generate a random mnemonic string of 25 words with default language (English)
     # A Mnemonic object will be returned
     mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25)
-
+    
     # Get words count
     print(mnemonic.WordsCount())
     # Get as string
@@ -389,19 +397,23 @@ Supported languages:
     print(str(mnemonic))
     # Get as list of strings
     print(mnemonic.ToList())
-
+    
     # Generate a random mnemonic string of 13 words by specifying the language
     mnemonic = MoneroMnemonicGenerator(MoneroLanguages.ITALIAN).FromWordsNumber(MoneroWordsNum.WORDS_NUM_13)
-
+    
     # Generate the mnemonic string from entropy bytes
     entropy_bytes = binascii.unhexlify(b"00000000000000000000000000000000")
     mnemonic = MoneroMnemonicGenerator().FromEntropyNoChecksum(entropy_bytes)
     mnemonic = MoneroMnemonicGenerator(MoneroLanguages.FRENCH).FromEntropyWithChecksum(entropy_bytes)
-
+    
     # Generate mnemonic from random 256-bit entropy (with and without checksum)
     entropy_bytes = MoneroEntropyGenerator(MoneroEntropyBitLen.BIT_LEN_256).Generate()
     mnemonic = MoneroMnemonicGenerator().FromEntropyNoChecksum(entropy_bytes)
     mnemonic = MoneroMnemonicGenerator().FromEntropyWithChecksum(entropy_bytes)
+    
+    # Alternatively, the mnemonic can be generated from entropy using the encoder
+    mnemonic = MoneroMnemonicEncoder(MoneroLanguages.ENGLISH).EncodeNoChecksum(entropy_bytes)
+    mnemonic = MoneroMnemonicEncoder(MoneroLanguages.ENGLISH).EncodeWithChecksum(entropy_bytes)
 
 ### Mnemonic validation
 
@@ -412,7 +424,7 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
 **Code example**
 
     from bip_utils import (
-        MoneroMnemonicChecksumError, MoneroLanguages, MoneroWordsNum, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroMnemonicDecoder
+        MnemonicChecksumError, MoneroLanguages, MoneroWordsNum, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroMnemonicDecoder
     )
 
     # Mnemonic can be generated with MoneroMnemonicGenerator
@@ -426,7 +438,7 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
     try:
         MoneroMnemonicValidator().Validate(mnemonic)
         # Valid...
-    except MoneroMnemonicChecksumError:
+    except MnemonicChecksumError:
         # Invalid checksum...
         pass
     except ValueError:

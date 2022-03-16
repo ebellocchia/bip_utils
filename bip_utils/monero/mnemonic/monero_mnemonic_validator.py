@@ -21,23 +21,17 @@
 """Module for Monero mnemonic validation."""
 
 # Imports
-from typing import Optional, Union
-from bip_utils.monero.mnemonic.monero_mnemonic_ex import MoneroMnemonicChecksumError
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicDecoder
-from bip_utils.utils.mnemonic import Mnemonic
+from typing import Optional
+from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages
+from bip_utils.monero.mnemonic.monero_mnemonic_decoder import MoneroMnemonicDecoder
+from bip_utils.utils.mnemonic import MnemonicValidator
 
 
-class MoneroMnemonicValidator:
+class MoneroMnemonicValidator(MnemonicValidator):
     """
     Monero mnemonic validator class.
     It validates a mnemonic phrase.
     """
-
-    m_mnemonic_decoder: MoneroMnemonicDecoder
-
-    #
-    # Public methods
-    #
 
     def __init__(self,
                  lang: Optional[MoneroLanguages] = None) -> None:
@@ -47,39 +41,4 @@ class MoneroMnemonicValidator:
         Args:
             lang (MoneroLanguages, optional): Language, None for automatic detection
         """
-        self.m_mnemonic_decoder = MoneroMnemonicDecoder(lang)
-
-    def Validate(self,
-                 mnemonic: Union[str, Mnemonic]) -> None:
-        """
-        Validate the mnemonic specified at construction.
-
-        Args:
-            mnemonic (str or Mnemonic object): Mnemonic
-
-        Raises:
-            MoneroMnemonicChecksumError: If checksum is not valid
-            ValueError: If mnemonic is not valid
-        """
-
-        # Just get entropy bytes without returning it, since it will validate the mnemonic
-        self.m_mnemonic_decoder.Decode(mnemonic)
-
-    def IsValid(self,
-                mnemonic: Union[str, Mnemonic]) -> bool:
-        """
-        Get if the mnemonic specified at construction is valid.
-
-        Args:
-            mnemonic (str or Mnemonic object): Mnemonic
-
-        Returns:
-            bool: True if valid, False otherwise
-        """
-
-        # Simply try to validate
-        try:
-            self.Validate(mnemonic)
-            return True
-        except (ValueError, MoneroMnemonicChecksumError):
-            return False
+        super().__init__(MoneroMnemonicDecoder(lang))

@@ -18,11 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Monero mnemonic seed generation."""
+"""Module for Monero seed generation."""
 
 # Imports
 from typing import Optional, Union
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicDecoder
+from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages
+from bip_utils.monero.mnemonic.monero_mnemonic_decoder import MoneroMnemonicDecoder
 from bip_utils.utils.mnemonic import Mnemonic
 
 
