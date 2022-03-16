@@ -29,7 +29,6 @@ from bip_utils.algorand.mnemonic.algorand_entropy_generator import AlgorandEntro
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages, AlgorandMnemonic
 from bip_utils.algorand.mnemonic.algorand_mnemonic_utils import AlgorandMnemonicUtils
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
-from bip_utils.utils.misc import BytesUtils
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicEncoderBase
 
 
