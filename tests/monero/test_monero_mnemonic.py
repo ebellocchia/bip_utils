@@ -282,7 +282,7 @@ class MoneroMnemonicTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
-            lang = test["lang"] if "lang" in test else MoneroLanguages.ENGLISH
+            lang = test["lang"]
 
             # Test both generating with checksum and without checksum (keys and entropy shall be the same in both cases)
             for i in range(0, 2):
