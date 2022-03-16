@@ -53,8 +53,14 @@ class AlgorandMnemonicUtils:
         Returns:
             str: Computed checksum word index
         """
-        checksum = AlgorandMnemonicUtils.ComputeChecksum(data_bytes)
-        return AlgorandMnemonicUtils.ConvertBits(checksum, 8, 11)[0]
+
+        # Compute checksum and convert it to 11-bit
+        chksum = AlgorandMnemonicUtils.ComputeChecksum(data_bytes)
+        chksum_11bit = AlgorandMnemonicUtils.ConvertBits(chksum, 8, 11)
+        # Cannot be None by converting bytes from 8-bit to 11-bit
+        assert chksum_11bit is not None
+
+        return chksum_11bit[0]
 
     @staticmethod
     def ConvertBits(data: Union[bytes, List[int]],
