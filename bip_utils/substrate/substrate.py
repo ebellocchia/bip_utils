@@ -165,7 +165,7 @@ class Substrate:
                  path: SubstratePath,
                  coin_conf: SubstrateCoinConf) -> None:
         """
-        Construct class from keys.
+        Construct class.
 
         Args:
             priv_key (bytes or IPrivateKey)     : Private key, if None a public-only object will be created

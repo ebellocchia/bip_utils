@@ -36,7 +36,7 @@ class MnemonicWordsList:
     def __init__(self,
                  words_list: List[str]) -> None:
         """
-        Construct class by reading the words list from file.
+        Construct class.
 
         Args:
             words_list (list): Words list

@@ -35,7 +35,7 @@ class EntropyGenerator:
     def __init__(self,
                  byte_len: int) -> None:
         """
-        Construct class by specifying the bits length.
+        Construct class.
 
         Args:
             byte_len (int): Entropy length in bits

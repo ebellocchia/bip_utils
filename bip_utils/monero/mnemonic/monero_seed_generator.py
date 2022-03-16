@@ -39,7 +39,7 @@ class MoneroSeedGenerator:
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[MoneroLanguages] = None) -> None:
         """
-        Construct the class.
+        Construct class.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic

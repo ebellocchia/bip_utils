@@ -51,7 +51,7 @@ class MoneroMnemonicGenerator:
     def __init__(self,
                  lang: MoneroLanguages = MoneroLanguages.ENGLISH) -> None:
         """
-        Construct class from language.
+        Construct class.
 
         Args:
             lang (MoneroLanguages, optional): Language (default: English)

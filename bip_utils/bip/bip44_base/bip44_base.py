@@ -147,7 +147,7 @@ class Bip44Base(ABC):
                  bip32_obj: Bip32Base,
                  coin_conf: BipCoinConf) -> None:
         """
-        Construct class from a Bip32 object and coin type.
+        Construct class.
 
         Args:
             bip32_obj (Bip32 object): Bip32 object

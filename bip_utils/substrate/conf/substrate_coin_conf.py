@@ -38,7 +38,7 @@ class SubstrateCoinConf:
     def FromCoinConf(cls,
                      coin_conf: CoinConf) -> SubstrateCoinConf:
         """
-        Construct class from generic coin configuration.
+        Construct class.
 
         Args:
             coin_conf (CoinConf object): Generic coin configuration object

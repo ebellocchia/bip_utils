@@ -47,7 +47,7 @@ class Bip32Path:
     def __init__(self,
                  elems: Optional[Sequence[Union[int, Bip32KeyIndex]]] = None) -> None:
         """
-        Construct class by specifying the path elements.
+        Construct class.
 
         Args:
             elems (list, optional): Path elements

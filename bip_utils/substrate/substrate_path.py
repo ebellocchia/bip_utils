@@ -196,7 +196,7 @@ class SubstratePath:
     def __init__(self,
                  elems: Optional[Sequence[Union[str, SubstratePathElem]]] = None) -> None:
         """
-        Construct class by specifying the path elements.
+        Construct class.
 
         Args:
             elems (list, optional): Path elements

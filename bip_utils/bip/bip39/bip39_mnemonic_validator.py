@@ -36,7 +36,7 @@ class Bip39MnemonicValidator(MnemonicValidator):
     def __init__(self,
                  lang: Optional[Bip39Languages] = None) -> None:
         """
-        Construct the class from mnemonic.
+        Construct class.
 
         Args:
             lang (Bip39Languages, optional): Language, None for automatic detection

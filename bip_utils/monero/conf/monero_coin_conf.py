@@ -40,7 +40,7 @@ class MoneroCoinConf:
     def FromCoinConf(cls,
                      coin_conf: CoinConf) -> MoneroCoinConf:
         """
-        Construct class from generic coin configuration.
+        Construct class.
 
         Args:
             coin_conf (CoinConf object): Generic coin configuration object

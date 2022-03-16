@@ -39,7 +39,7 @@ class Bip39MnemonicGenerator:
     def __init__(self,
                  lang: Bip39Languages = Bip39Languages.ENGLISH) -> None:
         """
-        Construct class from language.
+        Construct class.
 
         Args:
             lang (Bip39Languages, optional): Language (default: English)

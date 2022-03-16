@@ -55,7 +55,7 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
         """
-        Construct the class.
+        Construct class.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic

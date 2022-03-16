@@ -36,7 +36,7 @@ class MoneroMnemonicValidator(MnemonicValidator):
     def __init__(self,
                  lang: Optional[MoneroLanguages] = None) -> None:
         """
-        Construct the class from mnemonic.
+        Construct class.
 
         Args:
             lang (MoneroLanguages, optional): Language, None for automatic detection

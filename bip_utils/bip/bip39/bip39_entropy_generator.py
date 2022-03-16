@@ -59,7 +59,7 @@ class Bip39EntropyGenerator(EntropyGenerator):
     def __init__(self,
                  bits_len: Union[int, Bip39EntropyBitLen]) -> None:
         """
-        Construct class by specifying the bits length.
+        Construct class.
 
         Args:
             bits_len (int or Bip39EntropyBitLen): Entropy length in bits

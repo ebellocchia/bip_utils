@@ -53,7 +53,7 @@ class MoneroEntropyGenerator(EntropyGenerator):
     def __init__(self,
                  bits_len: Union[int, MoneroEntropyBitLen]) -> None:
         """
-        Construct class by specifying the bits length.
+        Construct class.
 
         Args:
             bits_len (int or MoneroEntropyBitLen): Entropy length in bits

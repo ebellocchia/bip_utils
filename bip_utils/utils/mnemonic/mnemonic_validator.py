@@ -35,7 +35,7 @@ class MnemonicValidator:
     def __init__(self,
                  mnemonic_decoder: MnemonicDecoderBase) -> None:
         """
-        Construct the class from mnemonic.
+        Construct class.
 
         Args:
             mnemonic_decoder (MnemonicDecoderBase object): Mnemonic decoder class instance
