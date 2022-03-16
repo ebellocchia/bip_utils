@@ -4,6 +4,7 @@ bip_utils
    :maxdepth: 10
 
    addr/index.rst
+   algorand/index.rst
    base58/index.rst
    bech32/index.rst
    bip/index.rst

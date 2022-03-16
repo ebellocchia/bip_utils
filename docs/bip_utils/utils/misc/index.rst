@@ -5,6 +5,7 @@ misc
 
    aes_ecb
    algo
+   base32
    bit
    bytes
    crypto
