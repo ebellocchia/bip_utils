@@ -33,7 +33,7 @@ from bip_utils.ecc import IPrivateKey
 
 
 class Bip84Const:
-    """Class container for BIP44 constants."""
+    """Class container for BIP84 constants."""
 
     # Specification name
     SPEC_NAME: str = "BIP-0084"
