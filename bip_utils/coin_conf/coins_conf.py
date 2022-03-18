@@ -31,12 +31,16 @@ _BTC_P2PKH_NET_VER_MN: bytes = b"\x00"
 _BTC_P2SH_NET_VER_MN: bytes = b"\x05"
 _BTC_P2WPKH_HRP_MN: str = "bc"
 _BTC_P2WPKH_WIT_VER_MN: int = 0
+_BTC_P2TR_HRP_MN: str = "bc"
+_BTC_P2TR_WIT_VER_MN: int = 1
 _BTC_WIF_NET_VER_MN: bytes = b"\x80"
 # Test net
 _BTC_P2PKH_NET_VER_TN: bytes = b"\x6f"
 _BTC_P2SH_NET_VER_TN: bytes = b"\xc4"
 _BTC_P2WPKH_HRP_TN: str = "tb"
 _BTC_P2WPKH_WIT_VER_TN: int = 0
+_BTC_P2TR_HRP_TN: str = "tb"
+_BTC_P2TR_WIT_VER_TN: int = 1
 _BTC_WIF_NET_VER_TN: bytes = b"\xef"
 
 
@@ -127,6 +131,8 @@ class CoinsConf:
             "p2sh_net_ver": _BTC_P2SH_NET_VER_MN,
             "p2wpkh_hrp": _BTC_P2WPKH_HRP_MN,
             "p2wpkh_wit_ver": _BTC_P2WPKH_WIT_VER_MN,
+            "p2tr_hrp": _BTC_P2TR_HRP_MN,
+            "p2tr_wit_ver": _BTC_P2TR_WIT_VER_MN,
             "wif_net_ver": _BTC_WIF_NET_VER_MN,
         },
     )
@@ -139,6 +145,8 @@ class CoinsConf:
             "p2sh_net_ver": _BTC_P2SH_NET_VER_TN,
             "p2wpkh_hrp": _BTC_P2WPKH_HRP_TN,
             "p2wpkh_wit_ver": _BTC_P2WPKH_WIT_VER_TN,
+            "p2tr_hrp": _BTC_P2TR_HRP_TN,
+            "p2tr_wit_ver": _BTC_P2TR_WIT_VER_MN,
             "wif_net_ver": _BTC_WIF_NET_VER_TN,
         },
     )
@@ -440,7 +448,7 @@ class CoinsConf:
             "p2sh_std_net_ver": b"\x32",
             "p2sh_depr_net_ver": _BTC_P2SH_NET_VER_MN,
             "p2wpkh_hrp": "ltc",
-            "p2wpkh_wit_ver": 0,
+            "p2wpkh_wit_ver": _BTC_P2WPKH_WIT_VER_MN,
             "wif_net_ver": b"\xb0",
         },
     )
@@ -454,7 +462,7 @@ class CoinsConf:
             "p2sh_std_net_ver": b"\x3a",
             "p2sh_depr_net_ver": _BTC_P2SH_NET_VER_TN,
             "p2wpkh_hrp": "tltc",
-            "p2wpkh_wit_ver": 0,
+            "p2wpkh_wit_ver": _BTC_P2WPKH_WIT_VER_TN,
             "wif_net_ver": _BTC_WIF_NET_VER_TN,
         },
     )

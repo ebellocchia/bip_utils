@@ -22,6 +22,7 @@ from bip_utils.addr import (
     BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr,
     P2SHAddrDecoder, P2SHAddrEncoder, P2SHAddr,
     P2WPKHAddrDecoder, P2WPKHAddrEncoder, P2WPKHAddr,
+    P2TRAddrDecoder, P2TRAddrEncoder, P2TRAddr,
     SolAddrDecoder, SolAddrEncoder, SolAddr,
     SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateEd25519Addr,
     SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SubstrateSr25519Addr,
@@ -78,10 +79,12 @@ from bip_utils.bip.bip44_base import (
 from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip49 import Bip49
 from bip_utils.bip.bip84 import Bip84
+from bip_utils.bip.bip86 import Bip86
 # BIP coins configuration
 from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44Conf, Bip44ConfGetter
 from bip_utils.bip.conf.bip49 import Bip49Coins, Bip49Conf, Bip49ConfGetter
 from bip_utils.bip.conf.bip84 import Bip84Coins, Bip84Conf, Bip84ConfGetter
+from bip_utils.bip.conf.bip86 import Bip86Coins, Bip86Conf, Bip86ConfGetter
 # Generic coins configuration
 from bip_utils.coin_conf import CoinsConf
 # ECC

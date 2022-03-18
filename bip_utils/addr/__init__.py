@@ -24,6 +24,7 @@ from bip_utils.addr.P2SH_addr import (
     P2SHAddrDecoder, P2SHAddrEncoder, P2SHAddr
 )
 from bip_utils.addr.P2WPKH_addr import P2WPKHAddrDecoder, P2WPKHAddrEncoder, P2WPKHAddr
+from bip_utils.addr.P2TR_addr import P2TRAddrDecoder, P2TRAddrEncoder, P2TRAddr
 from bip_utils.addr.sol_addr import SolAddrDecoder, SolAddrEncoder, SolAddr
 from bip_utils.addr.substrate_addr import (
     SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateEd25519Addr,
