@@ -29,15 +29,15 @@ Other implemented functionalities:
 - Parse Substrate derivation paths
 - Encode/Decode addresses for all the supported coins
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
-- Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
+- Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background) and [base58 monero](https://monerodocs.org/cryptography/base58)
 - Encode/Decode [ss58](https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58))
 - Encode/Decode [bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) and [bech32m](https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki)
-- Encode/Decode Bitcoin Cash bech32
-- Get token account addresses for SPL tokens (Solana)
+- Encode/Decode [Bitcoin Cash bech32](https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md)
+- Get token account addresses for SPL tokens (i.e. Solana tokens)
 
 Package dependencies:
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
-- [pycryptodome](https://pypi.org/project/pycryptodome/) for keccak256 and SHA512/256
+- [pycryptodome](https://pypi.org/project/pycryptodome/) for cryptographic functions
 - [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
 - [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves
 - [ed25519-blake2b](https://pypi.org/project/ed25519-blake2b/) for ed25519-blake2b curve
