@@ -55,7 +55,7 @@ class Bip86Conf:
     BitcoinTestNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.BitcoinTestNet.CoinNames(),
         coin_idx=0,
-        is_testnet=False,
+        is_testnet=True,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP86_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.BitcoinTestNet.Params("wif_net_ver"),
