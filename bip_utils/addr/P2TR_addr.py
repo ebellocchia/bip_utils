@@ -28,6 +28,7 @@ References:
 
 # Imports
 from typing import Any, Union
+from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -157,11 +158,12 @@ class P2TRAddrDecoder(IAddrDecoder):
         hrp = kwargs["hrp"]
 
         try:
-            # SegwitBech32Decoder also validates the length
             wit_ver_got, addr_dec_bytes = SegwitBech32Decoder.Decode(hrp, addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
         else:
+            # Validate length
+            AddrDecUtils.ValidateLength(addr_dec_bytes, Secp256k1PublicKey.CompressedLength() - 1)
             # Check witness version
             if wit_ver_got != P2TRConst.WITNESS_VER:
                 raise ValueError(f"Invalid witness version (expected {P2TRConst.WITNESS_VER}, got {wit_ver_got})")
