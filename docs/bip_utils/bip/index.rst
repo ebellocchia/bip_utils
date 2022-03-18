@@ -10,4 +10,5 @@ bip
    bip44_base/index.rst
    bip49/index.rst
    bip84/index.rst
+   bip86/index.rst
    conf/index.rst

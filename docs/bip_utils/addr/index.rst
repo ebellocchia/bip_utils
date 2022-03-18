@@ -5,6 +5,7 @@ addr
 
    P2PKH_addr
    P2SH_addr
+   P2TR_addr
    P2WPKH_addr
    addr_dec_utils
    addr_key_validator
