@@ -24,9 +24,18 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
 """
 
 # Imports
-from typing import List
+from enum import auto, Enum, unique
+from typing import Dict, List
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
 from bip_utils.utils.misc import BytesUtils
+
+
+@unique
+class Bech32Encodings(Enum):
+    """Enumerative for Bech32 encoding types."""
+
+    BECH32 = auto()
+    BECH32M = auto()
 
 
 class Bech32Const:
@@ -40,6 +49,11 @@ class Bech32Const:
     DATA_MIN_BYTE_LEN: int = 2
     # Maximum data length in bytes
     DATA_MAX_BYTE_LEN: int = 40
+    # Encoding checksum constants
+    ENCODING_CHECKSUM_CONST: Dict[Bech32Encodings, int] = {
+        Bech32Encodings.BECH32: 1,
+        Bech32Encodings.BECH32M: 0x2bc830a3,
+    }
 
 
 class Bech32Utils:
@@ -85,36 +99,41 @@ class Bech32Utils:
 
     @staticmethod
     def ComputeChecksum(hrp: str,
-                        data: List[int]) -> List[int]:
+                        data: List[int],
+                        encoding: Bech32Encodings = Bech32Encodings.BECH32) -> List[int]:
         """
         Compute the checksum from the specified HRP and data.
 
         Args:
-            hrp (str)  : HRP
-            data (list): Data part
+            hrp (str)                           : HRP
+            data (list)                         : Data part
+            encoding (Bech32Encodings, optional): Encoding type (BECH32 by default)
 
         Returns:
             list: Computed checksum
         """
 
         values = Bech32Utils.HrpExpand(hrp) + data
-        polymod = Bech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ 1
+        polymod = Bech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ Bech32Const.ENCODING_CHECKSUM_CONST[encoding]
         return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(Bech32Const.CHECKSUM_BYTE_LEN)]
 
     @staticmethod
     def VerifyChecksum(hrp: str,
-                       data: List[int]) -> bool:
+                       data: List[int],
+                       encoding: Bech32Encodings = Bech32Encodings.BECH32) -> bool:
         """
         Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str) : HRP
-            data (list): Data part
+            hrp  (str)                          : HRP
+            data (list)                         : Data part
+            encoding (Bech32Encodings, optional): Encoding type (BECH32 by default)
 
         Returns:
             bool: True if valid, false otherwise
         """
-        return Bech32Utils.PolyMod(Bech32Utils.HrpExpand(hrp) + data) == 1
+        polymod = Bech32Utils.PolyMod(Bech32Utils.HrpExpand(hrp) + data)
+        return polymod == Bech32Const.ENCODING_CHECKSUM_CONST[encoding]
 
 
 class Bech32Encoder(Bech32EncoderBase):
@@ -214,6 +233,4 @@ class Bech32Decoder(Bech32DecoderBase):
         Returns:
             bool: True if valid, false otherwise
         """
-
-        # Same as Segwit
         return Bech32Utils.VerifyChecksum(hrp, data)

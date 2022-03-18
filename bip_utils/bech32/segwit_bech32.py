@@ -19,14 +19,16 @@
 # THE SOFTWARE.
 
 """
-Module for segwit bech32 decoding/encoding.
-Reference: https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki.
+Module for segwit bech32/bech32m decoding/encoding.
+Reference:
+    https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
+    https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki
 """
 
 # Imports
 from typing import List, Tuple
 from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.bech32 import Bech32Const, Bech32Utils
+from bip_utils.bech32.bech32 import Bech32Encodings, Bech32Const, Bech32Utils
 from bip_utils.utils.misc import BytesUtils
 
 
@@ -41,6 +43,8 @@ class SegwitBech32Const:
     DATA_MIN_BYTE_LEN: int = Bech32Const.DATA_MIN_BYTE_LEN
     # Maximum data length in bytes
     DATA_MAX_BYTE_LEN: int = Bech32Const.DATA_MAX_BYTE_LEN
+    # Witness version for Bech32 encoding
+    WITNESS_VER_BECH32: int = 0
     # Witness version maximum value
     WITNESS_VER_MAX_VAL: int = 16
     # Accepted data lengths when witness version is zero
@@ -89,7 +93,11 @@ class SegwitBech32Encoder(Bech32EncoderBase):
         Returns:
             list: Computed checksum
         """
-        return Bech32Utils.ComputeChecksum(hrp, data)
+        encoding = (Bech32Encodings.BECH32
+                    if data[0] == SegwitBech32Const.WITNESS_VER_BECH32
+                    else Bech32Encodings.BECH32M)
+
+        return Bech32Utils.ComputeChecksum(hrp, data, encoding)
 
 
 class SegwitBech32Decoder(Bech32DecoderBase):
@@ -129,16 +137,18 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data[1:])
 
-        # Check converted data
+        # Check data length
         if (len(conv_data) < SegwitBech32Const.DATA_MIN_BYTE_LEN
                 or len(conv_data) > SegwitBech32Const.DATA_MAX_BYTE_LEN):
             raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
-        if data[0] > SegwitBech32Const.WITNESS_VER_MAX_VAL:
-            raise ValueError(f"Invalid format (witness version not valid: {data[0]})")
-        if data[0] == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
+        # Check witness version
+        wit_ver = data[0]
+        if wit_ver > SegwitBech32Const.WITNESS_VER_MAX_VAL:
+            raise ValueError(f"Invalid format (witness version not valid: {wit_ver})")
+        if wit_ver == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
             raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
-        return data[0], BytesUtils.FromList(conv_data)
+        return wit_ver, BytesUtils.FromList(conv_data)
 
     @staticmethod
     def _VerifyChecksum(hrp: str,
@@ -153,4 +163,8 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         Returns:
             bool: True if valid, false otherwise
         """
-        return Bech32Utils.VerifyChecksum(hrp, data)
+        encoding = (Bech32Encodings.BECH32
+                    if data[0] == SegwitBech32Const.WITNESS_VER_BECH32
+                    else Bech32Encodings.BECH32M)
+
+        return Bech32Utils.VerifyChecksum(hrp, data, encoding)
