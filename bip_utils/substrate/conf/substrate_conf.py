@@ -20,7 +20,7 @@
 
 """
 Module for Substrate coins configuration.
-Reference: https://wiki.polkadot.network/docs/build-ss58-registry.
+Reference: https://wiki.polkadot.network/docs/build-ss58-registry
 """
 
 # Imports

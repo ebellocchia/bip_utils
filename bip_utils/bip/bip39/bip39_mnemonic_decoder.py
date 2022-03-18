@@ -20,7 +20,7 @@
 
 """
 Module for BIP39 mnemonic decoding.
-Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 """
 
 # Imports

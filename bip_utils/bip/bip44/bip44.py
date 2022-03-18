@@ -20,7 +20,7 @@
 
 """
 Module for BIP44 keys derivation.
-Reference: https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 """
 
 # Imports

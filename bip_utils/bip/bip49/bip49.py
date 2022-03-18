@@ -20,7 +20,7 @@
 
 """
 Module for BIP49 keys derivation.
-Reference: https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
 """
 
 # Imports

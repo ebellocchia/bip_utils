@@ -20,7 +20,7 @@
 
 """
 Module for BitcoinCash bech32 decoding/encoding.
-Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md.
+Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/cashaddr.md
 """
 
 # Imports

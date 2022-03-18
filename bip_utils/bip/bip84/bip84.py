@@ -20,7 +20,7 @@
 
 """
 Module for BIP84 keys derivation.
-Reference: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
 """
 
 # Imports

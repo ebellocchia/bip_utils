@@ -20,7 +20,7 @@
 
 """
 Module for SS58 decoding/encoding.
-Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58).
+Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58)
 """
 
 # Imports

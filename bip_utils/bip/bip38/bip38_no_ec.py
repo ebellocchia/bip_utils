@@ -20,7 +20,7 @@
 
 """
 Module for BIP38 encryption/decryption.
-Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki.
+Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
 """
 
 # Imports
