@@ -205,7 +205,7 @@ class Bech32DecoderBase(ABC):
 
         # Check string length and case
         if len(bech_str) > Bech32BaseConst.MAX_STR_BYTE_LEN or AlgoUtils.IsStringMixed(bech_str):
-            raise ValueError("Invalid bech32 format (length not valid)")
+            raise ValueError(f"Invalid bech32 format (length not valid: {len(bech_str)})")
 
         # Lower string
         bech_str = bech_str.lower()
