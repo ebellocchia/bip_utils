@@ -142,8 +142,9 @@ class Bech32Encoder(Bech32EncoderBase):
     It provides methods for encoding to Bech32 format.
     """
 
-    @staticmethod
-    def Encode(hrp: str,
+    @classmethod
+    def Encode(cls,
+               hrp: str,
                data: bytes) -> str:
         """
         Encode to Bech32.
@@ -159,7 +160,9 @@ class Bech32Encoder(Bech32EncoderBase):
             ValueError: If the data is not valid
         """
 
-        return Bech32Encoder._EncodeBech32(hrp, Bech32BaseUtils.ConvertToBase32(data), Bech32Const.SEPARATOR)
+        return cls._EncodeBech32(hrp,
+                                 Bech32BaseUtils.ConvertToBase32(data),
+                                 Bech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
@@ -185,8 +188,9 @@ class Bech32Decoder(Bech32DecoderBase):
     It provides methods for decoding  Bech32 format.
     """
 
-    @staticmethod
-    def Decode(hrp: str,
+    @classmethod
+    def Decode(cls,
+               hrp: str,
                addr: str) -> bytes:
         """
         Decode from Bech32.
@@ -204,7 +208,9 @@ class Bech32Decoder(Bech32DecoderBase):
         """
 
         # Decode string
-        hrp_got, data = Bech32Decoder._DecodeBech32(addr, Bech32Const.SEPARATOR, Bech32Const.CHECKSUM_BYTE_LEN)
+        hrp_got, data = cls._DecodeBech32(addr,
+                                          Bech32Const.SEPARATOR,
+                                          Bech32Const.CHECKSUM_BYTE_LEN)
 
         # Check HRP
         if hrp != hrp_got:

@@ -55,8 +55,9 @@ class SplToken:
     It provides methods for getting the account address associated to a SPL token.
     """
 
-    @staticmethod
-    def GetAssociatedTokenAddress(wallet_addr: str,
+    @classmethod
+    def GetAssociatedTokenAddress(cls,
+                                  wallet_addr: str,
                                   token_mint_addr: str) -> str:
         """
         Get the account address associated to the specified SPL token.
@@ -71,14 +72,15 @@ class SplToken:
         Raises:
             ValueError: If the account address cannot be found or the specified addresses are not valid
         """
-        return SplToken.GetAssociatedTokenAddressWithProgramId(
+        return cls.GetAssociatedTokenAddressWithProgramId(
             wallet_addr,
             token_mint_addr,
             SplTokenConst.DEF_TOKEN_PROGRAM_ID
         )
 
-    @staticmethod
-    def GetAssociatedTokenAddressWithProgramId(wallet_addr: str,
+    @classmethod
+    def GetAssociatedTokenAddressWithProgramId(cls,
+                                               wallet_addr: str,
                                                token_mint_addr: str,
                                                token_program_id: str) -> str:
         """
@@ -100,10 +102,11 @@ class SplToken:
             SolAddrDecoder.DecodeAddr(token_program_id),
             SolAddrDecoder.DecodeAddr(token_mint_addr),
         ]
-        return SplToken.FindPda(seeds, SplTokenConst.DEF_PROGRAM_ID)
+        return cls.FindPda(seeds, SplTokenConst.DEF_PROGRAM_ID)
 
-    @staticmethod
-    def FindPda(seeds: List[bytes],
+    @classmethod
+    def FindPda(cls,
+                seeds: List[bytes],
                 program_id: str) -> str:
         """
         Find a valid PDA (Program Derived Address) and its corresponding bump seed.
@@ -134,7 +137,7 @@ class SplToken:
             seeds_with_bump.append(IntegerUtils.ToBytes(bump_seed))
             # Try to create PDA
             try:
-                return SplToken.__CreatePda(seeds_with_bump, program_id_bytes)
+                return cls.__CreatePda(seeds_with_bump, program_id_bytes)
             except ValueError:
                 # Continue with the next bump seed if PDA is not valid
                 bump_seed -= 1

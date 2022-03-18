@@ -57,8 +57,9 @@ class SegwitBech32Encoder(Bech32EncoderBase):
     It provides methods for encoding to Segwit Bech32 format.
     """
 
-    @staticmethod
-    def Encode(hrp: str,
+    @classmethod
+    def Encode(cls,
+               hrp: str,
                wit_ver: int,
                wit_prog: bytes) -> str:
         """
@@ -75,10 +76,9 @@ class SegwitBech32Encoder(Bech32EncoderBase):
         Raises:
             ValueError: If the data is not valid
         """
-
-        return SegwitBech32Encoder._EncodeBech32(hrp,
-                                                 [wit_ver] + Bech32BaseUtils.ConvertToBase32(wit_prog),
-                                                 SegwitBech32Const.SEPARATOR)
+        return cls._EncodeBech32(hrp,
+                                 [wit_ver] + Bech32BaseUtils.ConvertToBase32(wit_prog),
+                                 SegwitBech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
@@ -106,8 +106,9 @@ class SegwitBech32Decoder(Bech32DecoderBase):
     It provides methods for decoding Segwit Bech32 format.
     """
 
-    @staticmethod
-    def Decode(hrp: str,
+    @classmethod
+    def Decode(cls,
+               hrp: str,
                addr: str) -> Tuple[int, bytes]:
         """
         Decode from Segwit Bech32.
@@ -125,9 +126,9 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         """
 
         # Decode string
-        hrp_got, data = SegwitBech32Decoder._DecodeBech32(addr,
-                                                          SegwitBech32Const.SEPARATOR,
-                                                          SegwitBech32Const.CHECKSUM_BYTE_LEN)
+        hrp_got, data = cls._DecodeBech32(addr,
+                                          SegwitBech32Const.SEPARATOR,
+                                          SegwitBech32Const.CHECKSUM_BYTE_LEN)
         # Check HRP
         if hrp != hrp_got:
             raise ValueError(

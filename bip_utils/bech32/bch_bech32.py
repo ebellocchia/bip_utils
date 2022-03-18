@@ -130,8 +130,9 @@ class BchBech32Encoder(Bech32EncoderBase):
     It provides methods for encoding to Bitcoin Cash Bech32 format.
     """
 
-    @staticmethod
-    def Encode(hrp: str,
+    @classmethod
+    def Encode(cls,
+               hrp: str,
                net_ver: bytes,
                data: bytes) -> str:
         """
@@ -149,9 +150,9 @@ class BchBech32Encoder(Bech32EncoderBase):
             ValueError: If the data is not valid
         """
 
-        return BchBech32Encoder._EncodeBech32(hrp,
-                                              Bech32BaseUtils.ConvertToBase32(net_ver + data),
-                                              BchBech32Const.SEPARATOR)
+        return cls._EncodeBech32(hrp,
+                                 Bech32BaseUtils.ConvertToBase32(net_ver + data),
+                                 BchBech32Const.SEPARATOR)
 
     @staticmethod
     def _ComputeChecksum(hrp: str,
@@ -175,8 +176,9 @@ class BchBech32Decoder(Bech32DecoderBase):
     It provides methods for decoding Bitcoin Cash Bech32 format.
     """
 
-    @staticmethod
-    def Decode(hrp: str,
+    @classmethod
+    def Decode(cls,
+               hrp: str,
                addr: str) -> Tuple[bytes, bytes]:
         """
         Decode from Bitcoin Cash Bech32.
@@ -194,7 +196,9 @@ class BchBech32Decoder(Bech32DecoderBase):
         """
 
         # Decode string
-        hrp_got, data = BchBech32Decoder._DecodeBech32(addr, BchBech32Const.SEPARATOR, BchBech32Const.CHECKSUM_BYTE_LEN)
+        hrp_got, data = cls._DecodeBech32(addr,
+                                          BchBech32Const.SEPARATOR,
+                                          BchBech32Const.CHECKSUM_BYTE_LEN)
 
         # Check HRP
         if hrp != hrp_got:
