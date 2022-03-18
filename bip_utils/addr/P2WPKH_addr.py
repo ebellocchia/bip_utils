@@ -36,6 +36,13 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import CryptoUtils
 
 
+class P2WPKHAddrConst:
+    """Class container for P2WPKH constants."""
+
+    # Witness version is fixed to zero for P2WPKH
+    WITNESS_VER: int = 0
+
+
 class P2WPKHAddrDecoder(IAddrDecoder):
     """
     P2WPKH address decoder class.
@@ -52,8 +59,7 @@ class P2WPKHAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            hrp (str)    : HRP
-            wit_ver (int): Witness version
+            hrp (str): HRP
 
         Returns:
             bytes: Public key hash bytes
@@ -62,7 +68,6 @@ class P2WPKHAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
         hrp = kwargs["hrp"]
-        wit_ver = kwargs["wit_ver"]
 
         try:
             # SegwitBech32Decoder also validates the length
@@ -71,8 +76,9 @@ class P2WPKHAddrDecoder(IAddrDecoder):
             raise ValueError("Invalid bech32 checksum") from ex
         else:
             # Check witness version
-            if wit_ver != wit_ver_got:
-                raise ValueError(f"Invalid witness version (expected {wit_ver}, got {wit_ver_got})")
+            if wit_ver_got != P2WPKHAddrConst.WITNESS_VER:
+                raise ValueError(f"Invalid witness version (expected {P2WPKHAddrConst.WITNESS_VER}, "
+                                 f"got {wit_ver_got})")
             return addr_dec_bytes
 
 
@@ -92,8 +98,7 @@ class P2WPKHAddrEncoder(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            hrp (str)    : HRP
-            wit_ver (int): Witness version
+            hrp (str): HRP
 
         Returns:
             str: Address string
@@ -103,11 +108,10 @@ class P2WPKHAddrEncoder(IAddrEncoder):
             TypeError: If the public key is not secp256k1
         """
         hrp = kwargs["hrp"]
-        wit_ver = kwargs["wit_ver"]
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
         return SegwitBech32Encoder.Encode(hrp,
-                                          wit_ver,
+                                          P2WPKHAddrConst.WITNESS_VER,
                                           CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
 
 
