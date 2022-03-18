@@ -256,13 +256,17 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
 **Code example**
 
     from bip_utils import (
-        MnemonicChecksumError, Bip39Languages, Bip39WordsNum, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39MnemonicDecoder
+        MnemonicChecksumError, Bip39Languages, Bip39WordsNum, Bip39Mnemonic,
+        Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39MnemonicDecoder
     )
 
     # Mnemonic can be generated with Bip39MnemonicGenerator
     mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
     # Or it can be a string
     mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
+    # Or from a list
+    mnemonic = Bip39Mnemonic.FromList(mnemonic.split())
+
 
     # Get if a mnemonic is valid, return bool
     is_valid = Bip39MnemonicValidator().IsValid(mnemonic)
