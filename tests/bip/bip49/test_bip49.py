@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import Bip49Conf, Bip49, Bip44Coins, Bip49Coins, Bip84Coins
+from bip_utils import Bip49Conf, Bip49, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 from tests.bip.bip44.test_bip44 import TEST_SEED
 
@@ -731,7 +731,7 @@ class Bip49Tests(unittest.TestCase):
 
     # Test type error during construction
     def test_type_error(self):
-        Bip44BaseTestHelper.test_type_error(self, Bip49, [Bip44Coins, Bip84Coins])
+        Bip44BaseTestHelper.test_type_error(self, Bip49, [Bip44Coins, Bip84Coins, Bip86Coins])
 
     # Test invalid path derivations
     def test_invalid_derivations(self):

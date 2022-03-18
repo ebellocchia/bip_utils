@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import CoinsConf, P2WPKHAddrDecoder, P2WPKHAddrEncoder
+from bip_utils import CoinsConf, P2TRAddrDecoder, P2TRAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -33,86 +33,68 @@ TEST_VECT = [
     #
     {
         "pub_key": b"03e775fd51f0dfb8cd865d9ff1cca2a158cf651fe997fdc9fee9c1d3b5e995ea77",
-        "address_dec": b"9c90f934ea51fa0f6504177043e0908da6929983",
-        "address_params": {"hrp": CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp")},
-        "address": "bc1qnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g",
+        "address_dec": b"2771c09790b183d19c4a848282a37cb18b6aaf7edd863a689713bc7254ece2b7",
+        "address_params": {"hrp": CoinsConf.BitcoinMainNet.Params("p2tr_hrp")},
+        "address": "bc1pyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msq4xugp",
     },
     {
         "pub_key": b"0299b4cb4809f52dac21bbd8c997d8bf052cf4d68bfe966c638c312fbfff636e17",
-        "address_dec": b"5e56706b0da301b78a49c2767da6046cb8fea8a8",
-        "address_params": {"hrp": CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp")},
-        "address": "bc1qtet8q6cd5vqm0zjfcfm8mfsydju0a29ggqrmu9",
-    },
-    {
-        "pub_key": b"021c1750d4a5ad543967b30e9447e50da7a5873e8be133eb25f2ce0ea5638b9d17",
-        "address_dec": b"77f2208e272bef80e98ce956e05d5ed8f596f5a3",
-        "address_params": {"hrp": CoinsConf.LitecoinMainNet.Params("p2wpkh_hrp")},
-        "address": "ltc1qwlezpr3890hcp6vva9twqh27mr6edadreqvhnn",
-    },
-    {
-        "pub_key": b"0201084ea04fa9619a056281e7c87a97693f67e5baa4ec604e7e8245b84e31cc96",
-        "address_dec": b"6c96354b14e73437c20a4e3248b64cb5ffcf4b86",
-        "address_params": {"hrp": CoinsConf.LitecoinMainNet.Params("p2wpkh_hrp")},
-        "address": "ltc1qdjtr2jc5uu6r0ss2fcey3djvkhlu7jux420fhr",
+        "address_dec": b"80d015c9d3154474036b7a5b5459387d70cbb49343495276b1d322235c612b77",
+        "address_params": {"hrp": CoinsConf.BitcoinMainNet.Params("p2tr_hrp")},
+        "address": "bc1psrgptjwnz4z8gqmt0fd4gkfc04cvhdyngdy4ya436v3zxhrp9dmsd05jqz",
     },
     #
     # Test nets
     #
     {
         "pub_key": b"02339193c34cd8ecb21ebd48af64ead71d78213470d61d7274f932489d6ba21bd3",
-        "address_dec": b"334924eaf46e806e86b3537a12f81595030d73a7",
-        "address_params": {"hrp": CoinsConf.BitcoinTestNet.Params("p2wpkh_hrp")},
-        "address": "tb1qxdyjf6h5d6qxap4n2dap97q4j5ps6ua8sll0ct",
-    },
-    {
-        "pub_key": b"03bb5db212192d5b428c5db726aba21426d0a63b7a453b0104f2398326bca43fc2",
-        "address_dec": b"d7bc5f47ee7bbc5d216b0928a4a8ba903bdb404f",
-        "address_params": {"hrp": CoinsConf.LitecoinTestNet.Params("p2wpkh_hrp")},
-        "address": "tltc1q677973lw0w796gttpy52f296jqaaksz0duklcr",
+        "address_dec": b"0449445395669a6af387056764a5a5c41d68c5fe9cdaca6d11fe85352f331014",
+        "address_params": {"hrp": CoinsConf.BitcoinTestNet.Params("p2tr_hrp")},
+        "address": "tb1pq3y5g5u4v6dx4uu8q4nkffd9cswk3307nndv5mg3l6zn2tenzq2qufyzlx",
     },
 ]
 
 # Tests for decoding with invalid strings
 TEST_VECT_DEC_INVALID = [
     # Invalid HRP
-    "ac1qpgmhz30d29akc670hkaje398hl6hvh0csvx4nm",
+    "ac1pyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msrd3lm7",
     # Invalid witness version
-    "bc1pyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msq4xugp",
+    "bc1zyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msgglnx2",
     # No separator
-    "bcqnjg0jd8228aq7egyzacy8cys3knf9xvrerkf9g",
+    "bcpyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msq4xugp",
     # Invalid checksum
-    "bc1qpgmhz30d29akc670hkaje398hl6hvh0chf364x",
+    "bc1pyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msjsmz2a",
     # Invalid encoding
-    "bc1qnjg0jd8228aq7egyzbcy8cys3knf9xvrerkf9g",
+    "bc1pyacup9uskxpbr8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msq4xugp",
     # Invalid lengths
-    "bc1qxac5tm230dkxhnaahvkvffal74m9m7qvzkhtl",
-    "bc1qpgmhz30d29akc670hkaje398hl6hvh0c0qqqppggpy",
+    "bc1pw8qf0y93s0gecj5ys2p2xl933d427lkascax39cnh3e9fm8zkude9hqn",
+    "bc1pyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2m555np8lf",
 ]
 
 
 #
 # Tests
 #
-class P2WPKHTests(unittest.TestCase):
+class P2TRTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, P2WPKHAddrEncoder, Secp256k1PublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, P2TRAddrEncoder, Secp256k1PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, P2WPKHAddrDecoder, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, P2TRAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
         AddrBaseTestHelper.test_invalid_dec(self,
-                                            P2WPKHAddrDecoder,
-                                            {"hrp": CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp")},
+                                            P2TRAddrDecoder,
+                                            {"hrp": CoinsConf.BitcoinMainNet.Params("p2tr_hrp")},
                                             TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(self,
-                                             P2WPKHAddrEncoder,
+                                             P2TRAddrEncoder,
                                              {"hrp": ""},
                                              TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
                                              TEST_VECT_SECP256K1_PUB_KEY_INVALID)

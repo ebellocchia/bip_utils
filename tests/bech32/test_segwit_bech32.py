@@ -71,7 +71,7 @@ TEST_VECT = [
 # Tests for Segwit encoded addresses that are not valid from BIP-0173 page, plus a couple for better code coverage
 TEST_VECT_ADDR_INVALID = [
     #
-    # From BIP-0173 page
+    # From BIP-0173 page (removed the ones that collide with BIP-0350)
     #
 
     # Invalid human-readable part
@@ -80,21 +80,80 @@ TEST_VECT_ADDR_INVALID = [
         "hrp": "tb",
         "ex": ValueError,
     },
+    # Invalid checksum
+    {
+        "addr": "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5",
+        "hrp": "bc",
+        "ex": Bech32ChecksumError,
+    },
+    # Non-zero padding in 8-to-5 conversion
+    {
+        "addr": "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv",
+        "hrp": "tb",
+        "ex": ValueError,
+    },
+
+    #
+    # From BIP-0350 page
+    #
+
+    # Invalid human-readable part
+    {
+        "addr": "tc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vq5zuyut",
+        "hrp": "tb",
+        "ex": ValueError,
+    },
+    # Invalid checksum (Bech32 instead of Bech32m)
+    {
+        "addr": "bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqh2y7hd",
+        "hrp": "bc",
+        "ex": Bech32ChecksumError,
+    },
+    # Invalid checksum (Bech32 instead of Bech32m)
+    {
+        "addr": "tb1z0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vqglt7rf",
+        "hrp": "tb",
+        "ex": Bech32ChecksumError,
+    },
+    # Invalid checksum (Bech32 instead of Bech32m)
+    {
+        "addr": "BC1S0XLXVLHEMJA6C4DQV22UAPCTQUPFHLXM9H8Z3K2E72Q4K9HCZ7VQ54WELL",
+        "hrp": "bc",
+        "ex": Bech32ChecksumError,
+    },
+    # Invalid checksum (Bech32m instead of Bech32)
+    {
+        "addr": "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kemeawh",
+        "hrp": "bc",
+        "ex": Bech32ChecksumError,
+    },
+    # Invalid checksum (Bech32m instead of Bech32)
+    {
+        "addr": "tb1q0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vq24jc47",
+        "hrp": "tb",
+        "ex": Bech32ChecksumError,
+    },
+    # Invalid character in checksum
+    {
+        "addr": "bc1p38j9r5y49hruaue7wxjce0updqjuyyx0kh56v8s25huc6995vvpql3jow4",
+        "hrp": "bc",
+        "ex": ValueError,
+    },
     # Invalid witness version
     {
-        "addr": "BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2",
+        "addr": "BC130XLXVLHEMJA6C4DQV22UAPCTQUPFHLXM9H8Z3K2E72Q4K9HCZ7VQ7ZWS8R",
         "hrp": "bc",
         "ex": ValueError,
     },
-    # Invalid program length
+    # Invalid program length (1 byte)
     {
-        "addr": "bc1rw5uspcuh",
+        "addr": "bc1pw5dgrnzv",
         "hrp": "bc",
         "ex": ValueError,
     },
-    # Invalid program length
+    # Invalid program length (41 bytes)
     {
-        "addr": "bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90",
+        "addr": "bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7v8n0nx0muaewav253zgeav",
         "hrp": "bc",
         "ex": ValueError,
     },
@@ -104,21 +163,21 @@ TEST_VECT_ADDR_INVALID = [
         "hrp": "bc",
         "ex": ValueError,
     },
+    # Mixed case
+    {
+        "addr": "tb1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vq47Zagq",
+        "hrp": "tb",
+        "ex": ValueError,
+    },
     # Zero padding of more than 4 bits
     {
-        "addr": "bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du",
+        "addr": "bc1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7v07qwwzcrf",
         "hrp": "bc",
         "ex": ValueError,
     },
-    # Invalid checksum
+    # Non-zero padding in 8-to-5 conversion
     {
-        "addr": "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5",
-        "hrp": "bc",
-        "ex": Bech32ChecksumError,
-    },
-    # Mixed case
-    {
-        "addr": "tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7",
+        "addr": "tb1p0xlxvlhemja6c4dqv22uapctqupfhlxm9h8z3k2e72q4k9hcz7vpggkg4j",
         "hrp": "tb",
         "ex": ValueError,
     },
