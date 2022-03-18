@@ -17,9 +17,15 @@ bip32
 bip44
 bip49
 bip84
+bip86
+bip173
+bip350
+base58
+ss58
 bech32
 segwit
 substrate
+taproot
 
 # BIP coins
 akash
