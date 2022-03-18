@@ -20,6 +20,7 @@
 
 """
 Module for segwit bech32/bech32m decoding/encoding.
+
 References:
     https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
     https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki

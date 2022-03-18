@@ -33,7 +33,7 @@ from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, SegwitBech32Decoder, SegwitBech32Encoder
-from bip_utils.ecc import IPublicKey, Secp256k1, Secp256k1Point, Secp256k1PublicKey
+from bip_utils.ecc import IPoint, IPublicKey, Secp256k1, Secp256k1Point, Secp256k1PublicKey
 from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
 
 
@@ -55,30 +55,28 @@ class _P2TRUtils:
 
     @staticmethod
     def TaggedHash(tag: Union[bytes, str],
-                   data_bytes: bytes,
-                   tag_already_hashed: bool = False) -> bytes:
+                   data_bytes: bytes) -> bytes:
         """
         Implementation of the hash tag function as defined by BIP-0340.
         Tagged hash = SHA256(SHA256(tag) || SHA256(tag) || data)
 
         Args:
-            tag (bytes or str)                 : Tag
-            data_bytes (bytes)                 : Data bytes
-            tag_already_hashed (bool, optional): True if tag is already hashed (for speeding up), false otherwise
+            tag (bytes or str): Tag
+            data_bytes (bytes): Data bytes
 
         Returns:
             bytes: Tagged hash
         """
-        tag_hash = CryptoUtils.Sha256(tag) if not tag_already_hashed else tag
+        tag_hash = CryptoUtils.Sha256(tag) if isinstance(tag, str) else tag
         return CryptoUtils.Sha256(tag_hash + tag_hash + data_bytes)
 
     @staticmethod
-    def HashTapTweak(pub_key: Secp256k1PublicKey) -> bytes:
+    def HashTapTweak(pub_key: IPublicKey) -> bytes:
         """
         Compute the HashTapTweak of the specified public key.
 
         Args:
-            pub_key (Secp256k1PublicKey object): Public key
+            pub_key (IPublicKey object): Public key
 
         Returns:
             bytes: Computed hash
@@ -86,20 +84,19 @@ class _P2TRUtils:
 
         # Use the pre-computed SHA256 of "TapTweak" for speeding up
         return _P2TRUtils.TaggedHash(P2TRConst.TAP_TWEAK_SHA256,
-                                     IntegerUtils.ToBytes(pub_key.Point().X()),
-                                     True)
+                                     IntegerUtils.ToBytes(pub_key.Point().X()))
 
     @staticmethod
-    def LiftX(pub_key: Secp256k1PublicKey) -> Secp256k1Point:
+    def LiftX(pub_key: IPublicKey) -> IPoint:
         """
         Implementation of the lift_x function as defined by BIP-0340.
         It computes the point P for which P.X() = pub_key.X() and has_even_y(P).
 
         Args:
-            pub_key (Secp256k1PublicKey object): Public key
+            pub_key (IPublicKey object): Public key
 
         Returns:
-            Secp256k1Point: Computed point
+            IPoint: Computed point
 
         Raises:
             ValueError: If the point doesn't exist
@@ -115,13 +112,13 @@ class _P2TRUtils:
         return Secp256k1Point.FromCoordinates(x, y if y % 2 == 0 else p - y)
 
     @staticmethod
-    def TweakPublicKey(pub_key: Secp256k1PublicKey) -> bytes:
+    def TweakPublicKey(pub_key: IPublicKey) -> bytes:
         """
         Tweak a public key as defined by BIP-0086.
         tweaked_pub_key = lift_x(pub_key.X()) + int(HashTapTweak(bytes(pub_key.X()))) * G
 
         Args:
-            pub_key (Secp256k1PublicKey object): Public key
+            pub_key (IPublicKey object): Public key
 
         Returns:
             bytes: X coordinate of the tweaked public key

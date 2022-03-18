@@ -20,6 +20,7 @@
 
 """
 Module for bech32 decoding/encoding.
+
 References:
     https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
     https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki
