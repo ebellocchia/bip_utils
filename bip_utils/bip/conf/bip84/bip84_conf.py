@@ -47,7 +47,6 @@ class Bip84Conf:
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"),
-            "wit_ver": CoinsConf.BitcoinMainNet.Params("p2wpkh_wit_ver"),
         },
     )
     # Configuration for Bitcoin test net
@@ -63,7 +62,6 @@ class Bip84Conf:
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinTestNet.Params("p2wpkh_hrp"),
-            "wit_ver": CoinsConf.BitcoinTestNet.Params("p2wpkh_wit_ver"),
         },
     )
 
@@ -79,7 +77,6 @@ class Bip84Conf:
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.LitecoinMainNet.Params("p2wpkh_hrp"),
-            "wit_ver": CoinsConf.LitecoinMainNet.Params("p2wpkh_wit_ver"),
         },
     )
     # Configuration for Litecoin test net
@@ -95,6 +92,5 @@ class Bip84Conf:
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.LitecoinTestNet.Params("p2wpkh_hrp"),
-            "wit_ver": CoinsConf.LitecoinTestNet.Params("p2wpkh_wit_ver"),
         },
     )
