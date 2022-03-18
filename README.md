@@ -13,7 +13,11 @@ This package allows generating mnemonics, seeds, private/public keys and address
 - Mnemonic and seed generation as defined by [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
 - Private key encryption/decryption as defined by [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki)
 - Keys derivation as defined by [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) and [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md)
-- Derivation of a hierarchy of keys as defined by [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) and [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
+- Derivation of a hierarchy of keys as defined by:
+  - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+  - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki)
+  - [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
+  - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
 - Keys derivation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) (Polkadot/Kusama ecosystem, same of Polkadot-JS)
 - Mnemonic and seed generation for Monero
@@ -27,7 +31,7 @@ Other implemented functionalities:
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background)
 - Encode/Decode [ss58](https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58))
-- Encode/Decode [segwit bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki)
+- Encode/Decode [bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) and [bech32m](https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki)
 - Encode/Decode Bitcoin Cash bech32
 - Get token account addresses for SPL tokens (Solana)
 
@@ -930,9 +934,13 @@ The Bip32 module allows also to parse derivation paths.
     for elem in path_list:
         print(elem)
 
-## BIP-0044, BIP-0049, BIP-0084 libraries
+## BIP-0044, BIP-0049, BIP-0084, BIP-0086 libraries
 
-The BIP-0044, BIP-0049 and BIP-0084 libraries allows deriving a hierarchy of keys as defined by [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki), [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) and [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki).
+The BIP-0044, BIP-0049, BIP-0084 and BIP-0086 libraries allows deriving a hierarchy of keys as defined by:
+- [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
+- [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki)
+- [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
+- [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki)
 
 They internally use the BIP-0032 classes for keys derivation, selecting the correct one depending on the elliptic curve of the specific coin.
 
@@ -1040,6 +1048,14 @@ Supported coins enumerative for BIP-0084:
 |---|---|---|
 |Bitcoin|*Bip84Coins.BITCOIN*|*Bip84Coins.BITCOIN_TESTNET*|
 |Litecoin|*Bip84Coins.LITECOIN*|*Bip84Coins.LITECOIN_TESTNET*|
+
+#### BIP-0086
+
+Supported coins enumerative for BIP-0086:
+
+|Coin|Main net enum|Test net enum|
+|---|---|---|
+|Bitcoin|*Bip86Coins.BITCOIN*|*Bip86Coins.BITCOIN_TESTNET*|
 
 ### Construction from seed
 
