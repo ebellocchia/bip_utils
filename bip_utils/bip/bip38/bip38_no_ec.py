@@ -84,7 +84,7 @@ class _Bip38NoEcUtils:
             address_hash (bytes): Address hash
 
         Returns:
-            tuple: Derived key halves
+            tuple[bytes, bytes]: Derived key halves
         """
 
         # Derive a key from passphrase and address hash
@@ -168,7 +168,7 @@ class Bip38NoEcEncrypter:
             derived_half_2 (bytes): Second half of derived key
 
         Returns:
-            tuple: Two encrypted halves
+            tuple[bytes, bytes]: Two encrypted halves
         """
 
         # Use derived_half_2 as AES key
@@ -200,7 +200,7 @@ class Bip38NoEcDecrypter:
             passphrase (str)  : Passphrase
 
         Returns:
-            tuple: Decrypted private key (index 0), public key mode (index 1)
+            tuple[bytes, Bip38PubKeyModes]: Decrypted private key (index 0), public key mode (index 1)
 
         Raises:
             Base58ChecksumError: If base58 checksum is not valid

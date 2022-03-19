@@ -112,8 +112,8 @@ class SplToken:
         Find a valid PDA (Program Derived Address) and its corresponding bump seed.
 
         Args:
-            seeds (list)    : List of seeds bytes
-            program_id (str): Program ID
+            seeds (list[bytes]): List of seeds bytes
+            program_id (str)   : Program ID
 
         Returns:
             str: Found PDA
@@ -152,8 +152,8 @@ class SplToken:
         Create a PDA (Program Derived Address) for the specified seeds and program ID.
 
         Args:
-            seeds_with_bump (list)  : List of seeds bytes with bump
-            program_id_bytes (bytes): Program ID bytes
+            seeds_with_bump (list[bytes]): List of seeds bytes with bump
+            program_id_bytes (bytes)     : Program ID bytes
 
         Returns:
             str: Created PDA

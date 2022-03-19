@@ -240,7 +240,7 @@ class SubstratePath:
         Get the path as a list of strings.
 
         Returns:
-            list: Path as a list of strings
+            list[str]: Path as a list of strings
         """
         return [str(elem) for elem in self.m_elems]
 

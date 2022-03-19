@@ -73,7 +73,7 @@ class MoneroSubaddress:
             major_idx (int): Major index (i.e. account index)
 
         Returns:
-            Tuple: Computed public spend key (index 0) and public view key (index 1)
+            tuple[MoneroPublicKey, MoneroPublicKey]: Computed public spend key (index 0) and public view key (index 1)
 
         Raises:
             ValueError: If one of the indexes is not valid

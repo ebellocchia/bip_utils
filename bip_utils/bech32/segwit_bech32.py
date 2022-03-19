@@ -88,11 +88,11 @@ class SegwitBech32Encoder(Bech32EncoderBase):
         Compute the checksum from the specified HRP and data.
 
         Args:
-            hrp (str)  : HRP
-            data (list): Data part
+            hrp (str)       : HRP
+            data (list[int]): Data part
 
         Returns:
-            list: Computed checksum
+            list[int]: Computed checksum
         """
         encoding = (Bech32Encodings.BECH32
                     if data[0] == SegwitBech32Const.WITNESS_VER_BECH32
@@ -119,7 +119,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
             addr (str): Address
 
         Returns:
-            tuple: Witness version (index 0) and witness program (index 1)
+            tuple[int, bytes]: Witness version (index 0) and witness program (index 1)
 
         Raises:
             Bech32ChecksumError: If the checksum is not valid
@@ -159,8 +159,8 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str) : HRP
-            data (list): Data part
+            hrp  (str)      : HRP
+            data (list[int]): Data part
 
         Returns:
             bool: True if valid, false otherwise

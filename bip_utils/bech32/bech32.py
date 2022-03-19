@@ -68,7 +68,7 @@ class Bech32Utils:
         Computes the polynomial modulus.
 
         Args:
-            values (list): List of polynomial coefficients
+            values (list[int]): List of polynomial coefficients
 
         Returns:
             int: Computed modulus
@@ -95,7 +95,7 @@ class Bech32Utils:
             hrp (str): HRP
 
         Returns:
-            list: Expanded HRP values
+            list[int]: Expanded HRP values
         """
         # [upper 3 bits of each character] + [0] + [lower 5 bits of each character]
         return [ord(x) >> 5 for x in hrp] + [0] + [ord(x) & 0x1f for x in hrp]
@@ -109,11 +109,11 @@ class Bech32Utils:
 
         Args:
             hrp (str)                           : HRP
-            data (list)                         : Data part
+            data (list[int])                    : Data part
             encoding (Bech32Encodings, optional): Encoding type (BECH32 by default)
 
         Returns:
-            list: Computed checksum
+            list[int]: Computed checksum
         """
 
         values = Bech32Utils.HrpExpand(hrp) + data
@@ -129,7 +129,7 @@ class Bech32Utils:
 
         Args:
             hrp  (str)                          : HRP
-            data (list)                         : Data part
+            data (list[int])                    : Data part
             encoding (Bech32Encodings, optional): Encoding type (BECH32 by default)
 
         Returns:
@@ -174,11 +174,11 @@ class Bech32Encoder(Bech32EncoderBase):
         Compute the checksum from the specified HRP and data.
 
         Args:
-            hrp (str)  : HRP
-            data (list): Data part
+            hrp (str)       : HRP
+            data (list[int]): Data part
 
         Returns:
-            list: Computed checksum
+            list[int]: Computed checksum
         """
 
         # Same as Segwit
@@ -236,8 +236,8 @@ class Bech32Decoder(Bech32DecoderBase):
         Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str) : HRP
-            data (list): Data part
+            hrp  (str)      : HRP
+            data (list[int]): Data part
 
         Returns:
             bool: True if valid, false otherwise

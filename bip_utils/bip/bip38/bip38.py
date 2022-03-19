@@ -99,7 +99,7 @@ class Bip38Decrypter:
             passphrase (str)  : Passphrase
 
         Returns:
-            tuple: Decrypted private key (index 0), public key mode (index 1)
+            tuple[bytes, Bip38PubKeyModes]: Decrypted private key (index 0), public key mode (index 1)
 
         Raises:
             Base58ChecksumError: If base58 checksum is not valid
@@ -118,7 +118,7 @@ class Bip38Decrypter:
             passphrase (str)  : Passphrase
 
         Returns:
-            tuple: Decrypted private key (index 0), public key mode (index 1)
+            tuple[bytes, Bip38PubKeyModes]: Decrypted private key (index 0), public key mode (index 1)
 
         Raises:
             Base58ChecksumError: If base58 checksum is not valid

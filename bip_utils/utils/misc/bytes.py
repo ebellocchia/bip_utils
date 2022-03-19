@@ -142,7 +142,7 @@ class BytesUtils:
         Convert the specified list of integers to bytes.
 
         Args:
-            data_list (list): List of integers
+            data_list (list[int]): List of integers
 
         Returns:
             bytes: Bytes representation
@@ -158,6 +158,6 @@ class BytesUtils:
             data_bytes (bytes): Data bytes
 
         Returns:
-            list: List of integers
+            list[int]: List of integers
         """
         return list(data_bytes)

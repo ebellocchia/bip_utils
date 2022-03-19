@@ -64,7 +64,7 @@ class Bip32BaseUtils:
             data_bytes (bytes): Data bytes
 
         Returns:
-            tuple: Left and right halves of the HMAC
+            tuple[bytes, bytes]: Left and right halves of the HMAC
         """
 
         # Use chain as HMAC key

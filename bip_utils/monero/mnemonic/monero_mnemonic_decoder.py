@@ -100,7 +100,7 @@ class MoneroMnemonicDecoder(MnemonicDecoderBase):
         Validate a mnemonic checksum.
 
         Args:
-            words (list)          : Words list
+            words (list[str])     : Words list
             lang (MoneroLanguages): Language
 
         Raises:

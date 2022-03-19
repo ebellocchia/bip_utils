@@ -87,7 +87,7 @@ class MnemonicDecoderBase(ABC):
             mnemonic (Mnemonic object): Mnemonic
 
         Returns:
-           Tuple: MnemonicWordsList object (index 0), mnemonic language (index 1)
+           tuple[MnemonicWordsList, MnemonicLanguages]: MnemonicWordsList object (index 0), mnemonic language (index 1)
 
         Raises:
             ValueError: If the mnemonic language cannot be found

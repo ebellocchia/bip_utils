@@ -61,7 +61,7 @@ class _P2TRUtils:
         Tagged hash = SHA256(SHA256(tag) || SHA256(tag) || data)
 
         Args:
-            tag (bytes or str): Tag
+            tag (bytes or str): Tag, if bytes it'll be considered already hashed
             data_bytes (bytes): Data bytes
 
         Returns:

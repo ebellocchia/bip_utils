@@ -74,7 +74,7 @@ class Bip32Path:
         Get the path as a list of integers.
 
         Returns:
-            list: Path as a list of integers
+            list[int]: Path as a list of integers
         """
         return [int(elem) for elem in self.m_elems]
 
@@ -160,7 +160,7 @@ class Bip32PathParser:
         Parse path elements and return a Bip32Path object.
 
         Args:
-            path_elems (list): Path elements
+            path_elems (list[str]): Path elements
 
         Returns:
             Bip32Path object: Bip32Path object

@@ -126,7 +126,7 @@ class AddrDecUtils:
             checksum_len (int): Checksum length
 
         Returns:
-            tuple: Payload bytes (index 0) and checksum bytes (index 1)
+            tuple[bytes, bytes]: Payload bytes (index 0) and checksum bytes (index 1)
         """
         checksum_bytes = addr_bytes[-1 * checksum_len:]
         payload_bytes = addr_bytes[:-1 * checksum_len]

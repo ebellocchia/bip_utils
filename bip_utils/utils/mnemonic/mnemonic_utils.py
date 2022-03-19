@@ -39,7 +39,7 @@ class MnemonicWordsList:
         Construct class.
 
         Args:
-            words_list (list): Words list
+            words_list (list[str]): Words list
         """
         self.m_idx_to_words = words_list
         # Map strings to indexes as well for a quick word searching
@@ -200,7 +200,7 @@ class MnemonicWordsListFinderBase(ABC):
             mnemonic (Mnemonic object): Mnemonic object
 
         Returns:
-           Tuple: MnemonicWordsList object (index 0), mnemonic language (index 1)
+           tuple[MnemonicWordsList, MnemonicLanguages]: MnemonicWordsList object (index 0), mnemonic language (index 1)
 
         Raises:
             ValueError: If the mnemonic language cannot be found
@@ -222,7 +222,7 @@ class MnemonicWordsListFinderBase(ABC):
             words_list_getter_cls (MnemonicWordsListGetterBase): Word list getter class type
 
         Returns:
-           Tuple: MnemonicWordsList object (index 0), mnemonic language (index 1)
+           tuple[MnemonicWordsList, MnemonicLanguages]: MnemonicWordsList object (index 0), mnemonic language (index 1)
 
         Raises:
             ValueError: If the mnemonic language cannot be found

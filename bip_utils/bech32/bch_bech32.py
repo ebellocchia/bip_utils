@@ -51,7 +51,7 @@ class BchBech32Utils:
         Computes the polynomial modulus.
 
         Args:
-            values (list): List of polynomial coefficients
+            values (list[int]): List of polynomial coefficients
 
         Returns:
             int: Computed modulus
@@ -85,7 +85,7 @@ class BchBech32Utils:
             hrp (str): HRP
 
         Returns:
-            list: Expanded HRP values
+            list[int]: Expanded HRP values
         """
         # [lower 5 bits of each character] + [0]
         return [ord(x) & 0x1f for x in hrp] + [0]
@@ -97,11 +97,11 @@ class BchBech32Utils:
         Compute the checksum from the specified HRP and data.
 
         Args:
-            hrp (str)  : HRP
-            data (list): Data part
+            hrp (str)       : HRP
+            data (list[int]): Data part
 
         Returns:
-            list: Computed checksum
+            list[int]: Computed checksum
         """
 
         values = BchBech32Utils.HrpExpand(hrp) + data
@@ -115,8 +115,8 @@ class BchBech32Utils:
         Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str) : HRP
-            data (list): Data part
+            hrp  (str)      : HRP
+            data (list[int]): Data part
 
         Returns:
             bool: True if valid, false otherwise
@@ -161,11 +161,11 @@ class BchBech32Encoder(Bech32EncoderBase):
         Compute the checksum from the specified HRP and data.
 
         Args:
-            hrp (str)  : HRP
-            data (list): Data part
+            hrp (str)       : HRP
+            data (list[int]): Data part
 
         Returns:
-            list: Computed checksum
+            list[int]: Computed checksum
         """
         return BchBech32Utils.ComputeChecksum(hrp, data)
 
@@ -188,7 +188,7 @@ class BchBech32Decoder(Bech32DecoderBase):
             addr (str): Address
 
         Returns:
-            tuple: Net version (index 0) and data (index 1)
+            tuple[bytes, bytes]: Net version (index 0) and data (index 1)
 
         Raises:
             ValueError: If the bech32 string is not valid
@@ -221,8 +221,8 @@ class BchBech32Decoder(Bech32DecoderBase):
         Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str) : HRP
-            data (list): Data part
+            hrp  (str)      : HRP
+            data (list[int]): Data part
 
         Returns:
             bool: True if valid, false otherwise

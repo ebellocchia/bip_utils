@@ -107,7 +107,7 @@ class Bip32KeyDeserializer:
         Get deserialized key parts.
 
         Returns:
-            tuple: Deserialized key parts
+            tuple[bytes, Bip32KeyData]: Deserialized key parts
         """
         assert self.m_key_data is not None, "Deserialize key before getting key parts"
         return self.m_key_bytes, self.m_key_data

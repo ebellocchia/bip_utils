@@ -89,9 +89,9 @@ class AlgorandMnemonicEncoder(MnemonicEncoderBase):
         Get a list of words from a list of indexes.
 
         Args:
-            indexes (list): List of indexes
+            indexes (list[int]): List of indexes
 
         Returns:
-            list: List of words
+            list[str]: List of words
         """
         return [self.m_words_list.GetWordAtIdx(idx) for idx in indexes]

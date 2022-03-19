@@ -202,7 +202,7 @@ class _Bip38EcUtils:
             owner_entropy (bytes): Owner entropy
 
         Returns:
-            tuple: Derived key halves
+            tuple[bytes, bytes]: Derived key halves
         """
 
         # Derive a key from passpoint, address hash and owner entropy
@@ -334,7 +334,7 @@ class Bip38EcKeysGenerator:
             derived_half_2 (bytes): Second half of derived key
 
         Returns:
-            tuple: Two encrypted parts
+            tuple[bytes, bytes]: Two encrypted parts
         """
 
         # Use derived_half_2 as AES key
@@ -387,7 +387,7 @@ class Bip38EcDecrypter:
             passphrase (str)  : Passphrase
 
         Returns:
-            tuple: Decrypted private key (index 0), public key mode (index 1)
+            tuple[bytes, Bip38PubKeyModes]: Decrypted private key (index 0), public key mode (index 1)
 
         Raises:
             Base58ChecksumError: If base58 checksum is not valid
@@ -503,7 +503,7 @@ class Bip38EcDecrypter:
             flagbyte (bytes): Flagbyte
 
         Returns:
-            tuple: Public key mode (index 0), has lot/sequence numbers (index 1)
+            tuple[Bip38PubKeyModes, bool]: Public key mode (index 0), has lot/sequence numbers (index 1)
         """
 
         # Convert flagbyte to integer

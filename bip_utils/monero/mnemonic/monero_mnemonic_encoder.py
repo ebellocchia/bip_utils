@@ -61,7 +61,7 @@ class MoneroMnemonicEncoderBase(MnemonicEncoderBase):
             entropy_bytes (bytes): Entropy bytes (accepted lengths in bits: 128, 256)
 
         Returns:
-            List: List of encoded mnemonic words
+            list[str]: List of encoded mnemonic words
 
         Raises:
             ValueError: If bytes length is not valid
@@ -88,7 +88,7 @@ class MoneroMnemonicEncoderBase(MnemonicEncoderBase):
             bytes_chunk (bytes): Bytes chunk
 
         Returns:
-            List: 3 word indexes
+            list[str]: 3 word indexes
         """
         n = MoneroMnemonicConst.WORDS_LIST_NUM
 

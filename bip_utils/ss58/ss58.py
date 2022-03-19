@@ -125,7 +125,7 @@ class SS58Decoder:
             data_str (string): Data string
 
         Returns:
-            tuple: SS58 format and data bytes
+            tuple[int, bytes]: SS58 format and data bytes
 
         Raises:
             SS58ChecksumError: If checksum is not valid

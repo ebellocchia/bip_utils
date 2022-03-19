@@ -73,12 +73,12 @@ class AlgorandMnemonicUtils:
         It returns a list of integer where every number is less than 2^to_bits.
 
         Args:
-            data (list or bytes): Data to be converted
-            from_bits (int)     : Number of bits to start from
-            to_bits (int)       : Number of bits to end with
+            data (list[int] or bytes): Data to be converted
+            from_bits (int)          : Number of bits to start from
+            to_bits (int)            : Number of bits to end with
 
         Returns:
-            list: List of converted values, None in case of errors
+            list[int]: List of converted values, None in case of errors
         """
         max_out_val = (1 << to_bits) - 1
 

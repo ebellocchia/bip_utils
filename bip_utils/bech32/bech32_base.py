@@ -47,10 +47,10 @@ class Bech32BaseUtils:
         Convert data to base32.
 
         Args:
-            data (list or bytes): Data to be converted
+            data (list[int] or bytes): Data to be converted
 
         Returns:
-            list: Converted data
+            list[int]: Converted data
 
         Raises:
             ValueError: If the string is not valid
@@ -69,10 +69,10 @@ class Bech32BaseUtils:
         Convert data from base32.
 
         Args:
-            data (list or bytes): Data to be converted
+            data (list[int] or bytes): Data to be converted
 
         Returns:
-            list: Converted data
+            list[int]: Converted data
 
         Raises:
             ValueError: If the string is not valid
@@ -97,13 +97,13 @@ class Bech32BaseUtils:
         It returns a list of integer where every number is less than 2^to_bits.
 
         Args:
-            data (list or bytes): Data to be converted
-            from_bits (int)     : Number of bits to start from
-            to_bits (int)       : Number of bits to end with
-            pad (bool, optional): True if data must be padded with zeros, false otherwise
+            data (list[int] or bytes): Data to be converted
+            from_bits (int)          : Number of bits to start from
+            to_bits (int)            : Number of bits to end with
+            pad (bool, optional)     : True if data must be padded with zeros, false otherwise
 
         Returns:
-            list: List of converted values, None in case of errors
+            list[int]: List of converted values, None in case of errors
         """
         max_out_val = (1 << to_bits) - 1
         max_acc = (1 << (from_bits + to_bits - 1)) - 1
@@ -147,9 +147,9 @@ class Bech32EncoderBase(ABC):
         Encode a Bech32 string from the specified HRP and data.
 
         Args:
-            hrp (str)  : HRP
-            data (list): Data part
-            sep (str)  : Bech32 separator
+            hrp (str)       : HRP
+            data (list[int]): Data part
+            sep (str)       : Bech32 separator
 
         Returns:
             str: Encoded data
@@ -168,11 +168,11 @@ class Bech32EncoderBase(ABC):
         Compute the checksum from the specified HRP and data.
 
         Args:
-            hrp (str)  : HRP
-            data (list): Data part
+            hrp (str)       : HRP
+            data (list[int]): Data part
 
         Returns:
-            list: Computed checksum
+            list[int]: Computed checksum
         """
 
 
@@ -196,7 +196,7 @@ class Bech32DecoderBase(ABC):
             checksum_len (int): Checksum length
 
         Returns:
-            tuple: HRP (index 0) and data part (index 1)
+            tuple[str, list[int]]: HRP (index 0) and data part (index 1)
 
         Raises:
             ValueError: If the string is not valid
@@ -241,8 +241,8 @@ class Bech32DecoderBase(ABC):
         Verify the checksum from the specified HRP and converted data characters.
 
         Args:
-            hrp  (str) : HRP
-            data (list): Data part
+            hrp  (str)      : HRP
+            data (list[int]): Data part
 
         Returns:
             bool: True if valid, false otherwise

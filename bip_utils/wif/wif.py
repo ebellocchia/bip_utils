@@ -109,7 +109,7 @@ class WifDecoder:
             net_ver (bytes, optional): Net version (Bitcoin main net by default)
 
         Returns:
-            tuple: Key bytes (index 0), public key mode (index 1)
+            tuple[bytes, WifPubKeyModes]: Key bytes (index 0), public key mode (index 1)
 
         Raises:
             Base58ChecksumError: If the base58 checksum is not valid

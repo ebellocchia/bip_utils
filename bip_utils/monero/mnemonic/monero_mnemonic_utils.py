@@ -90,7 +90,7 @@ class MoneroWordsListFinder(MnemonicWordsListFinderBase):
             mnemonic (Mnemonic object): Mnemonic object
 
         Returns:
-           Tuple: MnemonicWordsList object (index 0), mnemonic language (index 1)
+           tuple[MnemonicWordsList, MnemonicLanguages]: MnemonicWordsList object (index 0), mnemonic language (index 1)
 
         Raises:
             ValueError: If the mnemonic language cannot be found
@@ -108,7 +108,7 @@ class MoneroMnemonicUtils:
         Compute checksum.
 
         Args:
-            mnemonic (list)       : Mnemonic list of words
+            mnemonic (list[str])  : Mnemonic list of words
             lang (MoneroLanguages): Language
 
         Returns:

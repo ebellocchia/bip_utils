@@ -59,7 +59,7 @@ class Mnemonic:
         Create a class from mnemonic list.
 
         Args:
-            mnemonic_list (list): Mnemonic list
+            mnemonic_list (list[str]): Mnemonic list
 
         Returns:
             Mnemonic: Mnemonic object
@@ -72,7 +72,7 @@ class Mnemonic:
         Construct class.
 
         Args:
-            mnemonic_list (list): Mnemonic list
+            mnemonic_list (list[str]): Mnemonic list
         """
         self.m_mnemonic_list = mnemonic_list
 
@@ -90,7 +90,7 @@ class Mnemonic:
         Get the mnemonic as a list.
 
         Returns:
-            list: Mnemonic as a list
+            list[str]: Mnemonic as a list
         """
         return self.m_mnemonic_list
 

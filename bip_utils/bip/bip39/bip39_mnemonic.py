@@ -96,7 +96,7 @@ class Bip39Mnemonic(Mnemonic):
         Construct class.
 
         Args:
-            mnemonic_list (list): Mnemonic list
+            mnemonic_list (list[str]): Mnemonic list
         """
 
         # Normalize using NFKD as specified by BIP-0039
@@ -108,9 +108,9 @@ class Bip39Mnemonic(Mnemonic):
         Normalize mnemonic list using NFKD.
 
         Args:
-            mnemonic_list (list): Mnemonic list
+            mnemonic_list (list[str]): Mnemonic list
 
         Returns:
-            list: Normalized mnemonic list
+            list[str]: Normalized mnemonic list
         """
         return list(map(StringUtils.NormalizeNfkd, mnemonic_list))
