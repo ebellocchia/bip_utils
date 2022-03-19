@@ -16,8 +16,8 @@ This package allows generating mnemonics, seeds, private/public keys and address
 - Derivation of a hierarchy of keys as defined by:
   - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
   - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki)
-  - [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
-  - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki)
+  - [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki) (Bitcoin Native Segwit)
+  - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki) (Bitcoin Taproot)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
 - Keys derivation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) (Polkadot/Kusama ecosystem, same of Polkadot-JS)
 - Mnemonic and seed generation for Monero
@@ -1627,17 +1627,17 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
 
     import binascii
     from bip_utils import *
-
+    
     #
     # Addresses that require a secp256k1 curve
     #
-
+    
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
     pub_key = Secp256k1PublicKey.FromBytes(
         binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
     )
-
+    
     # P2PKH address with parameters from generic configuration
     addr = P2PKHAddrEncoder.EncodeKey(pub_key,
                                       net_ver=CoinsConf.BitcoinMainNet.Params("p2pkh_net_ver"))
@@ -1650,8 +1650,8 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Same as before for decoding
     pub_key_hash = P2PKHAddrDecoder.DecodeAddr(addr,
                                                net_ver=CoinsConf.BitcoinMainNet.Params("p2pkh_net_ver"))
-
-    # Same for P2SH
+    
+    # Same for P2SH 
     addr = P2SHAddrEncoder.EncodeKey(pub_key,
                                      net_ver=CoinsConf.BitcoinMainNet.Params("p2sh_net_ver"))
     addr = P2SHAddrEncoder.EncodeKey(pub_key,
@@ -1662,17 +1662,23 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
                                               net_ver=CoinsConf.BitcoinMainNet.Params("p2sh_net_ver"))
     # Same for P2WPKH
     addr = P2WPKHAddrEncoder.EncodeKey(pub_key,
-                                       hrp=CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"),
-                                       wit_ver=CoinsConf.BitcoinMainNet.Params("p2wpkh_wit_ver"))
+                                       hrp=CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"))
     addr = P2WPKHAddrEncoder.EncodeKey(pub_key,
-                                       hrp="hrp",
-                                       wit_ver=0)
+                                       hrp="hrp")
     addr = P2WPKHAddrEncoder.EncodeKey(pub_key,
                                        **Bip84Conf.BitcoinMainNet.AddrParams())
     pub_key_hash = P2WPKHAddrDecoder.DecodeAddr(addr,
-                                                hrp=CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"),
-                                                wit_ver=CoinsConf.BitcoinMainNet.Params("p2wpkh_wit_ver"))
-
+                                                hrp=CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"))
+    # Same for P2TR
+    addr = P2TRAddrEncoder.EncodeKey(pub_key,
+                                     hrp=CoinsConf.BitcoinMainNet.Params("p2tr_hrp"))
+    addr = P2TRAddrEncoder.EncodeKey(pub_key,
+                                     hrp="hrp")
+    addr = P2TRAddrEncoder.EncodeKey(pub_key,
+                                     **Bip86Conf.BitcoinMainNet.AddrParams())
+    pub_key_hash = P2TRAddrDecoder.DecodeAddr(addr,
+                                              hrp=CoinsConf.BitcoinMainNet.Params("p2tr_hrp"))
+    
     # P2PKH address in Bitcoin Cash format with parameters from generic configuration
     addr = BchP2PKHAddrEncoder.EncodeKey(pub_key,
                                          hrp=CoinsConf.BitcoinCashMainNet.Params("p2pkh_std_hrp"),
@@ -1700,7 +1706,7 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     pub_key_hash = BchP2SHAddrDecoder.DecodeAddr(addr,
                                                  hrp=CoinsConf.BitcoinCashMainNet.Params("p2sh_std_hrp"),
                                                  net_ver=CoinsConf.BitcoinCashMainNet.Params("p2sh_std_net_ver"))
-
+    
     # Ethereum address
     # Checksum encoding can be skipped to get a lower case address
     addr = EthAddrEncoder.EncodeKey(pub_key)
@@ -1731,7 +1737,7 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Same as before for decoding
     pub_key_hash = AtomAddrDecoder.DecodeAddr(addr,
                                               hrp=CoinsConf.Kava.Params("addr_hrp"))
-
+    
     # Filecoin address
     addr = FilSecp256k1AddrEncoder.EncodeKey(pub_key)
     pub_key_hash = FilSecp256k1AddrDecoder.DecodeAddr(addr)
@@ -1747,27 +1753,27 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Zilliqa address
     addr = ZilAddrEncoder.EncodeKey(pub_key)
     pub_key_hash = ZilAddrDecoder.DecodeAddr(addr)
-
+    
     #
     # Addresses that require a ed25519 curve
     #
-
+    
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     pub_key = Ed25519PublicKey.FromBytes(
         binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
-
+    
     # Algorand address
     addr = AlgoAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = AlgoAddrDecoder.DecodeAddr(addr)
     # Elrond address
     addr = EgldAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = EgldAddrDecoder.DecodeAddr(addr)
-
+    
     # Solana address
     addr = SolAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = SolAddrDecoder.DecodeAddr(addr)
-
+    
     # Stellar address with custom parameters
     addr = XlmAddrEncoder.EncodeKey(pub_key,
                                     addr_type=XlmAddrTypes.PUB_KEY)
@@ -1777,14 +1783,14 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Same as before for decoding
     pub_key_bytes = XlmAddrDecoder.DecodeAddr(addr,
                                               addr_type=XlmAddrTypes.PUB_KEY)
-
+    
     # Substrate address with parameters from generic configuration
     addr = SubstrateEd25519AddrEncoder.EncodeKey(pub_key,
                                                  ss58_format=CoinsConf.Polkadot.Params("addr_ss58_format"))
     # Or with custom parameters
     addr = SubstrateEd25519AddrEncoder.EncodeKey(pub_key,
                                                  ss58_format=5)
-
+    
     # Or with the default parameters from BIP/Substrate:
     addr = SubstrateEd25519AddrEncoder.EncodeKey(pub_key,
                                                  **Bip44Conf.PolkadotEd25519Slip.AddrParams())
@@ -1793,7 +1799,7 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Same as before for decoding
     pub_key_bytes = SubstrateEd25519AddrDecoder.DecodeAddr(addr,
                                                            ss58_format=CoinsConf.Polkadot.Params("addr_ss58_format"))
-
+    
     # Tezos address with custom parameters
     addr = XtzAddrEncoder.EncodeKey(pub_key,
                                     prefix=XtzAddrPrefixes.TZ1)
@@ -1803,25 +1809,25 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Same as before for decoding
     pub_key_hash = XtzAddrDecoder.DecodeAddr(addr,
                                              prefix=XtzAddrPrefixes.TZ1)
-
+    
     #
     # Addresses that require a ed25519-blake2b curve
     #
-
+    
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     pub_key = Ed25519Blake2bPublicKey.FromBytes(
         binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     )
-
+    
     # Nano address
     addr = NanoAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = NanoAddrDecoder.DecodeAddr(addr)
-
+    
     #
     # Addresses that require a ed25519-monero curve
     #
-
+    
     # Public key bytes or a public key object can be used
     pub_skey = binascii.unhexlify(b"a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422")
     pub_skey = Ed25519MoneroPublicKey.FromBytes(
@@ -1831,7 +1837,7 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     pub_vkey = Ed25519MoneroPublicKey.FromBytes(
         binascii.unhexlify(b"dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5")
     )
-
+    
     # Monero address
     addr = XmrAddrEncoder.EncodeKey(pub_skey,
                                     pub_vkey=pub_vkey,
@@ -1843,7 +1849,7 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Decoding
     pub_key_bytes = XmrAddrDecoder.DecodeAddr(addr,
                                               net_ver=CoinsConf.MoneroMainNet.Params("addr_net_ver"))
-
+    
     # Monero integrated address
     addr = XmrIntegratedAddrEncoder.EncodeKey(pub_skey,
                                               pub_vkey=pub_vkey,
@@ -1858,16 +1864,16 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     pub_key_bytes = XmrIntegratedAddrDecoder.DecodeAddr(addr,
                                                         net_ver=CoinsConf.MoneroMainNet.Params("addr_int_net_ver"),
                                                         payment_id=binascii.unhexlify(b"d7af025ab223b74e"))
-
+    
     #
     # Addresses that require a nist256p1 curve
     #
-
+    
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
     pub_key = Nist256p1PublicKey.FromBytes(
         binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
-
+    
     # NEO address with parameters from generic configuration
     addr = NeoAddrEncoder.EncodeKey(pub_key,
                                     ver=CoinsConf.Neo.Params("addr_ver"))
@@ -1880,16 +1886,16 @@ So, to validate an address, just try to decode it and catch the *ValueError* exc
     # Same as before for decoding
     pub_key_hash = NeoAddrDecoder.DecodeAddr(addr,
                                              ver=CoinsConf.Neo.Params("addr_ver"))
-
+    
     #
     # Addresses that require a sr25519 curve
     #
-
+    
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     pub_key = Sr25519PublicKey.FromBytes(
         binascii.unhexlify(b"dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
-
+    
     # Substrate address (like before)
     addr = SubstrateSr25519AddrEncoder.EncodeKey(pub_key,
                                                  ss58_format=CoinsConf.Kusama.Params("addr_ss58_format"))
