@@ -23,6 +23,7 @@ bip350
 base58
 ss58
 bech32
+bech32m
 segwit
 substrate
 taproot
