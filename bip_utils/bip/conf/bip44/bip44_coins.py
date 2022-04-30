@@ -60,6 +60,7 @@ class Bip44Coins(BipCoins):
     HARMONY_ONE_METAMASK = auto()
     HUOBI_CHAIN = auto()
     IRIS_NET = auto()
+    IXO = auto()
     KAVA = auto()
     KUSAMA_ED25519_SLIP = auto()
     LITECOIN = auto()
