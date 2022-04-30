@@ -599,6 +599,21 @@ class Bip44Conf:
             "hrp": CoinsConf.IrisNet.Params("addr_hrp"),
         },
     )
+        
+    # Configuration for Ixo
+    Ixo: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Ixo.CoinNames(),
+        coin_idx=118,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=AtomAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.Ixo.Params("addr_hrp"),
+        },
+    )
 
     # Configuration for Kava
     Kava: BipCoinConf = BipCoinConf(
