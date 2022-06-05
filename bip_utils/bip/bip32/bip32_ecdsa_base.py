@@ -21,6 +21,7 @@
 """Module with BIP32 base class for ECDSA curves."""
 
 # Imports
+from abc import ABC
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
@@ -29,7 +30,7 @@ from bip_utils.ecc import EllipticCurveGetter
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
-class Bip32EcdsaBase(Bip32Base):
+class Bip32EcdsaBase(Bip32Base, ABC):
     """
     BIP32 ECDSA base class.
     It implements the generic key derivation for ECDSA curves, since they share the same derivation scheme.

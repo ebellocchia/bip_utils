@@ -21,6 +21,7 @@
 """Module with BIP32 base class for ed25519 curves based on SLIP-0010."""
 
 # Imports
+from abc import ABC
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
@@ -33,7 +34,7 @@ class Bip32Ed25519SlipBaseConst:
     MASTER_KEY_HMAC_KEY: bytes = b"ed25519 seed"
 
 
-class Bip32Ed25519SlipBase(Bip32Base):
+class Bip32Ed25519SlipBase(Bip32Base, ABC):
     """
     BIP32 ed25519 base class. It allows master key generation and children keys derivation using ed25519 curve.
     The "Slip" in the class name is due to the fact that there are different derivation schemes using ed25519 curve and

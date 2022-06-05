@@ -21,6 +21,7 @@
 """Module for Monero mnemonic encoding."""
 
 # Imports
+from abc import ABC
 from typing import List
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroMnemonicConst, MoneroLanguages, MoneroMnemonic
@@ -29,7 +30,7 @@ from bip_utils.utils.misc import BytesUtils
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicEncoderBase
 
 
-class MoneroMnemonicEncoderBase(MnemonicEncoderBase):
+class MoneroMnemonicEncoderBase(MnemonicEncoderBase, ABC):
     """
     Monero mnemonic encoder base class.
     It encodes bytes to the mnemonic phrase.
