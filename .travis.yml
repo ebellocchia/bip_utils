@@ -4,6 +4,7 @@ python:
 
 before_install:
  - pip install coverage
+ - pip install --upgrade 'importlib-metadata > 4'
 install:
  - pip install ".[test]" .
 script:
