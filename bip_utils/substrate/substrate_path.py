@@ -85,7 +85,7 @@ class SubstratePathElem:
         Get if the element is hard.
 
         Returns:
-            bool:  True if hard, false otherwise
+            bool: True if hard, false otherwise
         """
         return self.m_is_hard
 
@@ -94,7 +94,7 @@ class SubstratePathElem:
         Get if the element is soft.
 
         Returns:
-            bool:  True if soft, false otherwise
+            bool: True if soft, false otherwise
         """
         return not self.IsHard()
 
