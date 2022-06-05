@@ -151,7 +151,7 @@ TEST_PASSPHRASE = "Substrate"
 # Tests
 #
 class SubstrateMnemonicTests(unittest.TestCase):
-    # Run all tests in substrate test vector for seed generation
+    # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
             seed = SubstrateBip39SeedGenerator(test["mnemonic"]).Generate(TEST_PASSPHRASE)
