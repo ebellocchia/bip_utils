@@ -31,7 +31,6 @@ from Crypto.Protocol.KDF import scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
 
 
-HASHLIB_USE_RIPEMD160: bool = "ripemd160" in hashlib.algorithms_available
 HASHLIB_USE_SHA512_256: bool = "sha512_256" in hashlib.algorithms_available
 
 
@@ -203,9 +202,6 @@ class CryptoUtils:
         Returns:
             bytes: Computed RIPEMD-160
         """
-        if HASHLIB_USE_RIPEMD160:
-            return hashlib.new("ripemd160", AlgoUtils.Encode(data)).digest()
-        # Use Cryptodome if not implemented in hashlib
         h = RIPEMD160.new()
         h.update(AlgoUtils.Encode(data))
         return h.digest()
@@ -218,8 +214,6 @@ class CryptoUtils:
         Returns:
             int: RIPEMD-160 size in bytes
         """
-        if HASHLIB_USE_RIPEMD160:
-            return hashlib.new("ripemd160").digest_size
         return RIPEMD160.digest_size
 
     @staticmethod
