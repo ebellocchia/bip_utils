@@ -31,14 +31,16 @@ class IntegerUtils:
     @staticmethod
     def ToBytes(data_int: int,
                 bytes_num: Optional[int] = None,
-                endianness: str = "big") -> bytes:
+                endianness: str = "big",
+                signed: bool = False) -> bytes:
         """
         Convert integer to bytes.
 
         Args:
             data_int (int)            : Data integer
             bytes_num (int, optional) : Number of bytes, automatic if None
-            endianness (str, optional): Endianness
+            endianness (str, optional): Endianness (default: big endian)
+            signed (bool, optional)   : True if signed, false otherwise (default: false)
 
         Returns:
             bytes: Bytes representation
@@ -49,7 +51,7 @@ class IntegerUtils:
             data_int = int(data_int)
 
         bytes_num = bytes_num or ((data_int.bit_length() if data_int > 0 else 1) + 7) // 8
-        return data_int.to_bytes(bytes_num, endianness)
+        return data_int.to_bytes(bytes_num, byteorder=endianness, signed=signed)
 
     @staticmethod
     def FromBinaryStr(data: Union[bytes, str]) -> int:
