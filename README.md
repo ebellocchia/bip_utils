@@ -43,7 +43,6 @@ Package dependencies:
 - [ed25519-blake2b](https://pypi.org/project/ed25519-blake2b/) for ed25519-blake2b curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve
-- [scalecodec](https://pypi.org/project/scalecodec/) for SCALE encoding
 
 Please note that, for the py-sr25519-bindings library, Rust is required to be installed.
 

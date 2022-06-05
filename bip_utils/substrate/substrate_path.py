@@ -24,8 +24,12 @@
 from __future__ import annotations
 import re
 from functools import lru_cache
-from typing import Dict, Iterator, List, Optional, Sequence, Union
-from scalecodec.base import RuntimeConfigurationObject, ScaleType
+from typing import Dict, Iterator, List, Optional, Sequence, Type, Union
+from bip_utils.substrate.scale import (
+    SubstrateScaleEncoderBase, SubstrateScaleBytesEncoder,
+    SubstrateScaleU8Encoder, SubstrateScaleU16Encoder, SubstrateScaleU32Encoder,
+    SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
+)
 from bip_utils.substrate.substrate_ex import SubstratePathError
 from bip_utils.utils.misc import CryptoUtils
 
@@ -44,13 +48,13 @@ class SubstratePathConst:
     HARD_PATH_PREFIX: str = "//"
 
     # SCALE encoders for integers
-    SCALE_INT_ENCODERS: Dict[int, ScaleType] = {
-        8: RuntimeConfigurationObject().create_scale_object("U8"),
-        16: RuntimeConfigurationObject().create_scale_object("U16"),
-        32: RuntimeConfigurationObject().create_scale_object("U32"),
-        64: RuntimeConfigurationObject().create_scale_object("U64"),
-        128: RuntimeConfigurationObject().create_scale_object("U128"),
-        256: RuntimeConfigurationObject().create_scale_object("U256"),
+    SCALE_INT_ENCODERS: Dict[int, Type[SubstrateScaleEncoderBase]] = {
+        8: SubstrateScaleU8Encoder,
+        16: SubstrateScaleU16Encoder,
+        32: SubstrateScaleU32Encoder,
+        64: SubstrateScaleU64Encoder,
+        128: SubstrateScaleU128Encoder,
+        256: SubstrateScaleU256Encoder,
     }
 
 
@@ -142,21 +146,21 @@ class SubstratePathElem:
         if self.m_elem.isnumeric():
             bit_len = int(self.m_elem).bit_length()
 
-            # Find scale encoder
+            # Find the correct scale encoder
             scale_enc = None
             for min_bit_len, int_scale_enc in SubstratePathConst.SCALE_INT_ENCODERS.items():
                 if bit_len <= min_bit_len:
                     scale_enc = int_scale_enc
+                    break
 
             if scale_enc is None:
                 raise SubstratePathError(f"Invalid integer bit length ({bit_len})")
         # String
         else:
-            scale_enc = RuntimeConfigurationObject().create_scale_object("Bytes")
+            scale_enc = SubstrateScaleBytesEncoder
 
         # Encode element
-        scale_enc.encode(self.m_elem)
-        enc_data = bytes(scale_enc.data.data)
+        enc_data = scale_enc.Encode(self.m_elem)
 
         # Compute chain code
         max_len = SubstratePathConst.ENCODED_ELEM_MAX_BYTE_LEN

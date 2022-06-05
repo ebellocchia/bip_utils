@@ -112,6 +112,12 @@ from bip_utils.monero.mnemonic import (
 )
 # Monero configuration
 from bip_utils.monero.conf import MoneroCoins, MoneroConf
+# Solana
+from bip_utils.solana import SplToken
+# SS58
+from bip_utils.ss58 import (
+    SS58ChecksumError, SS58Decoder, SS58Encoder
+)
 # Substrate
 from bip_utils.substrate import (
     SubstrateKeyError, SubstratePathError,
@@ -119,16 +125,18 @@ from bip_utils.substrate import (
     SubstratePathElem, SubstratePath, SubstratePathParser,
     Substrate
 )
-# Solana
-from bip_utils.solana import SplToken
-# SS58
-from bip_utils.ss58 import (
-    SS58ChecksumError, SS58Decoder, SS58Encoder
-)
-# Substrate mnemonic
-from bip_utils.substrate.mnemonic import SubstrateBip39SeedGenerator
 # Substrate configuration
 from bip_utils.substrate.conf import SubstrateCoins, SubstrateConf
+# Substrate mnemonic
+from bip_utils.substrate.mnemonic import SubstrateBip39SeedGenerator
+# Substrate SCALE
+from bip_utils.substrate.scale import (
+    SubstrateScaleBytesEncoder,
+    SubstrateScaleCUintEncoder,
+    SubstrateScaleU8Encoder, SubstrateScaleU16Encoder, SubstrateScaleU32Encoder,
+    SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
+)
+
 # Utils
 from bip_utils.utils.misc import (
     AlgoUtils, BitUtils, BytesUtils, CryptoUtils, DataBytes, IntegerUtils, StringUtils
