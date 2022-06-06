@@ -26,6 +26,16 @@ from bip_utils.substrate.scale.substrate_scale_enc_base import SubstrateScaleEnc
 from bip_utils.utils.misc import IntegerUtils
 
 
+class SubstrateScaleCUintEncoderConst:
+    """Class container for Substrate SCALE encoding for compact unsigned integers constants."""
+
+    # Maximum values
+    SINGLE_BYTE_MODE_MAX_VAL: int = 2**6 - 1
+    TWO_BYTE_MODE_MAX_VAL: int = 2**14 - 1
+    FOUR_BYTE_MODE_MAX_VAL: int = 2**30 - 1
+    BIG_INTEGER_MODE_MAX_VAL: int = 2**536 - 1
+
+
 class SubstrateScaleCUintEncoder(SubstrateScaleEncoderBase):
     """Substrate SCALE encoding for compact unsigned integers."""
 
@@ -43,19 +53,18 @@ class SubstrateScaleCUintEncoder(SubstrateScaleEncoderBase):
         """
 
         # Single-byte mode
-        if value <= 0x3F:
+        if value <= SubstrateScaleCUintEncoderConst.SINGLE_BYTE_MODE_MAX_VAL:
             return IntegerUtils.ToBytes(value << 2, 1, endianness="little")
         # Two-byte mode
-        if value <= 0x3FFF:
+        if value <= SubstrateScaleCUintEncoderConst.TWO_BYTE_MODE_MAX_VAL:
             return IntegerUtils.ToBytes((value << 2) | 0b01, 2, endianness="little")
         # Four-byte mode
-        if value <= 0x3FFFFFFF:
+        if value <= SubstrateScaleCUintEncoderConst.FOUR_BYTE_MODE_MAX_VAL:
             return IntegerUtils.ToBytes((value << 2) | 0b10, 4, endianness="little")
-
         # Big-integer mode
-        value_bytes = IntegerUtils.ToBytes(value, endianness="little")
-        if len(value_bytes) > 67:
-            raise ValueError(f"Out of range integer value ({value})")
-        len_bytes = IntegerUtils.ToBytes((len(value_bytes) - 4 << 2) | 0b11, 1, endianness="little")
+        if value <= SubstrateScaleCUintEncoderConst.BIG_INTEGER_MODE_MAX_VAL:
+            value_bytes = IntegerUtils.ToBytes(value, endianness="little")
+            len_bytes = IntegerUtils.ToBytes((len(value_bytes) - 4 << 2) | 0b11, 1, endianness="little")
+            return len_bytes + value_bytes
 
-        return len_bytes + value_bytes
+        raise ValueError(f"Out of range integer value ({value})")
