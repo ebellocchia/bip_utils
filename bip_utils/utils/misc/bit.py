@@ -47,7 +47,7 @@ class BitUtils:
 
         Args:
             value (int)  : Value
-            bit_num (int): Bit number to check
+            bit_num (int): Bit number to set
 
         Returns:
             int: Value with the specified bit set
@@ -63,7 +63,7 @@ class BitUtils:
 
         Args:
             value (int)  : Value
-            bit_num (int): Bit number to check
+            bit_num (int): Bit number to reset
 
         Returns:
             int: Value with the specified bit reset
