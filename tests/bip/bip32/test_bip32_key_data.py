@@ -107,11 +107,11 @@ class Bip32KeyDataTests(unittest.TestCase):
         self.assertRaises(TypeError, Bip32KeyIndex(0).__eq__, b"\x00")
         # Bip32ChainCode
         chaincode_len = Bip32KeyDataConst.CHAINCODE_BYTE_LEN
-        self.assertRaises(ValueError, Bip32ChainCode,  b"\x00" * (chaincode_len - 1))
-        self.assertRaises(ValueError, Bip32ChainCode,  b"\x00" * (chaincode_len + 1))
+        self.assertRaises(ValueError, Bip32ChainCode, b"\x00" * (chaincode_len - 1))
+        self.assertRaises(ValueError, Bip32ChainCode, b"\x00" * (chaincode_len + 1))
         # Bip32FingerPrint
         fprint_len = Bip32KeyDataConst.FINGERPRINT_BYTE_LEN
-        self.assertRaises(ValueError, Bip32FingerPrint,  b"\x00" * (fprint_len - 1))
+        self.assertRaises(ValueError, Bip32FingerPrint, b"\x00" * (fprint_len - 1))
         # Bip32KeyNetVersions
         net_ver_len = Bip32KeyDataConst.KEY_NET_VERSION_LEN
         self.assertRaises(ValueError, Bip32KeyNetVersions, b"\x00" * (net_ver_len - 1), b"\x00\x00\x00\x00")
