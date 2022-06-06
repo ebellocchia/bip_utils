@@ -236,14 +236,20 @@ class Bip32KeyIndex:
         """
         return Bip32Utils.IsHardenedIndex(self.m_idx)
 
-    def ToBytes(self) -> bytes:
+    def ToBytes(self,
+                endianness: str = "big") -> bytes:
         """
         Get the key index as bytes.
+
+        Args:
+            endianness (str): Endianness
 
         Returns:
             bytes: Key bytes
         """
-        return IntegerUtils.ToBytes(self.m_idx, bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
+        return IntegerUtils.ToBytes(self.m_idx,
+                                    bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN,
+                                    endianness=endianness)
 
     def ToInt(self) -> int:
         """

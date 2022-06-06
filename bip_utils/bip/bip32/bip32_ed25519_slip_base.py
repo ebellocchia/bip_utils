@@ -94,7 +94,7 @@ class Bip32Ed25519SlipBase(Bip32Base, ABC):
         data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + bytes(index)
 
         # Compute HMAC halves
-        i_l, i_r = Bip32BaseUtils.HmacHalves(bip32_obj.ChainCode(), data)
+        i_l, i_r = Bip32BaseUtils.HmacSha512Halves(bip32_obj.ChainCode().ToBytes(), data)
 
         # Construct and return a new Bip32 object
         return cls(priv_key=i_l,

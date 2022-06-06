@@ -70,7 +70,7 @@ from bip_utils.bip.bip32 import (
     Bip32Path, Bip32PathParser,
     Bip32PublicKey, Bip32PrivateKey,
     Bip32Utils,
-    Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
+    Bip32Ed25519Blake2bSlip, Bip32Ed25519Kholaw, Bip32Ed25519Slip, Bip32Nist256p1, Bip32Secp256k1
 )
 # BIP44/49/84
 from bip_utils.bip.bip44_base import (

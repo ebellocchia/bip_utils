@@ -53,22 +53,20 @@ class Bip32BaseUtils:
     """Class container for BIP32 base utility functions."""
 
     @staticmethod
-    def HmacHalves(chain_code: Bip32ChainCode,
-                   data_bytes: bytes) -> Tuple[bytes, bytes]:
+    def HmacSha512Halves(key_bytes: bytes,
+                         data_bytes: bytes) -> Tuple[bytes, bytes]:
         """
         Calculate the HMAC-SHA512 of input data using the chain code as key.
         Returns a tuple of the left and right halves of the HMAC.
 
         Args:
-            chain_code (bytes): Chain code
+            key_bytes (bytes) : Key bytes
             data_bytes (bytes): Data bytes
 
         Returns:
             tuple[bytes, bytes]: Left and right halves of the HMAC
         """
-
-        # Use chain as HMAC key
-        hmac = CryptoUtils.HmacSha512(chain_code.ToBytes(), data_bytes)
+        hmac = CryptoUtils.HmacSha512(key_bytes, data_bytes)
         return hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN], hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]
 
 
@@ -84,7 +82,6 @@ class Bip32Base(ABC):
 
     #
     # Class methods for construction
-    # They are meant to be called by children classes, that's why they are protected
     #
 
     @classmethod
@@ -105,32 +102,9 @@ class Bip32Base(ABC):
             ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        curve_type = cls.CurveType()
-        curve = EllipticCurveGetter.FromType(curve_type)
-        priv_key_cls = curve.PrivateKeyClass()
-
-        # Check seed length
-        if len(seed_bytes) * 8 < Bip32BaseConst.SEED_MIN_BIT_LEN:
+        if not cls._IsSeedLengthValid(seed_bytes):
             raise ValueError(f"Seed length is too small, it shall be at least {Bip32BaseConst.SEED_MIN_BIT_LEN} bit")
-
-        # Compute HMAC, retry if the resulting private key is not valid
-        hmac = b""
-        hmac_data = seed_bytes
-        success = False
-
-        while not success:
-            hmac = CryptoUtils.HmacSha512(cls._MasterKeyHmacKey(), hmac_data)
-            # If private key is not valid, the new HMAC data is the current HMAC
-            success = priv_key_cls.IsValidBytes(hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN])
-            if not success:
-                hmac_data = hmac
-
-        # Create BIP32 by splitting the HMAC into two 32-byte sequences
-        return cls(priv_key=hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN],
-                   pub_key=None,
-                   chain_code=Bip32ChainCode(hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]),
-                   curve_type=curve_type,
-                   key_net_ver=key_net_ver)
+        return cls._FromSeed(seed_bytes, key_net_ver)
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -454,6 +428,59 @@ class Bip32Base(ABC):
     #
     # Protected methods
     #
+
+    @staticmethod
+    def _IsSeedLengthValid(seed_bytes: bytes) -> bool:
+        """
+        Get if the seed length is valid.
+
+        Args:
+            seed_bytes (bytes): Seed bytes
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        return len(seed_bytes) * 8 >= Bip32BaseConst.SEED_MIN_BIT_LEN
+
+    @classmethod
+    def _FromSeed(cls,
+                  seed_bytes: bytes,
+                  key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
+        """
+        Create a Bip32 object from the specified seed (e.g. BIP39 seed).
+
+        Args:
+            seed_bytes (bytes)                      : Seed bytes
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
+
+        Returns:
+            Bip32Base object: Bip32Base object
+
+        Raises:
+            ValueError: If the seed is too short
+            Bip32KeyError: If the seed is not suitable for master key generation
+        """
+        curve_type = cls.CurveType()
+        priv_key_cls = EllipticCurveGetter.FromType(curve_type).PrivateKeyClass()
+
+        # Compute HMAC, retry if the resulting private key is not valid
+        hmac = b""
+        hmac_data = seed_bytes
+        success = False
+
+        while not success:
+            hmac = CryptoUtils.HmacSha512(cls._MasterKeyHmacKey(), hmac_data)
+            # If private key is not valid, the new HMAC data is the current HMAC
+            success = priv_key_cls.IsValidBytes(hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN])
+            if not success:
+                hmac_data = hmac
+
+        # Create BIP32 by splitting the HMAC into two 32-byte sequences
+        return cls(priv_key=hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN],
+                   pub_key=None,
+                   chain_code=Bip32ChainCode(hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]),
+                   curve_type=curve_type,
+                   key_net_ver=key_net_ver)
 
     def _ValidateAndCkdPriv(self,
                             index: Bip32KeyIndex) -> Bip32Base:
