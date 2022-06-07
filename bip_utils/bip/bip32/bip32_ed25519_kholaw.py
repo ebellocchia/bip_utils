@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional, Union
+from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst
@@ -29,7 +30,7 @@ from bip_utils.bip.bip32.bip32_key_data import (
     Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions
 )
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, Ed25519PublicKey, IPrivateKey, IPublicKey
-from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils
+from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils, IntegerUtils
 
 
 class Bip32Ed25519KholawConst:
@@ -45,6 +46,8 @@ class Bip32Ed25519Kholaw(Bip32Base):
     It allows master key generation and children keys derivation using ed25519 curve.
     Derivation based on SLIP-0010.
     """
+
+    m_priv_key_ext_bytes: Optional[bytes]
 
     #
     # Public methods
@@ -111,7 +114,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
         """
         super().__init__(priv_key, pub_key, chain_code, curve_type, depth, index, fprint, key_net_ver)
         # This version uses an extended private key with doubled size (64-byte)
-        # This is the 32-byte extended part of the private key
+        # This is the 32-byte extended part
         self.m_priv_key_ext_bytes = priv_key_ext_bytes if priv_key is not None else None
 
     #
@@ -151,26 +154,26 @@ class Bip32Ed25519Kholaw(Bip32Base):
         hmac_key = cls._MasterKeyHmacKey()
 
         # Continue until the third highest bit of the last byte ok kL is not zero
-        kl, kr = Bip32BaseUtils.HmacSha512Halves(hmac_key, seed_bytes)
-        while BitUtils.AreBitsSet(kl[31], 0x20):
-            kl, kr = Bip32BaseUtils.HmacSha512Halves(hmac_key, kl + kr)
+        kl_bytes, kr_bytes = Bip32BaseUtils.HmacSha512Halves(hmac_key, seed_bytes)
+        while BitUtils.AreBitsSet(kl_bytes[31], 0x20):
+            kl_bytes, kr_bytes = Bip32BaseUtils.HmacSha512Halves(hmac_key, kl_bytes + kr_bytes)
 
-        kl = bytearray(kl)
+        kl_bytes = bytearray(kl_bytes)
         # Clear the lowest 3 bits of the first byte of kL
-        kl[0] = BitUtils.ResetBits(kl[0], 0x03)
+        kl_bytes[0] = BitUtils.ResetBits(kl_bytes[0], 0x03)
         # Clear the highest bit of the last byte of kL
-        kl[31] = BitUtils.ResetBits(kl[31], 0x80)
+        kl_bytes[31] = BitUtils.ResetBits(kl_bytes[31], 0x80)
         # Set the second highest bit of the last byte of kL
-        kl[31] = BitUtils.SetBits(kl[31], 0x40)
+        kl_bytes[31] = BitUtils.SetBits(kl_bytes[31], 0x40)
 
         # Compute public key
-        kl_int = BytesUtils.ToInteger(kl, endianness="little")
+        kl_int = BytesUtils.ToInteger(kl_bytes, endianness="little")
         pub_key = Ed25519PublicKey.FromPoint(kl_int * curve.Generator())
         # Compute chain code
         chain_code_bytes = CryptoUtils.HmacSha256(hmac_key, b"\x01" + seed_bytes)
 
-        return cls(priv_key=bytes(kl),
-                   priv_key_ext_bytes=kr,
+        return cls(priv_key=bytes(kl_bytes),
+                   priv_key_ext_bytes=kr_bytes,
                    pub_key=pub_key,
                    chain_code=Bip32ChainCode(chain_code_bytes),
                    curve_type=curve_type,
@@ -190,6 +193,61 @@ class Bip32Ed25519Kholaw(Bip32Base):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
+        assert self.m_priv_key is not None and self.m_priv_key_ext_bytes is not None
+
+        # Get elliptic curve
+        curve = EllipticCurveGetter.FromType(self.CurveType())
+
+        # Get index bytes
+        index_bytes = index.ToBytes(endianness="little")
+
+        # Compute Z and chain code
+        if index.IsHardened():
+            z_bytes = CryptoUtils.HmacSha512(
+                self.ChainCode().ToBytes(),
+                b"\x00" + self.m_priv_key.Raw().ToBytes() + self.m_priv_key_ext_bytes + index_bytes
+            )
+            chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(
+                self.ChainCode().ToBytes(),
+                b"\x01" + self.m_priv_key.Raw().ToBytes() + self.m_priv_key_ext_bytes + index_bytes
+            )[1]
+        else:
+            z_bytes = CryptoUtils.HmacSha512(
+                self.ChainCode().ToBytes(),
+                b"\x02" + self.m_pub_key.RawCompressed().ToBytes()[1:] + index_bytes
+            )
+            chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(
+                self.ChainCode().ToBytes(),
+                b"\x03" + self.m_pub_key.RawCompressed().ToBytes()[1:] + index_bytes
+            )[1]
+
+        # ZL is the left 28-byte part of Z
+        # ZR is the right 32-byte part of Z
+        zl_bytes, zr_bytes = z_bytes[:28], z_bytes[32:]
+
+        # Compute kL
+        kl_int = (BytesUtils.ToInteger(zl_bytes, endianness="little") * 8
+                  + BytesUtils.ToInteger(self.m_priv_key.Raw().ToBytes(), endianness="little"))
+        if kl_int % curve.Order() == 0:
+            raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
+        # Compute kR
+        kr_int = (BytesUtils.ToInteger(zr_bytes, endianness="little")
+                  + BytesUtils.ToInteger(self.m_priv_key_ext_bytes, endianness="little")) % 2**256
+
+        # Compute public key
+        pub_key = Ed25519PublicKey.FromPoint(kl_int * curve.Generator())
+
+        return Bip32Ed25519Kholaw(
+            priv_key=IntegerUtils.ToBytes(kl_int, endianness="little"),
+            priv_key_ext_bytes=IntegerUtils.ToBytes(kr_int, endianness="little"),
+            pub_key=pub_key,
+            chain_code=Bip32ChainCode(chain_code_bytes),
+            curve_type=self.CurveType(),
+            depth=self.Depth().Increase(),
+            index=index,
+            fprint=self.m_pub_key.FingerPrint(),
+            key_net_ver=self.KeyNetVersions()
+        )
 
     def _CkdPub(self,
                 index: Bip32KeyIndex) -> Bip32Base:
