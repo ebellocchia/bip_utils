@@ -28,8 +28,8 @@ from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseCons
 from bip_utils.bip.bip32.bip32_key_data import (
     Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions
 )
-from bip_utils.ecc import EllipticCurveTypes, IPrivateKey, IPublicKey
-from bip_utils.utils.misc import BitUtils, CryptoUtils
+from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, Ed25519PublicKey, IPrivateKey, IPublicKey
+from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils
 
 
 class Bip32Ed25519KholawConst:
@@ -147,6 +147,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         curve_type = cls.CurveType()
+        curve = EllipticCurveGetter.FromType(curve_type)
         hmac_key = cls._MasterKeyHmacKey()
 
         # Continue until the third highest bit of the last byte ok kL is not zero
@@ -162,12 +163,15 @@ class Bip32Ed25519Kholaw(Bip32Base):
         # Set the second highest bit of the last byte of kL
         kl[31] = BitUtils.SetBits(kl[31], 0x40)
 
+        # Compute public key
+        kl_int = BytesUtils.ToInteger(kl, endianness="little")
+        pub_key = Ed25519PublicKey.FromPoint(kl_int * curve.Generator())
         # Compute chain code
         chain_code_bytes = CryptoUtils.HmacSha256(hmac_key, b"\x01" + seed_bytes)
 
         return cls(priv_key=bytes(kl),
                    priv_key_ext_bytes=kr,
-                   pub_key=None,
+                   pub_key=pub_key,
                    chain_code=Bip32ChainCode(chain_code_bytes),
                    curve_type=curve_type,
                    key_net_ver=key_net_ver)
