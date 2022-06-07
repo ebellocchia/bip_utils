@@ -10,7 +10,6 @@ ignore-paths:
 ignore-patterns:
   - setup.py
   - _version.py
-  - ed25519_helper.py
   - ed25519_monero.py
 
 # pylint configuration
