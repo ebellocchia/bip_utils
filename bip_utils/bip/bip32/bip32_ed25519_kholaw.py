@@ -37,15 +37,17 @@ from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils, IntegerUtils
 
 
 class Bip32Ed25519KholawConst:
-    """Class container for BIP32 ed25519 constants."""
+    """Class container for BIP32 Khovratovich/Law ed25519 constants."""
 
     # Elliptic curve type
     CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.ED25519
+    # HMAC key for generating master key
+    MASTER_KEY_HMAC_KEY: bytes = Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY
 
 
 class Bip32Ed25519Kholaw(Bip32Base):
     """
-    BIP32 ed25519 class.
+    BIP32 ed25519 Khovratovich/Law class.
     It allows master key generation and children keys derivation using ed25519 curve.
     Derivation based on SLIP-0010.
     """
@@ -137,7 +139,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
         Returns:
             bytes: HMAC key
         """
-        return Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY
+        return Bip32Ed25519KholawConst.MASTER_KEY_HMAC_KEY
 
     @classmethod
     def _FromSeed(cls,
