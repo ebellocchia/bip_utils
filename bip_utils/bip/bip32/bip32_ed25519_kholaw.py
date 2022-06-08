@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for BIP32 keys derivation based on ed25519 curve (Khovratovich/Law version)."""
+"""
+Module for BIP32 keys derivation based on ed25519 curve (Khovratovich/Law version).
+Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20Final.pdf
+"""
 
 # Imports
 from typing import Optional, Union
@@ -86,7 +89,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
 
     def __init__(self,
                  priv_key: Optional[Union[bytes, IPrivateKey]],
-                 priv_key_ext_bytes: bytes,
+                 priv_key_ext_bytes: Optional[bytes],
                  pub_key: Optional[Union[bytes, IPublicKey]],
                  chain_code: Bip32ChainCode,
                  curve_type: EllipticCurveTypes,
@@ -116,6 +119,11 @@ class Bip32Ed25519Kholaw(Bip32Base):
         # This version uses an extended private key with doubled size (64-byte)
         # This is the 32-byte extended part
         self.m_priv_key_ext_bytes = priv_key_ext_bytes if priv_key is not None else None
+
+    def ConvertToPublic(self) -> None:
+        """Convert a private Bip32 object into a public one."""
+        self.m_priv_key = None
+        self.m_priv_key_ext_bytes = None
 
     #
     # Protected methods
@@ -222,17 +230,16 @@ class Bip32Ed25519Kholaw(Bip32Base):
             )[1]
 
         # ZL is the left 28-byte part of Z
+        zl_int = BytesUtils.ToInteger(z_bytes[:28], endianness="little")
         # ZR is the right 32-byte part of Z
-        zl_bytes, zr_bytes = z_bytes[:28], z_bytes[32:]
+        zr_int = BytesUtils.ToInteger(z_bytes[32:], endianness="little")
 
         # Compute kL
-        kl_int = (BytesUtils.ToInteger(zl_bytes, endianness="little") * 8
-                  + BytesUtils.ToInteger(self.m_priv_key.Raw().ToBytes(), endianness="little"))
+        kl_int = (zl_int * 8) + BytesUtils.ToInteger(self.m_priv_key.Raw().ToBytes(), endianness="little")
         if kl_int % curve.Order() == 0:
             raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
         # Compute kR
-        kr_int = (BytesUtils.ToInteger(zr_bytes, endianness="little")
-                  + BytesUtils.ToInteger(self.m_priv_key_ext_bytes, endianness="little")) % 2**256
+        kr_int = (zr_int + BytesUtils.ToInteger(self.m_priv_key_ext_bytes, endianness="little")) % 2**256
 
         # Compute public key
         pub_key = Ed25519PublicKey.FromPoint(kl_int * curve.Generator())
@@ -263,3 +270,37 @@ class Bip32Ed25519Kholaw(Bip32Base):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
+
+        # Get elliptic curve
+        curve = EllipticCurveGetter.FromType(self.CurveType())
+
+        # Get index bytes
+        index_bytes = index.ToBytes(endianness="little")
+
+        # Compute Z and chain code
+        z_bytes = CryptoUtils.HmacSha512(
+            self.ChainCode().ToBytes(),
+            b"\x02" + self.m_pub_key.RawCompressed().ToBytes()[1:] + index_bytes
+        )
+        chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(
+            self.ChainCode().ToBytes(),
+            b"\x03" + self.m_pub_key.RawCompressed().ToBytes()[1:] + index_bytes
+        )[1]
+
+        # ZL is the left 28-byte part of Z
+        zl_int = BytesUtils.ToInteger(z_bytes[:28], endianness="little")
+
+        # Compute the new public key: PKEY + 8ZL * G
+        pub_key = Ed25519PublicKey.FromPoint(self.m_pub_key.Point() + ((zl_int * 8) * curve.Generator()))
+
+        return Bip32Ed25519Kholaw(
+            priv_key=None,
+            priv_key_ext_bytes=None,
+            pub_key=pub_key,
+            chain_code=Bip32ChainCode(chain_code_bytes),
+            curve_type=self.CurveType(),
+            depth=self.Depth().Increase(),
+            index=index,
+            fprint=self.m_pub_key.FingerPrint(),
+            key_net_ver=self.KeyNetVersions()
+        )
