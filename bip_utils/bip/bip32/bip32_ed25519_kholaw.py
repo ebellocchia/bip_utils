@@ -290,13 +290,16 @@ class Bip32Ed25519Kholaw(Bip32Base):
         # ZL is the left 28-byte part of Z
         zl_int = BytesUtils.ToInteger(z_bytes[:28], endianness="little")
 
-        # Compute the new public key: PKEY + 8ZL * G
-        pub_key = Ed25519PublicKey.FromPoint(self.m_pub_key.Point() + ((zl_int * 8) * curve.Generator()))
+        # Compute the new public key point: PKEY + 8ZL * G
+        pub_key_point = self.m_pub_key.Point() + ((zl_int * 8) * curve.Generator())
+        # If the public key is the identity point (0, 1) discard the child
+        if pub_key_point.X() == 0 and pub_key_point.Y() == 1:
+            raise Bip32KeyError("Computed public child key is not valid, very unlucky index")
 
         return Bip32Ed25519Kholaw(
             priv_key=None,
             priv_key_ext_bytes=None,
-            pub_key=pub_key,
+            pub_key=Ed25519PublicKey.FromPoint(pub_key_point),
             chain_code=Bip32ChainCode(chain_code_bytes),
             curve_type=self.CurveType(),
             depth=self.Depth().Increase(),
