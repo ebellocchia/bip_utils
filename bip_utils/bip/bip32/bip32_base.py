@@ -18,11 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""
-Module with BIP32 base class.
-BIP-0032 reference: https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki.
-SLIP-0010 reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md.
-"""
+"""Module with BIP32 base class."""
 
 # Imports
 from __future__ import annotations

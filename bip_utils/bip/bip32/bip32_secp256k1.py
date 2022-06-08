@@ -18,7 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for BIP32 keys derivation based on secp256k1 curve."""
+"""
+Module for BIP32 keys derivation based on secp256k1 curve.
+
+References:
+    https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+    https://github.com/satoshilabs/slips/blob/master/slip-0010.md
+"""
 
 # Imports
 from bip_utils.bip.bip32.bip32_base import Bip32Base

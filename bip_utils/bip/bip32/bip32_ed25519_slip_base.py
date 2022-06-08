@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with BIP32 base class for ed25519 curves based on SLIP-0010."""
+"""
+Module with BIP32 base class for ed25519 curves based on SLIP-0010.
+Reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
+"""
 
 # Imports
 from abc import ABC
