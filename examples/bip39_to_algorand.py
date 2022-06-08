@@ -51,8 +51,7 @@ def convert_seed(bip39_seed_bytes: bytes,
 
 
 # Generate BIP39 seed from mnemonic
-#mnemonic = "all all all all all all all all all all all all all all all all all all all all all all all feel"
-mnemonic = "apple escape business impulse select manage industry slice oppose immune book tent toe hockey roast mountain song situate galaxy main snow"
+mnemonic = "all all all all all all all all all all all all all all all all all all all all all all all feel"
 seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 # Print
 print(f"BIP39 mnemonic: {mnemonic}")
