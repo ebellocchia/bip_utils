@@ -331,6 +331,8 @@ class EccTests(unittest.TestCase):
 
         self.assertEqual(priv_key.PublicKey().RawCompressed().ToBytes(), TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
 
+        # No need to test point, same of ed25519
+
     # Test Ed25519-Monero class
     def test_ed25519_monero(self):
         # Curve
