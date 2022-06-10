@@ -23,7 +23,7 @@
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
 from bip_utils.ecc.ed25519_kholaw_const import Ed25519KholawConst
-from bip_utils.ecc.ed25519_kholaw_keys import Ed25519KholawPublicKey, Ed25519ExtendedPrivateKey
+from bip_utils.ecc.ed25519_kholaw_keys import Ed25519KholawPublicKey, Ed25519KholawPrivateKey
 from bip_utils.ecc.ed25519_kholaw_point import Ed25519KholawPoint
 
 # Ed25519-Kholaw curve definition
@@ -32,4 +32,4 @@ Ed25519Kholaw: EllipticCurve = EllipticCurve(Ed25519KholawConst.NAME,
                                              Ed25519KholawConst.GENERATOR,
                                              Ed25519KholawPoint,
                                              Ed25519KholawPublicKey,
-                                             Ed25519ExtendedPrivateKey)
+                                             Ed25519KholawPrivateKey)

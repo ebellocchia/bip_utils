@@ -41,7 +41,7 @@ class Ed25519KholawPublicKey(Ed25519PublicKey):
 
 
 class Ed25519KholawPrivateKey(IPrivateKey):
-    """Ed25519-Kholaw private key class."""
+    """Ed25519-Kholaw private extended key class."""
 
     @classmethod
     def FromBytes(cls,
@@ -87,93 +87,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
-        return EllipticCurveTypes.ED25519
-
-    @staticmethod
-    def Length() -> int:
-        """
-        Get the key length.
-
-        Returns:
-           int: Key length
-        """
-        return Ed25519KholawKeysConst.PRIV_KEY_BYTE_LEN
-
-    def UnderlyingObject(self) -> Any:
-        """
-        Get the underlying object.
-
-        Returns:
-           Any: Underlying object
-        """
-        return self.m_sign_key
-
-    def Raw(self) -> DataBytes:
-        """
-        Return raw private key.
-
-        Returns:
-            DataBytes object: DataBytes object
-        """
-        return DataBytes(bytes(self.m_sign_key))
-
-    def PublicKey(self) -> IPublicKey:
-        """
-        Get the public key correspondent to the private one.
-
-        Returns:
-            IPublicKey object: IPublicKey object
-        """
-        return Ed25519PublicKey(self.m_sign_key)
-
-
-class Ed25519ExtendedPrivateKey(IPrivateKey):
-    """Ed25519 private extended key class."""
-
-    @classmethod
-    def FromBytes(cls,
-                  key_bytes: bytes) -> IPrivateKey:
-        """
-        Construct class from key bytes.
-
-        Args:
-            key_bytes (bytes): Key bytes
-
-        Returns:
-            IPrivateKey: IPrivateKey object
-
-        Raises:
-            ValueError: If key bytes are not valid
-        """
-        if len(key_bytes) != Ed25519KholawKeysConst.PRIV_KEY_BYTE_LEN:
-            raise ValueError("Invalid private key bytes")
-        return cls(key_bytes)
-
-    def __init__(self,
-                 key_obj: Any) -> None:
-        """
-        Construct class from key object.
-
-        Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
-        """
-        if isinstance(key_obj, bytes):
-            self.m_sign_key = key_obj
-        else:
-            raise TypeError("Invalid private key object type")
-
-    @staticmethod
-    def CurveType() -> EllipticCurveTypes:
-        """
-        Get the elliptic curve type.
-
-        Returns:
-           EllipticCurveTypes: Elliptic curve type
-        """
-        return EllipticCurveTypes.ED25519
+        return EllipticCurveTypes.ED25519_KHOLAW
 
     @staticmethod
     def Length() -> int:
@@ -213,4 +127,4 @@ class Ed25519ExtendedPrivateKey(IPrivateKey):
         priv_key_int = BytesUtils.ToInteger(self.m_sign_key[:Ed25519PrivateKey.Length()],
                                             endianness="little")
 
-        return Ed25519PublicKey.FromPoint(priv_key_int * Ed25519Const.GENERATOR)
+        return Ed25519KholawPublicKey.FromPoint(priv_key_int * Ed25519Const.GENERATOR)
