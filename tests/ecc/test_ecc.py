@@ -32,7 +32,8 @@ from nacl import signing
 from bip_utils import (
     EllipticCurveGetter, EllipticCurveTypes,
     Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
-    Ed25519Blake2b, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
+    Ed25519Blake2b, Ed25519Blake2bPoint, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
+    Ed25519Kholaw, Ed25519KholawPoint, Ed25519KholawPublicKey, Ed25519KholawPrivateKey,
     Ed25519Monero, Ed25519MoneroPoint, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey,
     Nist256p1, Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey,
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
@@ -70,8 +71,6 @@ TEST_VECT_ED25519_PUB_KEY_INVALID = [
     b"00e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a6149954711",
     b"00e9b6062841bb977ad21de71ec961900633c26f21384e015b014a637a6149",
 ]
-
-#806d505c14d62fe343ddce60333515b74fcfedf711862def4a528c1cc4f23985
 
 # Tests for nist256p1 invalid public keys (add public key that doesn't lie on the curve)
 TEST_VECT_NIST256P1_PUB_KEY_INVALID = TEST_VECT_ECDSA_PUB_KEY_INVALID + [
@@ -138,9 +137,16 @@ TEST_ED25519_PRIV_KEY = Ed25519PrivateKey.FromBytes(TEST_ED25519_PRIV_KEY_BYTES)
 TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"00cb8638e89ee650fdd09dc3b3342940e52598b06e3af81597471a087651875491")
 TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES = TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES
 TEST_ED25519_BLAKE2B_PRIV_KEY_BYTES = TEST_ED25519_PRIV_KEY_BYTES
+TEST_ED25519_BLAKE2B_POINT = {"x": 48294182392756967208697837273234399312104812383024614014757224045799169481421,
+                              "y": 7838667511299593307117012662349698472015960877655170347921379664136072890059}
 
 TEST_ED25519_BLAKE2B_PUB_KEY = Ed25519Blake2bPublicKey.FromBytes(TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
 TEST_ED25519_BLAKE2B_PRIV_KEY = Ed25519Blake2bPrivateKey.FromBytes(TEST_ED25519_BLAKE2B_PRIV_KEY_BYTES)
+
+# Some valid ed25519-kholaw keys
+TEST_ED25519_KHOLAW_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"001f4dc49e82a836dfd380925261315f213adef7aae3f34de699d7f32ba0982c6d")
+TEST_ED25519_KHOLAW_UNCOMPR_PUB_KEY_BYTES = TEST_ED25519_KHOLAW_COMPR_PUB_KEY_BYTES
+TEST_ED25519_KHOLAW_PRIV_KEY_BYTES = binascii.unhexlify(b"1075ab5e3fcedcb69eef77974b314cc0cbc163c01a0c354989dc70b8789a194fb52396acaa97135c2f2f042e4181da5fbe92b8350d00055bee42eccf3088fd24")
 
 # Some valid ed25519-monero keys
 TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"5432db2c5e3953afda4184e534a25abe78bd08027d9c048d9c16c15fd73280e6")
@@ -292,7 +298,7 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Ed25519Blake2b.Order(), ED25519_ORDER)
         self.assertEqual(Ed25519Blake2b.Generator().X(), ED25519_GENERATOR_X)
         self.assertEqual(Ed25519Blake2b.Generator().Y(), ED25519_GENERATOR_Y)
-        self.assertTrue(Ed25519Blake2b.PointClass() is Ed25519Point)
+        self.assertTrue(Ed25519Blake2b.PointClass() is Ed25519Blake2bPoint)
         self.assertTrue(Ed25519Blake2b.PublicKeyClass() is Ed25519Blake2bPublicKey)
         self.assertTrue(Ed25519Blake2b.PrivateKeyClass() is Ed25519Blake2bPrivateKey)
 
@@ -307,17 +313,17 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES)
         self.assertTrue(isinstance(pub_key.UnderlyingObject(), ed25519_blake2b.VerifyingKey))
-        self.assertTrue(isinstance(pub_key.Point(), Ed25519Point))
+        self.assertTrue(isinstance(pub_key.Point(), Ed25519Blake2bPoint))
         # From uncompressed
         pub_key = Ed25519Blake2bPublicKey.FromBytes(TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES)
         self.assertTrue(isinstance(pub_key.UnderlyingObject(), ed25519_blake2b.VerifyingKey))
-        self.assertTrue(isinstance(pub_key.Point(), Ed25519Point))
+        self.assertTrue(isinstance(pub_key.Point(), Ed25519Blake2bPoint))
         # From point
-        pub_key = Ed25519PublicKey.FromPoint(Ed25519Point.FromCoordinates(TEST_ED25519_POINT["x"], TEST_ED25519_POINT["y"]))
-        self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_COMPR_PUB_KEY_BYTES)
-        self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_UNCOMPR_PUB_KEY_BYTES)
+        pub_key = Ed25519Blake2bPublicKey.FromPoint(Ed25519Blake2bPoint.FromCoordinates(TEST_ED25519_BLAKE2B_POINT["x"], TEST_ED25519_BLAKE2B_POINT["y"]))
+        self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
+        self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES)
 
         # Private key
         self.assertRaises(TypeError, Ed25519Blake2bPrivateKey, 0)
@@ -332,6 +338,36 @@ class EccTests(unittest.TestCase):
         self.assertEqual(priv_key.PublicKey().RawCompressed().ToBytes(), TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
 
         # No need to test point, same of ed25519
+        self.assertTrue(issubclass(Ed25519Blake2bPoint, Ed25519Point))
+
+    # Test Ed25519-Kholaw class
+    def test_ed25519_kholaw(self):
+        # Curve
+        self.assertEqual(Ed25519Kholaw.Name(), "Ed25519-Kholaw")
+        self.assertEqual(Ed25519Kholaw.Order(), ED25519_ORDER)
+        self.assertEqual(Ed25519Kholaw.Generator().X(), ED25519_GENERATOR_X)
+        self.assertEqual(Ed25519Kholaw.Generator().Y(), ED25519_GENERATOR_Y)
+        self.assertTrue(Ed25519Kholaw.PointClass() is Ed25519KholawPoint)
+        self.assertTrue(Ed25519Kholaw.PublicKeyClass() is Ed25519KholawPublicKey)
+        self.assertTrue(Ed25519Kholaw.PrivateKeyClass() is Ed25519KholawPrivateKey)
+
+        # No need to test public key, same of ed25519
+        self.assertTrue(issubclass(Ed25519KholawPublicKey, Ed25519PublicKey))
+
+        # Private key
+        self.assertRaises(TypeError, Ed25519KholawPrivateKey, 0)
+        self.assertEqual(Ed25519KholawPrivateKey.CurveType(), EllipticCurveTypes.ED25519_KHOLAW)
+        self.assertEqual(Ed25519KholawPrivateKey.Length(), 64)
+
+        priv_key = Ed25519KholawPrivateKey.FromBytes(TEST_ED25519_KHOLAW_PRIV_KEY_BYTES)
+        self.assertEqual(priv_key.Raw().ToBytes(), TEST_ED25519_KHOLAW_PRIV_KEY_BYTES)
+        self.assertTrue(isinstance(priv_key.UnderlyingObject(), bytes))
+        self.assertTrue(isinstance(priv_key.PublicKey(), Ed25519KholawPublicKey))
+
+        self.assertEqual(priv_key.PublicKey().RawCompressed().ToBytes(), TEST_ED25519_KHOLAW_COMPR_PUB_KEY_BYTES)
+
+        # No need to test point, same of ed25519
+        self.assertTrue(issubclass(Ed25519KholawPoint, Ed25519Point))
 
     # Test Ed25519-Monero class
     def test_ed25519_monero(self):
@@ -633,9 +669,11 @@ class EccTests(unittest.TestCase):
         for test in TEST_VECT_ED25519_PUB_KEY_INVALID:
             self.assertRaises(ValueError, Ed25519PublicKey.FromBytes, binascii.unhexlify(test))
             self.assertRaises(ValueError, Ed25519Blake2bPublicKey.FromBytes, binascii.unhexlify(test))
+            self.assertRaises(ValueError, Ed25519KholawPublicKey.FromBytes, binascii.unhexlify(test))
             self.assertRaises(ValueError, Ed25519MoneroPublicKey.FromBytes, binascii.unhexlify(test))
             self.assertFalse(Ed25519PublicKey.IsValidBytes(binascii.unhexlify(test)))
             self.assertFalse(Ed25519Blake2bPublicKey.IsValidBytes(binascii.unhexlify(test)))
+            self.assertFalse(Ed25519KholawPublicKey.IsValidBytes(binascii.unhexlify(test)))
             self.assertFalse(Ed25519MoneroPublicKey.IsValidBytes(binascii.unhexlify(test)))
 
         for test in TEST_VECT_NIST256P1_PUB_KEY_INVALID:
@@ -655,8 +693,10 @@ class EccTests(unittest.TestCase):
         for test in TEST_VECT_ED25519_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Ed25519PrivateKey.FromBytes, binascii.unhexlify(test))
             self.assertRaises(ValueError, Ed25519Blake2bPrivateKey.FromBytes, binascii.unhexlify(test))
+            self.assertRaises(ValueError, Ed25519KholawPrivateKey.FromBytes, binascii.unhexlify(test))
             self.assertFalse(Ed25519PrivateKey.IsValidBytes(binascii.unhexlify(test)))
             self.assertFalse(Ed25519Blake2bPrivateKey.IsValidBytes(binascii.unhexlify(test)))
+            self.assertFalse(Ed25519KholawPrivateKey.IsValidBytes(binascii.unhexlify(test)))
 
         for test in TEST_VECT_ED25519_MONERO_PRIV_KEY_INVALID:
             self.assertRaises(ValueError, Ed25519MoneroPrivateKey.FromBytes, binascii.unhexlify(test))
