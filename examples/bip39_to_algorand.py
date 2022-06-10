@@ -9,7 +9,8 @@ It replicates the functionalities of:
 import binascii
 from enum import auto, Enum, unique
 from bip_utils import (
-    AlgorandMnemonicGenerator, Bip39SeedGenerator, Bip32Ed25519Slip, Bip32Ed25519Kholaw, Bip32Secp256k1
+    AlgorandMnemonicGenerator, Bip39SeedGenerator, Bip32Ed25519Slip, Bip32Ed25519Kholaw, Bip32Secp256k1,
+    Ed25519PrivateKey
 )
 
 
@@ -25,10 +26,10 @@ def convert_seed(bip39_seed_bytes: bytes,
                  der_method: DerivationMethods) -> str:
     # Get private key bytes depending on the derivation method
     if der_method == DerivationMethods.BIP39_SEED:
-        priv_key_bytes = bip39_seed_bytes[:32]
+        priv_key_bytes = bip39_seed_bytes[:Ed25519PrivateKey.Length()]
     elif der_method == DerivationMethods.BIP32_ED25519_KHOLAW:
         bip32_ctx = Bip32Ed25519Kholaw.FromSeedAndPath(bip39_seed_bytes, "m/44'/283'/0'/0/0")
-        priv_key_bytes = bip32_ctx.PrivateKey().Raw().ToBytes()
+        priv_key_bytes = bip32_ctx.PrivateKey().Raw().ToBytes()[:Ed25519PrivateKey.Length()]
     elif der_method == DerivationMethods.BIP32_ED25519_SLIP:
         bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(bip39_seed_bytes, "m/44'/283'/0'/0'/0'")
         priv_key_bytes = bip32_ctx.PrivateKey().Raw().ToBytes()
