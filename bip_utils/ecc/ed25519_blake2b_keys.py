@@ -18,14 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519-blake2b keys handling."""
+"""Module for ed25519-blake2b keys."""
 
 # Imports
 from typing import Any
 import ed25519_blake2b
 from ecpy.curves import Curve
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519_keys import Ed25519KeysConst, Ed25519Point
+from bip_utils.ecc.ed25519_keys import Ed25519KeysConst
+from bip_utils.ecc.ed25519_blake2b_point import Ed25519Blake2bPoint
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
@@ -166,7 +167,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519Point.FromBytes(self.m_ver_key.to_bytes())
+        return Ed25519Blake2bPoint.FromBytes(self.m_ver_key.to_bytes())
 
 
 class Ed25519Blake2bPrivateKey(IPrivateKey):

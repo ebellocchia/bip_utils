@@ -18,17 +18,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with secp256k1 curve."""
+"""Module with nist256p1 constants."""
 
 # Imports
-from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.secp256k1_const import Secp256k1Const, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+from ecdsa.ecdsa import generator_256
+from bip_utils.ecc.ikeys import IPoint
+from bip_utils.ecc.nist256p1_keys import Nist256p1Point
 
 
-# Secp256k1 curve definition
-Secp256k1: EllipticCurve = EllipticCurve(Secp256k1Const.NAME,
-                                         Secp256k1Const.CURVE_ORDER,
-                                         Secp256k1Const.GENERATOR,
-                                         Secp256k1Point,
-                                         Secp256k1PublicKey,
-                                         Secp256k1PrivateKey)
+class Nist256p1Const:
+    """Class container for Nist256p1 constants."""
+
+    # Curve name
+    NAME: str = "Nist256p1"
+    # Curve order
+    CURVE_ORDER: int = generator_256.order()
+    # Curve generator point
+    GENERATOR: IPoint = Nist256p1Point(generator_256)

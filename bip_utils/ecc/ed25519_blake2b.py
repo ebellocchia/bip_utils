@@ -18,31 +18,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519-blake2b keys handling."""
+"""Module for ed25519-blake2b curve."""
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.ed25519 import Ed25519Const
-from bip_utils.ecc.ed25519_keys import Ed25519Point
+from bip_utils.ecc.ed25519_blake2b_const import Ed25519Blake2bConst
 from bip_utils.ecc.ed25519_blake2b_keys import Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey
-from bip_utils.ecc.ikeys import IPoint
-
-
-class Ed25519Blake2bConst:
-    """Class container for Ed25519-Blake2b constants."""
-
-    # Curve name
-    NAME: str = "Ed25519-Blake2b"
-    # Curve order
-    CURVE_ORDER: int = Ed25519Const.CURVE_ORDER
-    # Curve generator point
-    GENERATOR: IPoint = Ed25519Const.GENERATOR
+from bip_utils.ecc.ed25519_blake2b_point import Ed25519Blake2bPoint
 
 
 # Ed25519-Blake2b curve definition
 Ed25519Blake2b: EllipticCurve = EllipticCurve(Ed25519Blake2bConst.NAME,
                                               Ed25519Blake2bConst.CURVE_ORDER,
                                               Ed25519Blake2bConst.GENERATOR,
-                                              Ed25519Point,
+                                              Ed25519Blake2bPoint,
                                               Ed25519Blake2bPublicKey,
                                               Ed25519Blake2bPrivateKey)

@@ -18,25 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with ed25519-monero curve definition."""
+"""Module with ed25519-monero curve."""
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.ed25519 import Ed25519Const
-from bip_utils.ecc.ed25519_monero_keys import Ed25519MoneroPoint, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
-from bip_utils.ecc.ikeys import IPoint
-
-
-class Ed25519MoneroConst:
-    """Class container for Ed25519-Monero constants."""
-
-    # Curve name
-    NAME: str = "Ed25519-Monero"
-    # Curve order
-    CURVE_ORDER: int = Ed25519Const.CURVE_ORDER
-    # Curve generator point
-    GENERATOR: IPoint = Ed25519MoneroPoint.FromCoordinates(Ed25519Const.GENERATOR.X(),
-                                                           Ed25519Const.GENERATOR.Y())
+from bip_utils.ecc.ed25519_monero_const import Ed25519MoneroConst
+from bip_utils.ecc.ed25519_monero_keys import Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey
+from bip_utils.ecc.ed25519_monero_point import Ed25519MoneroPoint
 
 
 # Ed25519-Monero curve definition

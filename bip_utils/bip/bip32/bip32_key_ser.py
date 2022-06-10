@@ -34,8 +34,10 @@ from bip_utils.utils.misc import BytesUtils
 class Bip32KeyDeserConst:
     """Class container for BIP32 key serialize constants."""
 
-    # Extended key length in bytes
-    EXTENDED_KEY_BYTE_LEN: int = 78
+    # Extended public key length in bytes
+    EXTENDED_PUB_KEY_BYTE_LEN: int = 78
+    # Extended private key length in bytes
+    EXTENDED_PRIV_KEY_BYTE_LEN: Tuple[int, int] = (78, 110)
 
 
 class Bip32KeyDeserializer:
@@ -75,10 +77,6 @@ class Bip32KeyDeserializer:
         # Decode key
         ex_key_bytes = Base58Decoder.CheckDecode(self.m_key_str)
 
-        # Check length
-        if len(ex_key_bytes) != Bip32KeyDeserConst.EXTENDED_KEY_BYTE_LEN:
-            raise Bip32KeyError(f"Invalid extended key (wrong length: {len(ex_key_bytes)})")
-
         # Get if key is public/private depending on net version
         key_net_ver_got = ex_key_bytes[:Bip32KeyNetVersions.Length()]
         if key_net_ver_got == key_net_ver.Public():
@@ -90,12 +88,18 @@ class Bip32KeyDeserializer:
                 f"Invalid extended key (wrong net version: {BytesUtils.ToHexString(key_net_ver_got)})"
             )
 
+        # Check length
+        if self.m_is_public and len(ex_key_bytes) != Bip32KeyDeserConst.EXTENDED_PUB_KEY_BYTE_LEN:
+            raise Bip32KeyError(f"Invalid extended public key (wrong length: {len(ex_key_bytes)})")
+        elif not self.m_is_public and len(ex_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
+            raise Bip32KeyError(f"Invalid extended private key (wrong length: {len(ex_key_bytes)})")
+
         # De-serialize key
         depth = ex_key_bytes[4]
         fprint = ex_key_bytes[5:9]
         index = BytesUtils.ToInteger(ex_key_bytes[9:13])
         chain_code = ex_key_bytes[13:45]
-        self.m_key_bytes = ex_key_bytes[45:78]
+        self.m_key_bytes = ex_key_bytes[45:]
         self.m_key_data = Bip32KeyData(key_net_ver,
                                        Bip32Depth(depth),
                                        Bip32KeyIndex(index),
