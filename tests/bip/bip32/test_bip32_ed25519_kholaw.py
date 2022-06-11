@@ -215,16 +215,19 @@ TEST_VECT_PUBLIC_DER_PUB_KEY = {
 # Tests for invalid extended key
 TEST_VECT_EX_KEY_ERR = [
     # Private keys with invalid lengths (generated on purpose to have a correct checksum)
-    "DeaWiRvhTUWHmRFa63ZawWQy57DX4NvP62TfD46boXurKLAgyUEp5Xz59LLRSa4sse2nscJCmFC4DvmScVSuJSxfQAzFhxDc4RV85PtjgAwLMX",
-    "5FQFKc7mTW13jdERCczZfzcHum9pTkjqVdP6HZCVtfC2YAjAT8RnDG6Lmo583qUQx2toUpuxyEJFVgAp725tEfbUJqXEA1WCgm8Qm4BPft8otyZpr",
+    "4kvFa64nRVFDDHiwNiYwSpXvmk9FQ8Pb8gJKzNZbamwF3WJWCc4VNFn597dK9bQnZmf5s6uLs3q4gDgzmR2XcYWjC5f2tZoZSQ5qT7KwbHSggeqq8weEK89JQ4n69nxdrsWBCdZPNjKNy6BAi8LLpGBwRV",
+    "2GCPTCdQMgwbuwZxuUM2PYHJGV2SixbNaSE7smT8aWe8grqhzh5GZR9S6YoY24HYxJmQbd2mGnAc8Toinp1PwgM8aesXCo6sX8WFRXvmpzfN7AX2A8DsnA3k7kZZpy4da4D6A9VZLKnZWWYgnH5k74r5vqJNq",
     # Private key with invalid net version
-    "yprvABrGsX5C9jantZVwdwcQhDXkqsu4RoSAZKBwPnLA3uyeVM3C3fvTuqzru4fovMSLqYSqALGe9MBqCf7Pg7Y7CTsjoNnLYg6HxR2Xo44NX7E",
+    "MEzTXWQJybqHGrjeUf9rH4YQSKywUAY7U1W4kzG4HwtGmHGP3jGoAWDbrK911j3v1wak9jVmP5ARbGPHVuCf3veptPAV9F7Jg47mvS19NYL4Gghmgo3jiwxoLZfM6KJjvv7LKHFbGBvQASc3yiFkcDCyfQC",
     # Private key with invalid secret byte (0x01 instead of 0x00, generated on purpose)
-    "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnListey6gETHL1FYgFnbGTHGh6bsXjp3w31igA2CuxhgLyGu6pvL45",
+    "Har3K3MhV5fiuEp6zrPyJxoWLVRQZ5chetTUpEAse5LQz4LFtDkQCpDwGpFH6jtWWZ8sbstQX9mE9WKLhU6bhisP1A3eoWNqyJtGw55HrQVsPgwctnyb8SiSbBjZYUuezC9dotPnPfVRHg6LtJrJHJGA6wS",
     # Invalid master key (fingerprint is not valid)
-    "xprv9s21ZrQZgP7FPptNcV6ZuWeytnfAsNFoPXFUTMDdUQpc44ZhfkDAnctGeUuywWTKXEFwLFGRPGd9WcjbTDdjKU25eRw5REDTVxfiAxZFhrV",
+    "Har3K3MhV5forbVvFL72SDiaPBbcZ72yWbNoTfDA7txYGjaNV8Vj1vuAuxDMBdtCHNDTJH6FYpKn8J9rBi8Ums37yFTGvFupPCWQ6H7M58hDf4MnXKgXnz46oqyGSvC9iGMBiVGdwGXiDpvJzNrguqdVycq",
     # Invalid master key (index is not zero)
-    "xprv9s21ZrQH143K5p8oLYasVfWDcfK9E5HPajvc6vEmTG592KSs8jk4fb3vA6ZoueJM4oi7xTrbbfU5MyTPRLFPbXLr3TZjQw4rXFQ7v1sk7C4",
+    "Har3K3MhV5fiuEp71cJyTPNmqhWBHWNHKWn9gDRKnZjwUNDZZ9ueUdcqKt77XpguA1StrtH4ypQxKwigYpW2hy9zepZmVakcBuaT79Lx1TB8YGnCvP7dHTFg92r8peyQcWY1H28y1HFpDZQh6RKE1sccVc5",
+    # Public keys with invalid lengths (generated on purpose to have a correct checksum)
+    "Deb7pNXSbX7qSvc2eKsdGN2SihvPLednHE2tRn1NfAyWv7Z9S15B8NbeDNMoBNXwgVdvpWHJgDhhFs3QPPT69a2exFNc3GjttfhJtf7YRBZwxT",
+    "5FQT7TT6bZmQ6QjZkc6823oZfymNGYGrzdynrpA9AwChPwj2q3WgL1wGRdQGgnjanFAdeysCYadDccspWxQ92vD7382KiKEcvTzwhoqrYKwC8xdhP",
 ]
 
 

@@ -182,6 +182,9 @@ TEST_VECT_EX_KEY_ERR = [
     "xprv9s21ZrQZgP7FPptNcV6ZuWeytnfAsNFoPXFUTMDdUQpc44ZhfkDAnctGeUuywWTKXEFwLFGRPGd9WcjbTDdjKU25eRw5REDTVxfiAxZFhrV",
     # Invalid master key (index is not zero)
     "xprv9s21ZrQH143K5p8oLYasVfWDcfK9E5HPajvc6vEmTG592KSs8jk4fb3vA6ZoueJM4oi7xTrbbfU5MyTPRLFPbXLr3TZjQw4rXFQ7v1sk7C4",
+    # Public keys with invalid lengths (generated on purpose to have a correct checksum)
+    "Deb7pNXSbX7qSvc2ebNQanMhHbvf1Rzmss23cPy9VFgZNWL9gAPXV8Pcp5dKU9xMXZRCDW6scZQTJL8z8hH1SATY7yGpAzvXdGj8gzwZSNLx6K",
+    "5FQT7TT6bZmQ6QjZkhJ1gyYM4TgHwnmxsLqyunS3JUs6gwkx4hPDDNu399mtFwZfgnkSWHauqw8o8wvyLe3cVcPCCDwXswkjb8tiouFj3V9x3kmZt",
 ]
 
 
