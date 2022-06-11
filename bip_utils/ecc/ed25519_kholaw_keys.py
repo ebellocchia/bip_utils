@@ -126,5 +126,4 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         """
         priv_key_int = BytesUtils.ToInteger(self.m_sign_key[:Ed25519PrivateKey.Length()],
                                             endianness="little")
-
         return Ed25519KholawPublicKey.FromPoint(priv_key_int * Ed25519Const.GENERATOR)
