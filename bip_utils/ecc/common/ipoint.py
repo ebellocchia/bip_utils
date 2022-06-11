@@ -18,28 +18,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519 point."""
+"""Module with interfaces for point classes."""
 
 # Imports
+from __future__ import annotations
+from abc import ABC, abstractmethod
 from typing import Any
-from ecpy.curves import Curve, ECPyException, Point
-from bip_utils.ecc.common.ipoint import IPoint
-from bip_utils.utils.misc import DataBytes, IntegerUtils
+from bip_utils.utils.misc import DataBytes
 
 
-class Ed25519KeysConst:
-    """Class container for ed25519 keys constants."""
-
-    # Point length in bytes
-    POINT_BYTE_LEN: int = 32
-
-
-class Ed25519Point(IPoint):
-    """Ed25519 point class."""
-
-    m_point: Point
+class IPoint(ABC):
+    """Interface for a generic elliptic curve point."""
 
     @classmethod
+    @abstractmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
         """
@@ -51,13 +43,9 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        try:
-            cv = Curve.get_curve("Ed25519")
-            return cls(cv.decode_point(point_bytes))
-        except ECPyException as ex:
-            raise ValueError("Invalid point key bytes") from ex
 
     @classmethod
+    @abstractmethod
     def FromCoordinates(cls,
                         x: int,
                         y: int) -> IPoint:
@@ -71,26 +59,8 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        try:
-            return cls(Point(x, y, Curve.get_curve("Ed25519")))
-        except ECPyException as ex:
-            raise ValueError("Invalid point key coordinates") from ex
 
-    def __init__(self,
-                 point_obj: Any) -> None:
-        """
-        Construct class from point object.
-
-        Args:
-            point_obj (class): Point object
-
-        Raises:
-            TypeError: If point object is not of the correct type
-        """
-        if not isinstance(point_obj, Point):
-            raise TypeError("Invalid point object type")
-        self.m_point = point_obj
-
+    @abstractmethod
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -98,26 +68,26 @@ class Ed25519Point(IPoint):
         Returns:
            Any: Underlying object
         """
-        return self.m_point
 
+    @abstractmethod
     def X(self) -> int:
         """
-        Get point X coordinate.
+        Return X coordinate of the point.
 
         Returns:
-           int: Point X coordinate
+            int: X coordinate of the point
         """
-        return self.m_point.x
 
+    @abstractmethod
     def Y(self) -> int:
         """
-        Get point Y coordinate.
+        Return Y coordinate of the point.
 
         Returns:
-           int: Point Y coordinate
+            int: Y coordinate of the point
         """
-        return self.m_point.y
 
+    @abstractmethod
     def Raw(self) -> DataBytes:
         """
         Return the point encoded to raw bytes.
@@ -125,11 +95,8 @@ class Ed25519Point(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        x_bytes = IntegerUtils.ToBytes(self.m_point.x, Ed25519KeysConst.POINT_BYTE_LEN)
-        y_bytes = IntegerUtils.ToBytes(self.m_point.y, Ed25519KeysConst.POINT_BYTE_LEN)
 
-        return DataBytes(x_bytes + y_bytes)
-
+    @abstractmethod
     def __add__(self,
                 point: IPoint) -> IPoint:
         """
@@ -141,8 +108,8 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519Point(self.m_point + point.UnderlyingObject())
 
+    @abstractmethod
     def __radd__(self,
                  point: IPoint) -> IPoint:
         """
@@ -154,8 +121,8 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return self + point
 
+    @abstractmethod
     def __mul__(self,
                 scalar: int) -> IPoint:
         """
@@ -167,8 +134,8 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519Point(self.m_point * scalar)
 
+    @abstractmethod
     def __rmul__(self,
                  scalar: int) -> IPoint:
         """
@@ -180,4 +147,3 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return self * scalar

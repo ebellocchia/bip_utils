@@ -18,136 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with interfaces for point and public/private keys classes."""
+"""Module with interfaces for public/private keys classes."""
 
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.utils.misc import DataBytes
-
-
-class IPoint(ABC):
-    """Interface for a generic elliptic curve point."""
-
-    @classmethod
-    @abstractmethod
-    def FromBytes(cls,
-                  point_bytes: bytes) -> IPoint:
-        """
-        Construct class from point bytes.
-
-        Args:
-            point_bytes (bytes): Point bytes
-
-        Returns:
-            IPoint: IPoint object
-        """
-
-    @classmethod
-    @abstractmethod
-    def FromCoordinates(cls,
-                        x: int,
-                        y: int) -> IPoint:
-        """
-        Construct class from point coordinates.
-
-        Args:
-            x (int): X coordinate of the point
-            y (int): Y coordinate of the point
-
-        Returns:
-            IPoint: IPoint object
-        """
-
-    @abstractmethod
-    def UnderlyingObject(self) -> Any:
-        """
-        Get the underlying object.
-
-        Returns:
-           Any: Underlying object
-        """
-
-    @abstractmethod
-    def X(self) -> int:
-        """
-        Return X coordinate of the point.
-
-        Returns:
-            int: X coordinate of the point
-        """
-
-    @abstractmethod
-    def Y(self) -> int:
-        """
-        Return Y coordinate of the point.
-
-        Returns:
-            int: Y coordinate of the point
-        """
-
-    @abstractmethod
-    def Raw(self) -> DataBytes:
-        """
-        Return the point encoded to raw bytes.
-
-        Returns:
-            DataBytes object: DataBytes object
-        """
-
-    @abstractmethod
-    def __add__(self,
-                point: IPoint) -> IPoint:
-        """
-        Add point to another point.
-
-        Args:
-            point (IPoint object): IPoint object
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-    @abstractmethod
-    def __radd__(self,
-                 point: IPoint) -> IPoint:
-        """
-        Add point to another point.
-
-        Args:
-            point (IPoint object): IPoint object
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-    @abstractmethod
-    def __mul__(self,
-                scalar: int) -> IPoint:
-        """
-        Multiply point by a scalar.
-
-        Args:
-            scalar (int): scalar
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-    @abstractmethod
-    def __rmul__(self,
-                 scalar: int) -> IPoint:
-        """
-        Multiply point by a scalar.
-
-        Args:
-            scalar (int): scalar
-
-        Returns:
-            IPoint object: IPoint object
-        """
 
 
 class IPublicKey(ABC):

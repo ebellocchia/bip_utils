@@ -22,7 +22,8 @@
 
 # Imports
 from typing import Type
-from bip_utils.ecc.common.ikeys import IPoint, IPublicKey, IPrivateKey
+from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+from bip_utils.ecc.common.ipoint import IPoint
 
 
 class EllipticCurve:

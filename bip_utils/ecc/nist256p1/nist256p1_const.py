@@ -22,7 +22,7 @@
 
 # Imports
 from ecdsa.ecdsa import generator_256
-from bip_utils.ecc.common.ikeys import IPoint
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.nist256p1.nist256p1_point import Nist256p1Point
 
 

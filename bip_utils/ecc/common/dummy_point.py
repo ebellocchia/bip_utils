@@ -22,7 +22,7 @@
 
 # Imports
 from typing import Any
-from bip_utils.ecc.common.ikeys import IPoint
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.utils.misc import DataBytes
 
 

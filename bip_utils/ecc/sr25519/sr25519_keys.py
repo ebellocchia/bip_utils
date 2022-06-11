@@ -23,8 +23,9 @@
 # Imports
 from typing import Any
 import sr25519
+from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.common.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.utils.misc import DataBytes
 
 

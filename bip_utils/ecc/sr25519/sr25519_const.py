@@ -21,7 +21,7 @@
 """Module with sr25519 constants."""
 
 # Imports
-from bip_utils.ecc.common.ikeys import IPoint
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.sr25519.sr25519_point import Sr25519Point
 
 

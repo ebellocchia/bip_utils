@@ -22,7 +22,7 @@
 
 # Imports
 from typing import Any, Tuple
-from bip_utils.ecc.common.ikeys import IPoint
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.ed25519_monero.lib import ed25519_monero_lib
 from bip_utils.utils.misc import DataBytes
 

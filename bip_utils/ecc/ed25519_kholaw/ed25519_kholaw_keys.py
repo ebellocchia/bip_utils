@@ -28,10 +28,10 @@ little endian integer and multiplied by the ed25519 curve generator point.
 
 # Imports
 from typing import Any
+from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_const import Ed25519Const
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PublicKey, Ed25519PrivateKey
-from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
 

@@ -23,8 +23,8 @@
 # Imports
 from typing import Any
 import coincurve
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
-from bip_utils.ecc.common.ikeys import IPoint
 from bip_utils.utils.misc import DataBytes, IntegerUtils
 
 
