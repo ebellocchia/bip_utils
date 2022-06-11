@@ -18,12 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with BIP32 base class for ECDSA curves."""
+"""
+Module with BIP32 base class for ECDSA curves.
+
+References:
+    https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
+    https://github.com/satoshilabs/slips/blob/master/slip-0010.md
+"""
 
 # Imports
 from abc import ABC
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.ecc import EllipticCurveGetter
@@ -83,19 +88,19 @@ class Bip32EcdsaBase(Bip32Base, ABC):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        assert isinstance(bip32_obj.m_priv_key, Bip32PrivateKey)
+        assert bip32_obj.m_priv_key is not None
 
         # Get elliptic curve
         curve = EllipticCurveGetter.FromType(bip32_obj.CurveType())
 
         # Data for HMAC
         if index.IsHardened():
-            data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + bytes(index)
+            data_bytes = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + bytes(index)
         else:
-            data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
+            data_bytes = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
 
         # Compute HMAC halves
-        i_l, i_r = Bip32BaseUtils.HmacHalves(bip32_obj.ChainCode(), data)
+        i_l, i_r = Bip32BaseUtils.HmacSha512Halves(bip32_obj.ChainCode().ToBytes(), data_bytes)
 
         # Construct new key secret from i_l and current private key
         i_l_int = BytesUtils.ToInteger(i_l)
@@ -135,10 +140,10 @@ class Bip32EcdsaBase(Bip32Base, ABC):
         curve = EllipticCurveGetter.FromType(bip32_obj.CurveType())
 
         # Data for HMAC, same of __CkdPriv() for public child key
-        data = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
+        data_bytes = bip32_obj.m_pub_key.RawCompressed().ToBytes() + bytes(index)
 
         # Get HMAC of data
-        i_l, i_r = Bip32BaseUtils.HmacHalves(bip32_obj.ChainCode(), data)
+        i_l, i_r = Bip32BaseUtils.HmacSha512Halves(bip32_obj.ChainCode().ToBytes(), data_bytes)
 
         # Try to construct a new public key from the curve point: pub_key_point + G*i_l
         try:

@@ -40,6 +40,21 @@ class BitUtils:
         return (value & (1 << bit_num)) != 0
 
     @staticmethod
+    def AreBitsSet(value: int,
+                   bit_mask: int) -> bool:
+        """
+        Get if the specified bits are set.
+
+        Args:
+            value (int)   : Value
+            bit_mask (int): Bit mask to check
+
+        Returns:
+            bool: True if bit is set, false otherwise
+        """
+        return (value & bit_mask) != 0
+
+    @staticmethod
     def SetBit(value: int,
                bit_num: int) -> int:
         """
@@ -52,8 +67,22 @@ class BitUtils:
         Returns:
             int: Value with the specified bit set
         """
-        value = value | (1 << bit_num)
-        return value
+        return value | (1 << bit_num)
+
+    @staticmethod
+    def SetBits(value: int,
+                bit_mask: int) -> int:
+        """
+        Set the specified bits.
+
+        Args:
+            value (int)   : Value
+            bit_mask (int): Bit mask to set
+
+        Returns:
+            int: Value with the specified bit set
+        """
+        return value | bit_mask
 
     @staticmethod
     def ResetBit(value: int,
@@ -68,5 +97,19 @@ class BitUtils:
         Returns:
             int: Value with the specified bit reset
         """
-        value = value & ~(1 << bit_num)
-        return value
+        return value & ~(1 << bit_num)
+
+    @staticmethod
+    def ResetBits(value: int,
+                  bit_mask: int) -> int:
+        """
+        Reset the specified bits.
+
+        Args:
+            value (int)   : Value
+            bit_mask (int): Bit mask to reset
+
+        Returns:
+            int: Value with the specified bit reset
+        """
+        return value & ~bit_mask

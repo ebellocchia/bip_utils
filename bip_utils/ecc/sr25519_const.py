@@ -18,17 +18,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with secp256k1 curve."""
+"""Module with sr25519 constants."""
 
 # Imports
-from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.secp256k1_const import Secp256k1Const, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+from bip_utils.ecc.ikeys import IPoint
+from bip_utils.ecc.sr25519_point import Sr25519Point
 
 
-# Secp256k1 curve definition
-Secp256k1: EllipticCurve = EllipticCurve(Secp256k1Const.NAME,
-                                         Secp256k1Const.CURVE_ORDER,
-                                         Secp256k1Const.GENERATOR,
-                                         Secp256k1Point,
-                                         Secp256k1PublicKey,
-                                         Secp256k1PrivateKey)
+class Sr25519Const:
+    """Class container for Sr25519 constants."""
+
+    # Curve name
+    NAME: str = "Sr25519"
+    # Curve order (not needed)
+    CURVE_ORDER: int = 0
+    # Curve generator point (not needed)
+    GENERATOR: IPoint = Sr25519Point.FromCoordinates(0, 0)

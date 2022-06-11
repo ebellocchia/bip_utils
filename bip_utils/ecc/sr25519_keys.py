@@ -18,12 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for sr25519 keys handling."""
+"""Module for sr25519 keys."""
 
 # Imports
 from typing import Any
 import sr25519
-from bip_utils.ecc.dummy_point import DummyPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.utils.misc import DataBytes
@@ -38,10 +37,6 @@ class Sr25519KeysConst:
     PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 32
     # Private key length in bytes
     PRIV_KEY_BYTE_LEN: int = 64
-
-
-class Sr25519Point(DummyPoint):
-    """Sr25519 point class. Dummy class since not needed."""
 
 
 class Sr25519PublicKey(IPublicKey):

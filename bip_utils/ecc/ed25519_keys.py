@@ -18,15 +18,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519 keys handling."""
+"""Module for ed25519 keys."""
 
 # Imports
 from typing import Any
+from ecpy.curves import Curve
 from nacl import exceptions, signing
-from bip_utils.ecc.dummy_point import DummyPoint
+from bip_utils.ecc.ed25519_point import Ed25519Point
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.ecc.lib import ed25519_helper
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
@@ -41,10 +41,6 @@ class Ed25519KeysConst:
     PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 33
     # Private key length in bytes
     PRIV_KEY_BYTE_LEN: int = 32
-
-
-class Ed25519Point(DummyPoint):
-    """Ed25519 point class. Dummy class since not needed."""
 
 
 class Ed25519PublicKey(IPublicKey):
@@ -72,8 +68,10 @@ class Ed25519PublicKey(IPublicKey):
             key_bytes = key_bytes[1:]
 
         # nacl doesn't check if the point lies on curve
-        if not ed25519_helper.is_on_curve(key_bytes):
-            raise ValueError("Invalid public key bytes")
+        try:
+            Curve.get_curve("Ed25519").decode_point(key_bytes)
+        except AssertionError as ex:
+            raise ValueError("Invalid public key bytes") from ex
 
         try:
             return cls(signing.VerifyKey(key_bytes))
@@ -95,6 +93,8 @@ class Ed25519PublicKey(IPublicKey):
         Raises:
             ValueError: If key point is not valid
         """
+        cv = Curve.get_curve("Ed25519")
+        return cls.FromBytes(cv.encode_point(key_point.UnderlyingObject()))
 
     def __init__(self,
                  key_obj: Any) -> None:
@@ -178,6 +178,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
+        return Ed25519Point.FromBytes(bytes(self.m_ver_key))
 
 
 class Ed25519PrivateKey(IPrivateKey):

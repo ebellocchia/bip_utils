@@ -18,17 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with secp256k1 curve."""
+"""Module with ed25519-kholaw curve."""
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.secp256k1_const import Secp256k1Const, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+from bip_utils.ecc.ed25519_kholaw_const import Ed25519KholawConst
+from bip_utils.ecc.ed25519_kholaw_keys import Ed25519KholawPublicKey, Ed25519KholawPrivateKey
+from bip_utils.ecc.ed25519_kholaw_point import Ed25519KholawPoint
 
-
-# Secp256k1 curve definition
-Secp256k1: EllipticCurve = EllipticCurve(Secp256k1Const.NAME,
-                                         Secp256k1Const.CURVE_ORDER,
-                                         Secp256k1Const.GENERATOR,
-                                         Secp256k1Point,
-                                         Secp256k1PublicKey,
-                                         Secp256k1PrivateKey)
+# Ed25519-Kholaw curve definition
+Ed25519Kholaw: EllipticCurve = EllipticCurve(Ed25519KholawConst.NAME,
+                                             Ed25519KholawConst.CURVE_ORDER,
+                                             Ed25519KholawConst.GENERATOR,
+                                             Ed25519KholawPoint,
+                                             Ed25519KholawPublicKey,
+                                             Ed25519KholawPrivateKey)

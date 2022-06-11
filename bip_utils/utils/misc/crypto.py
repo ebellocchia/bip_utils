@@ -144,6 +144,21 @@ class CryptoUtils:
         return hmac.new(AlgoUtils.Encode(key), AlgoUtils.Encode(data), hashlib.sha512).digest()
 
     @staticmethod
+    def HmacSha256(key: Union[bytes, str],
+                   data: Union[bytes, str]) -> bytes:
+        """
+        Compute the HMAC-SHA256 of the specified bytes with the specified key.
+
+        Args:
+            key (str or bytes) : Key
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed HMAC-SHA256
+        """
+        return hmac.new(AlgoUtils.Encode(key), AlgoUtils.Encode(data), hashlib.sha256).digest()
+
+    @staticmethod
     def Pbkdf2HmacSha512(password: Union[bytes, str],
                          salt: Union[bytes, str],
                          itr_num: int) -> bytes:

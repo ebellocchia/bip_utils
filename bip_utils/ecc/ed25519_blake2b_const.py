@@ -18,17 +18,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with secp256k1 curve."""
+"""Module for ed25519-blake2b constants."""
 
 # Imports
-from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.secp256k1_const import Secp256k1Const, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey
+from bip_utils.ecc.ed25519 import Ed25519Const
+from bip_utils.ecc.ikeys import IPoint
 
 
-# Secp256k1 curve definition
-Secp256k1: EllipticCurve = EllipticCurve(Secp256k1Const.NAME,
-                                         Secp256k1Const.CURVE_ORDER,
-                                         Secp256k1Const.GENERATOR,
-                                         Secp256k1Point,
-                                         Secp256k1PublicKey,
-                                         Secp256k1PrivateKey)
+class Ed25519Blake2bConst:
+    """Class container for Ed25519-Blake2b constants."""
+
+    # Curve name
+    NAME: str = "Ed25519-Blake2b"
+    # Curve order
+    CURVE_ORDER: int = Ed25519Const.CURVE_ORDER
+    # Curve generator point
+    GENERATOR: IPoint = Ed25519Const.GENERATOR

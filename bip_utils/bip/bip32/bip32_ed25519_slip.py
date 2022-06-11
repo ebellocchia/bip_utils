@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for BIP32 keys derivation based on ed25519 curve."""
+"""
+Module for BIP32 keys derivation based on ed25519 curve.
+Reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
+"""
 
 # Imports
 from bip_utils.bip.bip32.bip32_base import Bip32Base

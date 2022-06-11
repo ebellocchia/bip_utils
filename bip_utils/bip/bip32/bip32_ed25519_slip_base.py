@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with BIP32 base class for ed25519 curves based on SLIP-0010."""
+"""
+Module with BIP32 base class for ed25519 curves based on SLIP-0010.
+Reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
+"""
 
 # Imports
 from abc import ABC
@@ -94,7 +97,7 @@ class Bip32Ed25519SlipBase(Bip32Base, ABC):
         data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + bytes(index)
 
         # Compute HMAC halves
-        i_l, i_r = Bip32BaseUtils.HmacHalves(bip32_obj.ChainCode(), data)
+        i_l, i_r = Bip32BaseUtils.HmacSha512Halves(bip32_obj.ChainCode().ToBytes(), data)
 
         # Construct and return a new Bip32 object
         return cls(priv_key=i_l,

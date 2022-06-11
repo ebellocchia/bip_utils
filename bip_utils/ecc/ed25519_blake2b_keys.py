@@ -18,15 +18,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519-blake2b keys handling."""
+"""Module for ed25519-blake2b keys."""
 
 # Imports
 from typing import Any
 import ed25519_blake2b
+from ecpy.curves import Curve
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519_keys import Ed25519KeysConst
+from bip_utils.ecc.ed25519_blake2b_point import Ed25519Blake2bPoint
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
-from bip_utils.ecc.lib import ed25519_helper
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
@@ -60,8 +61,10 @@ class Ed25519Blake2bPublicKey(IPublicKey):
             raise ValueError("Invalid public key bytes")
 
         # The library doesn't check if the point lies on curve
-        if not ed25519_helper.is_on_curve(key_bytes):
-            raise ValueError("Invalid public key bytes")
+        try:
+            Curve.get_curve("Ed25519").decode_point(key_bytes)
+        except AssertionError as ex:
+            raise ValueError("Invalid public key bytes") from ex
 
         return cls(ed25519_blake2b.VerifyingKey(key_bytes))
 
@@ -80,6 +83,8 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Raises:
             ValueError: If key point is not valid
         """
+        cv = Curve.get_curve("Ed25519")
+        return cls.FromBytes(cv.encode_point(key_point.UnderlyingObject()))
 
     def __init__(self,
                  key_obj: Any) -> None:
@@ -162,6 +167,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
+        return Ed25519Blake2bPoint.FromBytes(self.m_ver_key.to_bytes())
 
 
 class Ed25519Blake2bPrivateKey(IPrivateKey):

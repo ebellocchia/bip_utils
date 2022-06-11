@@ -18,10 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519-monero keys handling."""
+"""Module for ed25519-monero keys."""
 
 # Imports
-from typing import Any, Tuple
+from typing import Any
+from bip_utils.ecc.ed25519_monero_point import Ed25519MoneroPoint
 from bip_utils.ecc.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ikeys import IPoint, IPublicKey, IPrivateKey
 from bip_utils.ecc.lib import ed25519_monero
@@ -37,154 +38,6 @@ class Ed25519MoneroKeysConst:
     PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 32
     # Private key length in bytes
     PRIV_KEY_BYTE_LEN: int = 32
-
-
-class Ed25519MoneroPoint(IPoint):
-    """Ed25519-Monero point class."""
-
-    m_point: Tuple[int, ...]
-
-    @classmethod
-    def FromBytes(cls,
-                  point_bytes: bytes) -> IPoint:
-        """
-        Construct class from point bytes.
-
-        Args:
-            point_bytes (bytes): Point bytes
-
-        Returns:
-            IPoint: IPoint object
-        """
-        return cls(ed25519_monero.decodepoint(point_bytes))
-
-    @classmethod
-    def FromCoordinates(cls,
-                        x: int,
-                        y: int) -> IPoint:
-        """
-        Construct class from point coordinates.
-
-        Args:
-            x (int): X coordinate of the point
-            y (int): Y coordinate of the point
-
-        Returns:
-            IPoint: IPoint object
-        """
-        return cls(ed25519_monero.decodepointxy(x, y))
-
-    def __init__(self,
-                 point_obj: Any) -> None:
-        """
-        Construct class from point object.
-
-        Args:
-            point_obj (class): Point object
-
-        Raises:
-            TypeError: If point object is not of the correct type
-        """
-        if (not isinstance(point_obj, tuple)
-                or len(point_obj) != 4
-                or not isinstance(point_obj[0], int)
-                or not isinstance(point_obj[1], int)
-                or not isinstance(point_obj[2], int)
-                or not isinstance(point_obj[3], int)):
-            raise TypeError("Invalid point object type")
-        self.m_point = point_obj
-
-    def UnderlyingObject(self) -> Any:
-        """
-        Get the underlying object.
-
-        Returns:
-           Any: Underlying object
-        """
-        return self.m_point
-
-    def X(self) -> int:
-        """
-        Get point X coordinate.
-
-        Returns:
-           int: Point X coordinate
-        """
-        return self.m_point[0]
-
-    def Y(self) -> int:
-        """
-        Get point Y coordinate.
-
-        Returns:
-           int: Point Y coordinate
-        """
-        return self.m_point[1]
-
-    def Raw(self) -> DataBytes:
-        """
-        Return the point encoded to raw bytes.
-
-        Returns:
-            DataBytes object: DataBytes object
-        """
-        return DataBytes(ed25519_monero.encodepoint(self.m_point))
-
-    def __add__(self,
-                point: IPoint) -> IPoint:
-        """
-        Add point to another point.
-
-        Args:
-            point (IPoint object): IPoint object
-
-        Returns:
-            IPoint object: IPoint object
-        """
-        return Ed25519MoneroPoint(ed25519_monero.edwards_add(self.m_point, point.UnderlyingObject()))
-
-    def __radd__(self,
-                 point: IPoint) -> IPoint:
-        """
-        Add point to another point.
-
-        Args:
-            point (IPoint object): IPoint object
-
-        Returns:
-            IPoint object: IPoint object
-        """
-        return self + point
-
-    def __mul__(self,
-                scalar: int) -> IPoint:
-        """
-        Multiply point by a scalar.
-
-        Args:
-            scalar (int): scalar
-
-        Returns:
-            IPoint object: IPoint object
-        """
-
-        # Use scalarmult_B for generator point, which is more efficient
-        if ed25519_monero.is_generator_point(self.m_point):
-            return Ed25519MoneroPoint(ed25519_monero.scalarmult_B(scalar))
-        return Ed25519MoneroPoint(ed25519_monero.scalarmult(self.m_point, scalar))
-
-    def __rmul__(self,
-                 scalar: int) -> IPoint:
-        """
-        Multiply point by a scalar.
-
-        Args:
-            scalar (int): scalar
-
-        Returns:
-            IPoint object: IPoint object
-        """
-        return self * scalar
 
 
 class Ed25519MoneroPublicKey(IPublicKey):

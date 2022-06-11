@@ -70,7 +70,7 @@ from bip_utils.bip.bip32 import (
     Bip32Path, Bip32PathParser,
     Bip32PublicKey, Bip32PrivateKey,
     Bip32Utils,
-    Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
+    Bip32Ed25519Blake2bSlip, Bip32Ed25519Kholaw, Bip32Ed25519Slip, Bip32Nist256p1, Bip32Secp256k1
 )
 # BIP44/49/84
 from bip_utils.bip.bip44_base import (
@@ -91,7 +91,8 @@ from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import (
     EllipticCurveGetter, EllipticCurveTypes,
     Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
-    Ed25519Blake2b, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
+    Ed25519Kholaw, Ed25519KholawPoint, Ed25519KholawPublicKey, Ed25519KholawPrivateKey,
+    Ed25519Blake2b, Ed25519Blake2bPoint, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
     Ed25519Monero, Ed25519MoneroPoint, Ed25519MoneroPublicKey, Ed25519MoneroPrivateKey,
     Nist256p1, Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey,
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,

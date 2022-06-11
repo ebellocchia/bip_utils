@@ -18,23 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with sr25519 curve definition."""
+"""Module with sr25519 curve."""
 
 # Imports
 from bip_utils.ecc.elliptic_curve import EllipticCurve
-from bip_utils.ecc.ikeys import IPoint
-from bip_utils.ecc.sr25519_keys import Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
-
-
-class Sr25519Const:
-    """Class container for Sr25519 constants."""
-
-    # Curve name
-    NAME: str = "Sr25519"
-    # Curve order (not needed)
-    CURVE_ORDER: int = 0
-    # Curve generator point (not needed)
-    GENERATOR: IPoint = Sr25519Point.FromCoordinates(0, 0)
+from bip_utils.ecc.sr25519_const import Sr25519Const
+from bip_utils.ecc.sr25519_keys import Sr25519PublicKey, Sr25519PrivateKey
+from bip_utils.ecc.sr25519_point import Sr25519Point
 
 
 # Sr25519 curve definition

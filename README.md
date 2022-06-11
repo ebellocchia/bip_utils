@@ -12,10 +12,13 @@
 This package allows generating mnemonics, seeds, private/public keys and addresses for different types of cryptocurrencies. In particular:
 - Mnemonic and seed generation as defined by [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
 - Private key encryption/decryption as defined by [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki)
-- Keys derivation as defined by [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) and [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md)
+- Keys derivation as defined by:
+  - [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
+  - [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md)
+  - [BIP32-Ed25519](https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20Final.pdf)
 - Derivation of a hierarchy of keys as defined by:
   - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
-  - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki)
+  - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) (Bitcoin Segwit)
   - [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki) (Bitcoin Native Segwit)
   - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki) (Bitcoin Taproot)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
@@ -40,6 +43,7 @@ Package dependencies:
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for cryptographic functions
 - [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
 - [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves
+- [ecpy](https://pypi.org/project/ecpy/) is only used for ed25519 curve point arithmetics (required by [BIP32-Ed25519](https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20Final.pdf)). For the rest, [pynacl](https://pypi.org/project/PyNaCl/) is used.
 - [ed25519-blake2b](https://pypi.org/project/ed25519-blake2b/) for ed25519-blake2b curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve
@@ -621,6 +625,7 @@ Since this library is wrapped inside the BIP-0044, BIP-0049 and BIP-0084 librari
 The library currently supports the following elliptic curves for key derivation, each one is implemented by a specific class:
 - Ed25519 (based on SLIP-0010): *Bip32Ed25519Slip* class
 - Ed25519-Blake2b (based on SLIP-0010): *Bip32Ed25519Blake2bSlip* class
+- BIP32-Ed25519 (Khovratovich/Law): *Bip32Ed25519Kholaw* class
 - Nist256p1 (based on SLIP-0010): *Bip32Nist256p1* class
 - Secp256k1: *Bip32Secp256k1* class
 
