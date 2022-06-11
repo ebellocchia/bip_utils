@@ -15,7 +15,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
 - Keys derivation as defined by:
   - [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
   - [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md)
-  - [BIP32-Ed25519](https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20Final.pdf)
+  - [BIP32-Ed25519 (Khovratovich/Law)](https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20Final.pdf)
 - Derivation of a hierarchy of keys as defined by:
   - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
   - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) (Bitcoin Segwit)
