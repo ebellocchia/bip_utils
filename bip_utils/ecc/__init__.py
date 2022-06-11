@@ -1,5 +1,6 @@
 # Common
-from bip_utils.ecc.common.ikeys import IPoint, IPublicKey, IPrivateKey
+from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+from bip_utils.ecc.common.ipoint import IPoint
 # Curve
 from bip_utils.ecc.curve.elliptic_curve import EllipticCurve
 from bip_utils.ecc.curve.elliptic_curve_getter import EllipticCurveGetter
