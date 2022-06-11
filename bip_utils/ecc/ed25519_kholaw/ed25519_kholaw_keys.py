@@ -18,7 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519-kholaw keys."""
+"""
+Module for ed25519-kholaw keys.
+With respect to ed25519, the private key has a length of 64-byte (32-byte of the ed25519 private key and a 32-byte
+additional part).
+For computing the public key, the ed25519 private key (32-byte leftmost part) shall be considered a 32-byte
+little endian integer and multiplied by the ed25519 curve generator point.
+"""
 
 # Imports
 from typing import Any
