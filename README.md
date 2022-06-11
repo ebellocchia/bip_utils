@@ -18,7 +18,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
   - [BIP32-Ed25519](https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20Final.pdf)
 - Derivation of a hierarchy of keys as defined by:
   - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
-  - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki)
+  - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) (Bitcoin Segwit)
   - [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki) (Bitcoin Native Segwit)
   - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki) (Bitcoin Taproot)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
