@@ -126,7 +126,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
 
         kl_bytes = bytearray(kl_bytes)
         # Clear the lowest 3 bits of the first byte of kL
-        kl_bytes[0] = BitUtils.ResetBits(kl_bytes[0], 0x03)
+        kl_bytes[0] = BitUtils.ResetBits(kl_bytes[0], 0x07)
         # Clear the highest bit of the last byte of kL
         kl_bytes[31] = BitUtils.ResetBits(kl_bytes[31], 0x80)
         # Set the second highest bit of the last byte of kL
