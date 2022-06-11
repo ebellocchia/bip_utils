@@ -24,6 +24,7 @@ Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20
 """
 
 # Imports
+from typing import Tuple
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst
@@ -117,26 +118,18 @@ class Bip32Ed25519Kholaw(Bip32Base):
         """
         curve_type = cls.CurveType()
         curve = EllipticCurveGetter.FromType(curve_type)
-        hmac_key = cls._MasterKeyHmacKey()
 
-        # Continue until the third highest bit of the last byte ok kL is not zero
-        kl_bytes, kr_bytes = Bip32BaseUtils.HmacSha512Halves(hmac_key, seed_bytes)
-        while BitUtils.AreBitsSet(kl_bytes[31], 0x20):
-            kl_bytes, kr_bytes = Bip32BaseUtils.HmacSha512Halves(hmac_key, kl_bytes + kr_bytes)
+        # Compute kL and kR
+        kl_bytes, kr_bytes = cls._HashRepeatedly(seed_bytes)
 
-        kl_bytes = bytearray(kl_bytes)
-        # Clear the lowest 3 bits of the first byte of kL
-        kl_bytes[0] = BitUtils.ResetBits(kl_bytes[0], 0x07)
-        # Clear the highest bit of the last byte of kL
-        kl_bytes[31] = BitUtils.ResetBits(kl_bytes[31], 0x80)
-        # Set the second highest bit of the last byte of kL
-        kl_bytes[31] = BitUtils.SetBits(kl_bytes[31], 0x40)
+        # Tweak key bytes
+        kl_bytes = cls.__TweakMasterKeyBits(kl_bytes)
 
         # Compute public key
         kl_int = BytesUtils.ToInteger(kl_bytes, endianness="little")
         pub_key = Ed25519KholawPublicKey.FromPoint(kl_int * curve.Generator())
         # Compute chain code
-        chain_code_bytes = CryptoUtils.HmacSha256(hmac_key, b"\x01" + seed_bytes)
+        chain_code_bytes = CryptoUtils.HmacSha256(cls._MasterKeyHmacKey(), b"\x01" + seed_bytes)
 
         return cls(priv_key=bytes(kl_bytes) + kr_bytes,
                    pub_key=pub_key,
@@ -263,3 +256,45 @@ class Bip32Ed25519Kholaw(Bip32Base):
             fprint=self.m_pub_key.FingerPrint(),
             key_net_ver=self.KeyNetVersions()
         )
+
+    @classmethod
+    def _HashRepeatedly(cls,
+                        data_bytes: bytes) -> Tuple[bytes, bytes]:
+        """
+        Continue to hash the data bytes until the third highest bit of the last byte is not zero.
+
+        Args:
+            data_bytes (bytes): Data bytes
+
+        Returns:
+            tuple[bytes, bytes]: Two halves of the computed hash
+        """
+        kl_bytes, kr_bytes = Bip32BaseUtils.HmacSha512Halves(cls._MasterKeyHmacKey(), data_bytes)
+        if BitUtils.AreBitsSet(kl_bytes[31], 0x20):
+            return cls._HashRepeatedly(kl_bytes + kr_bytes)
+        return kl_bytes, kr_bytes
+
+    #
+    # Private methods
+    #
+
+    @staticmethod
+    def __TweakMasterKeyBits(key_bytes: bytes) -> bytes:
+        """
+        Tweak master key bits.
+
+        Args:
+            key_bytes (bytes): Key bytes
+
+        Returns:
+            bytes: Tweaked key bytes
+        """
+        key_bytes = bytearray(key_bytes)
+        # Clear the lowest 3 bits of the first byte of kL
+        key_bytes[0] = BitUtils.ResetBits(key_bytes[0], 0x07)
+        # Clear the highest bit of the last byte of kL
+        key_bytes[31] = BitUtils.ResetBits(key_bytes[31], 0x80)
+        # Set the second highest bit of the last byte of kL
+        key_bytes[31] = BitUtils.SetBits(key_bytes[31], 0x40)
+
+        return bytes(key_bytes)
