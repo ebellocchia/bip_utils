@@ -91,7 +91,7 @@ class Bip32KeyDeserializer:
         # Check length
         if self.m_is_public and len(ex_key_bytes) != Bip32KeyDeserConst.EXTENDED_PUB_KEY_BYTE_LEN:
             raise Bip32KeyError(f"Invalid extended public key (wrong length: {len(ex_key_bytes)})")
-        elif not self.m_is_public and len(ex_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
+        if not self.m_is_public and len(ex_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
             raise Bip32KeyError(f"Invalid extended private key (wrong length: {len(ex_key_bytes)})")
 
         # De-serialize key

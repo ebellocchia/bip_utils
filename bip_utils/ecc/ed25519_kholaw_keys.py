@@ -58,8 +58,8 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-        if (len(key_bytes) != Ed25519KholawKeysConst.PRIV_KEY_BYTE_LEN or
-                not Ed25519PrivateKey.IsValidBytes(key_bytes[:Ed25519PrivateKey.Length()])):
+        if (len(key_bytes) != Ed25519KholawKeysConst.PRIV_KEY_BYTE_LEN
+                or not Ed25519PrivateKey.IsValidBytes(key_bytes[:Ed25519PrivateKey.Length()])):
             raise ValueError("Invalid private key bytes")
         return cls(key_bytes)
 
