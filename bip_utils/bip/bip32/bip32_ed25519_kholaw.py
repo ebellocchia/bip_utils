@@ -116,25 +116,21 @@ class Bip32Ed25519Kholaw(Bip32Base):
             ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        curve_type = cls.CurveType()
-        curve = EllipticCurveGetter.FromType(curve_type)
 
         # Compute kL and kR
         kl_bytes, kr_bytes = cls._HashRepeatedly(seed_bytes)
+        # Tweak kL bytes
+        kl_bytes = cls._TweakMasterKeyBits(kl_bytes)
 
-        # Tweak key bytes
-        kl_bytes = cls.__TweakMasterKeyBits(kl_bytes)
-
-        # Compute public key
-        kl_int = BytesUtils.ToInteger(kl_bytes, endianness="little")
-        pub_key = Ed25519KholawPublicKey.FromPoint(kl_int * curve.Generator())
         # Compute chain code
         chain_code_bytes = CryptoUtils.HmacSha256(cls._MasterKeyHmacKey(), b"\x01" + seed_bytes)
+        # Compute keys
+        priv_key = Ed25519KholawPrivateKey.FromBytes(kl_bytes + kr_bytes)
 
-        return cls(priv_key=bytes(kl_bytes) + kr_bytes,
-                   pub_key=pub_key,
+        return cls(priv_key=priv_key,
+                   pub_key=None,
                    chain_code=Bip32ChainCode(chain_code_bytes),
-                   curve_type=curve_type,
+                   curve_type=cls.CurveType(),
                    key_net_ver=key_net_ver)
 
     def _CkdPriv(self,
@@ -190,14 +186,15 @@ class Bip32Ed25519Kholaw(Bip32Base):
             raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
         # Compute kR
         kr_int = (zr_int + BytesUtils.ToInteger(self.m_priv_key.Raw().ToBytes()[32:], endianness="little")) % 2**256
-
-        # Compute public key
-        pub_key = Ed25519KholawPublicKey.FromPoint(kl_int * curve.Generator())
+        # Compute private key
+        priv_key = Ed25519KholawPrivateKey.FromBytes(
+            IntegerUtils.ToBytes(kl_int, Ed25519KholawPrivateKey.Length() // 2, endianness="little")
+            + IntegerUtils.ToBytes(kr_int, Ed25519KholawPrivateKey.Length() // 2, endianness="little")
+        )
 
         return Bip32Ed25519Kholaw(
-            priv_key=(IntegerUtils.ToBytes(kl_int, Ed25519KholawPrivateKey.Length() // 2, endianness="little")
-                      + IntegerUtils.ToBytes(kr_int, Ed25519KholawPrivateKey.Length() // 2, endianness="little")),
-            pub_key=pub_key,
+            priv_key=priv_key,
+            pub_key=None,
             chain_code=Bip32ChainCode(chain_code_bytes),
             curve_type=self.CurveType(),
             depth=self.Depth().Increase(),
@@ -274,12 +271,8 @@ class Bip32Ed25519Kholaw(Bip32Base):
             return cls._HashRepeatedly(kl_bytes + kr_bytes)
         return kl_bytes, kr_bytes
 
-    #
-    # Private methods
-    #
-
     @staticmethod
-    def __TweakMasterKeyBits(key_bytes: bytes) -> bytes:
+    def _TweakMasterKeyBits(key_bytes: bytes) -> bytes:
         """
         Tweak master key bits.
 
