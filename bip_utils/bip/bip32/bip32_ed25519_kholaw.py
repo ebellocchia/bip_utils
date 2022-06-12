@@ -124,7 +124,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
 
         # Compute chain code
         chain_code_bytes = CryptoUtils.HmacSha256(cls._MasterKeyHmacKey(), b"\x01" + seed_bytes)
-        # Compute keys
+        # Compute private key
         priv_key = Ed25519KholawPrivateKey.FromBytes(kl_bytes + kr_bytes)
 
         return cls(priv_key=priv_key,
