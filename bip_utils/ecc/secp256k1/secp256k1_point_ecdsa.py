@@ -53,8 +53,8 @@ class Secp256k1PointEcdsa(IPoint):
             raise ValueError("Invalid point key bytes") from ex
         # ECDSA < 0.17 doesn't have from_bytes method for PointJacobi
         except AttributeError:
-            return cls.FromCoordinates(BytesUtils.ToInteger(point_bytes[:EcdsaKeysConst.POINT_BYTE_LEN]),
-                                       BytesUtils.ToInteger(point_bytes[EcdsaKeysConst.POINT_BYTE_LEN:]))
+            return cls.FromCoordinates(BytesUtils.ToInteger(point_bytes[:EcdsaKeysConst.POINT_COORD_BYTE_LEN]),
+                                       BytesUtils.ToInteger(point_bytes[EcdsaKeysConst.POINT_COORD_BYTE_LEN:]))
 
     @classmethod
     def FromCoordinates(cls,
@@ -118,7 +118,34 @@ class Secp256k1PointEcdsa(IPoint):
 
     def Raw(self) -> DataBytes:
         """
-        Return the point encoded to raw bytes.
+        Return the point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        return self.RawDecoded()
+
+    def RawEncoded(self) -> DataBytes:
+        """
+        Return the encoded point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        try:
+            return DataBytes(self.m_point.to_bytes("compressed"))
+        # ECDSA < 0.17 doesn't have to_bytes method for PointJacobi
+        except AttributeError:
+            x_bytes = IntegerUtils.ToBytes(self.m_point.x(), EcdsaKeysConst.POINT_COORD_BYTE_LEN)
+            if self.m_point.y() & 1:
+                enc_bytes = b"\x03" + x_bytes
+            else:
+                enc_bytes = b"\x02" + x_bytes
+            return DataBytes(enc_bytes)
+
+    def RawDecoded(self) -> DataBytes:
+        """
+        Return the decoded point raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
@@ -127,8 +154,8 @@ class Secp256k1PointEcdsa(IPoint):
             return DataBytes(self.m_point.to_bytes())
         # ECDSA < 0.17 doesn't have to_bytes method for PointJacobi
         except AttributeError:
-            x_bytes = IntegerUtils.ToBytes(self.m_point.x(), EcdsaKeysConst.POINT_BYTE_LEN)
-            y_bytes = IntegerUtils.ToBytes(self.m_point.y(), EcdsaKeysConst.POINT_BYTE_LEN)
+            x_bytes = IntegerUtils.ToBytes(self.m_point.x(), EcdsaKeysConst.POINT_COORD_BYTE_LEN)
+            y_bytes = IntegerUtils.ToBytes(self.m_point.y(), EcdsaKeysConst.POINT_COORD_BYTE_LEN)
 
             return DataBytes(x_bytes + y_bytes)
 

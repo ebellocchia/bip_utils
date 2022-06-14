@@ -108,7 +108,23 @@ class DummyPoint(IPoint):
 
     def Raw(self) -> DataBytes:
         """
-        Return the point encoded to raw bytes.
+        Return the point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+
+    def RawEncoded(self) -> DataBytes:
+        """
+        Return the encoded point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+
+    def RawDecoded(self) -> DataBytes:
+        """
+        Return the decoded point raw bytes.
 
         Returns:
             DataBytes object: DataBytes object

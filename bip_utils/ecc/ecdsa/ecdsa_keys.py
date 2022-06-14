@@ -24,13 +24,13 @@
 class EcdsaKeysConst:
     """Class container for ECDSA keys constants."""
 
-    # Point length in bytes
-    POINT_BYTE_LEN: int = 32
-    # Compressed public key prefix
-    PUB_KEY_COMPRESSED_PREFIX: bytes = b"\x04"
+    # Point coordinate length in bytes
+    POINT_COORD_BYTE_LEN: int = 32
+    # Private key length in bytes
+    PRIV_KEY_BYTE_LEN: int = 32
+    # Uncompressed public key prefix
+    PUB_KEY_UNCOMPRESSED_PREFIX: bytes = b"\x04"
     # Compressed public key length in bytes
     PUB_KEY_COMPRESSED_BYTE_LEN: int = 33
     # Uncompressed public key length in bytes
     PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 65
-    # Private key length in bytes
-    PRIV_KEY_BYTE_LEN: int = 32

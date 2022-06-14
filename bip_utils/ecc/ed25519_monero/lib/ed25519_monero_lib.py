@@ -257,7 +257,13 @@ def is_valid_priv_key(k):
 # Added
 def is_valid_pub_key(k):
     # Check length and that point lies on curve
-    return len(k) == 32 and decodepoint(k)
+    if len(k) == 32:
+        try:
+            decodepoint(k)
+            return True
+        except ValueError:
+            return False
+    return False
 
 
 # Added

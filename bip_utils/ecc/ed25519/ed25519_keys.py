@@ -94,8 +94,9 @@ class Ed25519PublicKey(IPublicKey):
         Raises:
             ValueError: If key point is not valid
         """
-        cv = Curve.get_curve("Ed25519")
-        return cls.FromBytes(cv.encode_point(key_point.UnderlyingObject()))
+        return cls.FromBytes(
+            Curve.get_curve("Ed25519").encode_point(key_point.UnderlyingObject())
+        )
 
     def __init__(self,
                  key_obj: Any) -> None:

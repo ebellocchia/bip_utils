@@ -88,9 +88,11 @@ class MoneroSubaddress:
             return self.m_pub_skey, self.m_pub_vkey
 
         # Convert indexes to bytes
-        major_idx_bytes = IntegerUtils.ToBytes(major_idx, bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
+        major_idx_bytes = IntegerUtils.ToBytes(major_idx,
+                                               bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
                                                endianness="little")
-        minor_idx_bytes = IntegerUtils.ToBytes(minor_idx, bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
+        minor_idx_bytes = IntegerUtils.ToBytes(minor_idx,
+                                               bytes_num=MoneroSubaddressConst.SUBADDR_IDX_BYTE_LEN,
                                                endianness="little")
 
         # m = Kekkak256("SubAddr" + master_priv_vkey + major_idx + minor_idx)
@@ -108,8 +110,8 @@ class MoneroSubaddress:
         # C = master_priv_vkey * D
         subaddr_pub_vkey_point = subaddr_pub_skey_point * self.m_priv_vkey.Raw().ToInt("little")
 
-        return (MoneroPublicKey.FromBytes(subaddr_pub_skey_point.Raw().ToBytes()),
-                MoneroPublicKey.FromBytes(subaddr_pub_vkey_point.Raw().ToBytes()))
+        return (MoneroPublicKey.FromBytes(subaddr_pub_skey_point.RawEncoded().ToBytes()),
+                MoneroPublicKey.FromBytes(subaddr_pub_vkey_point.RawEncoded().ToBytes()))
 
     def ComputeAndEncodeKeys(self,
                              minor_idx: int,

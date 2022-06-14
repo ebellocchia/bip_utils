@@ -90,7 +90,25 @@ class IPoint(ABC):
     @abstractmethod
     def Raw(self) -> DataBytes:
         """
-        Return the point encoded to raw bytes.
+        Return the point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+
+    @abstractmethod
+    def RawEncoded(self) -> DataBytes:
+        """
+        Return the encoded point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+
+    @abstractmethod
+    def RawDecoded(self) -> DataBytes:
+        """
+        Return the decoded point raw bytes.
 
         Returns:
             DataBytes object: DataBytes object

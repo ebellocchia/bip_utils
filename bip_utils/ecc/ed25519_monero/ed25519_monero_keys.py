@@ -78,7 +78,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Raises:
             ValueError: If key point is not valid
         """
-        return cls(key_point.Raw().ToBytes())
+        return cls(key_point.RawEncoded().ToBytes())
 
     def __init__(self,
                  key_obj: Any) -> None:

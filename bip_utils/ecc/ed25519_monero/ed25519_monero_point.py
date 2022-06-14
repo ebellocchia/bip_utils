@@ -27,6 +27,13 @@ from bip_utils.ecc.ed25519_monero.lib import ed25519_monero_lib
 from bip_utils.utils.misc import DataBytes
 
 
+class Ed25519MoneroPointConst(IPoint):
+    """Class container for Ed25519-Monero point constants."""
+
+    # Point coordinate length in bytes
+    POINT_COORD_BYTE_LEN: int = 32
+
+
 class Ed25519MoneroPoint(IPoint):
     """Ed25519-Monero point class."""
 
@@ -44,7 +51,14 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        return cls(ed25519_monero_lib.decodepoint(point_bytes))
+        if len(point_bytes) == Ed25519MoneroPointConst.POINT_COORD_BYTE_LEN:
+            return cls(ed25519_monero_lib.decodepoint(point_bytes))
+        if len(point_bytes) == Ed25519MoneroPointConst.POINT_COORD_BYTE_LEN * 2:
+            return cls(ed25519_monero_lib.decodepointxy(
+                ed25519_monero_lib.decodeint(point_bytes[:Ed25519MoneroPointConst.POINT_COORD_BYTE_LEN]),
+                ed25519_monero_lib.decodeint(point_bytes[Ed25519MoneroPointConst.POINT_COORD_BYTE_LEN:]))
+            )
+        raise ValueError("Invalid point bytes")
 
     @classmethod
     def FromCoordinates(cls,
@@ -111,12 +125,32 @@ class Ed25519MoneroPoint(IPoint):
 
     def Raw(self) -> DataBytes:
         """
-        Return the point encoded to raw bytes.
+        Return the point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        return self.RawDecoded()
+
+    def RawEncoded(self) -> DataBytes:
+        """
+        Return the encoded point raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
         """
         return DataBytes(ed25519_monero_lib.encodepoint(self.m_point))
+
+    def RawDecoded(self) -> DataBytes:
+        """
+        Return the decoded point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        return DataBytes(
+            ed25519_monero_lib.encodeint(self.X()) + ed25519_monero_lib.encodeint(self.Y())
+        )
 
     def __add__(self,
                 point: IPoint) -> IPoint:

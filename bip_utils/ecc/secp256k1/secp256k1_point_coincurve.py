@@ -49,10 +49,11 @@ class Secp256k1PointCoincurve(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        if len(point_bytes) != EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN - 1:
-            raise ValueError("Invalid point bytes")
-
-        return cls(coincurve.PublicKey(EcdsaKeysConst.PUB_KEY_COMPRESSED_PREFIX + point_bytes))
+        if len(point_bytes) == EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN - 1:
+            return cls(coincurve.PublicKey(EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_PREFIX + point_bytes))
+        if len(point_bytes) == EcdsaKeysConst.PUB_KEY_COMPRESSED_BYTE_LEN:
+            return cls(coincurve.PublicKey(point_bytes))
+        raise ValueError("Invalid point bytes")
 
     @classmethod
     def FromCoordinates(cls,
@@ -117,7 +118,25 @@ class Secp256k1PointCoincurve(IPoint):
 
     def Raw(self) -> DataBytes:
         """
-        Return the point encoded to raw bytes.
+        Return the point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        return self.RawDecoded()
+
+    def RawEncoded(self) -> DataBytes:
+        """
+        Return the encoded point raw bytes.
+
+        Returns:
+            DataBytes object: DataBytes object
+        """
+        return DataBytes(self.m_pub_key.format(True))
+
+    def RawDecoded(self) -> DataBytes:
+        """
+        Return the decoded point raw bytes.
 
         Returns:
             DataBytes object: DataBytes object
