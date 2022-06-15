@@ -472,9 +472,12 @@ TEST_VECT_ADDR = [
 # Tests for public derivation
 TEST_VECT_PUBLIC_DER = {
     "coin": SubstrateCoins.POLKADOT,
-    "pub_key": "66933bd1f37070ef87bd1198af3dacceb095237f803f3d32b173e6b425ed7972",
-    "priv_key": "2ec306fc1c5bc2f0e3a2c7a6ec6014ca4a0823a7d7d42ad5e9d7f376a1c36c0d14a2ddb1ef1df4adba49f3a4d8c0f6205117907265f09a53ccf07a4e8616dfd8",
-    "address": "13KVd4f2a4S5pLp4gTTFezyXdPWx27vQ9vS6xBXJ9yWVd7xo",
+    "master": {
+        "path": "",
+        "pub_key": "66933bd1f37070ef87bd1198af3dacceb095237f803f3d32b173e6b425ed7972",
+        "priv_key": "2ec306fc1c5bc2f0e3a2c7a6ec6014ca4a0823a7d7d42ad5e9d7f376a1c36c0d14a2ddb1ef1df4adba49f3a4d8c0f6205117907265f09a53ccf07a4e8616dfd8",
+        "address": "13KVd4f2a4S5pLp4gTTFezyXdPWx27vQ9vS6xBXJ9yWVd7xo",
+    },
     "der_paths": [
         # /0
         {
@@ -520,27 +523,13 @@ class SubstrateTests(unittest.TestCase):
             coin_names = substrate_ctx.CoinConf().CoinNames()
             self.assertEqual(test["names"], (coin_names.Name(), coin_names.Abbreviation()))
 
-            # Test public-only
-            self.assertFalse(substrate_ctx.IsPublicOnly())
-
-            # Test key objects
-            self.assertTrue(isinstance(substrate_ctx.PublicKey(), SubstratePublicKey))
-            self.assertTrue(isinstance(substrate_ctx.PrivateKey(), SubstratePrivateKey))
-            self.assertTrue(isinstance(substrate_ctx.Path(), SubstratePath))
-            # Test path
-            self.assertEqual(test["master"]["path"], substrate_ctx.Path().ToStr())
-            # Test public key
-            self.assertEqual(test["master"]["pub_key"], substrate_ctx.PublicKey().RawCompressed().ToHex())
-            self.assertEqual(test["master"]["pub_key"], substrate_ctx.PublicKey().RawUncompressed().ToHex())
-            # Test private key
-            self.assertEqual(test["master"]["priv_key"], substrate_ctx.PrivateKey().Raw().ToHex())
-            # Test address
-            self.assertEqual(test["master"]["address"], substrate_ctx.PublicKey().ToAddress())
+            # Test object
+            self.__test_substrate_obj(substrate_ctx, test["master"], False)
 
             # Test derivation paths
             for der_path in test["der_paths"]:
                 substrate_ctx = substrate_ctx.ChildKey(der_path["path_elem"])
-                self.__test_derived_path(der_path, substrate_ctx)
+                self.__test_substrate_obj(substrate_ctx, der_path, False)
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_from_seed_with_derive_path(self):
@@ -551,24 +540,20 @@ class SubstrateTests(unittest.TestCase):
             # Test derivation paths
             for der_path in test["der_paths"]:
                 substrate_ctx = substrate_ctx.DerivePath(der_path["path_elem"])
-                self.__test_derived_path(der_path, substrate_ctx)
+                self.__test_substrate_obj(substrate_ctx, der_path, False)
 
     # Run all tests in test vector using FromSeedAndPath for construction
     def test_from_seed_and_path(self):
         for test in TEST_VECT:
             # Create from seed
             substrate_ctx = Substrate.FromSeedAndPath(binascii.unhexlify(test["seed"]), "", test["coin"])
-
-            # Test master key
-            self.assertEqual(test["master"]["path"], substrate_ctx.Path().ToStr())
-            self.assertEqual(test["master"]["pub_key"], substrate_ctx.PublicKey().RawCompressed().ToHex())
-            self.assertEqual(test["master"]["priv_key"], substrate_ctx.PrivateKey().Raw().ToHex())
-            self.assertEqual(test["master"]["address"], substrate_ctx.PublicKey().ToAddress())
+            # Test object
+            self.__test_substrate_obj(substrate_ctx, test["master"], False)
 
             # Test derivation paths
             for der_path in test["der_paths"]:
                 substrate_ctx = Substrate.FromSeedAndPath(binascii.unhexlify(test["seed"]), der_path["path"], test["coin"])
-                self.__test_derived_path(der_path, substrate_ctx)
+                self.__test_substrate_obj(substrate_ctx, der_path, False)
 
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_private_key(self):
@@ -584,7 +569,7 @@ class SubstrateTests(unittest.TestCase):
         test_vect = TEST_VECT_PUBLIC_DER
 
         # Create from public key
-        pub_key_bytes = binascii.unhexlify(test_vect["pub_key"])
+        pub_key_bytes = binascii.unhexlify(test_vect["master"]["pub_key"])
         # Bytes
         substrate_ctx = Substrate.FromPublicKey(pub_key_bytes, test_vect["coin"])
         self.__test_public_derivation(test_vect, substrate_ctx)
@@ -593,7 +578,7 @@ class SubstrateTests(unittest.TestCase):
         self.__test_public_derivation(test_vect, substrate_ctx)
 
         # Create from private key and convert to public
-        substrate_ctx = Substrate.FromPrivateKey(binascii.unhexlify(test_vect["priv_key"]), test_vect["coin"])
+        substrate_ctx = Substrate.FromPrivateKey(binascii.unhexlify(test_vect["master"]["priv_key"]), test_vect["coin"])
         substrate_ctx.ConvertToPublic()
         self.__test_public_derivation(test_vect, substrate_ctx)
 
@@ -632,45 +617,49 @@ class SubstrateTests(unittest.TestCase):
     def __test_from_private_key(self, test, priv_key):
         # Create from key
         substrate_ctx = Substrate.FromPrivateKey(priv_key, test["coin"])
-
-        # Test master key
-        self.assertEqual(test["master"]["path"], substrate_ctx.Path().ToStr())
-        self.assertEqual(test["master"]["pub_key"], substrate_ctx.PublicKey().RawCompressed().ToHex())
-        self.assertEqual(test["master"]["priv_key"], substrate_ctx.PrivateKey().Raw().ToHex())
-        self.assertEqual(test["master"]["address"], substrate_ctx.PublicKey().ToAddress())
+        # Test object
+        self.__test_substrate_obj(substrate_ctx, test["master"], False)
 
         # Test derivation paths
         for der_path in test["der_paths"]:
             substrate_ctx = substrate_ctx.DerivePath(der_path["path_elem"])
-            self.__test_derived_path(der_path, substrate_ctx)
-
-    # Test derived path
-    def __test_derived_path(self, test, substrate_ctx):
-        self.assertEqual(test["path"], substrate_ctx.Path().ToStr())
-        self.assertEqual(test["pub_key"], substrate_ctx.PublicKey().RawCompressed().ToHex())
-        self.assertEqual(test["pub_key"], substrate_ctx.PublicKey().RawUncompressed().ToHex())
-        self.assertEqual(test["address"], substrate_ctx.PublicKey().ToAddress())
-
-        if SubstratePathElem(test["path_elem"]).IsHard():
-            self.assertEqual(test["priv_key"], substrate_ctx.PrivateKey().Raw().ToHex())
-        else:
-            # Consider only the first 32 bytes for public derivation
-            self.assertEqual(test["priv_key"][:64], substrate_ctx.PrivateKey().Raw().ToHex()[:64])
+            self.__test_substrate_obj(substrate_ctx, der_path, False)
 
     # Test public derivation
     def __test_public_derivation(self, test, substrate_ctx):
-        self.assertEqual(test["address"], substrate_ctx.PublicKey().ToAddress())
-        self.assertTrue(substrate_ctx.IsPublicOnly())
-        self.assertRaises(SubstrateKeyError, substrate_ctx.PrivateKey)
+        # Test object
+        self.__test_substrate_obj(substrate_ctx, test["master"], True)
 
         # Test derivation paths
         for der_path in test["der_paths"]:
             if SubstratePathElem(der_path["path_elem"]).IsSoft():
                 substrate_ctx = substrate_ctx.ChildKey(der_path["path_elem"])
-
-                self.assertEqual(der_path["path"], substrate_ctx.Path().ToStr())
-                self.assertEqual(der_path["pub_key"], substrate_ctx.PublicKey().RawCompressed().ToHex())
-                self.assertEqual(der_path["pub_key"], substrate_ctx.PublicKey().RawUncompressed().ToHex())
-                self.assertEqual(der_path["address"], substrate_ctx.PublicKey().ToAddress())
+                self.__test_substrate_obj(substrate_ctx, der_path, True)
             else:
                 self.assertRaises(SubstrateKeyError, substrate_ctx.ChildKey, der_path["path_elem"])
+
+    # Test Substrate object
+    def __test_substrate_obj(self, substrate_obj, test, is_watch_only):
+        if is_watch_only:
+            self.assertRaises(SubstrateKeyError, substrate_obj.PrivateKey)
+        else:
+            self.assertTrue(isinstance(substrate_obj.PrivateKey(), SubstratePrivateKey))
+
+            if "path_elem" in test:
+                if SubstratePathElem(test["path_elem"]).IsHard():
+                    self.assertEqual(test["priv_key"], substrate_obj.PrivateKey().Raw().ToHex())
+                else:
+                    # Consider only the first 32 bytes for public derivation
+                    self.assertEqual(test["priv_key"][:64], substrate_obj.PrivateKey().Raw().ToHex()[:64])
+            else:
+                self.assertEqual(test["priv_key"], substrate_obj.PrivateKey().Raw().ToHex())
+
+        self.assertTrue(isinstance(substrate_obj.PublicKey(), SubstratePublicKey))
+        self.assertTrue(isinstance(substrate_obj.Path(), SubstratePath))
+
+        self.assertEqual(is_watch_only, substrate_obj.IsPublicOnly())
+        self.assertEqual(test["path"], substrate_obj.Path().ToStr())
+        self.assertEqual(test["pub_key"], substrate_obj.PublicKey().RawCompressed().ToHex())
+        self.assertEqual(test["pub_key"], substrate_obj.PublicKey().RawUncompressed().ToHex())
+        self.assertEqual(test["address"], substrate_obj.PublicKey().ToAddress())
+

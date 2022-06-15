@@ -101,11 +101,12 @@ class SubstrateKeysTests(unittest.TestCase):
 
     # Test public key object
     def __test_pub_key_obj(self, pub_key):
+        # Compressed key
         self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), pub_key.RawCompressed().ToBytes())
         self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), bytes(pub_key.RawCompressed()))
         self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToHex(), pub_key.RawCompressed().ToHex())
         self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToHex(), str(pub_key.RawCompressed()))
-
+        # Uncompressed key
         self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), pub_key.RawUncompressed().ToBytes())
         self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), bytes(pub_key.RawUncompressed()))
         self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToHex(), pub_key.RawUncompressed().ToHex())

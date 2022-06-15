@@ -399,7 +399,7 @@ class MoneroTests(unittest.TestCase):
     def test_vector_from_seed(self):
         for test in TEST_VECT:
             monero = Monero.FromSeed(binascii.unhexlify(test["seed"]), test["coin"])
-            self.__test_keys_and_addresses(monero, test, False)
+            self.__test_monero_obj(monero, test, False)
 
     # Run all tests in test vector using FromPrivateSpendKey for construction
     def test_vector_from_priv_key(self):
@@ -408,10 +408,10 @@ class MoneroTests(unittest.TestCase):
 
             # Test from bytes
             monero = Monero.FromPrivateSpendKey(priv_skey_bytes, test["coin"])
-            self.__test_keys_and_addresses(monero, test, False)
+            self.__test_monero_obj(monero, test, False)
             # Test from key object
             monero = Monero.FromPrivateSpendKey(Ed25519MoneroPrivateKey(priv_skey_bytes), test["coin"])
-            self.__test_keys_and_addresses(monero, test, False)
+            self.__test_monero_obj(monero, test, False)
 
     # Run all tests in test vector using FromWatchOnly for construction
     def test_vector_from_watch_only(self):
@@ -421,12 +421,12 @@ class MoneroTests(unittest.TestCase):
 
             # Test from bytes
             monero = Monero.FromWatchOnly(priv_vkey_bytes, pub_skey_bytes, test["coin"])
-            self.__test_keys_and_addresses(monero, test, True)
+            self.__test_monero_obj(monero, test, True)
             # Test from key object
             monero = Monero.FromWatchOnly(Ed25519MoneroPrivateKey(priv_vkey_bytes),
                                           Ed25519MoneroPublicKey(pub_skey_bytes),
                                           test["coin"])
-            self.__test_keys_and_addresses(monero, test, True)
+            self.__test_monero_obj(monero, test, True)
 
     # Test invalid subaddress indexes
     def test_invalid_subaddress_idx(self):
@@ -437,40 +437,40 @@ class MoneroTests(unittest.TestCase):
         self.assertRaises(ValueError, monero.Subaddress, MoneroSubaddressConst.SUBADDR_MAX_IDX + 1, 0)
         self.assertRaises(ValueError, monero.Subaddress, 0, MoneroSubaddressConst.SUBADDR_MAX_IDX + 1)
 
-    # Test keys and addresses
-    def __test_keys_and_addresses(self, monero, test, is_watch_only):
+    # Test Monero object
+    def __test_monero_obj(self, monero_obj, test, is_watch_only):
         # Test watch-only flag
-        self.assertEqual(monero.IsWatchOnly(), is_watch_only)
-        self.assertTrue(isinstance(monero.CoinConf(), MoneroCoinConf))
+        self.assertEqual(monero_obj.IsWatchOnly(), is_watch_only)
+        self.assertTrue(isinstance(monero_obj.CoinConf(), MoneroCoinConf))
 
         # Test key objects
         if not is_watch_only:
-            self.assertTrue(isinstance(monero.PrivateSpendKey(), MoneroPrivateKey))
-        self.assertTrue(isinstance(monero.PrivateViewKey(), MoneroPrivateKey))
-        self.assertTrue(isinstance(monero.PublicSpendKey(), MoneroPublicKey))
-        self.assertTrue(isinstance(monero.PublicViewKey(), MoneroPublicKey))
+            self.assertTrue(isinstance(monero_obj.PrivateSpendKey(), MoneroPrivateKey))
+        self.assertTrue(isinstance(monero_obj.PrivateViewKey(), MoneroPrivateKey))
+        self.assertTrue(isinstance(monero_obj.PublicSpendKey(), MoneroPublicKey))
+        self.assertTrue(isinstance(monero_obj.PublicViewKey(), MoneroPublicKey))
 
         # Test keys
         if not is_watch_only:
-            self.assertEqual(test["priv_skey"], monero.PrivateSpendKey().Raw().ToHex())
-            self.assertEqual(test["priv_vkey"], monero.PrivateViewKey().Raw().ToHex())
+            self.assertEqual(test["priv_skey"], monero_obj.PrivateSpendKey().Raw().ToHex())
+            self.assertEqual(test["priv_vkey"], monero_obj.PrivateViewKey().Raw().ToHex())
         else:
-            self.assertRaises(MoneroKeyError, monero.PrivateSpendKey)
+            self.assertRaises(MoneroKeyError, monero_obj.PrivateSpendKey)
 
-        self.assertEqual(test["pub_skey"], monero.PublicSpendKey().RawCompressed().ToHex())
-        self.assertEqual(test["pub_skey"], monero.PublicSpendKey().RawUncompressed().ToHex())
+        self.assertEqual(test["pub_skey"], monero_obj.PublicSpendKey().RawCompressed().ToHex())
+        self.assertEqual(test["pub_skey"], monero_obj.PublicSpendKey().RawUncompressed().ToHex())
 
-        self.assertEqual(test["pub_vkey"], monero.PublicViewKey().RawCompressed().ToHex())
-        self.assertEqual(test["pub_vkey"], monero.PublicViewKey().RawUncompressed().ToHex())
+        self.assertEqual(test["pub_vkey"], monero_obj.PublicViewKey().RawCompressed().ToHex())
+        self.assertEqual(test["pub_vkey"], monero_obj.PublicViewKey().RawUncompressed().ToHex())
 
         # Test primary address
-        self.assertEqual(test["primary_address"], monero.PrimaryAddress())
+        self.assertEqual(test["primary_address"], monero_obj.PrimaryAddress())
 
         # Test integrated address
         payment_id = binascii.unhexlify(test["integrated_address"]["payment_id"])
-        self.assertEqual(test["integrated_address"]["address"], monero.IntegratedAddress(payment_id))
+        self.assertEqual(test["integrated_address"]["address"], monero_obj.IntegratedAddress(payment_id))
 
         # Test subaddresses
         for test_subaddr in test["subaddresses"]:
-            subaddr = monero.Subaddress(test_subaddr["minor_idx"], test_subaddr["major_idx"])
+            subaddr = monero_obj.Subaddress(test_subaddr["minor_idx"], test_subaddr["major_idx"])
             self.assertEqual(test_subaddr["address"], subaddr)

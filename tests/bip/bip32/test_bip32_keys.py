@@ -165,6 +165,7 @@ class Bip32KeyDataTests(unittest.TestCase):
     def __test_priv_key_obj(self, priv_key_obj, test_priv, test_pub):
         self.assertEqual(test_priv["key"].CurveType(), priv_key_obj.CurveType())
         self.assertTrue(isinstance(priv_key_obj.KeyObject(), type(test_priv["key"])))
+        self.assertTrue(isinstance(priv_key_obj.Data(), Bip32KeyData))
         self.assertTrue(priv_key_obj.Data() is TEST_KEY_DATA)
 
         self.assertEqual(test_priv["key"].Raw().ToBytes(), priv_key_obj.Raw().ToBytes())
@@ -172,7 +173,7 @@ class Bip32KeyDataTests(unittest.TestCase):
         self.assertEqual(test_priv["key"].Raw().ToHex(), priv_key_obj.Raw().ToHex())
         self.assertEqual(test_priv["key"].Raw().ToHex(), str(priv_key_obj.Raw()))
 
-        self.assertEqual(test_priv["ext"],priv_key_obj.ToExtended())
+        self.assertEqual(test_priv["ext"], priv_key_obj.ToExtended())
         # Public key associated to the private one
         self.__test_pub_key_obj(priv_key_obj.PublicKey(), test_pub)
 
@@ -180,13 +181,15 @@ class Bip32KeyDataTests(unittest.TestCase):
     def __test_pub_key_obj(self, pub_key_obj, test):
         self.assertEqual(test["key"].CurveType(), pub_key_obj.CurveType())
         self.assertTrue(isinstance(pub_key_obj.KeyObject(), type(test["key"])))
+        self.assertTrue(isinstance(pub_key_obj.Data(), Bip32KeyData))
         self.assertTrue(pub_key_obj.Data() is TEST_KEY_DATA)
 
+        # Compressed key
         self.assertEqual(test["key"].RawCompressed().ToBytes(), pub_key_obj.RawCompressed().ToBytes())
         self.assertEqual(test["key"].RawCompressed().ToBytes(), bytes(pub_key_obj.RawCompressed()))
         self.assertEqual(test["key"].RawCompressed().ToHex(), pub_key_obj.RawCompressed().ToHex())
         self.assertEqual(test["key"].RawCompressed().ToHex(), str(pub_key_obj.RawCompressed()))
-
+        # Uncompressed key
         self.assertEqual(test["key"].RawUncompressed().ToBytes(), pub_key_obj.RawUncompressed().ToBytes())
         self.assertEqual(test["key"].RawUncompressed().ToBytes(), bytes(pub_key_obj.RawUncompressed()))
         self.assertEqual(test["key"].RawUncompressed().ToHex(), pub_key_obj.RawUncompressed().ToHex())
@@ -194,4 +197,4 @@ class Bip32KeyDataTests(unittest.TestCase):
 
         self.assertEqual(binascii.unhexlify(test["fprint"]),pub_key_obj.FingerPrint().ToBytes())
         self.assertEqual(binascii.unhexlify(test["key_id"]),pub_key_obj.KeyIdentifier())
-        self.assertEqual(test["ext"],pub_key_obj.ToExtended())
+        self.assertEqual(test["ext"], pub_key_obj.ToExtended())
