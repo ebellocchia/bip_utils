@@ -63,6 +63,9 @@ def point_is_encoded(p: bytes) -> bool:
     return len(p) == 32
 
 
+# nacl.bindings.crypto_core_ed25519_is_valid_point performs more strict checks
+# This results in points (i.e. public keys) that are considered not valid even if they are accepted by wallets
+# For this reason, this function is used instead
 def point_is_on_curve(p: Tuple[int, int]) -> bool:
     x = p[0]
     y = p[1]
