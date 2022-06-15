@@ -27,7 +27,7 @@ from bip_utils.ecc.ed25519_monero.lib import ed25519_monero_lib
 from bip_utils.utils.misc import DataBytes
 
 
-class Ed25519MoneroPointConst(IPoint):
+class Ed25519MoneroPointConst:
     """Class container for Ed25519-Monero point constants."""
 
     # Point coordinate length in bytes

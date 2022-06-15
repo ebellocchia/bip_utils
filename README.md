@@ -43,7 +43,6 @@ Package dependencies:
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for cryptographic functions
 - [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
 - [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves
-- [ecpy](https://pypi.org/project/ecpy/) is only used for ed25519 curve point arithmetics (required by [BIP32-Ed25519](https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20Final.pdf)). For the rest, [pynacl](https://pypi.org/project/PyNaCl/) is used.
 - [ed25519-blake2b](https://pypi.org/project/ed25519-blake2b/) for ed25519-blake2b curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve

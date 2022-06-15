@@ -22,12 +22,12 @@
 
 # Imports
 from typing import Any
-from ecpy.curves import Curve
 from nacl import exceptions, signing
 from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
@@ -63,15 +63,15 @@ class Ed25519PublicKey(IPublicKey):
             ValueError: If key bytes are not valid
         """
 
-        # Remove the prefix if present because nacl requires 32-byte length
+        # Remove the 0x00 prefix if present because nacl requires 32-byte length
         if (len(key_bytes) == cls.CompressedLength()
                 and key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
 
         # nacl doesn't check if the point lies on curve
         try:
-            Curve.get_curve("Ed25519").decode_point(key_bytes)
-        except AssertionError as ex:
+            ed25519_lib.point_decode(key_bytes)
+        except ValueError as ex:
             raise ValueError("Invalid public key bytes") from ex
 
         try:
@@ -94,9 +94,7 @@ class Ed25519PublicKey(IPublicKey):
         Raises:
             ValueError: If key point is not valid
         """
-        return cls.FromBytes(
-            Curve.get_curve("Ed25519").encode_point(key_point.UnderlyingObject())
-        )
+        return cls.FromBytes(key_point.RawEncoded().ToBytes())
 
     def __init__(self,
                  key_obj: Any) -> None:
@@ -180,7 +178,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519Point.FromBytes(bytes(self.m_ver_key))
+        return Ed25519Point(bytes(self.m_ver_key))
 
 
 class Ed25519PrivateKey(IPrivateKey):

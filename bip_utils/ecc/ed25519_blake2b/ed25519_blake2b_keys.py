@@ -23,12 +23,12 @@
 # Imports
 from typing import Any
 import ed25519_blake2b
-from ecpy.curves import Curve
 from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst
 from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b_point import Ed25519Blake2bPoint
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
@@ -53,7 +53,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
             ValueError: If key bytes are not valid
         """
 
-        # Remove the first 0x00 if present
+        # Remove the 0x00 prefix if present
         if (len(key_bytes) == cls.CompressedLength()
                 and key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
@@ -63,8 +63,8 @@ class Ed25519Blake2bPublicKey(IPublicKey):
 
         # The library doesn't check if the point lies on curve
         try:
-            Curve.get_curve("Ed25519").decode_point(key_bytes)
-        except AssertionError as ex:
+            ed25519_lib.point_decode(key_bytes)
+        except ValueError as ex:
             raise ValueError("Invalid public key bytes") from ex
 
         return cls(ed25519_blake2b.VerifyingKey(key_bytes))
@@ -84,8 +84,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Raises:
             ValueError: If key point is not valid
         """
-        cv = Curve.get_curve("Ed25519")
-        return cls.FromBytes(cv.encode_point(key_point.UnderlyingObject()))
+        return cls.FromBytes(key_point.RawEncoded().ToBytes())
 
     def __init__(self,
                  key_obj: Any) -> None:
@@ -168,7 +167,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519Blake2bPoint.FromBytes(self.m_ver_key.to_bytes())
+        return Ed25519Blake2bPoint(self.m_ver_key.to_bytes())
 
 
 class Ed25519Blake2bPrivateKey(IPrivateKey):

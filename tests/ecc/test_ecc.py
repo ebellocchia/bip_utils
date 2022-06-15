@@ -27,7 +27,6 @@ import ed25519_blake2b
 import unittest
 from ecdsa.ecdsa import generator_256, generator_secp256k1
 from ecdsa import ellipticcurve
-from ecpy.curves import Point
 from nacl import signing
 from bip_utils import (
     EllipticCurveGetter, EllipticCurveTypes,
@@ -272,7 +271,7 @@ class EccTests(unittest.TestCase):
         self.assertRaises(TypeError, Ed25519Point, 0)
 
         point = pub_key.Point()
-        self.assertTrue(isinstance(point.UnderlyingObject(), Point))
+        self.assertTrue(isinstance(point.UnderlyingObject(), bytes))
         self.assertEqual(point.X(), TEST_ED25519_POINT["x"])
         self.assertEqual(point.Y(), TEST_ED25519_POINT["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_POINT_DEC_BYTES)
