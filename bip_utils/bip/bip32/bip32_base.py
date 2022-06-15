@@ -275,9 +275,7 @@ class Bip32Base(ABC):
             self.m_priv_key = Bip32PrivateKey.FromBytesOrKeyObject(priv_key,
                                                                    key_data,
                                                                    curve_type)
-            self.m_pub_key = (self.m_priv_key.PublicKey()
-                              if pub_key is None
-                              else Bip32PublicKey.FromBytesOrKeyObject(pub_key, key_data, curve_type))
+            self.m_pub_key = self.m_priv_key.PublicKey()
         # Public-only object
         else:
             assert isinstance(pub_key, (bytes, IPublicKey)), "Public key shall be specified for public-only objects"
