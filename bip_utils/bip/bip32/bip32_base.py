@@ -179,15 +179,24 @@ class Bip32Base(ABC):
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
+                       chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
+                       depth: Union[int, Bip32Depth] = Bip32Depth(0),
+                       index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
+                       fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint(),
                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
         Create a Bip32 object from the specified private key.
-        The key will be considered a master key with the chain code set to zero,
-        since there is no way to recover the key derivation data.
+        If only the private key bytes are specified, the key will be considered a master key with
+        the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey)         : Private key
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
+            priv_key (bytes or IPrivateKey)                      : Private key
+            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
+            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
+            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
+            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
+            key_net_ver (Bip32KeyNetVersions object)             : Bip32KeyNetVersions object (BIP32 main net version
+                                                                   by default)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -195,24 +204,41 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
+        chain_code = cls.__GetChainCode(chain_code)
+        depth = cls.__GetDepth(depth)
+        fprint = cls.__GetFingerPrint(fprint)
+        index = cls.__GetIndex(index)
+
         return cls(priv_key=priv_key,
                    pub_key=None,
-                   chain_code=Bip32ChainCode(),
+                   chain_code=chain_code,
                    curve_type=cls.CurveType(),
+                   depth=depth,
+                   index=index,
+                   fprint=fprint,
                    key_net_ver=key_net_ver)
 
     @classmethod
     def FromPublicKey(cls,
                       pub_key: Union[bytes, IPublicKey],
+                      chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
+                      depth: Union[int, Bip32Depth] = Bip32Depth(0),
+                      index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
+                      fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint(),
                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
         Create a Bip32 object from the specified public key.
-        The key will be considered a public master key with the chain code set to zero,
-        since there is no way to recover the key derivation data.
+        If only the the public key bytes are specified, the key will be considered a master key with
+        the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            pub_key (bytes or IPublicKey)           : Public key
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
+            pub_key (bytes or IPublicKey)                        : Public key
+            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
+            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
+            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
+            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
+            key_net_ver (Bip32KeyNetVersions object)             : Bip32KeyNetVersions object (BIP32 main net version
+                                                                   by default)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -220,10 +246,18 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
+        chain_code = cls.__GetChainCode(chain_code)
+        depth = cls.__GetDepth(depth)
+        fprint = cls.__GetFingerPrint(fprint)
+        index = cls.__GetIndex(index)
+
         return cls(priv_key=None,
                    pub_key=pub_key,
-                   chain_code=Bip32ChainCode(),
+                   chain_code=chain_code,
                    curve_type=cls.CurveType(),
+                   depth=depth,
+                   index=index,
+                   fprint=fprint,
                    key_net_ver=key_net_ver)
 
     #
@@ -300,9 +334,7 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        if isinstance(index, int):
-            index = Bip32KeyIndex(index)
-
+        index = self.__GetIndex(index)
         return self._ValidateAndCkdPriv(index) if not self.IsPublicOnly() else self._ValidateAndCkdPub(index)
 
     def DerivePath(self,
@@ -319,9 +351,7 @@ class Bip32Base(ABC):
         Raises:
             Bip32PathError: If the path is not valid
         """
-        if isinstance(path, str):
-            path = Bip32PathParser.Parse(path)
-
+        path = self.__GetPath(path)
         bip32_obj = self
         # Derive children keys
         for path_elem in path:
@@ -523,6 +553,75 @@ class Bip32Base(ABC):
             raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         return self._CkdPub(index)
+
+    #
+    # Private methods
+    #
+
+    @staticmethod
+    def __GetChainCode(chain_code: Union[bytes, Bip32ChainCode]) -> Bip32ChainCode:
+        """
+        Get chain code object.
+
+        Args:
+            chain_code (bytes or Bip32ChainCode): Chain code
+
+        Returns:
+            Bip32ChainCode object: Bip32ChainCode object
+        """
+        return Bip32ChainCode(chain_code) if isinstance(chain_code, bytes) else chain_code
+
+    @staticmethod
+    def __GetDepth(depth: Union[int, Bip32Depth]) -> Bip32Depth:
+        """
+        Get depth object.
+
+        Args:
+            depth (int or Bip32Depth): Depth
+
+        Returns:
+            Bip32Depth object: Bip32Depth object
+        """
+        return Bip32Depth(depth) if isinstance(depth, int) else depth
+
+    @staticmethod
+    def __GetFingerPrint(fprint: Union[bytes, Bip32FingerPrint]) -> Bip32FingerPrint:
+        """
+        Get fingerprint object.
+
+        Args:
+            fprint (bytes or Bip32FingerPrint): Fingerprint
+
+        Returns:
+            Bip32FingerPrint object: Bip32FingerPrint object
+        """
+        return Bip32FingerPrint(fprint) if isinstance(fprint, bytes) else fprint
+
+    @staticmethod
+    def __GetIndex(index: Union[int, Bip32KeyIndex]) -> Bip32KeyIndex:
+        """
+        Get index object.
+
+        Args:
+            index (int or Bip32KeyIndex): Index
+
+        Returns:
+            Bip32KeyIndex object: Bip32KeyIndex object
+        """
+        return Bip32KeyIndex(index) if isinstance(index, int) else index
+
+    @staticmethod
+    def __GetPath(path: Union[str, Bip32Path]) -> Bip32Path:
+        """
+        Get path object.
+
+        Args:
+            path (str or Bip32Path): Path
+
+        Returns:
+            Bip32Path object: Bip32Path object
+        """
+        return Bip32PathParser.Parse(path) if isinstance(path, str) else path
 
     #
     # Abstract methods
