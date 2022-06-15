@@ -7,6 +7,7 @@ bip32
    bip32_const
    bip32_ecdsa_base
    bip32_ed25519_blake2b_slip
+   bip32_ed25519_kholaw
    bip32_ed25519_slip
    bip32_ed25519_slip_base
    bip32_ex

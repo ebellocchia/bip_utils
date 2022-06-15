@@ -1,0 +1,7 @@
+ed25519
+=======
+
+.. automodule:: bip_utils.ecc.ed25519.ed25519
+   :members:
+   :undoc-members:
+   :show-inheritance:
