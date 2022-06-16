@@ -175,9 +175,15 @@ class Bip32BaseTestHelper:
     # Test from private key
     @staticmethod
     def __test_from_priv_key(ut_class, bip32_class, test, priv_key):
-        depth = 0
+        # Create from private key without derivation data
+        bip32_ctx = bip32_class.FromPrivateKey(priv_key)
+        ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode().ToBytes())
+        ut_class.assertEqual(0, bip32_ctx.Depth())
+        ut_class.assertEqual(0, bip32_ctx.Index())
+        ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
-        # Create from private key
+        # Create from private key with derivation data
+        depth = 0
         bip32_ctx = bip32_class.FromPrivateKey(
             priv_key,
             binascii.unhexlify(test["master"]["chain_code"]),
@@ -205,9 +211,15 @@ class Bip32BaseTestHelper:
     # Test from public key
     @staticmethod
     def __test_from_pub_key(ut_class, bip32_class, test, pub_key):
-        depth = 0
+        # Create from public key without derivation data
+        bip32_ctx = bip32_class.FromPublicKey(pub_key)
+        ut_class.assertEqual(ZERO_CHAIN_CODE, bip32_ctx.ChainCode().ToBytes())
+        ut_class.assertEqual(0, bip32_ctx.Depth())
+        ut_class.assertEqual(0, bip32_ctx.Index())
+        ut_class.assertTrue(bip32_ctx.ParentFingerPrint().IsMasterKey())
 
-        # Create from public key
+        # Create from public key with derivation data
+        depth = 0
         bip32_ctx = bip32_class.FromPublicKey(
             pub_key,
             binascii.unhexlify(test["master"]["chain_code"]),
