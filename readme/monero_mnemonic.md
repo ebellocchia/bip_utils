@@ -11,7 +11,7 @@ The functionalities of this library are the same of the BIP-0039 one but with Mo
 
 ### Library usage
 
-The usage of the Monero mnemonic library is basically equivalent to the BIP-0039 one, just replace the *Bip39* prefix with *Monero*.\
+The usage of the Monero mnemonic library is basically equivalent to the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one, just replace the *Bip39* prefix with *Monero*.\
 The only differences are:
 - It's possible to generate mnemonics both with and without checksum
 - It's not possible to use a passphrase for seed generation like BIP-0039

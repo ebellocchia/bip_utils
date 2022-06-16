@@ -320,7 +320,7 @@ For this, I used the same implementation of TrustWallet, i.e.:
 - The derivation scheme is based on ed25519 SLIP-0010
 - The default derivation path is: m/44'/354'/0'/0'/0'
 
-If you want to get the same keys and addresses of the Polkadot-JS wallet, use the *Substrate* module (see the related paragraph).
+If you want to get the same keys and addresses of the Polkadot-JS wallet, use the *Substrate* module (see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)).
 
 ### Monero addresses generation
 
