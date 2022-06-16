@@ -27,7 +27,7 @@ from abc import ABC, abstractmethod
 from enum import IntEnum, unique
 from functools import lru_cache
 from typing import Union
-from bip_utils.bip.bip32 import Bip32Base, Bip32Utils
+from bip_utils.bip.bip32 import Bip32Base, Bip32Utils, Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
 from bip_utils.bip.conf.common import BipCoins, BipCoinConf
@@ -118,15 +118,23 @@ class Bip44Base(ABC):
     @classmethod
     def _FromPrivateKey(cls,
                         priv_key: Union[bytes, IPrivateKey],
-                        coin_conf: BipCoinConf) -> Bip44Base:
+                        coin_conf: BipCoinConf,
+                        chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
+                        depth: Union[int, Bip32Depth] = Bip32Depth(0),
+                        index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
+                        fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint()) -> Bip44Base:
         """
-        Create a Bip object from the specified private key.
-        The key will be considered a master key with the chain code set to zero,
-        since there is no way to recover the key derivation data.
+        Create a Bip object from the specified private key and derivation data.
+        If only the private key bytes are specified, the key will be considered a master key with
+        the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key
-            coin_conf (BipCoinConf)        : BipCoinConf object
+            priv_key (bytes or IPrivateKey)                      : Private key
+            coin_conf (BipCoinConf)                              : BipCoinConf object
+            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
+            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
+            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
+            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
 
         Returns:
             Bip object: Bip object
@@ -136,6 +144,10 @@ class Bip44Base(ABC):
         """
         bip32_cls = coin_conf.Bip32Class()
         return cls(bip32_cls.FromPrivateKey(priv_key,
+                                            chain_code=chain_code,
+                                            depth=depth,
+                                            index=index,
+                                            fprint=fprint,
                                             key_net_ver=coin_conf.KeyNetVersions()),
                    coin_conf)
 
@@ -185,9 +197,6 @@ class Bip44Base(ABC):
 
         Returns:
             Bip44PublicKey object: Bip44PublicKey object
-
-        Raises:
-            Bip32KeyError: If the key constructed from the bytes is not valid
         """
         return Bip44PublicKey(self.m_bip32.PublicKey(),
                               self.m_coin_conf)
@@ -201,10 +210,19 @@ class Bip44Base(ABC):
             Bip44PrivateKey object: Bip44PrivateKey object
 
         Raises:
-            Bip32KeyError: If the Bip32 object is public-only or the constructed key is not valid
+            Bip32KeyError: If the Bip32 object is public-only
         """
         return Bip44PrivateKey(self.m_bip32.PrivateKey(),
                                self.m_coin_conf)
+
+    def Bip32Object(self) -> Bip32Base:
+        """
+        Return the BIP32 object.
+
+        Returns:
+            Bip32Object object: Bip32Object object
+        """
+        return self.m_bip32
 
     def CoinConf(self) -> BipCoinConf:
         """

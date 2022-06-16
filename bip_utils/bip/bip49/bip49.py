@@ -25,7 +25,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki
 
 # Imports
 from typing import Union
-from bip_utils.bip.bip32 import Bip32Utils
+from bip_utils.bip.bip32 import Bip32Utils, Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Base
 from bip_utils.bip.conf.bip49 import Bip49ConfGetter
 from bip_utils.bip.conf.common import BipCoins
@@ -103,15 +103,23 @@ class Bip49(Bip44Base):
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       coin_type: BipCoins) -> Bip44Base:
+                       coin_type: BipCoins,
+                       chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
+                       depth: Union[int, Bip32Depth] = Bip32Depth(0),
+                       index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
+                       fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint()) -> Bip44Base:
         """
-        Create a Bip object from the specified private key.
-        The key will be considered a master key with the chain code set to zero,
-        since there is no way to recover the key derivation data.
+        Create a Bip object from the specified private key and derivation data.
+        If only the private key bytes are specified, the key will be considered a master key with
+        the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key
-            coin_type (BipCoins)           : Coin type, shall be a Bip49Coins enum
+            priv_key (bytes or IPrivateKey)                      : Private key
+            coin_type (BipCoins)                                 : Coin type, shall be a Bip49Coins enum
+            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
+            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
+            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
+            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
 
         Returns:
             Bip object: Bip object
@@ -123,7 +131,11 @@ class Bip49(Bip44Base):
 
         # Bip49ConfGetter already checks the enum type
         return cls._FromPrivateKey(priv_key,
-                                   Bip49ConfGetter.GetConfig(coin_type))
+                                   Bip49ConfGetter.GetConfig(coin_type),
+                                   chain_code,
+                                   depth,
+                                   index,
+                                   fprint)
 
     #
     # Override methods
