@@ -2200,6 +2200,10 @@ class Bip44Tests(unittest.TestCase):
     def test_from_priv_key(self):
         Bip44BaseTestHelper.test_from_priv_key(self, Bip44, TEST_VECT)
 
+    # Run all tests in test vector using FromPublicKey for construction
+    def test_from_pub_key(self):
+        Bip44BaseTestHelper.test_from_pub_key(self, Bip44, TEST_VECT)
+
     # Test default path derivation
     def test_default_path_derivation(self):
         Bip44BaseTestHelper.test_default_path_derivation(self, Bip44, TEST_VECT_DEFAULT_PATH)

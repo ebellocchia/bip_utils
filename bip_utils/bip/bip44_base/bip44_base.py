@@ -31,7 +31,7 @@ from bip_utils.bip.bip32 import Bip32Base, Bip32Utils, Bip32ChainCode, Bip32Dept
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
 from bip_utils.bip.conf.common import BipCoins, BipCoinConf
-from bip_utils.ecc import IPrivateKey
+from bip_utils.ecc import IPublicKey, IPrivateKey
 
 
 @unique
@@ -119,22 +119,22 @@ class Bip44Base(ABC):
     def _FromPrivateKey(cls,
                         priv_key: Union[bytes, IPrivateKey],
                         coin_conf: BipCoinConf,
-                        chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
-                        depth: Union[int, Bip32Depth] = Bip32Depth(0),
-                        index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
-                        fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint()) -> Bip44Base:
+                        chain_code: Union[bytes, Bip32ChainCode],
+                        depth: Union[int, Bip32Depth],
+                        index: Union[int, Bip32KeyIndex],
+                        fprint: Union[bytes, Bip32FingerPrint]) -> Bip44Base:
         """
         Create a Bip object from the specified private key and derivation data.
         If only the private key bytes are specified, the key will be considered a master key with
         the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey)                      : Private key
-            coin_conf (BipCoinConf)                              : BipCoinConf object
-            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
-            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
-            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
-            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
+            priv_key (bytes or IPrivateKey)            : Private key
+            coin_conf (BipCoinConf)                    : BipCoinConf object
+            chain_code (bytes or Bip32ChainCode object): Chain code
+            depth (int or Bip32Depth object)           : Child depth
+            index (int or Bip32KeyIndex object)        : Child index
+            fprint (bytes or Bip32FingerPrint object)  : Parent fingerprint
 
         Returns:
             Bip object: Bip object
@@ -149,6 +149,42 @@ class Bip44Base(ABC):
                                             index=index,
                                             fprint=fprint,
                                             key_net_ver=coin_conf.KeyNetVersions()),
+                   coin_conf)
+
+    @classmethod
+    def _FromPublicKey(cls,
+                       pub_key: Union[bytes, IPublicKey],
+                       coin_conf: BipCoinConf,
+                       chain_code: Union[bytes, Bip32ChainCode],
+                       depth: Union[int, Bip32Depth],
+                       index: Union[int, Bip32KeyIndex],
+                       fprint: Union[bytes, Bip32FingerPrint]) -> Bip44Base:
+        """
+        Create a Bip object from the specified public key and derivation data.
+        If only the public key bytes are specified, the key will be considered an account key with
+        the chain code set to zero, since there is no way to recover the key derivation data.
+
+        Args:
+            pub_key (bytes or IPublicKey)              : Public key
+            coin_conf (BipCoinConf)                    : BipCoinConf object
+            chain_code (bytes or Bip32ChainCode object): Chain code
+            depth (int or Bip32Depth object)           : Child depth
+            index (int or Bip32KeyIndex object)        : Child index
+            fprint (bytes or Bip32FingerPrint object)  : Parent fingerprint
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            Bip32KeyError: If the key is not valid
+        """
+        bip32_cls = coin_conf.Bip32Class()
+        return cls(bip32_cls.FromPublicKey(pub_key,
+                                           chain_code=chain_code,
+                                           depth=depth,
+                                           index=index,
+                                           fprint=fprint,
+                                           key_net_ver=coin_conf.KeyNetVersions()),
                    coin_conf)
 
     #
@@ -497,21 +533,59 @@ class Bip44Base(ABC):
     @abstractmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       coin_type: BipCoins) -> Bip44Base:
+                       coin_type: BipCoins,
+                       chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
+                       depth: Union[int, Bip32Depth] = Bip32Depth(0),
+                       index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
+                       fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint()) -> Bip44Base:
         """
-        Create a Bip object from the specified private key.
-        The key will be considered a master key with the chain code set to zero,
-        since there is no way to recover the key derivation data.
+        Create a Bip object from the specified private key and derivation data.
+        If only the private key bytes are specified, the key will be considered a master key with
+        the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key
-            coin_type (BipCoins)           : Coin type (the type depends on the specific child class)
+            priv_key (bytes or IPrivateKey)                      : Private key
+            coin_type (BipCoins)                                 : Coin type, shall be a Bip44Coins enum
+            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
+            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
+            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
+            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
 
         Returns:
             Bip object: Bip object
 
         Raises:
-            TypeError: If coin type is not of the correct type
+            TypeError: If coin type is not a Bip44Coins enum
+            Bip32KeyError: If the key is not valid
+        """
+
+    @classmethod
+    @abstractmethod
+    def FromPublicKey(cls,
+                      pub_key: Union[bytes, IPublicKey],
+                      coin_type: BipCoins,
+                      chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
+                      depth: Union[int, Bip32Depth] = Bip32Depth(Bip44Levels.ACCOUNT),
+                      index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
+                      fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint()) -> Bip44Base:
+        """
+        Create a Bip object from the specified public key and derivation data.
+        If only the public key bytes are specified, the key will be considered an account key with
+        the chain code set to zero, since there is no way to recover the key derivation data.
+
+        Args:
+            pub_key (bytes or IPublicKey)                        : Public key
+            coin_type (BipCoins)                                 : Coin type, shall be a Bip44Coins enum
+            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
+            depth (int or Bip32Depth object, optional)           : Child depth (default: 3)
+            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
+            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
+
+        Returns:
+            Bip object: Bip object
+
+        Raises:
+            TypeError: If coin type is not a Bip44Coins enum
             Bip32KeyError: If the key is not valid
         """
 
