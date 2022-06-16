@@ -40,10 +40,10 @@ class Bip32KeyDataConst:
     CHAINCODE_BYTE_LEN: int = 32
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN: int = 4
+    # Fingerprint of master key
+    FINGERPRINT_MASTER_KEY: bytes = b"\x00\x00\x00\x00"
     # Key net version length in bytes
     KEY_NET_VERSION_LEN: int = 4
-    # Fingerprint of master key
-    MASTER_FINGERPRINT: bytes = b"\x00\x00\x00\x00"
 
 
 class Bip32ChainCode(DataBytes):
@@ -72,7 +72,7 @@ class Bip32FingerPrint(DataBytes):
     """
 
     def __init__(self,
-                 fprint: bytes = Bip32KeyDataConst.MASTER_FINGERPRINT) -> None:
+                 fprint: bytes = Bip32KeyDataConst.FINGERPRINT_MASTER_KEY) -> None:
         """
         Construct class.
 
@@ -90,7 +90,7 @@ class Bip32FingerPrint(DataBytes):
         Returns:
             bool: True if it corresponds to a master key, false otherwise
         """
-        return self.ToBytes() == Bip32KeyDataConst.MASTER_FINGERPRINT
+        return self.ToBytes() == Bip32KeyDataConst.FINGERPRINT_MASTER_KEY
 
 
 class Bip32Depth:

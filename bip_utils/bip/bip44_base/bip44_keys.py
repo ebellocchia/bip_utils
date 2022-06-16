@@ -47,6 +47,9 @@ class Bip44PublicKey:
         Args:
             pub_key (Bip32PublicKey object): Bip32PublicKey object
             coin_conf (BipCoinConf object) : BipCoinConf object
+
+        Raises:
+            ValueError: If the key elliptic curve is different from the coin configuration one
         """
         if pub_key.CurveType() != coin_conf.Bip32Class().CurveType():
             raise ValueError(
@@ -139,6 +142,9 @@ class Bip44PrivateKey:
         Args:
             priv_key (Bip32PrivateKey object): Bip32PrivateKey object
             coin_conf (BipCoinConf object)   : BipCoinConf object
+
+        Raises:
+            ValueError: If the key elliptic curve is different from the coin configuration one
         """
         if priv_key.CurveType() != coin_conf.Bip32Class().CurveType():
             raise ValueError(

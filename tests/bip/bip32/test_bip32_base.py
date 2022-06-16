@@ -26,14 +26,14 @@ from bip_utils import (
     Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32FingerPrint,
     Bip32PublicKey, Bip32PrivateKey, EllipticCurveGetter
 )
-from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 
 # Invalid seed for testing
 TEST_SEED_ERR = b"000102030405060708090a0b0c0d0e"
 # Generic seed for testing
 TEST_SEED = b"000102030405060708090a0b0c0d0e0f"
 # Zero chain code
-ZERO_CHAIN_CODE = b"\x00" * Bip32BaseConst.HMAC_HALF_BYTE_LEN
+ZERO_CHAIN_CODE = b"\x00" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN
 
 
 #

@@ -185,7 +185,7 @@ class Bip32Base(ABC):
                        fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint(),
                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
-        Create a Bip32 object from the specified private key.
+        Create a Bip32 object from the specified private key and derivation data.
         If only the private key bytes are specified, the key will be considered a master key with
         the chain code set to zero, since there is no way to recover the key derivation data.
 
@@ -227,7 +227,7 @@ class Bip32Base(ABC):
                       fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint(),
                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
-        Create a Bip32 object from the specified public key.
+        Create a Bip32 object from the specified public key and derivation data.
         If only the the public key bytes are specified, the key will be considered a master key with
         the chain code set to zero, since there is no way to recover the key derivation data.
 
