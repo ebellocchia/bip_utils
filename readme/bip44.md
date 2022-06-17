@@ -161,7 +161,7 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
 **Code example**
 
     import binascii
-    from bip_utils import Bip44Coins, Bip44, Secp256k1PrivateKey
+    from bip_utils import Bip32KeyData, Bip44Coins, Bip44, Secp256k1PrivateKey
     
     # Construct from private key bytes
     priv_key_bytes = binascii.unhexlify(b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35")
@@ -171,12 +171,16 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
     
     # Construct by specifying derivation data
     chain_code_bytes = binascii.unhexlify(b"873dff81c02f525623fd1fe5167eac3a55a049de3d314bb42ee227ffed37d508")
-    bip44_mst_ctx = Bip44.FromPrivateKey(priv_key_bytes,
-                                         Bip44Coins.BITCOIN,
-                                         chain_code=chain_code_bytes,
-                                         depth=1,
-                                         index=2,
-                                         fprint=binascii.unhexlify(b"3442193e"))
+    bip44_mst_ctx = Bip44.FromPrivateKey(
+        priv_key_bytes,
+        Bip44Coins.BITCOIN,
+        Bip32KeyData(
+            chain_code=chain_code_bytes,
+            depth=1,
+            index=2,
+            parent_fprint=binascii.unhexlify(b"3442193e")
+        )
+    )
 
 ### Construction from public key
 
@@ -187,7 +191,7 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
 **Code example**
 
     import binascii
-    from bip_utils import Bip44Coins, Bip44, Secp256k1PublicKey
+    from bip_utils import Bip32KeyData, Bip44Coins, Bip44, Secp256k1PublicKey
     
     # Construct from public key bytes
     pub_key_bytes = binascii.unhexlify(b"02e8445082a72f29b75ca48748a914df60622a609cacfce8ed0e35804560741d29")
@@ -197,12 +201,16 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
     
     # Construct by specifying derivation data
     chain_code_bytes = binascii.unhexlify(b"873dff81c02f525623fd1fe5167eac3a55a049de3d314bb42ee227ffed37d508")
-    bip44_mst_ctx = Bip44.FromPublicKey(pub_key_bytes,
-                                        Bip44Coins.BITCOIN,
-                                        chain_code=chain_code_bytes,
-                                        depth=4,
-                                        index=1,
-                                        fprint=binascii.unhexlify(b"3442193e"))
+    bip44_mst_ctx = Bip44.FromPublicKey(
+        pub_key_bytes,
+        Bip44Coins.BITCOIN,
+        Bip32KeyData(
+            chain_code=chain_code_bytes,
+            depth=4,
+            index=1,
+            parent_fprint=binascii.unhexlify(b"3442193e")
+        )
+    )
 
 ### Keys derivation
 
