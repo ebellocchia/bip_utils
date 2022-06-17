@@ -1,2 +1,3 @@
 include keywords.txt
 include requirements.txt
+include readme/*
