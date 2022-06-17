@@ -23,7 +23,7 @@
 import binascii
 from bip_utils import (
     Bip32KeyError, Bip32Utils,
-    Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32FingerPrint,
+    Bip32KeyData, Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32FingerPrint,
     Bip32PublicKey, Bip32PrivateKey, EllipticCurveGetter
 )
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
@@ -186,10 +186,12 @@ class Bip32BaseTestHelper:
         depth = 0
         bip32_ctx = bip32_class.FromPrivateKey(
             priv_key,
-            binascii.unhexlify(test["master"]["chain_code"]),
-            depth,
-            test["master"]["index"],
-            binascii.unhexlify(test["master"]["parent_fprint"])
+            Bip32KeyData(
+                chain_code=binascii.unhexlify(test["master"]["chain_code"]),
+                depth=depth,
+                index=test["master"]["index"],
+                parent_fprint=binascii.unhexlify(test["master"]["parent_fprint"])
+            )
         )
         # Test object
         Bip32BaseTestHelper.__test_bip32_obj(ut_class, bip32_ctx, test["master"], depth, False)
@@ -200,10 +202,12 @@ class Bip32BaseTestHelper:
             # Create from private key
             bip32_ctx = bip32_class.FromPrivateKey(
                 binascii.unhexlify(der_path["priv_key"]),
-                binascii.unhexlify(der_path["chain_code"]),
-                depth,
-                der_path["index"],
-                binascii.unhexlify(der_path["parent_fprint"])
+                Bip32KeyData(
+                    chain_code=binascii.unhexlify(der_path["chain_code"]),
+                    depth=depth,
+                    index=der_path["index"],
+                    parent_fprint=binascii.unhexlify(der_path["parent_fprint"])
+                )
             )
             # Test object
             Bip32BaseTestHelper.__test_bip32_obj(ut_class, bip32_ctx, der_path, depth, False)
@@ -222,10 +226,12 @@ class Bip32BaseTestHelper:
         depth = 0
         bip32_ctx = bip32_class.FromPublicKey(
             pub_key,
-            binascii.unhexlify(test["master"]["chain_code"]),
-            depth,
-            test["master"]["index"],
-            binascii.unhexlify(test["master"]["parent_fprint"])
+            Bip32KeyData(
+                chain_code=binascii.unhexlify(test["master"]["chain_code"]),
+                depth=depth,
+                index=test["master"]["index"],
+                parent_fprint=binascii.unhexlify(test["master"]["parent_fprint"])
+            )
         )
         # Test object
         Bip32BaseTestHelper.__test_bip32_obj(ut_class, bip32_ctx, test["master"], depth, True)
@@ -236,10 +242,12 @@ class Bip32BaseTestHelper:
             # Create from public key
             bip32_ctx = bip32_class.FromPublicKey(
                 binascii.unhexlify(der_path["pub_key"]),
-                binascii.unhexlify(der_path["chain_code"]),
-                depth,
-                der_path["index"],
-                binascii.unhexlify(der_path["parent_fprint"])
+                Bip32KeyData(
+                    chain_code=binascii.unhexlify(der_path["chain_code"]),
+                    depth=depth,
+                    index=der_path["index"],
+                    parent_fprint=binascii.unhexlify(der_path["parent_fprint"])
+                )
             )
             # Test object
             Bip32BaseTestHelper.__test_bip32_obj(ut_class, bip32_ctx, der_path, depth, True)

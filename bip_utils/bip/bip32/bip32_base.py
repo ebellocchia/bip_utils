@@ -170,20 +170,14 @@ class Bip32Base(ABC):
 
         return cls(priv_key=key_bytes if not is_public else None,
                    pub_key=key_bytes if is_public else None,
-                   chain_code=key_data.ChainCode(),
+                   key_data=key_data,
                    curve_type=cls.CurveType(),
-                   depth=key_data.Depth(),
-                   index=key_data.Index(),
-                   fprint=key_data.ParentFingerPrint(),
                    key_net_ver=key_net_ver)
 
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
-                       chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
-                       depth: Union[int, Bip32Depth] = Bip32Depth(0),
-                       index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
-                       fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint(),
+                       key_data: Bip32KeyData = Bip32KeyData(),
                        key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
         Create a Bip32 object from the specified private key and derivation data.
@@ -191,13 +185,9 @@ class Bip32Base(ABC):
         the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            priv_key (bytes or IPrivateKey)                      : Private key
-            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
-            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
-            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
-            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
-            key_net_ver (Bip32KeyNetVersions object)             : Bip32KeyNetVersions object (BIP32 main net version
-                                                                   by default)
+            priv_key (bytes or IPrivateKey)         : Private key
+            key_data (Bip32KeyData object, optional): Key data (default: all zeros)
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -205,27 +195,16 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
-        chain_code = cls.__GetChainCode(chain_code)
-        depth = cls.__GetDepth(depth)
-        fprint = cls.__GetFingerPrint(fprint)
-        index = cls.__GetIndex(index)
-
         return cls(priv_key=priv_key,
                    pub_key=None,
-                   chain_code=chain_code,
+                   key_data=key_data,
                    curve_type=cls.CurveType(),
-                   depth=depth,
-                   index=index,
-                   fprint=fprint,
                    key_net_ver=key_net_ver)
 
     @classmethod
     def FromPublicKey(cls,
                       pub_key: Union[bytes, IPublicKey],
-                      chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
-                      depth: Union[int, Bip32Depth] = Bip32Depth(0),
-                      index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
-                      fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint(),
+                      key_data: Bip32KeyData = Bip32KeyData(),
                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
         Create a Bip32 object from the specified public key and derivation data.
@@ -233,13 +212,9 @@ class Bip32Base(ABC):
         the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
-            pub_key (bytes or IPublicKey)                        : Public key
-            chain_code (bytes or Bip32ChainCode object, optional): Chain code (default: all zeros)
-            depth (int or Bip32Depth object, optional)           : Child depth (default: 0)
-            index (int or Bip32KeyIndex object, optional)        : Child index (default: 0)
-            fprint (bytes or Bip32FingerPrint object, optional)  : Parent fingerprint (default: master key)
-            key_net_ver (Bip32KeyNetVersions object)             : Bip32KeyNetVersions object (BIP32 main net version
-                                                                   by default)
+            pub_key (bytes or IPublicKey)           : Public key
+            key_data (Bip32KeyData object, optional): Key data (default: all zeros)
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -247,18 +222,10 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
-        chain_code = cls.__GetChainCode(chain_code)
-        depth = cls.__GetDepth(depth)
-        fprint = cls.__GetFingerPrint(fprint)
-        index = cls.__GetIndex(index)
-
         return cls(priv_key=None,
                    pub_key=pub_key,
-                   chain_code=chain_code,
+                   key_data=key_data,
                    curve_type=cls.CurveType(),
-                   depth=depth,
-                   index=index,
-                   fprint=fprint,
                    key_net_ver=key_net_ver)
 
     #
@@ -268,11 +235,8 @@ class Bip32Base(ABC):
     def __init__(self,
                  priv_key: Optional[Union[bytes, IPrivateKey]],
                  pub_key: Optional[Union[bytes, IPublicKey]],
-                 chain_code: Bip32ChainCode,
+                 key_data: Bip32KeyData,
                  curve_type: EllipticCurveTypes,
-                 depth: Bip32Depth = Bip32Depth(0),
-                 index: Bip32KeyIndex = Bip32KeyIndex(0),
-                 fprint: Bip32FingerPrint = Bip32FingerPrint(),
                  key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> None:
         """
         Construct class.
@@ -281,12 +245,8 @@ class Bip32Base(ABC):
             priv_key (bytes or IPrivateKey)                   : Private key (None for a public-only object)
             pub_key (bytes or IPublicKey)                     : Public key (only needed for a public-only object)
                                                                 If priv_key is not None, it'll be discarded
-            chain_code (Bip32ChainCode object)                : Chain code
+            key_data (Bip32KeyData object)                    : Key data
             curve_type (EllipticCurveTypes)                   : Elliptic curve type
-            depth (Bip32Depth object, optional)               : Child depth, parent increments its own by one when
-                                                                assigning this (default: 0)
-            index (Bip32KeyIndex object, optional)            : Child index (default: 0)
-            fprint (Bip32FingerPrint object, optional)        : Parent fingerprint (default: master key)
             key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (Bip32 main net by default)
 
         Raises:
@@ -301,9 +261,6 @@ class Bip32Base(ABC):
         if pub_key is not None:
             if not isinstance(pub_key, bytes) and not isinstance(pub_key, curve.PublicKeyClass()):
                 raise Bip32KeyError(f"Invalid public key class, a {curve.Name()} key is required")
-
-        # Key data
-        key_data = Bip32KeyData(depth, index, chain_code, fprint)
 
         # Private key object
         if priv_key is not None:
@@ -507,7 +464,7 @@ class Bip32Base(ABC):
         # Create BIP32 by splitting the HMAC into two 32-byte sequences
         return cls(priv_key=hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN],
                    pub_key=None,
-                   chain_code=Bip32ChainCode(hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]),
+                   key_data=Bip32KeyData(chain_code=hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]),
                    curve_type=curve_type,
                    key_net_ver=key_net_ver)
 
@@ -560,45 +517,6 @@ class Bip32Base(ABC):
     #
     # Private methods
     #
-
-    @staticmethod
-    def __GetChainCode(chain_code: Union[bytes, Bip32ChainCode]) -> Bip32ChainCode:
-        """
-        Get chain code object.
-
-        Args:
-            chain_code (bytes or Bip32ChainCode): Chain code
-
-        Returns:
-            Bip32ChainCode object: Bip32ChainCode object
-        """
-        return Bip32ChainCode(chain_code) if isinstance(chain_code, bytes) else chain_code
-
-    @staticmethod
-    def __GetDepth(depth: Union[int, Bip32Depth]) -> Bip32Depth:
-        """
-        Get depth object.
-
-        Args:
-            depth (int or Bip32Depth): Depth
-
-        Returns:
-            Bip32Depth object: Bip32Depth object
-        """
-        return Bip32Depth(depth) if isinstance(depth, int) else depth
-
-    @staticmethod
-    def __GetFingerPrint(fprint: Union[bytes, Bip32FingerPrint]) -> Bip32FingerPrint:
-        """
-        Get fingerprint object.
-
-        Args:
-            fprint (bytes or Bip32FingerPrint): Fingerprint
-
-        Returns:
-            Bip32FingerPrint object: Bip32FingerPrint object
-        """
-        return Bip32FingerPrint(fprint) if isinstance(fprint, bytes) else fprint
 
     @staticmethod
     def __GetIndex(index: Union[int, Bip32KeyIndex]) -> Bip32KeyIndex:

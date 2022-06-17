@@ -22,7 +22,7 @@
 # Imports
 import binascii
 from bip_utils import (
-    Bip32KeyError, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError,
+    Bip32KeyError, Bip32KeyData, Bip44Coins, Bip49Coins, Bip44Changes, Bip44Levels, Bip44DepthError,
     Bip44PublicKey, Bip44PrivateKey, Monero
 )
 from bip_utils.bip.conf.common import BipCoinConf
@@ -166,12 +166,16 @@ class Bip44BaseTestHelper:
                 ut_class.assertTrue(bip_obj_ctx.Bip32Object().ParentFingerPrint().IsMasterKey())
 
                 # Create from private key with derivation data
-                bip_obj_ctx = bip_class.FromPrivateKey(bip_tmp_ctx.PrivateKey().Raw().ToBytes(),
-                                                       test["coin"],
-                                                       chain_code=bip_tmp_ctx.Bip32Object().ChainCode(),
-                                                       depth=bip_tmp_ctx.Bip32Object().Depth(),
-                                                       index=bip_tmp_ctx.Bip32Object().Index(),
-                                                       fprint=bip_tmp_ctx.Bip32Object().ParentFingerPrint())
+                bip_obj_ctx = bip_class.FromPrivateKey(
+                    bip_tmp_ctx.PrivateKey().Raw().ToBytes(),
+                    test["coin"],
+                    Bip32KeyData(
+                        chain_code=bip_tmp_ctx.Bip32Object().ChainCode(),
+                        depth=bip_tmp_ctx.Bip32Object().Depth(),
+                        index=bip_tmp_ctx.Bip32Object().Index(),
+                        parent_fprint=bip_tmp_ctx.Bip32Object().ParentFingerPrint()
+                    )
+                )
                 ut_class.assertFalse(bip_obj_ctx.IsPublicOnly())
                 ut_class.assertEqual(ex_key, bip_obj_ctx.PrivateKey().ToExtended())
 
@@ -193,12 +197,16 @@ class Bip44BaseTestHelper:
                 ut_class.assertTrue(bip_obj_ctx.Bip32Object().ParentFingerPrint().IsMasterKey())
 
                 # Create from public key with derivation data
-                bip_obj_ctx = bip_class.FromPublicKey(bip_tmp_ctx.PublicKey().RawCompressed().ToBytes(),
-                                                      test["coin"],
-                                                      chain_code=bip_tmp_ctx.Bip32Object().ChainCode(),
-                                                      depth=bip_tmp_ctx.Bip32Object().Depth(),
-                                                      index=bip_tmp_ctx.Bip32Object().Index(),
-                                                      fprint=bip_tmp_ctx.Bip32Object().ParentFingerPrint())
+                bip_obj_ctx = bip_class.FromPublicKey(
+                    bip_tmp_ctx.PublicKey().RawCompressed().ToBytes(),
+                    test["coin"],
+                    Bip32KeyData(
+                        chain_code=bip_tmp_ctx.Bip32Object().ChainCode(),
+                        depth=bip_tmp_ctx.Bip32Object().Depth(),
+                        index=bip_tmp_ctx.Bip32Object().Index(),
+                        parent_fprint=bip_tmp_ctx.Bip32Object().ParentFingerPrint()
+                    )
+                )
                 ut_class.assertTrue(bip_obj_ctx.IsPublicOnly())
                 ut_class.assertEqual(ex_key, bip_obj_ctx.PublicKey().ToExtended())
 

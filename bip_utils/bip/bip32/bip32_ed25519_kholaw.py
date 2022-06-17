@@ -28,7 +28,7 @@ from typing import Tuple
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst
-from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, Ed25519KholawPrivateKey, Ed25519KholawPublicKey
 from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils, IntegerUtils
@@ -130,7 +130,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
 
         return cls(priv_key=priv_key,
                    pub_key=None,
-                   chain_code=Bip32ChainCode(chain_code_bytes),
+                   key_data=Bip32KeyData(chain_code=chain_code_bytes),
                    curve_type=cls.CurveType(),
                    key_net_ver=key_net_ver)
 
@@ -196,11 +196,11 @@ class Bip32Ed25519Kholaw(Bip32Base):
         return Bip32Ed25519Kholaw(
             priv_key=priv_key,
             pub_key=None,
-            chain_code=Bip32ChainCode(chain_code_bytes),
+            key_data=Bip32KeyData(chain_code=chain_code_bytes,
+                                  depth=self.Depth().Increase(),
+                                  index=index,
+                                  parent_fprint=self.m_pub_key.FingerPrint()),
             curve_type=self.CurveType(),
-            depth=self.Depth().Increase(),
-            index=index,
-            fprint=self.m_pub_key.FingerPrint(),
             key_net_ver=self.KeyNetVersions()
         )
 
@@ -247,11 +247,11 @@ class Bip32Ed25519Kholaw(Bip32Base):
         return Bip32Ed25519Kholaw(
             priv_key=None,
             pub_key=Ed25519KholawPublicKey.FromPoint(pub_key_point),
-            chain_code=Bip32ChainCode(chain_code_bytes),
+            key_data=Bip32KeyData(chain_code=chain_code_bytes,
+                                  depth=self.Depth().Increase(),
+                                  index=index,
+                                  parent_fprint=self.m_pub_key.FingerPrint()),
             curve_type=self.CurveType(),
-            depth=self.Depth().Increase(),
-            index=index,
-            fprint=self.m_pub_key.FingerPrint(),
             key_net_ver=self.KeyNetVersions()
         )
 

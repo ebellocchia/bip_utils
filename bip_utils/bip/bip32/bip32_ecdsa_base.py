@@ -29,7 +29,7 @@ References:
 # Imports
 from abc import ABC
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.ecc import EllipticCurveGetter
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
@@ -113,11 +113,11 @@ class Bip32EcdsaBase(Bip32Base, ABC):
         # Construct and return a new Bip32 object
         return cls(priv_key=new_priv_key_bytes,
                    pub_key=None,
-                   chain_code=Bip32ChainCode(i_r),
+                   key_data=Bip32KeyData(chain_code=i_r,
+                                         depth=bip32_obj.Depth().Increase(),
+                                         index=index,
+                                         parent_fprint=bip32_obj.m_pub_key.FingerPrint()),
                    curve_type=bip32_obj.CurveType(),
-                   depth=bip32_obj.Depth().Increase(),
-                   index=index,
-                   fprint=bip32_obj.m_pub_key.FingerPrint(),
                    key_net_ver=bip32_obj.KeyNetVersions())
 
     @classmethod
@@ -154,9 +154,9 @@ class Bip32EcdsaBase(Bip32Base, ABC):
         # Construct and return a new Bip32 object
         return cls(priv_key=None,
                    pub_key=pub_key,
-                   chain_code=Bip32ChainCode(i_r),
+                   key_data=Bip32KeyData(chain_code=i_r,
+                                         depth=bip32_obj.Depth().Increase(),
+                                         index=index,
+                                         parent_fprint=bip32_obj.m_pub_key.FingerPrint()),
                    curve_type=bip32_obj.CurveType(),
-                   depth=bip32_obj.Depth().Increase(),
-                   index=index,
-                   fprint=bip32_obj.m_pub_key.FingerPrint(),
                    key_net_ver=bip32_obj.KeyNetVersions())

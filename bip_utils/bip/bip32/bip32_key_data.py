@@ -307,10 +307,10 @@ class Bip32KeyData:
     m_parent_fprint: Bip32FingerPrint
 
     def __init__(self,
-                 depth: Bip32Depth,
-                 index: Bip32KeyIndex,
-                 chain_code: Bip32ChainCode,
-                 parent_fprint: Bip32FingerPrint) -> None:
+                 depth: Union[int, Bip32Depth] = Bip32Depth(0),
+                 index: Union[int, Bip32KeyIndex] = Bip32KeyIndex(0),
+                 chain_code: Union[bytes, Bip32ChainCode] = Bip32ChainCode(),
+                 parent_fprint: Union[bytes, Bip32FingerPrint] = Bip32FingerPrint()) -> None:
         """
         Construct class.
 
@@ -320,10 +320,12 @@ class Bip32KeyData:
             chain_code (Bip32ChainCode object)      : Key chain code
             parent_fprint (Bip32FingerPrint object) : Key parent fingerprint
         """
-        self.m_depth = depth
-        self.m_index = index
-        self.m_chain_code = chain_code
-        self.m_parent_fprint = parent_fprint
+        self.m_depth = depth if isinstance(depth, Bip32Depth) else Bip32Depth(depth)
+        self.m_index = index if isinstance(index, Bip32KeyIndex) else Bip32KeyIndex(index)
+        self.m_chain_code = chain_code if isinstance(chain_code, Bip32ChainCode) else Bip32ChainCode(chain_code)
+        self.m_parent_fprint = (parent_fprint
+                                if isinstance(parent_fprint, Bip32FingerPrint)
+                                else Bip32FingerPrint(parent_fprint))
 
     def Depth(self) -> Bip32Depth:
         """

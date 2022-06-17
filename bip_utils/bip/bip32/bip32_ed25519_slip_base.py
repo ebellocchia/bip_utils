@@ -26,7 +26,7 @@ Reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 # Imports
 from abc import ABC
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey
-from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 
 
@@ -102,11 +102,11 @@ class Bip32Ed25519SlipBase(Bip32Base, ABC):
         # Construct and return a new Bip32 object
         return cls(priv_key=i_l,
                    pub_key=None,
-                   chain_code=Bip32ChainCode(i_r),
+                   key_data=Bip32KeyData(chain_code=i_r,
+                                         depth=bip32_obj.Depth().Increase(),
+                                         index=index,
+                                         parent_fprint=bip32_obj.m_pub_key.FingerPrint()),
                    curve_type=bip32_obj.CurveType(),
-                   depth=bip32_obj.Depth().Increase(),
-                   index=index,
-                   fprint=bip32_obj.m_pub_key.FingerPrint(),
                    key_net_ver=bip32_obj.KeyNetVersions())
 
     def _CkdPub(self,
