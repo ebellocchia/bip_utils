@@ -12,6 +12,7 @@ bip32
    bip32_ed25519_slip_base
    bip32_ex
    bip32_key_data
+   bip32_key_net_ver
    bip32_key_ser
    bip32_keys
    bip32_nist256p1
