@@ -27,8 +27,9 @@ from typing import Optional, Union, Tuple
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_key_data import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 )
+from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip.bip32.bip32_path import Bip32Path, Bip32PathParser
@@ -174,7 +175,7 @@ class Bip32Base(ABC):
                    depth=key_data.Depth(),
                    index=key_data.Index(),
                    fprint=key_data.ParentFingerPrint(),
-                   key_net_ver=key_data.KeyNetVersions())
+                   key_net_ver=key_net_ver)
 
     @classmethod
     def FromPrivateKey(cls,
@@ -302,12 +303,13 @@ class Bip32Base(ABC):
                 raise Bip32KeyError(f"Invalid public key class, a {curve.Name()} key is required")
 
         # Key data
-        key_data = Bip32KeyData(key_net_ver, depth, index, chain_code, fprint)
+        key_data = Bip32KeyData(depth, index, chain_code, fprint)
 
         # Private key object
         if priv_key is not None:
             self.m_priv_key = Bip32PrivateKey.FromBytesOrKeyObject(priv_key,
                                                                    key_data,
+                                                                   key_net_ver,
                                                                    curve_type)
             self.m_pub_key = self.m_priv_key.PublicKey()
         # Public-only object
@@ -317,6 +319,7 @@ class Bip32Base(ABC):
             self.m_priv_key = None
             self.m_pub_key = Bip32PublicKey.FromBytesOrKeyObject(pub_key,
                                                                  key_data,
+                                                                 key_net_ver,
                                                                  curve_type)
 
     def ChildKey(self,
@@ -404,7 +407,7 @@ class Bip32Base(ABC):
         Returns:
             Bip32KeyNetVersions object: Bip32KeyNetVersions object
         """
-        return self.m_pub_key.Data().KeyNetVersions()
+        return self.m_pub_key.KeyNetVersions()
 
     def Depth(self) -> Bip32Depth:
         """

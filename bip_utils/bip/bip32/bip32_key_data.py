@@ -42,8 +42,6 @@ class Bip32KeyDataConst:
     FINGERPRINT_BYTE_LEN: int = 4
     # Fingerprint of master key
     FINGERPRINT_MASTER_KEY: bytes = b"\x00\x00\x00\x00"
-    # Key net version length in bytes
-    KEY_NET_VERSION_LEN: int = 4
 
 
 class Bip32ChainCode(DataBytes):
@@ -297,75 +295,18 @@ class Bip32KeyIndex:
         return self.m_idx == other.m_idx
 
 
-class Bip32KeyNetVersions:
-    """
-    BIP32 key net versions class.
-    It represents a BIP32 key net versions.
-    """
-
-    m_pub_net_ver: bytes
-    m_priv_net_ver: bytes
-
-    def __init__(self,
-                 pub_net_ver: bytes,
-                 priv_net_ver: bytes) -> None:
-        """
-        Construct class.
-
-        Args:
-            pub_net_ver (bytes) : Public net version
-            priv_net_ver (bytes): Private net version
-        """
-        if (len(pub_net_ver) != self.Length()
-                or len(priv_net_ver) != self.Length()):
-            raise ValueError("Invalid key net version length")
-
-        self.m_pub_net_ver = pub_net_ver
-        self.m_priv_net_ver = priv_net_ver
-
-    @staticmethod
-    def Length() -> int:
-        """
-        Get the key net version length.
-
-        Returns:
-            int: Key net version length
-        """
-        return Bip32KeyDataConst.KEY_NET_VERSION_LEN
-
-    def Public(self) -> bytes:
-        """
-        Get public net version.
-
-        Returns:
-            bytes: Public net version
-        """
-        return self.m_pub_net_ver
-
-    def Private(self) -> bytes:
-        """
-        Get private net version.
-
-        Returns:
-            bytes: Private net version
-        """
-        return self.m_priv_net_ver
-
-
 class Bip32KeyData:
     """
     BIP32 key data class.
     It contains all additional data related to a BIP32 key (e.g. depth, chain code, etc...).
     """
 
-    m_key_net_ver: Bip32KeyNetVersions
     m_depth: Bip32Depth
     m_index: Bip32KeyIndex
     m_chain_code: Bip32ChainCode
     m_parent_fprint: Bip32FingerPrint
 
     def __init__(self,
-                 key_net_ver: Bip32KeyNetVersions,
                  depth: Bip32Depth,
                  index: Bip32KeyIndex,
                  chain_code: Bip32ChainCode,
@@ -374,26 +315,15 @@ class Bip32KeyData:
         Construct class.
 
         Args:
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
             depth (Bip32Depth object)               : Key depth
             index (Bip32KeyIndex object)            : Key index
             chain_code (Bip32ChainCode object)      : Key chain code
             parent_fprint (Bip32FingerPrint object) : Key parent fingerprint
         """
-        self.m_key_net_ver = key_net_ver
         self.m_depth = depth
         self.m_index = index
         self.m_chain_code = chain_code
         self.m_parent_fprint = parent_fprint
-
-    def KeyNetVersions(self) -> Bip32KeyNetVersions:
-        """
-        Get key net versions.
-
-        Returns:
-            Bip32KeyNetVersions object: Bip32KeyNetVersions object
-        """
-        return self.m_key_net_ver
 
     def Depth(self) -> Bip32Depth:
         """

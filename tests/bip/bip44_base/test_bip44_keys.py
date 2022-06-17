@@ -22,6 +22,7 @@
 # Imports
 import unittest
 from bip_utils import Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey
+from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.bip.bip32.test_bip32_keys import TEST_KEY_DATA
 from tests.ecc.test_ecc import (
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
@@ -79,9 +80,13 @@ TEST_PRIV_KEYS = [
 ]
 
 # BIP32 public key for testing
-TEST_BIP32_PUB_KEY = Bip32PublicKey.FromBytesOrKeyObject(TEST_SECP256K1_PUB_KEY, TEST_KEY_DATA, TEST_SECP256K1_PUB_KEY.CurveType())
+TEST_BIP32_PUB_KEY = Bip32PublicKey.FromBytesOrKeyObject(
+    TEST_SECP256K1_PUB_KEY, TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, TEST_SECP256K1_PUB_KEY.CurveType()
+)
 # BIP32 private key for testing
-TEST_BIP32_PRIV_KEY = Bip32PrivateKey.FromBytesOrKeyObject(TEST_SECP256K1_PRIV_KEY, TEST_KEY_DATA, TEST_SECP256K1_PRIV_KEY.CurveType())
+TEST_BIP32_PRIV_KEY = Bip32PrivateKey.FromBytesOrKeyObject(
+    TEST_SECP256K1_PRIV_KEY, TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, TEST_SECP256K1_PRIV_KEY.CurveType()
+)
 
 
 #
@@ -91,7 +96,9 @@ class Bip44KeyDataTests(unittest.TestCase):
     # Test private key
     def test_priv_key(self):
         for test in TEST_PRIV_KEYS:
-            bip32_key = Bip32PrivateKey.FromBytesOrKeyObject(test["key"], TEST_KEY_DATA, test["key"].CurveType())
+            bip32_key = Bip32PrivateKey.FromBytesOrKeyObject(
+                test["key"], TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, test["key"].CurveType()
+            )
             bip44_key = Bip44PrivateKey(bip32_key, test["conf"])
 
             self.assertTrue(bip44_key.Bip32Key() is bip32_key)
@@ -102,7 +109,9 @@ class Bip44KeyDataTests(unittest.TestCase):
     # Test public key
     def test_pub_key(self):
         for test in TEST_PUB_KEYS:
-            bip32_key = Bip32PublicKey.FromBytesOrKeyObject(test["key"], TEST_KEY_DATA, test["key"].CurveType())
+            bip32_key = Bip32PublicKey.FromBytesOrKeyObject(
+                test["key"], TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, test["key"].CurveType()
+            )
             bip44_key = Bip44PublicKey(bip32_key, test["conf"])
 
             self.assertTrue(bip44_key.Bip32Key() is bip32_key)

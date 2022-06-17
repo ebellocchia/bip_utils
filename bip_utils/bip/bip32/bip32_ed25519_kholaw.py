@@ -28,7 +28,8 @@ from typing import Tuple
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils, Bip32Base
 from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst
-from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex, Bip32KeyNetVersions
+from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, Ed25519KholawPrivateKey, Ed25519KholawPublicKey
 from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils, IntegerUtils
 

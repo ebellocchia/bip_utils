@@ -25,8 +25,9 @@ from typing import Optional, Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 )
+from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.ecc import IPublicKey, IPrivateKey
 from bip_utils.utils.misc import BytesUtils
 
@@ -100,8 +101,7 @@ class Bip32KeyDeserializer:
         index = BytesUtils.ToInteger(ex_key_bytes[9:13])
         chain_code = ex_key_bytes[13:45]
         self.m_key_bytes = ex_key_bytes[45:]
-        self.m_key_data = Bip32KeyData(key_net_ver,
-                                       Bip32Depth(depth),
+        self.m_key_data = Bip32KeyData(Bip32Depth(depth),
                                        Bip32KeyIndex(index),
                                        Bip32ChainCode(chain_code),
                                        Bip32FingerPrint(fprint))
@@ -134,19 +134,21 @@ class Bip32PrivateKeySerializer:
 
     @staticmethod
     def Serialize(priv_key: IPrivateKey,
-                  key_data: Bip32KeyData) -> str:
+                  key_data: Bip32KeyData,
+                  key_net_ver: Bip32KeyNetVersions) -> str:
         """
         Serialize a private key.
 
         Args:
-            priv_key (IPrivateKey object): IPrivateKey object
-            key_data (BipKeyData object) : Key data
+            priv_key (IPrivateKey object)           : IPrivateKey object
+            key_data (BipKeyData object)            : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
 
         Returns:
             str: Serialized private key
         """
         return Bip32KeySerializer.Serialize(b"\x00" + priv_key.Raw().ToBytes(),
-                                            key_data.KeyNetVersions().Private(),
+                                            key_net_ver.Private(),
                                             key_data.Depth(),
                                             key_data.Index(),
                                             key_data.ChainCode(),
@@ -161,19 +163,21 @@ class Bip32PublicKeySerializer:
 
     @staticmethod
     def Serialize(pub_key: IPublicKey,
-                  key_data: Bip32KeyData) -> str:
+                  key_data: Bip32KeyData,
+                  key_net_ver: Bip32KeyNetVersions) -> str:
         """
         Serialize the a public key.
 
         Args:
-            pub_key (IPublicKey object) : IPublicKey object
-            key_data (BipKeyData object): Key data
+            pub_key (IPublicKey object)             : IPublicKey object
+            key_data (BipKeyData object)            : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
 
         Returns:
             str: Serialized public key
         """
         return Bip32KeySerializer.Serialize(pub_key.RawCompressed().ToBytes(),
-                                            key_data.KeyNetVersions().Public(),
+                                            key_net_ver.Public(),
                                             key_data.Depth(),
                                             key_data.Index(),
                                             key_data.ChainCode(),

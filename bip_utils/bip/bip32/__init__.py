@@ -7,8 +7,9 @@ from bip_utils.bip.bip32.bip32_nist256p1 import Bip32Nist256p1
 from bip_utils.bip.bip32.bip32_secp256k1 import Bip32Secp256k1
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError, Bip32PathError
 from bip_utils.bip.bip32.bip32_key_data import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyNetVersions, Bip32KeyData
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 )
+from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_path import Bip32PathParser, Bip32Path
 from bip_utils.bip.bip32.bip32_utils import Bip32Utils

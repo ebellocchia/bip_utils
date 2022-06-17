@@ -22,36 +22,86 @@
 
 # Imports
 from __future__ import annotations
+from abc import ABC, abstractmethod
 from functools import lru_cache
 from typing import Union
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
 from bip_utils.bip.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
+from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPoint, IPrivateKey, IPublicKey
 from bip_utils.utils.misc import CryptoUtils, DataBytes
 
 
-class Bip32PublicKey:
+class _Bip32KeyBase(ABC):
+    """Base class for a generic BIP32 key."""
+
+    m_key_data: Bip32KeyData
+    m_key_net_ver: Bip32KeyNetVersions
+
+    def __init__(self,
+                 key_data: Bip32KeyData,
+                 key_net_ver: Bip32KeyNetVersions) -> None:
+        """
+        Construct class.
+
+        Args:
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+        """
+        self.m_key_data = key_data
+        self.m_key_net_ver = key_net_ver
+
+    def Data(self) -> Bip32KeyData:
+        """
+        Return key data.
+
+        Returns:
+            BipKeyData object: BipKeyData object
+        """
+        return self.m_key_data
+
+    def KeyNetVersions(self) -> Bip32KeyNetVersions:
+        """
+        Get key net versions.
+
+        Returns:
+            Bip32KeyNetVersions object: Bip32KeyNetVersions object
+        """
+        return self.m_key_net_ver
+
+    @abstractmethod
+    def ToExtended(self) -> str:
+        """
+        Return key in serialized extended format.
+
+        Returns:
+            str: Key in serialized extended format
+        """
+
+
+class Bip32PublicKey(_Bip32KeyBase):
     """
     BIP32 public key class.
     It represents a public key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
 
     m_pub_key: IPublicKey
-    m_key_data: Bip32KeyData
 
     @classmethod
     def FromBytesOrKeyObject(cls,
                              pub_key: Union[bytes, IPublicKey],
                              key_data: Bip32KeyData,
+                             key_net_ver: Bip32KeyNetVersions,
                              curve_type: EllipticCurveTypes) -> Bip32PublicKey:
         """
         Get the public key from key bytes or object.
 
         Args:
-            pub_key (bytes or IPublicKey)  : Public key
-            key_data (Bip32KeyData object) : Key data
-            curve_type (EllipticCurveTypes): Elliptic curve type
+            pub_key (bytes or IPublicKey)           : Public key
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
@@ -59,41 +109,46 @@ class Bip32PublicKey:
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        return (cls.FromBytes(pub_key, key_data, curve_type)
+        return (cls.FromBytes(pub_key, key_data, key_net_ver, curve_type)
                 if isinstance(pub_key, bytes)
-                else cls(pub_key, key_data))
+                else cls(pub_key, key_data, key_net_ver))
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes,
                   key_data: Bip32KeyData,
+                  key_net_ver: Bip32KeyNetVersions,
                   curve_type: EllipticCurveTypes) -> Bip32PublicKey:
         """
         Create from bytes.
 
         Args:
-            key_bytes (bytes)              : Key bytes
-            key_data (Bip32KeyData object) : Key data
-            curve_type (EllipticCurveTypes): Elliptic curve type
+            key_bytes (bytes)                       : Key bytes
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
 
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
         return cls(cls.__KeyFromBytes(key_bytes, curve_type),
-                   key_data)
+                   key_data,
+                   key_net_ver)
 
     def __init__(self,
                  pub_key: IPublicKey,
-                 key_data: Bip32KeyData) -> None:
+                 key_data: Bip32KeyData,
+                 key_net_ver: Bip32KeyNetVersions) -> None:
         """
         Construct class.
 
         Args:
-            pub_key (IPublicKey object)   : Key object
-            key_data (Bip32KeyData object): Key data
+            pub_key (IPublicKey object)             : Key object
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
         """
+        super().__init__(key_data, key_net_ver)
         self.m_pub_key = pub_key
-        self.m_key_data = key_data
 
     def CurveType(self) -> EllipticCurveTypes:
         """
@@ -112,15 +167,6 @@ class Bip32PublicKey:
             IPublicKey object: Key object
         """
         return self.m_pub_key
-
-    def Data(self) -> Bip32KeyData:
-        """
-        Return key data.
-
-        Returns:
-            BipKeyData object: BipKeyData object
-        """
-        return self.m_key_data
 
     @lru_cache()
     def RawCompressed(self) -> DataBytes:
@@ -180,7 +226,8 @@ class Bip32PublicKey:
             str: Key in serialized extended format
         """
         return Bip32PublicKeySerializer.Serialize(self.m_pub_key,
-                                                  self.m_key_data)
+                                                  self.m_key_data,
+                                                  self.m_key_net_ver)
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes,
@@ -205,27 +252,28 @@ class Bip32PublicKey:
             raise Bip32KeyError("Invalid public key") from ex
 
 
-class Bip32PrivateKey:
+class Bip32PrivateKey(_Bip32KeyBase):
     """
     BIP32 private key class.
     It represents a private key used by BIP32 with all the related data (e.g. depth, chain code, etc...).
     """
 
     m_priv_key: IPrivateKey
-    m_key_data: Bip32KeyData
 
     @classmethod
     def FromBytesOrKeyObject(cls,
                              priv_key: Union[bytes, IPrivateKey],
                              key_data: Bip32KeyData,
+                             key_net_ver: Bip32KeyNetVersions,
                              curve_type: EllipticCurveTypes) -> Bip32PrivateKey:
         """
         Get the public key from key bytes or object.
 
         Args:
-            priv_key (bytes or IPrivateKey): Private key
-            key_data (Bip32KeyData object) : Key data
-            curve_type (EllipticCurveTypes): Elliptic curve type
+            priv_key (bytes or IPrivateKey)         : Private key
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
 
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
@@ -233,41 +281,46 @@ class Bip32PrivateKey:
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        return (cls.FromBytes(priv_key, key_data, curve_type)
+        return (cls.FromBytes(priv_key, key_data, key_net_ver, curve_type)
                 if isinstance(priv_key, bytes)
-                else cls(priv_key, key_data))
+                else cls(priv_key, key_data, key_net_ver))
 
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes,
                   key_data: Bip32KeyData,
+                  key_net_ver: Bip32KeyNetVersions,
                   curve_type: EllipticCurveTypes) -> Bip32PrivateKey:
         """
         Create from bytes.
 
         Args:
-            key_bytes (bytes)              : Key bytes
-            key_data (Bip32KeyData object) : Key data
-            curve_type (EllipticCurveTypes): Elliptic curve type
+            key_bytes (bytes)                       : Key bytes
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
 
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
         return cls(cls.__KeyFromBytes(key_bytes, curve_type),
-                   key_data)
+                   key_data,
+                   key_net_ver)
 
     def __init__(self,
                  priv_key: IPrivateKey,
-                 key_data: Bip32KeyData) -> None:
+                 key_data: Bip32KeyData,
+                 key_net_ver: Bip32KeyNetVersions) -> None:
         """
         Construct class.
 
         Args:
-            priv_key (IPrivateKey object) : Key object
-            key_data (Bip32KeyData object): Key data
+            priv_key (IPrivateKey object)           : Key object
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
         """
+        super().__init__(key_data, key_net_ver)
         self.m_priv_key = priv_key
-        self.m_key_data = key_data
 
     def CurveType(self) -> EllipticCurveTypes:
         """
@@ -286,15 +339,6 @@ class Bip32PrivateKey:
             IPrivateKey object: Key object
         """
         return self.m_priv_key
-
-    def Data(self) -> Bip32KeyData:
-        """
-        Return key data.
-
-        Returns:
-            BipKeyData object: BipKeyData object
-        """
-        return self.m_key_data
 
     @lru_cache()
     def Raw(self) -> DataBytes:
@@ -315,7 +359,8 @@ class Bip32PrivateKey:
             Bip32PublicKey object: Bip32PublicKey object
         """
         return Bip32PublicKey(self.m_priv_key.PublicKey(),
-                              self.m_key_data)
+                              self.m_key_data,
+                              self.m_key_net_ver)
 
     @lru_cache()
     def ToExtended(self) -> str:
@@ -326,7 +371,8 @@ class Bip32PrivateKey:
             str: Key in serialized extended format
         """
         return Bip32PrivateKeySerializer.Serialize(self.m_priv_key,
-                                                   self.m_key_data)
+                                                   self.m_key_data,
+                                                   self.m_key_net_ver)
 
     @staticmethod
     def __KeyFromBytes(key_bytes: bytes,
