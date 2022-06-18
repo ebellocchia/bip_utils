@@ -23,7 +23,7 @@
 # Imports
 from __future__ import annotations
 from enum import Enum
-from typing import List
+from typing import List, Union
 
 
 class MnemonicLanguages(Enum):
@@ -50,7 +50,7 @@ class Mnemonic:
         Returns:
             Mnemonic: Mnemonic object
         """
-        return cls.FromList(mnemonic_str.lower().split(" "))
+        return cls.FromList(cls._Normalize(mnemonic_str))
 
     @classmethod
     def FromList(cls,
@@ -64,7 +64,7 @@ class Mnemonic:
         Returns:
             Mnemonic: Mnemonic object
         """
-        return cls(mnemonic_list)
+        return cls(cls._Normalize(mnemonic_list))
 
     def __init__(self,
                  mnemonic_list: List[str]) -> None:
@@ -111,3 +111,18 @@ class Mnemonic:
             str: Mnemonic as a string
         """
         return self.ToStr()
+
+    @staticmethod
+    def _Normalize(mnemonic: Union[str, List[str]]) -> List[str]:
+        """
+        Normalize mnemonic list.
+
+        Args:
+            mnemonic (str or list[str]): Mnemonic
+
+        Returns:
+            list[str]: Normalized mnemonic list
+        """
+        if isinstance(mnemonic, str):
+            mnemonic = mnemonic.split()
+        return mnemonic

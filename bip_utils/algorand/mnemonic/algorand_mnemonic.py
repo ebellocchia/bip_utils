@@ -23,8 +23,8 @@
 # Imports
 from enum import IntEnum, unique
 from typing import List
-from bip_utils.bip.bip39 import Bip39Languages
-from bip_utils.utils.mnemonic import Mnemonic, MnemonicLanguages
+from bip_utils.bip.bip39 import Bip39Languages, Bip39Mnemonic
+from bip_utils.utils.mnemonic import MnemonicLanguages
 
 
 @unique
@@ -53,5 +53,5 @@ class AlgorandMnemonicConst:
     CHECKSUM_BYTE_LEN: int = 2
 
 
-class AlgorandMnemonic(Mnemonic):
-    """Algorand mnemonic class (alias for Mnemonic)."""
+class AlgorandMnemonic(Bip39Mnemonic):
+    """Algorand mnemonic class."""

@@ -22,7 +22,7 @@
 
 # Imports
 from enum import auto, IntEnum, unique
-from typing import Dict, List
+from typing import Dict, List, Union
 from bip_utils.utils.misc import StringUtils
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicLanguages
 
@@ -90,27 +90,16 @@ class Bip39Mnemonic(Mnemonic):
     It adds NFKD normalization to mnemonic.
     """
 
-    def __init__(self,
-                 mnemonic_list: List[str]) -> None:
-        """
-        Construct class.
-
-        Args:
-            mnemonic_list (list[str]): Mnemonic list
-        """
-
-        # Normalize using NFKD as specified by BIP-0039
-        super().__init__(self.__NormalizeNfkd(mnemonic_list))
-
     @staticmethod
-    def __NormalizeNfkd(mnemonic_list: List[str]) -> List[str]:
+    def _Normalize(mnemonic: Union[str, List[str]]) -> List[str]:
         """
-        Normalize mnemonic list using NFKD.
+        Normalize mnemonic list.
 
         Args:
-            mnemonic_list (list[str]): Mnemonic list
+            mnemonic (str or list[str]): Mnemonic
 
         Returns:
             list[str]: Normalized mnemonic list
         """
-        return list(map(StringUtils.NormalizeNfkd, mnemonic_list))
+        mnemonic = Mnemonic._Normalize(mnemonic)
+        return list(map(lambda s: StringUtils.NormalizeNfkd(s.lower()), mnemonic))
