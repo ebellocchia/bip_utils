@@ -333,7 +333,8 @@ The Bip32 module allows also to parse derivation paths.
 
     # Parse path, Bip32PathError is raised in case of errors
     path = Bip32PathParser.Parse("0'/1'/2")
-    # 'p' can be used as an alternative character instead of '
+    # 'h' or 'p' can be used as an alternative character instead of '
+    path = Bip32PathParser.Parse("0h/1h/2")
     path = Bip32PathParser.Parse("0p/1p/2")
     # "m" can be added at the beginning
     path = Bip32PathParser.Parse("m/0'/1'/2")
