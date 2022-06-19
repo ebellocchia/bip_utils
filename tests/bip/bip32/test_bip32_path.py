@@ -84,6 +84,11 @@ TEST_VECT_PATH = [
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
         "to_str": "0'/1'/2",
     },
+    {
+        "path": "0h/1h/2",
+        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "to_str": "0'/1'/2",
+    },
 ]
 
 # Tests for invalid paths

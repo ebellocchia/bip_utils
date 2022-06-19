@@ -31,7 +31,7 @@ class Bip32PathConst:
     """Class container for BIP32 path constants."""
 
     # Hardened characters
-    HARDENED_CHARS: Tuple[str, str] = ("'", "p")
+    HARDENED_CHARS: Tuple[str, str] = ("'", "h", "p")
     # Master character
     MASTER_CHAR: str = "m"
 
