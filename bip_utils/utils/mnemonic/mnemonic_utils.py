@@ -103,7 +103,9 @@ class MnemonicWordsListFileReader:
 
         # Read file
         with open(file_path, "r", encoding="utf-8") as fin:
-            words_list = [word.strip() for word in fin.readlines() if word.strip() != ""]
+            words_list = [word.strip()
+                          for word in fin.readlines()
+                          if word.strip() != "" and not word.startswith("#")]
 
         # Check words list count
         if len(words_list) != words_num:
