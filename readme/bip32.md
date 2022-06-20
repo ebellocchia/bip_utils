@@ -240,6 +240,12 @@ The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
     bip32_ctx = bip32_ctx.DerivePath("0'/1'")   # Derivation path: m/0'/1'
     bip32_ctx = bip32_ctx.DerivePath("2/3")     # Derivation path: m/0'/1'/2/3
 
+    # Cannot derive an absolute path from a child key
+    try:
+        bip32_ctx = bip32_ctx.DerivePath("m/4/5")
+    except ValueError:
+        pass
+
 It's also possible to use public derivation (i.e. "watch-only" addresses) by:
 - converting a private object to a public-only using *ConvertToPublic* method
 - constructing a public-only object from a public key
@@ -330,17 +336,20 @@ The Bip32 module allows also to parse derivation paths.
 **Code example**
 
     from bip_utils import Bip32Path, Bip32PathParser, Bip32Utils
-
+    
     # Parse path, Bip32PathError is raised in case of errors
     path = Bip32PathParser.Parse("0'/1'/2")
     # 'h' or 'p' can be used as an alternative character instead of '
     path = Bip32PathParser.Parse("0h/1h/2")
     path = Bip32PathParser.Parse("0p/1p/2")
-    # "m" can be added at the beginning
+    # "m" can be added at the beginning if the path is absolute, otherwise it'll be considered relative
     path = Bip32PathParser.Parse("m/0'/1'/2")
     # Or construct directly from a list of indexes
-    path = Bip32Path([0, 1, Bip32Utils.HardenIndex(2)])
-
+    # "True" specifies that the path is absolute, "False" if relative
+    path = Bip32Path([0, 1, Bip32Utils.HardenIndex(2)], True)
+    
+    # Get if absolute
+    print(path.IsAbsolute())
     # Get length
     print(path.Length())
     # Get as string
@@ -357,3 +366,4 @@ The Bip32 module allows also to parse derivation paths.
     path_list = path.ToList()
     for elem in path_list:
         print(elem)
+
