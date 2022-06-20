@@ -67,15 +67,15 @@ class Bip39MnemonicConst:
 
     # Language files
     LANGUAGE_FILES: Dict[Bip39Languages, str] = {
-        Bip39Languages.ENGLISH: "bip39_words/english.txt",
-        Bip39Languages.ITALIAN: "bip39_words/italian.txt",
-        Bip39Languages.FRENCH: "bip39_words/french.txt",
-        Bip39Languages.SPANISH: "bip39_words/spanish.txt",
-        Bip39Languages.PORTUGUESE: "bip39_words/portuguese.txt",
-        Bip39Languages.CZECH: "bip39_words/czech.txt",
-        Bip39Languages.CHINESE_SIMPLIFIED: "bip39_words/chinese_simplified.txt",
-        Bip39Languages.CHINESE_TRADITIONAL: "bip39_words/chinese_traditional.txt",
-        Bip39Languages.KOREAN: "bip39_words/korean.txt",
+        Bip39Languages.ENGLISH: "wordlist/english.txt",
+        Bip39Languages.ITALIAN: "wordlist/italian.txt",
+        Bip39Languages.FRENCH: "wordlist/french.txt",
+        Bip39Languages.SPANISH: "wordlist/spanish.txt",
+        Bip39Languages.PORTUGUESE: "wordlist/portuguese.txt",
+        Bip39Languages.CZECH: "wordlist/czech.txt",
+        Bip39Languages.CHINESE_SIMPLIFIED: "wordlist/chinese_simplified.txt",
+        Bip39Languages.CHINESE_TRADITIONAL: "wordlist/chinese_traditional.txt",
+        Bip39Languages.KOREAN: "wordlist/korean.txt",
     }
 
     # Total number of words

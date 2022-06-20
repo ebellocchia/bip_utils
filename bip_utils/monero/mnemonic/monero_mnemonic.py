@@ -85,16 +85,16 @@ class MoneroMnemonicConst:
 
     # Language files
     LANGUAGE_FILES: Dict[MoneroLanguages, str] = {
-        MoneroLanguages.CHINESE_SIMPLIFIED: "monero_words/chinese_simplified.txt",
-        MoneroLanguages.DUTCH: "monero_words/dutch.txt",
-        MoneroLanguages.ENGLISH: "monero_words/english.txt",
-        MoneroLanguages.FRENCH: "monero_words/french.txt",
-        MoneroLanguages.GERMAN: "monero_words/german.txt",
-        MoneroLanguages.ITALIAN: "monero_words/italian.txt",
-        MoneroLanguages.JAPANESE: "monero_words/japanese.txt",
-        MoneroLanguages.PORTUGUESE: "monero_words/portuguese.txt",
-        MoneroLanguages.SPANISH: "monero_words/spanish.txt",
-        MoneroLanguages.RUSSIAN: "monero_words/russian.txt",
+        MoneroLanguages.CHINESE_SIMPLIFIED: "wordlist/chinese_simplified.txt",
+        MoneroLanguages.DUTCH: "wordlist/dutch.txt",
+        MoneroLanguages.ENGLISH: "wordlist/english.txt",
+        MoneroLanguages.FRENCH: "wordlist/french.txt",
+        MoneroLanguages.GERMAN: "wordlist/german.txt",
+        MoneroLanguages.ITALIAN: "wordlist/italian.txt",
+        MoneroLanguages.JAPANESE: "wordlist/japanese.txt",
+        MoneroLanguages.PORTUGUESE: "wordlist/portuguese.txt",
+        MoneroLanguages.SPANISH: "wordlist/spanish.txt",
+        MoneroLanguages.RUSSIAN: "wordlist/russian.txt",
     }
 
     # Total number of words
