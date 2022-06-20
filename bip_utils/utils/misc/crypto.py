@@ -24,13 +24,14 @@
 import binascii
 import hashlib
 import hmac
-from typing import Union
+from typing import Optional, Union
 import crcmod.predefined
 from Crypto.Hash import keccak, RIPEMD160, SHA512
-from Crypto.Protocol.KDF import scrypt
+from Crypto.Protocol.KDF import PBKDF2, scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
 
 
+HASHLIB_USE_PBKDF2_SHA512: bool = hasattr(hashlib, "pbkdf2_hmac")   # For future changes
 HASHLIB_USE_SHA512_256: bool = "sha512_256" in hashlib.algorithms_available
 
 
@@ -141,6 +142,9 @@ class CryptoUtils:
         Returns:
             bytes: Computed HMAC-SHA512
         """
+        # Use digest if available
+        if hasattr(hmac, "digest"):
+            return hmac.digest(AlgoUtils.Encode(key), AlgoUtils.Encode(data), "sha512")
         return hmac.new(AlgoUtils.Encode(key), AlgoUtils.Encode(data), hashlib.sha512).digest()
 
     @staticmethod
@@ -156,12 +160,16 @@ class CryptoUtils:
         Returns:
             bytes: Computed HMAC-SHA256
         """
+        # Use digest if available
+        if hasattr(hmac, "digest"):
+            return hmac.digest(AlgoUtils.Encode(key), AlgoUtils.Encode(data), "sha256")
         return hmac.new(AlgoUtils.Encode(key), AlgoUtils.Encode(data), hashlib.sha256).digest()
 
     @staticmethod
     def Pbkdf2HmacSha512(password: Union[bytes, str],
                          salt: Union[bytes, str],
-                         itr_num: int) -> bytes:
+                         itr_num: int,
+                         dklen: Optional[int] = None) -> bytes:
         """
         Compute the PBKDF2 HMAC-SHA512 of the specified password, using the specified keys and iteration number.
 
@@ -169,11 +177,19 @@ class CryptoUtils:
             password (str or bytes): Password
             salt (str or bytes)    : Salt
             itr_num (int)          : Iteration number
+            dklen (int, optional)  : Length of the derived key (default: SHA-512 output length)
 
         Returns:
             bytes: Computed PBKDF2 HMAC-SHA512
         """
-        return hashlib.pbkdf2_hmac("sha512", AlgoUtils.Encode(password), AlgoUtils.Encode(salt), itr_num)
+        if HASHLIB_USE_PBKDF2_SHA512:
+            return hashlib.pbkdf2_hmac("sha512", AlgoUtils.Encode(password), AlgoUtils.Encode(salt), itr_num, dklen)
+        # Use Cryptodome if not implemented in hashlib
+        return PBKDF2(AlgoUtils.Encode(password),
+                      AlgoUtils.Encode(salt),
+                      dklen or SHA512.digest_size,
+                      count=itr_num,
+                      hmac_hash_module=SHA512)
 
     @staticmethod
     def Scrypt(password: Union[bytes, str],
