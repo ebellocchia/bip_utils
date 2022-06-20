@@ -39,8 +39,6 @@ class Bip39SeedGeneratorConst:
     SEED_SALT_MOD: str = "mnemonic"
     # PBKDF2 round for seed generation
     SEED_PBKDF2_ROUNDS: int = 2048
-    # Seed length in bytes
-    SEED_BYTE_LEN: int = 64
 
 
 class Bip39SeedGenerator(IBip39SeedGenerator):
@@ -84,12 +82,7 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
         Returns:
             bytes: Generated seed
         """
-
-        # Get salt
         salt = StringUtils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
-        # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic.ToStr(),
-                                           salt,
-                                           Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)
-
-        return key[:Bip39SeedGeneratorConst.SEED_BYTE_LEN]
+        return CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic.ToStr(),
+                                            salt,
+                                            Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)

@@ -64,12 +64,7 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
         Returns:
             bytes: Generated seed
         """
-
-        # Get salt
         salt = StringUtils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
-        # Compute key
-        key = CryptoUtils.Pbkdf2HmacSha512(self.m_entropy_bytes,
-                                           salt,
-                                           Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)
-
-        return key[:Bip39SeedGeneratorConst.SEED_BYTE_LEN]
+        return CryptoUtils.Pbkdf2HmacSha512(self.m_entropy_bytes,
+                                            salt,
+                                            Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)
