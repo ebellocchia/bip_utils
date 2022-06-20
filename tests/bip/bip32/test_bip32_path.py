@@ -32,61 +32,73 @@ TEST_VECT_PATH = [
     {
         "path": "m",
         "parsed": [],
-        "to_str": "",
+        "is_absolute": True,
+        "to_str": "m",
     },
     {
         "path": "m/",
         "parsed": [],
-        "to_str": "",
+        "is_absolute": True,
+        "to_str": "m",
     },
     {
         "path": "m/  0/1",
         "parsed": [0, 1],
-        "to_str": "0/1",
+        "is_absolute": True,
+        "to_str": "m/0/1",
     },
     {
         "path": "m/0  /1'",
         "parsed": [0, Bip32Utils.HardenIndex(1)],
-        "to_str": "0/1'",
+        "is_absolute": True,
+        "to_str": "m/0/1'",
     },
     {
         "path": "m/0  /1p",
         "parsed": [0, Bip32Utils.HardenIndex(1)],
-        "to_str": "0/1'",
+        "is_absolute": True,
+        "to_str": "m/0/1'",
     },
     {
         "path": "m/0'/1'/2/",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
-        "to_str": "0'/1'/2",
+        "is_absolute": True,
+        "to_str": "m/0'/1'/2",
     },
     {
         "path": "m/0p/1p/2/",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
-        "to_str": "0'/1'/2",
+        "is_absolute": True,
+        "to_str": "m/0'/1'/2",
     },
     {
         "path": "0",
         "parsed": [0],
+        "is_absolute": False,
         "to_str": "0",
     },
     {
         "path": "0/",
         "parsed": [0],
+        "is_absolute": False,
         "to_str": "0",
     },
     {
         "path": "0'/1'/2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "is_absolute": False,
         "to_str": "0'/1'/2",
     },
     {
         "path": "0p/1p/2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "is_absolute": False,
         "to_str": "0'/1'/2",
     },
     {
         "path": "0h/1h/2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "is_absolute": False,
         "to_str": "0'/1'/2",
     },
 ]
@@ -121,7 +133,7 @@ class Bip32PathTests(unittest.TestCase):
         for test in TEST_VECT_PATH:
             # Test construction in different ways
             self.__test_path(test, Bip32PathParser.Parse(test["path"]))
-            self.__test_path(test, Bip32Path(test["parsed"]))
+            self.__test_path(test, Bip32Path(test["parsed"], test["is_absolute"]))
 
     # Test invalid paths
     def test_invalid_paths(self):

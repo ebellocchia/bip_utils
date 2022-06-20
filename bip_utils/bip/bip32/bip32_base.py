@@ -310,8 +310,12 @@ class Bip32Base(ABC):
 
         Raises:
             Bip32PathError: If the path is not valid
+            ValueError: If the path is a master path and the key is a child key
         """
         path = self.__GetPath(path)
+        if self.Depth() > 0 and path.IsAbsolute():
+            raise ValueError("Absolute paths can only be derived from a master key, not child ones")
+
         bip32_obj = self
         # Derive children keys
         for path_elem in path:

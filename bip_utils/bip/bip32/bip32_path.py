@@ -21,7 +21,7 @@
 """Module for BIP32 paths parsing and handling."""
 
 # Import
-from typing import Iterator, List, Optional, Sequence, Tuple, Union
+from typing import Iterator, List, Sequence, Tuple, Union
 from bip_utils.bip.bip32.bip32_ex import Bip32PathError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_utils import Bip32Utils
@@ -31,7 +31,7 @@ class Bip32PathConst:
     """Class container for BIP32 path constants."""
 
     # Hardened characters
-    HARDENED_CHARS: Tuple[str, str] = ("'", "h", "p")
+    HARDENED_CHARS: Tuple[str, str, str] = ("'", "h", "p")
     # Master character
     MASTER_CHAR: str = "m"
 
@@ -43,22 +43,33 @@ class Bip32Path:
     """
 
     m_elems: List[Bip32KeyIndex]
+    m_is_absolute: bool
 
     def __init__(self,
-                 elems: Optional[Sequence[Union[int, Bip32KeyIndex]]] = None) -> None:
+                 elems: Sequence[Union[int, Bip32KeyIndex]],
+                 is_absolute: bool) -> None:
         """
         Construct class.
 
         Args:
-            elems (list, optional): Path elements
+            elems (list)      : Path elements
+            is_absolute (bool): True if path is an absolute one, false otherwise
         """
-        if elems is None:
-            elems = []
-
         try:
             self.m_elems = [Bip32KeyIndex(elem) if isinstance(elem, int) else elem for elem in elems]
         except ValueError as ex:
             raise Bip32PathError("The path contains some invalid key indexes") from ex
+
+        self.m_is_absolute = is_absolute
+
+    def IsAbsolute(self) -> bool:
+        """
+        Get if absolute path.
+
+        Returns:
+            bool: True if absolute path, false otherwise
+        """
+        return self.m_is_absolute
 
     def Length(self) -> int:
         """
@@ -85,12 +96,12 @@ class Bip32Path:
         Returns:
             str: Path as a string
         """
-        path_str = ""
+        path_str = "" if not self.m_is_absolute else f"{Bip32PathConst.MASTER_CHAR}/"
         for elem in self.m_elems:
             if not elem.IsHardened():
-                path_str += str(elem.ToInt()) + "/"
+                path_str += f"{str(elem.ToInt())}/"
             else:
-                path_str += str(Bip32Utils.UnhardenIndex(elem.ToInt())) + "'/"
+                path_str += f"{str(Bip32Utils.UnhardenIndex(elem.ToInt()))}'/"
 
         return path_str[:-1]
 
@@ -172,10 +183,13 @@ class Bip32PathParser:
         # Remove the initial "m" character if any
         if len(path_elems) > 0 and path_elems[0] == Bip32PathConst.MASTER_CHAR:
             path_elems = path_elems[1:]
+            is_absolute = True
+        else:
+            is_absolute = False
 
         # Parse elements
         parsed_elems = list(map(Bip32PathParser.__ParseElem, path_elems))
-        return Bip32Path(parsed_elems)
+        return Bip32Path(parsed_elems, is_absolute)
 
     @staticmethod
     def __ParseElem(path_elem: str) -> int:
