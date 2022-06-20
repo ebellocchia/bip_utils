@@ -208,9 +208,9 @@ class SubstratePath:
         Raises:
             SubstratePathError: If the path element is not valid
         """
-        if elems is None:
-            elems = []
-        self.m_elems = [SubstratePathElem(elem) if isinstance(elem, str) else elem for elem in elems]
+        self.m_elems = ([]
+                        if elems is None
+                        else [SubstratePathElem(elem) if isinstance(elem, str) else elem for elem in elems])
 
     def AddElem(self,
                 elem: Union[str, SubstratePathElem]) -> SubstratePath:
