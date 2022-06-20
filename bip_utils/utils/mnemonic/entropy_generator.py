@@ -22,6 +22,8 @@
 
 # Imports
 import os
+import secrets
+from bip_utils.utils.misc import IntegerUtils
 
 
 class EntropyGenerator:
@@ -30,17 +32,17 @@ class EntropyGenerator:
     It generates random entropy bytes with the specified length.
     """
 
-    m_byte_len: int
+    m_bit_len: int
 
     def __init__(self,
-                 byte_len: int) -> None:
+                 bit_len: int) -> None:
         """
         Construct class.
 
         Args:
-            byte_len (int): Entropy length in bits
+            bit_len (int): Entropy length in bits
         """
-        self.m_byte_len = byte_len
+        self.m_bit_len = bit_len
 
     def Generate(self) -> bytes:
         """
@@ -49,4 +51,6 @@ class EntropyGenerator:
         Returns:
             bytes: Generated entropy bytes
         """
-        return os.urandom(self.m_byte_len)
+        return (os.urandom(self.m_bit_len // 8)
+                if self.m_bit_len % 8 == 0
+                else IntegerUtils.ToBytes(secrets.randbits(self.m_bit_len)))
