@@ -98,6 +98,14 @@ from bip_utils.ecc import (
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
+# Electrum mnemonic
+from bip_utils.electrum.old_mnemonic import (
+    ElectrumOldEntropyBitLen, ElectrumOldLanguages, ElectrumOldWordsNum,
+    ElectrumOldEntropyGenerator,
+    ElectrumOldMnemonic,
+    ElectrumOldMnemonicDecoder, ElectrumOldMnemonicEncoder,
+    ElectrumOldMnemonicGenerator, ElectrumOldMnemonicValidator
+)
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, MoneroSubaddress, Monero

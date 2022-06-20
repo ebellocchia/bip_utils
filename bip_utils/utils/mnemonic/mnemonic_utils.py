@@ -24,7 +24,68 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Tuple, Type
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 from bip_utils.utils.mnemonic.mnemonic import MnemonicLanguages, Mnemonic
+
+
+class MnemonicUtils:
+    """Class container for mnemonic utility functions."""
+
+    @staticmethod
+    def BytesChunkToWords(bytes_chunk: bytes,
+                          words_list: MnemonicWordsList,
+                          endianness: str) -> List[str]:
+        """
+        Get words from a bytes chunk.
+
+        Args:
+            bytes_chunk (bytes)                  : Bytes chunk
+            words_list (MnemonicWordsList object): Mnemonic list
+            endianness (str)                     : Bytes endianness
+
+        Returns:
+            list[str]: 3 word indexes
+        """
+        n = words_list.Length()
+
+        int_chunk = BytesUtils.ToInteger(bytes_chunk, endianness=endianness)
+
+        word1_idx = int_chunk % n
+        word2_idx = ((int_chunk // n) + word1_idx) % n
+        word3_idx = ((int_chunk // n // n) + word2_idx) % n
+
+        return [words_list.GetWordAtIdx(w) for w in (word1_idx, word2_idx, word3_idx)]
+
+    @staticmethod
+    def WordsToBytesChunk(word1: str,
+                          word2: str,
+                          word3: str,
+                          words_list: MnemonicWordsList,
+                          endianness: str) -> bytes:
+        """
+        Get bytes chunk from words.
+
+        Args:
+            word1 (str)                          : Word 1
+            word2 (str)                          : Word 2
+            word3 (str)                          : Word 3
+            words_list (MnemonicWordsList object): Mnemonic list
+            endianness (str)                     : Bytes endianness
+
+        Returns:
+            bytes: Bytes chunk
+        """
+        n = words_list.Length()
+
+        # Get the word indexes
+        word1_idx = words_list.GetWordIdx(word1)
+        word2_idx = words_list.GetWordIdx(word2) % n
+        word3_idx = words_list.GetWordIdx(word3) % n
+
+        # Get back the bytes chunk
+        bytes_chunk = word1_idx + (n * ((word2_idx - word1_idx) % n)) + (n * n * ((word3_idx - word2_idx) % n))
+
+        return IntegerUtils.ToBytes(bytes_chunk, bytes_num=4, endianness=endianness)
 
 
 class MnemonicWordsList:
@@ -44,6 +105,15 @@ class MnemonicWordsList:
         self.m_idx_to_words = words_list
         # Map strings to indexes as well for a quick word searching
         self.m_words_to_idx = {words_list[i]: i for i in range(len(words_list))}
+
+    def Length(self) -> int:
+        """
+        Get the length of the words list.
+
+        Returns:
+            int: Words list length
+        """
+        return len(self.m_idx_to_words)
 
     def GetWordIdx(self,
                    word: str) -> int:
