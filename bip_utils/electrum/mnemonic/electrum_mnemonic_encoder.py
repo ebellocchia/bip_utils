@@ -94,7 +94,4 @@ class ElectrumMnemonicEncoder(MnemonicEncoderBase):
         if not ElectrumMnemonicUtils.IsValidMnemonicType(mnemonic, self.m_mnemonic_type):
             raise ValueError("Entropy bytes are not suitable for generating a valid mnemonic")
 
-        import binascii
-        print(binascii.hexlify(entropy_bytes))
-
         return mnemonic
