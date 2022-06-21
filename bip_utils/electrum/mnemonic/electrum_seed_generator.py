@@ -35,8 +35,6 @@ class ElectrumSeedGeneratorConst:
     SEED_SALT_MOD: str = "electrum"
     # PBKDF2 round for seed generation
     SEED_PBKDF2_ROUNDS: int = 2048
-    # Seed length in bytes
-    SEED_BYTE_LEN: int = 64
 
 
 class ElectrumSeedGenerator:
