@@ -39,12 +39,12 @@ class AlgorandMnemonicEncoder(MnemonicEncoderBase):
     """
 
     def __init__(self,
-                 lang: AlgorandLanguages) -> None:
+                 lang: AlgorandLanguages = AlgorandLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (AlgorandLanguages): Language
+            lang (AlgorandLanguages, optional): Language (default: English)
 
         Raises:
             TypeError: If the language is not a AlgorandLanguages enum

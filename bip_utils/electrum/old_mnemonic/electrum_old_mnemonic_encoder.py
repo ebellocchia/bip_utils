@@ -20,7 +20,7 @@
 
 """
 Module for Electrum old mnemonic encoding.
-Reference: https://github.com/spesmilo/electrum/blob/master/electrum/old_mnemonic.py
+Reference: https://github.com/spesmilo/electrum
 """
 
 # Imports
@@ -37,12 +37,12 @@ class ElectrumOldMnemonicEncoder(MnemonicEncoderBase):
     """
 
     def __init__(self,
-                 lang: ElectrumOldLanguages) -> None:
+                 lang: ElectrumOldLanguages = ElectrumOldLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (ElectrumOldLanguages): Language
+            lang (ElectrumOldLanguages, optional): Language (default: English)
 
         Raises:
             TypeError: If the language is not a ElectrumOldLanguages enum

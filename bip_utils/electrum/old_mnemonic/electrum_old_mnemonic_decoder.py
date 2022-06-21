@@ -20,7 +20,7 @@
 
 """
 Module for Electrum old nemonic decoding.
-Reference: https://github.com/spesmilo/electrum/blob/master/electrum/old_mnemonic.py
+Reference: https://github.com/spesmilo/electrum
 """
 
 # Imports

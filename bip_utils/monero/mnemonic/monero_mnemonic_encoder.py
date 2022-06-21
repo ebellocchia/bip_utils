@@ -38,12 +38,12 @@ class MoneroMnemonicEncoderBase(MnemonicEncoderBase, ABC):
     m_lang: MoneroLanguages
 
     def __init__(self,
-                 lang: MoneroLanguages) -> None:
+                 lang: MoneroLanguages = MoneroLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (MoneroLanguages): Language
+            lang (MoneroLanguages, optional): Language (default: English)
 
         Raises:
             TypeError: If the language is not a Bip39Languages enum
@@ -139,12 +139,12 @@ class MoneroMnemonicEncoder:
     m_with_chk_enc: MoneroMnemonicWithChecksumEncoder
 
     def __init__(self,
-                 lang: MoneroLanguages) -> None:
+                 lang: MoneroLanguages = MoneroLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (MoneroLanguages): Language
+            lang (MoneroLanguages, optional): Language (default: English)
 
         Raises:
             TypeError: If the language is not a MoneroLanguages enum
