@@ -99,6 +99,13 @@ from bip_utils.ecc import (
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
 # Electrum mnemonic
+from bip_utils.electrum.mnemonic import (
+    ElectrumEntropyBitLen, ElectrumLanguages, ElectrumWordsNum,
+    ElectrumEntropyGenerator,
+    ElectrumMnemonicTypes, ElectrumMnemonic,
+    ElectrumMnemonicDecoder, ElectrumMnemonicEncoder,
+    ElectrumMnemonicGenerator, ElectrumMnemonicValidator, ElectrumSeedGenerator
+)
 from bip_utils.electrum.old_mnemonic import (
     ElectrumOldEntropyBitLen, ElectrumOldLanguages, ElectrumOldWordsNum,
     ElectrumOldEntropyGenerator,
