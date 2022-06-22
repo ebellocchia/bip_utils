@@ -32,6 +32,7 @@ class ElectrumV2EntropyBitLen(IntEnum):
     """Enumerative for Electrum entropy bit lengths (v2)."""
 
     BIT_LEN_132 = 132
+    BIT_LEN_264 = 264
 
 
 class ElectrumV2EntropyGeneratorConst:
@@ -40,6 +41,7 @@ class ElectrumV2EntropyGeneratorConst:
     # Accepted entropy lengths in bit
     ENTROPY_BIT_LEN: List[ElectrumV2EntropyBitLen] = [
         ElectrumV2EntropyBitLen.BIT_LEN_132,
+        ElectrumV2EntropyBitLen.BIT_LEN_264,
     ]
 
 

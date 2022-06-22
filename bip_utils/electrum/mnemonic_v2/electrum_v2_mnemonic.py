@@ -33,6 +33,7 @@ class ElectrumV2WordsNum(IntEnum):
     """Enumerative for Electrum words number (v2)."""
 
     WORDS_NUM_12 = 12
+    WORDS_NUM_24 = 24
 
 
 @unique
@@ -61,6 +62,7 @@ class ElectrumV2MnemonicConst:
     # Accepted mnemonic word numbers
     MNEMONIC_WORD_NUM: List[ElectrumV2WordsNum] = [
         ElectrumV2WordsNum.WORDS_NUM_12,
+        ElectrumV2WordsNum.WORDS_NUM_24,
     ]
 
     # Mnemonic types to prefix

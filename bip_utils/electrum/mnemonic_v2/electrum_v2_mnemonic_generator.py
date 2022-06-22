@@ -39,6 +39,7 @@ class ElectrumV2MnemonicGeneratorConst:
     # Entropy length for each words number
     WORDS_NUM_TO_ENTROPY_LEN: Dict[ElectrumV2WordsNum, ElectrumV2EntropyBitLen] = {
         ElectrumV2WordsNum.WORDS_NUM_12: ElectrumV2EntropyBitLen.BIT_LEN_132,
+        ElectrumV2WordsNum.WORDS_NUM_24: ElectrumV2EntropyBitLen.BIT_LEN_264,
     }
     # Maximum number of attempts (just to avoid infinite looping)
     MAX_ATTEMPTS: int = 100000
