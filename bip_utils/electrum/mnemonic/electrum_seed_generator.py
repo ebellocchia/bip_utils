@@ -58,9 +58,7 @@ class ElectrumSeedGenerator:
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        # Make sure that the given mnemonic is valid
         ElectrumMnemonicValidator(lang).Validate(mnemonic)
-
         self.m_mnemonic = (ElectrumMnemonic.FromString(mnemonic)
                            if isinstance(mnemonic, str)
                            else mnemonic)

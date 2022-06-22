@@ -114,7 +114,7 @@ class ElectrumMnemonicGenerator:
         nonce = 0
 
         # Increase the entropy until a valid one is found
-        for i in range(ElectrumMnemonicGeneratorConst.MAX_ATTEMPTS):
+        for _ in range(ElectrumMnemonicGeneratorConst.MAX_ATTEMPTS):
             nonce += 1
             new_entropy_int = entropy_int + nonce
             try:

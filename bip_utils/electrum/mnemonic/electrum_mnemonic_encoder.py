@@ -90,8 +90,8 @@ class ElectrumMnemonicEncoder(MnemonicEncoderBase):
             mnemonic.append(self.m_words_list.GetWordAtIdx(word_idx))
 
         # Check if the mnemonic is valid
-        mnemonic = ElectrumMnemonic.FromList(mnemonic)
-        if not ElectrumMnemonicUtils.IsValidMnemonicType(mnemonic, self.m_mnemonic_type):
+        mnemonic_obj = ElectrumMnemonic.FromList(mnemonic)
+        if not ElectrumMnemonicUtils.IsValidMnemonicType(mnemonic_obj, self.m_mnemonic_type):
             raise ValueError("Entropy bytes are not suitable for generating a valid mnemonic")
 
-        return mnemonic
+        return mnemonic_obj
