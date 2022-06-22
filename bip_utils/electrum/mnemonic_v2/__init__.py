@@ -1,4 +1,6 @@
-from bip_utils.electrum.mnemonic_v2.electrum_v2_entropy_generator import ElectrumV2EntropyBitLen, ElectrumV2EntropyGenerator
+from bip_utils.electrum.mnemonic_v2.electrum_v2_entropy_generator import (
+    ElectrumV2EntropyBitLen, ElectrumV2EntropyGenerator
+)
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
     ElectrumV2Languages, ElectrumV2WordsNum, ElectrumV2MnemonicTypes, ElectrumV2Mnemonic
 )
