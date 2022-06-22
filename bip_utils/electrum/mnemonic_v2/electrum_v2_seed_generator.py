@@ -18,18 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum mnemonic seed generation."""
+"""Module for Electrum v2 mnemonic seed generation."""
 
 # Imports
 from typing import Union
-from bip_utils.electrum.mnemonic.electrum_mnemonic import ElectrumLanguages, ElectrumMnemonic
-from bip_utils.electrum.mnemonic.electrum_mnemonic_validator import ElectrumMnemonicValidator
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2Languages, ElectrumV2Mnemonic
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_validator import ElectrumV2MnemonicValidator
 from bip_utils.utils.misc import CryptoUtils, StringUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
-class ElectrumSeedGeneratorConst:
-    """Class container for Electrum seed generator constants."""
+class ElectrumV2SeedGeneratorConst:
+    """Class container for Electrum seed generator constants (v2)."""
 
     # Salt modifier for seed generation
     SEED_SALT_MOD: str = "electrum"
@@ -37,9 +37,9 @@ class ElectrumSeedGeneratorConst:
     SEED_PBKDF2_ROUNDS: int = 2048
 
 
-class ElectrumSeedGenerator:
+class ElectrumV2SeedGenerator:
     """
-    Electrum seed generator class.
+    Electrum seed generator class (v2).
     It generates the seed from a mnemonic.
     """
 
@@ -47,19 +47,19 @@ class ElectrumSeedGenerator:
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
-                 lang: ElectrumLanguages = ElectrumLanguages.ENGLISH) -> None:
+                 lang: ElectrumV2Languages = ElectrumV2Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            mnemonic (str or Mnemonic object) : Mnemonic
-            lang (ElectrumLanguages, optional): Language (default: English)
+            mnemonic (str or Mnemonic object)   : Mnemonic
+            lang (ElectrumV2Languages, optional): Language (default: English)
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        ElectrumMnemonicValidator(lang).Validate(mnemonic)
-        self.m_mnemonic = (ElectrumMnemonic.FromString(mnemonic)
+        ElectrumV2MnemonicValidator(lang).Validate(mnemonic)
+        self.m_mnemonic = (ElectrumV2Mnemonic.FromString(mnemonic)
                            if isinstance(mnemonic, str)
                            else mnemonic)
 
@@ -74,7 +74,7 @@ class ElectrumSeedGenerator:
         Returns:
             bytes: Generated seed
         """
-        salt = StringUtils.NormalizeNfkd(ElectrumSeedGeneratorConst.SEED_SALT_MOD + passphrase)
+        salt = StringUtils.NormalizeNfkd(ElectrumV2SeedGeneratorConst.SEED_SALT_MOD + passphrase)
         return CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic.ToStr(),
                                             salt,
-                                            ElectrumSeedGeneratorConst.SEED_PBKDF2_ROUNDS)
+                                            ElectrumV2SeedGeneratorConst.SEED_PBKDF2_ROUNDS)

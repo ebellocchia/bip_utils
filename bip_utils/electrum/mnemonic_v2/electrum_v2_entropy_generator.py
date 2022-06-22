@@ -18,44 +18,44 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum mnemonic entropy generation."""
+"""Module for Electrum v2 mnemonic entropy generation."""
 
 # Imports
 from enum import IntEnum, unique
 from typing import List, Union
-from bip_utils.electrum.mnemonic.electrum_mnemonic import ElectrumMnemonicConst
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst
 from bip_utils.utils.mnemonic import EntropyGenerator
 
 
 @unique
-class ElectrumEntropyBitLen(IntEnum):
-    """Enumerative for Electrum entropy bit lengths."""
+class ElectrumV2EntropyBitLen(IntEnum):
+    """Enumerative for Electrum entropy bit lengths (v2)."""
 
     BIT_LEN_132 = 132
 
 
-class ElectrumEntropyGeneratorConst:
-    """Class container for Electrum entropy generator constants."""
+class ElectrumV2EntropyGeneratorConst:
+    """Class container for Electrum entropy generator constants (v2)."""
 
     # Accepted entropy lengths in bit
-    ENTROPY_BIT_LEN: List[ElectrumEntropyBitLen] = [
-        ElectrumEntropyBitLen.BIT_LEN_132,
+    ENTROPY_BIT_LEN: List[ElectrumV2EntropyBitLen] = [
+        ElectrumV2EntropyBitLen.BIT_LEN_132,
     ]
 
 
-class ElectrumEntropyGenerator(EntropyGenerator):
+class ElectrumV2EntropyGenerator(EntropyGenerator):
     """
-    Electrum entropy generator class.
+    Electrum entropy generator class (v2).
     It generates random entropy bytes.
     """
 
     def __init__(self,
-                 bit_len: Union[int, ElectrumEntropyBitLen]) -> None:
+                 bit_len: Union[int, ElectrumV2EntropyBitLen]) -> None:
         """
         Construct class.
 
         Args:
-            bit_len (int or ElectrumEntropyBitLen): Entropy length in bits
+            bit_len (int or ElectrumV2EntropyBitLen): Entropy length in bits
 
         Raises:
             ValueError: If the bit length is not valid
@@ -78,8 +78,8 @@ class ElectrumEntropyGenerator(EntropyGenerator):
 
         # Because of the mnemonic encoding algorithm used by Electrum, the bit length shall be greater than the
         # minimum one minus the bit length of a single word, in order to "have space" for the last mnemonic word
-        min_entropy_bit_len = min(ElectrumEntropyGeneratorConst.ENTROPY_BIT_LEN)
-        return bit_len >= (min_entropy_bit_len - ElectrumMnemonicConst.WORD_BIT_LEN)
+        min_entropy_bit_len = min(ElectrumV2EntropyGeneratorConst.ENTROPY_BIT_LEN)
+        return bit_len >= (min_entropy_bit_len - ElectrumV2MnemonicConst.WORD_BIT_LEN)
 
     @staticmethod
     def IsValidEntropyByteLen(byte_len: int) -> bool:
@@ -92,4 +92,4 @@ class ElectrumEntropyGenerator(EntropyGenerator):
         Returns:
             bool: True if valid, false otherwise
         """
-        return ElectrumEntropyGenerator.IsValidEntropyBitLen(byte_len * 8)
+        return ElectrumV2EntropyGenerator.IsValidEntropyBitLen(byte_len * 8)

@@ -19,39 +19,41 @@
 # THE SOFTWARE.
 
 """
-Module for Electrum mnemonic decoding.
+Module for Electrum v2 mnemonic decoding.
 Reference: https://github.com/electrum/py-electrum-sdk
 """
 
 # Imports
 from typing import Optional, Union
-from bip_utils.electrum.mnemonic.electrum_mnemonic import ElectrumMnemonicConst, ElectrumLanguages, ElectrumMnemonic
-from bip_utils.electrum.mnemonic.electrum_mnemonic_utils import ElectrumMnemonicUtils
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
+    ElectrumV2MnemonicConst, ElectrumV2Languages, ElectrumV2Mnemonic
+)
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_utils import ElectrumV2MnemonicUtils
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
 from bip_utils.utils.misc import IntegerUtils
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicDecoderBase
 
 
-class ElectrumMnemonicDecoder(MnemonicDecoderBase):
+class ElectrumV2MnemonicDecoder(MnemonicDecoderBase):
     """
-    Electrum mnemonic decoder class.
+    Electrum v2 mnemonic decoder class.
     It decodes a mnemonic phrase to bytes.
     """
 
     def __init__(self,
-                 lang: Optional[ElectrumLanguages] = ElectrumLanguages.ENGLISH) -> None:
+                 lang: Optional[ElectrumV2Languages] = ElectrumV2Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (ElectrumLanguages, optional): Language, None for automatic detection
+            lang (ElectrumV2Languages, optional): Language, None for automatic detection
 
         Raises:
-            TypeError: If the language is not a ElectrumLanguages enum
+            TypeError: If the language is not a ElectrumV2Languages enum
             ValueError: If loaded words list is not valid
         """
-        if lang is not None and not isinstance(lang, ElectrumLanguages):
-            raise TypeError("Language is not an enumerative of ElectrumLanguages")
+        if lang is not None and not isinstance(lang, ElectrumV2Languages):
+            raise TypeError("Language is not an enumerative of ElectrumV2Languages")
         super().__init__(lang.value if lang is not None else lang,
                          Bip39WordsListFinder,
                          Bip39WordsListGetter)
@@ -71,14 +73,14 @@ class ElectrumMnemonicDecoder(MnemonicDecoderBase):
             MnemonicChecksumError: If checksum is not valid
             ValueError: If mnemonic is not valid
         """
-        mnemonic_obj = ElectrumMnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
+        mnemonic_obj = ElectrumV2Mnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
 
         # Check mnemonic length
-        if mnemonic_obj.WordsCount() not in ElectrumMnemonicConst.MNEMONIC_WORD_NUM:
+        if mnemonic_obj.WordsCount() not in ElectrumV2MnemonicConst.MNEMONIC_WORD_NUM:
             raise ValueError(f"Mnemonic words count is not valid ({mnemonic_obj.WordsCount()})")
 
         # Check mnemonic validity:
-        if not ElectrumMnemonicUtils.IsValidMnemonic(mnemonic_obj):
+        if not ElectrumV2MnemonicUtils.IsValidMnemonic(mnemonic_obj):
             raise ValueError("Invalid mnemonic")
 
         # Get words

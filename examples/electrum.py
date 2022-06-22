@@ -1,15 +1,15 @@
 """Example of mnemonic generation and key derivation like Electrum wallet."""
 
 from bip_utils import (
-    ElectrumWordsNum, ElectrumMnemonicTypes, ElectrumMnemonicGenerator, ElectrumSeedGenerator,
+    ElectrumV2WordsNum, ElectrumV2MnemonicTypes, ElectrumV2MnemonicGenerator, ElectrumV2SeedGenerator,
     Bip32Secp256k1, Bip44Coins, Bip84Coins, Bip44ConfGetter, Bip84ConfGetter, P2PKHAddr, P2WPKHAddr
 )
 
 # Generate random standard mnemonic
-standard_mnemonic = ElectrumMnemonicGenerator(ElectrumMnemonicTypes.STANDARD).FromWordsNumber(ElectrumWordsNum.WORDS_NUM_12)
+standard_mnemonic = ElectrumV2MnemonicGenerator(ElectrumV2MnemonicTypes.STANDARD).FromWordsNumber(ElectrumV2WordsNum.WORDS_NUM_12)
 print(f"Standard mnemonic: {standard_mnemonic}")
 # Generate seed from mnemonic
-standard_seed_bytes = ElectrumSeedGenerator(standard_mnemonic).Generate()
+standard_seed_bytes = ElectrumV2SeedGenerator(standard_mnemonic).Generate()
 
 # Construct from seed, using secp256k1 curve for key derivation
 bip32_mst_ctx = Bip32Secp256k1.FromSeed(standard_seed_bytes)
@@ -26,10 +26,10 @@ for i in range(5):
 print("")
 
 # Generate random segwit mnemonic
-segwit_mnemonic = ElectrumMnemonicGenerator(ElectrumMnemonicTypes.SEGWIT).FromWordsNumber(ElectrumWordsNum.WORDS_NUM_12)
+segwit_mnemonic = ElectrumV2MnemonicGenerator(ElectrumV2MnemonicTypes.SEGWIT).FromWordsNumber(ElectrumV2WordsNum.WORDS_NUM_12)
 print(f"Segwit mnemonic: {segwit_mnemonic}")
 # Generate seed from mnemonic
-segwit_seed_bytes = ElectrumSeedGenerator(segwit_mnemonic).Generate()
+segwit_seed_bytes = ElectrumV2SeedGenerator(segwit_mnemonic).Generate()
 
 # Construct from seed, using secp256k1 curve for key derivation
 bip32_mst_ctx = Bip32Secp256k1.FromSeed(segwit_seed_bytes)

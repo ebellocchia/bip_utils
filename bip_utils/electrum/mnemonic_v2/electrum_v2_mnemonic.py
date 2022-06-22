@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum mnemonic."""
+"""Module for Electrum v2 mnemonic."""
 
 # Imports
 from enum import auto, Enum, IntEnum, unique
@@ -29,15 +29,15 @@ from bip_utils.utils.mnemonic import MnemonicLanguages
 
 
 @unique
-class ElectrumWordsNum(IntEnum):
-    """Enumerative for Electrum words number."""
+class ElectrumV2WordsNum(IntEnum):
+    """Enumerative for Electrum words number (v2)."""
 
     WORDS_NUM_12 = 12
 
 
 @unique
-class ElectrumLanguages(MnemonicLanguages):
-    """Enumerative for Electrum languages."""
+class ElectrumV2Languages(MnemonicLanguages):
+    """Enumerative for Electrum languages (v2)."""
 
     CHINESE_SIMPLIFIED = Bip39Languages.CHINESE_SIMPLIFIED
     ENGLISH = Bip39Languages.ENGLISH
@@ -46,29 +46,30 @@ class ElectrumLanguages(MnemonicLanguages):
 
 
 @unique
-class ElectrumMnemonicTypes(Enum):
-    """Enumerative for Electrum mnemonic types."""
+class ElectrumV2MnemonicTypes(Enum):
+    """Enumerative for Electrum v2 mnemonic types."""
+
     STANDARD = auto()       # Standard wallet
     SEGWIT = auto()         # Segwit wallet
 
 
-class ElectrumMnemonicConst:
-    """Class container for Electrum mnemonic constants."""
+class ElectrumV2MnemonicConst:
+    """Class container for Electrum v2 mnemonic constants."""
 
     # Accepted mnemonic word numbers
-    MNEMONIC_WORD_NUM: List[ElectrumWordsNum] = [
-        ElectrumWordsNum.WORDS_NUM_12,
+    MNEMONIC_WORD_NUM: List[ElectrumV2WordsNum] = [
+        ElectrumV2WordsNum.WORDS_NUM_12,
     ]
 
     # Mnemonic types to prefix
-    TYPE_TO_PREFIX: Dict[ElectrumMnemonicTypes, str] = {
-        ElectrumMnemonicTypes.STANDARD: "01",
-        ElectrumMnemonicTypes.SEGWIT: "100",
+    TYPE_TO_PREFIX: Dict[ElectrumV2MnemonicTypes, str] = {
+        ElectrumV2MnemonicTypes.STANDARD: "01",
+        ElectrumV2MnemonicTypes.SEGWIT: "100",
     }
 
     # Word length in bit
     WORD_BIT_LEN: int = Bip39MnemonicConst.WORD_BIT_LEN
 
 
-class ElectrumMnemonic(Bip39Mnemonic):
+class ElectrumV2Mnemonic(Bip39Mnemonic):
     """Electrum mnemonic class."""

@@ -18,25 +18,25 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum mnemonic generation."""
+"""Module for Electrum v2 mnemonic generation."""
 
 # Imports
 from bip_utils.bip.bip39 import Bip39MnemonicValidator
-from bip_utils.electrum.mnemonic.electrum_mnemonic import ElectrumMnemonicConst, ElectrumMnemonicTypes
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst, ElectrumV2MnemonicTypes
 from bip_utils.electrum.mnemonic_v1 import ElectrumV1MnemonicValidator
 from bip_utils.utils.misc import BytesUtils, CryptoUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
-class ElectrumMnemonicUtilsConst:
-    """Class container for Electrum mnemonic utility constants."""
+class ElectrumV2MnemonicUtilsConst:
+    """Class container for Electrum v2 mnemonic utility constants."""
 
     # HMAC key
     HMAC_KEY: bytes = b"Seed version"
 
 
-class ElectrumMnemonicUtils:
-    """Class container for Electrum mnemonic utility functions."""
+class ElectrumV2MnemonicUtils:
+    """Class container for Electrum v2 mnemonic utility functions."""
 
     @staticmethod
     def IsValidMnemonic(mnemonic: Mnemonic) -> bool:
@@ -49,30 +49,30 @@ class ElectrumMnemonicUtils:
         Returns:
             bool: True if valid, false otherwise
         """
-        if ElectrumMnemonicUtils.__IsBip39OrV1Mnemonic(mnemonic):
+        if ElectrumV2MnemonicUtils.__IsBip39OrV1Mnemonic(mnemonic):
             return False
         # Test all types
-        for mnemonic_type in ElectrumMnemonicTypes:
-            if ElectrumMnemonicUtils.__IsType(mnemonic, mnemonic_type):
+        for mnemonic_type in ElectrumV2MnemonicTypes:
+            if ElectrumV2MnemonicUtils.__IsType(mnemonic, mnemonic_type):
                 return True
         return False
 
     @staticmethod
     def IsValidMnemonicType(mnemonic: Mnemonic,
-                            mnemonic_type: ElectrumMnemonicTypes) -> bool:
+                            mnemonic_type: ElectrumV2MnemonicTypes) -> bool:
         """
         Get if the specified mnemonic is valid.
 
         Args:
-            mnemonic (Mnemonic)                  : Mnemonic
-            mnemonic_type (ElectrumMnemonicTypes): Mnemonic type
+            mnemonic (Mnemonic)                    : Mnemonic
+            mnemonic_type (ElectrumV2MnemonicTypes): Mnemonic type
 
         Returns:
             bool: True if valid, false otherwise
         """
-        if ElectrumMnemonicUtils.__IsBip39OrV1Mnemonic(mnemonic):
+        if ElectrumV2MnemonicUtils.__IsBip39OrV1Mnemonic(mnemonic):
             return False
-        return ElectrumMnemonicUtils.__IsType(mnemonic, mnemonic_type)
+        return ElectrumV2MnemonicUtils.__IsType(mnemonic, mnemonic_type)
 
     @staticmethod
     def __IsBip39OrV1Mnemonic(mnemonic: Mnemonic) -> bool:
@@ -89,16 +89,16 @@ class ElectrumMnemonicUtils:
 
     @staticmethod
     def __IsType(mnemonic: Mnemonic,
-                 mnemonic_type: ElectrumMnemonicTypes) -> bool:
+                 mnemonic_type: ElectrumV2MnemonicTypes) -> bool:
         """
         Get if the specified mnemonic is of the specified type.
 
         Args:
-            mnemonic (Mnemonic)                  : Mnemonic
-            mnemonic_type (ElectrumMnemonicTypes): Mnemonic type
+            mnemonic (Mnemonic)                    : Mnemonic
+            mnemonic_type (ElectrumV2MnemonicTypes): Mnemonic type
 
         Returns:
             bool: True if valid, false otherwise
         """
-        h = CryptoUtils.HmacSha512(ElectrumMnemonicUtilsConst.HMAC_KEY, mnemonic.ToStr())
-        return BytesUtils.ToHexString(h).startswith(ElectrumMnemonicConst.TYPE_TO_PREFIX[mnemonic_type])
+        h = CryptoUtils.HmacSha512(ElectrumV2MnemonicUtilsConst.HMAC_KEY, mnemonic.ToStr())
+        return BytesUtils.ToHexString(h).startswith(ElectrumV2MnemonicConst.TYPE_TO_PREFIX[mnemonic_type])

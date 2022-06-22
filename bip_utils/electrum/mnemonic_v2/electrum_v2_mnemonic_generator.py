@@ -18,61 +18,63 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum mnemonic generation."""
+"""Module for Electrum v2 mnemonic generation."""
 
 # Imports
 from typing import Dict, Union
-from bip_utils.electrum.mnemonic.electrum_entropy_generator import ElectrumEntropyBitLen, ElectrumEntropyGenerator
-from bip_utils.electrum.mnemonic.electrum_mnemonic import (
-    ElectrumMnemonicConst, ElectrumLanguages, ElectrumMnemonicTypes, ElectrumWordsNum
+from bip_utils.electrum.mnemonic_v2.electrum_v2_entropy_generator import (
+    ElectrumV2EntropyBitLen, ElectrumV2EntropyGenerator
 )
-from bip_utils.electrum.mnemonic.electrum_mnemonic_encoder import ElectrumMnemonicEncoder
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
+    ElectrumV2MnemonicConst, ElectrumV2Languages, ElectrumV2MnemonicTypes, ElectrumV2WordsNum
+)
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_encoder import ElectrumV2MnemonicEncoder
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
-class ElectrumMnemonicGeneratorConst:
-    """Class container for Electrum mnemonic generator constants."""
+class ElectrumV2MnemonicGeneratorConst:
+    """Class container for Electrum v2 mnemonic generator constants."""
 
     # Entropy length for each words number
-    WORDS_NUM_TO_ENTROPY_LEN: Dict[ElectrumWordsNum, ElectrumEntropyBitLen] = {
-        ElectrumWordsNum.WORDS_NUM_12: ElectrumEntropyBitLen.BIT_LEN_132,
+    WORDS_NUM_TO_ENTROPY_LEN: Dict[ElectrumV2WordsNum, ElectrumV2EntropyBitLen] = {
+        ElectrumV2WordsNum.WORDS_NUM_12: ElectrumV2EntropyBitLen.BIT_LEN_132,
     }
     # Maximum number of attempts (just to avoid infinite looping)
     MAX_ATTEMPTS: int = 100000
 
 
-class ElectrumMnemonicGenerator:
+class ElectrumV2MnemonicGenerator:
     """
-    Electrum mnemonic generator class.
+    Electrum v2 mnemonic generator class.
     It generates 25-words mnemonic in according to Electrum wallets.
     """
 
-    m_mnemonic_encoder: ElectrumMnemonicEncoder
+    m_mnemonic_encoder: ElectrumV2MnemonicEncoder
 
     def __init__(self,
-                 mnemonic_type: ElectrumMnemonicTypes,
-                 lang: ElectrumLanguages = ElectrumLanguages.ENGLISH) -> None:
+                 mnemonic_type: ElectrumV2MnemonicTypes,
+                 lang: ElectrumV2Languages = ElectrumV2Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            mnemonic_type (ElectrumMnemonicTypes): Mnemonic type
-            lang (ElectrumLanguages, optional)   : Language (default: English)
+            mnemonic_type (ElectrumV2MnemonicTypes): Mnemonic type
+            lang (ElectrumV2Languages, optional)   : Language (default: English)
 
         Raises:
-            TypeError: If the language is not a ElectrumLanguages enum
+            TypeError: If the language is not a ElectrumV2Languages enum
             ValueError: If language words list is not valid
         """
-        self.m_mnemonic_encoder = ElectrumMnemonicEncoder(mnemonic_type, lang)
+        self.m_mnemonic_encoder = ElectrumV2MnemonicEncoder(mnemonic_type, lang)
 
     def FromWordsNumber(self,
-                        words_num: Union[int, ElectrumWordsNum]) -> Mnemonic:
+                        words_num: Union[int, ElectrumV2WordsNum]) -> Mnemonic:
         """
         Generate mnemonic with the specified words number and type from random entropy.
 
         Args:
-            words_num (int or ElectrumWordsNum)  : Number of words (12)
+            words_num (int or ElectrumV2WordsNum)  : Number of words (12)
 
         Returns:
             Mnemonic object: Generated mnemonic
@@ -82,17 +84,17 @@ class ElectrumMnemonicGenerator:
         """
 
         # Check words number
-        if words_num not in ElectrumMnemonicConst.MNEMONIC_WORD_NUM:
+        if words_num not in ElectrumV2MnemonicConst.MNEMONIC_WORD_NUM:
             raise ValueError(f"Words number for mnemonic ({words_num}) is not valid")
 
         # Convert int to enum if necessary
         if isinstance(words_num, int):
-            words_num = ElectrumWordsNum(words_num)
+            words_num = ElectrumV2WordsNum(words_num)
 
         # Get entropy length in bit from words number
-        entropy_bit_len = ElectrumMnemonicGeneratorConst.WORDS_NUM_TO_ENTROPY_LEN[words_num]
+        entropy_bit_len = ElectrumV2MnemonicGeneratorConst.WORDS_NUM_TO_ENTROPY_LEN[words_num]
         # Generate entropy
-        entropy_bytes = ElectrumEntropyGenerator(entropy_bit_len).Generate()
+        entropy_bytes = ElectrumV2EntropyGenerator(entropy_bit_len).Generate()
 
         return self.FromEntropy(entropy_bytes)
 
@@ -114,7 +116,7 @@ class ElectrumMnemonicGenerator:
         nonce = 0
 
         # Increase the entropy until a valid one is found
-        for _ in range(ElectrumMnemonicGeneratorConst.MAX_ATTEMPTS):
+        for _ in range(ElectrumV2MnemonicGeneratorConst.MAX_ATTEMPTS):
             nonce += 1
             new_entropy_int = entropy_int + nonce
             try:

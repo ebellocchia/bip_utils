@@ -99,19 +99,19 @@ from bip_utils.ecc import (
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
 )
 # Electrum mnemonic
-from bip_utils.electrum.mnemonic import (
-    ElectrumEntropyBitLen, ElectrumLanguages, ElectrumWordsNum,
-    ElectrumEntropyGenerator,
-    ElectrumMnemonicTypes, ElectrumMnemonic,
-    ElectrumMnemonicDecoder, ElectrumMnemonicEncoder,
-    ElectrumMnemonicGenerator, ElectrumMnemonicValidator, ElectrumSeedGenerator
-)
 from bip_utils.electrum.mnemonic_v1 import (
     ElectrumV1EntropyBitLen, ElectrumV1Languages, ElectrumV1WordsNum,
     ElectrumV1EntropyGenerator,
     ElectrumV1Mnemonic,
     ElectrumV1MnemonicDecoder, ElectrumV1MnemonicEncoder,
     ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator
+)
+from bip_utils.electrum.mnemonic_v2 import (
+    ElectrumV2EntropyBitLen, ElectrumV2Languages, ElectrumV2WordsNum,
+    ElectrumV2EntropyGenerator,
+    ElectrumV2MnemonicTypes, ElectrumV2Mnemonic,
+    ElectrumV2MnemonicDecoder, ElectrumV2MnemonicEncoder,
+    ElectrumV2MnemonicGenerator, ElectrumV2MnemonicValidator, ElectrumV2SeedGenerator
 )
 # Monero
 from bip_utils.monero import (
