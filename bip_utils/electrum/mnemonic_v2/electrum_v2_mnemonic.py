@@ -51,6 +51,8 @@ class ElectrumV2MnemonicTypes(Enum):
 
     STANDARD = auto()       # Standard wallet
     SEGWIT = auto()         # Segwit wallet
+    STANDARD_2FA = auto()   # Standard 2FA wallet
+    SEGWIT_2FA = auto()     # Segwit 2FA wallet
 
 
 class ElectrumV2MnemonicConst:
@@ -65,6 +67,8 @@ class ElectrumV2MnemonicConst:
     TYPE_TO_PREFIX: Dict[ElectrumV2MnemonicTypes, str] = {
         ElectrumV2MnemonicTypes.STANDARD: "01",
         ElectrumV2MnemonicTypes.SEGWIT: "100",
+        ElectrumV2MnemonicTypes.STANDARD_2FA: "101",
+        ElectrumV2MnemonicTypes.SEGWIT_2FA: "102",
     }
 
     # Word length in bit
