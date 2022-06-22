@@ -17,7 +17,7 @@ from bip_utils.addr.okex_addr import OkexAddrDecoder, OkexAddrEncoder, OkexAddr
 from bip_utils.addr.one_addr import OneAddrDecoder, OneAddrEncoder, OneAddr
 from bip_utils.addr.P2PKH_addr import (
     BchP2PKHAddrDecoder, BchP2PKHAddrEncoder, BchP2PKHAddr,
-    P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHAddr
+    P2PKHPubKeyModes, P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHAddr
 )
 from bip_utils.addr.P2SH_addr import (
     BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr,
