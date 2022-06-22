@@ -52,6 +52,24 @@ class ElectrumV2WalletBase(ABC):
         """
         return self.m_bip32
 
+    def MasterPrivateKey(self) -> Bip32PrivateKey:
+        """
+        Get the master private key.
+
+        Returns:
+            Bip32PrivateKey object: Bip32PrivateKey object
+        """
+        return self.m_bip32.PrivateKey()
+
+    def MasterPublicKey(self) -> Bip32PublicKey:
+        """
+        Get the master public key.
+
+        Returns:
+            Bip32PrivateKey object: Bip32PrivateKey object
+        """
+        return self.m_bip32.PublicKey()
+
     @abstractmethod
     def GetPrivateKey(self,
                       change_idx: int,
@@ -99,17 +117,10 @@ class ElectrumV2WalletBase(ABC):
 
 
 class ElectrumV2WalletStandard(ElectrumV2WalletBase):
-    """Electrum v2 standard wallet class."""
-
-    def __init__(self,
-                 bip32: Bip32Base) -> None:
-        """
-        Construct class.
-
-        Args:
-            bip32 (Bip32Base object): Bip32Base object
-        """
-        super().__init__(bip32)
+    """
+    Electrum v2 standard wallet class.
+    It derives keys like the Electrum wallet with standard mnemonic.
+    """
 
     def GetPrivateKey(self,
                       change_idx: int,
@@ -139,7 +150,7 @@ class ElectrumV2WalletStandard(ElectrumV2WalletBase):
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
         """
-        return self.__DeriveKey(change_idx, addr_idx).PublicKey()
+        return self.GetPrivateKey(change_idx, addr_idx).PublicKey()
 
     def GetAddress(self,
                    change_idx: int,
@@ -175,7 +186,10 @@ class ElectrumV2WalletStandard(ElectrumV2WalletBase):
 
 
 class ElectrumV2WalletSegwit(ElectrumV2WalletBase):
-    """Electrum v2 segwit wallet class."""
+    """
+    Electrum v2 segwit wallet class.
+    It derives keys like the Electrum wallet with segwit mnemonic.
+    """
 
     m_bip32_acc: Bip32Base
 
