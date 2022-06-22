@@ -7,4 +7,5 @@ from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic import (
 from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_decoder import ElectrumOldMnemonicDecoder
 from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_encoder import ElectrumOldMnemonicEncoder
 from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_generator import ElectrumOldMnemonicGenerator
+from bip_utils.electrum.old_mnemonic.electrum_old_seed_generator import ElectrumOldSeedGenerator
 from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_validator import ElectrumOldMnemonicValidator

@@ -111,7 +111,7 @@ from bip_utils.electrum.old_mnemonic import (
     ElectrumOldEntropyGenerator,
     ElectrumOldMnemonic,
     ElectrumOldMnemonicDecoder, ElectrumOldMnemonicEncoder,
-    ElectrumOldMnemonicGenerator, ElectrumOldMnemonicValidator
+    ElectrumOldMnemonicGenerator, ElectrumOldMnemonicValidator, ElectrumOldSeedGenerator
 )
 # Monero
 from bip_utils.monero import (
