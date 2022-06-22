@@ -21,10 +21,11 @@
 """Module containing utility classes for Electrum v2 wallet keys derivation, since it uses its own paths."""
 
 # Imports
+from __future__ import annotations
 from abc import ABC, abstractmethod
 from functools import lru_cache
 from bip_utils.addr import P2PKHAddr, P2WPKHAddr
-from bip_utils.bip.bip32 import Bip32PrivateKey, Bip32PublicKey, Bip32Base
+from bip_utils.bip.bip32 import Bip32PrivateKey, Bip32PublicKey, Bip32Base, Bip32Secp256k1
 from bip_utils.coin_conf import CoinsConf
 
 
@@ -33,14 +34,33 @@ class ElectrumV2WalletBase(ABC):
 
     m_bip32: Bip32Base
 
+    @classmethod
+    def FromSeed(cls,
+                 seed_bytes: bytes) -> ElectrumV2WalletBase:
+        """
+        Construct class from seed bytes.
+
+        Args:
+            seed_bytes (bytes): Seed bytes
+
+        Returns:
+            ElectrumV2WalletBase object: ElectrumV2WalletBase object
+        """
+        return cls(Bip32Secp256k1.FromSeed(seed_bytes))
+
     def __init__(self,
                  bip32: Bip32Base) -> None:
         """
         Construct class.
 
         Args:
-            bip32 (Bip32Base object): Bip32Base object
+            bip32 (Bip32Base object): Bip32Base object (shall be a Bip32Secp256k1 instance)
+
+        Raises:
+            TypeError: If the bip32 object is not a Bip32Secp256k1 class instance
         """
+        if not isinstance(bip32, Bip32Secp256k1):
+            raise TypeError("A Bip32Secp256k1 class instance is required")
         self.m_bip32 = bip32
 
     def Bip32Object(self) -> Bip32Base:
