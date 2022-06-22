@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum old mnemonic."""
+"""Module for Electrum v1 mnemonic."""
 
 # Imports
 from enum import auto, IntEnum, unique
@@ -28,35 +28,35 @@ from bip_utils.utils.mnemonic import MnemonicLanguages
 
 
 @unique
-class ElectrumOldWordsNum(IntEnum):
-    """Enumerative for Electrum words number (old)."""
+class ElectrumV1WordsNum(IntEnum):
+    """Enumerative for Electrum words number (v1)."""
 
     WORDS_NUM_12 = 12
 
 
 @unique
-class ElectrumOldLanguages(MnemonicLanguages):
-    """Enumerative for Electrum languages (old)."""
+class ElectrumV1Languages(MnemonicLanguages):
+    """Enumerative for Electrum languages (v1)."""
 
     ENGLISH = auto()
 
 
-class ElectrumOldMnemonicConst:
-    """Class container for Electrum old mnemonic constants."""
+class ElectrumV1MnemonicConst:
+    """Class container for Electrum v1 mnemonic constants."""
 
     # Accepted mnemonic word numbers
-    MNEMONIC_WORD_NUM: List[ElectrumOldWordsNum] = [
-        ElectrumOldWordsNum.WORDS_NUM_12,
+    MNEMONIC_WORD_NUM: List[ElectrumV1WordsNum] = [
+        ElectrumV1WordsNum.WORDS_NUM_12,
     ]
 
     # Language files
-    LANGUAGE_FILES: Dict[ElectrumOldLanguages, str] = {
-        ElectrumOldLanguages.ENGLISH: "wordlist/english.txt",
+    LANGUAGE_FILES: Dict[ElectrumV1Languages, str] = {
+        ElectrumV1Languages.ENGLISH: "wordlist/english.txt",
     }
 
     # Total number of words
     WORDS_LIST_NUM: int = 1626
 
 
-class ElectrumOldMnemonic(Bip39Mnemonic):
-    """Electrum old mnemonic class."""
+class ElectrumV1Mnemonic(Bip39Mnemonic):
+    """Electrum v1 mnemonic class."""

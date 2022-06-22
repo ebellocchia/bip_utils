@@ -18,53 +18,53 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum old mnemonic generation."""
+"""Module for Electrum v1 mnemonic generation."""
 
 # Imports
 from typing import Dict, Union
-from bip_utils.electrum.old_mnemonic.electrum_old_entropy_generator import (
-    ElectrumOldEntropyBitLen, ElectrumOldEntropyGenerator
+from bip_utils.electrum.mnemonic_v1.electrum_v1_entropy_generator import (
+    ElectrumV1EntropyBitLen, ElectrumV1EntropyGenerator
 )
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic import (
-    ElectrumOldMnemonicConst, ElectrumOldLanguages, ElectrumOldWordsNum
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import (
+    ElectrumV1MnemonicConst, ElectrumV1Languages, ElectrumV1WordsNum
 )
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_encoder import ElectrumOldMnemonicEncoder
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_encoder import ElectrumV1MnemonicEncoder
 from bip_utils.utils.mnemonic import Mnemonic
 
 
-class ElectrumOldMnemonicGeneratorConst:
-    """Class container for Electrum old mnemonic generator constants."""
+class ElectrumV1MnemonicGeneratorConst:
+    """Class container for Electrum v1 mnemonic generator constants."""
 
     # Entropy length for each words number
-    WORDS_NUM_TO_ENTROPY_LEN: Dict[ElectrumOldWordsNum, ElectrumOldEntropyBitLen] = {
-        ElectrumOldWordsNum.WORDS_NUM_12: ElectrumOldEntropyBitLen.BIT_LEN_128,
+    WORDS_NUM_TO_ENTROPY_LEN: Dict[ElectrumV1WordsNum, ElectrumV1EntropyBitLen] = {
+        ElectrumV1WordsNum.WORDS_NUM_12: ElectrumV1EntropyBitLen.BIT_LEN_128,
     }
 
 
-class ElectrumOldMnemonicGenerator:
+class ElectrumV1MnemonicGenerator:
     """
-    Electrum old mnemonic generator class.
-    It generates 12-words mnemonic in according to old Electrum mnemonic.
+    Electrum v1 mnemonic generator class.
+    It generates 12-words mnemonic in according to v1 Electrum mnemonic.
     """
 
-    m_mnemonic_encoder: ElectrumOldMnemonicEncoder
+    m_mnemonic_encoder: ElectrumV1MnemonicEncoder
 
     def __init__(self,
-                 lang: ElectrumOldLanguages = ElectrumOldLanguages.ENGLISH) -> None:
+                 lang: ElectrumV1Languages = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (ElectrumOldLanguages, optional): Language (default: English)
+            lang (ElectrumV1Languages, optional): Language (default: English)
 
         Raises:
-            TypeError: If the language is not a ElectrumOldLanguages enum
+            TypeError: If the language is not a ElectrumV1Languages enum
             ValueError: If language words list is not valid
         """
-        self.m_mnemonic_encoder = ElectrumOldMnemonicEncoder(lang)
+        self.m_mnemonic_encoder = ElectrumV1MnemonicEncoder(lang)
 
     def FromWordsNumber(self,
-                        words_num: Union[int, ElectrumOldWordsNum]) -> Mnemonic:
+                        words_num: Union[int, ElectrumV1WordsNum]) -> Mnemonic:
         """
         Generate mnemonic with the specified words number from random entropy.
         There is no really need of this method, since the words number can only be 12, but it's
@@ -81,17 +81,17 @@ class ElectrumOldMnemonicGenerator:
         """
 
         # Check words number
-        if words_num not in ElectrumOldMnemonicConst.MNEMONIC_WORD_NUM:
+        if words_num not in ElectrumV1MnemonicConst.MNEMONIC_WORD_NUM:
             raise ValueError(f"Words number for mnemonic ({words_num}) is not valid")
 
         # Convert int to enum if necessary
         if isinstance(words_num, int):
-            words_num = ElectrumOldWordsNum(words_num)
+            words_num = ElectrumV1WordsNum(words_num)
 
         # Get entropy length in bit from words number
-        entropy_bit_len = ElectrumOldMnemonicGeneratorConst.WORDS_NUM_TO_ENTROPY_LEN[words_num]
+        entropy_bit_len = ElectrumV1MnemonicGeneratorConst.WORDS_NUM_TO_ENTROPY_LEN[words_num]
         # Generate entropy
-        entropy_bytes = ElectrumOldEntropyGenerator(entropy_bit_len).Generate()
+        entropy_bytes = ElectrumV1EntropyGenerator(entropy_bit_len).Generate()
 
         return self.FromEntropy(entropy_bytes)
 

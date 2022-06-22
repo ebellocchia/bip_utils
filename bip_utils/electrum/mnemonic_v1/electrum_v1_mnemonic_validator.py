@@ -18,28 +18,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum old mnemonic validation."""
+"""Module for Electrum v1 mnemonic validation."""
 
 # Imports
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic import ElectrumOldLanguages
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_decoder import ElectrumOldMnemonicDecoder
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_decoder import ElectrumV1MnemonicDecoder
 from bip_utils.utils.mnemonic import MnemonicValidator
 
 
-class ElectrumOldMnemonicValidator(MnemonicValidator):
+class ElectrumV1MnemonicValidator(MnemonicValidator):
     """
-    Electrum old mnemonic validator class.
+    Electrum v1 mnemonic validator class.
     It validates a mnemonic phrase.
     """
 
-    m_mnemonic_decoder: ElectrumOldMnemonicDecoder
+    m_mnemonic_decoder: ElectrumV1MnemonicDecoder
 
     def __init__(self,
-                 lang: ElectrumOldLanguages = ElectrumOldLanguages.ENGLISH) -> None:
+                 lang: ElectrumV1Languages = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (AlgorandLanguages): Language
+            lang (ElectrumV1Languages): Language
         """
-        super().__init__(ElectrumOldMnemonicDecoder(lang))
+        super().__init__(ElectrumV1MnemonicDecoder(lang))

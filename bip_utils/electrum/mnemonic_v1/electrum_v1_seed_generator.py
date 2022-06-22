@@ -18,26 +18,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum old mnemonic seed generation."""
+"""Module for Electrum v1 mnemonic seed generation."""
 
 # Imports
 from typing import Union
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic import ElectrumOldLanguages
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_decoder import ElectrumOldMnemonicDecoder
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_decoder import ElectrumV1MnemonicDecoder
 from bip_utils.utils.misc import AlgoUtils, BytesUtils, CryptoUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
-class ElectrumOldSeedGeneratorConst:
-    """Class container for Electrum old seed generator constants."""
+class ElectrumV1SeedGeneratorConst:
+    """Class container for Electrum v1 seed generator constants."""
 
     # Number of hash iteration
     HASH_ITR_NUM: int = 100000
 
 
-class ElectrumOldSeedGenerator:
+class ElectrumV1SeedGenerator:
     """
-    Electrum seed generator class (old).
+    Electrum seed generator class (v1).
     It generates the seed from a mnemonic.
     """
 
@@ -45,18 +45,18 @@ class ElectrumOldSeedGenerator:
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
-                 lang: ElectrumOldLanguages = ElectrumOldLanguages.ENGLISH) -> None:
+                 lang: ElectrumV1Languages = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            mnemonic (str or Mnemonic object) : Mnemonic
-            lang (ElectrumLanguages, optional): Language (default: English)
+            mnemonic (str or Mnemonic object)   : Mnemonic
+            lang (ElectrumV1Languages, optional): Language (default: English)
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        entropy_bytes = ElectrumOldMnemonicDecoder(lang).Decode(mnemonic)
+        entropy_bytes = ElectrumV1MnemonicDecoder(lang).Decode(mnemonic)
         # Compute the seed only once
         self.m_seed = self.__GenerateSeed(entropy_bytes)
 
@@ -65,7 +65,7 @@ class ElectrumOldSeedGenerator:
         Generate seed.
         There is no really need of this method, since the seed is always the same, but it's
         kept in this way to have the same usage of Bip39/Substrate seed generator
-        (i.e. ElectrumOldSeedGenerator(mnemonic).Generate() ).
+        (i.e. ElectrumV1SeedGenerator(mnemonic).Generate() ).
 
         Returns:
             bytes: Generated seed
@@ -85,6 +85,6 @@ class ElectrumOldSeedGenerator:
         """
         entropy_hex = AlgoUtils.Encode(BytesUtils.ToHexString(entropy_bytes))
         x = entropy_hex
-        for _ in range(ElectrumOldSeedGeneratorConst.HASH_ITR_NUM):
+        for _ in range(ElectrumV1SeedGeneratorConst.HASH_ITR_NUM):
             x = CryptoUtils.Sha256(x + entropy_hex)
         return x

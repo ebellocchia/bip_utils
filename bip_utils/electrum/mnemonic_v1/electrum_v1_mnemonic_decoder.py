@@ -19,40 +19,40 @@
 # THE SOFTWARE.
 
 """
-Module for Electrum old nemonic decoding.
+Module for Electrum v1 mnemonic decoding.
 Reference: https://github.com/spesmilo/electrum
 """
 
 # Imports
 from typing import Optional, Union
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic import (
-    ElectrumOldMnemonicConst, ElectrumOldLanguages, ElectrumOldMnemonic
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import (
+    ElectrumV1MnemonicConst, ElectrumV1Languages, ElectrumV1Mnemonic
 )
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_utils import (
-    ElectrumOldWordsListFinder, ElectrumOldWordsListGetter
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_utils import (
+    ElectrumV1WordsListFinder, ElectrumV1WordsListGetter
 )
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicDecoderBase, MnemonicUtils
 
 
-class ElectrumOldMnemonicDecoder(MnemonicDecoderBase):
+class ElectrumV1MnemonicDecoder(MnemonicDecoderBase):
     """
-    Electrum old mnemonic decoder class.
+    Electrum v1 mnemonic decoder class.
     It decodes a mnemonic phrase to bytes.
     """
 
     def __init__(self,
-                 lang: Optional[ElectrumOldLanguages] = ElectrumOldLanguages.ENGLISH) -> None:
+                 lang: Optional[ElectrumV1Languages] = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (ElectrumOldLanguages, optional): Language, None for automatic detection
+            lang (ElectrumV1Languages, optional): Language, None for automatic detection
 
         Raises:
-            TypeError: If the language is not a ElectrumOldLanguages enum
+            TypeError: If the language is not a ElectrumV1Languages enum
             ValueError: If loaded words list is not valid
         """
-        super().__init__(lang, ElectrumOldWordsListFinder, ElectrumOldWordsListGetter)
+        super().__init__(lang, ElectrumV1WordsListFinder, ElectrumV1WordsListGetter)
 
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
@@ -68,10 +68,10 @@ class ElectrumOldMnemonicDecoder(MnemonicDecoderBase):
         Raises:
             ValueError: If mnemonic is not valid
         """
-        mnemonic_obj = ElectrumOldMnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
+        mnemonic_obj = ElectrumV1Mnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
 
         # Check mnemonic length
-        if mnemonic_obj.WordsCount() not in ElectrumOldMnemonicConst.MNEMONIC_WORD_NUM:
+        if mnemonic_obj.WordsCount() not in ElectrumV1MnemonicConst.MNEMONIC_WORD_NUM:
             raise ValueError(f"Mnemonic words count is not valid ({mnemonic_obj.WordsCount()})")
 
         # Detect language if it was not specified at construction

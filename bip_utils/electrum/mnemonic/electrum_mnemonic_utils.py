@@ -23,7 +23,7 @@
 # Imports
 from bip_utils.bip.bip39 import Bip39MnemonicValidator
 from bip_utils.electrum.mnemonic.electrum_mnemonic import ElectrumMnemonicConst, ElectrumMnemonicTypes
-from bip_utils.electrum.old_mnemonic import ElectrumOldMnemonicValidator
+from bip_utils.electrum.mnemonic_v1 import ElectrumV1MnemonicValidator
 from bip_utils.utils.misc import BytesUtils, CryptoUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
@@ -49,7 +49,7 @@ class ElectrumMnemonicUtils:
         Returns:
             bool: True if valid, false otherwise
         """
-        if ElectrumMnemonicUtils.__IsBip39OrOldMnemonic(mnemonic):
+        if ElectrumMnemonicUtils.__IsBip39OrV1Mnemonic(mnemonic):
             return False
         # Test all types
         for mnemonic_type in ElectrumMnemonicTypes:
@@ -70,14 +70,14 @@ class ElectrumMnemonicUtils:
         Returns:
             bool: True if valid, false otherwise
         """
-        if ElectrumMnemonicUtils.__IsBip39OrOldMnemonic(mnemonic):
+        if ElectrumMnemonicUtils.__IsBip39OrV1Mnemonic(mnemonic):
             return False
         return ElectrumMnemonicUtils.__IsType(mnemonic, mnemonic_type)
 
     @staticmethod
-    def __IsBip39OrOldMnemonic(mnemonic: Mnemonic) -> bool:
+    def __IsBip39OrV1Mnemonic(mnemonic: Mnemonic) -> bool:
         """
-        Get if the specified mnemonic is a valid BIP39 or old Electrum mnemonic.
+        Get if the specified mnemonic is a valid BIP39 or v1 Electrum mnemonic.
 
         Args:
             mnemonic (Mnemonic): Mnemonic
@@ -85,7 +85,7 @@ class ElectrumMnemonicUtils:
         Returns:
             bool: True if valid, false otherwise
         """
-        return Bip39MnemonicValidator().IsValid(mnemonic) or ElectrumOldMnemonicValidator().IsValid(mnemonic)
+        return Bip39MnemonicValidator().IsValid(mnemonic) or ElectrumV1MnemonicValidator().IsValid(mnemonic)
 
     @staticmethod
     def __IsType(mnemonic: Mnemonic,

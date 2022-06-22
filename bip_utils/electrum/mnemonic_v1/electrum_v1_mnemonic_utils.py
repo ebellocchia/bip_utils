@@ -18,20 +18,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum old mnemonic utility classes."""
+"""Module for Electrum v1 mnemonic utility classes."""
 
 # Imports
 import os
 from typing import Tuple
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic import ElectrumOldMnemonicConst, ElectrumOldLanguages
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1MnemonicConst, ElectrumV1Languages
 from bip_utils.utils.mnemonic import (
     Mnemonic, MnemonicLanguages, MnemonicWordsList, MnemonicWordsListGetterBase, MnemonicWordsListFinderBase
 )
 
 
-class ElectrumOldWordsListGetter(MnemonicWordsListGetterBase):
+class ElectrumV1WordsListGetter(MnemonicWordsListGetterBase):
     """
-    Electrum words list getter class (old).
+    Electrum words list getter class (v1).
     It allows to get words list by language so that they are loaded from file only once per language.
     """
 
@@ -51,15 +51,15 @@ class ElectrumOldWordsListGetter(MnemonicWordsListGetterBase):
             TypeError: If the language is not a Bip39Languages enum
             ValueError: If loaded words list is not valid
         """
-        if not isinstance(lang, ElectrumOldLanguages):
+        if not isinstance(lang, ElectrumV1Languages):
             raise TypeError("Language is not an enumerative of Bip39Languages")
 
         return self._LoadWordsList(lang,
                                    self.__GetLanguageFile(lang),
-                                   ElectrumOldMnemonicConst.WORDS_LIST_NUM)
+                                   ElectrumV1MnemonicConst.WORDS_LIST_NUM)
 
     @staticmethod
-    def __GetLanguageFile(lang: ElectrumOldLanguages) -> str:
+    def __GetLanguageFile(lang: ElectrumV1Languages) -> str:
         """
         Get the specified language file name.
 
@@ -70,12 +70,12 @@ class ElectrumOldWordsListGetter(MnemonicWordsListGetterBase):
             str: Language file name
         """
         return os.path.join(os.path.dirname(__file__),
-                            ElectrumOldMnemonicConst.LANGUAGE_FILES[lang])
+                            ElectrumV1MnemonicConst.LANGUAGE_FILES[lang])
 
 
-class ElectrumOldWordsListFinder(MnemonicWordsListFinderBase):
+class ElectrumV1WordsListFinder(MnemonicWordsListFinderBase):
     """
-    Electrum words list finder class (old).
+    Electrum words list finder class (v1).
     It automatically finds the correct words list from a mnemonic.
     """
 
@@ -94,4 +94,4 @@ class ElectrumOldWordsListFinder(MnemonicWordsListFinderBase):
         Raises:
             ValueError: If the mnemonic language cannot be found
         """
-        return cls._FindLanguageGeneric(mnemonic, ElectrumOldLanguages, ElectrumOldWordsListGetter)
+        return cls._FindLanguageGeneric(mnemonic, ElectrumV1Languages, ElectrumV1WordsListGetter)

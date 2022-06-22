@@ -106,12 +106,12 @@ from bip_utils.electrum.mnemonic import (
     ElectrumMnemonicDecoder, ElectrumMnemonicEncoder,
     ElectrumMnemonicGenerator, ElectrumMnemonicValidator, ElectrumSeedGenerator
 )
-from bip_utils.electrum.old_mnemonic import (
-    ElectrumOldEntropyBitLen, ElectrumOldLanguages, ElectrumOldWordsNum,
-    ElectrumOldEntropyGenerator,
-    ElectrumOldMnemonic,
-    ElectrumOldMnemonicDecoder, ElectrumOldMnemonicEncoder,
-    ElectrumOldMnemonicGenerator, ElectrumOldMnemonicValidator, ElectrumOldSeedGenerator
+from bip_utils.electrum.mnemonic_v1 import (
+    ElectrumV1EntropyBitLen, ElectrumV1Languages, ElectrumV1WordsNum,
+    ElectrumV1EntropyGenerator,
+    ElectrumV1Mnemonic,
+    ElectrumV1MnemonicDecoder, ElectrumV1MnemonicEncoder,
+    ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator
 )
 # Monero
 from bip_utils.monero import (

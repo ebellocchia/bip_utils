@@ -19,36 +19,36 @@
 # THE SOFTWARE.
 
 """
-Module for Electrum old mnemonic encoding.
+Module for Electrum v1 mnemonic encoding.
 Reference: https://github.com/spesmilo/electrum
 """
 
 # Imports
-from bip_utils.electrum.old_mnemonic.electrum_old_entropy_generator import ElectrumOldEntropyGenerator
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic import ElectrumOldLanguages, ElectrumOldMnemonic
-from bip_utils.electrum.old_mnemonic.electrum_old_mnemonic_utils import ElectrumOldWordsListGetter
+from bip_utils.electrum.mnemonic_v1.electrum_v1_entropy_generator import ElectrumV1EntropyGenerator
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages, ElectrumV1Mnemonic
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_utils import ElectrumV1WordsListGetter
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicEncoderBase, MnemonicUtils
 
 
-class ElectrumOldMnemonicEncoder(MnemonicEncoderBase):
+class ElectrumV1MnemonicEncoder(MnemonicEncoderBase):
     """
-    ElectrumOld mnemonic encoder class.
+    Electrum v1 mnemonic encoder class.
     It encodes bytes to the mnemonic phrase.
     """
 
     def __init__(self,
-                 lang: ElectrumOldLanguages = ElectrumOldLanguages.ENGLISH) -> None:
+                 lang: ElectrumV1Languages = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (ElectrumOldLanguages, optional): Language (default: English)
+            lang (ElectrumV1Languages, optional): Language (default: English)
 
         Raises:
-            TypeError: If the language is not a ElectrumOldLanguages enum
+            TypeError: If the language is not a ElectrumV1Languages enum
             ValueError: If loaded words list is not valid
         """
-        super().__init__(lang, ElectrumOldWordsListGetter)
+        super().__init__(lang, ElectrumV1WordsListGetter)
 
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
@@ -67,7 +67,7 @@ class ElectrumOldMnemonicEncoder(MnemonicEncoderBase):
 
         # Check entropy length
         entropy_byte_len = len(entropy_bytes)
-        if not ElectrumOldEntropyGenerator.IsValidEntropyByteLen(entropy_byte_len):
+        if not ElectrumV1EntropyGenerator.IsValidEntropyByteLen(entropy_byte_len):
             raise ValueError(f"Entropy byte length ({entropy_byte_len}) is not valid")
 
         # Build mnemonic
@@ -75,4 +75,4 @@ class ElectrumOldMnemonicEncoder(MnemonicEncoderBase):
         for i in range(len(entropy_bytes) // 4):
             mnemonic += MnemonicUtils.BytesChunkToWords(entropy_bytes[i * 4:(i * 4) + 4], self.m_words_list, "big")
 
-        return ElectrumOldMnemonic.FromList(mnemonic)
+        return ElectrumV1Mnemonic.FromList(mnemonic)

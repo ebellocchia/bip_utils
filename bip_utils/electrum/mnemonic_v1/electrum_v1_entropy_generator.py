@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Electrum old mnemonic entropy generation."""
+"""Module for Electrum v1 mnemonic entropy generation."""
 
 # Imports
 from enum import IntEnum, unique
@@ -27,34 +27,34 @@ from bip_utils.utils.mnemonic import EntropyGenerator
 
 
 @unique
-class ElectrumOldEntropyBitLen(IntEnum):
-    """Enumerative for Electrum entropy bit lengths (old)."""
+class ElectrumV1EntropyBitLen(IntEnum):
+    """Enumerative for Electrum entropy bit lengths (v1)."""
 
     BIT_LEN_128 = 128
 
 
-class ElectrumOldEntropyGeneratorConst:
-    """Class container for Electrum entropy generator constants (old)."""
+class ElectrumV1EntropyGeneratorConst:
+    """Class container for Electrum entropy generator constants (v1)."""
 
     # Accepted entropy lengths in bit
-    ENTROPY_BIT_LEN: List[ElectrumOldEntropyBitLen] = [
-        ElectrumOldEntropyBitLen.BIT_LEN_128,
+    ENTROPY_BIT_LEN: List[ElectrumV1EntropyBitLen] = [
+        ElectrumV1EntropyBitLen.BIT_LEN_128,
     ]
 
 
-class ElectrumOldEntropyGenerator(EntropyGenerator):
+class ElectrumV1EntropyGenerator(EntropyGenerator):
     """
-    Electrum entropy generator class (old).
+    Electrum entropy generator class (v1).
     It generates random entropy bytes.
     """
 
     def __init__(self,
-                 bit_len: Union[int, ElectrumOldEntropyBitLen] = ElectrumOldEntropyBitLen.BIT_LEN_128) -> None:
+                 bit_len: Union[int, ElectrumV1EntropyBitLen] = ElectrumV1EntropyBitLen.BIT_LEN_128) -> None:
         """
         Construct class.
 
         Args:
-            bit_len (int or ElectrumOldEntropyBitLen, optional): Entropy length in bits (default: 128)
+            bit_len (int or ElectrumV1EntropyBitLen, optional): Entropy length in bits (default: 128)
 
         Raises:
             ValueError: If the bit length is not valid
@@ -74,7 +74,7 @@ class ElectrumOldEntropyGenerator(EntropyGenerator):
         Returns:
             bool: True if valid, false otherwise
         """
-        return bit_len in ElectrumOldEntropyGeneratorConst.ENTROPY_BIT_LEN
+        return bit_len in ElectrumV1EntropyGeneratorConst.ENTROPY_BIT_LEN
 
     @staticmethod
     def IsValidEntropyByteLen(byte_len: int) -> bool:
@@ -87,4 +87,4 @@ class ElectrumOldEntropyGenerator(EntropyGenerator):
         Returns:
             bool: True if valid, false otherwise
         """
-        return ElectrumOldEntropyGenerator.IsValidEntropyBitLen(byte_len * 8)
+        return ElectrumV1EntropyGenerator.IsValidEntropyBitLen(byte_len * 8)
