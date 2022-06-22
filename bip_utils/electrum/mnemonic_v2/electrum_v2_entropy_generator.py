@@ -77,11 +77,12 @@ class ElectrumV2EntropyGenerator(EntropyGenerator):
         Returns:
             bool: True if valid, false otherwise
         """
-
         # Because of the mnemonic encoding algorithm used by Electrum, the bit length shall be greater than the
-        # minimum one minus the bit length of a single word, in order to "have space" for the last mnemonic word
-        min_entropy_bit_len = min(ElectrumV2EntropyGeneratorConst.ENTROPY_BIT_LEN)
-        return bit_len >= (min_entropy_bit_len - ElectrumV2MnemonicConst.WORD_BIT_LEN)
+        # maximum one minus the bit length of a single word, in order to "have space" for the last mnemonic word
+        for entropy_bit_len in ElectrumV2EntropyGeneratorConst.ENTROPY_BIT_LEN:
+            if entropy_bit_len - ElectrumV2MnemonicConst.WORD_BIT_LEN <= bit_len <= entropy_bit_len:
+                return True
+        return False
 
     @staticmethod
     def IsValidEntropyByteLen(byte_len: int) -> bool:
