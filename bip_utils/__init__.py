@@ -18,7 +18,7 @@ from bip_utils.addr import (
     OkexAddrDecoder, OkexAddrEncoder, OkexAddr,
     OneAddrDecoder, OneAddrEncoder, OneAddr,
     BchP2PKHAddrDecoder, BchP2PKHAddrEncoder, BchP2PKHAddr,
-    P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHAddr,
+    P2PKHPubKeyModes, P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHAddr,
     BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr,
     P2SHAddrDecoder, P2SHAddrEncoder, P2SHAddr,
     P2WPKHAddrDecoder, P2WPKHAddrEncoder, P2WPKHAddr,
@@ -89,6 +89,7 @@ from bip_utils.bip.conf.bip86 import Bip86Coins, Bip86Conf, Bip86ConfGetter
 from bip_utils.coin_conf import CoinsConf
 # ECC
 from bip_utils.ecc import (
+    IPublicKey, IPrivateKey,
     EllipticCurveGetter, EllipticCurveTypes,
     Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
     Ed25519Kholaw, Ed25519KholawPoint, Ed25519KholawPublicKey, Ed25519KholawPrivateKey,
@@ -114,7 +115,7 @@ from bip_utils.electrum.mnemonic_v2 import (
     ElectrumV2MnemonicGenerator, ElectrumV2MnemonicValidator, ElectrumV2SeedGenerator
 )
 # Electrum wallet
-from bip_utils.electrum import ElectrumV2WalletStandard, ElectrumV2WalletSegwit
+from bip_utils.electrum import ElectrumV1Wallet, ElectrumV2WalletStandard, ElectrumV2WalletSegwit
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, MoneroSubaddress, Monero

@@ -1,1 +1,2 @@
+from bip_utils.electrum.electrum_v1_wallet import ElectrumV1Wallet
 from bip_utils.electrum.electrum_v2_wallet import ElectrumV2WalletStandard, ElectrumV2WalletSegwit
