@@ -180,8 +180,8 @@ class Bip44Base(ABC):
         Construct class.
 
         Args:
-            bip32 (Bip32 object)   : Bip32 object
-            coin_conf (BipCoinConf): BipCoinConf object
+            bip32 (Bip32Base object): Bip32Base object
+            coin_conf (BipCoinConf) : BipCoinConf object
 
         Returns:
             Bip44DepthError: If the Bip32 object depth is not valid
