@@ -32,7 +32,7 @@ class ElectrumV1SeedGeneratorConst:
     """Class container for Electrum v1 seed generator constants."""
 
     # Number of hash iteration
-    HASH_ITR_NUM: int = 100000
+    HASH_ITR_NUM: int = 10**5
 
 
 class ElectrumV1SeedGenerator:

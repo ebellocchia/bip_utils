@@ -42,7 +42,7 @@ class ElectrumV2MnemonicGeneratorConst:
         ElectrumV2WordsNum.WORDS_NUM_24: ElectrumV2EntropyBitLen.BIT_LEN_264,
     }
     # Maximum number of attempts (just to avoid infinite looping)
-    MAX_ATTEMPTS: int = 100000
+    MAX_ATTEMPTS: int = 10**6
 
 
 class ElectrumV2MnemonicGenerator:
