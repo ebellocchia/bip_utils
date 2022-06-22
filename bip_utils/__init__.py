@@ -113,6 +113,8 @@ from bip_utils.electrum.mnemonic_v2 import (
     ElectrumV2MnemonicDecoder, ElectrumV2MnemonicEncoder,
     ElectrumV2MnemonicGenerator, ElectrumV2MnemonicValidator, ElectrumV2SeedGenerator
 )
+# Electrum wallet
+from bip_utils.electrum import ElectrumV2WalletStandard, ElectrumV2WalletSegwit
 # Monero
 from bip_utils.monero import (
     MoneroKeyError, MoneroPublicKey, MoneroPrivateKey, MoneroSubaddress, Monero
