@@ -71,7 +71,7 @@ class ElectrumV1MnemonicGenerator:
         kept to have the same usage of Bip39/Monero mnemonic generator.
 
         Args:
-            words_num (int or ElectrumWordsNum): Number of words (12)
+            words_num (int or ElectrumV1WordsNum): Number of words (12)
 
         Returns:
             Mnemonic object: Generated mnemonic
