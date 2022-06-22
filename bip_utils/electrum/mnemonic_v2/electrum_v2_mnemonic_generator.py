@@ -103,6 +103,9 @@ class ElectrumV2MnemonicGenerator:
                     entropy_bytes: bytes) -> Mnemonic:
         """
         Generate mnemonic from the specified entropy bytes.
+        Because of the mnemonic encoding algorithm used by Electrum, the specified entropy will only be a starting
+        point to find a suitable one. Therefore, it's very likely that the actual entropy bytes will be different.
+        To get the actual entropy bytes, just decode the generated mnemonic.
 
         Args:
             entropy_bytes (bytes): Entropy bytes
@@ -111,7 +114,7 @@ class ElectrumV2MnemonicGenerator:
             Mnemonic object: Generated mnemonic
 
         Raises:
-            ValueError: If entropy byte length is not valid
+            ValueError: If entropy byte length is not valid or a mnemonic cannot be generated
         """
         entropy_int = BytesUtils.ToInteger(entropy_bytes)
         nonce = 0
