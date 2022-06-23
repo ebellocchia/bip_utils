@@ -52,9 +52,9 @@ TEST_VECT = [
         "lang": AlgorandLanguages.ENGLISH,
     },
     {
-        "entropy": b"1111111111111111111111111111111111111111111111111111111111111111",
-        "mnemonic": "captain dust mass baby captain dust mass baby captain dust mass baby captain dust mass baby captain dust mass baby captain dust mass abandon sorry",
-        "address": "2BFLEMTUFO2KWOQTNC6UMFPE43ICESVXDIAWXL4FECRTFSLXQ43Y4T7XGU",
+        "entropy": b"ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "mnemonic": "zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo abstract adapt",
+        "address": "O2QVSICEU3SPKEJGLPFHHJQE3EFQKKOR35QCXYYKDGUSK5TA2H2Q3YZHOY",
         "lang": AlgorandLanguages.ENGLISH,
     },
 
