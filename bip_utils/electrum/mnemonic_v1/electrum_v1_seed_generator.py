@@ -21,7 +21,7 @@
 """Module for Electrum v1 mnemonic seed generation."""
 
 # Imports
-from typing import Union
+from typing import Optional, Union
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_decoder import ElectrumV1MnemonicDecoder
 from bip_utils.utils.misc import AlgoUtils, BytesUtils, CryptoUtils
@@ -45,13 +45,15 @@ class ElectrumV1SeedGenerator:
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
-                 lang: ElectrumV1Languages = ElectrumV1Languages.ENGLISH) -> None:
+                 lang: Optional[ElectrumV1Languages] = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
+        Language is set to English by default because Electrum v1 mnemonic only support one language,
+        so it's useless (and slower) to automatically detect the language.
 
         Args:
             mnemonic (str or Mnemonic object)   : Mnemonic
-            lang (ElectrumV1Languages, optional): Language (default: English)
+            lang (ElectrumV1Languages, optional): Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid

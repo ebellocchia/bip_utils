@@ -21,6 +21,7 @@
 """Module for Algorand mnemonic validation."""
 
 # Imports
+from typing import Optional
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages
 from bip_utils.algorand.mnemonic.algorand_mnemonic_decoder import AlgorandMnemonicDecoder
 from bip_utils.utils.mnemonic import MnemonicValidator
@@ -35,11 +36,13 @@ class AlgorandMnemonicValidator(MnemonicValidator):
     m_mnemonic_decoder: AlgorandMnemonicDecoder
 
     def __init__(self,
-                 lang: AlgorandLanguages = AlgorandLanguages.ENGLISH) -> None:
+                 lang: Optional[AlgorandLanguages] = AlgorandLanguages.ENGLISH) -> None:
         """
         Construct class.
+        Language is set to English by default because Algorand mnemonic only support one language,
+        so it's useless (and slower) to automatically detect the language.
 
         Args:
-            lang (AlgorandLanguages): Language
+            lang (AlgorandLanguages, optional): Language, None for automatic detection
         """
         super().__init__(AlgorandMnemonicDecoder(lang))

@@ -44,6 +44,8 @@ class ElectrumV1MnemonicDecoder(MnemonicDecoderBase):
                  lang: Optional[ElectrumV1Languages] = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
+        Language is set to English by default because Electrum v1 mnemonic only support one language,
+        so it's useless (and slower) to automatically detect the language.
 
         Args:
             lang (ElectrumV1Languages, optional): Language, None for automatic detection

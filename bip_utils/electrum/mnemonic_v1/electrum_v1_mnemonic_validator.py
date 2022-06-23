@@ -21,6 +21,7 @@
 """Module for Electrum v1 mnemonic validation."""
 
 # Imports
+from typing import Optional
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_decoder import ElectrumV1MnemonicDecoder
 from bip_utils.utils.mnemonic import MnemonicValidator
@@ -35,11 +36,13 @@ class ElectrumV1MnemonicValidator(MnemonicValidator):
     m_mnemonic_decoder: ElectrumV1MnemonicDecoder
 
     def __init__(self,
-                 lang: ElectrumV1Languages = ElectrumV1Languages.ENGLISH) -> None:
+                 lang: Optional[ElectrumV1Languages] = ElectrumV1Languages.ENGLISH) -> None:
         """
         Construct class.
+        Language is set to English by default because Electrum v1 mnemonic only support one language,
+        so it's useless (and slower) to automatically detect the language.
 
         Args:
-            lang (ElectrumV1Languages): Language
+            lang (ElectrumV1Languages, optional): Language, None for automatic detection
         """
         super().__init__(ElectrumV1MnemonicDecoder(lang))

@@ -21,7 +21,7 @@
 """Module for Algorand mnemonic seed generation."""
 
 # Imports
-from typing import Union
+from typing import Optional, Union
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages
 from bip_utils.algorand.mnemonic.algorand_mnemonic_decoder import AlgorandMnemonicDecoder
 from bip_utils.utils.mnemonic import Mnemonic
@@ -37,13 +37,15 @@ class AlgorandSeedGenerator:
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
-                 lang: AlgorandLanguages = AlgorandLanguages.ENGLISH) -> None:
+                 lang: Optional[AlgorandLanguages] = AlgorandLanguages.ENGLISH) -> None:
         """
         Construct class.
+        Language is set to English by default because Algorand mnemonic only support one language,
+        so it's useless (and slower) to automatically detect the language.
 
         Args:
             mnemonic (str or Mnemonic object) : Mnemonic
-            lang (AlgorandLanguages, optional): Language (default: English)
+            lang (AlgorandLanguages, optional): Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid
