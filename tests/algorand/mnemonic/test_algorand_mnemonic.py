@@ -94,18 +94,6 @@ TEST_VECT = [
     },
 ]
 
-# Tests for invalid entropy bit lengths
-TEST_VECT_ENTROPY_BITLEN_INVALID = [
-    255,
-    257,
-]
-
-# Tests for invalid words number
-TEST_VECT_WORDS_NUM_INVALID = [
-    24,
-    26,
-]
-
 # Tests for invalid mnemonics
 TEST_VECT_MNEMONIC_INVALID = [
     # Wrong length
@@ -187,13 +175,12 @@ class AlgorandMnemonicTests(unittest.TestCase):
 
     # Test entropy generator and construction from invalid entropy bit lengths
     def test_entropy_invalid_bitlen(self):
-        for test_bit_len in TEST_VECT_ENTROPY_BITLEN_INVALID:
-            self.assertRaises(ValueError, AlgorandEntropyGenerator, test_bit_len)
+        for test_bit_len in AlgorandEntropyBitLen:
+            self.assertRaises(ValueError, AlgorandEntropyGenerator, test_bit_len - 1)
+            self.assertRaises(ValueError, AlgorandEntropyGenerator, test_bit_len + 1)
 
-            # Build a dummy entropy with that bit length
-            # Subtract 8 because, otherwise, dividing by 8 could result in a correct byte length
+            # Build a dummy entropy with invalid bit length
             dummy_ent = b"\x00" * ((test_bit_len - 8) // 8)
-            # Construct from it
             self.assertRaises(ValueError, AlgorandMnemonicGenerator().FromEntropy, dummy_ent)
 
     # Test construction from valid words number
@@ -204,8 +191,9 @@ class AlgorandMnemonicTests(unittest.TestCase):
 
     # Test construction from invalid words number
     def test_from_invalid_words_num(self):
-        for test_words_num in TEST_VECT_WORDS_NUM_INVALID:
-            self.assertRaises(ValueError, AlgorandMnemonicGenerator().FromWordsNumber, test_words_num)
+        for test_words_num in AlgorandWordsNum:
+            self.assertRaises(ValueError, AlgorandMnemonicGenerator().FromWordsNumber, test_words_num - 1)
+            self.assertRaises(ValueError, AlgorandMnemonicGenerator().FromWordsNumber, test_words_num + 1)
 
     # Tests invalid mnemonic
     def test_invalid_mnemonic(self):
