@@ -158,7 +158,7 @@ class ElectrumV1MnemonicTests(unittest.TestCase):
             entropy = ElectrumV1MnemonicDecoder().Decode(mnemonic)
             self.assertEqual(test["entropy"], binascii.hexlify(entropy))
 
-            # Test seed generator (seed is the entropy itself for Algorand)
+            # Test seed generator
             seed = ElectrumV1SeedGenerator(mnemonic, lang).Generate()
             self.assertEqual(test["seed"], binascii.hexlify(seed))
 
