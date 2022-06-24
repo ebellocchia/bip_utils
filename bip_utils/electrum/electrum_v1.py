@@ -21,6 +21,7 @@
 """Module containing utility classes for Electrum v1 keys derivation, since it uses its own algorithm."""
 
 # Imports
+from __future__ import annotations
 from functools import lru_cache
 from bip_utils.addr import P2PKHPubKeyModes, P2PKHAddr
 from bip_utils.coin_conf import CoinsConf
@@ -35,6 +36,21 @@ class ElectrumV1:
     """
 
     m_priv_key: IPrivateKey
+
+    @classmethod
+    def FromSeed(cls,
+                 seed_bytes: bytes) -> ElectrumV1:
+        """
+        Construct class from seed bytes.
+        This method is not strictly needed but it's kept to have the same usage of the *ElectrumV2Base* class.
+
+        Args:
+            seed_bytes (bytes): Seed bytes
+
+        Returns:
+            ElectrumV1 object: ElectrumV1 object
+        """
+        return cls(seed_bytes)
 
     def __init__(self,
                  seed_bytes: bytes) -> None:

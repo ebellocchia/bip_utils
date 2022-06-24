@@ -92,20 +92,25 @@ class ElectrumV1WalletTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
-            electrum_v1_wallet = ElectrumV1(binascii.unhexlify(test["seed"]))
+            seed_bytes = binascii.unhexlify(test["seed"])
+            # Test both FromSeed and direct construction
+            self.__test_wallet(ElectrumV1.FromSeed(seed_bytes), test)
+            self.__test_wallet(ElectrumV1(seed_bytes), test)
 
-            self.assertTrue(isinstance(electrum_v1_wallet.MasterPublicKey(), Secp256k1PublicKey))
-            self.assertTrue(isinstance(electrum_v1_wallet.MasterPrivateKey(), Secp256k1PrivateKey))
+    # Test wallet
+    def __test_wallet(self, electrum_v1, test):
+        self.assertTrue(isinstance(electrum_v1.MasterPublicKey(), Secp256k1PublicKey))
+        self.assertTrue(isinstance(electrum_v1.MasterPrivateKey(), Secp256k1PrivateKey))
 
-            self.assertEqual(test["master_pub_key"], electrum_v1_wallet.MasterPublicKey().RawUncompressed().ToHex()[2:])
-            self.assertEqual(test["master_priv_key"], self.__priv_to_wif(electrum_v1_wallet.MasterPrivateKey()))
+        self.assertEqual(test["master_pub_key"], electrum_v1.MasterPublicKey().RawUncompressed().ToHex()[2:])
+        self.assertEqual(test["master_priv_key"], self.__priv_to_wif(electrum_v1.MasterPrivateKey()))
 
-            for i, test_addr in enumerate(test["addresses"]):
-                self.assertTrue(isinstance(electrum_v1_wallet.GetPublicKey(0, i), Secp256k1PublicKey))
-                self.assertTrue(isinstance(electrum_v1_wallet.GetPrivateKey(0, i), Secp256k1PrivateKey))
+        for i, test_addr in enumerate(test["addresses"]):
+            self.assertTrue(isinstance(electrum_v1.GetPublicKey(0, i), Secp256k1PublicKey))
+            self.assertTrue(isinstance(electrum_v1.GetPrivateKey(0, i), Secp256k1PrivateKey))
 
-                self.assertEqual(test_addr["address"], electrum_v1_wallet.GetAddress(0, i))
-                self.assertEqual(test_addr["priv_key"], self.__priv_to_wif(electrum_v1_wallet.GetPrivateKey(0, i)))
+            self.assertEqual(test_addr["address"], electrum_v1.GetAddress(0, i))
+            self.assertEqual(test_addr["priv_key"], self.__priv_to_wif(electrum_v1.GetPrivateKey(0, i)))
 
     # Encode private key to WIF
     @staticmethod
