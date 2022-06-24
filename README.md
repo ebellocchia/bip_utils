@@ -177,10 +177,12 @@ And then:
 
 - [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md)
 - [Algorand mnemonic](https://github.com/ebellocchia/bip_utils/tree/master/readme/algorand_mnemonic.md)
+- [Electrum mnemonic](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum_mnemonic.md)
 - [Monero mnemonic](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero_mnemonic.md)
 - [BIP-0038](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip38.md)
 - [BIP-0032](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md)
 - [BIP-0044](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip44.md)
+- [Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md)
 - [Monero](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md)
 - [Substrate](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)
 - [Utility libraries](https://github.com/ebellocchia/bip_utils/tree/master/readme/utility_libs.md)

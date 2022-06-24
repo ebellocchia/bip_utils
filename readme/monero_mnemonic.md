@@ -105,9 +105,10 @@ Supported languages:
     # Or from a list
     mnemonic = MoneroMnemonic.FromList(mnemonic.split())
     
-    # Get if a mnemonic is valid, return bool
-    # The mnemonic can be a string or a Mnemonic object
+    # Get if a mnemonic is valid with automatic language detection, return bool
     is_valid = MoneroMnemonicValidator().IsValid(mnemonic)
+    # Same but specifying the language
+    is_valid = MoneroMnemonicValidator(MoneroLanguages.ENGLISH).IsValid(mnemonic)
     # Validate a mnemonic, raise exceptions
     try:
         MoneroMnemonicValidator().Validate(mnemonic)
@@ -133,7 +134,7 @@ Supported languages:
     # Or it can be a string
     mnemonic = "ockhuizen essing brevet symboliek kart slordig hoeve olifant rodijk altsax creatie kneedbaar vetstaart exotherm laxeerpil lekdicht luikenaar bemiddeld oudachtig josua elburg kieviet escort dimbaar kieviet"
     
-    # Generate with automatic language detection and passphrase (empty)
+    # Generate with automatic language detection
     # Like before, the mnemonic can be a string or a Mnemonic object
     seed_bytes = MoneroSeedGenerator(mnemonic).Generate()
     # Generate specifying the language

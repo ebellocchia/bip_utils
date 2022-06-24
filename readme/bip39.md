@@ -100,8 +100,10 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
     mnemonic = Bip39Mnemonic.FromList(mnemonic.split())
 
 
-    # Get if a mnemonic is valid, return bool
+    # Get if a mnemonic is valid with automatic language detection, return bool
     is_valid = Bip39MnemonicValidator().IsValid(mnemonic)
+    # Same but specifying the language
+    is_valid = Bip39MnemonicValidator(Bip39Languages.ENGLISH).IsValid(mnemonic)
     # Validate a mnemonic, raise exceptions
     try:
         Bip39MnemonicValidator().Validate(mnemonic)

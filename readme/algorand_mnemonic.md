@@ -59,7 +59,7 @@ Supported languages:
     entropy_bytes = binascii.unhexlify(b"0000000000000000000000000000000000000000000000000000000000000000")
     mnemonic = AlgorandMnemonicGenerator().FromEntropy(entropy_bytes)
     
-    # Generate mnemonic from random 256-bit entropy (with and without checksum)
+    # Generate mnemonic from random 256-bit entropy
     entropy_bytes = AlgorandEntropyGenerator(AlgorandEntropyBitLen.BIT_LEN_256).Generate()
     mnemonic = AlgorandMnemonicGenerator().FromEntropy(entropy_bytes)
     
@@ -81,9 +81,10 @@ Supported languages:
     # Or from a list
     mnemonic = AlgorandMnemonic.FromList(mnemonic.split())
     
-    # Get if a mnemonic is valid, return bool
-    # The mnemonic can be a string or a Mnemonic object
+    # Get if a mnemonic is valid with automatic language detection, return bool
     is_valid = AlgorandMnemonicValidator().IsValid(mnemonic)
+    # Same but specifying the language
+    is_valid = AlgorandMnemonicValidator(AlgorandLanguages.ENGLISH).IsValid(mnemonic)
     # Validate a mnemonic, raise exceptions
     try:
         AlgorandMnemonicValidator().Validate(mnemonic)
@@ -109,7 +110,7 @@ Supported languages:
     # Or it can be a string
     mnemonic = "pizza stereo depth shallow skill lucky delay base tree barrel capital knife sure era harvest eye retreat raven mammal oxygen impulse defense loud absorb giggle"
     
-    # Generate with automatic language detection and passphrase (empty)
+    # Generate with automatic language detection
     # Like before, the mnemonic can be a string or a Mnemonic object
     seed_bytes = AlgorandSeedGenerator(mnemonic).Generate()
     # Generate specifying the language
