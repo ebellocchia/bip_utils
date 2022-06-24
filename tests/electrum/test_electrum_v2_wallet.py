@@ -164,20 +164,20 @@ class ElectrumV2WalletTests(unittest.TestCase):
         self.assertRaises(TypeError, ElectrumV2Segwit, Bip32Ed25519Slip.FromSeed(binascii.unhexlify(TEST_SEED)))
 
     # Test wallet
-    def __test_wallet(self, electrum_v2_wallet, test):
-        self.assertTrue(isinstance(electrum_v2_wallet.Bip32Object(), Bip32Secp256k1))
-        self.assertTrue(isinstance(electrum_v2_wallet.MasterPublicKey(), Bip32PublicKey))
-        self.assertTrue(isinstance(electrum_v2_wallet.MasterPrivateKey(), Bip32PrivateKey))
+    def __test_wallet(self, electrum_v2, test):
+        self.assertTrue(isinstance(electrum_v2.Bip32Object(), Bip32Secp256k1))
+        self.assertTrue(isinstance(electrum_v2.MasterPublicKey(), Bip32PublicKey))
+        self.assertTrue(isinstance(electrum_v2.MasterPrivateKey(), Bip32PrivateKey))
 
-        self.assertEqual(test["master_pub_key"], electrum_v2_wallet.MasterPublicKey().RawUncompressed().ToHex()[2:])
-        self.assertEqual(test["master_priv_key"], self.__priv_to_wif(electrum_v2_wallet.MasterPrivateKey()))
+        self.assertEqual(test["master_pub_key"], electrum_v2.MasterPublicKey().RawUncompressed().ToHex()[2:])
+        self.assertEqual(test["master_priv_key"], self.__priv_to_wif(electrum_v2.MasterPrivateKey()))
 
         for i, test_addr in enumerate(test["addresses"]):
-            self.assertTrue(isinstance(electrum_v2_wallet.GetPublicKey(0, i), Bip32PublicKey))
-            self.assertTrue(isinstance(electrum_v2_wallet.GetPrivateKey(0, i), Bip32PrivateKey))
+            self.assertTrue(isinstance(electrum_v2.GetPublicKey(0, i), Bip32PublicKey))
+            self.assertTrue(isinstance(electrum_v2.GetPrivateKey(0, i), Bip32PrivateKey))
 
-            self.assertEqual(test_addr["address"], electrum_v2_wallet.GetAddress(0, i))
-            self.assertEqual(test_addr["priv_key"], self.__priv_to_wif(electrum_v2_wallet.GetPrivateKey(0, i)))
+            self.assertEqual(test_addr["address"], electrum_v2.GetAddress(0, i))
+            self.assertEqual(test_addr["priv_key"], self.__priv_to_wif(electrum_v2.GetPrivateKey(0, i)))
 
     # Encode private key to WIF
     @staticmethod
