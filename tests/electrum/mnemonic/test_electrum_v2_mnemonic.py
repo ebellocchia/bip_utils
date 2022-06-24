@@ -131,6 +131,11 @@ TEST_VECT_MNEMONIC_INVALID = [
         "lang": ElectrumV2Languages.SPANISH,
         "exception": ValueError,
     },
+    # Invalid mnemonic type
+    {
+        "mnemonic": "safe engage car mad drill film envelope boy journey arm miss angry",
+        "exception": ValueError,
+    },
     # BIP39 mnemonic
     {
         "mnemonic": "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",
