@@ -48,9 +48,7 @@ print(f"Mnemonic: {v2_standard_mnemonic}")
 v2_standard_seed_bytes = ElectrumV2SeedGenerator(v2_standard_mnemonic).Generate()
 print(f"Seed: {binascii.hexlify(v2_standard_seed_bytes)}")
 # Construct from seed
-electrum_v2_standard = ElectrumV2Standard(
-    Bip32Secp256k1.FromSeed(v2_standard_seed_bytes)
-)
+electrum_v2_standard = ElectrumV2Standard.FromSeed(v2_standard_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v2_standard.MasterPrivateKey().KeyObject())}")
 # Derive standard addresses
@@ -68,9 +66,7 @@ print(f"Mnemonic: {v2_segwit_mnemonic}")
 v2_segwit_seed_bytes = ElectrumV2SeedGenerator(v2_segwit_mnemonic).Generate()
 print(f"Seed: {binascii.hexlify(v2_segwit_seed_bytes)}")
 # Construct from seed
-electrum_v2_segwit = ElectrumV2Segwit(
-    Bip32Secp256k1.FromSeed(v2_segwit_seed_bytes)
-)
+electrum_v2_segwit = ElectrumV2Segwit.FromSeed(v2_segwit_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v2_segwit.MasterPrivateKey().KeyObject())}")
 # Derive segwit addresses
