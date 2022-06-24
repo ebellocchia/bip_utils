@@ -21,7 +21,8 @@
 """Module for Electrum v2 mnemonic validation."""
 
 # Imports
-from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2Languages
+from typing import Optional
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2Languages, ElectrumV2MnemonicTypes
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_decoder import ElectrumV2MnemonicDecoder
 from bip_utils.utils.mnemonic import MnemonicValidator
 
@@ -35,11 +36,13 @@ class ElectrumV2MnemonicValidator(MnemonicValidator):
     m_mnemonic_decoder: ElectrumV2MnemonicDecoder
 
     def __init__(self,
-                 lang: ElectrumV2Languages = ElectrumV2Languages.ENGLISH) -> None:
+                 mnemonic_type: Optional[ElectrumV2MnemonicTypes] = None,
+                 lang: Optional[ElectrumV2Languages] = None) -> None:
         """
         Construct class.
 
         Args:
-            lang (ElectrumV2Languages): Language
+            mnemonic_type (ElectrumV2MnemonicTypes, optional): Mnemonic type, None for all types
+            lang (ElectrumV2Languages, optional)             : Language, None for automatic detection
         """
-        super().__init__(ElectrumV2MnemonicDecoder(lang))
+        super().__init__(ElectrumV2MnemonicDecoder(mnemonic_type, lang))

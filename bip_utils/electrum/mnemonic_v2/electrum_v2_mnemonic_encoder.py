@@ -54,9 +54,12 @@ class ElectrumV2MnemonicEncoder(MnemonicEncoderBase):
             lang (ElectrumV2Languages, optional)   : Language (default: English)
 
         Raises:
-            TypeError: If the language is not a ElectrumV2Languages enum
+            TypeError: If the language is not a ElectrumV2Languages enum or
+                       the mnemonic type is not a ElectrumV2MnemonicTypes enum
             ValueError: If loaded words list is not valid
         """
+        if not isinstance(mnemonic_type, ElectrumV2MnemonicTypes):
+            raise TypeError("Mnemonic type is not an enumerative of ElectrumV2MnemonicTypes")
         if not isinstance(lang, ElectrumV2Languages):
             raise TypeError("Language is not an enumerative of ElectrumV2Languages")
         super().__init__(lang.value, Bip39WordsListGetter)
@@ -93,7 +96,7 @@ class ElectrumV2MnemonicEncoder(MnemonicEncoderBase):
 
         # Check if the mnemonic is valid
         mnemonic_obj = ElectrumV2Mnemonic.FromList(mnemonic)
-        if not ElectrumV2MnemonicUtils.IsValidMnemonicType(mnemonic_obj, self.m_mnemonic_type):
+        if not ElectrumV2MnemonicUtils.IsValidMnemonic(mnemonic_obj, self.m_mnemonic_type):
             raise ValueError("Entropy bytes are not suitable for generating a valid mnemonic")
 
         return mnemonic_obj

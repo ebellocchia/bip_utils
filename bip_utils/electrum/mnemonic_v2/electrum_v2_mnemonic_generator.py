@@ -48,7 +48,7 @@ class ElectrumV2MnemonicGeneratorConst:
 class ElectrumV2MnemonicGenerator:
     """
     Electrum v2 mnemonic generator class.
-    It generates 25-words mnemonic in according to Electrum wallets.
+    It generates 12 or 24-words mnemonic in according to Electrum wallets.
     """
 
     m_mnemonic_encoder: ElectrumV2MnemonicEncoder
@@ -64,7 +64,8 @@ class ElectrumV2MnemonicGenerator:
             lang (ElectrumV2Languages, optional)   : Language (default: English)
 
         Raises:
-            TypeError: If the language is not a ElectrumV2Languages enum
+            TypeError: If the language is not a ElectrumV2Languages enum or
+                       the mnemonic type is not a ElectrumV2MnemonicTypes enum
             ValueError: If language words list is not valid
         """
         self.m_mnemonic_encoder = ElectrumV2MnemonicEncoder(mnemonic_type, lang)

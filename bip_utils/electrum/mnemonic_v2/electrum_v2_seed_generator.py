@@ -21,7 +21,7 @@
 """Module for Electrum v2 mnemonic seed generation."""
 
 # Imports
-from typing import Union
+from typing import Optional, Union
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2Languages, ElectrumV2Mnemonic
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_validator import ElectrumV2MnemonicValidator
 from bip_utils.utils.misc import CryptoUtils, StringUtils
@@ -47,18 +47,18 @@ class ElectrumV2SeedGenerator:
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
-                 lang: ElectrumV2Languages = ElectrumV2Languages.ENGLISH) -> None:
+                 lang: Optional[ElectrumV2Languages] = None) -> None:
         """
         Construct class.
 
         Args:
             mnemonic (str or Mnemonic object)   : Mnemonic
-            lang (ElectrumV2Languages, optional): Language (default: English)
+            lang (ElectrumV2Languages, optional): Language, None for automatic detection
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        ElectrumV2MnemonicValidator(lang).Validate(mnemonic)
+        ElectrumV2MnemonicValidator(lang=lang).Validate(mnemonic)
         self.m_mnemonic = (ElectrumV2Mnemonic.FromString(mnemonic)
                            if isinstance(mnemonic, str)
                            else mnemonic)

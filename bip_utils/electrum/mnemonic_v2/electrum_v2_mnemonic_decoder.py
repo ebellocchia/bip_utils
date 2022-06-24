@@ -26,7 +26,7 @@ Reference: https://github.com/electrum/py-electrum-sdk
 # Imports
 from typing import Optional, Union
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
-    ElectrumV2MnemonicConst, ElectrumV2Languages, ElectrumV2Mnemonic
+    ElectrumV2MnemonicConst, ElectrumV2Languages, ElectrumV2MnemonicTypes, ElectrumV2Mnemonic
 )
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_utils import ElectrumV2MnemonicUtils
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
@@ -40,23 +40,30 @@ class ElectrumV2MnemonicDecoder(MnemonicDecoderBase):
     It decodes a mnemonic phrase to bytes.
     """
 
+    m_mnemonic_type: Optional[ElectrumV2MnemonicTypes]
+
     def __init__(self,
-                 lang: Optional[ElectrumV2Languages] = ElectrumV2Languages.ENGLISH) -> None:
+                 mnemonic_type: Optional[ElectrumV2MnemonicTypes] = None,
+                 lang: Optional[ElectrumV2Languages] = None) -> None:
         """
         Construct class.
 
         Args:
-            lang (ElectrumV2Languages, optional): Language, None for automatic detection
+            mnemonic_type (ElectrumV2MnemonicTypes, optional): Mnemonic type, None for all types
+            lang (ElectrumV2Languages, optional)             : Language, None for automatic detection
 
         Raises:
             TypeError: If the language is not a ElectrumV2Languages enum
             ValueError: If loaded words list is not valid
         """
+        if mnemonic_type is not None and not isinstance(mnemonic_type, ElectrumV2MnemonicTypes):
+            raise TypeError("Mnemonic type is not an enumerative of ElectrumV2MnemonicTypes")
         if lang is not None and not isinstance(lang, ElectrumV2Languages):
             raise TypeError("Language is not an enumerative of ElectrumV2Languages")
         super().__init__(lang.value if lang is not None else lang,
                          Bip39WordsListFinder,
                          Bip39WordsListGetter)
+        self.m_mnemonic_type = mnemonic_type
 
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
@@ -80,7 +87,7 @@ class ElectrumV2MnemonicDecoder(MnemonicDecoderBase):
             raise ValueError(f"Mnemonic words count is not valid ({mnemonic_obj.WordsCount()})")
 
         # Check mnemonic validity:
-        if not ElectrumV2MnemonicUtils.IsValidMnemonic(mnemonic_obj):
+        if not ElectrumV2MnemonicUtils.IsValidMnemonic(mnemonic_obj, self.m_mnemonic_type):
             raise ValueError("Invalid mnemonic")
 
         # Get words
