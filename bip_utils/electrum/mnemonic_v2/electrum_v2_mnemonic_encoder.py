@@ -24,7 +24,6 @@ Reference: https://github.com/spesmilo/electrum
 """
 
 # Imports
-import math
 from bip_utils.electrum.mnemonic_v2.electrum_v2_entropy_generator import ElectrumV2EntropyGenerator
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
     ElectrumV2Languages, ElectrumV2MnemonicTypes, ElectrumV2Mnemonic
@@ -77,14 +76,13 @@ class ElectrumV2MnemonicEncoder(MnemonicEncoderBase):
             Mnemonic object: Encoded mnemonic
 
         Raises:
-            ValueError: If bytes length is not valid
+            ValueError: If bytes length is not valid or a mnemonic cannot be generated
         """
 
         # Check entropy length
         entropy_int = BytesUtils.ToInteger(entropy_bytes)
-        entropy_bit_len = math.floor(math.log(entropy_int, 2))
-        if not ElectrumV2EntropyGenerator.IsValidEntropyBitLen(entropy_bit_len):
-            raise ValueError(f"Entropy bit length ({entropy_bit_len}) is not valid")
+        if not ElectrumV2EntropyGenerator.AreEntropyBitsEnough(entropy_int):
+            raise ValueError(f"Entropy bit length is not enough for generating a valid mnemonic")
 
         # Encode to words
         n = self.m_words_list.Length()

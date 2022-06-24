@@ -21,9 +21,11 @@
 """Module for Electrum v2 mnemonic entropy generation."""
 
 # Imports
+import math
 from enum import IntEnum, unique
 from typing import List, Union
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst
+from bip_utils.utils.misc import BytesUtils
 from bip_utils.utils.mnemonic import EntropyGenerator
 
 
@@ -96,3 +98,19 @@ class ElectrumV2EntropyGenerator(EntropyGenerator):
             bool: True if valid, false otherwise
         """
         return ElectrumV2EntropyGenerator.IsValidEntropyBitLen(byte_len * 8)
+
+    @staticmethod
+    def AreEntropyBitsEnough(entropy: Union[bytes, int]) -> bool:
+        """
+        Get if the entropy bits are enough to generate a valid mnemonic.
+
+        Args:
+            entropy (bytes or int): Entropy
+
+        Returns:
+            bool: True if enough, false otherwise
+        """
+        if isinstance(entropy, bytes):
+            entropy = BytesUtils.ToInteger(entropy)
+        entropy_bit_len = 0 if entropy <= 0 else math.floor(math.log(entropy, 2))
+        return ElectrumV2EntropyGenerator.IsValidEntropyBitLen(entropy_bit_len)

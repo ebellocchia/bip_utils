@@ -107,6 +107,9 @@ class ElectrumV2MnemonicGenerator:
         Because of the mnemonic encoding algorithm used by Electrum, the specified entropy will only be a starting
         point to find a suitable one. Therefore, it's very likely that the actual entropy bytes will be different.
         To get the actual entropy bytes, just decode the generated mnemonic.
+        Please note that, to successfully generate a mnemonic, the bits of the big endian integer encoded entropy
+        shall be at least 121 (for 12 words) or 253 (for 24 words). Otherwise, a mnemonic generation is not possible
+        and a ValueError exception will be raised.
 
         Args:
             entropy_bytes (bytes): Entropy bytes
@@ -117,16 +120,16 @@ class ElectrumV2MnemonicGenerator:
         Raises:
             ValueError: If entropy byte length is not valid or a mnemonic cannot be generated
         """
-        entropy_int = BytesUtils.ToInteger(entropy_bytes)
-        nonce = 0
 
-        # Increase the entropy until a valid one is found
-        for _ in range(ElectrumV2MnemonicGeneratorConst.MAX_ATTEMPTS):
-            nonce += 1
-            new_entropy_int = entropy_int + nonce
-            try:
-                return self.m_mnemonic_encoder.Encode(IntegerUtils.ToBytes(new_entropy_int))
-            except ValueError:
-                continue
+        # Do not waste time trying if the entropy bit are not enough
+        if ElectrumV2EntropyGenerator.AreEntropyBitsEnough(entropy_bytes):
+            # Same of Electrum: increase the entropy until a valid one is found
+            entropy_int = BytesUtils.ToInteger(entropy_bytes)
+            for i in range(1, ElectrumV2MnemonicGeneratorConst.MAX_ATTEMPTS):
+                new_entropy_int = entropy_int + i
+                try:
+                    return self.m_mnemonic_encoder.Encode(IntegerUtils.ToBytes(new_entropy_int))
+                except ValueError:
+                    continue
 
         raise ValueError("Unable to generate a valid mnemonic")
