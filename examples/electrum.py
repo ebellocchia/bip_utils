@@ -24,7 +24,7 @@ def priv_to_wif(priv_key: IPrivateKey,
 
 
 print("V1 Wallet")
-# Generate random standard mnemonic
+# Generate random mnemonic
 v1_mnemonic = ElectrumV1MnemonicGenerator().FromWordsNumber(ElectrumV1WordsNum.WORDS_NUM_12)
 print(f"Mnemonic: {v1_mnemonic}")
 v1_seed_bytes = ElectrumV1SeedGenerator(v1_mnemonic).Generate()
