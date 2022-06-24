@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module containing utility classes for Electrum v2 wallet keys derivation, since it uses its own paths."""
+"""Module containing utility classes for Electrum v2 keys derivation, since it uses its own paths."""
 
 # Imports
 from __future__ import annotations
@@ -29,14 +29,14 @@ from bip_utils.bip.bip32 import Bip32PrivateKey, Bip32PublicKey, Bip32Base, Bip3
 from bip_utils.coin_conf import CoinsConf
 
 
-class ElectrumV2WalletBase(ABC):
-    """Electrum v2 wallet base class."""
+class ElectrumV2Base(ABC):
+    """Electrum v2 base class."""
 
     m_bip32: Bip32Base
 
     @classmethod
     def FromSeed(cls,
-                 seed_bytes: bytes) -> ElectrumV2WalletBase:
+                 seed_bytes: bytes) -> ElectrumV2Base:
         """
         Construct class from seed bytes.
 
@@ -44,7 +44,7 @@ class ElectrumV2WalletBase(ABC):
             seed_bytes (bytes): Seed bytes
 
         Returns:
-            ElectrumV2WalletBase object: ElectrumV2WalletBase object
+            ElectrumV2Base object: ElectrumV2Base object
         """
         return cls(Bip32Secp256k1.FromSeed(seed_bytes))
 
@@ -136,9 +136,9 @@ class ElectrumV2WalletBase(ABC):
         """
 
 
-class ElectrumV2WalletStandard(ElectrumV2WalletBase):
+class ElectrumV2Standard(ElectrumV2Base):
     """
-    Electrum v2 standard wallet class.
+    Electrum v2 standard class.
     It derives keys like the Electrum wallet with standard mnemonic.
     """
 
@@ -205,9 +205,9 @@ class ElectrumV2WalletStandard(ElectrumV2WalletBase):
         return self.m_bip32.DerivePath(f"m/{change_idx}/{addr_idx}")
 
 
-class ElectrumV2WalletSegwit(ElectrumV2WalletBase):
+class ElectrumV2Segwit(ElectrumV2Base):
     """
-    Electrum v2 segwit wallet class.
+    Electrum v2 segwit class.
     It derives keys like the Electrum wallet with segwit mnemonic.
     """
 

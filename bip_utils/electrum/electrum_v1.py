@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module containing utility classes for Electrum v1 wallet keys derivation, since it uses its own algorithm."""
+"""Module containing utility classes for Electrum v1 keys derivation, since it uses its own algorithm."""
 
 # Imports
 from functools import lru_cache
@@ -28,9 +28,9 @@ from bip_utils.ecc import IPublicKey, IPrivateKey, Secp256k1, Secp256k1PrivateKe
 from bip_utils.utils.misc import AlgoUtils, BytesUtils, CryptoUtils, IntegerUtils
 
 
-class ElectrumV1Wallet:
+class ElectrumV1:
     """
-    Electrum v1 wallet class.
+    Electrum v1 class.
     It derives keys like the Electrum wallet with old (v1) mnemonic.
     """
 

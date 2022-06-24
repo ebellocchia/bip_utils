@@ -24,7 +24,7 @@ import unittest
 from bip_utils import (
     ElectrumV1WordsNum, ElectrumV1EntropyBitLen, ElectrumV1Languages,
     ElectrumV1EntropyGenerator, ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator,
-    ElectrumV1MnemonicDecoder, ElectrumV1Wallet
+    ElectrumV1MnemonicDecoder, ElectrumV1
 )
 
 # Verified with the official Electrum wallet
@@ -163,7 +163,7 @@ class ElectrumV1MnemonicTests(unittest.TestCase):
             self.assertEqual(test["seed"], binascii.hexlify(seed))
 
             # Test address
-            self.assertEqual(test["address"], ElectrumV1Wallet(seed).GetAddress(0, 0))
+            self.assertEqual(test["address"], ElectrumV1(seed).GetAddress(0, 0))
 
     # Test entropy generator and construction from valid entropy bit lengths
     def test_entropy_valid_bitlen(self):

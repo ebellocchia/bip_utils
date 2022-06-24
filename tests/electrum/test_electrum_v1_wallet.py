@@ -22,7 +22,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    CoinsConf, ElectrumV1Wallet, Secp256k1PublicKey, Secp256k1PrivateKey,
+    CoinsConf, ElectrumV1, Secp256k1PublicKey, Secp256k1PrivateKey,
     WifPubKeyModes, WifEncoder
 )
 
@@ -92,7 +92,7 @@ class ElectrumV1WalletTests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
-            electrum_v1_wallet = ElectrumV1Wallet(binascii.unhexlify(test["seed"]))
+            electrum_v1_wallet = ElectrumV1(binascii.unhexlify(test["seed"]))
 
             self.assertTrue(isinstance(electrum_v1_wallet.MasterPublicKey(), Secp256k1PublicKey))
             self.assertTrue(isinstance(electrum_v1_wallet.MasterPrivateKey(), Secp256k1PrivateKey))

@@ -5,9 +5,9 @@ from bip_utils import (
     Bip32Secp256k1,
     CoinsConf,
     ElectrumV1WordsNum, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator,
-    ElectrumV1Wallet,
+    ElectrumV1,
     ElectrumV2WordsNum, ElectrumV2MnemonicTypes, ElectrumV2MnemonicGenerator, ElectrumV2SeedGenerator,
-    ElectrumV2WalletStandard, ElectrumV2WalletSegwit,
+    ElectrumV2Standard, ElectrumV2Segwit,
     IPrivateKey, WifPubKeyModes, WifEncoder
 )
 
@@ -30,7 +30,7 @@ print(f"Mnemonic: {v1_mnemonic}")
 v1_seed_bytes = ElectrumV1SeedGenerator(v1_mnemonic).Generate()
 print(f"Seed: {binascii.hexlify(v1_seed_bytes)}")
 # Construct from seed
-electrum_v1 = ElectrumV1Wallet(v1_seed_bytes)
+electrum_v1 = ElectrumV1(v1_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v1.MasterPrivateKey(), WifPubKeyModes.UNCOMPRESSED)}")
 # Derive V1 addresses
@@ -48,7 +48,7 @@ print(f"Mnemonic: {v2_standard_mnemonic}")
 v2_standard_seed_bytes = ElectrumV2SeedGenerator(v2_standard_mnemonic).Generate()
 print(f"Seed: {binascii.hexlify(v2_standard_seed_bytes)}")
 # Construct from seed
-electrum_v2_standard = ElectrumV2WalletStandard(
+electrum_v2_standard = ElectrumV2Standard(
     Bip32Secp256k1.FromSeed(v2_standard_seed_bytes)
 )
 # Print master key
@@ -68,7 +68,7 @@ print(f"Mnemonic: {v2_segwit_mnemonic}")
 v2_segwit_seed_bytes = ElectrumV2SeedGenerator(v2_segwit_mnemonic).Generate()
 print(f"Seed: {binascii.hexlify(v2_segwit_seed_bytes)}")
 # Construct from seed
-electrum_v2_segwit = ElectrumV2WalletSegwit(
+electrum_v2_segwit = ElectrumV2Segwit(
     Bip32Secp256k1.FromSeed(v2_segwit_seed_bytes)
 )
 # Print master key

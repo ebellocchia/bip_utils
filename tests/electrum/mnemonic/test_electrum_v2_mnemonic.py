@@ -25,7 +25,7 @@ import unittest
 from bip_utils import (
     ElectrumV2WordsNum, ElectrumV2EntropyBitLen, ElectrumV2Languages, ElectrumV2MnemonicTypes,
     ElectrumV2EntropyGenerator, ElectrumV2MnemonicGenerator, ElectrumV2MnemonicValidator, ElectrumV2SeedGenerator,
-    ElectrumV2MnemonicDecoder, ElectrumV2WalletSegwit, ElectrumV2WalletStandard,
+    ElectrumV2MnemonicDecoder, ElectrumV2Segwit, ElectrumV2Standard,
     BytesUtils
 )
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst
@@ -192,9 +192,9 @@ class ElectrumV2MnemonicTests(unittest.TestCase):
 
             # Test address
             if test["mnemonic_type"] == ElectrumV2MnemonicTypes.STANDARD:
-                self.assertEqual(test["address"], ElectrumV2WalletStandard.FromSeed(seed).GetAddress(0, 0))
+                self.assertEqual(test["address"], ElectrumV2Standard.FromSeed(seed).GetAddress(0, 0))
             elif test["mnemonic_type"] == ElectrumV2MnemonicTypes.SEGWIT:
-                self.assertEqual(test["address"], ElectrumV2WalletSegwit.FromSeed(seed).GetAddress(0, 0))
+                self.assertEqual(test["address"], ElectrumV2Segwit.FromSeed(seed).GetAddress(0, 0))
 
     # Test entropy generator and construction from valid entropy bit lengths
     def test_entropy_valid_bitlen(self):
