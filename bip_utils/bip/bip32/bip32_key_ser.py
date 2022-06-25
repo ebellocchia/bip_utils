@@ -24,6 +24,7 @@
 from typing import Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
+from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_key_data import (
     Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
 )
@@ -49,15 +50,15 @@ class _Bip32KeySerializer:
 
     @staticmethod
     def Serialize(key_bytes: bytes,
-                  key_net_ver_bytes: bytes,
-                  key_data: Bip32KeyData) -> str:
+                  key_data: Bip32KeyData,
+                  key_net_ver_bytes: bytes) -> str:
         """
         Serialize the specified key bytes.
 
         Args:
             key_bytes (bytes)           : Key bytes
-            key_net_ver_bytes (bytes)   : Key net version bytes
             key_data (BipKeyData object): Key data
+            key_net_ver_bytes (bytes)   : Key net version bytes
 
         Returns:
             str: Serialized key
@@ -82,21 +83,21 @@ class Bip32PrivateKeySerializer:
     @staticmethod
     def Serialize(priv_key: IPrivateKey,
                   key_data: Bip32KeyData,
-                  key_net_ver: Bip32KeyNetVersions) -> str:
+                  key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> str:
         """
         Serialize a private key.
 
         Args:
-            priv_key (IPrivateKey object)           : IPrivateKey object
-            key_data (BipKeyData object)            : Key data
-            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            priv_key (IPrivateKey object)                     : IPrivateKey object
+            key_data (BipKeyData object)                      : Key data
+            key_net_ver (Bip32KeyNetVersions object, optional): Key net versions (BIP32 main net version by default)
 
         Returns:
             str: Serialized private key
         """
         return _Bip32KeySerializer.Serialize(b"\x00" + priv_key.Raw().ToBytes(),
-                                             key_net_ver.Private(),
-                                             key_data)
+                                             key_data,
+                                             key_net_ver.Private())
 
 
 class Bip32PublicKeySerializer:
@@ -108,21 +109,21 @@ class Bip32PublicKeySerializer:
     @staticmethod
     def Serialize(pub_key: IPublicKey,
                   key_data: Bip32KeyData,
-                  key_net_ver: Bip32KeyNetVersions) -> str:
+                  key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> str:
         """
         Serialize the a public key.
 
         Args:
-            pub_key (IPublicKey object)             : IPublicKey object
-            key_data (BipKeyData object)            : Key data
-            key_net_ver (Bip32KeyNetVersions object): Key net versions
+            pub_key (IPublicKey object)                       : IPublicKey object
+            key_data (BipKeyData object)                      : Key data
+            key_net_ver (Bip32KeyNetVersions object, optional): Key net versions (BIP32 main net version by default)
 
         Returns:
             str: Serialized public key
         """
         return _Bip32KeySerializer.Serialize(pub_key.RawCompressed().ToBytes(),
-                                             key_net_ver.Public(),
-                                             key_data)
+                                             key_data,
+                                             key_net_ver.Public())
 
 
 class Bip32DeserializedKey:
@@ -191,13 +192,13 @@ class Bip32KeyDeserializer:
     @classmethod
     def DeserializeKey(cls,
                        ser_key_str: str,
-                       key_net_ver: Bip32KeyNetVersions) -> Bip32DeserializedKey:
+                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32DeserializedKey:
         """
         Deserialize a key.
 
         Args:
-            ser_key_str (str)                       : Serialized key string
-            key_net_ver (Bip32KeyNetVersions object): Key net versions object
+            ser_key_str (str)                                 : Serialized key string
+            key_net_ver (Bip32KeyNetVersions object, optional): Key net versions (BIP32 main net version by default)
 
         Returns:
             Bip32DeserializedKey object: Bip32DeserializedKey object
