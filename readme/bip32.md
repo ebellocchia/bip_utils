@@ -329,6 +329,51 @@ For example:
     except Bip32KeyError as ex:
         print(ex)
 
+### Serialize/Deserialize keys
+
+The Bip32 module allows also to serialize/deserialize public and private keys.
+
+**Code example**
+
+    import binascii
+    from bip_utils import (
+        Bip32KeyData, Bip32PublicKeySerializer, Bip32PrivateKeySerializer, Bip32KeyDeserializer,
+        Secp256k1PublicKey, Secp256k1PrivateKey
+    )
+    
+    key_data = Bip32KeyData(
+        depth=1,
+        index=2,
+        chain_code=binascii.unhexlify(b"47fdacbd0f1097043b78c63c20c34ef4ed9a111d980047ad16282c7ae6236141"),
+        parent_fprint=binascii.unhexlify(b"3442193e")
+    )
+    
+    # Serialize public key
+    pub_key_bytes = binascii.unhexlify(b"035a784662a4a20a65bf6aab9ae98a6c068a81c52e4b032c0fb5400c706cfccc56")
+    pub_key_ser = Bip32PublicKeySerializer.Serialize(
+        Secp256k1PublicKey.FromBytes(pub_key_bytes),
+        key_data
+    )
+    print(pub_key_ser)
+    
+    # Serialize private key
+    priv_key_bytes = binascii.unhexlify(b"edb2e14f9ee77d26dd93b4ecede8d16ed408ce149b6cd80b0715a2d911a0afea")
+    priv_key_ser = Bip32PrivateKeySerializer.Serialize(
+        Secp256k1PrivateKey.FromBytes(priv_key_bytes),
+        key_data
+    )
+    print(priv_key_ser)
+    
+    # Deserialize a key
+    deser_key = Bip32KeyDeserializer.DeserializeKey(priv_key_ser)
+    # Print results
+    print(deser_key.KeyBytes())
+    print(deser_key.KeyData().Depth().ToInt())
+    print(deser_key.KeyData().Index().ToInt())
+    print(deser_key.KeyData().ChainCode().ToHex())
+    print(deser_key.KeyData().ParentFingerPrint().ToHex())
+    print(deser_key.IsPublic())
+
 ### Parse path
 
 The Bip32 module allows also to parse derivation paths.
