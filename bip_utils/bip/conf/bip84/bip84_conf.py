@@ -25,6 +25,7 @@ from bip_utils.addr import P2WPKHAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Secp256k1
 from bip_utils.bip.conf.common import BipCoinConf, NOT_HARDENED_DEF_PATH
 from bip_utils.coin_conf import CoinsConf
+from bip_utils.slip.slip44 import Slip44
 
 
 # Bitcoin key net version (zpub / zprv)
@@ -38,7 +39,7 @@ class Bip84Conf:
     # Configuration for Bitcoin main net
     BitcoinMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.BitcoinMainNet.CoinNames(),
-        coin_idx=0,
+        coin_idx=Slip44.BITCOIN,
         is_testnet=False,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
@@ -52,7 +53,7 @@ class Bip84Conf:
     # Configuration for Bitcoin test net
     BitcoinTestNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.BitcoinTestNet.CoinNames(),
-        coin_idx=1,
+        coin_idx=Slip44.TESTNET,
         is_testnet=True,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=Bip32KeyNetVersions(b"\x04\x5f\x1c\xf6",
@@ -68,7 +69,7 @@ class Bip84Conf:
     # Configuration for Litecoin main net
     LitecoinMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.LitecoinMainNet.CoinNames(),
-        coin_idx=2,
+        coin_idx=Slip44.LITECOIN,
         is_testnet=False,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
@@ -82,7 +83,7 @@ class Bip84Conf:
     # Configuration for Litecoin test net
     LitecoinTestNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.LitecoinTestNet.CoinNames(),
-        coin_idx=1,
+        coin_idx=Slip44.TESTNET,
         is_testnet=True,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",

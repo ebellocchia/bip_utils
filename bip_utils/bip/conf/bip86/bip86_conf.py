@@ -25,6 +25,7 @@ from bip_utils.addr import P2TRAddrEncoder
 from bip_utils.bip.bip32 import Bip32Const, Bip32KeyNetVersions, Bip32Secp256k1
 from bip_utils.bip.conf.common import BipCoinConf, NOT_HARDENED_DEF_PATH
 from bip_utils.coin_conf import CoinsConf
+from bip_utils.slip.slip44 import Slip44
 
 
 # Bitcoin key net version for main net (same as BIP32)
@@ -39,7 +40,7 @@ class Bip86Conf:
     # Configuration for Bitcoin main net
     BitcoinMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.BitcoinMainNet.CoinNames(),
-        coin_idx=0,
+        coin_idx=Slip44.BITCOIN,
         is_testnet=False,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP86_BTC_KEY_NET_VER,
@@ -54,7 +55,7 @@ class Bip86Conf:
     # Configuration for Bitcoin test net
     BitcoinTestNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.BitcoinTestNet.CoinNames(),
-        coin_idx=0,
+        coin_idx=Slip44.TESTNET,
         is_testnet=True,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP86_BTC_KEY_NET_VER_TEST,

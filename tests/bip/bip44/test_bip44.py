@@ -816,19 +816,19 @@ TEST_VECT = [
         "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
         "wif_master": "",
         "account": {
-            "ex_pub": "xpub6BiXRoxTDK73KtKp3XCjv8WRBRqq57TJezk1JJLW92ZJ8B7JmYzrT2Vmh73dg3WfQ8JrRPgGVuLAAH6XGL5mJmCD1k8cScva3tMBZMbYenk",
-            "ex_priv": "xprv9xjB2JRZNwYk7QFLwVfjYzZgdQ1LfejTHmpQVuvtah2KFNnAE1gbuEBHqqbD2AbnkrMefKehvkCLeQHoKmjFcqZXug1EcNfxqqRr79VQxvP",
+            "ex_pub": "xpub6DEgMWvgwxxGm4mePrXDSVHExo9JNaPJZmBeUrsXQf6rnbydKEA4XxhUkwwifCexSDy2xnKjucNZsHFo77o8zAHVjNZQvxSSP8BNbQzcW3m",
+            "ex_priv": "xprv9zFKx1Po7bPyYahBHpzD5MLWQmJoy7fTCYG3gUTurKZsuoeUmgqozANzuf94ADbAuhsWLPf5Bj8hkj6cvGvCuaAxf5zhW7eXxLy9azaE8TS",
         },
         "chain_ext": {
-            "ex_pub": "xpub6E8ivQVjyUx49UrrCjzsG5zUK7DPAy6n7SwR96CFEQAvJjbwZeKFakcoHvnmhjNYMqPTr9BJCMXjkH5dKpYV2UFEdiWtffwaEjPUT46popz",
-            "ex_priv": "xprvA19NWtxr97PkvznP6iTrtx3jm5NtmWNvkE1pLhndg4dwRwGo27112xJKSgH1mR3b5YEEX9B9hxQx9RhVxv7q4WPLGJ4aAfdF2yvrra4A2T1",
+            "ex_pub": "xpub6ECCoJZZFgN1rTTc6R9fqNSnqu3U7w9Mr36YnYmF3LdfgoW8A81mVskLubNbL8K5fCLC9QKfZhJ9KRD3ynAtoFp7NMbAzGjh26MqtDT7wxD",
+            "ex_priv": "xprvA1CrPo2fRJoidyP8zPcfUEW4HsCyiURWUpAwzAMdV16gp1AycahWx5Rs4LCPnpodt7X44a14omqvRYUw5MhTTeEKLw3aE1Jvfu3XCKEC4yq",
         },
         "addresses": [
-            "kava1vh8tr8ddf7g0gfep23t46yllmlvtqfjkkgejlg",
-            "kava1c2pramju9wtdz2jqulfalku58pq2ecgxa6xs8g",
-            "kava1tzt3hf6vges3wqhl3tuhm70r89tqk80cnfem6j",
-            "kava1zjxdfh8954dkehatc06jajh5v6jqlxtsaw4ysp",
-            "kava1n2eculyv945phq5y7cj4l0a6tkg2px7943ce0z",
+            "kava1fzgm3840v4xwme059mfnx9rc5qgzl0enq7qgac",
+            "kava1uunhkf3jfpk6rtg4s72ttvhxmje4rdyygr4g8r",
+            "kava1ntjgd6dsqns85h74rk9xs4ep26lmnucvtyypjq",
+            "kava1ph669lyn4yr6gpc28k03w2mk4vq8txlwyzjnqy",
+            "kava1rxf0ckxnk8uaa38sz40zz4n3selk048ygufnug",
         ],
     },
     # Kusama (ed25519 SLIP-0010)
@@ -840,19 +840,19 @@ TEST_VECT = [
         "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
         "wif_master": "",
         "account": {
-            "ex_pub": "xpub6DDG9a79WtgKgGAhxAewwumqyz7MWrXDkvTS6Vuyop1h8PwqY91SFhsBGdcFFsFeCVvgSgq9DvYCTKfqveQet5np5h926BEfgyGkZpydKCe",
-            "ex_priv": "xprv9zDuk4aFgX82Tn6Er97wamq7RxGs7PoNPhXqJ7WNFUUiFbcgzbhBhuYhRRTWbK7hsqXkGMgsJcFVet7rmiPKK38nwamzouaNPuj5hLjHrge",
+            "ex_pub": "xpub6BiVi3UFBi9tQ35DbV6eYbvkaj1NKPWUTawmihLm1eXP1aoZyiQAomWqa1RcDgNirakpxgbSH2UnrMWjuTicnLjbac1AYwBVqX72QBSJYxs",
+            "ex_priv": "xprv9xj9JXwMMLbbBYzkVTZeBTz22hAsuvnd6N2AvJw9TJzQ8nURSB5vFyCMipiyzee3kVcReHDVGERydYtwoA5uFmYFrED3tuhu8s6y2UUoEoJ",
         },
         "chain_ext": {
-            "ex_pub": "xpub6E6cq4GXH8UdeeBPfdcXfLchJXr3eyGLkFPTiryKSkv2N8GPyPM48FPzxmhuPtYnjkFWH6yJAAv2Mf3v7DporUctKm7vEzjRMCF9rNdkcoR",
-            "ex_priv": "xprvA17GRYjdSkvLSA6vZc5XJCfxkW1ZFWYVP2TrvUZhtRP3VKwFRr2oaT5X7ZW2x3Giih7M8aGpyhGh8ncNmqapwsStrjFeZyVVNqU14Ssop2t",
+            "ex_pub": "xpub6DeHFAxA9twzhcEsc6FuMfau5axmKPvbaRHYYetpbeDYpJYt2prU1KUsYN7KhWLZMqrAoLf3zDi8qvRZgYbbWaM982bp7SL1uPvNQiKFBab",
+            "ex_priv": "xprv9zevqfRGKXPhV8AQW4itzXeAXZ8GuwCkDCMwkGVD3JgZwWDjVHYDTXAPhBB9KoiojJypiwnD1spLoSoJX3TGbFKLJ6jFevtxtXkQzbf58nT",
         },
         "addresses": [
-            "FoTxsgYKH4AUngJAJNsqgmK85RzCc6cerkrsN18wiFfwBrn",
-            "ETSjrrKL2gkbZYJZQZoer8efTgKnKW2nv7iUY2eLqaqe7JF",
-            "CbdpcF5Q9MNGsSffiGivMWEb6754vqkpiLeQSxFVwxZ1G8S",
-            "J13cKG6JCiZoWGyEyfhJoy8j56SSuDTEtqbkj5Bfxi7be3N",
-            "DETciVX4dFXUDoUFM4oEShZ6c1biS3qSH3f7eRqAoAhoxE7",
+            "D8B1pUPu14f4NssXcTgwecFjbRX32aes3v3vqdbUcXzQG9R",
+            "CyX9Ad4vMbtxWf8Wwozb35zubFpMvm1wv2obCWE2EH7fK4F",
+            "FFKo2rYpsscPMhaXsJ2om4DucfwG5v7jsSNZ7jFYr1kHQRS",
+            "FH4jHJA3gHciruG935fanh7N5W8cJ85FD3MHyAcf6oKwq53",
+            "GNLt2j3pr2YMajatQ3uXbVmDHKtFuMShWztjACaiBJDu6Qq",
         ],
     },
     # Litecoin
@@ -1954,13 +1954,13 @@ TEST_VECT_DEFAULT_PATH = [
     {
         "coin": Bip44Coins.KAVA,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "kava1vh8tr8ddf7g0gfep23t46yllmlvtqfjkkgejlg",
+        "default_address": "kava1fzgm3840v4xwme059mfnx9rc5qgzl0enq7qgac",
     },
     # Kusama (ed25519 SLIP-0010)
     {
         "coin": Bip44Coins.KUSAMA_ED25519_SLIP,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "FoTxsgYKH4AUngJAJNsqgmK85RzCc6cerkrsN18wiFfwBrn",
+        "default_address": "D8B1pUPu14f4NssXcTgwecFjbRX32aes3v3vqdbUcXzQG9R",
     },
     # Litecoin
     {

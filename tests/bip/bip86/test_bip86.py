@@ -61,19 +61,19 @@ TEST_VECT = [
         "ex_master": "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
         "wif_master": "cNPn53CWHSMt3MMr3HrymFzxaeDwZrZF2yAEZJ7knzAFD3GTTi2x",
         "account": {
-            "ex_pub": "tpubDC3pD7UZXnsgh3EBjbtBQiB1FnLask7UHBSunZ1DPK4dCFFZoFRkgxHB8gt42FvLzx1DpxfHWxAsYaY6b643RVcGjDxXxns7wKKYnnfEcbB",
-            "ex_priv": "tprv8fMn4hSKPRC1oaCPqxDb1JWtgkpeiQvZhsr8W2xuy3GEMkzoArcAWTfJxYb6Wj8XNNDWEjfYKK4wGQXh3ZUXhDF2NcnsALpWTeSwarJt7Vc",
+            "ex_pub": "tpubDDfvzhdVV4unsoKt5aE6dcsNsfeWbTgmLZPi8LQDYU2xixrYemMfWJ3BaVneH3u7DBQePdTwhpybaKRU95pi6PMUtLPBJLVQRpzEnjfjZzX",
+            "ex_priv": "tprv8gytrHbFLhE7zLJ6BvZWEDDGJe8aS8VrmFnvqpMv8CEZtUbn2NY5KoRKQNpkcL1yniyCBRi7dAPy4kUxHkcSvd9jzLmLMEG96TPwant2jbX",
         },
         "chain_ext": {
-            "ex_pub": "tpubDF93avGi4A5M9SVXQ45xy1hJ5j7dEBkA4M9jTwt74wurbFoCfRSHoDshkoLaUQmobjYGSakehWisjK6CXHeB3fXwtCtPmGnrKnvEU6u8NwV",
-            "ex_priv": "tprv8iT1SWETunPgFyTjWQRNZc3BWhbh4rZFV3YxBRqoeg7TkmYS32chcjFqag27Hj69iGo7JUgaqgmfsB6LCGEjA7C2k2eQ8To9pcRGge7hhCz",
+            "ex_pub": "tpubDEKGYxthPqkmJWqUP5A7g9oWxbKhXqjmQ8zdmJKSnSoRfFjcWsCUNt1Co2CcWUmz1Yw6dc4U5K5PXhyPWXo4vFsJ6Apm3wiUzHdbWQQKuAd",
+            "ex_priv": "tprv8hdEQYrTFU56R3ogVRVXGk9QPZomNWYrpqPrUnH9NB12pmUqtUNtCPPLctHC6CY9L3JdLBTxLHsLYqThhVLWg1eqfpoggDBeaoMqvEoSfXV",
         },
         "addresses": [
-            "tb1p5cyxnuxmeuwuvkwfem96lqzszd02n6xdcjrs20cac6yqjjwudpxqp3mvzv",
-            "tb1p4qhjn9zdvkux4e44uhx8tc55attvtyu358kutcqkudyccelu0wasjpkd5c",
-            "tb1p0d0rhyynq0awa9m8cqrcr8f5nxqx3aw29w4ru5u9my3h0sfygnzsj7pfcg",
-            "tb1py0vryk8aqusz65yzuudypggvswzkcpwtau8q0sjm0stctwup0xlqp7ssrv",
-            "tb1pjpp8nwqvhkx6kdna6vpujdqglvz2304twfd308ve5ppyxpmcjufsf7vf7v",
+            "tb1p8wpt9v4frpf3tkn0srd97pksgsxc5hs52lafxwru9kgeephvs7rqlqt9zj",
+            "tb1p90h6z3p36n9hrzy7580h5l429uwchyg8uc9sz4jwzhdtuhqdl5eqmpwq6n",
+            "tb1p40qqa84kpphe5vtcwd8zv7v6w7p62cmupf6f60mf8pxdkcv2455q9jyrjg",
+            "tb1p5z45vylh6vue39806mze8wl7z360ynn0uhxd8cnr5p4swe6n5gtsccrcqc",
+            "tb1p759ss4nwlk93nmljrpp24mqdtcc5e4f6u3nyteq2577m68ryas0q0pmmwf",
         ],
     },
 ]
@@ -90,7 +90,7 @@ TEST_VECT_DEFAULT_PATH = [
     {
         "coin": Bip86Coins.BITCOIN_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "default_address": "tb1p5cyxnuxmeuwuvkwfem96lqzszd02n6xdcjrs20cac6yqjjwudpxqp3mvzv",
+        "default_address": "tb1p8wpt9v4frpf3tkn0srd97pksgsxc5hs52lafxwru9kgeephvs7rqlqt9zj",
     },
 ]
 
