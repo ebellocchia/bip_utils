@@ -24,7 +24,7 @@
 from __future__ import annotations
 from typing import Union
 from bip_utils.bip.bip32.bip32_utils import Bip32Utils
-from bip_utils.utils.misc import DataBytes, IntegerUtils
+from bip_utils.utils.misc import BytesUtils, DataBytes, IntegerUtils
 
 
 class Bip32KeyDataConst:
@@ -57,6 +57,9 @@ class Bip32ChainCode(DataBytes):
 
         Args:
             chaincode (bytes, optional): Fingerprint bytes (default: zero)
+
+        Raises:
+            ValueError: If the chain code length is not valid
         """
         if len(chaincode) != Bip32KeyDataConst.CHAINCODE_BYTE_LEN:
             raise ValueError(f"Invalid chaincode length ({len(chaincode)})")
@@ -76,6 +79,9 @@ class Bip32FingerPrint(DataBytes):
 
         Args:
             fprint (bytes, optional): Fingerprint bytes (default: master key)
+
+        Raises:
+            ValueError: If the chain code length is not valid
         """
         if len(fprint) < Bip32KeyDataConst.FINGERPRINT_BYTE_LEN:
             raise ValueError(f"Invalid fingerprint length ({len(fprint)})")
@@ -106,6 +112,9 @@ class Bip32Depth:
 
         Args:
             depth (int): Depth
+
+        Raises:
+            ValueError: If the depth value is not valid
         """
         if depth < 0:
             raise ValueError(f"Invalid depth ({depth})")
@@ -162,10 +171,13 @@ class Bip32Depth:
         Equality operator.
 
         Args:
-            other (int or Bip32Depth object): Other value to compare
+            other (int or Bip32Depth object): Other object to compare
 
         Returns:
             bool: True if equal false otherwise
+
+        Raises:
+            TypeError: If the other object is not of the correct type
         """
         if not isinstance(other, (int, Bip32Depth)):
             raise TypeError(f"Invalid type for checking equality ({type(other)})")
@@ -213,6 +225,23 @@ class Bip32KeyIndex:
 
     m_idx: int
 
+    @classmethod
+    def FromBytes(cls,
+                  index_bytes: bytes) -> Bip32KeyIndex:
+        """
+        Construct class from bytes.
+
+        Args:
+            index_bytes (bytes): Key index bytes
+
+        Returns:
+            Bip32KeyIndex object: Bip32KeyIndex object
+
+        Raises:
+            ValueError: If the index is not valid
+        """
+        return cls(BytesUtils.ToInteger(index_bytes))
+
     def __init__(self,
                  idx: int) -> None:
         """
@@ -220,6 +249,9 @@ class Bip32KeyIndex:
 
         Args:
             idx (int): Key index
+
+        Raises:
+            ValueError: If the index value is not valid
         """
         if idx < 0 or idx > Bip32KeyDataConst.KEY_INDEX_MAX_VAL:
             raise ValueError(f"Invalid key index ({idx})")
@@ -286,6 +318,9 @@ class Bip32KeyIndex:
 
         Returns:
             bool: True if equal false otherwise
+
+        Raises:
+            TypeError: If the object is not of the correct type
         """
         if not isinstance(other, (int, Bip32KeyIndex)):
             raise TypeError(f"Invalid type for checking equality ({type(other)})")

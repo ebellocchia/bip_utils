@@ -130,13 +130,13 @@ class Bip32Base(ABC):
 
     @classmethod
     def FromExtendedKey(cls,
-                        key_str: str,
+                        ex_key_str: str,
                         key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
         Create a Bip32 object from the specified extended key.
 
         Args:
-            key_str (str)                           : Extended key string
+            ex_key_str (str)                        : Extended key string
             key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
 
         Returns:
@@ -147,11 +147,9 @@ class Bip32Base(ABC):
         """
 
         # De-serialize key
-        key_deser = Bip32KeyDeserializer(key_str)
-        key_deser.DeserializeKey(key_net_ver)
+        deser_key = Bip32KeyDeserializer.DeserializeKey(ex_key_str, key_net_ver)
         # Get key parts
-        key_bytes, key_data = key_deser.GetKeyParts()
-        is_public = key_deser.IsPublic()
+        key_bytes, key_data, is_public = deser_key.KeyBytes(), deser_key.KeyData(), deser_key.IsPublic()
 
         # If depth is zero, fingerprint shall be the master one and child index shall be zero
         if key_data.Depth() == 0:

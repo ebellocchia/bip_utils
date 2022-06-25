@@ -95,13 +95,13 @@ class Bip44Base(ABC):
 
     @classmethod
     def _FromExtendedKey(cls,
-                         key_str: str,
+                         ex_key_str: str,
                          coin_conf: BipCoinConf) -> Bip44Base:
         """
         Create a Bip44Base object from the specified extended key.
 
         Args:
-            key_str (str)          : Extended key string
+            ex_key_str (str)       : Extended key string
             coin_conf (BipCoinConf): BipCoinConf object
 
         Returns:
@@ -111,8 +111,7 @@ class Bip44Base(ABC):
             Bip32KeyError: If the extended key is not valid
         """
         bip32_cls = coin_conf.Bip32Class()
-        return cls(bip32_cls.FromExtendedKey(key_str,
-                                             coin_conf.KeyNetVersions()),
+        return cls(bip32_cls.FromExtendedKey(ex_key_str, coin_conf.KeyNetVersions()),
                    coin_conf)
 
     @classmethod
@@ -494,13 +493,13 @@ class Bip44Base(ABC):
     @classmethod
     @abstractmethod
     def FromExtendedKey(cls,
-                        key_str: str,
+                        ex_key_str: str,
                         coin_type: BipCoins) -> Bip44Base:
         """
         Create a Bip44Base object from the specified extended key.
 
         Args:
-            key_str (str)       : Extended key string
+            ex_key_str (str)    : Extended key string
             coin_type (BipCoins): Coin type (the type depends on the specific child class)
 
         Returns:

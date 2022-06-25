@@ -21,7 +21,7 @@
 """Module for BIP32 extended key serialization/deserialization."""
 
 # Imports
-from typing import Optional, Tuple
+from typing import Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import (
@@ -41,89 +41,36 @@ class Bip32KeyDeserConst:
     EXTENDED_PRIV_KEY_BYTE_LEN: Tuple[int, int] = (78, 110)
 
 
-class Bip32KeyDeserializer:
+class _Bip32KeySerializer:
     """
-    BIP32key deserializer class.
-    It deserializes a key.
+    BIP32 key serializer class.
+    It serializes private/public keys.
     """
 
-    m_key_str: str
-    m_key_bytes: bytes
-    m_is_public: bool
-    m_key_data: Optional[Bip32KeyData]
-
-    def __init__(self,
-                 key_str: str) -> None:
+    @staticmethod
+    def Serialize(key_bytes: bytes,
+                  key_net_ver_bytes: bytes,
+                  key_data: Bip32KeyData) -> str:
         """
-        Construct class.
+        Serialize the specified key bytes.
 
         Args:
-            key_str (str): Serialized key string
-        """
-
-        self.m_key_str = key_str
-        self.m_key_bytes = b""
-        self.m_is_public = False
-        self.m_key_data = None
-
-    def DeserializeKey(self,
-                       key_net_ver: Bip32KeyNetVersions) -> None:
-        """
-        Deserialize a key.
-
-        Args:
-            key_net_ver (Bip32KeyNetVersions object): Key net versions object
-        """
-
-        # Decode key
-        ex_key_bytes = Base58Decoder.CheckDecode(self.m_key_str)
-
-        # Get if key is public/private depending on net version
-        key_net_ver_got = ex_key_bytes[:Bip32KeyNetVersions.Length()]
-        if key_net_ver_got == key_net_ver.Public():
-            self.m_is_public = True
-        elif key_net_ver_got == key_net_ver.Private():
-            self.m_is_public = False
-        else:
-            raise Bip32KeyError(
-                f"Invalid extended key (wrong net version: {BytesUtils.ToHexString(key_net_ver_got)})"
-            )
-
-        # Check length
-        if self.m_is_public and len(ex_key_bytes) != Bip32KeyDeserConst.EXTENDED_PUB_KEY_BYTE_LEN:
-            raise Bip32KeyError(f"Invalid extended public key (wrong length: {len(ex_key_bytes)})")
-        if not self.m_is_public and len(ex_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
-            raise Bip32KeyError(f"Invalid extended private key (wrong length: {len(ex_key_bytes)})")
-
-        # De-serialize key
-        depth = ex_key_bytes[4]
-        fprint = ex_key_bytes[5:9]
-        index = BytesUtils.ToInteger(ex_key_bytes[9:13])
-        chain_code = ex_key_bytes[13:45]
-        self.m_key_bytes = ex_key_bytes[45:]
-        self.m_key_data = Bip32KeyData(Bip32Depth(depth),
-                                       Bip32KeyIndex(index),
-                                       Bip32ChainCode(chain_code),
-                                       Bip32FingerPrint(fprint))
-
-    def GetKeyParts(self) -> Tuple[bytes, Bip32KeyData]:
-        """
-        Get deserialized key parts.
+            key_bytes (bytes)           : Key bytes
+            key_net_ver_bytes (bytes)   : Key net version bytes
+            key_data (BipKeyData object): Key data
 
         Returns:
-            tuple[bytes, Bip32KeyData]: Deserialized key parts
+            str: Serialized key
         """
-        assert self.m_key_data is not None, "Deserialize key before getting key parts"
-        return self.m_key_bytes, self.m_key_data
 
-    def IsPublic(self) -> bool:
-        """
-        Get if deserialized key is public.
-
-        Returns:
-            bool: True if public, false otherwise
-        """
-        return self.m_is_public
+        # Serialize key
+        ser_key = (
+            key_net_ver_bytes
+            + bytes(key_data.Depth()) + bytes(key_data.ParentFingerPrint()) + bytes(key_data.Index())
+            + bytes(key_data.ChainCode()) + key_bytes
+        )
+        # Encode it
+        return Base58Encoder.CheckEncode(ser_key)
 
 
 class Bip32PrivateKeySerializer:
@@ -147,12 +94,9 @@ class Bip32PrivateKeySerializer:
         Returns:
             str: Serialized private key
         """
-        return Bip32KeySerializer.Serialize(b"\x00" + priv_key.Raw().ToBytes(),
-                                            key_net_ver.Private(),
-                                            key_data.Depth(),
-                                            key_data.Index(),
-                                            key_data.ChainCode(),
-                                            key_data.ParentFingerPrint())
+        return _Bip32KeySerializer.Serialize(b"\x00" + priv_key.Raw().ToBytes(),
+                                             key_net_ver.Private(),
+                                             key_data)
 
 
 class Bip32PublicKeySerializer:
@@ -176,43 +120,136 @@ class Bip32PublicKeySerializer:
         Returns:
             str: Serialized public key
         """
-        return Bip32KeySerializer.Serialize(pub_key.RawCompressed().ToBytes(),
-                                            key_net_ver.Public(),
-                                            key_data.Depth(),
-                                            key_data.Index(),
-                                            key_data.ChainCode(),
-                                            key_data.ParentFingerPrint())
+        return _Bip32KeySerializer.Serialize(pub_key.RawCompressed().ToBytes(),
+                                             key_net_ver.Public(),
+                                             key_data)
 
 
-class Bip32KeySerializer:
+class Bip32DeserializedKey:
     """
-    BIP32 key serializer class.
-    It serializes private/public keys.
+    BIP32 deserialized key class.
+    It represents a key deserialized with the Bip32KeyDeserializer.
     """
 
-    @staticmethod
-    def Serialize(key_bytes: bytes,
-                  key_net_ver_bytes: bytes,
-                  depth: Bip32Depth,
-                  index: Bip32KeyIndex,
-                  chain_code: Bip32ChainCode,
-                  fprint: Bip32FingerPrint) -> str:
+    m_key_bytes: bytes
+    m_key_data: Bip32KeyData
+    m_is_public: bool
+
+    def __init__(self,
+                 key_bytes: bytes,
+                 key_data: Bip32KeyData,
+                 is_public: bool) -> None:
         """
-        Serialize the specified key bytes.
+        Construct class.
 
         Args:
-            key_bytes (bytes)                 : Key bytes
-            key_net_ver_bytes (bytes)         : Key net version bytes
-            depth (Bip32Depth object)         : Key depth
-            index (Bip32KeyIndex object)      : Key index
-            chain_code (Bip32ChainCode object): Key chain code
-            fprint (Bip32FingerPrint object)  : Key fingerprint
+            key_bytes (bytes)           : Key bytes
+            key_data (BipKeyData object): Key data
+            is_public (bool)            : True if the key is public, false otherwise
 
         Returns:
-            str: Serialized key
+            str: Serialized public key
+        """
+        self.m_key_bytes = key_bytes
+        self.m_key_data = key_data
+        self.m_is_public = is_public
+
+    def KeyBytes(self) -> bytes:
+        """
+        Get key bytes.
+
+        Returns:
+            bytes: Key bytes
+        """
+        return self.m_key_bytes
+
+    def KeyData(self) -> Bip32KeyData:
+        """
+        Get key data.
+
+        Returns:
+            Bip32KeyData object: Bip32KeyData object
+        """
+        return self.m_key_data
+
+    def IsPublic(self) -> bool:
+        """
+        Get if public.
+
+        Returns:
+            bool: True if the key is public, false otherwise
+        """
+        return self.m_is_public
+
+
+class Bip32KeyDeserializer:
+    """
+    BIP32 key deserializer class.
+    It deserializes an extended key.
+    """
+
+    @classmethod
+    def DeserializeKey(cls,
+                       ser_key_str: str,
+                       key_net_ver: Bip32KeyNetVersions) -> Bip32DeserializedKey:
+        """
+        Deserialize a key.
+
+        Args:
+            ser_key_str (str)                       : Serialized key string
+            key_net_ver (Bip32KeyNetVersions object): Key net versions object
+
+        Returns:
+            Bip32DeserializedKey object: Bip32DeserializedKey object
+
+        Raises:
+            Bip32KeyError: If the key net version is not valid
         """
 
-        # Serialize key
-        ser_key = key_net_ver_bytes + bytes(depth) + bytes(fprint) + bytes(index) + bytes(chain_code) + key_bytes
-        # Encode it
-        return Base58Encoder.CheckEncode(ser_key)
+        # Decode key
+        ser_key_bytes = Base58Decoder.CheckDecode(ser_key_str)
+
+        # Get if key is public/private depending on net version
+        key_net_ver_got = ser_key_bytes[:Bip32KeyNetVersions.Length()]
+        if key_net_ver_got == key_net_ver.Public():
+            is_public = True
+        elif key_net_ver_got == key_net_ver.Private():
+            is_public = False
+        else:
+            raise Bip32KeyError(
+                f"Invalid extended key (wrong net version: {BytesUtils.ToHexString(key_net_ver_got)})"
+            )
+
+        # Check length
+        if is_public and len(ser_key_bytes) != Bip32KeyDeserConst.EXTENDED_PUB_KEY_BYTE_LEN:
+            raise Bip32KeyError(f"Invalid extended public key (wrong length: {len(ser_key_bytes)})")
+        if not is_public and len(ser_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
+            raise Bip32KeyError(f"Invalid extended private key (wrong length: {len(ser_key_bytes)})")
+
+        # Get parts bnack
+        key_bytes, key_data = cls.__GetPartsFromBytes(ser_key_bytes)
+
+        return Bip32DeserializedKey(key_bytes, key_data, is_public)
+
+    @staticmethod
+    def __GetPartsFromBytes(ser_key_bytes: bytes) -> Tuple[bytes, Bip32KeyData]:
+        """
+        Get back key parts from serialized key bytes.
+
+        Args:
+            ser_key_bytes (bytes): Serialized key bytes
+
+        Returns:
+            tuple[bytes, Bip32KeyData]: key bytes (index 0) and key data (index 1)
+        """
+        depth = ser_key_bytes[4]
+        fprint_bytes = ser_key_bytes[5:9]
+        index_bytes = ser_key_bytes[9:13]
+        chain_code_bytes = ser_key_bytes[13:45]
+        key_bytes = ser_key_bytes[45:]
+        key_data = Bip32KeyData(Bip32Depth(depth),
+                                Bip32KeyIndex.FromBytes(index_bytes),
+                                Bip32ChainCode(chain_code_bytes),
+                                Bip32FingerPrint(fprint_bytes))
+
+        return key_bytes, key_data

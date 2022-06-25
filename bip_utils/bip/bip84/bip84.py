@@ -79,13 +79,13 @@ class Bip84(Bip44Base):
 
     @classmethod
     def FromExtendedKey(cls,
-                        key_str: str,
+                        ex_key_str: str,
                         coin_type: BipCoins) -> Bip44Base:
         """
         Create a Bip44Base object from the specified extended key.
 
         Args:
-            key_str (str)       : Extended key string
+            ex_key_str (str)    : Extended key string
             coin_type (BipCoins): Coin type, shall be a Bip84Coins enum
 
         Returns:
@@ -97,8 +97,7 @@ class Bip84(Bip44Base):
         """
 
         # Bip84ConfGetter already checks the enum type
-        return cls._FromExtendedKey(key_str,
-                                    Bip84ConfGetter.GetConfig(coin_type))
+        return cls._FromExtendedKey(ex_key_str, Bip84ConfGetter.GetConfig(coin_type))
 
     @classmethod
     def FromPrivateKey(cls,
