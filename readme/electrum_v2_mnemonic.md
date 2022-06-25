@@ -164,6 +164,9 @@ the mnemonic type is not existent of it's different to the specified one,
 
 ### Seed generation
 
+The generated seed can be used to construct a *ElectrumV2* classes, see the
+[related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/eletrum.md).
+
 **Code example**
 
     from bip_utils import (

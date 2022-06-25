@@ -126,7 +126,9 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
 ### Seed generation
 
 A secure 64-byte seed is generated from a mnemonic and can be protected by a passphrase.\
-This seed can be used to construct a Bip class using the *FromSeed* method (e.g. *Bip44.FromSeed*).\
+This seed can be used to construct a Bip class using the *FromSeed* method (e.g. *Bip44.FromSeed*, see
+[Bip32](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md) or 
+[Bip44](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip44.md) ).\
 Also in this case, the language can be specified or automatically detected.
 
 **Code example**

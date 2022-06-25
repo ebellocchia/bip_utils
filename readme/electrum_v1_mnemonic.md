@@ -92,6 +92,9 @@ Supported languages:
 
 **Code example (mnemonic seed generation)**
 
+The generated seed can be used to construct a *ElectrumV1* class, see the
+[related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/eletrum.md).
+
     from bip_utils import ElectrumV1Languages, ElectrumV1WordsNum, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator
     
     # Mnemonic can be generated with ElectrumV1MnemonicGenerator
