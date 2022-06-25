@@ -82,7 +82,7 @@ class ElectrumV2MnemonicEncoder(MnemonicEncoderBase):
         # Check entropy length
         entropy_int = BytesUtils.ToInteger(entropy_bytes)
         if not ElectrumV2EntropyGenerator.AreEntropyBitsEnough(entropy_int):
-            raise ValueError(f"Entropy bit length is not enough for generating a valid mnemonic")
+            raise ValueError("Entropy bit length is not enough for generating a valid mnemonic")
 
         # Encode to words
         n = self.m_words_list.Length()
