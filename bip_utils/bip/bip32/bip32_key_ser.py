@@ -192,7 +192,7 @@ class Bip32KeySerializer:
 
     @staticmethod
     def Serialize(key_bytes: bytes,
-                  key_net_ver: bytes,
+                  key_net_ver_bytes: bytes,
                   depth: Bip32Depth,
                   index: Bip32KeyIndex,
                   chain_code: Bip32ChainCode,
@@ -202,7 +202,7 @@ class Bip32KeySerializer:
 
         Args:
             key_bytes (bytes)                 : Key bytes
-            key_net_ver (bytes)               : Key net version
+            key_net_ver_bytes (bytes)         : Key net version bytes
             depth (Bip32Depth object)         : Key depth
             index (Bip32KeyIndex object)      : Key index
             chain_code (Bip32ChainCode object): Key chain code
@@ -213,6 +213,6 @@ class Bip32KeySerializer:
         """
 
         # Serialize key
-        ser_key = key_net_ver + bytes(depth) + bytes(fprint) + bytes(index) + bytes(chain_code) + key_bytes
+        ser_key = key_net_ver_bytes + bytes(depth) + bytes(fprint) + bytes(index) + bytes(chain_code) + key_bytes
         # Encode it
         return Base58Encoder.CheckEncode(ser_key)
