@@ -10,6 +10,7 @@ bip_utils
    bip/index.rst
    coin_conf/index.rst
    ecc/index.rst
+   electrum/index.rst
    monero/index.rst
    solana/index.rst
    ss58/index.rst
