@@ -38,6 +38,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.AVAX_C_CHAIN: Bip44Conf.AvaxCChain,
         Bip44Coins.AVAX_P_CHAIN: Bip44Conf.AvaxPChain,
         Bip44Coins.AVAX_X_CHAIN: Bip44Conf.AvaxXChain,
+        Bip44Coins.AXELAR: Bip44Conf.Axelar,
         Bip44Coins.BAND_PROTOCOL: Bip44Conf.BandProtocol,
         Bip44Coins.BINANCE_CHAIN: Bip44Conf.BinanceChain,
         Bip44Coins.BINANCE_SMART_CHAIN: Bip44Conf.BinanceSmartChain,

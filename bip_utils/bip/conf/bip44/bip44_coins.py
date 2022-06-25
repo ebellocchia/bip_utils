@@ -35,6 +35,7 @@ class Bip44Coins(BipCoins):
     AVAX_C_CHAIN = auto()
     AVAX_P_CHAIN = auto()
     AVAX_X_CHAIN = auto()
+    AXELAR = auto()
     BAND_PROTOCOL = auto()
     BINANCE_CHAIN = auto()
     BINANCE_SMART_CHAIN = auto()

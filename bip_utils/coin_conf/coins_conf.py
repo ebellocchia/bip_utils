@@ -93,6 +93,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Axelar
+    Axelar: CoinConf = CoinConf(
+        coin_name=CoinNames("Axelar", "AXL"),
+        params={
+            "addr_hrp": "axelar",
+        },
+    )
+
     # Configuration for Band Protocol
     BandProtocol: CoinConf = CoinConf(
         coin_name=CoinNames("Band Protocol", "BAND"),
