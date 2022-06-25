@@ -125,7 +125,7 @@ class ElectrumV2MnemonicGenerator:
         if ElectrumV2EntropyGenerator.AreEntropyBitsEnough(entropy_bytes):
             # Same of Electrum: increase the entropy until a valid one is found
             entropy_int = BytesUtils.ToInteger(entropy_bytes)
-            for i in range(1, ElectrumV2MnemonicGeneratorConst.MAX_ATTEMPTS):
+            for i in range(ElectrumV2MnemonicGeneratorConst.MAX_ATTEMPTS):
                 new_entropy_int = entropy_int + i
                 try:
                     return self.m_mnemonic_encoder.Encode(IntegerUtils.ToBytes(new_entropy_int))
