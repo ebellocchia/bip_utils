@@ -21,6 +21,7 @@ Supported coins enumerative for BIP-0044:
 |Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
 |Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
 |Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
+|Axelar|*Bip44Coins.AXELAR*|-|
 |Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
 |Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
 |Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|

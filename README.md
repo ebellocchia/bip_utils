@@ -57,6 +57,7 @@ Supported BIP coins:
 - Akash Network
 - Algorand
 - Avalanche (all the 3 chains)
+- Axelar
 - Band Protocol
 - Binance Chain
 - Binance Smart Chain

@@ -35,6 +35,7 @@ algorand
 atom
 avalanche
 avax
+axelar
 band protocol
 binance chain
 binance smart chain
