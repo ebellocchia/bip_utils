@@ -57,42 +57,42 @@ class Bip39EntropyGenerator(EntropyGenerator):
     """
 
     def __init__(self,
-                 bits_len: Union[int, Bip39EntropyBitLen]) -> None:
+                 bit_len: Union[int, Bip39EntropyBitLen]) -> None:
         """
         Construct class.
 
         Args:
-            bits_len (int or Bip39EntropyBitLen): Entropy length in bits
+            bit_len (int or Bip39EntropyBitLen): Entropy length in bits
 
         Raises:
             ValueError: If the bit length is not valid
         """
-        if not self.IsValidEntropyBitLen(bits_len):
-            raise ValueError(f"Entropy bit length is not valid ({bits_len})")
-        super().__init__(bits_len // 8)
+        if not self.IsValidEntropyBitLen(bit_len):
+            raise ValueError(f"Entropy bit length is not valid ({bit_len})")
+        super().__init__(bit_len)
 
     @staticmethod
-    def IsValidEntropyBitLen(bits_len: Union[int, Bip39EntropyBitLen]) -> bool:
+    def IsValidEntropyBitLen(bit_len: Union[int, Bip39EntropyBitLen]) -> bool:
         """
         Get if the specified entropy bit length is valid.
 
         Args:
-            bits_len (int or Bip39EntropyBitLen): Entropy length in bits
+            bit_len (int or Bip39EntropyBitLen): Entropy length in bits
 
         Returns:
             bool: True if valid, false otherwise
         """
-        return bits_len in Bip39EntropyGeneratorConst.ENTROPY_BIT_LEN
+        return bit_len in Bip39EntropyGeneratorConst.ENTROPY_BIT_LEN
 
     @staticmethod
-    def IsValidEntropyByteLen(bytes_len: int) -> bool:
+    def IsValidEntropyByteLen(byte_len: int) -> bool:
         """
         Get if the specified entropy byte length is valid.
 
         Args:
-            bytes_len (int): Entropy length in bytes
+            byte_len (int): Entropy length in bytes
 
         Returns:
             bool: True if valid, false otherwise
         """
-        return Bip39EntropyGenerator.IsValidEntropyBitLen(bytes_len * 8)
+        return Bip39EntropyGenerator.IsValidEntropyBitLen(byte_len * 8)

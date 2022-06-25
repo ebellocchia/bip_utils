@@ -4,6 +4,8 @@ from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip84Coins, Bip84
 )
 
+ADDR_NUM: int = 5
+
 # Generate random mnemonic
 mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
 print(f"Mnemonic string: {mnemonic}")
@@ -22,9 +24,10 @@ bip84_acc_ctx = bip84_mst_ctx.Purpose().Coin().Account(0)
 # Generate BIP84 chain keys: m/84'/0'/0'/0
 bip84_chg_ctx = bip84_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
 
-# Generate the first 10 addresses: m/84'/0'/0'/0/i
-for i in range(10):
+# Generate addresses: m/84'/0'/0'/0/i
+print("Addresses:")
+for i in range(ADDR_NUM):
     bip84_addr_ctx = bip84_chg_ctx.AddressIndex(i)
-    print(f"{i}. Address public key (extended): {bip84_addr_ctx.PublicKey().ToExtended()}")
-    print(f"{i}. Address private key (extended): {bip84_addr_ctx.PrivateKey().ToExtended()}")
-    print(f"{i}. Address: {bip84_addr_ctx.PublicKey().ToAddress()}")
+    print(f"  {i}. Address public key (extended): {bip84_addr_ctx.PublicKey().ToExtended()}")
+    print(f"  {i}. Address private key (extended): {bip84_addr_ctx.PrivateKey().ToExtended()}")
+    print(f"  {i}. Address: {bip84_addr_ctx.PublicKey().ToAddress()}")

@@ -21,20 +21,16 @@
 """Module for WIF encoding/decoding."""
 
 # Imports
-from enum import auto, Enum, unique
 from typing import Tuple, Union
+from bip_utils.addr import P2PKHPubKeyModes
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
 from bip_utils.utils.misc import BytesUtils
 
 
-@unique
-class WifPubKeyModes(Enum):
-    """Enumerative for WIF public key modes."""
-
-    COMPRESSED = auto()
-    UNCOMPRESSED = auto()
+# Alias for P2PKHPubKeyModes
+WifPubKeyModes = P2PKHPubKeyModes
 
 
 class WifConst:

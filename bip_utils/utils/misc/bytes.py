@@ -80,18 +80,20 @@ class BytesUtils:
 
     @staticmethod
     def ToInteger(data_bytes: bytes,
-                  endianness: str = "big") -> int:
+                  endianness: str = "big",
+                  signed: bool = False) -> int:
         """
         Convert the specified bytes to integer.
 
         Args:
             data_bytes (bytes)        : Data bytes
             endianness (str, optional): Endianness
+            signed (bool, optional)   : True if signed, false otherwise (default: false)
 
         Returns:
             int: Integer representation
         """
-        return int.from_bytes(data_bytes, endianness)
+        return int.from_bytes(data_bytes, byteorder=endianness, signed=signed)
 
     @staticmethod
     def FromBinaryStr(data: Union[bytes, str],

@@ -185,7 +185,7 @@ class CryptoUtils:
         if HASHLIB_USE_PBKDF2_SHA512:
             return hashlib.pbkdf2_hmac("sha512", AlgoUtils.Encode(password), AlgoUtils.Encode(salt), itr_num, dklen)
         # Use Cryptodome if not implemented in hashlib
-        return PBKDF2(AlgoUtils.Encode(password),
+        return PBKDF2(AlgoUtils.Encode(password),   # type: ignore
                       AlgoUtils.Encode(salt),
                       dklen or SHA512.digest_size,
                       count=itr_num,

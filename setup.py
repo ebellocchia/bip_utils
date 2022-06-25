@@ -133,6 +133,8 @@ setuptools.setup(
             "bip/bip39/wordlist/chinese_simplified.txt",
             "bip/bip39/wordlist/chinese_traditional.txt",
             "bip/bip39/wordlist/korean.txt",
+            # Electrum
+            "electrum/mnemonic_v1/wordlist/english.txt",
             # Monero
             "monero/mnemonic/wordlist/chinese_simplified.txt",
             "monero/mnemonic/wordlist/dutch.txt",

@@ -24,10 +24,9 @@
 from abc import ABC
 from typing import List
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroMnemonicConst, MoneroLanguages, MoneroMnemonic
+from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic
 from bip_utils.monero.mnemonic.monero_mnemonic_utils import MoneroWordsListGetter, MoneroMnemonicUtils
-from bip_utils.utils.misc import BytesUtils
-from bip_utils.utils.mnemonic import Mnemonic, MnemonicEncoderBase
+from bip_utils.utils.mnemonic import Mnemonic, MnemonicEncoderBase, MnemonicUtils
 
 
 class MoneroMnemonicEncoderBase(MnemonicEncoderBase, ABC):
@@ -39,12 +38,12 @@ class MoneroMnemonicEncoderBase(MnemonicEncoderBase, ABC):
     m_lang: MoneroLanguages
 
     def __init__(self,
-                 lang: MoneroLanguages) -> None:
+                 lang: MoneroLanguages = MoneroLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (Bip39Languages): Language
+            lang (MoneroLanguages, optional): Language (default: English)
 
         Raises:
             TypeError: If the language is not a Bip39Languages enum
@@ -74,32 +73,11 @@ class MoneroMnemonicEncoderBase(MnemonicEncoderBase, ABC):
             raise ValueError(f"Entropy byte length ({entropy_byte_len}) is not valid")
 
         # Consider 4 bytes at a time, 4 bytes represent 3 words
-        words = []
+        mnemonic = []
         for i in range(len(entropy_bytes) // 4):
-            words += self.__BytesChunkToWords(entropy_bytes[i * 4:(i * 4) + 4])
+            mnemonic += MnemonicUtils.BytesChunkToWords(entropy_bytes[i * 4:(i * 4) + 4], self.m_words_list, "little")
 
-        return words
-
-    def __BytesChunkToWords(self,
-                            bytes_chunk: bytes) -> List[str]:
-        """
-        Get words from a bytes chunk.
-
-        Args:
-            bytes_chunk (bytes): Bytes chunk
-
-        Returns:
-            list[str]: 3 word indexes
-        """
-        n = MoneroMnemonicConst.WORDS_LIST_NUM
-
-        int_chunk = BytesUtils.ToInteger(bytes_chunk, endianness="little")
-
-        word1_idx = int_chunk % n
-        word2_idx = ((int_chunk // n) + word1_idx) % n
-        word3_idx = ((int_chunk // n // n) + word2_idx) % n
-
-        return [self.m_words_list.GetWordAtIdx(w) for w in (word1_idx, word2_idx, word3_idx)]
+        return mnemonic
 
 
 class MoneroMnemonicNoChecksumEncoder(MoneroMnemonicEncoderBase):
@@ -161,12 +139,12 @@ class MoneroMnemonicEncoder:
     m_with_chk_enc: MoneroMnemonicWithChecksumEncoder
 
     def __init__(self,
-                 lang: MoneroLanguages) -> None:
+                 lang: MoneroLanguages = MoneroLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (MoneroLanguages): Language
+            lang (MoneroLanguages, optional): Language (default: English)
 
         Raises:
             TypeError: If the language is not a MoneroLanguages enum

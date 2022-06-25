@@ -38,12 +38,12 @@ class Bip39MnemonicEncoder(MnemonicEncoderBase):
     """
 
     def __init__(self,
-                 lang: Bip39Languages) -> None:
+                 lang: Bip39Languages = Bip39Languages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
-            lang (Bip39Languages): Language
+            lang (Bip39Languages, optional): Language (default: English)
 
         Raises:
             TypeError: If the language is not a Bip39Languages enum

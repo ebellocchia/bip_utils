@@ -42,6 +42,8 @@ class AlgorandMnemonicDecoder(MnemonicDecoderBase):
                  lang: Optional[AlgorandLanguages] = AlgorandLanguages.ENGLISH) -> None:
         """
         Construct class.
+        Language is set to English by default because Algorand mnemonic only support one language,
+        so it's useless (and slower) to automatically detect the language.
 
         Args:
             lang (AlgorandLanguages, optional): Language, None for automatic detection

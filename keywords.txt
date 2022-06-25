@@ -25,6 +25,7 @@ ss58
 bech32
 bech32m
 segwit
+electrum
 substrate
 taproot
 

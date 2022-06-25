@@ -49,42 +49,42 @@ class AlgorandEntropyGenerator(EntropyGenerator):
     """
 
     def __init__(self,
-                 bits_len: Union[int, AlgorandEntropyBitLen]) -> None:
+                 bit_len: Union[int, AlgorandEntropyBitLen] = AlgorandEntropyBitLen.BIT_LEN_256) -> None:
         """
         Construct class.
 
         Args:
-            bits_len (int or AlgorandEntropyBitLen): Entropy length in bits
+            bit_len (int or AlgorandEntropyBitLen, optional): Entropy length in bits (default: 256)
 
         Raises:
             ValueError: If the bit length is not valid
         """
-        if not self.IsValidEntropyBitLen(bits_len):
-            raise ValueError(f"Entropy bit length is not valid ({bits_len})")
-        super().__init__(bits_len // 8)
+        if not self.IsValidEntropyBitLen(bit_len):
+            raise ValueError(f"Entropy bit length is not valid ({bit_len})")
+        super().__init__(bit_len)
 
     @staticmethod
-    def IsValidEntropyBitLen(bits_len: int) -> bool:
+    def IsValidEntropyBitLen(bit_len: int) -> bool:
         """
         Get if the specified entropy bit length is valid.
 
         Args:
-            bits_len (int): Entropy length in bits
+            bit_len (int): Entropy length in bits
 
         Returns:
             bool: True if valid, false otherwise
         """
-        return bits_len in AlgorandEntropyGeneratorConst.ENTROPY_BIT_LEN
+        return bit_len in AlgorandEntropyGeneratorConst.ENTROPY_BIT_LEN
 
     @staticmethod
-    def IsValidEntropyByteLen(bytes_len: int) -> bool:
+    def IsValidEntropyByteLen(byte_len: int) -> bool:
         """
         Get if the specified entropy byte length is valid.
 
         Args:
-            bytes_len (int): Entropy length in bytes
+            byte_len (int): Entropy length in bytes
 
         Returns:
             bool: True if valid, false otherwise
         """
-        return AlgorandEntropyGenerator.IsValidEntropyBitLen(bytes_len * 8)
+        return AlgorandEntropyGenerator.IsValidEntropyBitLen(byte_len * 8)

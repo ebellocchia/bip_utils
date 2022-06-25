@@ -21,6 +21,7 @@
 """Module for P2PKH address encoding/decoding."""
 
 # Imports
+from enum import auto, Enum, unique
 from typing import Any, Union
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
@@ -30,6 +31,14 @@ from bip_utils.base58 import Base58Alphabets, Base58ChecksumError, Base58Decoder
 from bip_utils.bech32 import Bech32ChecksumError, BchBech32Decoder, BchBech32Encoder
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import BytesUtils, CryptoUtils
+
+
+@unique
+class P2PKHPubKeyModes(Enum):
+    """Enumerative for P2PKH public key modes."""
+
+    COMPRESSED = auto()
+    UNCOMPRESSED = auto()
 
 
 class P2PKHAddrDecoder(IAddrDecoder):
@@ -100,10 +109,14 @@ class P2PKHAddrEncoder(IAddrEncoder):
         """
         net_ver_bytes = kwargs["net_ver"]
         base58_alph = kwargs.get("base58_alph", Base58Alphabets.BITCOIN)
+        pub_key_mode = kwargs.get("pub_key_mode", P2PKHPubKeyModes.COMPRESSED)
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
-        return Base58Encoder.CheckEncode(net_ver_bytes + CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()),
-                                         base58_alph)
+        pub_key_bytes = (pub_key_obj.RawCompressed().ToBytes()
+                         if pub_key_mode == P2PKHPubKeyModes.COMPRESSED
+                         else pub_key_obj.RawUncompressed().ToBytes())
+
+        return Base58Encoder.CheckEncode(net_ver_bytes + CryptoUtils.Hash160(pub_key_bytes), base58_alph)
 
 
 class P2PKHAddr(P2PKHAddrEncoder):

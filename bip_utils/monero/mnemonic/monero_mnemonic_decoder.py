@@ -26,8 +26,7 @@ from bip_utils.monero.mnemonic.monero_mnemonic import MoneroMnemonicConst, Moner
 from bip_utils.monero.mnemonic.monero_mnemonic_utils import (
     MoneroWordsListFinder, MoneroWordsListGetter, MoneroMnemonicUtils
 )
-from bip_utils.utils.misc import IntegerUtils
-from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicWordsList
+from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicUtils
 
 
 class MoneroMnemonicDecoder(MnemonicDecoderBase):
@@ -89,7 +88,7 @@ class MoneroMnemonicDecoder(MnemonicDecoderBase):
         entropy_bytes = b""
         for i in range(len(words) // 3):
             word1, word2, word3 = words[i * 3:(i * 3) + 3]
-            entropy_bytes += self.__WordsToBytesChunk(word1, word2, word3, words_list)
+            entropy_bytes += MnemonicUtils.WordsToBytesChunk(word1, word2, word3, words_list, "little")
 
         return entropy_bytes
 
@@ -110,32 +109,3 @@ class MoneroMnemonicDecoder(MnemonicDecoderBase):
             chksum_word = MoneroMnemonicUtils.ComputeChecksum(words[:-1], lang)
             if words[-1] != chksum_word:
                 raise MnemonicChecksumError(f"Invalid checksum (expected {chksum_word}, got {words[-1]})")
-
-    @staticmethod
-    def __WordsToBytesChunk(word1: str,
-                            word2: str,
-                            word3: str,
-                            words_list: MnemonicWordsList) -> bytes:
-        """
-        Get bytes chunk from words.
-
-        Args:
-            word1 (str)                          : Word 1
-            word2 (str)                          : Word 2
-            word3 (str)                          : Word 3
-            words_list (MnemonicWordsList object): Mnemonic list
-
-        Returns:
-            bytes: Bytes chunk
-        """
-        n = MoneroMnemonicConst.WORDS_LIST_NUM
-
-        # Get the word indexes
-        word1_idx = words_list.GetWordIdx(word1)
-        word2_idx = words_list.GetWordIdx(word2) % n
-        word3_idx = words_list.GetWordIdx(word3) % n
-
-        # Get back the bytes chunk
-        bytes_chunk = word1_idx + (n * ((word2_idx - word1_idx) % n)) + (n * n * ((word3_idx - word2_idx) % n))
-
-        return IntegerUtils.ToBytes(bytes_chunk, bytes_num=4, endianness="little")

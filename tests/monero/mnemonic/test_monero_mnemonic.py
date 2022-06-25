@@ -222,28 +222,6 @@ TEST_VECT = [
     },
 ]
 
-# Tests for invalid entropy bit lengths
-TEST_VECT_ENTROPY_BITLEN_INVALID = [
-    127,
-    129,
-    159,
-    161,
-    191,
-    193,
-    223,
-    225,
-    255,
-    257,
-]
-
-# Tests for invalid words number
-TEST_VECT_WORDS_NUM_INVALID = [
-    11,
-    14,
-    22,
-    26,
-]
-
 # Tests for invalid mnemonics
 TEST_VECT_MNEMONIC_INVALID = [
     # Wrong length
@@ -342,13 +320,12 @@ class MoneroMnemonicTests(unittest.TestCase):
 
     # Test entropy generator and construction from invalid entropy bit lengths
     def test_entropy_invalid_bitlen(self):
-        for test_bit_len in TEST_VECT_ENTROPY_BITLEN_INVALID:
-            self.assertRaises(ValueError, MoneroEntropyGenerator, test_bit_len)
+        for test_bit_len in MoneroEntropyBitLen:
+            self.assertRaises(ValueError, MoneroEntropyGenerator, test_bit_len - 1)
+            self.assertRaises(ValueError, MoneroEntropyGenerator, test_bit_len + 1)
 
-            # Build a dummy entropy with that bit length
-            # Subtract 8 because, otherwise, dividing by 8 could result in a correct byte length
+            # Build a dummy entropy with invalid bit length
             dummy_ent = b"\x00" * ((test_bit_len - 8) // 8)
-            # Construct from it
             self.assertRaises(ValueError, MoneroMnemonicGenerator().FromEntropyWithChecksum, dummy_ent)
 
     # Test construction from valid words number
@@ -359,8 +336,12 @@ class MoneroMnemonicTests(unittest.TestCase):
 
     # Test construction from invalid words number
     def test_from_invalid_words_num(self):
-        for test_words_num in TEST_VECT_WORDS_NUM_INVALID:
-            self.assertRaises(ValueError, MoneroMnemonicGenerator().FromWordsNumber, test_words_num)
+        monero_int_words_num = [int(words_num) for words_num in MoneroWordsNum]
+        for test_words_num in monero_int_words_num:
+            if test_words_num - 1 not in monero_int_words_num:
+                self.assertRaises(ValueError, MoneroMnemonicGenerator().FromWordsNumber, test_words_num - 1)
+            if test_words_num + 1 not in monero_int_words_num:
+                self.assertRaises(ValueError, MoneroMnemonicGenerator().FromWordsNumber, test_words_num + 1)
 
     # Tests invalid mnemonic
     def test_invalid_mnemonic(self):
