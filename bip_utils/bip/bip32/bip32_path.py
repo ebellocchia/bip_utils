@@ -163,7 +163,9 @@ class Bip32PathParser:
             path = path[:-1]
 
         # Parse elements
-        return Bip32PathParser.__ParseElements(path.split("/"))
+        return Bip32PathParser.__ParseElements(
+            list(filter(None, path.split("/")))
+        )
 
     @staticmethod
     def __ParseElements(path_elems: List[str]) -> Bip32Path:

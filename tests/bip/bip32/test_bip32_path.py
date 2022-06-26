@@ -30,6 +30,12 @@ from bip_utils import (
 # Tests for paths
 TEST_VECT_PATH = [
     {
+        "path": "",
+        "parsed": [],
+        "is_absolute": False,
+        "to_str": "",
+    },
+    {
         "path": "m",
         "parsed": [],
         "is_absolute": True,
@@ -42,7 +48,19 @@ TEST_VECT_PATH = [
         "to_str": "m",
     },
     {
+        "path": "m///",
+        "parsed": [],
+        "is_absolute": True,
+        "to_str": "m",
+    },
+    {
         "path": "m/  0/1",
+        "parsed": [0, 1],
+        "is_absolute": True,
+        "to_str": "m/0/1",
+    },
+    {
+        "path": "m///  0//1",
         "parsed": [0, 1],
         "is_absolute": True,
         "to_str": "m/0/1",
@@ -84,7 +102,19 @@ TEST_VECT_PATH = [
         "to_str": "0",
     },
     {
+        "path": "0///",
+        "parsed": [0],
+        "is_absolute": False,
+        "to_str": "0",
+    },
+    {
         "path": "0'/1'/2",
+        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "is_absolute": False,
+        "to_str": "0'/1'/2",
+    },
+    {
+        "path": "0'//1'///2",
         "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
         "is_absolute": False,
         "to_str": "0'/1'/2",
@@ -105,9 +135,7 @@ TEST_VECT_PATH = [
 
 # Tests for invalid paths
 TEST_VECT_PATH_INVALID = [
-    "",
     "mm",
-    "m//",
     "n/",
     "mm/0",
     "m/0''",
@@ -116,9 +144,7 @@ TEST_VECT_PATH_INVALID = [
     "m/0p0/1",
     "m/a/1",
     "m/0 1/1",
-    "m/0//1/1",
     "0/a/1",
-    "0//1/1",
     "0/1/4294967296",
     "0/1/-1",
 ]
