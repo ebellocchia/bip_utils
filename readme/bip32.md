@@ -389,7 +389,9 @@ The Bip32 module allows also to parse derivation paths.
     path = Bip32PathParser.Parse("0p/1p/2")
     # "m" can be added at the beginning if the path is absolute, otherwise it'll be considered relative
     path = Bip32PathParser.Parse("m/0'/1'/2")
-    # Or construct directly from a list of indexes
+    # If multiple slashes are present, they will be removed. The following path is the same of the previous one
+    path = Bip32PathParser.Parse("m//0'///1'/2")
+    # A path can also be constructed directly from a list of indexes
     # "True" specifies that the path is absolute, "False" if relative
     path = Bip32Path([0, 1, Bip32Utils.HardenIndex(2)], True)
     
