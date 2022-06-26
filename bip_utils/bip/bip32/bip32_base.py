@@ -160,12 +160,6 @@ class Bip32Base(ABC):
             if key_data.Index() != 0:
                 raise Bip32KeyError(f"Invalid extended master key (wrong child index: {key_data.Index().ToInt()})")
 
-        # If private key, the first byte shall be zero and shall be removed
-        if not is_public:
-            if key_bytes[0] != 0:
-                raise Bip32KeyError(f"Invalid extended private key (wrong secret: {key_bytes[0]})")
-            key_bytes = key_bytes[1:]
-
         return cls(priv_key=key_bytes if not is_public else None,
                    pub_key=key_bytes if is_public else None,
                    key_data=key_data,

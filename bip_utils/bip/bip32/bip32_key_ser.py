@@ -210,7 +210,33 @@ class Bip32KeyDeserializer:
         # Decode key
         ser_key_bytes = Base58Decoder.CheckDecode(ser_key_str)
 
-        # Get if key is public/private depending on net version
+        # Get if key is public/private depending on the net version
+        is_public = cls.__GetIfPublic(ser_key_bytes, key_net_ver)
+
+        # Validate length
+        if is_public and len(ser_key_bytes) != Bip32KeyDeserConst.EXTENDED_PUB_KEY_BYTE_LEN:
+            raise Bip32KeyError(f"Invalid extended public key (wrong length: {len(ser_key_bytes)})")
+        if not is_public and len(ser_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
+            raise Bip32KeyError(f"Invalid extended private key (wrong length: {len(ser_key_bytes)})")
+
+        # Get parts back
+        key_bytes, key_data = cls.__GetPartsFromBytes(ser_key_bytes, is_public)
+
+        return Bip32DeserializedKey(key_bytes, key_data, is_public)
+
+    @staticmethod
+    def __GetIfPublic(ser_key_bytes: bytes,
+                      key_net_ver: Bip32KeyNetVersions) -> bool:
+        """
+        Get if the key is public.
+
+        Args:
+            ser_key_bytes (bytes)                   : Serialized key bytes
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+
+        Returns:
+            bool: True if public, false otherwise
+        """
         key_net_ver_got = ser_key_bytes[:Bip32KeyNetVersions.Length()]
         if key_net_ver_got == key_net_ver.Public():
             is_public = True
@@ -220,25 +246,18 @@ class Bip32KeyDeserializer:
             raise Bip32KeyError(
                 f"Invalid extended key (wrong net version: {BytesUtils.ToHexString(key_net_ver_got)})"
             )
+        return is_public
 
-        # Check length
-        if is_public and len(ser_key_bytes) != Bip32KeyDeserConst.EXTENDED_PUB_KEY_BYTE_LEN:
-            raise Bip32KeyError(f"Invalid extended public key (wrong length: {len(ser_key_bytes)})")
-        if not is_public and len(ser_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
-            raise Bip32KeyError(f"Invalid extended private key (wrong length: {len(ser_key_bytes)})")
-
-        # Get parts bnack
-        key_bytes, key_data = cls.__GetPartsFromBytes(ser_key_bytes)
-
-        return Bip32DeserializedKey(key_bytes, key_data, is_public)
 
     @staticmethod
-    def __GetPartsFromBytes(ser_key_bytes: bytes) -> Tuple[bytes, Bip32KeyData]:
+    def __GetPartsFromBytes(ser_key_bytes: bytes,
+                            is_public: bool) -> Tuple[bytes, Bip32KeyData]:
         """
         Get back key parts from serialized key bytes.
 
         Args:
             ser_key_bytes (bytes): Serialized key bytes
+            is_public (bool)     : True if the key is public, false otherwise
 
         Returns:
             tuple[bytes, Bip32KeyData]: key bytes (index 0) and key data (index 1)
@@ -252,5 +271,11 @@ class Bip32KeyDeserializer:
                                 Bip32KeyIndex.FromBytes(index_bytes),
                                 Bip32ChainCode(chain_code_bytes),
                                 Bip32FingerPrint(fprint_bytes))
+
+        # If private key, the first byte shall be zero and shall be removed
+        if not is_public:
+            if key_bytes[0] != 0:
+                raise Bip32KeyError(f"Invalid extended private key (wrong secret: {key_bytes[0]})")
+            key_bytes = key_bytes[1:]
 
         return key_bytes, key_data
