@@ -413,4 +413,3 @@ The Bip32 module allows also to parse derivation paths.
     path_list = path.ToList()
     for elem in path_list:
         print(elem)
-
