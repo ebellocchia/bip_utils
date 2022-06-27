@@ -33,13 +33,13 @@ from bip_utils.ecc import IPublicKey, IPrivateKey
 from bip_utils.utils.misc import BytesUtils
 
 
-class Bip32KeyDeserConst:
+class Bip32KeySerConst:
     """Class container for BIP32 key serialize constants."""
 
-    # Extended public key length in bytes
-    EXTENDED_PUB_KEY_BYTE_LEN: int = 78
-    # Extended private key length in bytes
-    EXTENDED_PRIV_KEY_BYTE_LEN: Tuple[int, int] = (78, 110)
+    # Serialized public key length in bytes
+    SERIALIZED_PUB_KEY_BYTE_LEN: int = 78
+    # Serialized private key length in bytes
+    SERIALIZED_PRIV_KEY_BYTE_LEN: Tuple[int, int] = (78, 110)
 
 
 class _Bip32KeySerializer:
@@ -214,9 +214,9 @@ class Bip32KeyDeserializer:
         is_public = cls.__GetIfPublic(ser_key_bytes, key_net_ver)
 
         # Validate length
-        if is_public and len(ser_key_bytes) != Bip32KeyDeserConst.EXTENDED_PUB_KEY_BYTE_LEN:
+        if is_public and len(ser_key_bytes) != Bip32KeySerConst.SERIALIZED_PUB_KEY_BYTE_LEN:
             raise Bip32KeyError(f"Invalid extended public key (wrong length: {len(ser_key_bytes)})")
-        if not is_public and len(ser_key_bytes) not in Bip32KeyDeserConst.EXTENDED_PRIV_KEY_BYTE_LEN:
+        if not is_public and len(ser_key_bytes) not in Bip32KeySerConst.SERIALIZED_PRIV_KEY_BYTE_LEN:
             raise Bip32KeyError(f"Invalid extended private key (wrong length: {len(ser_key_bytes)})")
 
         # Get parts back
@@ -248,7 +248,6 @@ class Bip32KeyDeserializer:
             )
         return is_public
 
-
     @staticmethod
     def __GetPartsFromBytes(ser_key_bytes: bytes,
                             is_public: bool) -> Tuple[bytes, Bip32KeyData]:
@@ -262,13 +261,22 @@ class Bip32KeyDeserializer:
         Returns:
             tuple[bytes, Bip32KeyData]: key bytes (index 0) and key data (index 1)
         """
-        depth = ser_key_bytes[4]
-        fprint_bytes = ser_key_bytes[5:9]
-        index_bytes = ser_key_bytes[9:13]
-        chain_code_bytes = ser_key_bytes[13:45]
-        key_bytes = ser_key_bytes[45:]
+
+        # Compute indexes
+        depth_idx = Bip32KeyNetVersions.Length()
+        fprint_idx = depth_idx + Bip32Depth.Length()
+        key_index_idx = fprint_idx + Bip32FingerPrint.Length()
+        chain_code_idx = key_index_idx + Bip32KeyIndex.Length()
+        key_idx = chain_code_idx + Bip32ChainCode.Length()
+
+        # Get parts
+        depth = ser_key_bytes[depth_idx]
+        fprint_bytes = ser_key_bytes[fprint_idx:key_index_idx]
+        key_index_bytes = ser_key_bytes[key_index_idx:chain_code_idx]
+        chain_code_bytes = ser_key_bytes[chain_code_idx:key_idx]
+        key_bytes = ser_key_bytes[key_idx:]
         key_data = Bip32KeyData(Bip32Depth(depth),
-                                Bip32KeyIndex.FromBytes(index_bytes),
+                                Bip32KeyIndex.FromBytes(key_index_bytes),
                                 Bip32ChainCode(chain_code_bytes),
                                 Bip32FingerPrint(fprint_bytes))
 

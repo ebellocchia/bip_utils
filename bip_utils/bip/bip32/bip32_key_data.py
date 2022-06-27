@@ -61,9 +61,19 @@ class Bip32ChainCode(DataBytes):
         Raises:
             ValueError: If the chain code length is not valid
         """
-        if len(chaincode) != Bip32KeyDataConst.CHAINCODE_BYTE_LEN:
+        if len(chaincode) != self.Length():
             raise ValueError(f"Invalid chaincode length ({len(chaincode)})")
         super().__init__(chaincode)
+
+    @staticmethod
+    def Length() -> int:
+        """
+        Get length in bytes.
+
+        Returns:
+            int: Length in bytes
+        """
+        return Bip32KeyDataConst.CHAINCODE_BYTE_LEN
 
 
 class Bip32FingerPrint(DataBytes):
@@ -83,9 +93,19 @@ class Bip32FingerPrint(DataBytes):
         Raises:
             ValueError: If the chain code length is not valid
         """
-        if len(fprint) < Bip32KeyDataConst.FINGERPRINT_BYTE_LEN:
+        if len(fprint) < self.Length():
             raise ValueError(f"Invalid fingerprint length ({len(fprint)})")
         super().__init__(fprint[:Bip32KeyDataConst.FINGERPRINT_BYTE_LEN])
+
+    @staticmethod
+    def Length() -> int:
+        """
+        Get length in bytes.
+
+        Returns:
+            int: Length in bytes
+        """
+        return Bip32KeyDataConst.FINGERPRINT_BYTE_LEN
 
     def IsMasterKey(self) -> bool:
         """
@@ -120,6 +140,16 @@ class Bip32Depth:
             raise ValueError(f"Invalid depth ({depth})")
         self.m_depth = depth
 
+    @staticmethod
+    def Length() -> int:
+        """
+        Get length in bytes.
+
+        Returns:
+            int: Length in bytes
+        """
+        return Bip32KeyDataConst.DEPTH_BYTE_LEN
+
     def Increase(self) -> Bip32Depth:
         """
         Get a new object with increased depth.
@@ -136,7 +166,7 @@ class Bip32Depth:
         Returns:
             bytes: Depth bytes
         """
-        return IntegerUtils.ToBytes(self.m_depth, bytes_num=Bip32KeyDataConst.DEPTH_BYTE_LEN)
+        return IntegerUtils.ToBytes(self.m_depth, bytes_num=self.Length())
 
     def ToInt(self) -> int:
         """
@@ -257,6 +287,16 @@ class Bip32KeyIndex:
             raise ValueError(f"Invalid key index ({idx})")
         self.m_idx = idx
 
+    @staticmethod
+    def Length() -> int:
+        """
+        Get length in bytes.
+
+        Returns:
+            int: Length in bytes
+        """
+        return Bip32KeyDataConst.KEY_INDEX_BYTE_LEN
+
     def IsHardened(self) -> bool:
         """
         Get if the key index is hardened.
@@ -278,7 +318,7 @@ class Bip32KeyIndex:
             bytes: Key bytes
         """
         return IntegerUtils.ToBytes(self.m_idx,
-                                    bytes_num=Bip32KeyDataConst.KEY_INDEX_BYTE_LEN,
+                                    bytes_num=self.Length(),
                                     endianness=endianness)
 
     def ToInt(self) -> int:

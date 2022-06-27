@@ -34,16 +34,19 @@ class Bip32KeyDataTests(unittest.TestCase):
     # Basic test
     def test_basic(self):
         # Bip32Depth
+        self.assertEqual(Bip32Depth.Length(), Bip32KeyDataConst.DEPTH_BYTE_LEN)
         rnd = random.randrange(10)
         depth = Bip32Depth(rnd)
         self.assertEqual(depth.ToInt(), rnd)
         self.assertEqual(int(depth), rnd)
         # Bip32KeyIndex
+        self.assertEqual(Bip32KeyIndex.Length(), Bip32KeyDataConst.KEY_INDEX_BYTE_LEN)
         rnd = random.randrange(Bip32KeyDataConst.KEY_INDEX_MAX_VAL)
         key_idx = Bip32KeyIndex(rnd)
         self.assertEqual(key_idx.ToInt(), rnd)
         self.assertEqual(int(key_idx), rnd)
         # Bip32ChainCode
+        self.assertEqual(Bip32ChainCode.Length(), Bip32KeyDataConst.CHAINCODE_BYTE_LEN)
         chaincode_bytes = os.urandom(Bip32KeyDataConst.CHAINCODE_BYTE_LEN)
         chaincode = Bip32ChainCode(chaincode_bytes)
         self.assertEqual(chaincode.ToHex(), chaincode_bytes.hex())
@@ -51,6 +54,7 @@ class Bip32KeyDataTests(unittest.TestCase):
         self.assertEqual(chaincode.ToBytes(), chaincode_bytes)
         self.assertEqual(bytes(chaincode), chaincode_bytes)
         # Bip32FingerPrint (default)
+        self.assertEqual(Bip32FingerPrint.Length(), Bip32KeyDataConst.FINGERPRINT_BYTE_LEN)
         fprint = Bip32FingerPrint()
         self.assertEqual(fprint.ToHex(), Bip32KeyDataConst.FINGERPRINT_MASTER_KEY.hex())
         self.assertEqual(str(fprint), Bip32KeyDataConst.FINGERPRINT_MASTER_KEY.hex())
