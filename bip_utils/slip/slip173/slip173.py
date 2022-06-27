@@ -44,6 +44,8 @@ class Slip173:
     HARMONY_ONE: str = "one"
     IRIS_NETWORK: str = "iaa"
     KAVA: str = "kava"
+    LITECOIN_MAINNET: str = "ltc"
+    LITECOIN_TESTNET: str = "tltc"
     OKEX_CHAIN: str = "ex"
     OSMOSIS: str = "osmo"
     SECRET_NETWORK: str = "secret"
