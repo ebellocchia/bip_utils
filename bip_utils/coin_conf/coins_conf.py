@@ -22,6 +22,7 @@
 
 # Imports
 from bip_utils.coin_conf.coin_conf import CoinConf
+from bip_utils.slip.slip173 import Slip173
 from bip_utils.utils.conf import CoinNames
 
 
@@ -29,17 +30,17 @@ from bip_utils.utils.conf import CoinNames
 # Main net
 _BTC_P2PKH_NET_VER_MN: bytes = b"\x00"
 _BTC_P2SH_NET_VER_MN: bytes = b"\x05"
-_BTC_P2WPKH_HRP_MN: str = "bc"
+_BTC_P2WPKH_HRP_MN: str = Slip173.BITCOIN_MAINNET
 _BTC_P2WPKH_WIT_VER_MN: int = 0
-_BTC_P2TR_HRP_MN: str = "bc"
+_BTC_P2TR_HRP_MN: str = Slip173.BITCOIN_MAINNET
 _BTC_P2TR_WIT_VER_MN: int = 1
 _BTC_WIF_NET_VER_MN: bytes = b"\x80"
 # Test net
 _BTC_P2PKH_NET_VER_TN: bytes = b"\x6f"
 _BTC_P2SH_NET_VER_TN: bytes = b"\xc4"
-_BTC_P2WPKH_HRP_TN: str = "tb"
+_BTC_P2WPKH_HRP_TN: str = Slip173.BITCOIN_TESTNET
 _BTC_P2WPKH_WIT_VER_TN: int = 0
-_BTC_P2TR_HRP_TN: str = "tb"
+_BTC_P2TR_HRP_TN: str = Slip173.BITCOIN_TESTNET
 _BTC_P2TR_WIT_VER_TN: int = 1
 _BTC_WIF_NET_VER_TN: bytes = b"\xef"
 
@@ -59,7 +60,7 @@ class CoinsConf:
     AkashNetwork: CoinConf = CoinConf(
         coin_name=CoinNames("Akash Network", "AKT"),
         params={
-            "addr_hrp": "akash",
+            "addr_hrp": Slip173.AKASH_NETWORK,
         },
     )
 
@@ -97,7 +98,7 @@ class CoinsConf:
     Axelar: CoinConf = CoinConf(
         coin_name=CoinNames("Axelar", "AXL"),
         params={
-            "addr_hrp": "axelar",
+            "addr_hrp": Slip173.AXELAR,
         },
     )
 
@@ -105,7 +106,7 @@ class CoinsConf:
     BandProtocol: CoinConf = CoinConf(
         coin_name=CoinNames("Band Protocol", "BAND"),
         params={
-            "addr_hrp": "band",
+            "addr_hrp": Slip173.BAND_PROTOCOL,
         },
     )
 
@@ -121,7 +122,7 @@ class CoinsConf:
     BinanceChain: CoinConf = CoinConf(
         coin_name=CoinNames("Binance Chain", "BNB"),
         params={
-            "addr_hrp": "bnb",
+            "addr_hrp": Slip173.BINANCE_CHAIN,
         },
     )
 
@@ -245,7 +246,7 @@ class CoinsConf:
     Certik: CoinConf = CoinConf(
         coin_name=CoinNames("Certik", "CTK"),
         params={
-            "addr_hrp": "certik",
+            "addr_hrp": Slip173.CERTIK,
         },
     )
 
@@ -261,7 +262,7 @@ class CoinsConf:
     Chihuahua: CoinConf = CoinConf(
         coin_name=CoinNames("Chihuahua", "HUAHUA"),
         params={
-            "addr_hrp": "chihuahua",
+            "addr_hrp": Slip173.CHIHUAHUA,
         },
     )
 
@@ -269,7 +270,7 @@ class CoinsConf:
     Cosmos: CoinConf = CoinConf(
         coin_name=CoinNames("Cosmos", "ATOM"),
         params={
-            "addr_hrp": "cosmos",
+            "addr_hrp": Slip173.COSMOS,
         },
     )
 
@@ -353,7 +354,7 @@ class CoinsConf:
     Elrond: CoinConf = CoinConf(
         coin_name=CoinNames("Elrond eGold", "eGLD"),
         params={
-            "addr_hrp": "erd",
+            "addr_hrp": Slip173.ELROND,
         },
     )
 
@@ -405,7 +406,7 @@ class CoinsConf:
     HarmonyOne: CoinConf = CoinConf(
         coin_name=CoinNames("Harmony One", "ONE"),
         params={
-            "addr_hrp": "one",
+            "addr_hrp": Slip173.HARMONY_ONE,
         },
     )
 
@@ -419,7 +420,7 @@ class CoinsConf:
     IrisNet: CoinConf = CoinConf(
         coin_name=CoinNames("IRIS Network", "IRIS"),
         params={
-            "addr_hrp": "iaa",
+            "addr_hrp": Slip173.IRIS_NETWORK,
         },
     )
 
@@ -435,7 +436,7 @@ class CoinsConf:
     Kava: CoinConf = CoinConf(
         coin_name=CoinNames("Kava", "KAVA"),
         params={
-            "addr_hrp": "kava",
+            "addr_hrp": Slip173.KAVA,
         },
     )
 
@@ -553,7 +554,7 @@ class CoinsConf:
     OkexChain: CoinConf = CoinConf(
         coin_name=CoinNames("OKExChain", "OKT"),
         params={
-            "addr_hrp": "ex",
+            "addr_hrp": Slip173.OKEX_CHAIN,
         },
     )
 
@@ -569,7 +570,7 @@ class CoinsConf:
     Osmosis: CoinConf = CoinConf(
         coin_name=CoinNames("Osmosis", "OSMO"),
         params={
-            "addr_hrp": "osmo",
+            "addr_hrp": Slip173.OSMOSIS,
         },
     )
 
@@ -615,7 +616,7 @@ class CoinsConf:
     SecretNetwork: CoinConf = CoinConf(
         coin_name=CoinNames("Secret Network", "SCRT"),
         params={
-            "addr_hrp": "secret",
+            "addr_hrp": Slip173.SECRET_NETWORK,
         },
     )
 
@@ -651,7 +652,7 @@ class CoinsConf:
     Terra: CoinConf = CoinConf(
         coin_name=CoinNames("Terra", "LUNA"),
         params={
-            "addr_hrp": "terra",
+            "addr_hrp": Slip173.TERRA,
         },
     )
 
@@ -714,6 +715,6 @@ class CoinsConf:
     Zilliqa: CoinConf = CoinConf(
         coin_name=CoinNames("Zilliqa", "ZIL"),
         params={
-            "addr_hrp": "zil",
+            "addr_hrp": Slip173.ZILLIQA,
         },
     )
