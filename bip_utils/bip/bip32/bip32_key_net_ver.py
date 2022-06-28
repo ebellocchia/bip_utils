@@ -25,7 +25,7 @@ class Bip32KeyNetVersionsConst:
     """Class container for BIP32 key net versions constants."""
 
     # Key net version length in bytes
-    KEY_NET_VERSION_LEN: int = 4
+    KEY_NET_VERSION_BYTE_LEN: int = 4
 
 
 class Bip32KeyNetVersions:
@@ -62,7 +62,7 @@ class Bip32KeyNetVersions:
         Returns:
             int: Key net version length
         """
-        return Bip32KeyNetVersionsConst.KEY_NET_VERSION_LEN
+        return Bip32KeyNetVersionsConst.KEY_NET_VERSION_BYTE_LEN
 
     def Public(self) -> bytes:
         """

@@ -32,16 +32,16 @@ from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersionsConst
 class Bip32KeyNetVersionsTests(unittest.TestCase):
     # Basic test
     def test_basic(self):
-        key_net_ver_priv = os.urandom(Bip32KeyNetVersionsConst.KEY_NET_VERSION_LEN)
-        key_net_ver_pub = os.urandom(Bip32KeyNetVersionsConst.KEY_NET_VERSION_LEN)
+        key_net_ver_priv = os.urandom(Bip32KeyNetVersionsConst.KEY_NET_VERSION_BYTE_LEN)
+        key_net_ver_pub = os.urandom(Bip32KeyNetVersionsConst.KEY_NET_VERSION_BYTE_LEN)
         key_net_ver = Bip32KeyNetVersions(key_net_ver_priv, key_net_ver_pub)
-        self.assertEqual(key_net_ver.Length(), Bip32KeyNetVersionsConst.KEY_NET_VERSION_LEN)
+        self.assertEqual(key_net_ver.Length(), Bip32KeyNetVersionsConst.KEY_NET_VERSION_BYTE_LEN)
         self.assertEqual(key_net_ver.Public(), key_net_ver_priv)
         self.assertEqual(key_net_ver.Private(), key_net_ver_pub)
 
     # Test invalid parameters
     def test_invalid_parameters(self):
-        net_ver_len = Bip32KeyNetVersionsConst.KEY_NET_VERSION_LEN
+        net_ver_len = Bip32KeyNetVersionsConst.KEY_NET_VERSION_BYTE_LEN
         self.assertRaises(ValueError, Bip32KeyNetVersions, b"\x00" * (net_ver_len - 1), b"\x00\x00\x00\x00")
         self.assertRaises(ValueError, Bip32KeyNetVersions, b"\x00" * (net_ver_len + 1), b"\x00\x00\x00\x00")
         self.assertRaises(ValueError, Bip32KeyNetVersions, b"\x00\x00\x00\x00", b"\x00" * (net_ver_len - 1))
