@@ -36,10 +36,6 @@ class BchBech32Const:
     SEPARATOR: str = ":"
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 8
-    # Minimum data length in bytes
-    DATA_MIN_BYTE_LEN: int = 2
-    # Maximum data length in bytes
-    DATA_MAX_BYTE_LEN: int = 40
 
 
 class BchBech32Utils:
@@ -103,7 +99,6 @@ class BchBech32Utils:
         Returns:
             list[int]: Computed checksum
         """
-
         values = BchBech32Utils.HrpExpand(hrp) + data
         polymod = BchBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0, 0, 0])
         return [(polymod >> 5 * (7 - i)) & 0x1f for i in range(BchBech32Const.CHECKSUM_BYTE_LEN)]
@@ -149,7 +144,6 @@ class BchBech32Encoder(Bech32EncoderBase):
         Raises:
             ValueError: If the data is not valid
         """
-
         return cls._EncodeBech32(hrp,
                                  Bech32BaseUtils.ConvertToBase32(net_ver + data),
                                  BchBech32Const.SEPARATOR)
@@ -206,11 +200,6 @@ class BchBech32Decoder(Bech32DecoderBase):
 
         # Convert back from base32
         conv_data = Bech32BaseUtils.ConvertFromBase32(data)
-
-        # Check converted data
-        if (len(conv_data) < BchBech32Const.DATA_MIN_BYTE_LEN
-                or len(conv_data) > BchBech32Const.DATA_MAX_BYTE_LEN):
-            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return IntegerUtils.ToBytes(conv_data[0]), BytesUtils.FromList(conv_data[1:])
 

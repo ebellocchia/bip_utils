@@ -238,4 +238,5 @@ class SegwitBech32Tests(unittest.TestCase):
     # Test invalid address
     def test_invalid_addr(self):
         for test in TEST_VECT_ADDR_INVALID:
+            print(test["addr"])
             self.assertRaises(test["ex"], SegwitBech32Decoder.Decode, test["hrp"], test["addr"])

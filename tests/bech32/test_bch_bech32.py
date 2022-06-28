@@ -62,16 +62,6 @@ TEST_VECT_ADDR_INVALID = [
         "addr": "bitciincash:qq54jk3u0pmql6g0azpmjghn2wm8gswj35853zv6sr",
         "hrp": "bitcoincash",
     },
-    # Invalid program length
-    {
-        "addr": "bitcoincash:qqyq78nf2w",
-        "hrp": "bitcoincash",
-    },
-    # Invalid program length
-    {
-        "addr": "bitcoincash:qq54jk3u0pmql6g0azpmjghn2wm8gswj3554jk3u0pmql6g0azpmjghn2wm8gswj35x65g3a2n",
-        "hrp": "bitcoincash",
-    },
 ]
 
 

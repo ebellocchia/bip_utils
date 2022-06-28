@@ -32,10 +32,8 @@ class Bech32BaseConst:
 
     # Character set
     CHARSET: str = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
-    # Maximum string length
-    STR_MAX_LEN: int = 90
-    # Data part minimum length in bytes
-    MIN_DATA_PART_BYTE_LEN: int = 7
+    # Data part string minimum length (checksum + 1)
+    MIN_DATA_PART_STR_LEN: int = 7
 
 
 class Bech32BaseUtils:
@@ -204,25 +202,25 @@ class Bech32DecoderBase(ABC):
         """
 
         # Check string length and case
-        if len(bech_str) > Bech32BaseConst.STR_MAX_LEN or AlgoUtils.IsStringMixed(bech_str):
-            raise ValueError(f"Invalid bech32 format (length not valid: {len(bech_str)})")
+        if AlgoUtils.IsStringMixed(bech_str):
+            raise ValueError("Invalid bech32 format (string is mixed case)")
 
         # Lower string
         bech_str = bech_str.lower()
 
         # Find separator and check its position
         sep_pos = bech_str.rfind(sep)
-        if sep_pos == -1:
+        if sep_pos < 1:
             raise ValueError("Invalid bech32 format (no separator found)")
 
         # Get HRP and check it
         hrp = bech_str[:sep_pos]
-        if len(hrp) == 0 or any(ord(x) < 33 or ord(x) > 126 for x in hrp):
+        if any(ord(x) < 33 or ord(x) > 126 for x in hrp):
             raise ValueError(f"Invalid bech32 format (HRP not valid: {hrp})")
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
-        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_BYTE_LEN
+        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_STR_LEN
                 or not all(x in Bech32BaseConst.CHARSET for x in data_part)):
             raise ValueError("Invalid bech32 format (data part not valid)")
 

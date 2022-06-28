@@ -24,6 +24,7 @@ Module for bech32 decoding/encoding.
 References:
     https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
     https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki
+    https://github.com/sipa/bech32/blob/master/ref/python/segwit_addr.py
 """
 
 # Imports
@@ -48,10 +49,6 @@ class Bech32Const:
     SEPARATOR: str = "1"
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 6
-    # Minimum data length in bytes
-    DATA_MIN_BYTE_LEN: int = 2
-    # Maximum data length in bytes
-    DATA_MAX_BYTE_LEN: int = 40
     # Encoding checksum constants
     ENCODING_CHECKSUM_CONST: Dict[Bech32Encodings, int] = {
         Bech32Encodings.BECH32: 1,
@@ -115,7 +112,6 @@ class Bech32Utils:
         Returns:
             list[int]: Computed checksum
         """
-
         values = Bech32Utils.HrpExpand(hrp) + data
         polymod = Bech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ Bech32Const.ENCODING_CHECKSUM_CONST[encoding]
         return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(Bech32Const.CHECKSUM_BYTE_LEN)]
@@ -162,7 +158,6 @@ class Bech32Encoder(Bech32EncoderBase):
         Raises:
             ValueError: If the data is not valid
         """
-
         return cls._EncodeBech32(hrp,
                                  Bech32BaseUtils.ConvertToBase32(data),
                                  Bech32Const.SEPARATOR)
@@ -214,20 +209,14 @@ class Bech32Decoder(Bech32DecoderBase):
         hrp_got, data = cls._DecodeBech32(addr,
                                           Bech32Const.SEPARATOR,
                                           Bech32Const.CHECKSUM_BYTE_LEN)
-
         # Check HRP
         if hrp != hrp_got:
             raise ValueError(f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})")
 
         # Convert back from base32
-        conv_data = Bech32BaseUtils.ConvertFromBase32(data)
-
-        # Check converted data
-        if (len(conv_data) < Bech32Const.DATA_MIN_BYTE_LEN
-                or len(conv_data) > Bech32Const.DATA_MAX_BYTE_LEN):
-            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
-
-        return BytesUtils.FromList(conv_data)
+        return BytesUtils.FromList(
+            Bech32BaseUtils.ConvertFromBase32(data)
+        )
 
     @staticmethod
     def _VerifyChecksum(hrp: str,

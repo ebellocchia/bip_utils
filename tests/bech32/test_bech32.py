@@ -52,16 +52,6 @@ TEST_VECT_ADDR_INVALID = [
         "addr": "cosmis1w508d6qejxtdg4y5r3zarvary0c5xw7khxen85",
         "hrp": "cosmos",
     },
-    # Invalid program length
-    {
-        "addr": "cosmos1w554mng0",
-        "hrp": "cosmos",
-    },
-    # Invalid program length
-    {
-        "addr": "cosmos1w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kqq2z39yp",
-        "hrp": "cosmos",
-    },
 ]
 
 

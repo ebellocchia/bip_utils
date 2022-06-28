@@ -40,10 +40,10 @@ class SegwitBech32Const:
     SEPARATOR: str = Bech32Const.SEPARATOR
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = Bech32Const.CHECKSUM_BYTE_LEN
-    # Minimum data length in bytes
-    DATA_MIN_BYTE_LEN: int = Bech32Const.DATA_MIN_BYTE_LEN
-    # Maximum data length in bytes
-    DATA_MAX_BYTE_LEN: int = Bech32Const.DATA_MAX_BYTE_LEN
+    # Minimum witness program length in bytes
+    WITNESS_PROG_MIN_BYTE_LEN: int = 2
+    # Maximum witness program length in bytes
+    WITNESS_PROG_MAX_BYTE_LEN: int = 40
     # Witness version for Bech32 encoding
     WITNESS_VER_BECH32: int = 0
     # Witness version maximum value
@@ -136,13 +136,13 @@ class SegwitBech32Decoder(Bech32DecoderBase):
                 f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})"
             )
 
-        # Convert back from base32
+        # Convert back from base32 (remove witness version)
         conv_data = Bech32BaseUtils.ConvertFromBase32(data[1:])
 
         # Check data length
-        if (len(conv_data) < SegwitBech32Const.DATA_MIN_BYTE_LEN
-                or len(conv_data) > SegwitBech32Const.DATA_MAX_BYTE_LEN):
-            raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
+        if (len(conv_data) < SegwitBech32Const.WITNESS_PROG_MIN_BYTE_LEN
+                or len(conv_data) > SegwitBech32Const.WITNESS_PROG_MAX_BYTE_LEN):
+            raise ValueError(f"Invalid format (witness program length not valid: {len(conv_data)})")
         # Check witness version
         wit_ver = data[0]
         if wit_ver > SegwitBech32Const.WITNESS_VER_MAX_VAL:
