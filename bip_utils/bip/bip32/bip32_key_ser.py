@@ -204,7 +204,7 @@ class Bip32KeyDeserializer:
             Bip32DeserializedKey object: Bip32DeserializedKey object
 
         Raises:
-            Bip32KeyError: If the key net version is not valid
+            Bip32KeyError: If the key is not valid
         """
 
         # Decode key
@@ -236,6 +236,9 @@ class Bip32KeyDeserializer:
 
         Returns:
             bool: True if public, false otherwise
+
+        Raises:
+            Bip32KeyError: If the key net version is not valid
         """
         key_net_ver_got = ser_key_bytes[:Bip32KeyNetVersions.Length()]
         if key_net_ver_got == key_net_ver.Public():
@@ -260,6 +263,9 @@ class Bip32KeyDeserializer:
 
         Returns:
             tuple[bytes, Bip32KeyData]: key bytes (index 0) and key data (index 1)
+
+        Raises:
+            Bip32KeyError: If the private key first byte is not zero
         """
 
         # Compute indexes
