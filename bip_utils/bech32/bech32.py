@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 """
-Module for bech32 decoding/encoding.
+Module for bech32/bech32m decoding/encoding.
 
 References:
     https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki
