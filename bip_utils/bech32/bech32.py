@@ -47,8 +47,8 @@ class Bech32Const:
 
     # Separator
     SEPARATOR: str = "1"
-    # Checksum length in bytes
-    CHECKSUM_BYTE_LEN: int = 6
+    # Checksum length
+    CHECKSUM_STR_LEN: int = 6
     # Encoding checksum constants
     ENCODING_CHECKSUM_CONST: Dict[Bech32Encodings, int] = {
         Bech32Encodings.BECH32: 1,
@@ -114,7 +114,7 @@ class Bech32Utils:
         """
         values = Bech32Utils.HrpExpand(hrp) + data
         polymod = Bech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0]) ^ Bech32Const.ENCODING_CHECKSUM_CONST[encoding]
-        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(Bech32Const.CHECKSUM_BYTE_LEN)]
+        return [(polymod >> 5 * (5 - i)) & 0x1f for i in range(Bech32Const.CHECKSUM_STR_LEN)]
 
     @staticmethod
     def VerifyChecksum(hrp: str,
@@ -208,7 +208,7 @@ class Bech32Decoder(Bech32DecoderBase):
         # Decode string
         hrp_got, data = cls._DecodeBech32(addr,
                                           Bech32Const.SEPARATOR,
-                                          Bech32Const.CHECKSUM_BYTE_LEN)
+                                          Bech32Const.CHECKSUM_STR_LEN)
         # Check HRP
         if hrp != hrp_got:
             raise ValueError(f"Invalid format (HRP not valid, expected {hrp}, got {hrp_got})")

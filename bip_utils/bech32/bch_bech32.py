@@ -34,8 +34,8 @@ class BchBech32Const:
 
     # Separator
     SEPARATOR: str = ":"
-    # Checksum length in bytes
-    CHECKSUM_BYTE_LEN: int = 8
+    # Checksum length
+    CHECKSUM_STR_LEN: int = 8
 
 
 class BchBech32Utils:
@@ -101,7 +101,7 @@ class BchBech32Utils:
         """
         values = BchBech32Utils.HrpExpand(hrp) + data
         polymod = BchBech32Utils.PolyMod(values + [0, 0, 0, 0, 0, 0, 0, 0])
-        return [(polymod >> 5 * (7 - i)) & 0x1f for i in range(BchBech32Const.CHECKSUM_BYTE_LEN)]
+        return [(polymod >> 5 * (7 - i)) & 0x1f for i in range(BchBech32Const.CHECKSUM_STR_LEN)]
 
     @staticmethod
     def VerifyChecksum(hrp: str,
@@ -192,7 +192,7 @@ class BchBech32Decoder(Bech32DecoderBase):
         # Decode string
         hrp_got, data = cls._DecodeBech32(addr,
                                           BchBech32Const.SEPARATOR,
-                                          BchBech32Const.CHECKSUM_BYTE_LEN)
+                                          BchBech32Const.CHECKSUM_STR_LEN)
 
         # Check HRP
         if hrp != hrp_got:

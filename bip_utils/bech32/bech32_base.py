@@ -32,8 +32,6 @@ class Bech32BaseConst:
 
     # Character set
     CHARSET: str = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"
-    # Data part string minimum length (checksum + 1)
-    MIN_DATA_PART_STR_LEN: int = 7
 
 
 class Bech32BaseUtils:
@@ -210,17 +208,17 @@ class Bech32DecoderBase(ABC):
 
         # Find separator and check its position
         sep_pos = bech_str.rfind(sep)
-        if sep_pos < 1:
+        if sep_pos == -1:
             raise ValueError("Invalid bech32 format (no separator found)")
 
         # Get HRP and check it
         hrp = bech_str[:sep_pos]
-        if any(ord(x) < 33 or ord(x) > 126 for x in hrp):
+        if len(hrp) == 0 or any(ord(x) < 33 or ord(x) > 126 for x in hrp):
             raise ValueError(f"Invalid bech32 format (HRP not valid: {hrp})")
 
         # Get data and check it
         data_part = bech_str[sep_pos + 1:]
-        if (len(data_part) < Bech32BaseConst.MIN_DATA_PART_STR_LEN
+        if (len(data_part) < (checksum_len + 1)
                 or not all(x in Bech32BaseConst.CHARSET for x in data_part)):
             raise ValueError("Invalid bech32 format (data part not valid)")
 
