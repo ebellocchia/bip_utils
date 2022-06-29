@@ -189,7 +189,6 @@ And then:
 - [Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md)
 - [Monero](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md)
 - [Substrate](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)
-- [SLIP-0032](https://github.com/ebellocchia/bip_utils/tree/master/readme/slip32.md)
 - [Utility libraries](https://github.com/ebellocchia/bip_utils/tree/master/readme/utility_libs.md)
 
 ## Documentation
