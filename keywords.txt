@@ -9,7 +9,7 @@ sr25519
 wallet
 hd-wallet
 slip10
-slip0010
+slip32
 bip38
 bip39
 bip39-substrate

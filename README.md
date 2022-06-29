@@ -32,6 +32,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
 Other implemented functionalities:
 - Parse BIP-0032 derivation paths
 - Parse Substrate derivation paths
+- Extended key serialization in according to [SLIP-0032](https://github.com/satoshilabs/slips/blob/master/slip-0032.md)
 - Encode/Decode addresses for all the supported coins
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background) and [base58 monero](https://monerodocs.org/cryptography/base58)
@@ -188,6 +189,7 @@ And then:
 - [Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md)
 - [Monero](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md)
 - [Substrate](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)
+- [SLIP-0032](https://github.com/ebellocchia/bip_utils/tree/master/readme/slip32.md)
 - [Utility libraries](https://github.com/ebellocchia/bip_utils/tree/master/readme/utility_libs.md)
 
 ## Documentation
