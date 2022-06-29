@@ -132,6 +132,10 @@ from bip_utils.monero.mnemonic import (
 )
 # Monero configuration
 from bip_utils.monero.conf import MoneroCoins, MoneroConf
+# SLIP32
+from bip_utils.slip.slip32 import (
+    Slip32PublicKeySerializer, Slip32PrivateKeySerializer, Slip32DeserializedKey, Slip32KeyDeserializer
+)
 # Solana
 from bip_utils.solana import SplToken
 # SS58

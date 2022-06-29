@@ -21,6 +21,7 @@
 """Module for BIP32 paths parsing and handling."""
 
 # Import
+from __future__ import annotations
 from typing import Iterator, List, Sequence, Tuple, Union
 from bip_utils.bip.bip32.bip32_ex import Bip32PathError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
@@ -61,6 +62,24 @@ class Bip32Path:
             raise Bip32PathError("The path contains some invalid key indexes") from ex
 
         self.m_is_absolute = is_absolute
+
+    def AddElem(self,
+                elem: Union[int, Bip32KeyIndex]) -> Bip32Path:
+        """
+        Return a new path object with the specified element added.
+
+        Args:
+            elem (str or Bip32KeyIndex): Path element
+
+        Returns:
+            Bip32Path object: Bip32Path object
+
+        Raises:
+            Bip32PathError: If the path element is not valid
+        """
+        if isinstance(elem, int):
+            elem = Bip32KeyIndex(elem)
+        return Bip32Path(self.m_elems + [elem], self.m_is_absolute)
 
     def IsAbsolute(self) -> bool:
         """
