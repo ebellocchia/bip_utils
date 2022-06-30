@@ -149,7 +149,7 @@ TEST_SEED = b"000102030405060708090a0b0c0d0e0f"
 #
 # Tests
 #
-class ElectrumV2WalletTests(unittest.TestCase):
+class ElectrumV2Tests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
@@ -162,6 +162,8 @@ class ElectrumV2WalletTests(unittest.TestCase):
     def test_invalid_params(self):
         self.assertRaises(TypeError, ElectrumV2Standard, Bip32Ed25519Slip.FromSeed(binascii.unhexlify(TEST_SEED)))
         self.assertRaises(TypeError, ElectrumV2Segwit, Bip32Ed25519Slip.FromSeed(binascii.unhexlify(TEST_SEED)))
+        # Not a master key
+        self.assertRaises(ValueError, ElectrumV2Segwit, Bip32Secp256k1.FromSeed(binascii.unhexlify(TEST_SEED)).DerivePath("m/0"))
 
     # Test wallet
     def __test_wallet(self, electrum_v2, test):

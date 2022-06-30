@@ -88,7 +88,7 @@ TEST_VECT = [
 #
 # Tests
 #
-class ElectrumV1WalletTests(unittest.TestCase):
+class ElectrumV1Tests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
