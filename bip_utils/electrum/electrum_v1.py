@@ -150,6 +150,16 @@ class ElectrumV1:
     def __GetSequence(self,
                       change_idx: int,
                       addr_idx: int) -> bytes:
+        """
+        Get sequence.
+
+        Args:
+            change_idx (int): Change index
+            addr_idx (int)  : Address index
+
+        Returns:
+            bytes: Sequence bytes
+        """
         return CryptoUtils.DoubleSha256(
             AlgoUtils.Encode(f"{addr_idx}:{change_idx}:") + self.MasterPublicKey().RawUncompressed().ToBytes()[1:]
         )
