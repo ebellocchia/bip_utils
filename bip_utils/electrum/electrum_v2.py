@@ -58,9 +58,12 @@ class ElectrumV2Base(ABC):
 
         Raises:
             TypeError: If the bip32 object is not a Bip32Secp256k1 class instance
+            ValueError: If the bip32 object is not a master key
         """
         if not isinstance(bip32, Bip32Secp256k1):
             raise TypeError("A Bip32Secp256k1 class instance is required")
+        if bip32.Depth() > 0:
+            raise ValueError("The Bip32 object shall be a master key (i.e. depth equal to 0)")
         self.m_bip32 = bip32
 
     def Bip32Object(self) -> Bip32Base:
@@ -170,7 +173,7 @@ class ElectrumV2Standard(ElectrumV2Base):
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
         """
-        return self.GetPrivateKey(change_idx, addr_idx).PublicKey()
+        return self.__DeriveKey(change_idx, addr_idx).PublicKey()
 
     def GetAddress(self,
                    change_idx: int,
