@@ -246,16 +246,12 @@ class Bip32Base(ABC):
         """
         curve = EllipticCurveGetter.FromType(curve_type)
 
-        # Check that key type matches the Bip curve, if a key object is provided
-        if priv_key is not None:
-            if not isinstance(priv_key, bytes) and not isinstance(priv_key, curve.PrivateKeyClass()):
-                raise Bip32KeyError(f"Invalid private key class, a {curve.Name()} key is required")
-        if pub_key is not None:
-            if not isinstance(pub_key, bytes) and not isinstance(pub_key, curve.PublicKeyClass()):
-                raise Bip32KeyError(f"Invalid public key class, a {curve.Name()} key is required")
-
         # Private key object
         if priv_key is not None:
+            # Check that key type matches the Bip curve
+            if not isinstance(priv_key, bytes) and not isinstance(priv_key, curve.PrivateKeyClass()):
+                raise Bip32KeyError(f"Invalid private key class, a {curve.Name()} key is required")
+
             self.m_priv_key = Bip32PrivateKey.FromBytesOrKeyObject(priv_key,
                                                                    key_data,
                                                                    key_net_ver,
@@ -263,7 +259,9 @@ class Bip32Base(ABC):
             self.m_pub_key = self.m_priv_key.PublicKey()
         # Public-only object
         else:
-            assert isinstance(pub_key, (bytes, IPublicKey)), "Public key shall be specified for public-only objects"
+            # Check that key type matches the Bip curve
+            if not isinstance(pub_key, bytes) and not isinstance(pub_key, curve.PublicKeyClass()):
+                raise Bip32KeyError(f"Invalid public key class, a {curve.Name()} key is required")
 
             self.m_priv_key = None
             self.m_pub_key = Bip32PublicKey.FromBytesOrKeyObject(pub_key,
