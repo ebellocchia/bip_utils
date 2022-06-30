@@ -25,7 +25,7 @@ from __future__ import annotations
 from functools import lru_cache
 from bip_utils.addr import P2PKHPubKeyModes, P2PKHAddr
 from bip_utils.coin_conf import CoinsConf
-from bip_utils.ecc import IPublicKey, IPrivateKey, Secp256k1, Secp256k1PrivateKey
+from bip_utils.ecc import IPublicKey, IPrivateKey, Secp256k1, Secp256k1PublicKey, Secp256k1PrivateKey
 from bip_utils.utils.misc import AlgoUtils, BytesUtils, CryptoUtils, IntegerUtils
 
 
@@ -93,7 +93,7 @@ class ElectrumV1:
         Returns:
             IPrivateKey object: IPrivateKey object
         """
-        return self.__DeriveKey(change_idx, addr_idx)
+        return self.__DerivePrivateKey(change_idx, addr_idx)
 
     def GetPublicKey(self,
                      change_idx: int,
@@ -105,10 +105,11 @@ class ElectrumV1:
             change_idx (int): Change index
             addr_idx (int)  : Address index
 
+
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return self.GetPrivateKey(change_idx, addr_idx).PublicKey()
+        return self.__DerivePublicKey(change_idx, addr_idx)
 
     def GetAddress(self,
                    change_idx: int,
@@ -128,23 +129,42 @@ class ElectrumV1:
                                    pub_key_mode=P2PKHPubKeyModes.UNCOMPRESSED)
 
     @lru_cache()
-    def __DeriveKey(self,
-                    change_idx: int,
-                    addr_idx: int) -> IPrivateKey:
+    def __DerivePrivateKey(self,
+                           change_idx: int,
+                           addr_idx: int) -> IPrivateKey:
         """
-        Derive the key with the specified change and address indexes.
+        Derive the private key with the specified change and address indexes.
 
         Args:
             change_idx (int): Change index
             addr_idx (int)  : Address index
 
         Returns:
-            Bip32Base object: Bip32Base object
+            IPrivateKey object: IPrivateKey object
         """
         seq_bytes = self.__GetSequence(change_idx, addr_idx)
         priv_key_int = (self.MasterPrivateKey().Raw().ToInt() + BytesUtils.ToInteger(seq_bytes)) % Secp256k1.Order()
         return Secp256k1PrivateKey.FromBytes(
             IntegerUtils.ToBytes(priv_key_int, Secp256k1PrivateKey.Length())
+        )
+
+    @lru_cache()
+    def __DerivePublicKey(self,
+                          change_idx: int,
+                          addr_idx: int) -> IPublicKey:
+        """
+        Derive the public key with the specified change and address indexes.
+
+        Args:
+            change_idx (int): Change index
+            addr_idx (int)  : Address index
+
+        Returns:
+            IPublicKey object: IPublicKey object
+        """
+        seq_bytes = self.__GetSequence(change_idx, addr_idx)
+        return Secp256k1PublicKey.FromPoint(
+            self.MasterPublicKey().Point() + BytesUtils.ToInteger(seq_bytes) * Secp256k1.Generator()
         )
 
     def __GetSequence(self,
