@@ -23,6 +23,7 @@
 # Imports
 from __future__ import annotations
 from functools import lru_cache
+from typing import Optional, Union
 from bip_utils.addr import P2PKHPubKeyModes, P2PKHAddr
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey, IPrivateKey, Secp256k1, Secp256k1PublicKey, Secp256k1PrivateKey
@@ -35,14 +36,14 @@ class ElectrumV1:
     It derives keys like the Electrum wallet with old (v1) mnemonic.
     """
 
-    m_priv_key: IPrivateKey
+    m_priv_key: Optional[IPrivateKey]
+    m_pub_key: IPublicKey
 
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes) -> ElectrumV1:
         """
         Construct class from seed bytes.
-        This method is not strictly needed but it's kept to have the same usage of the *ElectrumV2Base* class.
 
         Args:
             seed_bytes (bytes): Seed bytes
@@ -50,17 +51,82 @@ class ElectrumV1:
         Returns:
             ElectrumV1 object: ElectrumV1 object
         """
-        return cls(seed_bytes)
+
+        # The seed is the private key itself
+        return cls.FromPrivateKey(seed_bytes)
+
+    @classmethod
+    def FromPrivateKey(cls,
+                       priv_key: Union[bytes, IPrivateKey]) -> ElectrumV1:
+        """
+        Construct class from private key.
+
+        Args:
+            priv_key (bytes or IPrivateKey): Private key
+
+        Returns:
+            ElectrumV1 object: ElectrumV1 object
+
+        Raises:
+            TypeError: if the private key is not a Secp256k1PrivateKey
+        """
+        if isinstance(priv_key, bytes):
+            priv_key = Secp256k1PrivateKey.FromBytes(priv_key)
+        return cls(priv_key, None)
+
+    @classmethod
+    def FromPublicKey(cls,
+                      pub_key: Union[bytes, IPublicKey]) -> ElectrumV1:
+        """
+        Construct class from public key.
+
+        Args:
+            pub_key (bytes or IPublicKey): Public key
+
+        Returns:
+            ElectrumV1 object: ElectrumV1 object
+
+        Raises:
+            TypeError: if the public key is not a Secp256k1PublicKey
+        """
+        if isinstance(pub_key, bytes):
+            pub_key = Secp256k1PublicKey.FromBytes(pub_key)
+        return cls(None, pub_key)
 
     def __init__(self,
-                 seed_bytes: bytes) -> None:
+                 priv_key: Optional[IPrivateKey],
+                 pub_key: Optional[IPublicKey]) -> None:
         """
         Construct class.
 
         Args:
-            seed_bytes (bytes): Seed bytes
+            priv_key (IPrivateKey object, optional): Private key
+            pub_key (IPublicKey object, optional)  : Public key
+
+        Raises:
+            TypeError: if the private key is not a Secp256k1PrivateKey or the public key is not a Secp256k1PublicKey
         """
-        self.m_priv_key = Secp256k1PrivateKey.FromBytes(seed_bytes)
+        if priv_key is not None:
+            if not isinstance(priv_key, Secp256k1PrivateKey):
+                raise TypeError("Private key shall be a secp256k1 key")
+
+            self.m_priv_key = priv_key
+            self.m_pub_key = priv_key.PublicKey()
+        else:
+            if not isinstance(pub_key, Secp256k1PublicKey):
+                raise TypeError("Public key shall be a secp256k1 key")
+
+            self.m_priv_key = None
+            self.m_pub_key = pub_key
+
+    def IsPublicOnly(self) -> bool:
+        """
+        Get if it's public-only.
+
+        Returns:
+            bool: True if public-only, false otherwise
+        """
+        return self.m_priv_key is None
 
     def MasterPrivateKey(self) -> IPrivateKey:
         """
@@ -69,6 +135,10 @@ class ElectrumV1:
         Returns:
             IPrivateKey object: IPrivateKey object
         """
+        if self.IsPublicOnly():
+            raise ValueError("Public-only deterministic keys have no private half")
+
+        assert isinstance(self.m_priv_key, Secp256k1PrivateKey)
         return self.m_priv_key
 
     def MasterPublicKey(self) -> IPublicKey:
@@ -78,7 +148,7 @@ class ElectrumV1:
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return self.m_priv_key.PublicKey()
+        return self.m_pub_key
 
     def GetPrivateKey(self,
                       change_idx: int,
@@ -93,6 +163,8 @@ class ElectrumV1:
         Returns:
             IPrivateKey object: IPrivateKey object
         """
+        if self.IsPublicOnly():
+            raise ValueError("Public-only deterministic keys have no private half")
         return self.__DerivePrivateKey(change_idx, addr_idx)
 
     def GetPublicKey(self,

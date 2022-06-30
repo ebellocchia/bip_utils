@@ -163,7 +163,7 @@ class ElectrumV1MnemonicTests(unittest.TestCase):
             self.assertEqual(test["seed"], binascii.hexlify(seed))
 
             # Test address
-            self.assertEqual(test["address"], ElectrumV1(seed).GetAddress(0, 0))
+            self.assertEqual(test["address"], ElectrumV1.FromSeed(seed).GetAddress(0, 0))
 
     # Test entropy generator and construction from valid entropy bit lengths
     def test_entropy_valid_bitlen(self):

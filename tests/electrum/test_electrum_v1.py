@@ -22,15 +22,15 @@
 import binascii
 import unittest
 from bip_utils import (
-    CoinsConf, ElectrumV1, Secp256k1PublicKey, Secp256k1PrivateKey,
-    WifPubKeyModes, WifEncoder
+    CoinsConf, ElectrumV1, Secp256k1PublicKey, Secp256k1PrivateKey, WifPubKeyModes, WifDecoder, WifEncoder
 )
+from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_ED25519_PRIV_KEY
 
 # Test vector (verified with Electrum wallet)
 TEST_VECT = [
     {
         "seed": b"0bbe2537d7527f2d7376d4bb9de8ac42ca202dbae310471b88f2cbb0492e6e73",
-        "master_pub_key": "2e767c36bd48f70bc34704cabd5bb1394f374227c330bb17ed6b22ca44b85582d2d88a00fcf8f0f00b2ee32f8623b7d23def43c8c0784846b98c2abaf742693b",
+        "master_pub_key": "042e767c36bd48f70bc34704cabd5bb1394f374227c330bb17ed6b22ca44b85582d2d88a00fcf8f0f00b2ee32f8623b7d23def43c8c0784846b98c2abaf742693b",
         "master_priv_key": "5HuTXx6TC56nonxHfw3DmM72CurZ22zh24azdCmz3gh3We2Ujvk",
         "addresses": [
             {
@@ -57,7 +57,7 @@ TEST_VECT = [
     },
     {
         "seed": b"d274ee3d2f0ca429e9b4cff307bcdc81ab503adc838b552123a1cf7d908a275b",
-        "master_pub_key": "1bc0ddce2ac75a2d624316ad40d4031d710a16423830dc16d0b3423ee1fa946af8ce5987f6dba0d0078d9c3193373d01456abfd7f65b6c95d42ef3a24a5fba3d",
+        "master_pub_key": "041bc0ddce2ac75a2d624316ad40d4031d710a16423830dc16d0b3423ee1fa946af8ce5987f6dba0d0078d9c3193373d01456abfd7f65b6c95d42ef3a24a5fba3d",
         "master_priv_key": "5KQyR8zmHmhEKjkHDpSFEPUKzaeFocywbpsjMN2rxDrRsdtSpDV",
         "addresses": [
             {
@@ -92,25 +92,50 @@ class ElectrumV1Tests(unittest.TestCase):
     # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
-            seed_bytes = binascii.unhexlify(test["seed"])
-            # Test both FromSeed and direct construction
-            self.__test_wallet(ElectrumV1.FromSeed(seed_bytes), test)
-            self.__test_wallet(ElectrumV1(seed_bytes), test)
+            # Test all types of construction
+            self.__test_wallet(
+                ElectrumV1.FromSeed(binascii.unhexlify(test["seed"])), False, test
+            )
+            self.__test_wallet(
+                ElectrumV1.FromPrivateKey(self.__wif_to_priv(test["master_priv_key"])), False, test
+            )
+            self.__test_wallet(
+                ElectrumV1.FromPublicKey(binascii.unhexlify(test["master_pub_key"])), True, test
+            )
+
+    # Test invalid parameters
+    def test_invalid_params(self):
+        self.assertRaises(TypeError, ElectrumV1, TEST_ED25519_PRIV_KEY, None)
+        self.assertRaises(TypeError, ElectrumV1, None, TEST_ED25519_PUB_KEY)
 
     # Test wallet
-    def __test_wallet(self, electrum_v1, test):
-        self.assertTrue(isinstance(electrum_v1.MasterPublicKey(), Secp256k1PublicKey))
-        self.assertTrue(isinstance(electrum_v1.MasterPrivateKey(), Secp256k1PrivateKey))
+    def __test_wallet(self, electrum_v1, is_public_only, test):
+        self.assertEqual(is_public_only, electrum_v1.IsPublicOnly())
 
-        self.assertEqual(test["master_pub_key"], electrum_v1.MasterPublicKey().RawUncompressed().ToHex()[2:])
-        self.assertEqual(test["master_priv_key"], self.__priv_to_wif(electrum_v1.MasterPrivateKey()))
+        if not electrum_v1.IsPublicOnly():
+            self.assertTrue(isinstance(electrum_v1.MasterPrivateKey(), Secp256k1PrivateKey))
+            self.assertEqual(test["master_priv_key"], self.__priv_to_wif(electrum_v1.MasterPrivateKey()))
+        else:
+            self.assertRaises(ValueError, electrum_v1.MasterPrivateKey)
+
+        self.assertTrue(isinstance(electrum_v1.MasterPublicKey(), Secp256k1PublicKey))
+        self.assertEqual(test["master_pub_key"], electrum_v1.MasterPublicKey().RawUncompressed().ToHex())
 
         for i, test_addr in enumerate(test["addresses"]):
-            self.assertTrue(isinstance(electrum_v1.GetPublicKey(0, i), Secp256k1PublicKey))
-            self.assertTrue(isinstance(electrum_v1.GetPrivateKey(0, i), Secp256k1PrivateKey))
+            if not electrum_v1.IsPublicOnly():
+                self.assertEqual(test_addr["priv_key"], self.__priv_to_wif(electrum_v1.GetPrivateKey(0, i)))
+                self.assertTrue(isinstance(electrum_v1.GetPrivateKey(0, i), Secp256k1PrivateKey))
+            else:
+                self.assertRaises(ValueError, electrum_v1.GetPrivateKey, 0, i)
 
+            self.assertTrue(isinstance(electrum_v1.GetPublicKey(0, i), Secp256k1PublicKey))
             self.assertEqual(test_addr["address"], electrum_v1.GetAddress(0, i))
-            self.assertEqual(test_addr["priv_key"], self.__priv_to_wif(electrum_v1.GetPrivateKey(0, i)))
+
+    # Decode WIF to private key
+    @staticmethod
+    def __wif_to_priv(priv_key):
+        return WifDecoder.Decode(priv_key,
+                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"))[0]
 
     # Encode private key to WIF
     @staticmethod
