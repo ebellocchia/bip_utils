@@ -181,7 +181,9 @@ class ElectrumV1:
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return self.__DerivePublicKey(change_idx, addr_idx)
+        return (self.__DerivePublicKey(change_idx, addr_idx)
+                if self.IsPublicOnly()
+                else self.GetPrivateKey(change_idx, addr_idx).PublicKey())
 
     def GetAddress(self,
                    change_idx: int,
