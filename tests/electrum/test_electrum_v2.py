@@ -167,6 +167,7 @@ class ElectrumV2Tests(unittest.TestCase):
 
     # Test wallet
     def __test_wallet(self, electrum_v2, test):
+        self.assertFalse(electrum_v2.IsPublicOnly())
         self.assertTrue(isinstance(electrum_v2.Bip32Object(), Bip32Secp256k1))
         self.assertTrue(isinstance(electrum_v2.MasterPublicKey(), Bip32PublicKey))
         self.assertTrue(isinstance(electrum_v2.MasterPrivateKey(), Bip32PrivateKey))

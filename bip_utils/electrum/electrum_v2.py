@@ -75,6 +75,15 @@ class ElectrumV2Base(ABC):
         """
         return self.m_bip32
 
+    def IsPublicOnly(self) -> bool:
+        """
+        Get if it's public-only.
+
+        Returns:
+            bool: True if public-only, false otherwise
+        """
+        return self.m_bip32.IsPublicOnly()
+
     def MasterPrivateKey(self) -> Bip32PrivateKey:
         """
         Get the master private key.
