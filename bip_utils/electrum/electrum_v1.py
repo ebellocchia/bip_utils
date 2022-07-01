@@ -100,8 +100,9 @@ class ElectrumV1:
         Construct class.
 
         Args:
-            priv_key (IPrivateKey object, optional): Private key
-            pub_key (IPublicKey object, optional)  : Public key
+            priv_key (IPrivateKey object, optional): Private key (None for a public-only object)
+            pub_key (IPublicKey object, optional)  : Public key (only needed for a public-only object)
+                                                     If priv_key is not None, it'll be discarded
 
         Raises:
             TypeError: if the private key is not a Secp256k1PrivateKey or the public key is not a Secp256k1PublicKey
