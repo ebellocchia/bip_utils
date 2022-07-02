@@ -57,8 +57,6 @@ class Bip84(Bip44Base):
                  coin_type: BipCoins) -> Bip44Base:
         """
         Create a Bip44Base object from the specified seed (e.g. BIP39 seed).
-        The test net flag is automatically set when the coin is derived. However, if you want to get the correct master
-        or purpose keys, you have to specify here if it's a test net.
 
         Args:
             seed_bytes (bytes)  : Seed bytes
@@ -156,13 +154,12 @@ class Bip84(Bip44Base):
                                   key_data)
 
     #
-    # Override methods
+    # Overridden abstract methods
     #
 
     def DeriveDefaultPath(self) -> Bip44Base:
         """
-        Derive a child key from the purpose and return a new Bip44Base object.
-        It calls the underlying _PurposeGeneric method with the current object as parameter.
+        Derive the default coin path and return a new Bip44Base object.
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -171,12 +168,11 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._DeriveDefaultPathGeneric(self, Bip84Const.PURPOSE)
+        return self._DeriveDefaultPathGeneric(Bip84Const.PURPOSE)
 
     def Purpose(self) -> Bip44Base:
         """
         Derive a child key from the purpose and return a new Bip44Base object.
-        It calls the underlying _PurposeGeneric method with the current object as parameter.
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -185,12 +181,11 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._PurposeGeneric(self, Bip84Const.PURPOSE)
+        return self._PurposeGeneric(Bip84Const.PURPOSE)
 
     def Coin(self) -> Bip44Base:
         """
         Derive a child key from the coin type specified at construction and return a new Bip44Base object.
-        It calls the underlying _CoinGeneric method with the current object as parameter.
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -199,13 +194,12 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._CoinGeneric(self)
+        return self._CoinGeneric()
 
     def Account(self,
                 acc_idx: int) -> Bip44Base:
         """
         Derive a child key from the specified account index and return a new Bip44Base object.
-        It calls the underlying _AccountGeneric method with the current object as parameter.
 
         Args:
             acc_idx (int): Account index
@@ -217,13 +211,12 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._AccountGeneric(self, acc_idx)
+        return self._AccountGeneric(acc_idx)
 
     def Change(self,
                change_type: Bip44Changes) -> Bip44Base:
         """
         Derive a child key from the specified change type and return a new Bip44Base object.
-        It calls the underlying _ChangeGeneric method with the current object as parameter.
 
         Args:
             change_type (Bip44Changes): Change type, must a Bip44Changes enum
@@ -236,13 +229,12 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._ChangeGeneric(self, change_type)
+        return self._ChangeGeneric(change_type)
 
     def AddressIndex(self,
                      addr_idx: int) -> Bip44Base:
         """
         Derive a child key from the specified address index and return a new Bip44Base object.
-        It calls the underlying _AddressIndexGeneric method with the current object as parameter.
 
         Args:
             addr_idx (int): Address index
@@ -254,7 +246,7 @@ class Bip84(Bip44Base):
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return self._AddressIndexGeneric(self, addr_idx)
+        return self._AddressIndexGeneric(addr_idx)
 
     @staticmethod
     def SpecName() -> str:

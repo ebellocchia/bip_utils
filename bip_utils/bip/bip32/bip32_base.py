@@ -437,7 +437,6 @@ class Bip32Base(ABC):
             Bip32Base object: Bip32Base object
 
         Raises:
-            ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         curve_type = cls.CurveType()

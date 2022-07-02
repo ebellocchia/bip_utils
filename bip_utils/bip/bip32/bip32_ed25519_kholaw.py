@@ -47,7 +47,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
     """
     BIP32 ed25519 Khovratovich/Law class.
     It allows master key generation and children keys derivation using ed25519 curve.
-    Derivation based on SLIP-0010.
+    Derivation based on Khovratovich/Law paper.
     """
 
     #
@@ -114,7 +114,6 @@ class Bip32Ed25519Kholaw(Bip32Base):
             Bip32Base object: Bip32Base object
 
         Raises:
-            ValueError: If the seed is too short
             Bip32KeyError: If the seed is not suitable for master key generation
         """
 
@@ -181,16 +180,20 @@ class Bip32Ed25519Kholaw(Bip32Base):
         # ZR is the right 32-byte part of Z
         zr_int = BytesUtils.ToInteger(z_bytes[32:], endianness="little")
 
+        priv_half_len = Ed25519KholawPrivateKey.Length() // 2
+
         # Compute kL
-        kl_int = (zl_int * 8) + BytesUtils.ToInteger(self.m_priv_key.Raw().ToBytes()[:32], endianness="little")
+        kpl_bytes = self.m_priv_key.Raw().ToBytes()[:priv_half_len]
+        kl_int = (zl_int * 8) + BytesUtils.ToInteger(kpl_bytes, endianness="little")
         if kl_int % curve.Order() == 0:
             raise Bip32KeyError("Computed private child key is not valid, very unlucky index")
         # Compute kR
-        kr_int = (zr_int + BytesUtils.ToInteger(self.m_priv_key.Raw().ToBytes()[32:], endianness="little")) % 2**256
-        # Compute private key
+        kpr_bytes = self.m_priv_key.Raw().ToBytes()[priv_half_len:]
+        kr_int = (zr_int + BytesUtils.ToInteger(kpr_bytes, endianness="little")) % 2**256
+        # Compute private key: kl + kr
         priv_key = Ed25519KholawPrivateKey.FromBytes(
-            IntegerUtils.ToBytes(kl_int, Ed25519KholawPrivateKey.Length() // 2, endianness="little")
-            + IntegerUtils.ToBytes(kr_int, Ed25519KholawPrivateKey.Length() // 2, endianness="little")
+            IntegerUtils.ToBytes(kl_int, priv_half_len, endianness="little")
+            + IntegerUtils.ToBytes(kr_int, priv_half_len, endianness="little")
         )
 
         return Bip32Ed25519Kholaw(
