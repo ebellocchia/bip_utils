@@ -1,0 +1,1 @@
+from bip_utils.cardano.mnemonic.cardano_bip39_seed_generator import CardanoBip39SeedGenerator

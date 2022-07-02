@@ -1,0 +1,82 @@
+# Copyright (c) 2022 Emanuele Bellocchia
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+"""
+Module for Cardano Icarus BIP32 keys derivation.
+
+References:
+    https://github.com/satoshilabs/slips/blob/master/slip-0023.md
+    https://input-output-hk.github.io/cardano-wallet/concepts/master-key-generation
+    https://cips.cardano.org/cips/cip3/
+"""
+
+# Imports
+from bip_utils.bip.bip32 import Bip32Ed25519Kholaw, Bip32KeyData, Bip32KeyNetVersions
+from bip_utils.bip.bip32.bip32_base import Bip32Base
+from bip_utils.ecc import Ed25519KholawPrivateKey
+from bip_utils.utils.misc import CryptoUtils
+
+
+class CardanoIcarusBip32Const:
+    """Class container for Cardano Icarus BIP32 constants."""
+
+    # PBKDF2 password
+    PBKDF2_PASSWORD: str = ""
+    # PBKDF2 rounds
+    PBKDF2_ROUNDS: int = 4096
+    # PBKDF2 output length in bytes
+    PBKDF2_OUT_BYTE_LEN: int = 96
+
+
+class CardanoIcarusBip32(Bip32Ed25519Kholaw):
+    """
+    Cardano Icarus BIP32 class.
+    It allows master key generation and children keys derivation for Cardano.
+    Derivation based on Khovratovich/Law paper with a different algorithm for seed generation.
+    """
+
+    @classmethod
+    def _FromSeed(cls,
+                  seed_bytes: bytes,
+                  key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
+        """
+        Create a Bip32 object from the specified seed (e.g. BIP39 seed).
+
+        Args:
+            seed_bytes (bytes)                      : Seed bytes
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
+
+        Returns:
+            Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the seed is not suitable for master key generation
+        """
+        key = CryptoUtils.Pbkdf2HmacSha512(CardanoIcarusBip32Const.PBKDF2_PASSWORD,
+                                           seed_bytes,
+                                           CardanoIcarusBip32Const.PBKDF2_ROUNDS,
+                                           CardanoIcarusBip32Const.PBKDF2_OUT_BYTE_LEN)
+        key = cls._TweakMasterKeyBits(key)
+
+        return cls(priv_key=Ed25519KholawPrivateKey.FromBytes(key[:Ed25519KholawPrivateKey.Length()]),
+                   pub_key=None,
+                   key_data=Bip32KeyData(chain_code=key[Ed25519KholawPrivateKey.Length():]),
+                   curve_type=cls.CurveType(),
+                   key_net_ver=key_net_ver)
