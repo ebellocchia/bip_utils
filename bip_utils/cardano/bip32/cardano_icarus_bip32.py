@@ -95,7 +95,7 @@ class CardanoIcarusBip32(Bip32Ed25519Kholaw):
         key_bytes = bytearray(key_bytes)
         # Clear the lowest 3 bits of the first byte of kL
         key_bytes[0] = BitUtils.ResetBits(key_bytes[0], 0x07)
-        # Clear the highest bit of the last byte of kL
+        # Clear the highest 3 bits of the last byte of kL
         key_bytes[31] = BitUtils.ResetBits(key_bytes[31], 0xE0)
         # Set the second highest bit of the last byte of kL
         key_bytes[31] = BitUtils.SetBits(key_bytes[31], 0x40)
