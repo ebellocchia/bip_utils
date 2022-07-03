@@ -31,7 +31,7 @@ References:
 from bip_utils.bip.bip32 import Bip32Ed25519Kholaw, Bip32KeyData, Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_base import Bip32Base
 from bip_utils.ecc import Ed25519KholawPrivateKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.misc import BitUtils, CryptoUtils
 
 
 class CardanoIcarusBip32Const:
@@ -80,3 +80,24 @@ class CardanoIcarusBip32(Bip32Ed25519Kholaw):
                    key_data=Bip32KeyData(chain_code=key[Ed25519KholawPrivateKey.Length():]),
                    curve_type=cls.CurveType(),
                    key_net_ver=key_net_ver)
+
+    @staticmethod
+    def _TweakMasterKeyBits(key_bytes: bytes) -> bytes:
+        """
+        Tweak master key bits.
+
+        Args:
+            key_bytes (bytes): Key bytes
+
+        Returns:
+            bytes: Tweaked key bytes
+        """
+        key_bytes = bytearray(key_bytes)
+        # Clear the lowest 3 bits of the first byte of kL
+        key_bytes[0] = BitUtils.ResetBits(key_bytes[0], 0x07)
+        # Clear the highest bit of the last byte of kL
+        key_bytes[31] = BitUtils.ResetBits(key_bytes[31], 0xE0)
+        # Set the second highest bit of the last byte of kL
+        key_bytes[31] = BitUtils.SetBits(key_bytes[31], 0x40)
+
+        return bytes(key_bytes)
