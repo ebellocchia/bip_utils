@@ -1,4 +1,6 @@
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.ada_v2_addr import AdaV2AddrDecoder, AdaV2AddrEncoder, AdaV2Addr
+from bip_utils.addr.ada_v3_addr import AdaV3AddrNetworkTags, AdaV3AddrDecoder, AdaV3AddrEncoder, AdaV3Addr
 from bip_utils.addr.algo_addr import AlgoAddrDecoder, AlgoAddrEncoder, AlgoAddr
 from bip_utils.addr.atom_addr import AtomAddrDecoder, AtomAddrEncoder, AtomAddr
 from bip_utils.addr.avax_addr import (

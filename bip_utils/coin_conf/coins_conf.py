@@ -236,6 +236,22 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Cardano main net
+    CardanoMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Cardano", "ADA"),
+        params={
+            "addr_hrp": "addr",
+        },
+    )
+
+    # Configuration for Cardano test
+    CardanoTestNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Cardano TestNet", "ADA"),
+        params={
+            "addr_hrp": "addr_test",
+        },
+    )
+
     # Configuration for Celo
     Celo: CoinConf = CoinConf(
         coin_name=CoinNames("Celo", "CELO"),

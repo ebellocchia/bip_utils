@@ -26,12 +26,13 @@ import hashlib
 import hmac
 from typing import Optional, Union
 import crcmod.predefined
-from Crypto.Hash import keccak, RIPEMD160, SHA512
+from Crypto.Hash import keccak, RIPEMD160, SHA512, SHA3_256
 from Crypto.Protocol.KDF import PBKDF2, scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
 
 
 HASHLIB_USE_PBKDF2_SHA512: bool = hasattr(hashlib, "pbkdf2_hmac")   # For future changes
+HASHLIB_USE_SHA3_256: bool = "sha3_256" in hashlib.algorithms_available
 HASHLIB_USE_SHA512_256: bool = "sha512_256" in hashlib.algorithms_available
 
 
@@ -110,6 +111,24 @@ class CryptoUtils:
             int: SHA256 digest size in bytes
         """
         return hashlib.sha256().digest_size
+
+    @staticmethod
+    def Sha3_256(data: Union[bytes, str]) -> bytes:
+        """
+        Compute the SHA3-256 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed SHA3-256
+        """
+        if HASHLIB_USE_SHA3_256:
+            return hashlib.new("sha3_256", AlgoUtils.Encode(data)).digest()
+        # Use Cryptodome if not implemented in hashlib
+        h = SHA3_256.new()
+        h.update(AlgoUtils.Encode(data))
+        return h.digest()
 
     @staticmethod
     def Sha512_256(data: Union[bytes, str]) -> bytes:
