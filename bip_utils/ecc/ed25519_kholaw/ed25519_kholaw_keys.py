@@ -47,6 +47,9 @@ class Ed25519KholawPublicKey(Ed25519PublicKey):
 class Ed25519KholawPrivateKey(IPrivateKey):
     """Ed25519-Kholaw private extended key class."""
 
+    m_sign_key: bytes
+    m_ext_key: bytes
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -79,7 +82,8 @@ class Ed25519KholawPrivateKey(IPrivateKey):
             TypeError: If key object is not of the correct type
         """
         if isinstance(key_obj, bytes):
-            self.m_sign_key = key_obj
+            self.m_sign_key = key_obj[:Ed25519PrivateKey.Length()]
+            self.m_ext_key = key_obj[Ed25519PrivateKey.Length():]
         else:
             raise TypeError("Invalid private key object type")
 
@@ -119,7 +123,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_sign_key)
+        return DataBytes(self.m_sign_key + self.m_ext_key)
 
     def PublicKey(self) -> IPublicKey:
         """
@@ -129,5 +133,5 @@ class Ed25519KholawPrivateKey(IPrivateKey):
             IPublicKey object: IPublicKey object
         """
         return Ed25519KholawPublicKey.FromBytes(
-            ed25519_nacl_wrapper.point_mul_base(self.m_sign_key[:Ed25519PrivateKey.Length()])
+            ed25519_nacl_wrapper.point_mul_base(self.m_sign_key)
         )

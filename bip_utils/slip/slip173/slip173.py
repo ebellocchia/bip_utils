@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 """
-Module for SLIP-0172 coin types.
+Module for SLIP-0173 human-readable parts.
 Not all the human-readable parts are defined, but only the used ones.
 Reference: https://github.com/satoshilabs/slips/blob/master/slip-0173.md
 """

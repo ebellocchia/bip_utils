@@ -102,10 +102,12 @@ class Bip32Ed25519SlipBase(Bip32Base, ABC):
         # Construct and return a new Bip32 object
         return cls(priv_key=i_l,
                    pub_key=None,
-                   key_data=Bip32KeyData(chain_code=i_r,
-                                         depth=bip32_obj.Depth().Increase(),
-                                         index=index,
-                                         parent_fprint=bip32_obj.m_pub_key.FingerPrint()),
+                   key_data=Bip32KeyData(
+                       chain_code=i_r,
+                       depth=bip32_obj.Depth().Increase(),
+                       index=index,
+                       parent_fprint=bip32_obj.m_pub_key.FingerPrint()
+                   ),
                    curve_type=bip32_obj.CurveType(),
                    key_net_ver=bip32_obj.KeyNetVersions())
 

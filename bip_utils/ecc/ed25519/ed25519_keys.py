@@ -47,6 +47,8 @@ class Ed25519KeysConst:
 class Ed25519PublicKey(IPublicKey):
     """Ed25519 public key class."""
 
+    m_ver_key: signing.VerifyKey
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -183,6 +185,8 @@ class Ed25519PublicKey(IPublicKey):
 
 class Ed25519PrivateKey(IPrivateKey):
     """Ed25519 private key class."""
+
+    m_sign_key: signing.SigningKey
 
     @classmethod
     def FromBytes(cls,
