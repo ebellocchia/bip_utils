@@ -231,21 +231,27 @@ class Bip44BaseTestHelper:
     def test_is_level(ut_class, bip_class, bip_coins, test_seed_bytes):
         # Master level
         bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), bip_coins.BITCOIN)
+        ut_class.assertEqual(bip_obj_ctx.Level(), Bip44Levels.MASTER)
         ut_class.assertTrue(bip_obj_ctx.IsLevel(Bip44Levels.MASTER))
         # Purpose level
         bip_obj_ctx = bip_obj_ctx.Purpose()
+        ut_class.assertEqual(bip_obj_ctx.Level(), Bip44Levels.PURPOSE)
         ut_class.assertTrue(bip_obj_ctx.IsLevel(Bip44Levels.PURPOSE))
         # Coin level
         bip_obj_ctx = bip_obj_ctx.Coin()
+        ut_class.assertEqual(bip_obj_ctx.Level(), Bip44Levels.COIN)
         ut_class.assertTrue(bip_obj_ctx.IsLevel(Bip44Levels.COIN))
         # Account level
         bip_obj_ctx = bip_obj_ctx.Account(0)
+        ut_class.assertEqual(bip_obj_ctx.Level(), Bip44Levels.ACCOUNT)
         ut_class.assertTrue(bip_obj_ctx.IsLevel(Bip44Levels.ACCOUNT))
         # Change level
         bip_obj_ctx = bip_obj_ctx.Change(Bip44Changes.CHAIN_EXT)
+        ut_class.assertEqual(bip_obj_ctx.Level(), Bip44Levels.CHANGE)
         ut_class.assertTrue(bip_obj_ctx.IsLevel(Bip44Levels.CHANGE))
         # Address index level
         bip_obj_ctx = bip_obj_ctx.AddressIndex(0)
+        ut_class.assertEqual(bip_obj_ctx.Level(), Bip44Levels.ADDRESS_INDEX)
         ut_class.assertTrue(bip_obj_ctx.IsLevel(Bip44Levels.ADDRESS_INDEX))
 
         # Invalid parameter

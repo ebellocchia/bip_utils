@@ -257,10 +257,19 @@ class Bip44Base(ABC):
         """
         return self.m_bip32.IsPublicOnly()
 
+    def Level(self) -> Bip44Levels:
+        """
+        Return the current level.
+
+        Returns:
+            Bip44Levels: Current level
+        """
+        return Bip44Levels(self.m_bip32.Depth())
+
     def IsLevel(self,
                 level: Bip44Levels) -> bool:
         """
-        Return if the current depth is the specified one.
+        Return if the current level is the specified one.
 
         Args:
             level (Bip44Levels): Level to be checked
@@ -273,7 +282,6 @@ class Bip44Base(ABC):
         """
         if not isinstance(level, Bip44Levels):
             raise TypeError("Level is not an enumerative of Bip44Levels")
-
         return self.m_bip32.Depth() == level
 
     #
