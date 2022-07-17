@@ -88,6 +88,9 @@ from bip_utils.bip.conf.bip44 import Bip44Coins, Bip44Conf, Bip44ConfGetter
 from bip_utils.bip.conf.bip49 import Bip49Coins, Bip49Conf, Bip49ConfGetter
 from bip_utils.bip.conf.bip84 import Bip84Coins, Bip84Conf, Bip84ConfGetter
 from bip_utils.bip.conf.bip86 import Bip86Coins, Bip86Conf, Bip86ConfGetter
+# Cardano
+from bip_utils.cardano.bip32 import CardanoIcarusBip32
+from bip_utils.cardano.mnemonic import CardanoBip39SeedGenerator
 # Generic coins configuration
 from bip_utils.coin_conf import CoinsConf
 # ECC
