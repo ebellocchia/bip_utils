@@ -94,6 +94,8 @@ class AdaV3AddrDecoder(IAddrDecoder):
 
                 return addr_dec_bytes
 
+        raise ValueError("Invalid address encoding")
+
 
 class AdaV3AddrEncoder(IAddrEncoder):
     """

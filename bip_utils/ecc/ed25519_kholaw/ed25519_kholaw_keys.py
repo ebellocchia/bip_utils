@@ -45,7 +45,7 @@ class Ed25519KholawPublicKey(Ed25519PublicKey):
 
 
 class Ed25519KholawPrivateKey(IPrivateKey):
-    """Ed25519-Kholaw private extended key class."""
+    """Ed25519-Kholaw private key class."""
 
     m_sign_key: bytes
     m_ext_key: bytes
