@@ -73,16 +73,13 @@ class Bip32Ed25519SlipBase(Bip32Base, ABC):
     # Protected methods
     #
 
-    @classmethod
-    def _CkdPrivEd25519Slip(cls,
-                            bip32_obj: Bip32Base,
+    def _CkdPrivEd25519Slip(self,
                             index: Bip32KeyIndex) -> Bip32Base:
         """
         Create a child key of the specified index using private derivation.
         It shall be implemented by children classes depending on the elliptic curve.
 
         Args:
-            bip32_obj (Bip32Base object): Bip32Base object
             index (Bip32KeyIndex object): Key index
 
         Returns:
@@ -91,25 +88,27 @@ class Bip32Ed25519SlipBase(Bip32Base, ABC):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        assert isinstance(bip32_obj.m_priv_key, Bip32PrivateKey)
+        assert isinstance(self.m_priv_key, Bip32PrivateKey)
 
         # Data for HMAC
-        data = b"\x00" + bip32_obj.m_priv_key.Raw().ToBytes() + bytes(index)
+        data = b"\x00" + self.m_priv_key.Raw().ToBytes() + bytes(index)
 
         # Compute HMAC halves
-        i_l, i_r = Bip32BaseUtils.HmacSha512Halves(bip32_obj.ChainCode().ToBytes(), data)
+        i_l, i_r = Bip32BaseUtils.HmacSha512Halves(self.ChainCode().ToBytes(), data)
 
         # Construct and return a new Bip32 object
-        return cls(priv_key=i_l,
-                   pub_key=None,
-                   key_data=Bip32KeyData(
-                       chain_code=i_r,
-                       depth=bip32_obj.Depth().Increase(),
-                       index=index,
-                       parent_fprint=bip32_obj.m_pub_key.FingerPrint()
-                   ),
-                   curve_type=bip32_obj.CurveType(),
-                   key_net_ver=bip32_obj.KeyNetVersions())
+        return self.__class__(
+            priv_key=i_l,
+            pub_key=None,
+            key_data=Bip32KeyData(
+                chain_code=i_r,
+                depth=self.Depth().Increase(),
+                index=index,
+                parent_fprint=self.m_pub_key.FingerPrint()
+            ),
+            curve_type=self.CurveType(),
+            key_net_ver=self.KeyNetVersions()
+        )
 
     def _CkdPub(self,
                 index: Bip32KeyIndex) -> Bip32Base:

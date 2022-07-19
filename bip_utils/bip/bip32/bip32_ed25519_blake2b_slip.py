@@ -87,4 +87,4 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        return self._CkdPrivEd25519Slip(self, index)
+        return self._CkdPrivEd25519Slip(index)
