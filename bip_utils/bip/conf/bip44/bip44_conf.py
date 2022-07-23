@@ -22,6 +22,7 @@
 
 # Imports
 from bip_utils.addr import (
+    AdaV2AddrEncoder, AdaV3AddrEncoder,
     AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder, BchP2PKHAddrEncoder,
     EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder, NearAddrEncoder,
     NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
@@ -29,11 +30,13 @@ from bip_utils.addr import (
     XrpAddrEncoder, XtzAddrPrefixes, XtzAddrEncoder, ZilAddrEncoder
 )
 from bip_utils.bip.bip32 import (
-    Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1
+    Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1,
+    Bip32Ed25519Kholaw
 )
 from bip_utils.bip.conf.common import (
-    BipCoinConf, BipBitcoinCashConf, BipLitecoinConf, HARDENED_DEF_PATH, NOT_HARDENED_DEF_PATH
+    BipCoinConfConst, BipCoinConf, BipBitcoinCashConf, BipLitecoinConf, HARDENED_DEF_PATH, NOT_HARDENED_DEF_PATH
 )
+from bip_utils.cardano.bip32.cardano_icarus_bip32 import CardanoIcarusBip32
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
 
@@ -311,6 +314,49 @@ class Bip44Conf:
         addr_params={
             "net_ver": CoinsConf.BitcoinSvTestNet.Params("p2pkh_net_ver"),
         },
+    )
+
+    # Configuration for Cardano Byron
+    CardanoByron: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.CardanoMainNet.CoinNames(),
+        coin_idx=Slip44.CARDANO,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=CardanoIcarusBip32,
+        addr_cls=AdaV2AddrEncoder,
+        addr_params={
+            "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
+        },
+    )
+
+    # Configuration for Cardano Ledger V2
+    CardanoLedgerV2: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.CardanoMainNet.CoinNames(),
+        coin_idx=Slip44.CARDANO,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Ed25519Kholaw,
+        addr_cls=AdaV2AddrEncoder,
+        addr_params={
+            "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
+        },
+    )
+
+    # Configuration for Cardano Ledger V3
+    CardanoLedgerV3: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.CardanoMainNet.CoinNames(),
+        coin_idx=Slip44.CARDANO,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Ed25519Kholaw,
+        addr_cls=AdaV3AddrEncoder,
+        addr_params={},
     )
 
     # Configuration for Celo

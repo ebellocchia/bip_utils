@@ -22,7 +22,7 @@
 
 # Imports
 from functools import lru_cache
-from bip_utils.addr import XmrAddrEncoder
+from bip_utils.addr import AdaV3AddrEncoder, XmrAddrEncoder
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.utils.misc import DataBytes
@@ -113,15 +113,18 @@ class Bip44PublicKey:
         Returns:
             str: Address string
         """
-        addr_params = self.m_coin_conf.AddrParams()
         addr_cls = self.m_coin_conf.AddrClass()
-        pub_key_obj = self.Bip32Key().KeyObject()
+        pub_key_obj = self.m_pub_key.KeyObject()
 
+        # Exception for Cardano
+        if addr_cls is AdaV3AddrEncoder:
+            raise ValueError("Use the CardanoShelley class to get Cardano Shelley addresses")
         # Exception for Monero
         if addr_cls is XmrAddrEncoder:
             raise ValueError("Use the Monero class to get Monero addresses")
 
-        return addr_cls.EncodeKey(pub_key_obj, **addr_params)
+        return addr_cls.EncodeKey(pub_key_obj,
+                                  **self.m_coin_conf.AddrParamsResolveCalls(self.m_pub_key))
 
 
 class Bip44PrivateKey:

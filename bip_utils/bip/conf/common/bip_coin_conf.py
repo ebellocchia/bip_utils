@@ -23,8 +23,15 @@
 # Imports
 from typing import Any, Dict, Optional, Type
 from bip_utils.addr import IAddrEncoder
-from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base
+from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base, Bip32PublicKey
 from bip_utils.utils.conf import CoinNames as UtilsCoinNames
+
+
+class BipCoinConfConst:
+    """Class container for Bip coin configuration class constants."""
+
+    # Call prefix
+    CALL_PREFIX: str = "call:"
 
 
 class BipCoinConf:
@@ -147,18 +154,35 @@ class BipCoinConf:
         """
         return self.m_addr_params
 
-    def AddrParamsKey(self,
-                      key: str) -> Any:
+    def AddrParamsResolveCalls(self,
+                               pub_key: Bip32PublicKey) -> Dict[str, Any]:
         """
-        Get the address parameters for the specified key.
-
-        Args:
-            key (str): Key
+        Resolve function calls and get the address parameters.
 
         Returns:
-            bytes or str: Address parameters for the specified key
+            dict: Address parameters
         """
-        return self.AddrParams()[key]
+
+        # Just use the internal object if nothing to be resolved
+        if not any(
+            [isinstance(param_val, str) and param_val.startswith(BipCoinConfConst.CALL_PREFIX)
+             for param_val in self.m_addr_params.values()]
+        ):
+            return self.AddrParams()
+
+        resolved_params = {}
+        for param_name, param_val in self.m_addr_params.items():
+            if isinstance(param_val, str) and param_val.startswith(BipCoinConfConst.CALL_PREFIX):
+                fct_calls = param_val.replace(BipCoinConfConst.CALL_PREFIX, "").split(",")
+                # Resolve function calls
+                obj = pub_key
+                for fct_call in fct_calls:
+                    obj = getattr(obj, fct_call)()
+                resolved_params[param_name] = obj
+            else:
+                resolved_params[param_name] = param_val
+
+        return resolved_params
 
     def AddrClass(self) -> Type[IAddrEncoder]:
         """
