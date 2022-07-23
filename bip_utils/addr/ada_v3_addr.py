@@ -50,8 +50,8 @@ class AdaV3AddrConst:
     HEADER_TYPE: int = 0
     # Network tag to HRP
     NETWORK_TAG_TO_HRP: Dict[AdaV3AddrNetworkTags, str] = {
-        AdaV3AddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.Params("addr_hrp"),
-        AdaV3AddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.Params("addr_hrp"),
+        AdaV3AddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("addr_hrp"),
+        AdaV3AddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("addr_hrp"),
     }
 
 

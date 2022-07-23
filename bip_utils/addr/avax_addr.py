@@ -78,8 +78,8 @@ class AvaxPChainAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
         return _AvaxAddrUtils.DecodeAddr(addr,
-                                         CoinsConf.AvaxPChain.Params("addr_prefix"),
-                                         CoinsConf.AvaxPChain.Params("addr_hrp"))
+                                         CoinsConf.AvaxPChain.ParamByKey("addr_prefix"),
+                                         CoinsConf.AvaxPChain.ParamByKey("addr_hrp"))
 
 
 class AvaxPChainAddrEncoder(IAddrEncoder):
@@ -105,9 +105,9 @@ class AvaxPChainAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        prefix = CoinsConf.AvaxPChain.Params("addr_prefix")
+        prefix = CoinsConf.AvaxPChain.ParamByKey("addr_prefix")
         return prefix + AtomAddrEncoder.EncodeKey(pub_key,
-                                                  hrp=CoinsConf.AvaxPChain.Params("addr_hrp"))
+                                                  hrp=CoinsConf.AvaxPChain.ParamByKey("addr_hrp"))
 
 
 class AvaxPChainAddr(AvaxPChainAddrEncoder):
@@ -140,8 +140,8 @@ class AvaxXChainAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
         return _AvaxAddrUtils.DecodeAddr(addr,
-                                         CoinsConf.AvaxXChain.Params("addr_prefix"),
-                                         CoinsConf.AvaxXChain.Params("addr_hrp"))
+                                         CoinsConf.AvaxXChain.ParamByKey("addr_prefix"),
+                                         CoinsConf.AvaxXChain.ParamByKey("addr_hrp"))
 
 
 class AvaxXChainAddrEncoder(IAddrEncoder):
@@ -167,9 +167,9 @@ class AvaxXChainAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
-        prefix = CoinsConf.AvaxXChain.Params("addr_prefix")
+        prefix = CoinsConf.AvaxXChain.ParamByKey("addr_prefix")
         return prefix + AtomAddrEncoder.EncodeKey(pub_key,
-                                                  hrp=CoinsConf.AvaxXChain.Params("addr_hrp"))
+                                                  hrp=CoinsConf.AvaxXChain.ParamByKey("addr_hrp"))
 
 
 class AvaxXChainAddr(AvaxXChainAddrEncoder):

@@ -48,7 +48,7 @@ class WifEncoder:
 
     @staticmethod
     def Encode(priv_key: Union[bytes, IPrivateKey],
-               net_ver: bytes = CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+               net_ver: bytes = CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
         """
         Encode key bytes into a WIF string.
@@ -96,7 +96,7 @@ class WifDecoder:
 
     @staticmethod
     def Decode(wif_str: str,
-               net_ver: bytes = CoinsConf.BitcoinMainNet.Params("wif_net_ver")) -> Tuple[bytes, WifPubKeyModes]:
+               net_ver: bytes = CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver")) -> Tuple[bytes, WifPubKeyModes]:
         """
         Decode key bytes from a WIF string.
 

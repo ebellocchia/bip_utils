@@ -44,11 +44,11 @@ class Bip86Conf:
         is_testnet=False,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP86_BTC_KEY_NET_VER,
-        wif_net_ver=CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+        wif_net_ver=CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
         addr_cls=P2TRAddrEncoder,
         addr_params={
-            "hrp": CoinsConf.BitcoinMainNet.Params("p2tr_hrp"),
+            "hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp"),
         },
     )
 
@@ -59,10 +59,10 @@ class Bip86Conf:
         is_testnet=True,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP86_BTC_KEY_NET_VER_TEST,
-        wif_net_ver=CoinsConf.BitcoinTestNet.Params("wif_net_ver"),
+        wif_net_ver=CoinsConf.BitcoinTestNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
         addr_cls=P2TRAddrEncoder,
         addr_params={
-            "hrp": CoinsConf.BitcoinTestNet.Params("p2tr_hrp"),
+            "hrp": CoinsConf.BitcoinTestNet.ParamByKey("p2tr_hrp"),
         },
     )

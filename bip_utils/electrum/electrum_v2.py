@@ -198,7 +198,7 @@ class ElectrumV2Standard(ElectrumV2Base):
             str: Address
         """
         return P2PKHAddr.EncodeKey(self.GetPublicKey(change_idx, addr_idx).KeyObject(),
-                                   net_ver=CoinsConf.BitcoinMainNet.Params("p2pkh_net_ver"))
+                                   net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"))
 
     @lru_cache()
     def __DeriveKey(self,
@@ -280,7 +280,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
             str: Address
         """
         return P2WPKHAddr.EncodeKey(self.GetPublicKey(change_idx, addr_idx).KeyObject(),
-                                    hrp=CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"))
+                                    hrp=CoinsConf.BitcoinMainNet.ParamByKey("p2wpkh_hrp"))
 
     @lru_cache()
     def __DeriveKey(self,

@@ -54,13 +54,13 @@ class OkexAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
         try:
-            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.OkexChain.Params("addr_hrp"),
+            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.OkexChain.ParamByKey("addr_hrp"),
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
         else:
             return EthAddrDecoder.DecodeAddr(
-                CoinsConf.Ethereum.Params("addr_prefix") + BytesUtils.ToHexString(addr_dec_bytes),
+                CoinsConf.Ethereum.ParamByKey("addr_prefix") + BytesUtils.ToHexString(addr_dec_bytes),
                 skip_chksum_enc=True
             )
 
@@ -92,7 +92,7 @@ class OkexAddrEncoder(IAddrEncoder):
         # Get address in Ethereum format (remove "0x" at the beginning)
         eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Encode in Bech32 format
-        return Bech32Encoder.Encode(CoinsConf.OkexChain.Params("addr_hrp"),
+        return Bech32Encoder.Encode(CoinsConf.OkexChain.ParamByKey("addr_hrp"),
                                     BytesUtils.FromHexString(eth_addr))
 
 

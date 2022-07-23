@@ -89,7 +89,7 @@ class _FilAddrUtils:
         """
 
         # Validate and remove prefix
-        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr, CoinsConf.Filecoin.Params("addr_prefix"))
+        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr, CoinsConf.Filecoin.ParamByKey("addr_prefix"))
         # Check address type
         addr_type_got = ord(addr_no_prefix[0]) - ord("0")
         if addr_type != addr_type_got:
@@ -133,7 +133,7 @@ class _FilAddrUtils:
         # Encode to base32
         b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash_bytes + checksum_bytes, FilAddrConst.BASE32_ALPHABET)
 
-        return CoinsConf.Filecoin.Params("addr_prefix") + addr_type_str + b32_enc
+        return CoinsConf.Filecoin.ParamByKey("addr_prefix") + addr_type_str + b32_enc
 
 
 class FilSecp256k1AddrDecoder(IAddrDecoder):

@@ -19,7 +19,7 @@ ADDR_NUM: int = 5
 def priv_to_wif(priv_key: IPrivateKey,
                 pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
     return WifEncoder.Encode(priv_key,
-                             CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+                             CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                              pub_key_mode)
 
 

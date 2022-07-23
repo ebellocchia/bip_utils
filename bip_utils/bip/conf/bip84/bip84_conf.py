@@ -43,11 +43,11 @@ class Bip84Conf:
         is_testnet=False,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
-        wif_net_ver=CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+        wif_net_ver=CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
-            "hrp": CoinsConf.BitcoinMainNet.Params("p2wpkh_hrp"),
+            "hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2wpkh_hrp"),
         },
     )
     # Configuration for Bitcoin test net
@@ -58,11 +58,11 @@ class Bip84Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=Bip32KeyNetVersions(b"\x04\x5f\x1c\xf6",
                                         b"\x04\x5f\x18\xbc"),   # vpub / vprv
-        wif_net_ver=CoinsConf.BitcoinTestNet.Params("wif_net_ver"),
+        wif_net_ver=CoinsConf.BitcoinTestNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
-            "hrp": CoinsConf.BitcoinTestNet.Params("p2wpkh_hrp"),
+            "hrp": CoinsConf.BitcoinTestNet.ParamByKey("p2wpkh_hrp"),
         },
     )
 
@@ -73,11 +73,11 @@ class Bip84Conf:
         is_testnet=False,
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
-        wif_net_ver=CoinsConf.LitecoinMainNet.Params("wif_net_ver"),
+        wif_net_ver=CoinsConf.LitecoinMainNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
-            "hrp": CoinsConf.LitecoinMainNet.Params("p2wpkh_hrp"),
+            "hrp": CoinsConf.LitecoinMainNet.ParamByKey("p2wpkh_hrp"),
         },
     )
     # Configuration for Litecoin test net
@@ -88,10 +88,10 @@ class Bip84Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
                                         b"\x04\x36\xef\x7d"),   # ttub / ttpv
-        wif_net_ver=CoinsConf.LitecoinTestNet.Params("wif_net_ver"),
+        wif_net_ver=CoinsConf.LitecoinTestNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
-            "hrp": CoinsConf.LitecoinTestNet.Params("p2wpkh_hrp"),
+            "hrp": CoinsConf.LitecoinTestNet.ParamByKey("p2wpkh_hrp"),
         },
     )

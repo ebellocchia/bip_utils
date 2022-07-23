@@ -81,7 +81,7 @@ class EosAddrDecoder(IAddrDecoder):
 
         # Validate and remove prefix
         addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
-                                                              CoinsConf.Eos.Params("addr_prefix"))
+                                                              CoinsConf.Eos.ParamByKey("addr_prefix"))
         # Decode from base58
         addr_dec_bytes = Base58Decoder.Decode(addr_no_prefix)
         # Validate length
@@ -127,7 +127,7 @@ class EosAddrEncoder(IAddrEncoder):
 
         checksum_bytes = _EosAddrUtils.ComputeChecksum(pub_key_bytes)
 
-        return CoinsConf.Eos.Params("addr_prefix") + Base58Encoder.Encode(pub_key_bytes + checksum_bytes)
+        return CoinsConf.Eos.ParamByKey("addr_prefix") + Base58Encoder.Encode(pub_key_bytes + checksum_bytes)
 
 
 class EosAddr(EosAddrEncoder):

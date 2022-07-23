@@ -49,9 +49,9 @@ class MoneroCoinConf:
             MoneroCoinConf object: MoneroCoinConf object
         """
         return cls(coin_names=coin_conf.CoinNames(),
-                   addr_net_ver=coin_conf.Params("addr_net_ver"),
-                   int_addr_net_ver=coin_conf.Params("addr_int_net_ver"),
-                   subaddr_net_ver=coin_conf.Params("subaddr_net_ver"))
+                   addr_net_ver=coin_conf.ParamByKey("addr_net_ver"),
+                   int_addr_net_ver=coin_conf.ParamByKey("addr_int_net_ver"),
+                   subaddr_net_ver=coin_conf.ParamByKey("subaddr_net_ver"))
 
     def __init__(self,
                  coin_names: UtilsCoinNames,

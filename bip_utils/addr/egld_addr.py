@@ -55,7 +55,7 @@ class EgldAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
         try:
-            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Elrond.Params("addr_hrp"),
+            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Elrond.ParamByKey("addr_hrp"),
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
@@ -91,7 +91,7 @@ class EgldAddrEncoder(IAddrEncoder):
             TypeError: If the public key is not ed25519
         """
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
-        return Bech32Encoder.Encode(CoinsConf.Elrond.Params("addr_hrp"),
+        return Bech32Encoder.Encode(CoinsConf.Elrond.ParamByKey("addr_hrp"),
                                     pub_key_obj.RawCompressed().ToBytes()[1:])
 
 

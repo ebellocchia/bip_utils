@@ -21,9 +21,9 @@ The WIF library allows encoding/decoding secp256k1 private keys in WIF format, b
     dec, pub_key_mode = WifDecoder.Decode(enc)
     # Encode/Decode with net version from configuration
     enc = WifEncoder.Encode(priv_key,
-                            CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
+                            CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"))
     dec, pub_key_mode = WifDecoder.Decode(enc,
-                                          CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
+                                          CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"))
     # Encode/Decode with net version from BIP
     enc = WifEncoder.Encode(priv_key,
                             Bip44Conf.BitcoinMainNet.WifNetVersion())

@@ -200,7 +200,7 @@ class ElectrumV1:
             str: Address
         """
         return P2PKHAddr.EncodeKey(self.GetPublicKey(change_idx, addr_idx),
-                                   net_ver=CoinsConf.BitcoinMainNet.Params("p2pkh_net_ver"),
+                                   net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"),
                                    pub_key_mode=P2PKHPubKeyModes.UNCOMPRESSED)
 
     @lru_cache()

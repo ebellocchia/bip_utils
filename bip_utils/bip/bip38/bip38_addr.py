@@ -63,7 +63,7 @@ class Bip38Addr:
 
         # Compute the Bitcoin address
         address = P2PKHAddr.EncodeKey(pub_key,
-                                      net_ver=CoinsConf.BitcoinMainNet.Params("p2pkh_net_ver"),
+                                      net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"),
                                       pub_key_mode=pub_key_mode)
         # Take the first four bytes of SHA256(SHA256())
         return CryptoUtils.DoubleSha256(address)[:Bip38AddrConst.ADDR_HASH_LEN]

@@ -47,7 +47,7 @@ class SubstrateCoinConf:
             SubstrateCoinConf object: SubstrateCoinConf object
         """
         return cls(coin_names=coin_conf.CoinNames(),
-                   ss58_format=coin_conf.Params("addr_ss58_format"))
+                   ss58_format=coin_conf.ParamByKey("addr_ss58_format"))
 
     def __init__(self,
                  coin_names: UtilsCoinNames,

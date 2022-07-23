@@ -29,7 +29,7 @@ An *ElectrumV1* object can be constructed from:
     def priv_to_wif(priv_key: IPrivateKey,
                     pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
         return WifEncoder.Encode(priv_key,
-                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+                                 CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                                  pub_key_mode)
 
 
@@ -86,7 +86,7 @@ The usage of these two classes are exactly the same, since they inherit from the
     def priv_to_wif(priv_key: IPrivateKey,
                     pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
         return WifEncoder.Encode(priv_key,
-                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+                                 CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                                  pub_key_mode)
 
 

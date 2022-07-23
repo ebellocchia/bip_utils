@@ -63,12 +63,12 @@ class TrxAddrDecoder(IAddrDecoder):
         else:
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec,
-                                        (EthAddrConst.ADDR_LEN // 2) + len(CoinsConf.Tron.Params("addr_prefix")))
+                                        (EthAddrConst.ADDR_LEN // 2) + len(CoinsConf.Tron.ParamByKey("addr_prefix")))
             # Validate and remove prefix
             addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
-                                                                  CoinsConf.Tron.Params("addr_prefix"))
+                                                                  CoinsConf.Tron.ParamByKey("addr_prefix"))
 
-            return EthAddrDecoder.DecodeAddr(CoinsConf.Ethereum.Params("addr_prefix")
+            return EthAddrDecoder.DecodeAddr(CoinsConf.Ethereum.ParamByKey("addr_prefix")
                                              + BytesUtils.ToHexString(addr_no_prefix),
                                              skip_chksum_enc=True)
 
@@ -100,7 +100,7 @@ class TrxAddrEncoder(IAddrEncoder):
         # Get address in Ethereum format (remove "0x" at the beginning)
         eth_addr = EthAddrEncoder.EncodeKey(pub_key)[2:]
         # Add prefix and encode
-        return Base58Encoder.CheckEncode(CoinsConf.Tron.Params("addr_prefix") + BytesUtils.FromHexString(eth_addr))
+        return Base58Encoder.CheckEncode(CoinsConf.Tron.ParamByKey("addr_prefix") + BytesUtils.FromHexString(eth_addr))
 
 
 class TrxAddr(TrxAddrEncoder):

@@ -186,4 +186,4 @@ class ElectrumV2Tests(unittest.TestCase):
     @staticmethod
     def __priv_to_wif(priv_key):
         return WifEncoder.Encode(priv_key.KeyObject(),
-                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"))
+                                 CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"))

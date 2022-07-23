@@ -53,10 +53,10 @@ class CoinConf:
         """
         return self.m_coin_name
 
-    def Params(self,
-               key: str) -> Any:
+    def ParamByKey(self,
+                   key: str) -> Any:
         """
-        Get the specified parameter.
+        Get the parameter by key.
 
         Args:
             key (str): Parameter key

@@ -55,7 +55,7 @@ class XrpAddrDecoder(IAddrDecoder):
 
         # Ripple address is just a P2PKH address with a different Base58 alphabet
         return P2PKHAddrDecoder.DecodeAddr(addr,
-                                           net_ver=CoinsConf.Ripple.Params("p2pkh_net_ver"),
+                                           net_ver=CoinsConf.Ripple.ParamByKey("p2pkh_net_ver"),
                                            base58_alph=Base58Alphabets.RIPPLE)
 
 
@@ -85,7 +85,7 @@ class XrpAddrEncoder(IAddrEncoder):
 
         # Ripple address is just a P2PKH address with a different Base58 alphabet
         return P2PKHAddrEncoder.EncodeKey(pub_key,
-                                          net_ver=CoinsConf.Ripple.Params("p2pkh_net_ver"),
+                                          net_ver=CoinsConf.Ripple.ParamByKey("p2pkh_net_ver"),
                                           base58_alph=Base58Alphabets.RIPPLE)
 
 
