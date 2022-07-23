@@ -134,8 +134,8 @@ class EthAddrEncoder(IAddrEncoder):
         kekkak_hex = BytesUtils.ToHexString(CryptoUtils.Kekkak256(pub_key_obj.RawUncompressed().ToBytes()[1:]))
         addr = kekkak_hex[EthAddrConst.START_BYTE:]
         return CoinsConf.Ethereum.ParamByKey("addr_prefix") + (_EthAddrUtils.ChecksumEncode(addr)
-                                                           if not skip_chksum_enc
-                                                           else addr)
+                                                               if not skip_chksum_enc
+                                                               else addr)
 
 
 class EthAddr(EthAddrEncoder):
