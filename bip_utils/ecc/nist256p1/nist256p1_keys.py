@@ -75,28 +75,25 @@ class Nist256p1PublicKey(IPublicKey):
             ValueError: If key point is not valid
         """
         try:
-            return cls(ecdsa.VerifyingKey.from_public_point(
-                ellipticcurve.Point(curve_256,
-                                    key_point.X(),
-                                    key_point.Y()),
-                curve=curves.NIST256p)
+            return cls(
+                ecdsa.VerifyingKey.from_public_point(
+                    ellipticcurve.Point(curve_256,
+                                        key_point.X(),
+                                        key_point.Y()),
+                    curve=curves.NIST256p
+                )
             )
         except keys.MalformedPointError as ex:
             raise ValueError("Invalid public key point") from ex
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_obj: ecdsa.VerifyingKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
+            key_obj (ecdsa.VerifyingKey): Key object
         """
-        if not isinstance(key_obj, ecdsa.VerifyingKey):
-            raise TypeError("Invalid public key object type")
         self.m_ver_key = key_obj
 
     @staticmethod
@@ -193,18 +190,13 @@ class Nist256p1PrivateKey(IPrivateKey):
             raise ValueError("Invalid private key bytes") from ex
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_obj: ecdsa.SigningKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
+            key_obj (ecdsa.SigningKey): Key object
         """
-        if not isinstance(key_obj, ecdsa.SigningKey):
-            raise TypeError("Invalid private key object type")
         self.m_sign_key = key_obj
 
     @staticmethod

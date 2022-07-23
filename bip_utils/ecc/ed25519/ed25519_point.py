@@ -84,19 +84,14 @@ class Ed25519Point(IPoint):
         )
 
     def __init__(self,
-                 point_obj: Any) -> None:
+                 point_bytes: bytes) -> None:
         """
         Construct class from point object.
 
         Args:
-            point_obj (class): Point object
-
-        Raises:
-            TypeError: If point object is not of the correct type
+            point_bytes (bytes): Point bytes
         """
-        if not isinstance(point_obj, bytes):
-            raise TypeError("Invalid point object type")
-        self.m_point = point_obj
+        self.m_point = point_bytes
 
     def UnderlyingObject(self) -> Any:
         """

@@ -231,7 +231,6 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Ed25519.PrivateKeyClass() is Ed25519PrivateKey)
 
         # Public key
-        self.assertRaises(TypeError, Ed25519PublicKey, 0)
         self.assertEqual(Ed25519PublicKey.CurveType(), EllipticCurveTypes.ED25519)
         self.assertEqual(Ed25519PublicKey.CompressedLength(), 33)
         self.assertEqual(Ed25519PublicKey.UncompressedLength(), 33)
@@ -254,7 +253,6 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_UNCOMPR_PUB_KEY_BYTES)
 
         # Private key
-        self.assertRaises(TypeError, Ed25519PrivateKey, 0)
         self.assertEqual(Ed25519PrivateKey.CurveType(), EllipticCurveTypes.ED25519)
         self.assertEqual(Ed25519PrivateKey.Length(), 32)
 
@@ -268,8 +266,6 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
-        self.assertRaises(TypeError, Ed25519Point, 0)
-
         point = pub_key.Point()
         self.assertTrue(isinstance(point.UnderlyingObject(), bytes))
         self.assertEqual(point.X(), TEST_ED25519_POINT["x"])
@@ -316,7 +312,6 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Ed25519Blake2b.PrivateKeyClass() is Ed25519Blake2bPrivateKey)
 
         # Public key
-        self.assertRaises(TypeError, Ed25519Blake2bPublicKey, 0)
         self.assertEqual(Ed25519Blake2bPublicKey.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
         self.assertEqual(Ed25519Blake2bPublicKey.CompressedLength(), 33)
         self.assertEqual(Ed25519Blake2bPublicKey.UncompressedLength(), 33)
@@ -339,7 +334,6 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES)
 
         # Private key
-        self.assertRaises(TypeError, Ed25519Blake2bPrivateKey, 0)
         self.assertEqual(Ed25519Blake2bPrivateKey.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
         self.assertEqual(Ed25519Blake2bPrivateKey.Length(), 32)
 
@@ -366,15 +360,17 @@ class EccTests(unittest.TestCase):
 
         # No need to test public key, same of ed25519
         self.assertTrue(issubclass(Ed25519KholawPublicKey, Ed25519PublicKey))
+        self.assertEqual(Ed25519KholawPublicKey.CurveType(), EllipticCurveTypes.ED25519_KHOLAW)
 
         # Private key
         self.assertRaises(TypeError, Ed25519KholawPrivateKey, 0)
+        self.assertRaises(ValueError, Ed25519KholawPrivateKey, TEST_ED25519_PRIV_KEY, b"")
         self.assertEqual(Ed25519KholawPrivateKey.CurveType(), EllipticCurveTypes.ED25519_KHOLAW)
         self.assertEqual(Ed25519KholawPrivateKey.Length(), 64)
 
         priv_key = Ed25519KholawPrivateKey.FromBytes(TEST_ED25519_KHOLAW_PRIV_KEY_BYTES)
         self.assertEqual(priv_key.Raw().ToBytes(), TEST_ED25519_KHOLAW_PRIV_KEY_BYTES)
-        self.assertTrue(isinstance(priv_key.UnderlyingObject(), bytes))
+        self.assertTrue(isinstance(priv_key.UnderlyingObject(), signing.SigningKey))
         self.assertTrue(isinstance(priv_key.PublicKey(), Ed25519KholawPublicKey))
 
         self.assertEqual(priv_key.PublicKey().RawCompressed().ToBytes(), TEST_ED25519_KHOLAW_COMPR_PUB_KEY_BYTES)
@@ -396,7 +392,6 @@ class EccTests(unittest.TestCase):
         #
         # Public key
         #
-        self.assertRaises(TypeError, Ed25519MoneroPublicKey, 0)
         self.assertEqual(Ed25519MoneroPublicKey.CurveType(), EllipticCurveTypes.ED25519_MONERO)
         self.assertEqual(Ed25519MoneroPublicKey.CompressedLength(), 32)
         self.assertEqual(Ed25519MoneroPublicKey.UncompressedLength(), 32)
@@ -421,7 +416,6 @@ class EccTests(unittest.TestCase):
         #
         # Private key
         #
-        self.assertRaises(TypeError, Ed25519MoneroPrivateKey, 0)
         self.assertEqual(Ed25519MoneroPrivateKey.CurveType(), EllipticCurveTypes.ED25519_MONERO)
         self.assertEqual(Ed25519MoneroPrivateKey.Length(), 32)
 
@@ -435,8 +429,6 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
-        self.assertRaises(TypeError, Ed25519MoneroPoint, 0)
-
         point = pub_key.Point()
         self.assertTrue(isinstance(point.UnderlyingObject(), tuple))
         self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT["x"])
@@ -485,7 +477,6 @@ class EccTests(unittest.TestCase):
         #
         # Public key
         #
-        self.assertRaises(TypeError, Nist256p1PublicKey, 0)
         self.assertEqual(Nist256p1PublicKey.CurveType(), EllipticCurveTypes.NIST256P1)
         self.assertEqual(Nist256p1PublicKey.CompressedLength(), 33)
         self.assertEqual(Nist256p1PublicKey.UncompressedLength(), 65)
@@ -511,7 +502,6 @@ class EccTests(unittest.TestCase):
         #
         # Private key
         #
-        self.assertRaises(TypeError, Nist256p1PrivateKey, 0)
         self.assertEqual(Nist256p1PrivateKey.CurveType(), EllipticCurveTypes.NIST256P1)
         self.assertEqual(Nist256p1PrivateKey.Length(), 32)
 
@@ -525,8 +515,6 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
-        self.assertRaises(TypeError, Nist256p1Point, 0)
-
         point = pub_key.Point()
         self.assertTrue(isinstance(point.UnderlyingObject(), ellipticcurve.PointJacobi))
         self.assertEqual(point.X(), TEST_NIST256P1_POINT["x"])
@@ -575,8 +563,6 @@ class EccTests(unittest.TestCase):
         #
         # Public key
         #
-
-        self.assertRaises(TypeError, Secp256k1PublicKey, 0)
         self.assertEqual(Secp256k1PublicKey.CurveType(), EllipticCurveTypes.SECP256K1)
         self.assertEqual(Secp256k1PublicKey.CompressedLength(), 33)
         self.assertEqual(Secp256k1PublicKey.UncompressedLength(), 65)
@@ -602,7 +588,6 @@ class EccTests(unittest.TestCase):
         #
         # Private key
         #
-        self.assertRaises(TypeError, Secp256k1PrivateKey, 0)
         self.assertEqual(Secp256k1PrivateKey.CurveType(), EllipticCurveTypes.SECP256K1)
         self.assertEqual(Secp256k1PrivateKey.Length(), 32)
 
@@ -616,8 +601,6 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
-        self.assertRaises(TypeError, Secp256k1Point, 0)
-
         point = pub_key.Point()
         self.assertTrue(isinstance(point.UnderlyingObject(), coincurve.PublicKey if EccConf.USE_COINCURVE else ellipticcurve.PointJacobi))
         self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
@@ -664,7 +647,6 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Sr25519.PrivateKeyClass() is Sr25519PrivateKey)
 
         # Public key
-        self.assertRaises(TypeError, Sr25519PublicKey, 0)
         self.assertTrue(Sr25519PublicKey.FromPoint(Sr25519Point.FromCoordinates(0, 0)) is None)
         self.assertEqual(Sr25519PublicKey.CurveType(), EllipticCurveTypes.SR25519)
         self.assertEqual(Sr25519PublicKey.CompressedLength(), 32)
@@ -684,7 +666,6 @@ class EccTests(unittest.TestCase):
         self.assertTrue(pub_key.Point() is None)
 
         # Private key
-        self.assertRaises(TypeError, Sr25519PrivateKey, 0)
         self.assertEqual(Sr25519PrivateKey.CurveType(), EllipticCurveTypes.SR25519)
         self.assertEqual(Sr25519PrivateKey.Length(), 64)
 

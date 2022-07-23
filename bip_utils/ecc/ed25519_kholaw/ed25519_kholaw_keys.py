@@ -43,11 +43,21 @@ class Ed25519KholawKeysConst:
 class Ed25519KholawPublicKey(Ed25519PublicKey):
     """Ed25519-Kholaw public key class."""
 
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.ED25519_KHOLAW
+
 
 class Ed25519KholawPrivateKey(IPrivateKey):
     """Ed25519-Kholaw private key class."""
 
-    m_sign_key: bytes
+    m_sign_key: Ed25519PrivateKey
     m_ext_key: bytes
 
     @classmethod
@@ -65,27 +75,30 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-        if (len(key_bytes) != Ed25519KholawKeysConst.PRIV_KEY_BYTE_LEN
-                or not Ed25519PrivateKey.IsValidBytes(key_bytes[:Ed25519PrivateKey.Length()])):
-            raise ValueError("Invalid private key bytes")
-        return cls(key_bytes)
+        return cls(Ed25519PrivateKey.FromBytes(key_bytes[:Ed25519PrivateKey.Length()]),
+                   key_bytes[Ed25519PrivateKey.Length():])
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_obj: IPrivateKey,
+                 key_ex_bytes: bytes) -> None:
         """
-        Construct class from key object.
+        Construct class.
 
         Args:
-            key_obj (class): Key object
+            key_obj (IPrivateKey object): Key object, shall be an Ed25519PrivateKey private key
+            key_ex_bytes (bytes)        : Key extended bytes
 
         Raises:
             TypeError: If key object is not of the correct type
+            ValueError: If extended key is not valid
         """
-        if isinstance(key_obj, bytes):
-            self.m_sign_key = key_obj[:Ed25519PrivateKey.Length()]
-            self.m_ext_key = key_obj[Ed25519PrivateKey.Length():]
-        else:
+        if not isinstance(key_obj, Ed25519PrivateKey):
             raise TypeError("Invalid private key object type")
+        if len(key_ex_bytes) != Ed25519PrivateKey.Length():
+            raise ValueError("Invalid extended key length")
+
+        self.m_sign_key = key_obj
+        self.m_ext_key = key_ex_bytes
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -114,7 +127,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         Returns:
            Any: Underlying object
         """
-        return self.m_sign_key
+        return self.m_sign_key.UnderlyingObject()
 
     def Raw(self) -> DataBytes:
         """
@@ -123,7 +136,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_sign_key + self.m_ext_key)
+        return DataBytes(self.m_sign_key.Raw().ToBytes() + self.m_ext_key)
 
     def PublicKey(self) -> IPublicKey:
         """
@@ -133,5 +146,5 @@ class Ed25519KholawPrivateKey(IPrivateKey):
             IPublicKey object: IPublicKey object
         """
         return Ed25519KholawPublicKey.FromBytes(
-            ed25519_nacl_wrapper.point_mul_base(self.m_sign_key)
+            ed25519_nacl_wrapper.point_mul_base(self.m_sign_key.Raw().ToBytes())
         )
