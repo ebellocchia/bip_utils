@@ -264,7 +264,7 @@ class Bip44Base(ABC):
         Returns:
             Bip44Levels: Current level
         """
-        return Bip44Levels(self.m_bip32.Depth())
+        return Bip44Levels(self.m_bip32.Depth().ToInt())
 
     def IsLevel(self,
                 level: Bip44Levels) -> bool:
