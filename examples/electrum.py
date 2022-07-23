@@ -30,7 +30,7 @@ print(f"Mnemonic: {v1_mnemonic}")
 v1_seed_bytes = ElectrumV1SeedGenerator(v1_mnemonic).Generate()
 print(f"Seed: {binascii.hexlify(v1_seed_bytes)}")
 # Construct from seed
-electrum_v1 = ElectrumV1(v1_seed_bytes)
+electrum_v1 = ElectrumV1.FromSeed(v1_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v1.MasterPrivateKey(), WifPubKeyModes.UNCOMPRESSED)}")
 # Derive V1 addresses
