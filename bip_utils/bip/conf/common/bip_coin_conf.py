@@ -162,16 +162,17 @@ class BipCoinConf:
         Returns:
             dict: Address parameters
         """
+        addr_params = self.AddrParams()
 
-        # Just use the internal object if nothing to be resolved
+        # Just use the internal object if nothing to be resolved to avoid creating a new one
         if not any(
             [isinstance(param_val, str) and param_val.startswith(BipCoinConfConst.CALL_PREFIX)
-             for param_val in self.m_addr_params.values()]
+             for param_val in addr_params.values()]
         ):
-            return self.AddrParams()
+            return addr_params
 
         resolved_params = {}
-        for param_name, param_val in self.m_addr_params.items():
+        for param_name, param_val in addr_params.items():
             if isinstance(param_val, str) and param_val.startswith(BipCoinConfConst.CALL_PREFIX):
                 fct_calls = param_val.replace(BipCoinConfConst.CALL_PREFIX, "").split(",")
                 # Resolve function calls
