@@ -241,6 +241,7 @@ class CoinsConf:
         coin_name=CoinNames("Cardano", "ADA"),
         params={
             "addr_hrp": "addr",
+            "reward_addr_hrp": "stake",
         },
     )
 
@@ -249,6 +250,7 @@ class CoinsConf:
         coin_name=CoinNames("Cardano TestNet", "ADA"),
         params={
             "addr_hrp": "addr_test",
+            "reward_addr_hrp": "stake_test",
         },
     )
 
