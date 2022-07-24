@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Cardano V3 address encoding/decoding."""
+"""Module for Cardano Shelley address encoding/decoding."""
 
 # Imports
 from enum import IntEnum, unique
@@ -34,40 +34,40 @@ from bip_utils.utils.misc import CryptoUtils, IntegerUtils
 
 
 @unique
-class AdaV3AddrNetworkTags(IntEnum):
-    """Enumerative for Cardano V3 network tags."""
+class AdaShelleyAddrNetworkTags(IntEnum):
+    """Enumerative for Cardano Shelley network tags."""
 
     TESTNET = 0
     MAINNET = 1
 
 
 @unique
-class AdaV3AddrHeaderTypes(IntEnum):
-    """Enumerative for Cardano V3 header types."""
+class AdaShelleyAddrHeaderTypes(IntEnum):
+    """Enumerative for Cardano Shelley header types."""
 
     PAYMENT = 0x00
     REWARD = 0x0E
 
 
-class AdaV3AddrConst:
-    """Class container for Cardano V3 address constants."""
+class AdaShelleyAddrConst:
+    """Class container for Cardano Shelley address constants."""
 
     # Hash length in bytes
     HASH_BYTE_LEN: int = 28
     # Network tag to address HRP
-    NETWORK_TAG_TO_ADDR_HRP: Dict[AdaV3AddrNetworkTags, str] = {
-        AdaV3AddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("addr_hrp"),
-        AdaV3AddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("addr_hrp"),
+    NETWORK_TAG_TO_ADDR_HRP: Dict[AdaShelleyAddrNetworkTags, str] = {
+        AdaShelleyAddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("addr_hrp"),
+        AdaShelleyAddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("addr_hrp"),
     }
     # Network tag to reward address HRP
-    NETWORK_TAG_TO_REWARD_ADDR_HRP: Dict[AdaV3AddrNetworkTags, str] = {
-        AdaV3AddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("reward_addr_hrp"),
-        AdaV3AddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("reward_addr_hrp"),
+    NETWORK_TAG_TO_REWARD_ADDR_HRP: Dict[AdaShelleyAddrNetworkTags, str] = {
+        AdaShelleyAddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("reward_addr_hrp"),
+        AdaShelleyAddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("reward_addr_hrp"),
     }
 
 
-class _AdaV3AddrUtils:
-    """Cardano V3 address utility class."""
+class _AdaShelleyAddrUtils:
+    """Cardano Shelley address utility class."""
 
     @staticmethod
     def KeyHash(pub_key_bytes: bytes) -> bytes:
@@ -81,10 +81,10 @@ class _AdaV3AddrUtils:
             bytes: Key hash bytes
         """
         return CryptoUtils.Blake2b(pub_key_bytes,
-                                   AdaV3AddrConst.HASH_BYTE_LEN)
+                                   AdaShelleyAddrConst.HASH_BYTE_LEN)
 
     @staticmethod
-    def DecodeFirstAddrByte(first_byte: int) -> Tuple[AdaV3AddrHeaderTypes, AdaV3AddrNetworkTags]:
+    def DecodeFirstAddrByte(first_byte: int) -> Tuple[AdaShelleyAddrHeaderTypes, AdaShelleyAddrNetworkTags]:
         """
         Decode first address byte.
 
@@ -92,19 +92,19 @@ class _AdaV3AddrUtils:
             first_byte (int): First address byte
 
         Returns:
-            tuple[AdaV3AddrHeaderTypes, AdaV3AddrNetworkTags]: header type (index 0), network tag (index 1)
+            tuple[AdaShelleyAddrHeaderTypes, AdaShelleyAddrNetworkTags]: header type (index 0), network tag (index 1)
         """
-        return AdaV3AddrHeaderTypes(first_byte >> 4), AdaV3AddrNetworkTags(first_byte & 0x0F)
+        return AdaShelleyAddrHeaderTypes(first_byte >> 4), AdaShelleyAddrNetworkTags(first_byte & 0x0F)
 
     @staticmethod
-    def EncodeFirstAddrByte(hdr_type: AdaV3AddrHeaderTypes,
-                            net_tag: AdaV3AddrNetworkTags) -> bytes:
+    def EncodeFirstAddrByte(hdr_type: AdaShelleyAddrHeaderTypes,
+                            net_tag: AdaShelleyAddrNetworkTags) -> bytes:
         """
         Encode first address byte.
 
         Args:
-            hdr_type (AdaV3AddrHeaderTypes): Header type
-            net_tag (AdaV3AddrNetworkTags) : Network tag
+            hdr_type (AdaShelleyAddrHeaderTypes): Header type
+            net_tag (AdaShelleyAddrNetworkTags) : Network tag
 
         Returns:
             bytes: First address bytes
@@ -112,17 +112,17 @@ class _AdaV3AddrUtils:
         return IntegerUtils.ToBytes((hdr_type << 4) + net_tag)
 
 
-class AdaV3AddrDecoder(IAddrDecoder):
+class AdaShelleyAddrDecoder(IAddrDecoder):
     """
-    Cardano V3 address decoder class.
-    It allows the Cardano V3 address decoding.
+    Cardano Shelley address decoder class.
+    It allows the Cardano Shelley address decoding.
     """
 
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
         """
-        Decode a Cardano V3 address to bytes.
+        Decode a Cardano Shelley address to bytes.
 
         Args:
             addr (str): Address string
@@ -134,18 +134,18 @@ class AdaV3AddrDecoder(IAddrDecoder):
         Raises:
             ValueError: If the address encoding is not valid
         """
-        for net_tag, hrp in AdaV3AddrConst.NETWORK_TAG_TO_ADDR_HRP.items():
+        for net_tag, hrp in AdaShelleyAddrConst.NETWORK_TAG_TO_ADDR_HRP.items():
             try:
                 addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
             except Bech32ChecksumError as ex:
                 raise ValueError("Invalid bech32 checksum") from ex
             else:
                 AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                            (AdaV3AddrConst.HASH_BYTE_LEN * 2) + 1)
-                got_hdr_tag, got_net_tag = _AdaV3AddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
+                                            (AdaShelleyAddrConst.HASH_BYTE_LEN * 2) + 1)
+                got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
 
                 # Check header type
-                if got_hdr_tag != AdaV3AddrHeaderTypes.PAYMENT:
+                if got_hdr_tag != AdaShelleyAddrHeaderTypes.PAYMENT:
                     raise ValueError(f"Invalid header type ({got_hdr_tag})")
                 # Check network tag
                 if got_net_tag != net_tag:
@@ -156,24 +156,24 @@ class AdaV3AddrDecoder(IAddrDecoder):
         raise ValueError("Invalid address encoding")
 
 
-class AdaV3AddrEncoder(IAddrEncoder):
+class AdaShelleyAddrEncoder(IAddrEncoder):
     """
-    Cardano V3 address encoder class.
-    It allows the Cardano V3 address encoding.
+    Cardano Shelley address encoder class.
+    It allows the Cardano Shelley address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Encode a public key to Cardano address.
+        Encode a public key to Cardano Shelley address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
             pub_skey (bytes or IPublicKey): Public staking key bytes or object
-            net_tag (AdaV3AddrNetworkTags): Network tag (default: main net)
+            net_tag (AdaShelleyAddrNetworkTags): Network tag (default: main net)
 
         Returns:
             str: Address string
@@ -183,33 +183,33 @@ class AdaV3AddrEncoder(IAddrEncoder):
             TypeError: If the public key is not ed25519
         """
         pub_skey = kwargs["pub_skey"]
-        net_tag = kwargs.get("net_tag", AdaV3AddrNetworkTags.MAINNET)
+        net_tag = kwargs.get("net_tag", AdaShelleyAddrNetworkTags.MAINNET)
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
         pub_skey_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_skey)
 
         # Compute keys hash
-        pub_key_hash = _AdaV3AddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
-        pub_skey_hash = _AdaV3AddrUtils.KeyHash(pub_skey_obj.RawCompressed().ToBytes()[1:])
+        pub_key_hash = _AdaShelleyAddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
+        pub_skey_hash = _AdaShelleyAddrUtils.KeyHash(pub_skey_obj.RawCompressed().ToBytes()[1:])
         # Get first byte
-        first_byte = _AdaV3AddrUtils.EncodeFirstAddrByte(AdaV3AddrHeaderTypes.PAYMENT, net_tag)
+        first_byte = _AdaShelleyAddrUtils.EncodeFirstAddrByte(AdaShelleyAddrHeaderTypes.PAYMENT, net_tag)
 
         # Encode to bech32
-        return Bech32Encoder.Encode(AdaV3AddrConst.NETWORK_TAG_TO_ADDR_HRP[net_tag],
+        return Bech32Encoder.Encode(AdaShelleyAddrConst.NETWORK_TAG_TO_ADDR_HRP[net_tag],
                                     first_byte + pub_key_hash + pub_skey_hash)
 
 
-class AdaV3RewardAddrDecoder(IAddrDecoder):
+class AdaShelleyRewardAddrDecoder(IAddrDecoder):
     """
-    Cardano V3 reward address decoder class.
-    It allows the Cardano V3 reward address decoding.
+    Cardano Shelley reward address decoder class.
+    It allows the Cardano Shelley reward address decoding.
     """
 
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
         """
-        Decode a Cardano V3 address to bytes.
+        Decode a Cardano Shelley address to bytes.
 
         Args:
             addr (str): Address string
@@ -221,18 +221,18 @@ class AdaV3RewardAddrDecoder(IAddrDecoder):
         Raises:
             ValueError: If the address encoding is not valid
         """
-        for net_tag, hrp in AdaV3AddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP.items():
+        for net_tag, hrp in AdaShelleyAddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP.items():
             try:
                 addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
             except Bech32ChecksumError as ex:
                 raise ValueError("Invalid bech32 checksum") from ex
             else:
                 AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                            AdaV3AddrConst.HASH_BYTE_LEN + 1)
-                got_hdr_tag, got_net_tag = _AdaV3AddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
+                                            AdaShelleyAddrConst.HASH_BYTE_LEN + 1)
+                got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
 
                 # Check header type
-                if got_hdr_tag != AdaV3AddrHeaderTypes.REWARD:
+                if got_hdr_tag != AdaShelleyAddrHeaderTypes.REWARD:
                     raise ValueError(f"Invalid header type ({got_hdr_tag})")
                 # Check network tag
                 if got_net_tag != net_tag:
@@ -243,23 +243,23 @@ class AdaV3RewardAddrDecoder(IAddrDecoder):
         raise ValueError("Invalid address encoding")
 
 
-class AdaV3RewardAddrEncoder(IAddrEncoder):
+class AdaShelleyRewardAddrEncoder(IAddrEncoder):
     """
-    Cardano V3 reward address encoder class.
-    It allows the Cardano V3 reward address encoding.
+    Cardano Shelley reward address encoder class.
+    It allows the Cardano Shelley reward address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Encode a public key to Cardano address.
+        Encode a public key to Cardano Shelley reward address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            net_tag (AdaV3AddrNetworkTags): Network tag (default: main net)
+            net_tag (AdaShelleyAddrNetworkTags): Network tag (default: main net)
 
         Returns:
             str: Address string
@@ -268,29 +268,29 @@ class AdaV3RewardAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        net_tag = kwargs.get("net_tag", AdaV3AddrNetworkTags.MAINNET)
+        net_tag = kwargs.get("net_tag", AdaShelleyAddrNetworkTags.MAINNET)
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         # Compute keys hash
-        pub_key_hash = _AdaV3AddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
+        pub_key_hash = _AdaShelleyAddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
         # Get first byte
-        first_byte = _AdaV3AddrUtils.EncodeFirstAddrByte(AdaV3AddrHeaderTypes.REWARD, net_tag)
+        first_byte = _AdaShelleyAddrUtils.EncodeFirstAddrByte(AdaShelleyAddrHeaderTypes.REWARD, net_tag)
 
         # Encode to bech32
-        return Bech32Encoder.Encode(AdaV3AddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP[net_tag],
+        return Bech32Encoder.Encode(AdaShelleyAddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP[net_tag],
                                     first_byte + pub_key_hash)
 
 
-class AdaV3Addr(AdaV3AddrEncoder):
+class AdaShelleyAddr(AdaShelleyAddrEncoder):
     """
-    Cardano V3 address class.
-    Only kept for compatibility, AdaV3AddrEncoder shall be used instead.
+    Cardano Shelley address class.
+    Only kept for compatibility, AdaShelleyAddrEncoder shall be used instead.
     """
 
 
-class AdaV3RewardAddr(AdaV3AddrEncoder):
+class AdaShelleyRewardAddr(AdaShelleyRewardAddrEncoder):
     """
-    Cardano V3 reward address class.
-    Only kept for compatibility, AdaV3RewardAddrEncoder shall be used instead.
+    Cardano Shelley reward address class.
+    Only kept for compatibility, AdaShelleyRewardAddrEncoder shall be used instead.
     """

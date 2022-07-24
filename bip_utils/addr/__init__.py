@@ -1,8 +1,10 @@
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.ada_v2_addr import AdaV2AddrDecoder, AdaV2AddrEncoder, AdaV2Addr
-from bip_utils.addr.ada_v3_addr import (
-    AdaV3AddrNetworkTags, AdaV3AddrDecoder, AdaV3AddrEncoder, AdaV3RewardAddrDecoder, AdaV3RewardAddrEncoder,
-    AdaV3Addr, AdaV3RewardAddr
+from bip_utils.addr.ada_byron_addr import AdaByronAddrTypes, AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronAddr
+from bip_utils.addr.ada_shelley_addr import (
+    AdaShelleyAddrNetworkTags,
+    AdaShelleyAddrDecoder, AdaShelleyAddrEncoder,
+    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder,
+    AdaShelleyAddr, AdaShelleyRewardAddr
 )
 from bip_utils.addr.algo_addr import AlgoAddrDecoder, AlgoAddrEncoder, AlgoAddr
 from bip_utils.addr.atom_addr import AtomAddrDecoder, AtomAddrEncoder, AtomAddr

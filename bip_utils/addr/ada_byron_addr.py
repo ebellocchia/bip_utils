@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Cardano V2 address encoding/decoding."""
+"""Module for Cardano Byron address encoding/decoding."""
 
 # Imports
 from enum import IntEnum, unique
@@ -35,15 +35,15 @@ from bip_utils.utils.misc import CryptoUtils
 
 
 @unique
-class AdaV2AddrTypes(IntEnum):
-    """Enumerative for Cardano V2 address types."""
+class AdaByronAddrTypes(IntEnum):
+    """Enumerative for Cardano Byron address types."""
 
     PUBLIC_KEY = 0
     REDEMPTION = 2
 
 
-class AdaV2AddrConst:
-    """Class container for Cardano V2 address constants."""
+class AdaByronAddrConst:
+    """Class container for Cardano Byron address constants."""
 
     # Hash length in bytes
     HASH_BYTE_LEN: int = 28
@@ -51,14 +51,14 @@ class AdaV2AddrConst:
     PAYLOAD_TAG: int = 24
 
 
-class _AdaV2AddrUtils:
-    """Cardano V2 address utility class."""
+class _AdaByronAddrUtils:
+    """Cardano Byron address utility class."""
 
     @staticmethod
     def KeyHash(pub_key_bytes: bytes,
                 chain_code_bytes: bytes,
                 addr_attrs: Dict,
-                addr_type: AdaV2AddrTypes) -> bytes:
+                addr_type: AdaByronAddrTypes) -> bytes:
         """
         Compute the key hash.
 
@@ -66,7 +66,7 @@ class _AdaV2AddrUtils:
             pub_key_bytes (bytes)     : Public key bytes
             chain_code_bytes (bytes)  : Chain code bytes
             addr_attrs (dict)         : Address attributes
-            addr_type (AdaV2AddrTypes): Address type
+            addr_type (AdaByronAddrTypes): Address type
 
         Returns:
             bytes: Key hash bytes
@@ -78,20 +78,20 @@ class _AdaV2AddrUtils:
         ])
         # Compute double hash: Blake2b-224(SHA3-256())
         return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(addr_root),
-                                   AdaV2AddrConst.HASH_BYTE_LEN)
+                                   AdaByronAddrConst.HASH_BYTE_LEN)
 
 
-class AdaV2AddrDecoder(IAddrDecoder):
+class AdaByronAddrDecoder(IAddrDecoder):
     """
-    Cardano V2 address decoder class.
-    It allows the Cardano V2 address decoding.
+    Cardano Byron address decoder class.
+    It allows the Cardano Byron address decoding.
     """
 
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
         """
-        Decode a Cardano V2 address to bytes.
+        Decode a Cardano Byron address to bytes.
 
         Args:
             addr (str): Address string
@@ -112,7 +112,7 @@ class AdaV2AddrDecoder(IAddrDecoder):
             raise ValueError("Invalid address encoding")
         # Get and check CBOR tag
         cbor_tag = addr_payload_with_crc[0]
-        if cbor_tag.tag != AdaV2AddrConst.PAYLOAD_TAG:
+        if cbor_tag.tag != AdaByronAddrConst.PAYLOAD_TAG:
             raise ValueError(f"Invalid CBOR tag ({cbor_tag.tag})")
         # Check CRC
         crc32_got = CryptoUtils.Crc32(cbor_tag.value)
@@ -126,26 +126,26 @@ class AdaV2AddrDecoder(IAddrDecoder):
                 or not isinstance(addr_payload[2], int)):
             raise ValueError("Invalid CBOR tag value")
         # Check address type
-        if addr_payload[2] not in (AdaV2AddrTypes.PUBLIC_KEY, AdaV2AddrTypes.REDEMPTION):
+        if addr_payload[2] not in (AdaByronAddrTypes.PUBLIC_KEY, AdaByronAddrTypes.REDEMPTION):
             raise ValueError(f"Invalid address type ({addr_payload[2]})")
         # Check key hash length
         AddrDecUtils.ValidateLength(addr_payload[0],
-                                    AdaV2AddrConst.HASH_BYTE_LEN)
+                                    AdaByronAddrConst.HASH_BYTE_LEN)
 
         return addr_payload[0]
 
 
-class AdaV2AddrEncoder(IAddrEncoder):
+class AdaByronAddrEncoder(IAddrEncoder):
     """
-    Cardano V2 address encoder class.
-    It allows the Cardano V2 address encoding.
+    Cardano Byron address encoder class.
+    It allows the Cardano Byron address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Encode a public key to Cardano address.
+        Encode a public key to Cardano Byron address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -153,7 +153,7 @@ class AdaV2AddrEncoder(IAddrEncoder):
         Other Parameters:
             chain_code (bytes or Bip32ChainCode object): Chain code bytes or object
             addr_attrs (dict)                          : Address attributes (default: empty dict)
-            addr_type (AdaV2AddrTypes)                 : Address type (default: public key)
+            addr_type (AdaByronAddrTypes)              : Address type (default: public key)
 
         Returns:
             str: Address string
@@ -166,12 +166,12 @@ class AdaV2AddrEncoder(IAddrEncoder):
         if isinstance(chain_code, bytes):
             chain_code = Bip32ChainCode(chain_code)
         addr_attrs = kwargs.get("addr_attrs", {})
-        addr_type = kwargs.get("addr_type", AdaV2AddrTypes.PUBLIC_KEY)
+        addr_type = kwargs.get("addr_type", AdaByronAddrTypes.PUBLIC_KEY)
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         # Get key hash
-        key_hash_bytes = _AdaV2AddrUtils.KeyHash(
+        key_hash_bytes = _AdaByronAddrUtils.KeyHash(
             pub_key_obj.RawCompressed().ToBytes()[1:],
             chain_code.ToBytes(),
             addr_attrs,
@@ -185,13 +185,13 @@ class AdaV2AddrEncoder(IAddrEncoder):
         ])
         # Add CRC32 and encode to base58
         return Base58Encoder.Encode(cbor2.dumps([
-            cbor2.CBORTag(AdaV2AddrConst.PAYLOAD_TAG, addr_payload),
+            cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, addr_payload),
             CryptoUtils.Crc32(addr_payload)
         ]))
 
 
-class AdaV2Addr(AdaV2AddrEncoder):
+class AdaByronAddr(AdaByronAddrEncoder):
     """
-    Cardano V3 address class.
-    Only kept for compatibility, AdaV3AddrEncoder shall be used instead.
+    Cardano Byron address class.
+    Only kept for compatibility, AdaByronAddrEncoder shall be used instead.
     """

@@ -4,8 +4,11 @@ from bip_utils._version import __version__
 # Address computation
 from bip_utils.addr import (
     BchAddrConverter,
-    AdaV2AddrDecoder, AdaV2AddrEncoder, AdaV2Addr,
-    AdaV3AddrNetworkTags, AdaV3AddrDecoder, AdaV3AddrEncoder, AdaV3Addr,
+    AdaByronAddrTypes, AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronAddr,
+    AdaShelleyAddrNetworkTags,
+    AdaShelleyAddrDecoder, AdaShelleyAddrEncoder,
+    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder,
+    AdaShelleyAddr, AdaShelleyRewardAddr,
     AlgoAddrDecoder, AlgoAddrEncoder, AlgoAddr,
     AtomAddrDecoder, AtomAddrEncoder, AtomAddr,
     AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxPChainAddr,

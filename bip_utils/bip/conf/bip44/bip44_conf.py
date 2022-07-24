@@ -22,7 +22,7 @@
 
 # Imports
 from bip_utils.addr import (
-    AdaV2AddrEncoder, AdaV3AddrEncoder,
+    AdaByronAddrEncoder, AdaShelleyAddrEncoder,
     AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder, BchP2PKHAddrEncoder,
     EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder, NearAddrEncoder,
     NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
@@ -325,7 +325,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=CardanoIcarusBip32,
-        addr_cls=AdaV2AddrEncoder,
+        addr_cls=AdaByronAddrEncoder,
         addr_params={
             "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
         },
@@ -340,7 +340,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Kholaw,
-        addr_cls=AdaV2AddrEncoder,
+        addr_cls=AdaByronAddrEncoder,
         addr_params={
             "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
         },
@@ -355,7 +355,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Kholaw,
-        addr_cls=AdaV3AddrEncoder,
+        addr_cls=AdaShelleyAddrEncoder,
         addr_params={},
     )
 
