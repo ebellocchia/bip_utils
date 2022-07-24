@@ -316,8 +316,8 @@ class Bip44Conf:
         },
     )
 
-    # Configuration for Cardano Byron
-    CardanoByron: BipCoinConf = BipCoinConf(
+    # Configuration for Cardano Byron Icarus
+    CardanoByronIcarus: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=False,
