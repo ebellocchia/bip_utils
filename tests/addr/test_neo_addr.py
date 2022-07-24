@@ -86,15 +86,19 @@ class NeoAddrTests(unittest.TestCase):
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self,
-                                            NeoAddrDecoder,
-                                            {"ver": CoinsConf.Neo.ParamByKey("addr_ver")},
-                                            TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(
+            self,
+            NeoAddrDecoder,
+            {"ver": CoinsConf.Neo.ParamByKey("addr_ver")},
+            TEST_VECT_DEC_INVALID
+        )
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             NeoAddrEncoder,
-                                             {"ver": b"\x00"},
-                                             TEST_NIST256P1_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_NIST256P1_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            NeoAddrEncoder,
+            {"ver": b"\x00"},
+            TEST_NIST256P1_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_NIST256P1_PUB_KEY_INVALID
+        )

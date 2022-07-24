@@ -90,25 +90,36 @@ class XlmAddrTests(unittest.TestCase):
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, XlmAddrDecoder, {"addr_type": XlmAddrTypes.PUB_KEY}, TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(
+            self,
+            XlmAddrDecoder,
+            {"addr_type": XlmAddrTypes.PUB_KEY},
+            TEST_VECT_DEC_INVALID
+        )
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             XlmAddrEncoder,
-                                             {"addr_type": XlmAddrTypes.PUB_KEY},
-                                             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_ED25519_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            XlmAddrEncoder,
+            {"addr_type": XlmAddrTypes.PUB_KEY},
+            TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_ED25519_PUB_KEY_INVALID
+        )
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(self,
-                                                   XlmAddrDecoder,
-                                                   "GACG4MLLYMQHMOHZDAR3WSBCYZLC5CXPCXZ447RV3527PP3AQH6YCMW5",
-                                                   {"addr_type": 0},
-                                                   TypeError)
-        AddrBaseTestHelper.test_invalid_params_enc(self,
-                                                   XlmAddrEncoder,
-                                                   TEST_ED25519_PUB_KEY,
-                                                   {"addr_type": 0},
-                                                   TypeError)
+        AddrBaseTestHelper.test_invalid_params_dec(
+            self,
+            XlmAddrDecoder,
+            "GACG4MLLYMQHMOHZDAR3WSBCYZLC5CXPCXZ447RV3527PP3AQH6YCMW5",
+            {"addr_type": 0},
+            TypeError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            XlmAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {"addr_type": 0},
+            TypeError
+        )

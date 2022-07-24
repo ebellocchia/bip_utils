@@ -88,8 +88,10 @@ class NearAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             NearAddrEncoder,
-                                             {},
-                                             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_ED25519_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            NearAddrEncoder,
+            {},
+            TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_ED25519_PUB_KEY_INVALID
+        )

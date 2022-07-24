@@ -94,8 +94,10 @@ class OkexAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             OkexAddrEncoder,
-                                             {},
-                                             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_SECP256K1_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            OkexAddrEncoder,
+            {},
+            TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_SECP256K1_PUB_KEY_INVALID
+        )
