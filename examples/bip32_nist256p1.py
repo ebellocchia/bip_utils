@@ -1,4 +1,4 @@
-"""Example of key derivation using BIP32 (nist256p1 curve)."""
+"""Example of keys derivation using BIP32 (nist256p1 curve)."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Nist256p1, CoinsConf, NeoAddr

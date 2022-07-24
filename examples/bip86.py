@@ -1,4 +1,4 @@
-"""Example of key derivation using BIP86."""
+"""Example of keys derivation using BIP86."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip86Coins, Bip86

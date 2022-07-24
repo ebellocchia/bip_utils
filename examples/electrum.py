@@ -1,4 +1,4 @@
-"""Example of mnemonic generation and key derivation like the Electrum wallet."""
+"""Example of mnemonic generation and keys derivation like the Electrum wallet."""
 
 import binascii
 from bip_utils import (

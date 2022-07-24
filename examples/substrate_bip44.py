@@ -1,4 +1,4 @@
-"""Example of key derivation using Substrate based on BIP44."""
+"""Example of keys derivation using Substrate based on BIP44."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Coins, Bip44

@@ -1,4 +1,4 @@
-"""Example of key derivation using Substrate (same addresses of PolkadotJS)."""
+"""Example of keys derivation using Substrate (same addresses of PolkadotJS)."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, SubstrateBip39SeedGenerator, SubstrateCoins, Substrate

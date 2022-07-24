@@ -1,4 +1,4 @@
-"""Example of key derivation using Monero based on BIP44."""
+"""Example of keys derivation using Monero based on BIP44."""
 
 import binascii
 from bip_utils import (
