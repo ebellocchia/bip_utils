@@ -28,8 +28,7 @@ References:
 """
 
 # Imports
-from bip_utils.bip.bip32 import Bip32Ed25519Kholaw, Bip32KeyData, Bip32KeyNetVersions
-from bip_utils.bip.bip32.bip32_base import Bip32Base
+from bip_utils.bip.bip32 import Bip32Base, Bip32Ed25519Kholaw, Bip32KeyData, Bip32KeyNetVersions
 from bip_utils.ecc import Ed25519KholawPrivateKey
 from bip_utils.utils.misc import BitUtils, CryptoUtils
 
