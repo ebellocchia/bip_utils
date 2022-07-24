@@ -74,7 +74,7 @@ class _AdaByronAddrUtils:
         addr_root = cbor2.dumps([
             addr_type,
             [0, pub_key_bytes + chain_code_bytes],
-            addr_attrs
+            addr_attrs,
         ])
         # Compute double hash: Blake2b-224(SHA3-256())
         return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(addr_root),
@@ -104,35 +104,38 @@ class AdaByronAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
 
-        # Decode from base58
-        addr_payload_with_crc = cbor2.loads(Base58Decoder.Decode(addr))
-        if (len(addr_payload_with_crc) != 2
-                or not isinstance(addr_payload_with_crc[0], cbor2.CBORTag)
-                or not isinstance(addr_payload_with_crc[1], int)):
-            raise ValueError("Invalid address encoding")
-        # Get and check CBOR tag
-        cbor_tag = addr_payload_with_crc[0]
-        if cbor_tag.tag != AdaByronAddrConst.PAYLOAD_TAG:
-            raise ValueError(f"Invalid CBOR tag ({cbor_tag.tag})")
-        # Check CRC
-        crc32_got = CryptoUtils.Crc32(cbor_tag.value)
-        if crc32_got != addr_payload_with_crc[1]:
-            raise ValueError(f"Invalid CRC (expected: {addr_payload_with_crc[1]}, got: {crc32_got})")
-        # Get and check tag value
-        addr_payload = cbor2.loads(cbor_tag.value)
-        if (len(addr_payload) != 3
-                or not isinstance(addr_payload[0], bytes)
-                or not isinstance(addr_payload[1], dict)
-                or not isinstance(addr_payload[2], int)):
-            raise ValueError("Invalid CBOR tag value")
-        # Check address type
-        if addr_payload[2] not in (AdaByronAddrTypes.PUBLIC_KEY, AdaByronAddrTypes.REDEMPTION):
-            raise ValueError(f"Invalid address type ({addr_payload[2]})")
-        # Check key hash length
-        AddrDecUtils.ValidateLength(addr_payload[0],
-                                    AdaByronAddrConst.HASH_BYTE_LEN)
+        try:
+            # Decode from base58
+            addr_payload_with_crc = cbor2.loads(Base58Decoder.Decode(addr))
+            if (len(addr_payload_with_crc) != 2
+                    or not isinstance(addr_payload_with_crc[0], cbor2.CBORTag)
+                    or not isinstance(addr_payload_with_crc[1], int)):
+                raise ValueError("Invalid address encoding")
+            # Get and check CBOR tag
+            cbor_tag = addr_payload_with_crc[0]
+            if cbor_tag.tag != AdaByronAddrConst.PAYLOAD_TAG:
+                raise ValueError(f"Invalid CBOR tag ({cbor_tag.tag})")
+            # Check CRC
+            crc32_got = CryptoUtils.Crc32(cbor_tag.value)
+            if crc32_got != addr_payload_with_crc[1]:
+                raise ValueError(f"Invalid CRC (expected: {addr_payload_with_crc[1]}, got: {crc32_got})")
+            # Get and check tag value
+            addr_payload = cbor2.loads(cbor_tag.value)
+            if (len(addr_payload) != 3
+                    or not isinstance(addr_payload[0], bytes)
+                    or not isinstance(addr_payload[1], dict)
+                    or not isinstance(addr_payload[2], int)):
+                raise ValueError("Invalid address payload")
+            # Check address type
+            if addr_payload[2] not in (AdaByronAddrTypes.PUBLIC_KEY, AdaByronAddrTypes.REDEMPTION):
+                raise ValueError(f"Invalid address type ({addr_payload[2]})")
+            # Check key hash length
+            AddrDecUtils.ValidateLength(addr_payload[0],
+                                        AdaByronAddrConst.HASH_BYTE_LEN)
 
-        return addr_payload[0]
+            return addr_payload[0]
+        except cbor2.CBORDecodeValueError as ex:
+            raise ValueError("Invalid CBOR encoding") from ex
 
 
 class AdaByronAddrEncoder(IAddrEncoder):
@@ -162,11 +165,17 @@ class AdaByronAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
+
+        # Get chain code
         chain_code = kwargs["chain_code"]
         if isinstance(chain_code, bytes):
             chain_code = Bip32ChainCode(chain_code)
+        # Get address attributes
         addr_attrs = kwargs.get("addr_attrs", {})
+        # Get address type
         addr_type = kwargs.get("addr_type", AdaByronAddrTypes.PUBLIC_KEY)
+        if not isinstance(addr_type, AdaByronAddrTypes):
+            raise TypeError("Address type is not an enumerative of AdaByronAddrTypes")
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
@@ -184,10 +193,12 @@ class AdaByronAddrEncoder(IAddrEncoder):
             addr_type,
         ])
         # Add CRC32 and encode to base58
-        return Base58Encoder.Encode(cbor2.dumps([
-            cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, addr_payload),
-            CryptoUtils.Crc32(addr_payload)
-        ]))
+        return Base58Encoder.Encode(
+            cbor2.dumps([
+                cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, addr_payload),
+                CryptoUtils.Crc32(addr_payload),
+            ])
+        )
 
 
 class AdaByronAddr(AdaByronAddrEncoder):
