@@ -331,8 +331,8 @@ class Bip44Conf:
         },
     )
 
-    # Configuration for Cardano Ledger V2
-    CardanoLedgerV2: BipCoinConf = BipCoinConf(
+    # Configuration for Cardano Byron-Ledger
+    CardanoByronLedger: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=False,
@@ -346,8 +346,8 @@ class Bip44Conf:
         },
     )
 
-    # Configuration for Cardano Ledger V3
-    CardanoLedgerV3: BipCoinConf = BipCoinConf(
+    # Configuration for Cardano Shelley-Ledger
+    CardanoShelleyLedger: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=False,
