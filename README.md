@@ -23,6 +23,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
   - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki) (Bitcoin Taproot)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
 - Keys derivation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) (Polkadot/Kusama ecosystem, same of Polkadot-JS)
+- Keys and addresses generation for Cardano (Byron and Shelley, same of Ledger and AdaLite/Yoroi wallets)
 - Mnemonic and seed generation for Monero
 - Keys and addresses/subaddresses generation for Monero (same of official Monero wallet)
 - Mnemonic and seed generation for Algorand (Algorand 25-word mnemonic)
@@ -42,6 +43,7 @@ Other implemented functionalities:
 - Get token account addresses for SPL tokens (i.e. Solana tokens)
 
 Package dependencies:
+- [cbor2](https://pypi.org/project/cbor2/) for CBOR encoding/decoding
 - [crcmod](https://pypi.org/project/crcmod/) for CRC computation
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for cryptographic functions
 - [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
@@ -66,6 +68,7 @@ Supported BIP coins:
 - Bitcoin Cash (and related test net)
 - Bitcoin Cash Simple Ledger Protocol (and related test net)
 - BitcoinSV (and related test net)
+- Cardano (Byron and Shelley)
 - Celo
 - Certik
 - Cosmos
@@ -186,6 +189,7 @@ And then:
 - [BIP-0038](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip38.md)
 - [BIP-0032](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md)
 - [BIP-0044](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip44.md)
+- [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)
 - [Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md)
 - [Monero](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md)
 - [Substrate](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)
@@ -201,7 +205,7 @@ For some complete code examples (from mnemonic to keys generation), refer to the
 
 # Buy me a coffee
 
-You know, I'm italian and I love drinking coffee (especially while coding :D). So, if you'd like to buy me one:
+You know, I'm italian and I love drinking coffee (especially while coding 😃). So, if you'd like to buy me one:
 - BTC: bc1qq4r9cglwzd6f2hzxvdkucmdejvr9h8me5hy0k8
 - ERC20/BEP20: 0xf84e4898E5E10bf1fBe9ffA3EEC845e82e364b5B
 

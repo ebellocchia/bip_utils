@@ -29,6 +29,9 @@ Supported coins enumerative for BIP-0044:
 |Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
 |[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|*Bip44Coins.BITCOIN_CASH_SLP*|*Bip44Coins.BITCOIN_CASH_SLP_TESTNET*|
 |BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
+|Cardano Byron (Icarus)|*Bip44Coins.CARDANO_BYRON_ICARUS*, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
+|Cardano Byron (Ledger)|*Bip44Coins.CARDANO_BYRON_LEDGER*, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
+|Celo|*Bip44Coins.CELO*|-|
 |Celo|*Bip44Coins.CELO*|-|
 |Certik|*Bip44Coins.CERTIK*|-|
 |Chihuahua|*Bip44Coins.CHIHUAHUA*|-|
