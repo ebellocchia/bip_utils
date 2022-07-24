@@ -63,9 +63,9 @@ class _AdaByronAddrUtils:
         Compute the key hash.
 
         Args:
-            pub_key_bytes (bytes)     : Public key bytes
-            chain_code_bytes (bytes)  : Chain code bytes
-            addr_attrs (dict)         : Address attributes
+            pub_key_bytes (bytes)        : Public key bytes
+            chain_code_bytes (bytes)     : Chain code bytes
+            addr_attrs (dict)            : Address attributes
             addr_type (AdaByronAddrTypes): Address type
 
         Returns:

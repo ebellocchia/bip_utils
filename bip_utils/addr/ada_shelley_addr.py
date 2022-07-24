@@ -172,7 +172,7 @@ class AdaShelleyAddrEncoder(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            pub_skey (bytes or IPublicKey): Public staking key bytes or object
+            pub_skey (bytes or IPublicKey)     : Public staking key bytes or object
             net_tag (AdaShelleyAddrNetworkTags): Network tag (default: main net)
 
         Returns:
