@@ -128,32 +128,36 @@ class AdaShelleyAddrDecoder(IAddrDecoder):
             addr (str): Address string
             **kwargs  : Not used
 
+        Other Parameters:
+            net_tag (AdaShelleyAddrNetworkTags): Network tag (default: main net)
+
         Returns:
             bytes: Public keys hash bytes (public key + public staking key)
 
         Raises:
             ValueError: If the address encoding is not valid
         """
-        for net_tag, hrp in AdaShelleyAddrConst.NETWORK_TAG_TO_ADDR_HRP.items():
-            try:
-                addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
-            except Bech32ChecksumError as ex:
-                raise ValueError("Invalid bech32 checksum") from ex
-            else:
-                AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                            (AdaShelleyAddrConst.HASH_BYTE_LEN * 2) + 1)
-                got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
+        net_tag = kwargs.get("net_tag", AdaShelleyAddrNetworkTags.MAINNET)
 
-                # Check header type
-                if got_hdr_tag != AdaShelleyAddrHeaderTypes.PAYMENT:
-                    raise ValueError(f"Invalid header type ({got_hdr_tag})")
-                # Check network tag
-                if got_net_tag != net_tag:
-                    raise ValueError(f"Invalid network tag  ({got_net_tag})")
+        # Decode bech32
+        try:
+            addr_dec_bytes = Bech32Decoder.Decode(AdaShelleyAddrConst.NETWORK_TAG_TO_ADDR_HRP[net_tag],
+                                                  addr)
+        except Bech32ChecksumError as ex:
+            raise ValueError("Invalid bech32 checksum") from ex
+        else:
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        (AdaShelleyAddrConst.HASH_BYTE_LEN * 2) + 1)
+            got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
 
-                return addr_dec_bytes
+            # Check header type
+            if got_hdr_tag != AdaShelleyAddrHeaderTypes.PAYMENT:
+                raise ValueError(f"Invalid header type ({got_hdr_tag})")
+            # Check network tag
+            if got_net_tag != net_tag:
+                raise ValueError(f"Invalid network tag ({got_net_tag})")
 
-        raise ValueError("Invalid address encoding")
+            return addr_dec_bytes[1:]
 
 
 class AdaShelleyAddrEncoder(IAddrEncoder):
@@ -215,32 +219,36 @@ class AdaShelleyRewardAddrDecoder(IAddrDecoder):
             addr (str): Address string
             **kwargs  : Not used
 
+        Other Parameters:
+            net_tag (AdaShelleyAddrNetworkTags): Network tag (default: main net)
+
         Returns:
             bytes: Public keys hash bytes (public key + public staking key)
 
         Raises:
             ValueError: If the address encoding is not valid
         """
-        for net_tag, hrp in AdaShelleyAddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP.items():
-            try:
-                addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
-            except Bech32ChecksumError as ex:
-                raise ValueError("Invalid bech32 checksum") from ex
-            else:
-                AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                            AdaShelleyAddrConst.HASH_BYTE_LEN + 1)
-                got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
+        net_tag = kwargs.get("net_tag", AdaShelleyAddrNetworkTags.MAINNET)
 
-                # Check header type
-                if got_hdr_tag != AdaShelleyAddrHeaderTypes.REWARD:
-                    raise ValueError(f"Invalid header type ({got_hdr_tag})")
-                # Check network tag
-                if got_net_tag != net_tag:
-                    raise ValueError(f"Invalid network tag  ({got_net_tag})")
+        # Decode bech32
+        try:
+            addr_dec_bytes = Bech32Decoder.Decode(AdaShelleyAddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP[net_tag],
+                                                  addr)
+        except Bech32ChecksumError as ex:
+            raise ValueError("Invalid bech32 checksum") from ex
+        else:
+            AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                        AdaShelleyAddrConst.HASH_BYTE_LEN + 1)
+            got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
 
-                return addr_dec_bytes
+            # Check header type
+            if got_hdr_tag != AdaShelleyAddrHeaderTypes.REWARD:
+                raise ValueError(f"Invalid header type ({got_hdr_tag})")
+            # Check network tag
+            if got_net_tag != net_tag:
+                raise ValueError(f"Invalid network tag ({got_net_tag})")
 
-        raise ValueError("Invalid address encoding")
+            return addr_dec_bytes[1:]
 
 
 class AdaShelleyRewardAddrEncoder(IAddrEncoder):
