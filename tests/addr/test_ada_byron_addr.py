@@ -84,8 +84,6 @@ TEST_VECT_DEC_INVALID = [
     "Ae2tr7hYAE9LJU98dz6iHoDNozJq3EvtavT1eViVsMrVmtTiJ81sT7UgzZm",
     # Invalid address type
     "Ae2tdPwUPEZEReKzM7B6t4iLeSLkL4gZtE4G7Pvc3tZVcyaNmsX589QjDSX",
-    # Invalid public key
-    "2JGLE66OO2F6RYBXYSGR6A6UXVSB7JWSCJZY6YORSZ37UCBYKIBBR4J2TA",
     # Invalid lengths
     "3Bf3BWfUXmSDiwn4LNDEAZJ4TWtvjubuo2FGMyrR5BxoAopTRDy7eFDAp2",
     "jYTLseJK1m4sWU7ba8ryVbZ2FwAoYyRAyPTxKLMiQ3wtR7XaEJ6pYZ1cAyY9",
