@@ -104,4 +104,4 @@ class OkexAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(OkexAddr, OkexAddrEncoder)
+        self.assertTrue(OkexAddr is OkexAddrEncoder)

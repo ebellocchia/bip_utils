@@ -102,4 +102,4 @@ class NanoAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(NanoAddr, NanoAddrEncoder)
+        self.assertTrue(NanoAddr is NanoAddrEncoder)

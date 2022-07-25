@@ -212,6 +212,6 @@ class AdaShelleyAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(AdaShelleyAddr, AdaShelleyAddrEncoder)
-        self.assertEqual(AdaShelleyRewardAddr, AdaShelleyRewardAddrEncoder)
-        self.assertEqual(AdaShelleyStakingAddr, AdaShelleyStakingAddrEncoder)
+        self.assertTrue(AdaShelleyAddr is AdaShelleyAddrEncoder)
+        self.assertTrue(AdaShelleyRewardAddr is AdaShelleyRewardAddrEncoder)
+        self.assertTrue(AdaShelleyStakingAddr is AdaShelleyStakingAddrEncoder)

@@ -134,5 +134,5 @@ class AvaxAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(AvaxPChainAddr, AvaxPChainAddrEncoder)
-        self.assertEqual(AvaxXChainAddr, AvaxXChainAddrEncoder)
+        self.assertTrue(AvaxPChainAddr is AvaxPChainAddrEncoder)
+        self.assertTrue(AvaxXChainAddr is AvaxXChainAddrEncoder)

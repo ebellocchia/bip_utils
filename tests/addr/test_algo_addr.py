@@ -102,4 +102,4 @@ class AlgoAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(AlgoAddr, AlgoAddrEncoder)
+        self.assertTrue(AlgoAddr is AlgoAddrEncoder)

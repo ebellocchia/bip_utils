@@ -106,4 +106,4 @@ class EgldAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(EgldAddr, EgldAddrEncoder)
+        self.assertTrue(EgldAddr is EgldAddrEncoder)

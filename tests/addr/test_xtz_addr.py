@@ -119,4 +119,4 @@ class XtzAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(XtzAddr, XtzAddrEncoder)
+        self.assertTrue(XtzAddr is XtzAddrEncoder)

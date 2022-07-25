@@ -104,4 +104,4 @@ class FilAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(FilSecp256k1Addr, FilSecp256k1AddrEncoder)
+        self.assertTrue(FilSecp256k1Addr is FilSecp256k1AddrEncoder)

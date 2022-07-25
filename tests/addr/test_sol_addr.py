@@ -98,4 +98,4 @@ class SolAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(SolAddr, SolAddrEncoder)
+        self.assertTrue(SolAddr is SolAddrEncoder)

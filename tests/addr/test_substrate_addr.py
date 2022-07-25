@@ -122,5 +122,5 @@ class SubstrateAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(SubstrateEd25519Addr, SubstrateEd25519AddrEncoder)
-        self.assertEqual(SubstrateSr25519Addr, SubstrateSr25519AddrEncoder)
+        self.assertTrue(SubstrateEd25519Addr is SubstrateEd25519AddrEncoder)
+        self.assertTrue(SubstrateSr25519Addr is SubstrateSr25519AddrEncoder)

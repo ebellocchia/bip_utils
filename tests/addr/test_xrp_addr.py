@@ -100,4 +100,4 @@ class XrpAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(XrpAddr, XrpAddrEncoder)
+        self.assertTrue(XrpAddr is XrpAddrEncoder)

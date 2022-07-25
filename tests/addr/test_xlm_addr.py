@@ -134,4 +134,4 @@ class XlmAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(XlmAddr, XlmAddrEncoder)
+        self.assertTrue(XlmAddr is XlmAddrEncoder)

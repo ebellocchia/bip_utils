@@ -104,4 +104,4 @@ class ZilAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(ZilAddr, ZilAddrEncoder)
+        self.assertTrue(ZilAddr is ZilAddrEncoder)

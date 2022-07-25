@@ -100,4 +100,4 @@ class EthAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(EthAddr, EthAddrEncoder)
+        self.assertTrue(EthAddr is EthAddrEncoder)

@@ -105,4 +105,4 @@ class EosAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(EosAddr, EosAddrEncoder)
+        self.assertTrue(EosAddr is EosAddrEncoder)

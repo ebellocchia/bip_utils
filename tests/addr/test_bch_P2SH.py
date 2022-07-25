@@ -107,4 +107,4 @@ class P2SHTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(BchP2SHAddr, BchP2SHAddrEncoder)
+        self.assertTrue(BchP2SHAddr is BchP2SHAddrEncoder)

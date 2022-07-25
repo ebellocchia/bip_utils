@@ -105,4 +105,4 @@ class NeoAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(NeoAddr, NeoAddrEncoder)
+        self.assertTrue(NeoAddr is NeoAddrEncoder)

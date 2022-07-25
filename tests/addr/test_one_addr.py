@@ -104,4 +104,4 @@ class OneAddrTests(unittest.TestCase):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertEqual(OneAddr, OneAddrEncoder)
+        self.assertTrue(OneAddr is OneAddrEncoder)
