@@ -32,7 +32,7 @@ from bip_utils.coin_conf import CoinsConf
 class ElectrumV2Base(ABC):
     """Electrum v2 base class."""
 
-    m_bip32: Bip32Base
+    m_bip32_obj: Bip32Base
 
     @classmethod
     def FromSeed(cls,
@@ -49,22 +49,22 @@ class ElectrumV2Base(ABC):
         return cls(Bip32Secp256k1.FromSeed(seed_bytes))
 
     def __init__(self,
-                 bip32: Bip32Base) -> None:
+                 bip32_obj: Bip32Base) -> None:
         """
         Construct class.
 
         Args:
-            bip32 (Bip32Base object): Bip32Base object (shall be a Bip32Secp256k1 instance)
+            bip32_obj (Bip32Base object): Bip32Base object (shall be a Bip32Secp256k1 instance)
 
         Raises:
             TypeError: If the bip32 object is not a Bip32Secp256k1 class instance
             ValueError: If the bip32 object is not a master key
         """
-        if not isinstance(bip32, Bip32Secp256k1):
+        if not isinstance(bip32_obj, Bip32Secp256k1):
             raise TypeError("A Bip32Secp256k1 class instance is required")
-        if bip32.Depth() > 0:
+        if bip32_obj.Depth() > 0:
             raise ValueError("The Bip32 object shall be a master key (i.e. depth equal to 0)")
-        self.m_bip32 = bip32
+        self.m_bip32_obj = bip32_obj
 
     def Bip32Object(self) -> Bip32Base:
         """
@@ -73,7 +73,7 @@ class ElectrumV2Base(ABC):
         Returns:
             Bip32Base object: Bip32Base object
         """
-        return self.m_bip32
+        return self.m_bip32_obj
 
     def IsPublicOnly(self) -> bool:
         """
@@ -82,7 +82,7 @@ class ElectrumV2Base(ABC):
         Returns:
             bool: True if public-only, false otherwise
         """
-        return self.m_bip32.IsPublicOnly()
+        return self.m_bip32_obj.IsPublicOnly()
 
     def MasterPrivateKey(self) -> Bip32PrivateKey:
         """
@@ -91,7 +91,7 @@ class ElectrumV2Base(ABC):
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
         """
-        return self.m_bip32.PrivateKey()
+        return self.m_bip32_obj.PrivateKey()
 
     def MasterPublicKey(self) -> Bip32PublicKey:
         """
@@ -100,7 +100,7 @@ class ElectrumV2Base(ABC):
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
         """
-        return self.m_bip32.PublicKey()
+        return self.m_bip32_obj.PublicKey()
 
     @abstractmethod
     def GetPrivateKey(self,
@@ -214,7 +214,7 @@ class ElectrumV2Standard(ElectrumV2Base):
         Returns:
             Bip32Base object: Bip32Base object
         """
-        return self.m_bip32.DerivePath(f"m/{change_idx}/{addr_idx}")
+        return self.m_bip32_obj.DerivePath(f"m/{change_idx}/{addr_idx}")
 
 
 class ElectrumV2Segwit(ElectrumV2Base):
