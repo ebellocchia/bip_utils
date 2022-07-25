@@ -31,31 +31,39 @@ TEST_VECT = [
     {
         "pub_key": b"004342d377174aeabce717c67d66df8ba7a8f3835d3c6e978b8bdb63a444d2f6ab",
         "address_dec": b"4342d377174aeabce717c67d66df8ba7a8f3835d3c6e978b8bdb63a444d2f6ab",
-        "address_params": {"addr_type": XlmAddrTypes.PUB_KEY},
+        "address_params": {},
         "address": "GBBUFU3XC5FOVPHHC7DH2ZW7ROT2R44DLU6G5F4LRPNWHJCE2L3KWRPA",
     },
     {
         "pub_key": b"0073658385894c3c9f01a15e9f97d7d65f24d8f7bb1656bfe79a6f7512de132b68",
         "address_dec": b"73658385894c3c9f01a15e9f97d7d65f24d8f7bb1656bfe79a6f7512de132b68",
-        "address_params": {"addr_type": XlmAddrTypes.PUB_KEY},
+        "address_params": {
+            "addr_type": XlmAddrTypes.PUB_KEY,
+        },
         "address": "GBZWLA4FRFGDZHYBUFPJ7F6X2ZPSJWHXXMLFNP7HTJXXKEW6CMVWQTNY",
     },
     {
         "pub_key": b"00eaf531f163a1e91da0a5dbb198fab8ec06b42296ceff584781c42f04eb1ba87c",
         "address_dec": b"eaf531f163a1e91da0a5dbb198fab8ec06b42296ceff584781c42f04eb1ba87c",
-        "address_params": {"addr_type": XlmAddrTypes.PUB_KEY},
+        "address_params": {
+            "addr_type": XlmAddrTypes.PUB_KEY,
+        },
         "address": "GDVPKMPRMOQ6SHNAUXN3DGH2XDWANNBCS3HP6WCHQHCC6BHLDOUHZ25S",
     },
     {
         "pub_key": b"eea5fe0eb96b032d0067fc35fd2c2579e408d437e8d6f9be9d3f9246f24f9b95",
         "address_dec": b"eea5fe0eb96b032d0067fc35fd2c2579e408d437e8d6f9be9d3f9246f24f9b95",
-        "address_params": {"addr_type": XlmAddrTypes.PUB_KEY},
+        "address_params": {
+            "addr_type": XlmAddrTypes.PUB_KEY,
+        },
         "address": "GDXKL7QOXFVQGLIAM76DL7JMEV46ICGUG7UNN6N6TU7ZERXSJ6NZLIGP",
     },
     {
         "pub_key": b"046e316bc3207638f91823bb4822c6562e8aef15f3ce7e35df75f7bf6081fd81",
         "address_dec": b"046e316bc3207638f91823bb4822c6562e8aef15f3ce7e35df75f7bf6081fd81",
-        "address_params": {"addr_type": XlmAddrTypes.PUB_KEY},
+        "address_params": {
+            "addr_type": XlmAddrTypes.PUB_KEY,
+        },
         "address": "GACG4MLLYMQHMOHZDAR3WSBCYZLC5CXPCXZ447RV3527PP3AQH6YCMW5",
     },
 ]
