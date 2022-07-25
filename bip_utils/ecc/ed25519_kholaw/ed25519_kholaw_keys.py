@@ -26,6 +26,7 @@ right 32-byte extension part).
 
 # Imports
 from typing import Any
+from nacl import signing
 from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PublicKey, Ed25519PrivateKey
@@ -145,6 +146,8 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Ed25519KholawPublicKey.FromBytes(
-            ed25519_nacl_wrapper.point_mul_base(self.m_sign_key.Raw().ToBytes())
+        return Ed25519KholawPublicKey(
+            signing.VerifyKey(
+                ed25519_nacl_wrapper.point_mul_base(self.m_sign_key.Raw().ToBytes())
+            )
         )
