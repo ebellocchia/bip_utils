@@ -39,7 +39,6 @@ TEST_VECT_ADDRESS = [
         "address_dec": b"0ea494eb8231e7070bd0d697af52425e043e0a9c07b0125e01dcd24c62e860f974ebe501d47cdfa05184f9eb190e3cf7f00f0e58d5fbdc6e",
         "address_params": {
             "pub_skey": binascii.unhexlify(b"7680c767b8096daa3299dc282068327c79976f346e55b72d0ffd751295a45913"),
-            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
         },
         "address": "addr1qy82f98tsgc7wpct6rtf0t6jgf0qg0s2nsrmqyj7q8wdynrzaps0ja8tu5qaglxl5pgcf70try8realspu89340mm3hq6jjmds",
     },
@@ -86,9 +85,7 @@ TEST_VECT_REWARD_ADDRESS = [
     {
         "pub_key": b"7680c767b8096daa3299dc282068327c79976f346e55b72d0ffd751295a45913",
         "address_dec": b"62e860f974ebe501d47cdfa05184f9eb190e3cf7f00f0e58d5fbdc6e",
-        "address_params": {
-            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
-        },
+        "address_params": {},
         "address": "stake1u93wsc8ewn472qw50n06q5vyl843jr3u7lcq7rjc6haacmsfwqcqn",
     },
     {
