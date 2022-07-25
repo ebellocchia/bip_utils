@@ -22,7 +22,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronAddr
+from bip_utils import AdaByronAddrTypes, AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
@@ -42,6 +42,7 @@ TEST_VECT = [
         "address_dec": b"f27e98d1bc867bff78310d9e8cd4dedc438e269a93470bf5fde53e20",
         "address_params": {
             "chain_code": binascii.unhexlify(b"b378616c5e7fa932c7563a390b5404419691ba53b0e37917650870679e061479"),
+            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
         },
         "address": "Ae2tdPwUPEZM18sAbkECJG9GxaRd2PMbaoxUjs5W7iUckiCGUSTMggRzLwt",
     },
@@ -50,6 +51,7 @@ TEST_VECT = [
         "address_dec": b"2fd2ecc2c52a0b8f0b7c70f41ea989e52aab7654f1ce68d0ba84d3df",
         "address_params": {
             "chain_code": binascii.unhexlify(b"7f69a41a170714ca1d0ba84e33421301c7ad80e25f0c05d1d5910d422b063648"),
+            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
         },
         "address": "Ae2tdPwUPEZ1aXoiiRE6CHf7d4zFL2PwtC5WV5E7Cp7Dfjr9J9cL3pwywRU",
     },
@@ -58,16 +60,18 @@ TEST_VECT = [
         "address_dec": b"c342eab10589b628a75e5fd10366e5f2f45919e10180df4333a1d81b",
         "address_params": {
             "chain_code": binascii.unhexlify(b"f069f33174ba3117f4c6b0ee4b9fc568b0d6b17356a661f7210eca155f9a44ba"),
+            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
         },
         "address": "Ae2tdPwUPEZGHncTxWxeGm1JbDsgfCicRupttizSDUAMrD81h1XNDqbXzE7",
     },
     {
         "pub_key": b"00c87eccc612c395b23f413adc06dd9547072af0d413fd11a0c17e6101d8c0467c",
-        "address_dec": b"f88fda80938cab2f2a9963a6832d7250e72b933543c2e58517258784",
+        "address_dec": b"83287a391c6b3847c3d27117db11ae6922181140fcd638b01d3a32c9",
         "address_params": {
             "chain_code": binascii.unhexlify(b"34db859ba3294c2fa2c130587516f77f04cf70925c01e8f4cd5f34f7ba5b67a0"),
+            "addr_type": AdaByronAddrTypes.REDEMPTION,
         },
-        "address": "Ae2tdPwUPEZMcFT3TWpB8hYmktmWXDZm6xdNzFTELGGMNYAJXtBY87bVR2W",
+        "address": "Ae2tdPwUPEZ9tojGU84oHw8578UURrhGEiRKtAoExUJy9mrxJTdffEvyZ93",
     },
 ]
 
