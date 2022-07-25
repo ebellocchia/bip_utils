@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import Bip49Conf, Bip49, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins
+from bip_utils import Bip49Conf, Bip49, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins, Cip1852Coins
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 from tests.bip.bip44.test_bip44 import TEST_SEED
 
@@ -723,7 +723,7 @@ class Bip49Tests(unittest.TestCase):
 
     # Test for IsLevel method
     def test_is_level(self):
-        Bip44BaseTestHelper.test_is_level(self, Bip49, Bip49Coins, TEST_SEED)
+        Bip44BaseTestHelper.test_is_level(self, Bip49, Bip49Coins.BITCOIN, TEST_SEED)
 
     # Test different key formats
     def test_key_formats(self):
@@ -731,12 +731,12 @@ class Bip49Tests(unittest.TestCase):
 
     # Test construction from extended keys with valid and invalid depths
     def test_from_ex_key_depth(self):
-        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip49, Bip49Coins, TEST_VECT_EX_KEY_DEPTHS)
+        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip49, Bip49Coins.BITCOIN, TEST_VECT_EX_KEY_DEPTHS)
 
     # Test type error during construction
     def test_type_error(self):
-        Bip44BaseTestHelper.test_type_error(self, Bip49, [Bip44Coins, Bip84Coins, Bip86Coins])
+        Bip44BaseTestHelper.test_type_error(self, Bip49, [Bip44Coins, Bip84Coins, Bip86Coins, Cip1852Coins])
 
     # Test invalid path derivations
     def test_invalid_derivations(self):
-        Bip44BaseTestHelper.test_invalid_derivations(self, Bip49, Bip49Coins, TEST_SEED)
+        Bip44BaseTestHelper.test_invalid_derivations(self, Bip49, Bip49Coins.BITCOIN, TEST_SEED)
