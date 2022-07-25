@@ -218,8 +218,6 @@ class Bip44BaseTestHelper:
             bip_obj_ctx = bip_class.FromSeed(binascii.unhexlify(test["seed"]), test["coin"]).DeriveDefaultPath()
             # Test addresses
             if test["coin"] in (Bip44Coins.MONERO_ED25519_SLIP, Bip44Coins.MONERO_SECP256K1):
-                ut_class.assertRaises(ValueError, bip_obj_ctx.PublicKey().ToAddress)
-
                 monero = Monero.FromBip44PrivateKey(bip_obj_ctx.PrivateKey().Raw().ToBytes())
                 def_addr = monero.PrimaryAddress()
             else:

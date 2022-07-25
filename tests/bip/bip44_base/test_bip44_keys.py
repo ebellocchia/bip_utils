@@ -21,12 +21,12 @@
 
 # Imports
 import unittest
-from bip_utils import Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey
+from bip_utils import Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey, Cip1852Conf
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.bip.bip32.test_bip32_keys import TEST_KEY_DATA
 from tests.ecc.test_ecc import (
     TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY
+    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_KHOLAW_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY
 )
 
 # Public keys for testing
@@ -95,7 +95,7 @@ TEST_BIP32_PRIV_KEY = Bip32PrivateKey.FromBytesOrKeyObject(
 class Bip44KeyDataTests(unittest.TestCase):
     # Test private key
     def test_priv_key(self):
-        for test in TEST_PRIV_KEYS:
+        for i, test in enumerate(TEST_PRIV_KEYS):
             bip32_key = Bip32PrivateKey.FromBytesOrKeyObject(
                 test["key"], TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, test["key"].CurveType()
             )
@@ -105,6 +105,7 @@ class Bip44KeyDataTests(unittest.TestCase):
             self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
             self.assertEqual(bip44_key.Raw().ToBytes(), bip32_key.Raw().ToBytes())
             self.assertEqual(bip44_key.ToWif(), test["wif"])
+            self.__test_pub_key(bip44_key.PublicKey(), bip32_key.PublicKey(), TEST_PUB_KEYS[i])
 
     # Test public key
     def test_pub_key(self):
@@ -113,15 +114,39 @@ class Bip44KeyDataTests(unittest.TestCase):
                 test["key"], TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, test["key"].CurveType()
             )
             bip44_key = Bip44PublicKey(bip32_key, test["conf"])
-
-            self.assertTrue(bip44_key.Bip32Key() is bip32_key)
-            self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
-            self.assertEqual(bip44_key.RawCompressed().ToBytes(), bip32_key.RawCompressed().ToBytes())
-            self.assertEqual(bip44_key.RawUncompressed().ToBytes(), bip32_key.RawUncompressed().ToBytes())
-            self.assertEqual(bip44_key.ToAddress(), test["address"])
+            self.__test_pub_key(bip44_key, bip32_key, test)
 
     # Test invalid params
     def test_invalid_params(self):
         # Different elliptic curve between BIP32 key and coin configuration
         self.assertRaises(ValueError, Bip44PublicKey, TEST_BIP32_PUB_KEY, Bip44Conf.Neo)
         self.assertRaises(ValueError, Bip44PrivateKey, TEST_BIP32_PRIV_KEY, Bip44Conf.Neo)
+
+    # Test forbidden address classes
+    def test_forbidden_addr_cls(self):
+        # Cardano
+        bip32_key = Bip32PublicKey.FromBytesOrKeyObject(
+            TEST_ED25519_KHOLAW_PUB_KEY, TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, TEST_ED25519_KHOLAW_PUB_KEY.CurveType()
+        )
+        for coin_conf in (Cip1852Conf.CardanoIcarusMainNet, Cip1852Conf.CardanoIcarusTestNet,
+                          Cip1852Conf.CardanoLedgerMainNet, Cip1852Conf.CardanoLedgerTestNet):
+            self.assertRaises(ValueError, Bip44PublicKey(bip32_key, coin_conf).ToAddress)
+
+        # Monero (ed25519)
+        bip32_key = Bip32PublicKey.FromBytesOrKeyObject(
+            TEST_ED25519_PUB_KEY, TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, TEST_ED25519_PUB_KEY.CurveType()
+        )
+        self.assertRaises(ValueError, Bip44PublicKey(bip32_key, Bip44Conf.MoneroEd25519Slip).ToAddress)
+        # Monero (secp256k1)
+        bip32_key = Bip32PublicKey.FromBytesOrKeyObject(
+            TEST_SECP256K1_PUB_KEY, TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, TEST_SECP256K1_PUB_KEY.CurveType()
+        )
+        self.assertRaises(ValueError, Bip44PublicKey(bip32_key, Bip44Conf.MoneroSecp256k1).ToAddress)
+
+    # Test public key
+    def __test_pub_key(self, bip44_key, bip32_key, test):
+        self.assertTrue(bip44_key.Bip32Key() is bip32_key)
+        self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
+        self.assertEqual(bip44_key.RawCompressed().ToBytes(), bip32_key.RawCompressed().ToBytes())
+        self.assertEqual(bip44_key.RawUncompressed().ToBytes(), bip32_key.RawUncompressed().ToBytes())
+        self.assertEqual(bip44_key.ToAddress(), test["address"])
