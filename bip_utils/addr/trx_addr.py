@@ -103,8 +103,5 @@ class TrxAddrEncoder(IAddrEncoder):
         return Base58Encoder.CheckEncode(CoinsConf.Tron.ParamByKey("addr_prefix") + BytesUtils.FromHexString(eth_addr))
 
 
-class TrxAddr(TrxAddrEncoder):
-    """
-    Tron address class.
-    Only kept for compatibility, TrxAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+TrxAddr = TrxAddrEncoder

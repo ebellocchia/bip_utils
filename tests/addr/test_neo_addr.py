@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import CoinsConf, NeoAddrDecoder, NeoAddrEncoder
+from bip_utils import CoinsConf, NeoAddrDecoder, NeoAddrEncoder, NeoAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_NIST256P1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_NIST256P1_PUB_KEY_INVALID, Nist256p1PublicKey
@@ -102,3 +102,7 @@ class NeoAddrTests(unittest.TestCase):
             TEST_NIST256P1_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_NIST256P1_PUB_KEY_INVALID
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(NeoAddr, NeoAddrEncoder)

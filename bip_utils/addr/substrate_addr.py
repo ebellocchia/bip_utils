@@ -123,13 +123,6 @@ class SubstrateEd25519AddrEncoder(IAddrEncoder):
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:], ss58_format)
 
 
-class SubstrateEd25519Addr(SubstrateEd25519AddrEncoder):
-    """
-    Substrate address class, based on ed25519 curve.
-    Only kept for compatibility, SubstrateEd25519AddrEncoder shall be used instead.
-    """
-
-
 class SubstrateSr25519AddrDecoder(IAddrDecoder):
     """
     Substrate address decoder class, based on sr25519 curve.
@@ -187,8 +180,6 @@ class SubstrateSr25519AddrEncoder(IAddrEncoder):
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes(), ss58_format)
 
 
-class SubstrateSr25519Addr(SubstrateSr25519AddrEncoder):
-    """
-    Substrate address class, based on sr25519 curve.
-    Only kept for compatibility, SubstrateSr25519AddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder classes shall be used instead
+SubstrateEd25519Addr = SubstrateEd25519AddrEncoder
+SubstrateSr25519Addr = SubstrateSr25519AddrEncoder

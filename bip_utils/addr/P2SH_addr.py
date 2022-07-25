@@ -122,13 +122,6 @@ class P2SHAddrEncoder(IAddrEncoder):
         return Base58Encoder.CheckEncode(net_ver_bytes + _P2SHAddrUtils.AddScriptSig(pub_key_obj))
 
 
-class P2SHAddr(P2SHAddrEncoder):
-    """
-    P2SH address class.
-    Only kept for compatibility, P2SHAddrEncoder shall be used instead.
-    """
-
-
 class BchP2SHAddrDecoder(IAddrDecoder):
     """
     Bitcoin Cash P2SH address decoder class.
@@ -192,8 +185,6 @@ class BchP2SHAddrEncoder(IAddrEncoder):
         return BchBech32Encoder.Encode(hrp, net_ver_bytes, _P2SHAddrUtils.AddScriptSig(pub_key_obj))
 
 
-class BchP2SHAddr(BchP2SHAddrEncoder):
-    """
-    Bitcoin Cash P2SH address class.
-    Only kept for compatibility, BchP2SHAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder classes shall be used instead
+P2SHAddr = P2SHAddrEncoder
+BchP2SHAddr = BchP2SHAddrEncoder

@@ -22,7 +22,11 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import CoinsConf, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder
+from bip_utils import (
+    CoinsConf,
+    XmrAddrDecoder, XmrAddrEncoder, XmrAddr,
+    XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XmrIntegratedAddr
+)
 from bip_utils.addr.xmr_addr import XmrAddrConst
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES
@@ -242,3 +246,8 @@ class XmrAddrTests(unittest.TestCase):
             },
             ValueError
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(XmrAddr, XmrAddrEncoder)
+        self.assertEqual(XmrIntegratedAddr, XmrIntegratedAddrEncoder)

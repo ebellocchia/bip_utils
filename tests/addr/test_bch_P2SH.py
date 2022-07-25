@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import CoinsConf, BchP2SHAddrDecoder, BchP2SHAddrEncoder
+from bip_utils import CoinsConf, BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -104,3 +104,7 @@ class P2SHTests(unittest.TestCase):
             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_SECP256K1_PUB_KEY_INVALID
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(BchP2SHAddr, BchP2SHAddrEncoder)

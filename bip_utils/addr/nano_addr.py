@@ -144,8 +144,5 @@ class NanoAddrEncoder(IAddrEncoder):
         return CoinsConf.Nano.ParamByKey("addr_prefix") + b32_enc[len(NanoAddrConst.PAYLOAD_PAD_ENC):]
 
 
-class NanoAddr(NanoAddrEncoder):
-    """
-    Nano address class.
-    Only kept for compatibility, NanoAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+NanoAddr = NanoAddrEncoder

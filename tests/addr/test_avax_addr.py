@@ -21,7 +21,10 @@
 
 # Imports
 import unittest
-from bip_utils import AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxXChainAddrDecoder, AvaxXChainAddrEncoder
+from bip_utils import (
+    AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxPChainAddr,
+    AvaxXChainAddrDecoder, AvaxXChainAddrEncoder, AvaxXChainAddr
+)
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -128,3 +131,8 @@ class AvaxAddrTests(unittest.TestCase):
             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_SECP256K1_PUB_KEY_INVALID
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(AvaxPChainAddr, AvaxPChainAddrEncoder)
+        self.assertEqual(AvaxXChainAddr, AvaxXChainAddrEncoder)

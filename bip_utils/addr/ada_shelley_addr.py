@@ -290,15 +290,11 @@ class AdaShelleyRewardAddrEncoder(IAddrEncoder):
                                     first_byte + pub_key_hash)
 
 
-class AdaShelleyAddr(AdaShelleyAddrEncoder):
-    """
-    Cardano Shelley address class.
-    Only kept for compatibility, AdaShelleyAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder classes shall be used instead
+AdaShelleyAddr = AdaShelleyAddrEncoder
+AdaShelleyRewardAddr = AdaShelleyRewardAddrEncoder
 
-
-class AdaShelleyRewardAddr(AdaShelleyRewardAddrEncoder):
-    """
-    Cardano Shelley reward address class.
-    Only kept for compatibility, AdaShelleyRewardAddrEncoder shall be used instead.
-    """
+# Alternative names for reward address
+AdaShelleyStakingAddrDecoder = AdaShelleyRewardAddrDecoder
+AdaShelleyStakingAddrEncoder = AdaShelleyRewardAddrEncoder
+AdaShelleyStakingAddr = AdaShelleyRewardAddr

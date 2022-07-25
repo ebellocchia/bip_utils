@@ -126,8 +126,5 @@ class AlgoAddrEncoder(IAddrEncoder):
         return Base32Encoder.EncodeNoPadding(pub_key_bytes + checksum_bytes)
 
 
-class AlgoAddr(AlgoAddrEncoder):
-    """
-    Algorand address class.
-    Only kept for compatibility, AlgoAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+AlgoAddr = AlgoAddrEncoder

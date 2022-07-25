@@ -135,8 +135,5 @@ class XtzAddrEncoder(IAddrEncoder):
         return Base58Encoder.CheckEncode(prefix.value + blake_bytes)
 
 
-class XtzAddr(XtzAddrEncoder):
-    """
-    Tezos address class.
-    Only kept for compatibility, XtzAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+XtzAddr = XtzAddrEncoder

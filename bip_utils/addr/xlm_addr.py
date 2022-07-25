@@ -158,8 +158,5 @@ class XlmAddrEncoder(IAddrEncoder):
         return Base32Encoder.EncodeNoPadding(payload_bytes + checksum_bytes)
 
 
-class XlmAddr(XlmAddrEncoder):
-    """
-    Stellar address class.
-    Only kept for compatibility, XlmAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+XlmAddr = XlmAddrEncoder

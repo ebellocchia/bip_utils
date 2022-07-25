@@ -190,8 +190,5 @@ class FilSecp256k1AddrEncoder(IAddrEncoder):
         return _FilAddrUtils.EncodeKeyBytes(pub_key_bytes, FillAddrTypes.SECP256K1)
 
 
-class FilSecp256k1Addr(FilSecp256k1AddrEncoder):
-    """
-    Filecoin address class, based on secp256k1 curve.
-    Only kept for compatibility, FilSecp256k1AddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+FilSecp256k1Addr = FilSecp256k1AddrEncoder

@@ -99,8 +99,5 @@ class AtomAddrEncoder(IAddrEncoder):
                                     CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
 
 
-class AtomAddr(AtomAddrEncoder):
-    """
-    Atom address class.
-    Only kept for compatibility, AtomAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+AtomAddr = AtomAddrEncoder

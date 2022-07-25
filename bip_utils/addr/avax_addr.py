@@ -110,13 +110,6 @@ class AvaxPChainAddrEncoder(IAddrEncoder):
                                                   hrp=CoinsConf.AvaxPChain.ParamByKey("addr_hrp"))
 
 
-class AvaxPChainAddr(AvaxPChainAddrEncoder):
-    """
-    Avax P-Chain address class.
-    Only kept for compatibility, AvaxPChainAddrEncoder shall be used instead.
-    """
-
-
 class AvaxXChainAddrDecoder(IAddrDecoder):
     """
     Avax X-Chain address decoder class.
@@ -172,8 +165,6 @@ class AvaxXChainAddrEncoder(IAddrEncoder):
                                                   hrp=CoinsConf.AvaxXChain.ParamByKey("addr_hrp"))
 
 
-class AvaxXChainAddr(AvaxXChainAddrEncoder):
-    """
-    Avax X-Chain address class.
-    Only kept for compatibility, AvaxXChainAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder classes shall be used instead
+AvaxPChainAddr = AvaxPChainAddrEncoder
+AvaxXChainAddr = AvaxXChainAddrEncoder

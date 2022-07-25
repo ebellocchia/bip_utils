@@ -101,8 +101,5 @@ class ZilAddrEncoder(IAddrEncoder):
                                     key_hash[-ZilAddrConst.SHA256_BYTE_LEN:])
 
 
-class ZilAddr(ZilAddrEncoder):
-    """
-    Zilliqa address class.
-    Only kept for compatibility, ZilAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+ZilAddr = ZilAddrEncoder

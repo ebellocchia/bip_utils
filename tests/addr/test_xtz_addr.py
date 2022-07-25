@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder
+from bip_utils import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder, XtzAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_PUB_KEY, Ed25519PublicKey
@@ -116,3 +116,7 @@ class XtzAddrTests(unittest.TestCase):
             {"prefix": 0},
             TypeError
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(XtzAddr, XtzAddrEncoder)

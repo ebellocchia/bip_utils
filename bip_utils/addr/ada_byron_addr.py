@@ -201,8 +201,5 @@ class AdaByronAddrEncoder(IAddrEncoder):
         )
 
 
-class AdaByronAddr(AdaByronAddrEncoder):
-    """
-    Cardano Byron address class.
-    Only kept for compatibility, AdaByronAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+AdaByronAddr = AdaByronAddrEncoder

@@ -95,8 +95,5 @@ class EgldAddrEncoder(IAddrEncoder):
                                     pub_key_obj.RawCompressed().ToBytes()[1:])
 
 
-class EgldAddr(EgldAddrEncoder):
-    """
-    Elrond address class.
-    Only kept for compatibility, EgldAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+EgldAddr = EgldAddrEncoder

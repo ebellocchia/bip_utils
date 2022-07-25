@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import NanoAddrDecoder, NanoAddrEncoder
+from bip_utils import NanoAddrDecoder, NanoAddrEncoder, NanoAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_BLAKE2B_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519Blake2bPublicKey
@@ -99,3 +99,7 @@ class NanoAddrTests(unittest.TestCase):
             TEST_ED25519_BLAKE2B_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(NanoAddr, NanoAddrEncoder)

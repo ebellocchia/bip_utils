@@ -130,8 +130,5 @@ class EosAddrEncoder(IAddrEncoder):
         return CoinsConf.Eos.ParamByKey("addr_prefix") + Base58Encoder.Encode(pub_key_bytes + checksum_bytes)
 
 
-class EosAddr(EosAddrEncoder):
-    """
-    EOS address class.
-    Only kept for compatibility, EosAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+EosAddr = EosAddrEncoder

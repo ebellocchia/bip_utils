@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder
+from bip_utils import XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder, XlmAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_PUB_KEY, Ed25519PublicKey
@@ -123,3 +123,7 @@ class XlmAddrTests(unittest.TestCase):
             {"addr_type": 0},
             TypeError
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(XlmAddr, XlmAddrEncoder)

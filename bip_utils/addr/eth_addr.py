@@ -138,8 +138,5 @@ class EthAddrEncoder(IAddrEncoder):
                                                                else addr)
 
 
-class EthAddr(EthAddrEncoder):
-    """
-    Ethereum address class.
-    Only kept for compatibility, EthAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+EthAddr = EthAddrEncoder

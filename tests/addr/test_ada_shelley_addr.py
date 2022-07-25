@@ -23,7 +23,10 @@
 import binascii
 import unittest
 from bip_utils import (
-    AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder
+    AdaShelleyAddrNetworkTags,
+    AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddr,
+    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyRewardAddr,
+    AdaShelleyStakingAddrDecoder, AdaShelleyStakingAddrEncoder, AdaShelleyStakingAddr
 )
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
@@ -36,6 +39,7 @@ TEST_VECT_ADDRESS = [
         "address_dec": b"0ea494eb8231e7070bd0d697af52425e043e0a9c07b0125e01dcd24c62e860f974ebe501d47cdfa05184f9eb190e3cf7f00f0e58d5fbdc6e",
         "address_params": {
             "pub_skey": binascii.unhexlify(b"7680c767b8096daa3299dc282068327c79976f346e55b72d0ffd751295a45913"),
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
         },
         "address": "addr1qy82f98tsgc7wpct6rtf0t6jgf0qg0s2nsrmqyj7q8wdynrzaps0ja8tu5qaglxl5pgcf70try8realspu89340mm3hq6jjmds",
     },
@@ -44,6 +48,7 @@ TEST_VECT_ADDRESS = [
         "address_dec": b"36ba392f729a3264bfe7d573f22f4d04c498456c027bac97ac7f6f87cfff9ed681cc4500ec33e764b04a9aaa6f6fc7d0be70c5f5bb05e9a0",
         "address_params": {
             "pub_skey": binascii.unhexlify(b"4a3869ac2c55b83898016041817e47c67d89214f60f78ba8d4591f1545271dc1"),
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
         },
         "address": "addr1qymt5wf0w2drye9lul2h8u30f5zvfxz9dsp8htyh43lklp70l70ddqwvg5qwcvl8vjcy4x42dahu0597wrzltwc9axsqx5l9wh",
     },
@@ -52,6 +57,7 @@ TEST_VECT_ADDRESS = [
         "address_dec": b"bfae29ef2ee21e52354d25b63c833601effef20a28416db030f406eb4cdbcb0cac56366d6195808f9ea9a5d17c5a3b184ff685cc7d84b363",
         "address_params": {
             "pub_skey": binascii.unhexlify(b"e0a4e859cbe847c4877e5203559fe997e22c6b700362af6767bf3d9c3b9343c7"),
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
         },
         "address": "addr1qxl6u2009m3pu534f5jmv0yrxcq7llhjpg5yzmdsxr6qd66vm09setzkxekkr9vq3702nfw303drkxz076zuclvykd3sejrk53",
     },
@@ -60,6 +66,7 @@ TEST_VECT_ADDRESS = [
         "address_dec": b"e8ed2050d5ee6b751d57007820c3778a21e649b10a1fe148985d8249d3990dee560b4915dc3720e9a71e8931b47ed28eb2da91fcc2b9c14d",
         "address_params": {
             "pub_skey": binascii.unhexlify(b"6b72d1d7ce598245734a6f92093b477298f47626ac1a446bc65f48d420a7eed6"),
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
         },
         "address": "addr1q85w6gzs6hhxkaga2uq8sgxrw79zrejfky9plc2gnpwcyjwnnyx7u4stfy2acdeqaxn3azf3k3ld9r4jm2gles4ec9xstvp7vy",
     },
@@ -68,8 +75,9 @@ TEST_VECT_ADDRESS = [
         "address_dec": b"785d2ac12adb2afdf2c046fed50c7c1bb474b74b0307b740551a1b6103bf8d55c7ff570dd4eb783f49ffa5987b2734cdc85557289ef64235",
         "address_params": {
             "pub_skey": binascii.unhexlify(b"fa9e3a2bfdbcb0eec7af89313b504418da860728c7ec9ed7d939d1e9e2b683c0"),
+            "net_tag": AdaShelleyAddrNetworkTags.TESTNET,
         },
-        "address": "addr1q9u962kp9tdj4l0jcpr0a4gv0sdmga9hfvps0d6q25dpkcgrh7x4t3ll2uxaf6mc8ayllfvc0vnnfnwg24tj38hkgg6sfs87vv",
+        "address": "addr_test1qpu962kp9tdj4l0jcpr0a4gv0sdmga9hfvps0d6q25dpkcgrh7x4t3ll2uxaf6mc8ayllfvc0vnnfnwg24tj38hkgg6s2x67qn",
     },
 ]
 
@@ -78,32 +86,42 @@ TEST_VECT_REWARD_ADDRESS = [
     {
         "pub_key": b"7680c767b8096daa3299dc282068327c79976f346e55b72d0ffd751295a45913",
         "address_dec": b"62e860f974ebe501d47cdfa05184f9eb190e3cf7f00f0e58d5fbdc6e",
-        "address_params": {},
+        "address_params": {
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
+        },
         "address": "stake1u93wsc8ewn472qw50n06q5vyl843jr3u7lcq7rjc6haacmsfwqcqn",
     },
     {
         "pub_key": b"4a3869ac2c55b83898016041817e47c67d89214f60f78ba8d4591f1545271dc1",
         "address_dec": b"cfff9ed681cc4500ec33e764b04a9aaa6f6fc7d0be70c5f5bb05e9a0",
-        "address_params": {},
+        "address_params": {
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
+        },
         "address": "stake1u88ll8kks8xy2q8vx0nkfvz2n24x7m786zl8p304hvz7ngqcx6xaz",
     },
     {
         "pub_key": b"e0a4e859cbe847c4877e5203559fe997e22c6b700362af6767bf3d9c3b9343c7",
         "address_dec": b"4cdbcb0cac56366d6195808f9ea9a5d17c5a3b184ff685cc7d84b363",
-        "address_params": {},
+        "address_params": {
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
+        },
         "address": "stake1u9xdhjcv43trvmtpjkqgl84f5hghck3mrp8ldpwv0kztxccc8t6wz",
     },
     {
         "pub_key": b"6b72d1d7ce598245734a6f92093b477298f47626ac1a446bc65f48d420a7eed6",
         "address_dec": b"d3990dee560b4915dc3720e9a71e8931b47ed28eb2da91fcc2b9c14d",
-        "address_params": {},
+        "address_params": {
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
+        },
         "address": "stake1u8fejr0w2c95j9wuxuswnfc73ycmglkj36ed4y0uc2uuzng0rx39x",
     },
     {
         "pub_key": b"fa9e3a2bfdbcb0eec7af89313b504418da860728c7ec9ed7d939d1e9e2b683c0",
         "address_dec": b"03bf8d55c7ff570dd4eb783f49ffa5987b2734cdc85557289ef64235",
-        "address_params": {},
-        "address": "stake1uypmlr24cll4wrw5adur7j0l5kv8kfe5ehy924egnmmyydgxh0v07",
+        "address_params": {
+            "net_tag": AdaShelleyAddrNetworkTags.TESTNET,
+        },
+        "address": "stake_test1uqpmlr24cll4wrw5adur7j0l5kv8kfe5ehy924egnmmyydgpa9wtr",
     },
 ]
 
@@ -188,3 +206,15 @@ class AdaShelleyAddrTests(unittest.TestCase):
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
+
+    # Test staking address class
+    def test_staking_addr_cls(self):
+        self.assertEqual(AdaShelleyStakingAddrDecoder, AdaShelleyRewardAddrDecoder)
+        self.assertEqual(AdaShelleyStakingAddrEncoder, AdaShelleyRewardAddrEncoder)
+        self.assertEqual(AdaShelleyStakingAddr, AdaShelleyRewardAddr)
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(AdaShelleyAddr, AdaShelleyAddrEncoder)
+        self.assertEqual(AdaShelleyRewardAddr, AdaShelleyRewardAddrEncoder)
+        self.assertEqual(AdaShelleyStakingAddr, AdaShelleyStakingAddrEncoder)

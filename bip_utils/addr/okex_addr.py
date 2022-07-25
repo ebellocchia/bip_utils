@@ -96,8 +96,5 @@ class OkexAddrEncoder(IAddrEncoder):
                                     BytesUtils.FromHexString(eth_addr))
 
 
-class OkexAddr(OkexAddrEncoder):
-    """
-    OKEx address class.
-    Only kept for compatibility, OkexAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+OkexAddr = OkexAddrEncoder

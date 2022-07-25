@@ -200,8 +200,5 @@ class P2TRAddrEncoder(IAddrEncoder):
                                           _P2TRUtils.TweakPublicKey(pub_key_obj))
 
 
-class P2TRAddr(P2TRAddrEncoder):
-    """
-    P2TR address class.
-    Only kept for compatibility, P2TRAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+P2TRAddr = P2TRAddrEncoder

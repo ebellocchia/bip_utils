@@ -21,7 +21,7 @@
 
 # Imports
 import unittest
-from bip_utils import CoinsConf, P2TRAddrDecoder, P2TRAddrEncoder
+from bip_utils import CoinsConf, P2TRAddrDecoder, P2TRAddrEncoder, P2TRAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -88,9 +88,9 @@ class P2TRTests(unittest.TestCase):
     def test_invalid_dec(self):
         AddrBaseTestHelper.test_invalid_dec(
             self,
-             P2TRAddrDecoder,
-             {"hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp")},
-             TEST_VECT_DEC_INVALID
+            P2TRAddrDecoder,
+            {"hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp")},
+            TEST_VECT_DEC_INVALID
         )
 
     # Test invalid keys
@@ -102,3 +102,7 @@ class P2TRTests(unittest.TestCase):
             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_SECP256K1_PUB_KEY_INVALID
         )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertEqual(P2TRAddr, P2TRAddrEncoder)

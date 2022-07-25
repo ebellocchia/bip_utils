@@ -121,8 +121,5 @@ class NeoAddrEncoder(IAddrEncoder):
         return Base58Encoder.CheckEncode(ver_bytes + CryptoUtils.Hash160(payload_bytes))
 
 
-class NeoAddr(NeoAddrEncoder):
-    """
-    Neo address class.
-    Only kept for compatibility, NeoAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+NeoAddr = NeoAddrEncoder
