@@ -104,15 +104,6 @@ class Bip44PublicKey:
         Returns:
             str: Address string
         """
-        return self.__ComputeAddress()
-
-    def __ComputeAddress(self) -> str:
-        """
-        Compute address.
-
-        Returns:
-            str: Address string
-        """
         addr_cls = self.m_coin_conf.AddrClass()
         pub_key_obj = self.m_pub_key.KeyObject()
 
@@ -184,6 +175,17 @@ class Bip44PrivateKey:
             DataBytes object: DataBytes object
         """
         return self.m_priv_key.Raw()
+
+    @lru_cache()
+    def PublicKey(self) -> Bip44PublicKey:
+        """
+        Get the public key correspondent to the private one.
+
+        Returns:
+            Bip44PublicKey object: Bip44PublicKey object
+        """
+        return Bip44PublicKey(self.m_priv_key.PublicKey(),
+                              self.m_coin_conf)
 
     @lru_cache()
     def ToWif(self,
