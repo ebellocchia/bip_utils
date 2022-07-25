@@ -168,12 +168,12 @@ class AdaShelleyAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
         AddrBaseTestHelper.test_encode_key(self, AdaShelleyAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ADDRESS)
-        AddrBaseTestHelper.test_encode_key(self, AdaShelleyRewardAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_REWARD_ADDRESS)
+        AddrBaseTestHelper.test_encode_key(self, AdaShelleyStakingAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_REWARD_ADDRESS)
 
     # Test decode address
     def test_decode_addr(self):
         AddrBaseTestHelper.test_decode_addr(self, AdaShelleyAddrDecoder, TEST_VECT_ADDRESS)
-        AddrBaseTestHelper.test_decode_addr(self, AdaShelleyRewardAddrDecoder, TEST_VECT_REWARD_ADDRESS)
+        AddrBaseTestHelper.test_decode_addr(self, AdaShelleyStakingAddrDecoder, TEST_VECT_REWARD_ADDRESS)
 
     # Test invalid decoding
     def test_invalid_dec(self):
@@ -187,7 +187,7 @@ class AdaShelleyAddrTests(unittest.TestCase):
         )
         AddrBaseTestHelper.test_invalid_dec(
             self,
-            AdaShelleyRewardAddrDecoder,
+            AdaShelleyStakingAddrDecoder,
             {},
             TEST_VECT_DEC_INVALID_REWARD_ADDRESS
         )
@@ -203,12 +203,19 @@ class AdaShelleyAddrTests(unittest.TestCase):
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            AdaShelleyStakingAddrEncoder,
+            {},
+            TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_ED25519_PUB_KEY_INVALID
+        )
 
-    # Test staking address class
+    # Test reward address class
     def test_staking_addr_cls(self):
-        self.assertEqual(AdaShelleyStakingAddrDecoder, AdaShelleyRewardAddrDecoder)
-        self.assertEqual(AdaShelleyStakingAddrEncoder, AdaShelleyRewardAddrEncoder)
-        self.assertEqual(AdaShelleyStakingAddr, AdaShelleyRewardAddr)
+        self.assertTrue(AdaShelleyRewardAddrDecoder is AdaShelleyStakingAddrDecoder)
+        self.assertTrue(AdaShelleyRewardAddrEncoder is AdaShelleyStakingAddrEncoder)
+        self.assertTrue(AdaShelleyRewardAddr is AdaShelleyStakingAddr)
 
     # Test old address class
     def test_old_addr_cls(self):

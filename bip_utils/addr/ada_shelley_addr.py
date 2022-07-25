@@ -59,10 +59,10 @@ class AdaShelleyAddrConst:
         AdaShelleyAddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("addr_hrp"),
         AdaShelleyAddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("addr_hrp"),
     }
-    # Network tag to reward address HRP
+    # Network tag to staking address HRP
     NETWORK_TAG_TO_REWARD_ADDR_HRP: Dict[AdaShelleyAddrNetworkTags, str] = {
-        AdaShelleyAddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("reward_addr_hrp"),
-        AdaShelleyAddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("reward_addr_hrp"),
+        AdaShelleyAddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("staking_addr_hrp"),
+        AdaShelleyAddrNetworkTags.TESTNET: CoinsConf.CardanoTestNet.ParamByKey("staking_addr_hrp"),
     }
 
 
@@ -203,10 +203,10 @@ class AdaShelleyAddrEncoder(IAddrEncoder):
                                     first_byte + pub_key_hash + pub_skey_hash)
 
 
-class AdaShelleyRewardAddrDecoder(IAddrDecoder):
+class AdaShelleyStakingAddrDecoder(IAddrDecoder):
     """
-    Cardano Shelley reward address decoder class.
-    It allows the Cardano Shelley reward address decoding.
+    Cardano Shelley staking address decoder class.
+    It allows the Cardano Shelley staking address decoding.
     """
 
     @staticmethod
@@ -251,17 +251,17 @@ class AdaShelleyRewardAddrDecoder(IAddrDecoder):
             return addr_dec_bytes[1:]
 
 
-class AdaShelleyRewardAddrEncoder(IAddrEncoder):
+class AdaShelleyStakingAddrEncoder(IAddrEncoder):
     """
-    Cardano Shelley reward address encoder class.
-    It allows the Cardano Shelley reward address encoding.
+    Cardano Shelley staking address encoder class.
+    It allows the Cardano Shelley staking address encoding.
     """
 
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
         """
-        Encode a public key to Cardano Shelley reward address.
+        Encode a public key to Cardano Shelley staking address.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -292,9 +292,9 @@ class AdaShelleyRewardAddrEncoder(IAddrEncoder):
 
 # For compatibility with old versions, Encoder classes shall be used instead
 AdaShelleyAddr = AdaShelleyAddrEncoder
-AdaShelleyRewardAddr = AdaShelleyRewardAddrEncoder
+AdaShelleyStakingAddr = AdaShelleyStakingAddrEncoder
 
-# Alternative names for reward address
-AdaShelleyStakingAddrDecoder = AdaShelleyRewardAddrDecoder
-AdaShelleyStakingAddrEncoder = AdaShelleyRewardAddrEncoder
-AdaShelleyStakingAddr = AdaShelleyRewardAddr
+# Alternative names for staking address
+AdaShelleyRewardAddrDecoder = AdaShelleyStakingAddrDecoder
+AdaShelleyRewardAddrEncoder = AdaShelleyStakingAddrEncoder
+AdaShelleyRewardAddr = AdaShelleyStakingAddr
