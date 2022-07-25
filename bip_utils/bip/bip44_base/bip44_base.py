@@ -385,7 +385,7 @@ class Bip44Base(ABC):
     def _ChangeGeneric(self,
                        change_type: Bip44Changes) -> Bip44Base:
         """
-        Derive a child key from the specified chain type and return a new Bip44Base object.
+        Derive a child key from the specified change type and return a new Bip44Base object.
         It shall be called from a child class.
 
         Args:
@@ -395,7 +395,7 @@ class Bip44Base(ABC):
             Bip44Base object: Bip44Base object
 
         Raises:
-            TypeError: If chain index is not a Bip44Changes enum
+            TypeError: If change type is not a Bip44Changes enum
             Bip44DepthError: If the current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
@@ -608,7 +608,7 @@ class Bip44Base(ABC):
             Bip44Base object: Bip44Base object
 
         Raises:
-            TypeError: If chain index is not a Bip44Changes enum
+            TypeError: If change type is not a Bip44Changes enum
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """

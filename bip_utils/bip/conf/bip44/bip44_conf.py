@@ -22,10 +22,9 @@
 
 # Imports
 from bip_utils.addr import (
-    AdaByronAddrEncoder, AdaShelleyAddrNetworkTags, AdaShelleyAddrEncoder,
-    AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder, BchP2PKHAddrEncoder,
-    EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder, NearAddrEncoder,
-    NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
+    AdaByronAddrEncoder, AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder,
+    BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder,
+    NearAddrEncoder, NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
     SubstrateEd25519AddrEncoder, TrxAddrEncoder, XlmAddrTypes, XlmAddrEncoder, XmrAddrEncoder,
     XrpAddrEncoder, XtzAddrPrefixes, XtzAddrEncoder, ZilAddrEncoder
 )
@@ -330,7 +329,6 @@ class Bip44Conf:
             "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
         },
     )
-
     # Configuration for Cardano Byron (Ledger)
     CardanoByronLedger: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
@@ -343,36 +341,6 @@ class Bip44Conf:
         addr_cls=AdaByronAddrEncoder,
         addr_params={
             "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
-        },
-    )
-
-    # Configuration for Cardano Shelley (Ledger) main net
-    CardanoShelleyLedgerMainNet: BipCoinConf = BipCoinConf(
-        coin_names=CoinsConf.CardanoMainNet.CoinNames(),
-        coin_idx=Slip44.CARDANO,
-        is_testnet=False,
-        def_path=NOT_HARDENED_DEF_PATH,
-        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
-        wif_net_ver=None,
-        bip32_cls=Bip32Ed25519Kholaw,
-        addr_cls=AdaShelleyAddrEncoder,
-        addr_params={
-            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
-        },
-    )
-
-    # Configuration for Cardano Shelley (Ledger) test net
-    CardanoShelleyLedgerTestNet: BipCoinConf = BipCoinConf(
-        coin_names=CoinsConf.CardanoTestNet.CoinNames(),
-        coin_idx=Slip44.CARDANO,
-        is_testnet=False,
-        def_path=NOT_HARDENED_DEF_PATH,
-        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
-        wif_net_ver=None,
-        bip32_cls=Bip32Ed25519Kholaw,
-        addr_cls=AdaShelleyAddrEncoder,
-        addr_params={
-            "net_tag": AdaShelleyAddrNetworkTags.TESTNET,
         },
     )
 

@@ -225,7 +225,7 @@ class Bip84(Bip44Base):
             Bip44Base object: Bip44Base object
 
         Raises:
-            TypeError: If chain index is not a Bip44Changes enum
+            TypeError: If change type is not a Bip44Changes enum
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
