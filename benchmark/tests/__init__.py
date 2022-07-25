@@ -1,6 +1,7 @@
 from tests.benchmark_tests_base import BenchmarkTestsBase
 from tests.ed25519_tests import Ed25519Tests
 from tests.ed25519_blake2b_tests import Ed25519Blake2bTests
+from tests.ed25519_kholaw_tests import Ed25519KholawTests
 from tests.monero_tests import MoneroTests
 from tests.nist256p1_tests import Nist256p1Tests
 from tests.secp256k1_tests import Secp256k1Tests

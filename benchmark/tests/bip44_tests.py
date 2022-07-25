@@ -20,29 +20,35 @@
 
 
 # Imports
-from bip_utils import Bip44, Bip44Coins, Bip44Changes
+from typing import Type
+from bip_utils import Bip44Changes
+from bip_utils.bip.bip44_base import Bip44Base
+from bip_utils.bip.conf.common import BipCoins
 from tests.benchmark_tests_base import BenchmarkTestsBase
 
 
 # Bip44 tests class
 class Bip44Tests(BenchmarkTestsBase):
 
-    bip44_coin: Bip44Coins
+    m_bip_cls: Type[Bip44Base]
+    m_bip_coin: BipCoins
 
     # Constructor
     def __init__(self,
-                 bip44_coin: Bip44Coins,
+                 bip_cls: Type[Bip44Base],
+                 bip_coin: BipCoins,
                  test_num: int,
                  test_itr_num: int,
                  test_cache_num: int) -> None:
         super().__init__(test_num, test_itr_num, test_cache_num)
-        self.m_bip44_coin = bip44_coin
+        self.m_bip_cls = bip_cls
+        self.m_bip_coin = bip_coin
 
     # Run test
     def _RunTest(self,
                  seed_bytes: bytes) -> None:
         for i in range(0, self.m_test_itr_num):
-            bip44_ctx = Bip44.FromSeed(seed_bytes, self.m_bip44_coin)
+            bip44_ctx = self.m_bip_cls.FromSeed(seed_bytes, self.m_bip_coin)
             bip44_chg = bip44_ctx.Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT)
 
             for j in range(0, self.m_test_cache_num):

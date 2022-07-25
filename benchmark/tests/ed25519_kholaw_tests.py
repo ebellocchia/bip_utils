@@ -24,15 +24,15 @@ from bip_utils import Bip44Coins, Bip44
 from tests.bip44_tests import Bip44Tests
 
 
-# Ed25519 tests class
-class Ed25519Tests(Bip44Tests):
+# Ed25519Kholaw tests class
+class Ed25519KholawTests(Bip44Tests):
     # Constructor
     def __init__(self,
                  test_num: int,
                  test_itr_num: int,
                  test_cache_num: int) -> None:
         super().__init__(Bip44,
-                         Bip44Coins.ALGORAND,
+                         Bip44Coins.CARDANO_BYRON_ICARUS,
                          test_num,
                          test_itr_num,
                          test_cache_num)

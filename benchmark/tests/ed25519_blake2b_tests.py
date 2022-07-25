@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils import Bip44Coins
+from bip_utils import Bip44Coins, Bip44
 from tests.bip44_tests import Bip44Tests
 
 
@@ -31,7 +31,8 @@ class Ed25519Blake2bTests(Bip44Tests):
                  test_num: int,
                  test_itr_num: int,
                  test_cache_num: int) -> None:
-        super().__init__(Bip44Coins.NANO,
+        super().__init__(Bip44,
+                         Bip44Coins.NANO,
                          test_num,
                          test_itr_num,
                          test_cache_num)

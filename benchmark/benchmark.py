@@ -24,7 +24,8 @@ from enum import Enum, auto, unique
 from typing import Dict, Type
 from bip_utils import Bip39SeedGenerator
 from tests import (
-    BenchmarkTestsBase, Ed25519Tests, Ed25519Blake2bTests, MoneroTests, Nist256p1Tests, Secp256k1Tests, SubstrateTests
+    BenchmarkTestsBase, Ed25519Tests, Ed25519Blake2bTests, Ed25519KholawTests,
+    MoneroTests, Nist256p1Tests, Secp256k1Tests, SubstrateTests
 )
 
 
@@ -35,6 +36,7 @@ class TestTypes(Enum):
     NIST256P1 = auto()
     ED25519 = auto()
     ED25519_BLAKE2B = auto()
+    ED25519_KHOLAW = auto()
     SUBSTRATE = auto()
     MONERO = auto()
 
@@ -47,6 +49,7 @@ class TestsConsts:
         TestTypes.NIST256P1: Nist256p1Tests,
         TestTypes.ED25519: Ed25519Tests,
         TestTypes.ED25519_BLAKE2B: Ed25519Blake2bTests,
+        TestTypes.ED25519_KHOLAW: Ed25519KholawTests,
         TestTypes.SUBSTRATE: SubstrateTests,
         TestTypes.MONERO: MoneroTests,
     }
