@@ -34,7 +34,7 @@ _BIP84_BTC_KEY_NET_VER: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\xb2\x47
 
 
 class Bip84Conf:
-    """Class container for Bip84 configuration."""
+    """Class container for BIP84 configuration."""
 
     # Configuration for Bitcoin main net
     BitcoinMainNet: BipCoinConf = BipCoinConf(

@@ -39,7 +39,7 @@ _BIP49_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x4
 
 
 class Bip49Conf:
-    """Class container for Bip49 configuration."""
+    """Class container for BIP49 configuration."""
 
     # Configuration for Bitcoin main net
     BitcoinMainNet: BipCoinConf = BipCoinConf(

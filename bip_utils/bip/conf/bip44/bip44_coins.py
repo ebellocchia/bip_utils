@@ -98,6 +98,7 @@ class Bip44Coins(BipCoins):
     BITCOIN_CASH_SLP_TESTNET = auto()
     BITCOIN_SV_TESTNET = auto()
     BITCOIN_TESTNET = auto()
+    CARDANO_SHELLEY_LEDGER_TESTNET = auto()
     DASH_TESTNET = auto()
     DOGECOIN_TESTNET = auto()
     ECASH_TESTNET = auto()

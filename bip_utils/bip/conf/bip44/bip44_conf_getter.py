@@ -29,10 +29,10 @@ from bip_utils.bip.conf.common import BipCoins
 
 
 class Bip44ConfGetterConst:
-    """Class container for Bip44 configuration getter constants."""
+    """Class container for BIP44 configuration getter constants."""
 
     # Map from Bip44Coins to configuration classes
-    COIN_TO_CONF: Dict[Bip44Coins, BipCoinConf] = {
+    COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
         Bip44Coins.AKASH_NETWORK: Bip44Conf.AkashNetwork,
         Bip44Coins.ALGORAND: Bip44Conf.Algorand,
         Bip44Coins.AVAX_C_CHAIN: Bip44Conf.AvaxCChain,
@@ -52,7 +52,8 @@ class Bip44ConfGetterConst:
         Bip44Coins.BITCOIN_SV_TESTNET: Bip44Conf.BitcoinSvTestNet,
         Bip44Coins.CARDANO_BYRON_ICARUS: Bip44Conf.CardanoByronIcarus,
         Bip44Coins.CARDANO_BYRON_LEDGER: Bip44Conf.CardanoByronLedger,
-        Bip44Coins.CARDANO_SHELLEY_LEDGER: Bip44Conf.CardanoShelleyLedger,
+        Bip44Coins.CARDANO_SHELLEY_LEDGER: Bip44Conf.CardanoShelleyLedgerMainNet,
+        Bip44Coins.CARDANO_SHELLEY_LEDGER_TESTNET: Bip44Conf.CardanoShelleyLedgerTestNet,
         Bip44Coins.CELO: Bip44Conf.Celo,
         Bip44Coins.CERTIK: Bip44Conf.Certik,
         Bip44Coins.CHIHUAHUA: Bip44Conf.Chihuahua,
@@ -110,8 +111,8 @@ class Bip44ConfGetterConst:
 
 class Bip44ConfGetter:
     """
-    Bip44 configuration getter class.
-    It allows to get the Bip44 configuration of a specific coin.
+    BIP44 configuration getter class.
+    It allows to get the BIP44 configuration of a specific coin.
     """
 
     @staticmethod
@@ -130,4 +131,4 @@ class Bip44ConfGetter:
         """
         if not isinstance(coin_type, Bip44Coins):
             raise TypeError("Coin type is not an enumerative of Bip44Coins")
-        return Bip44ConfGetterConst.COIN_TO_CONF[Bip44Coins(coin_type)]
+        return Bip44ConfGetterConst.COIN_TO_CONF[coin_type]

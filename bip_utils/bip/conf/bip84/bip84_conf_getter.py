@@ -29,10 +29,10 @@ from bip_utils.bip.conf.common import BipCoins
 
 
 class Bip84ConfGetterConst:
-    """Class container for Bip84 configuration getter constants."""
+    """Class container for BIP84 configuration getter constants."""
 
     # Map from Bip84Coins to configuration classes
-    COIN_TO_CONF: Dict[Bip84Coins, BipCoinConf] = {
+    COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
         Bip84Coins.BITCOIN: Bip84Conf.BitcoinMainNet,
         Bip84Coins.BITCOIN_TESTNET: Bip84Conf.BitcoinTestNet,
         Bip84Coins.LITECOIN: Bip84Conf.LitecoinMainNet,
@@ -42,8 +42,8 @@ class Bip84ConfGetterConst:
 
 class Bip84ConfGetter:
     """
-    Bip84 configuration getter class.
-    It allows to get the Bip84 configuration of a specific coin.
+    BIP84 configuration getter class.
+    It allows to get the BIP84 configuration of a specific coin.
     """
 
     @staticmethod
@@ -62,4 +62,4 @@ class Bip84ConfGetter:
         """
         if not isinstance(coin_type, Bip84Coins):
             raise TypeError("Coin type is not an enumerative of Bip84Coins")
-        return Bip84ConfGetterConst.COIN_TO_CONF[Bip84Coins(coin_type)]
+        return Bip84ConfGetterConst.COIN_TO_CONF[coin_type]

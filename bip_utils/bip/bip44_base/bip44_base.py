@@ -190,7 +190,7 @@ class Bip44Base(ABC):
         if bip32.IsPublicOnly():
             if depth < Bip44Levels.ACCOUNT or depth > Bip44Levels.ADDRESS_INDEX:
                 raise Bip44DepthError(
-                    f"Depth of the public-only Bip32 object ({depth}) is below account level or "
+                    f"Depth of the public-only Bip object ({depth}) is below account level or "
                     f"beyond address index level"
                 )
         # If the Bip32 object is not public-only, any depth is fine as long as it is not greater
@@ -198,7 +198,7 @@ class Bip44Base(ABC):
         else:
             if depth < 0 or depth > Bip44Levels.ADDRESS_INDEX:
                 raise Bip44DepthError(
-                    f"Depth of the Bip32 object ({depth}) is invalid or beyond address index level"
+                    f"Depth of the Bip object ({depth}) is invalid or beyond address index level"
                 )
 
         # Finally, initialize class

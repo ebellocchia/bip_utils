@@ -22,7 +22,7 @@
 
 # Imports
 from bip_utils.addr import (
-    AdaByronAddrEncoder, AdaShelleyAddrEncoder,
+    AdaByronAddrEncoder, AdaShelleyAddrNetworkTags, AdaShelleyAddrEncoder,
     AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder, BchP2PKHAddrEncoder,
     EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder, NearAddrEncoder,
     NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
@@ -48,7 +48,7 @@ _BIP44_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32Const.TEST_NET_KEY_NET_V
 
 
 class Bip44Conf:
-    """Class container for Bip44 configuration."""
+    """Class container for BIP44 configuration."""
 
     # Configuration for Akash Network
     AkashNetwork: BipCoinConf = BipCoinConf(
@@ -316,7 +316,7 @@ class Bip44Conf:
         },
     )
 
-    # Configuration for Cardano Byron Icarus
+    # Configuration for Cardano Byron (Icarus)
     CardanoByronIcarus: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
@@ -331,7 +331,7 @@ class Bip44Conf:
         },
     )
 
-    # Configuration for Cardano Byron-Ledger
+    # Configuration for Cardano Byron (Ledger)
     CardanoByronLedger: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
@@ -346,8 +346,8 @@ class Bip44Conf:
         },
     )
 
-    # Configuration for Cardano Shelley-Ledger
-    CardanoShelleyLedger: BipCoinConf = BipCoinConf(
+    # Configuration for Cardano Shelley (Ledger) main net
+    CardanoShelleyLedgerMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=False,
@@ -356,7 +356,24 @@ class Bip44Conf:
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Kholaw,
         addr_cls=AdaShelleyAddrEncoder,
-        addr_params={},
+        addr_params={
+            "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
+        },
+    )
+
+    # Configuration for Cardano Shelley (Ledger) test net
+    CardanoShelleyLedgerTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.CardanoTestNet.CoinNames(),
+        coin_idx=Slip44.CARDANO,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Ed25519Kholaw,
+        addr_cls=AdaShelleyAddrEncoder,
+        addr_params={
+            "net_tag": AdaShelleyAddrNetworkTags.TESTNET,
+        },
     )
 
     # Configuration for Celo

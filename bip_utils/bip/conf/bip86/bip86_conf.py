@@ -35,7 +35,7 @@ _BIP86_BTC_KEY_NET_VER_TEST: Bip32KeyNetVersions = Bip32Const.TEST_NET_KEY_NET_V
 
 
 class Bip86Conf:
-    """Class container for Bip86 configuration."""
+    """Class container for BIP86 configuration."""
 
     # Configuration for Bitcoin main net
     BitcoinMainNet: BipCoinConf = BipCoinConf(
