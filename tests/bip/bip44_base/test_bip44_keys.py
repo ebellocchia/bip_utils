@@ -41,7 +41,6 @@ TEST_PUB_KEYS = [
     {
         "key": TEST_ED25519_BLAKE2B_PUB_KEY,
         "conf": Bip44Conf.Nano,
-        "key_id": b"23e1ef48982188655152d7e651b754e562eb018e",
         "address": "nano_3kw895nbxskizqabuixm8inn3sb7m4r8wgqr4pdng8iagsargo6jbrca19fr",
     },
     {
@@ -66,7 +65,6 @@ TEST_PRIV_KEYS = [
     {
         "key": TEST_ED25519_BLAKE2B_PRIV_KEY,
         "conf": Bip44Conf.Nano,
-        "key_id": b"23e1ef48982188655152d7e651b754e562eb018e",
         "wif": "",
     },
     {
