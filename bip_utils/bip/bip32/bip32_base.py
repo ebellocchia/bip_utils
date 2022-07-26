@@ -320,7 +320,7 @@ class Bip32Base(ABC):
         return bip32_obj
 
     def ConvertToPublic(self) -> None:
-        """Convert a private Bip32 object into a public one."""
+        """Convert the object into a public one."""
         self.m_priv_key = None
 
     def IsPublicOnly(self) -> bool:
