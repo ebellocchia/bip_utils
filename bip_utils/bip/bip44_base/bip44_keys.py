@@ -115,7 +115,7 @@ class Bip44PublicKey:
             raise ValueError("Use the Monero class to get Monero addresses")
 
         return addr_cls.EncodeKey(pub_key_obj,
-                                  **self.m_coin_conf.AddrParamsResolveCalls(self.m_pub_key))
+                                  **self.m_coin_conf.AddrParamsWithResolvedCalls(self.m_pub_key))
 
 
 class Bip44PrivateKey:

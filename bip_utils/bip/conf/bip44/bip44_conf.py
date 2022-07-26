@@ -33,7 +33,8 @@ from bip_utils.bip.bip32 import (
     Bip32Ed25519Kholaw
 )
 from bip_utils.bip.conf.common import (
-    BipCoinConfConst, BipCoinConf, BipBitcoinCashConf, BipLitecoinConf, HARDENED_DEF_PATH, NOT_HARDENED_DEF_PATH
+    BipCoinFctCallsConf, BipCoinConf, BipBitcoinCashConf, BipLitecoinConf,
+    HARDENED_DEF_PATH, NOT_HARDENED_DEF_PATH
 )
 from bip_utils.cardano.bip32.cardano_icarus_bip32 import CardanoIcarusBip32
 from bip_utils.coin_conf import CoinsConf
@@ -326,7 +327,7 @@ class Bip44Conf:
         bip32_cls=CardanoIcarusBip32,
         addr_cls=AdaByronAddrEncoder,
         addr_params={
-            "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
+            "chain_code": BipCoinFctCallsConf("Data", "ChainCode"),
         },
     )
     # Configuration for Cardano Byron (Ledger)
@@ -340,7 +341,7 @@ class Bip44Conf:
         bip32_cls=Bip32Ed25519Kholaw,
         addr_cls=AdaByronAddrEncoder,
         addr_params={
-            "chain_code": f"{BipCoinConfConst.CALL_PREFIX}Data,ChainCode",
+            "chain_code": BipCoinFctCallsConf("Data", "ChainCode"),
         },
     )
 
