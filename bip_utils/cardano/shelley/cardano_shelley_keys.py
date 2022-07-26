@@ -25,9 +25,10 @@ from functools import lru_cache
 from bip_utils.addr import AdaShelleyAddrEncoder, AdaShelleyStakingAddrEncoder
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
+from bip_utils.utils.misc import DataBytes
 
 
-class CardanoShelleyPublicKey:
+class CardanoShelleyPublicKeys:
     """
     Cardano Shelley public key class.
     It contains 2 CIP-1852 public keys (address + staking) and allows to get the Cardano Shelley address from them.
@@ -55,25 +56,25 @@ class CardanoShelleyPublicKey:
 
     def AddressKey(self) -> Bip32PublicKey:
         """
-        Get the address private key.
+        Get the address public key.
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
         """
         return self.m_pub_addr_key
 
-    def RewardAddressKey(self) -> Bip32PublicKey:
+    def RewardKey(self) -> Bip32PublicKey:
         """
-        Get the reward address private key.
+        Alias for StakingKey.
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
         """
-        return self.StakingAddressKey()
+        return self.StakingKey()
 
-    def StakingAddressKey(self) -> Bip32PublicKey:
+    def StakingKey(self) -> Bip32PublicKey:
         """
-        Get the staking address private key.
+        Get the staking address public key.
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
@@ -82,7 +83,7 @@ class CardanoShelleyPublicKey:
 
     def ToRewardAddress(self) -> str:
         """
-        Return the reward address correspondent to the public key.
+        Alias for ToStakingAddress.
 
         Returns:
             str: Reward address string
@@ -122,7 +123,7 @@ class CardanoShelleyPublicKey:
                                                **self.m_coin_conf.AddrParams())
 
 
-class CardanoShelleyPrivateKey:
+class CardanoShelleyPrivateKeys:
     """
     Cardano Shelley private key class.
     It contains 2 BIP32 private keys (address + staking).
@@ -157,16 +158,16 @@ class CardanoShelleyPrivateKey:
         """
         return self.m_priv_addr_key
 
-    def RewardAddressKey(self) -> Bip32PrivateKey:
+    def RewardKey(self) -> Bip32PrivateKey:
         """
-        Get the reward address private key.
+        Alias for StakingKey.
 
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
         """
-        return self.StakingAddressKey()
+        return self.StakingKey()
 
-    def StakingAddressKey(self) -> Bip32PrivateKey:
+    def StakingKey(self) -> Bip32PrivateKey:
         """
         Get the staking address private key.
 
@@ -176,13 +177,13 @@ class CardanoShelleyPrivateKey:
         return self.m_priv_sk_key
 
     @lru_cache()
-    def PublicKey(self) -> CardanoShelleyPublicKey:
+    def PublicKeys(self) -> CardanoShelleyPublicKeys:
         """
-        Get the public key correspondent to the private one.
+        Get the public keys correspondent to the private ones.
 
         Returns:
-            CardanoShelleyPublicKey object: CardanoShelleyPublicKey object
+            CardanoShelleyPublicKeys object: CardanoShelleyPublicKeys object
         """
-        return CardanoShelleyPublicKey(self.m_priv_addr_key.PublicKey(),
-                                       self.m_priv_sk_key.PublicKey(),
-                                       self.m_coin_conf)
+        return CardanoShelleyPublicKeys(self.m_priv_addr_key.PublicKey(),
+                                        self.m_priv_sk_key.PublicKey(),
+                                        self.m_coin_conf)

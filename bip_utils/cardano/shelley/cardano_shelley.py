@@ -18,15 +18,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Cardano Shelley keys derivation."""
+"""
+Module for Cardano Shelley keys derivation.
+Reference: https://cips.cardano.org/cips/cip11
+"""
 
 # Imports
 from __future__ import annotations
+import copy
 from functools import lru_cache
-from bip_utils.bip.bip44 import Bip44
+from bip_utils.addr import AdaShelleyStakingAddrEncoder
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Levels, Bip44Base
 from bip_utils.cardano.cip1852 import Cip1852
-from bip_utils.cardano.shelley.cardano_shelley_keys import CardanoShelleyPublicKey, CardanoShelleyPrivateKey
+from bip_utils.cardano.shelley.cardano_shelley_keys import CardanoShelleyPublicKeys, CardanoShelleyPrivateKeys
 
 
 class CardanoShelley:
@@ -39,10 +43,10 @@ class CardanoShelley:
     m_bip_sk_obj: Bip44Base
 
     @classmethod
-    def FromBip44Object(cls,
-                        bip_obj: Bip44Base) -> CardanoShelley:
+    def FromCip1852Object(cls,
+                          bip_obj: Bip44Base) -> CardanoShelley:
         """
-        Create a CardanoShelley object from the specified BIP44 object.
+        Create a CardanoShelley object from the specified Cip1852 object.
 
         Args:
             bip_obj (Bip44Base object): Bip44Base object
@@ -75,36 +79,54 @@ class CardanoShelley:
         if bip_obj.Level() < Bip44Levels.ACCOUNT:
             raise ValueError("The bip_obj shall not be below account level")
         if bip_sk_obj.Level() != Bip44Levels.ADDRESS_INDEX:
-            raise ValueError("The bip_obj shall not be below account level")
+            raise ValueError("The bip_sk_obj shall be of address index level")
         self.m_bip_obj = bip_obj
         self.m_bip_sk_obj = bip_sk_obj
 
     @lru_cache()
-    def PublicKey(self) -> CardanoShelleyPublicKey:
+    def PublicKeys(self) -> CardanoShelleyPublicKeys:
         """
-        Return the public key.
+        Return the public keys.
 
         Returns:
-            CardanoShelleyPublicKey object: CardanoShelleyPublicKey object
+            CardanoShelleyPublicKeys object: CardanoShelleyPublicKeys object
         """
-        return CardanoShelleyPublicKey(self.m_bip_obj.PublicKey().Bip32Key(),
-                                       self.m_bip_sk_obj.PublicKey().Bip32Key(),
-                                       self.m_bip_obj.CoinConf())
+        return CardanoShelleyPublicKeys(self.m_bip_obj.PublicKey().Bip32Key(),
+                                        self.m_bip_sk_obj.PublicKey().Bip32Key(),
+                                        self.m_bip_obj.CoinConf())
 
     @lru_cache()
-    def PrivateKey(self) -> CardanoShelleyPrivateKey:
+    def PrivateKeys(self) -> CardanoShelleyPrivateKeys:
         """
-        Return the private key.
+        Return the private keys.
 
         Returns:
-            CardanoShelleyPrivateKey object: CardanoShelleyPrivateKey object
+            CardanoShelleyPrivateKeys object: CardanoShelleyPrivateKeys object
 
         Raises:
             Bip32KeyError: If the Bip32 object is public-only
         """
-        return CardanoShelleyPrivateKey(self.m_bip_obj.PrivateKey().Bip32Key(),
-                                        self.m_bip_sk_obj.PrivateKey().Bip32Key(),
-                                        self.m_bip_obj.CoinConf())
+        return CardanoShelleyPrivateKeys(self.m_bip_obj.PrivateKey().Bip32Key(),
+                                         self.m_bip_sk_obj.PrivateKey().Bip32Key(),
+                                         self.m_bip_obj.CoinConf())
+
+    def RewardObject(self) -> Bip44Base:
+        """
+        Alias for StakingObject.
+
+        Returns:
+            Bip44Base object: Bip44Base object
+        """
+        return self.StakingObject()
+
+    def StakingObject(self) -> Bip44Base:
+        """
+        Return the staking object.
+
+        Returns:
+            Bip44Base object: Bip44Base object
+        """
+        return self.m_bip_sk_obj
 
     def IsPublicOnly(self) -> bool:
         """
@@ -166,5 +188,10 @@ class CardanoShelley:
         Raises:
             Bip32KeyError: If the derivation results in an invalid key
         """
-        return Bip44(bip_obj.Bip32Object().DerivePath("2/0"),
-                     bip_obj.CoinConf())
+
+        # Create a new configuration with the staking address class (no need to deep-copying)
+        coin_conf = copy.copy(bip_obj.CoinConf())
+        coin_conf.m_addr_cls = AdaShelleyStakingAddrEncoder
+        # Create Cip1852 object for staking keys
+        return Cip1852(bip_obj.Bip32Object().DerivePath("2/0"),
+                       coin_conf)

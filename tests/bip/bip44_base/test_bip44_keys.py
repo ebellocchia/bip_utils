@@ -21,7 +21,9 @@
 
 # Imports
 import unittest
-from bip_utils import Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey, Cip1852Conf
+from bip_utils import (
+    Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey, Cip1852Coins, Cip1852ConfGetter
+)
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.bip.bip32.test_bip32_keys import TEST_KEY_DATA
 from tests.ecc.test_ecc import (
@@ -128,9 +130,8 @@ class Bip44KeyDataTests(unittest.TestCase):
         bip32_key = Bip32PublicKey.FromBytesOrKeyObject(
             TEST_ED25519_KHOLAW_PUB_KEY, TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, TEST_ED25519_KHOLAW_PUB_KEY.CurveType()
         )
-        for coin_conf in (Cip1852Conf.CardanoIcarusMainNet, Cip1852Conf.CardanoIcarusTestNet,
-                          Cip1852Conf.CardanoLedgerMainNet, Cip1852Conf.CardanoLedgerTestNet):
-            self.assertRaises(ValueError, Bip44PublicKey(bip32_key, coin_conf).ToAddress)
+        for cip_coin in Cip1852Coins:
+            self.assertRaises(ValueError, Bip44PublicKey(bip32_key, Cip1852ConfGetter.GetConfig(cip_coin)).ToAddress)
 
         # Monero (ed25519)
         bip32_key = Bip32PublicKey.FromBytesOrKeyObject(

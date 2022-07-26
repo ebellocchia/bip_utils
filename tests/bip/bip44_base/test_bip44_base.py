@@ -81,8 +81,9 @@ class Bip44BaseTestHelper:
                     addr = monero.PrimaryAddress()
                 # Use CardanoShelley class for CIP-1852 coins
                 elif isinstance(test["coin"], Cip1852Coins):
-                    cardano_addr_ctx = CardanoShelley.FromBip44Object(bip_acc_ctx).Change(Bip44Changes.CHAIN_EXT).AddressIndex(idx)
-                    addr = cardano_addr_ctx.PublicKey().ToAddress()
+                    shelley_ctx = CardanoShelley.FromCip1852Object(
+                        bip_acc_ctx).Change(Bip44Changes.CHAIN_EXT).AddressIndex(idx)
+                    addr = shelley_ctx.PublicKeys().ToAddress()
                 # All other coins
                 else:
                     addr = bip_addr_ctx.PublicKey().ToAddress()
@@ -91,8 +92,8 @@ class Bip44BaseTestHelper:
 
             # Only for Cardano: test staking address
             if isinstance(test["coin"], Cip1852Coins):
-                cardano_addr_ctx = CardanoShelley.FromBip44Object(bip_acc_ctx).Change(Bip44Changes.CHAIN_EXT).AddressIndex(0)
-                ut_class.assertEqual(test["staking_address"], cardano_addr_ctx.PublicKey().ToStakingAddress())
+                shelley_ctx = CardanoShelley.FromCip1852Object(bip_acc_ctx)
+                ut_class.assertEqual(test["staking_address"], shelley_ctx.StakingObject().PublicKey().ToAddress())
 
             # Only for BIP44 Litecoin: test extended keys with alternate versions
             if test["coin"] == Bip44Coins.LITECOIN and "ex_master_alt" in test:
@@ -143,83 +144,83 @@ class Bip44BaseTestHelper:
     def test_from_ex_key(ut_class, bip_class, test_vector):
         for test in test_vector:
             # Create from private extended master key
-            bip_obj_ctx = bip_class.FromExtendedKey(test["ex_master"], test["coin"])
-            ut_class.assertEqual(test["ex_master"], bip_obj_ctx.PrivateKey().ToExtended())
+            bip_ex_ctx = bip_class.FromExtendedKey(test["ex_master"], test["coin"])
+            ut_class.assertEqual(test["ex_master"], bip_ex_ctx.PrivateKey().ToExtended())
 
             # Test derived keys
             for test_der in (test["account"], test["chain_ext"]):
                 # Create from private extended key
-                bip_obj_ctx = bip_class.FromExtendedKey(test_der["ex_priv"], test["coin"])
-                ut_class.assertFalse(bip_obj_ctx.IsPublicOnly())
-                ut_class.assertEqual(test_der["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
-                ut_class.assertEqual(test_der["ex_priv"], bip_obj_ctx.PrivateKey().ToExtended())
+                bip_ex_ctx = bip_class.FromExtendedKey(test_der["ex_priv"], test["coin"])
+                ut_class.assertFalse(bip_ex_ctx.IsPublicOnly())
+                ut_class.assertEqual(test_der["ex_pub"], bip_ex_ctx.PublicKey().ToExtended())
+                ut_class.assertEqual(test_der["ex_priv"], bip_ex_ctx.PrivateKey().ToExtended())
                 # Create from public extended key
-                bip_obj_ctx = bip_class.FromExtendedKey(test_der["ex_pub"], test["coin"])
-                ut_class.assertTrue(bip_obj_ctx.IsPublicOnly())
-                ut_class.assertEqual(test_der["ex_pub"], bip_obj_ctx.PublicKey().ToExtended())
-                ut_class.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
+                bip_ex_ctx = bip_class.FromExtendedKey(test_der["ex_pub"], test["coin"])
+                ut_class.assertTrue(bip_ex_ctx.IsPublicOnly())
+                ut_class.assertEqual(test_der["ex_pub"], bip_ex_ctx.PublicKey().ToExtended())
+                ut_class.assertRaises(Bip32KeyError, bip_ex_ctx.PrivateKey)
 
     # Run all tests in test vector using FromPrivateKey for construction
     @staticmethod
     def test_from_priv_key(ut_class, bip_class, test_vector):
         for test in test_vector:
             for ex_key in (test["ex_master"], test["account"]["ex_priv"], test["chain_ext"]["ex_priv"]):
-                bip_ctx = bip_class.FromExtendedKey(ex_key, test["coin"])
+                bip_ex_ctx = bip_class.FromExtendedKey(ex_key, test["coin"])
 
                 # Create from private key without derivation data
-                bip_obj_ctx = bip_class.FromPrivateKey(bip_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
-                ut_class.assertFalse(bip_obj_ctx.IsPublicOnly())
-                ut_class.assertEqual(bip_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
-                ut_class.assertEqual(bip_ctx.PrivateKey().Raw().ToHex(), bip_obj_ctx.PrivateKey().Raw().ToHex())
-                ut_class.assertEqual(ZERO_CHAIN_CODE, bip_obj_ctx.Bip32Object().ChainCode().ToBytes())
-                ut_class.assertEqual(0, bip_obj_ctx.Bip32Object().Depth())
-                ut_class.assertEqual(0, bip_obj_ctx.Bip32Object().Index())
-                ut_class.assertTrue(bip_obj_ctx.Bip32Object().ParentFingerPrint().IsMasterKey())
+                bip_ctx = bip_class.FromPrivateKey(bip_ex_ctx.PrivateKey().Raw().ToBytes(), test["coin"])
+                ut_class.assertFalse(bip_ctx.IsPublicOnly())
+                ut_class.assertEqual(bip_ex_ctx.PublicKey().RawCompressed().ToHex(), bip_ctx.PublicKey().RawCompressed().ToHex())
+                ut_class.assertEqual(bip_ex_ctx.PrivateKey().Raw().ToHex(), bip_ctx.PrivateKey().Raw().ToHex())
+                ut_class.assertEqual(ZERO_CHAIN_CODE, bip_ctx.Bip32Object().ChainCode().ToBytes())
+                ut_class.assertEqual(Bip44Levels.MASTER, bip_ctx.Level())
+                ut_class.assertEqual(Bip44Levels.MASTER, bip_ctx.Level())
+                ut_class.assertTrue(bip_ctx.Bip32Object().ParentFingerPrint().IsMasterKey())
 
                 # Create from private key with derivation data
-                bip_obj_ctx = bip_class.FromPrivateKey(
-                    bip_ctx.PrivateKey().Raw().ToBytes(),
+                bip_ctx = bip_class.FromPrivateKey(
+                    bip_ex_ctx.PrivateKey().Raw().ToBytes(),
                     test["coin"],
                     Bip32KeyData(
-                        chain_code=bip_ctx.Bip32Object().ChainCode(),
-                        depth=bip_ctx.Bip32Object().Depth(),
-                        index=bip_ctx.Bip32Object().Index(),
-                        parent_fprint=bip_ctx.Bip32Object().ParentFingerPrint()
+                        chain_code=bip_ex_ctx.Bip32Object().ChainCode(),
+                        depth=bip_ex_ctx.Bip32Object().Depth(),
+                        index=bip_ex_ctx.Bip32Object().Index(),
+                        parent_fprint=bip_ex_ctx.Bip32Object().ParentFingerPrint()
                     )
                 )
-                ut_class.assertFalse(bip_obj_ctx.IsPublicOnly())
-                ut_class.assertEqual(ex_key, bip_obj_ctx.PrivateKey().ToExtended())
+                ut_class.assertFalse(bip_ctx.IsPublicOnly())
+                ut_class.assertEqual(ex_key, bip_ctx.PrivateKey().ToExtended())
 
     # Run all tests in test vector using FromPublicKey for construction
     @staticmethod
     def test_from_pub_key(ut_class, bip_class, test_vector):
         for test in test_vector:
             for ex_key in (test["account"]["ex_pub"], test["chain_ext"]["ex_pub"]):
-                bip_ctx = bip_class.FromExtendedKey(ex_key, test["coin"])
+                bip_ex_ctx = bip_class.FromExtendedKey(ex_key, test["coin"])
 
                 # Create from public key without derivation data
-                bip_obj_ctx = bip_class.FromPublicKey(bip_ctx.PublicKey().RawCompressed().ToBytes(), test["coin"])
-                ut_class.assertTrue(bip_obj_ctx.IsPublicOnly())
-                ut_class.assertRaises(Bip32KeyError, bip_obj_ctx.PrivateKey)
-                ut_class.assertEqual(bip_ctx.PublicKey().RawCompressed().ToHex(), bip_obj_ctx.PublicKey().RawCompressed().ToHex())
-                ut_class.assertEqual(ZERO_CHAIN_CODE, bip_obj_ctx.Bip32Object().ChainCode().ToBytes())
-                ut_class.assertEqual(Bip44Levels.ACCOUNT, bip_obj_ctx.Bip32Object().Depth())
-                ut_class.assertEqual(0, bip_obj_ctx.Bip32Object().Index())
-                ut_class.assertTrue(bip_obj_ctx.Bip32Object().ParentFingerPrint().IsMasterKey())
+                bip_ctx = bip_class.FromPublicKey(bip_ex_ctx.PublicKey().RawCompressed().ToBytes(), test["coin"])
+                ut_class.assertTrue(bip_ctx.IsPublicOnly())
+                ut_class.assertRaises(Bip32KeyError, bip_ctx.PrivateKey)
+                ut_class.assertEqual(bip_ex_ctx.PublicKey().RawCompressed().ToHex(), bip_ctx.PublicKey().RawCompressed().ToHex())
+                ut_class.assertEqual(ZERO_CHAIN_CODE, bip_ctx.Bip32Object().ChainCode().ToBytes())
+                ut_class.assertEqual(Bip44Levels.ACCOUNT, bip_ctx.Level())
+                ut_class.assertEqual(0, bip_ctx.Bip32Object().Index())
+                ut_class.assertTrue(bip_ctx.Bip32Object().ParentFingerPrint().IsMasterKey())
 
                 # Create from public key with derivation data
-                bip_obj_ctx = bip_class.FromPublicKey(
-                    bip_ctx.PublicKey().RawCompressed().ToBytes(),
+                bip_ctx = bip_class.FromPublicKey(
+                    bip_ex_ctx.PublicKey().RawCompressed().ToBytes(),
                     test["coin"],
                     Bip32KeyData(
-                        chain_code=bip_ctx.Bip32Object().ChainCode(),
-                        depth=bip_ctx.Bip32Object().Depth(),
-                        index=bip_ctx.Bip32Object().Index(),
-                        parent_fprint=bip_ctx.Bip32Object().ParentFingerPrint()
+                        chain_code=bip_ex_ctx.Bip32Object().ChainCode(),
+                        depth=bip_ex_ctx.Bip32Object().Depth(),
+                        index=bip_ex_ctx.Bip32Object().Index(),
+                        parent_fprint=bip_ex_ctx.Bip32Object().ParentFingerPrint()
                     )
                 )
-                ut_class.assertTrue(bip_obj_ctx.IsPublicOnly())
-                ut_class.assertEqual(ex_key, bip_obj_ctx.PublicKey().ToExtended())
+                ut_class.assertTrue(bip_ctx.IsPublicOnly())
+                ut_class.assertEqual(ex_key, bip_ctx.PublicKey().ToExtended())
 
     # Test default path derivation
     @staticmethod
