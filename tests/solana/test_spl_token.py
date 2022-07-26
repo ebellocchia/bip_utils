@@ -19,7 +19,6 @@
 # THE SOFTWARE.
 
 # Imports
-import binascii
 import unittest
 from bip_utils import SplToken
 from bip_utils.solana.spl_token import SplTokenConst
