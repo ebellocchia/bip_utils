@@ -33,9 +33,9 @@ class Cip1852ConfGetterConst:
 
     # Map from Cip1852Coins to configuration classes
     COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
-        Cip1852Coins.CARDANO_ICARUS_MAINNET: Cip1852Conf.CardanoIcarusMainNet,
+        Cip1852Coins.CARDANO_ICARUS: Cip1852Conf.CardanoIcarusMainNet,
+        Cip1852Coins.CARDANO_LEDGER: Cip1852Conf.CardanoLedgerMainNet,
         Cip1852Coins.CARDANO_ICARUS_TESTNET: Cip1852Conf.CardanoIcarusTestNet,
-        Cip1852Coins.CARDANO_LEDGER_MAINNET: Cip1852Conf.CardanoLedgerMainNet,
         Cip1852Coins.CARDANO_LEDGER_TESTNET: Cip1852Conf.CardanoLedgerTestNet,
     }
 

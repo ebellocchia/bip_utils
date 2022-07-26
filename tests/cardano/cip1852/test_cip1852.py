@@ -29,7 +29,7 @@ from tests.bip.bip44.test_bip44 import TEST_SEED
 TEST_VECT = [
     # Cardano main net (Icarus)
     {
-        "coin": Cip1852Coins.CARDANO_ICARUS_MAINNET,
+        "coin": Cip1852Coins.CARDANO_ICARUS,
         "names": ("Cardano", "ADA"),
         "is_testnet": False,
         "seed": b"0000000000000000000000000000000000000000",
@@ -54,7 +54,7 @@ TEST_VECT = [
     },
     # Cardano main net (Ledger)
     {
-        "coin": Cip1852Coins.CARDANO_LEDGER_MAINNET,
+        "coin": Cip1852Coins.CARDANO_LEDGER,
         "names": ("Cardano", "ADA"),
         "is_testnet": False,
         "seed": b"0000000000000000000000000000000000000000",
@@ -135,7 +135,7 @@ TEST_VECT_DEFAULT_PATH = []
 
 # Tests for different key formats
 TEST_VECT_KEY_FORMATS = {
-    "coin": Cip1852Coins.CARDANO_ICARUS_MAINNET,
+    "coin": Cip1852Coins.CARDANO_ICARUS,
     "seed": "5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
     "ex_priv": "Har3K3MhV5fiuEp6zsN3uXH3PfkwVbnRNTuAiniJRps2XV6PCHcYteVzoDtXavwkvaZPG9gyUVHfw6UFdfqiF9RWbC5u6ZTdjPq6c6s96vKWnujBRAd7FifEKBjRawCrx4XEX9Zz26F29qUyqutkSndBXqL",
     "raw_priv": "90fe045d7c56df39574eff1ce14c49844f758fa20139947425df74bc8647ae4069ea9658ff974de1b3c967febc9c40771cb1de416e6db0a61394803f245d06f8",
@@ -191,7 +191,7 @@ class Cip1852Tests(unittest.TestCase):
 
     # Test for IsLevel method
     def test_is_level(self):
-        Bip44BaseTestHelper.test_is_level(self, Cip1852, Cip1852Coins.CARDANO_ICARUS_MAINNET, TEST_SEED)
+        Bip44BaseTestHelper.test_is_level(self, Cip1852, Cip1852Coins.CARDANO_ICARUS, TEST_SEED)
 
     # Test different key formats
     def test_key_formats(self):
@@ -199,7 +199,7 @@ class Cip1852Tests(unittest.TestCase):
 
     # Test construction from extended keys with valid and invalid depths
     def test_from_ex_key_depth(self):
-        Bip44BaseTestHelper.test_from_ex_key_depth(self, Cip1852, Cip1852Coins.CARDANO_ICARUS_MAINNET, TEST_VECT_EX_KEY_DEPTHS)
+        Bip44BaseTestHelper.test_from_ex_key_depth(self, Cip1852, Cip1852Coins.CARDANO_ICARUS, TEST_VECT_EX_KEY_DEPTHS)
 
     # Test type error during construction
     def test_type_error(self):
@@ -207,4 +207,4 @@ class Cip1852Tests(unittest.TestCase):
 
     # Test invalid path derivations
     def test_invalid_derivations(self):
-        Bip44BaseTestHelper.test_invalid_derivations(self, Cip1852, Cip1852Coins.CARDANO_ICARUS_MAINNET, TEST_SEED)
+        Bip44BaseTestHelper.test_invalid_derivations(self, Cip1852, Cip1852Coins.CARDANO_ICARUS, TEST_SEED)

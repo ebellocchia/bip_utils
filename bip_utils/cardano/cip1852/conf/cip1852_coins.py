@@ -29,7 +29,8 @@ from bip_utils.bip.conf.common.bip_coins import BipCoins
 class Cip1852Coins(BipCoins):
     """Enumerative for supported CIP-1852 coins."""
 
-    CARDANO_ICARUS_MAINNET = auto()
+    CARDANO_ICARUS = auto()
+    CARDANO_LEDGER = auto()
+
     CARDANO_ICARUS_TESTNET = auto()
-    CARDANO_LEDGER_MAINNET = auto()
     CARDANO_LEDGER_TESTNET = auto()
