@@ -24,7 +24,7 @@ Module for Cardano Icarus BIP32 keys derivation.
 References:
     https://github.com/satoshilabs/slips/blob/master/slip-0023.md
     https://input-output-hk.github.io/cardano-wallet/concepts/master-key-generation
-    https://cips.cardano.org/cips/cip3/
+    https://cips.cardano.org/cips/cip3/icarus.md
 """
 
 # Imports
