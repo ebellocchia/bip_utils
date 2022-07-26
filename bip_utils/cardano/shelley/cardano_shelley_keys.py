@@ -25,7 +25,6 @@ from functools import lru_cache
 from bip_utils.addr import AdaShelleyAddrEncoder, AdaShelleyStakingAddrEncoder
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
-from bip_utils.utils.misc import DataBytes
 
 
 class CardanoShelleyPublicKeys:
