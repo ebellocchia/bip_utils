@@ -19,12 +19,12 @@ print(f"Master key (bytes): {bip44_mst_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Master key (extended): {bip44_mst_ctx.PrivateKey().ToExtended()}")
 print(f"Master key (WIF): {bip44_mst_ctx.PrivateKey().ToWif()}")
 
-# Generate BIP44 account keys: m/44'/0'/0'
+# Derive BIP44 account keys: m/44'/0'/0'
 bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
-# Generate BIP44 chain keys: m/44'/0'/0'/0
+# Derive BIP44 chain keys: m/44'/0'/0'/0
 bip44_chg_ctx = bip44_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
 
-# Generate addresses: m/44'/0'/0'/0/i
+# Derive addresses: m/44'/0'/0'/0/i
 print("Addresses:")
 for i in range(ADDR_NUM):
     bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)

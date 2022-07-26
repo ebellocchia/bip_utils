@@ -1,4 +1,4 @@
-"""Example of key derivation using Cardano (Byron addresses)."""
+"""Example of key derivation for Cardano (Byron addresses)."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator,
@@ -12,10 +12,11 @@ mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
 print(f"Mnemonic string: {mnemonic}")
 
 #
-# Cardano Byron Icarus
+# Cardano Byron (Icarus)
 #
 
-print("BYRON-ICARUS")
+print("")
+print("Byron-Icarus")
 print("")
 
 # Generate seed from mnemonic
@@ -27,10 +28,10 @@ bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.CARDANO_BYRON_ICARUS)
 print(f"Master chain code (bytes): {bip44_mst_ctx.PrivateKey().Bip32Key().Data().ChainCode().ToHex()}")
 print(f"Master private key (bytes): {bip44_mst_ctx.PrivateKey().Raw().ToHex()}")
 
-# Generate chain keys
+# Derive chain keys: m/44'/1815'/0'/0
 bip44_chg_ctx = bip44_mst_ctx.Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT)
 
-# Generate addresses
+# Derive addresses: m/44'/1815'/0'/0/i
 print("Addresses:")
 for i in range(ADDR_NUM):
     bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)
@@ -40,11 +41,11 @@ for i in range(ADDR_NUM):
     print(f"  {i}. Address: {bip44_addr_ctx.PublicKey().ToAddress()}")
 
 #
-# Cardano Byron Ledger
+# Cardano Byron (Ledger)
 #
 
 print("")
-print("BYRON-LEDGER")
+print("Byron-Ledger")
 print("")
 
 # Generate seed from mnemonic
@@ -56,10 +57,10 @@ bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.CARDANO_BYRON_LEDGER)
 print(f"Master chain code (bytes): {bip44_mst_ctx.PrivateKey().Bip32Key().Data().ChainCode().ToHex()}")
 print(f"Master private key (bytes): {bip44_mst_ctx.PrivateKey().Raw().ToHex()}")
 
-# Generate chain keys
+# Derive chain keys: m/44'/1815'/0'/0
 bip44_chg_ctx = bip44_mst_ctx.Purpose().Coin().Account(0).Change(Bip44Changes.CHAIN_EXT)
 
-# Generate addresses
+# Derive addresses: m/44'/1815'/0'/0/i
 print("Addresses:")
 for i in range(ADDR_NUM):
     bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)

@@ -1,4 +1,4 @@
-"""Example of keys derivation using Monero (same addresses of official wallet)."""
+"""Example of keys derivation for Monero (same addresses of official wallet)."""
 
 import binascii
 from bip_utils import (
