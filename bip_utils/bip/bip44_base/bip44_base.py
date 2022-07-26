@@ -284,18 +284,9 @@ class Bip44Base(ABC):
             raise TypeError("Level is not an enumerative of Bip44Levels")
         return self.m_bip32_obj.Depth() == level
 
-    #
-    # Protected class methods
-    #
-
-    def _DeriveDefaultPathGeneric(self,
-                                  purpose: int) -> Bip44Base:
+    def DeriveDefaultPath(self) -> Bip44Base:
         """
         Derive the default coin path and return a new Bip44Base object.
-        It shall be called from a child class.
-
-        Args:
-            purpose (int): Purpose
 
         Returns:
             Bip44Base object: Bip44Base object
@@ -304,13 +295,16 @@ class Bip44Base(ABC):
             Bip44DepthError: If the current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """
-
         # Derive purpose and coin by default
-        bip_obj = self._PurposeGeneric(purpose)._CoinGeneric()
+        bip_obj = self.Purpose().Coin()
 
         # Derive the remaining path
         return self.__class__(bip_obj.m_bip32_obj.DerivePath(bip_obj.m_coin_conf.DefaultPath()),
                               bip_obj.m_coin_conf)
+
+    #
+    # Protected class methods
+    #
 
     def _PurposeGeneric(self,
                         purpose: int) -> Bip44Base:
@@ -537,19 +531,6 @@ class Bip44Base(ABC):
         Raises:
             TypeError: If coin type is not a Bip44Coins enum
             Bip32KeyError: If the key is not valid
-        """
-
-    @abstractmethod
-    def DeriveDefaultPath(self) -> Bip44Base:
-        """
-        Derive the default coin path and return a new Bip44Base object.
-
-        Returns:
-            Bip44Base object: Bip44Base object
-
-        Raises:
-            Bip44DepthError: If the current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
         """
 
     @abstractmethod
