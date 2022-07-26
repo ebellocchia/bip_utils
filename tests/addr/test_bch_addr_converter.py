@@ -62,7 +62,7 @@ TEST_VECT = [
 # Tests
 #
 class BchAddrConverterTests(unittest.TestCase):
-    # Test encode key
+    # Run all tests in test vector
     def test_vector(self):
         for test in TEST_VECT:
             conv_addr = BchAddrConverter.Convert(test["address"], test["new_hrp"], test["new_net_ver"])

@@ -91,7 +91,7 @@ class CardanoShelleyKeysTests(unittest.TestCase):
         # Keys
         self.assertEqual(test["address"]["priv_key"], shelley_key.AddressKey().Raw().ToHex())
         self.assertEqual(test["staking"]["priv_key"], shelley_key.StakingKey().Raw().ToHex())
-        # Public keys
+        # Public key associated to the private one
         self.__test_pub_key(shelley_key.PublicKeys(), test)
 
     # Test public key
