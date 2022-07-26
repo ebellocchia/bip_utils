@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2022 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,8 @@
 # Imports
 import unittest
 from bip_utils import (
-    Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey, Cip1852Coins, Cip1852ConfGetter
+    Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey,
+    Cip1852Coins, Cip1852ConfGetter, DataBytes
 )
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.bip.bip32.test_bip32_keys import TEST_BIP32_KEY_DATA
@@ -150,6 +151,7 @@ class Bip44KeyDataTests(unittest.TestCase):
     def __test_priv_key(self, bip44_key, bip32_key, test, test_pub_key):
         # Objects
         self.assertTrue(isinstance(bip44_key.Bip32Key(), Bip32PrivateKey))
+        self.assertTrue(isinstance(bip44_key.Raw(), DataBytes))
         self.assertTrue(isinstance(bip44_key.PublicKey(), Bip44PublicKey))
         # BIP32 key
         self.assertTrue(bip44_key.Bip32Key() is bip32_key)
@@ -165,6 +167,8 @@ class Bip44KeyDataTests(unittest.TestCase):
     def __test_pub_key(self, bip44_key, bip32_key, test):
         # Object
         self.assertTrue(isinstance(bip44_key.Bip32Key(), Bip32PublicKey))
+        self.assertTrue(isinstance(bip44_key.RawCompressed(), DataBytes))
+        self.assertTrue(isinstance(bip44_key.RawUncompressed(), DataBytes))
         # BIP32 key
         self.assertTrue(bip44_key.Bip32Key() is bip32_key)
         # Keys

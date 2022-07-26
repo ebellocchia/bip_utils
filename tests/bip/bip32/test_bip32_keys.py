@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2022 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,7 +22,7 @@
 from bip_utils import (
     Bip32KeyError,
     Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyData,
-    Bip32PublicKey, Bip32PrivateKey
+    Bip32PublicKey, Bip32PrivateKey, DataBytes
 )
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.ecc.test_ecc import *
@@ -203,16 +203,13 @@ class Bip32KeyDataTests(unittest.TestCase):
         # Objects
         self.assertTrue(isinstance(priv_key_obj.KeyObject(), type(test_priv["key"])))
         self.assertTrue(isinstance(priv_key_obj.Data(), Bip32KeyData))
+        self.assertTrue(isinstance(priv_key_obj.Raw(), DataBytes))
         # Curve
         self.assertEqual(test_priv["key"].CurveType(), priv_key_obj.CurveType())
         # Key data
         self.assertTrue(priv_key_obj.Data() is TEST_BIP32_KEY_DATA)
-
         # Key
         self.assertEqual(test_priv["key"].Raw().ToBytes(), priv_key_obj.Raw().ToBytes())
-        self.assertEqual(test_priv["key"].Raw().ToBytes(), bytes(priv_key_obj.Raw()))
-        self.assertEqual(test_priv["key"].Raw().ToHex(), priv_key_obj.Raw().ToHex())
-        self.assertEqual(test_priv["key"].Raw().ToHex(), str(priv_key_obj.Raw()))
         # Extended key
         self.assertEqual(test_priv["ext"], priv_key_obj.ToExtended())
         # Public key associated to the private one
@@ -223,21 +220,15 @@ class Bip32KeyDataTests(unittest.TestCase):
         # Objects
         self.assertTrue(isinstance(pub_key_obj.KeyObject(), type(test["key"])))
         self.assertTrue(isinstance(pub_key_obj.Data(), Bip32KeyData))
+        self.assertTrue(isinstance(pub_key_obj.RawCompressed(), DataBytes))
+        self.assertTrue(isinstance(pub_key_obj.RawUncompressed(), DataBytes))
         # Curve
         self.assertEqual(test["key"].CurveType(), pub_key_obj.CurveType())
         # Key data
         self.assertTrue(pub_key_obj.Data() is TEST_BIP32_KEY_DATA)
-
-        # Compressed key
+        # Keys
         self.assertEqual(test["key"].RawCompressed().ToBytes(), pub_key_obj.RawCompressed().ToBytes())
-        self.assertEqual(test["key"].RawCompressed().ToBytes(), bytes(pub_key_obj.RawCompressed()))
-        self.assertEqual(test["key"].RawCompressed().ToHex(), pub_key_obj.RawCompressed().ToHex())
-        self.assertEqual(test["key"].RawCompressed().ToHex(), str(pub_key_obj.RawCompressed()))
-        # Uncompressed key
         self.assertEqual(test["key"].RawUncompressed().ToBytes(), pub_key_obj.RawUncompressed().ToBytes())
-        self.assertEqual(test["key"].RawUncompressed().ToBytes(), bytes(pub_key_obj.RawUncompressed()))
-        self.assertEqual(test["key"].RawUncompressed().ToHex(), pub_key_obj.RawUncompressed().ToHex())
-        self.assertEqual(test["key"].RawUncompressed().ToHex(), str(pub_key_obj.RawUncompressed()))
         # Extended key
         self.assertEqual(test["ext"], pub_key_obj.ToExtended())
         # Data
