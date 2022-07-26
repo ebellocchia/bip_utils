@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import binascii
 import unittest
@@ -72,26 +71,23 @@ class MoneroKeysTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        # Invalid types
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_ED25519_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_NIST256P1_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_SECP256K1_PRIV_KEY)
-        self.assertRaises(TypeError, MoneroPrivateKey, TEST_SR25519_PRIV_KEY)
-
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_ED25519_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_ED25519_BLAKE2B_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_NIST256P1_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_SECP256K1_PUB_KEY)
-        self.assertRaises(TypeError, MoneroPublicKey, TEST_SR25519_PUB_KEY)
+        # Private key
+        for key in (TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY,
+                    TEST_SECP256K1_PRIV_KEY, TEST_SR25519_PRIV_KEY):
+            self.assertRaises(TypeError, MoneroPrivateKey, key)
+        # Public key
+        for key in (TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_NIST256P1_PUB_KEY,
+                    TEST_SECP256K1_PUB_KEY, TEST_SR25519_PUB_KEY):
+            self.assertRaises(TypeError, MoneroPublicKey, key)
 
     # Test private key object
     def __test_priv_key_obj(self, priv_key):
+        # Keys
         self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToBytes(), priv_key.Raw().ToBytes())
         self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToBytes(), bytes(priv_key.Raw()))
         self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToHex(), priv_key.Raw().ToHex())
         self.assertEqual(TEST_ED25519_MONERO_PRIV_KEY.Raw().ToHex(), str(priv_key.Raw()))
-
+        # Object
         self.assertTrue(isinstance(priv_key.KeyObject(), Ed25519MoneroPrivateKey))
         # Public key associated to the private one
         self.__test_pub_key_obj(priv_key.PublicKey())
@@ -108,5 +104,5 @@ class MoneroKeysTests(unittest.TestCase):
         self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToBytes(), bytes(pub_key.RawUncompressed()))
         self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToHex(), pub_key.RawUncompressed().ToHex())
         self.assertEqual(TEST_ED25519_MONERO_PUB_KEY.RawUncompressed().ToHex(), str(pub_key.RawUncompressed()))
-
+        # Object
         self.assertTrue(isinstance(pub_key.KeyObject(), Ed25519MoneroPublicKey))

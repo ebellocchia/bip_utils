@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
 from bip_utils import FilSecp256k1AddrDecoder, FilSecp256k1AddrEncoder, FilSecp256k1Addr

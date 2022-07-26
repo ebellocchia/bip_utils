@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import binascii
 import unittest
@@ -662,4 +661,3 @@ class SubstrateTests(unittest.TestCase):
         self.assertEqual(test["pub_key"], substrate_obj.PublicKey().RawCompressed().ToHex())
         self.assertEqual(test["pub_key"], substrate_obj.PublicKey().RawUncompressed().ToHex())
         self.assertEqual(test["address"], substrate_obj.PublicKey().ToAddress())
-

@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
 from bip_utils import CoinsConf, BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr

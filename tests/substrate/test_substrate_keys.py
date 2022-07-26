@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import binascii
 import unittest
@@ -65,17 +64,14 @@ class SubstrateKeysTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_MONERO_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_NIST256P1_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_SECP256K1_PRIV_KEY, SubstrateConf.Polkadot)
-
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_BLAKE2B_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_MONERO_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_NIST256P1_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_SECP256K1_PUB_KEY, SubstrateConf.Polkadot)
+        # Private key
+        for key in (TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY,
+                    TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY):
+            self.assertRaises(TypeError, SubstratePrivateKey, key, SubstrateConf.Polkadot)
+        # Public key
+        for key in (TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
+                    TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY):
+            self.assertRaises(TypeError, SubstratePublicKey, key, SubstrateConf.Polkadot)
 
     # Test invalid keys
     def test_invalid_keys(self):
@@ -111,7 +107,7 @@ class SubstrateKeysTests(unittest.TestCase):
         self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), bytes(pub_key.RawUncompressed()))
         self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToHex(), pub_key.RawUncompressed().ToHex())
         self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToHex(), str(pub_key.RawUncompressed()))
-
+        # Address
         self.assertEqual(TEST_ADDRESS, pub_key.ToAddress())
-
+        # Object
         self.assertTrue(isinstance(pub_key.KeyObject(), Sr25519PublicKey))

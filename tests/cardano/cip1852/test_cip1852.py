@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
 from bip_utils import Cip1852, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins, Cip1852Coins

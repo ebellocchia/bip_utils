@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
 from bip_utils import (
@@ -100,12 +99,7 @@ class Bip44KeyDataTests(unittest.TestCase):
                 test["key"], TEST_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, test["key"].CurveType()
             )
             bip44_key = Bip44PrivateKey(bip32_key, test["conf"])
-
-            self.assertTrue(bip44_key.Bip32Key() is bip32_key)
-            self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
-            self.assertEqual(bip44_key.Raw().ToBytes(), bip32_key.Raw().ToBytes())
-            self.assertEqual(bip44_key.ToWif(), test["wif"])
-            self.__test_pub_key(bip44_key.PublicKey(), bip32_key.PublicKey(), TEST_PUB_KEYS[i])
+            self.__test_priv_key(bip44_key, bip32_key, test, TEST_PUB_KEYS[i])
 
     # Test public key
     def test_pub_key(self):
@@ -142,10 +136,30 @@ class Bip44KeyDataTests(unittest.TestCase):
         )
         self.assertRaises(ValueError, Bip44PublicKey(bip32_key, Bip44Conf.MoneroSecp256k1).ToAddress)
 
+    # Test private key
+    def __test_priv_key(self, bip44_key, bip32_key, test, test_pub_key):
+        # Objects
+        self.assertTrue(isinstance(bip44_key.Bip32Key(), Bip32PrivateKey))
+        self.assertTrue(isinstance(bip44_key.PublicKey(), Bip44PublicKey))
+        # BIP32 key
+        self.assertTrue(bip44_key.Bip32Key() is bip32_key)
+        # Keys
+        self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
+        self.assertEqual(bip44_key.Raw().ToBytes(), bip32_key.Raw().ToBytes())
+        # WIF
+        self.assertEqual(bip44_key.ToWif(), test["wif"])
+        # Test public key
+        self.__test_pub_key(bip44_key.PublicKey(), bip32_key.PublicKey(), test_pub_key)
+
     # Test public key
     def __test_pub_key(self, bip44_key, bip32_key, test):
+        # Object
+        self.assertTrue(isinstance(bip44_key.Bip32Key(), Bip32PublicKey))
+        # BIP32 key
         self.assertTrue(bip44_key.Bip32Key() is bip32_key)
+        # Keys
         self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
         self.assertEqual(bip44_key.RawCompressed().ToBytes(), bip32_key.RawCompressed().ToBytes())
         self.assertEqual(bip44_key.RawUncompressed().ToBytes(), bip32_key.RawUncompressed().ToBytes())
+        # Address
         self.assertEqual(bip44_key.ToAddress(), test["address"])
