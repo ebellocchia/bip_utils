@@ -1,0 +1,7 @@
+cip1852
+=======
+
+.. automodule:: bip_utils.cardano.cip1852.cip1852
+   :members:
+   :undoc-members:
+   :show-inheritance:

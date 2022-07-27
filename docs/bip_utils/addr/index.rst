@@ -7,6 +7,8 @@ addr
    P2SH_addr
    P2TR_addr
    P2WPKH_addr
+   ada_byron_addr
+   ada_shelley_addr
    addr_dec_utils
    addr_key_validator
    algo_addr
