@@ -82,8 +82,6 @@ TEST_VECT_DEC_INVALID = [
     # Invalid CRC
     "Ae2tdPwUPEZ1RPUDa1v5RpwafGhMWppE19i3Y5sAgKknTHKw6UrvRNcdL6D",
     # Invalid CBOR tag
-    "3BesdaTS8reTfZA7DiKfpzLxepvPGHzChBytguQqeXfTWV9FQePhgahXgA",
-    # Invalid CBOR encoding
     "Ae2tr7hYAE9LJU98dz6iHoDNozJq3EvtavT1eViVsMrVmtTiJ81sT7UgzZm",
     # Invalid address type
     "Ae2tdPwUPEZEReKzM7B6t4iLeSLkL4gZtE4G7Pvc3tZVcyaNmsX589QjDSX",
