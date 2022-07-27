@@ -210,6 +210,28 @@ class AdaShelleyAddrTests(unittest.TestCase):
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
 
+    # Test invalid parameters
+    def test_invalid_params(self):
+        AddrBaseTestHelper.test_invalid_params_dec(
+            self,
+            AdaShelleyAddrDecoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "net_tag": 0,
+            },
+            TypeError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            AdaShelleyAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "pub_skey": TEST_ED25519_PUB_KEY,
+                "net_tag": 0,
+            },
+            TypeError
+        )
+
     # Test reward address class
     def test_staking_addr_cls(self):
         self.assertTrue(AdaShelleyRewardAddrDecoder is AdaShelleyStakingAddrDecoder)
