@@ -212,8 +212,11 @@ class AdaShelleyStakingAddrDecoder(IAddrDecoder):
 
         Raises:
             ValueError: If the address encoding is not valid
+            TypeError: If the network tag is not a AdaShelleyAddrNetworkTags enum
         """
         net_tag = kwargs.get("net_tag", AdaShelleyAddrNetworkTags.MAINNET)
+        if not isinstance(net_tag, AdaShelleyAddrNetworkTags):
+            raise TypeError("Address type is not an enumerative of AdaShelleyAddrNetworkTags")
 
         # Decode bech32
         try:
@@ -252,9 +255,11 @@ class AdaShelleyStakingAddrEncoder(IAddrEncoder):
 
         Raises:
             ValueError: If the public key is not valid
-            TypeError: If the public key is not ed25519
+            TypeError: If the public key is not ed25519 or the network tag is not a AdaShelleyAddrNetworkTags enum
         """
         net_tag = kwargs.get("net_tag", AdaShelleyAddrNetworkTags.MAINNET)
+        if not isinstance(net_tag, AdaShelleyAddrNetworkTags):
+            raise TypeError("Address type is not an enumerative of AdaShelleyAddrNetworkTags")
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 

@@ -232,6 +232,25 @@ class AdaShelleyAddrTests(unittest.TestCase):
             TypeError
         )
 
+        AddrBaseTestHelper.test_invalid_params_dec(
+            self,
+            AdaShelleyStakingAddrDecoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "net_tag": 0,
+            },
+            TypeError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            AdaShelleyStakingAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "net_tag": 0,
+            },
+            TypeError
+        )
+
     # Test reward address class
     def test_staking_addr_cls(self):
         self.assertTrue(AdaShelleyRewardAddrDecoder is AdaShelleyStakingAddrDecoder)
