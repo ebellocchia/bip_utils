@@ -115,8 +115,5 @@ class P2WPKHAddrEncoder(IAddrEncoder):
                                           CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
 
 
-class P2WPKHAddr(P2WPKHAddrEncoder):
-    """
-    P2WPKH address class.
-    Only kept for compatibility, P2WPKHAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+P2WPKHAddr = P2WPKHAddrEncoder

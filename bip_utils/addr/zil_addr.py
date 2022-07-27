@@ -62,7 +62,7 @@ class ZilAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
         try:
-            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Zilliqa.Params("addr_hrp"),
+            addr_dec_bytes = Bech32Decoder.Decode(CoinsConf.Zilliqa.ParamByKey("addr_hrp"),
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
@@ -97,12 +97,9 @@ class ZilAddrEncoder(IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
         key_hash = CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())
-        return Bech32Encoder.Encode(CoinsConf.Zilliqa.Params("addr_hrp"),
+        return Bech32Encoder.Encode(CoinsConf.Zilliqa.ParamByKey("addr_hrp"),
                                     key_hash[-ZilAddrConst.SHA256_BYTE_LEN:])
 
 
-class ZilAddr(ZilAddrEncoder):
-    """
-    Zilliqa address class.
-    Only kept for compatibility, ZilAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+ZilAddr = ZilAddrEncoder

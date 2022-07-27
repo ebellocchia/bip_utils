@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2022 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,12 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import binascii
 import unittest
 from bip_utils import (
-    Sr25519PublicKey, Sr25519PrivateKey, SubstrateKeyError, SubstratePrivateKey, SubstratePublicKey
+    DataBytes, Sr25519PublicKey, Sr25519PrivateKey, SubstrateKeyError, SubstratePrivateKey, SubstratePublicKey
 )
 from bip_utils.substrate.conf.substrate_conf import SubstrateConf
 from tests.ecc.test_ecc import (
@@ -65,17 +64,14 @@ class SubstrateKeysTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_BLAKE2B_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_ED25519_MONERO_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_NIST256P1_PRIV_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePrivateKey, TEST_SECP256K1_PRIV_KEY, SubstrateConf.Polkadot)
-
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_BLAKE2B_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_ED25519_MONERO_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_NIST256P1_PUB_KEY, SubstrateConf.Polkadot)
-        self.assertRaises(TypeError, SubstratePublicKey, TEST_SECP256K1_PUB_KEY, SubstrateConf.Polkadot)
+        # Private key
+        for key in (TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY,
+                    TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY):
+            self.assertRaises(TypeError, SubstratePrivateKey, key, SubstrateConf.Polkadot)
+        # Public key
+        for key in (TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_MONERO_PUB_KEY,
+                    TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY):
+            self.assertRaises(TypeError, SubstratePublicKey, key, SubstrateConf.Polkadot)
 
     # Test invalid keys
     def test_invalid_keys(self):
@@ -90,28 +86,22 @@ class SubstrateKeysTests(unittest.TestCase):
 
     # Test private key object
     def __test_priv_key_obj(self, priv_key):
-        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), priv_key.Raw().ToBytes())
-        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), bytes(priv_key.Raw()))
-        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToHex(), priv_key.Raw().ToHex())
-        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToHex(), str(priv_key.Raw()))
-
+        # Object
         self.assertTrue(isinstance(priv_key.KeyObject(), Sr25519PrivateKey))
+        self.assertTrue(isinstance(priv_key.Raw(), DataBytes))
+        # Key
+        self.assertEqual(TEST_SR25519_PRIV_KEY.Raw().ToBytes(), priv_key.Raw().ToBytes())
         # Public key associated to the private one
         self.__test_pub_key_obj(priv_key.PublicKey())
 
     # Test public key object
     def __test_pub_key_obj(self, pub_key):
-        # Compressed key
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), pub_key.RawCompressed().ToBytes())
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), bytes(pub_key.RawCompressed()))
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToHex(), pub_key.RawCompressed().ToHex())
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToHex(), str(pub_key.RawCompressed()))
-        # Uncompressed key
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), pub_key.RawUncompressed().ToBytes())
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), bytes(pub_key.RawUncompressed()))
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToHex(), pub_key.RawUncompressed().ToHex())
-        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToHex(), str(pub_key.RawUncompressed()))
-
-        self.assertEqual(TEST_ADDRESS, pub_key.ToAddress())
-
+        # Object
         self.assertTrue(isinstance(pub_key.KeyObject(), Sr25519PublicKey))
+        self.assertTrue(isinstance(pub_key.RawCompressed(), DataBytes))
+        self.assertTrue(isinstance(pub_key.RawUncompressed(), DataBytes))
+        # Keys
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawCompressed().ToBytes(), pub_key.RawCompressed().ToBytes())
+        self.assertEqual(TEST_SR25519_PUB_KEY.RawUncompressed().ToBytes(), pub_key.RawUncompressed().ToBytes())
+        # Address
+        self.assertEqual(TEST_ADDRESS, pub_key.ToAddress())

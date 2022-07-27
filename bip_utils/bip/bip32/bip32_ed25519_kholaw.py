@@ -199,10 +199,12 @@ class Bip32Ed25519Kholaw(Bip32Base):
         return Bip32Ed25519Kholaw(
             priv_key=priv_key,
             pub_key=None,
-            key_data=Bip32KeyData(chain_code=chain_code_bytes,
-                                  depth=self.Depth().Increase(),
-                                  index=index,
-                                  parent_fprint=self.m_pub_key.FingerPrint()),
+            key_data=Bip32KeyData(
+                chain_code=chain_code_bytes,
+                depth=self.Depth().Increase(),
+                index=index,
+                parent_fprint=self.m_pub_key.FingerPrint()
+            ),
             curve_type=self.CurveType(),
             key_net_ver=self.KeyNetVersions()
         )
@@ -250,10 +252,12 @@ class Bip32Ed25519Kholaw(Bip32Base):
         return Bip32Ed25519Kholaw(
             priv_key=None,
             pub_key=Ed25519KholawPublicKey.FromPoint(pub_key_point),
-            key_data=Bip32KeyData(chain_code=chain_code_bytes,
-                                  depth=self.Depth().Increase(),
-                                  index=index,
-                                  parent_fprint=self.m_pub_key.FingerPrint()),
+            key_data=Bip32KeyData(
+                chain_code=chain_code_bytes,
+                depth=self.Depth().Increase(),
+                index=index,
+                parent_fprint=self.m_pub_key.FingerPrint()
+            ),
             curve_type=self.CurveType(),
             key_net_ver=self.KeyNetVersions()
         )

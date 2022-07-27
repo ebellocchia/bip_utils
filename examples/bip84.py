@@ -1,4 +1,4 @@
-"""Example of key derivation using BIP84."""
+"""Example of keys derivation using BIP84."""
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip44Changes, Bip84Coins, Bip84
@@ -19,12 +19,12 @@ print(f"Master key (bytes): {bip84_mst_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Master key (extended): {bip84_mst_ctx.PrivateKey().ToExtended()}")
 print(f"Master key (WIF): {bip84_mst_ctx.PrivateKey().ToWif()}")
 
-# Generate BIP84 account keys: m/84'/0'/0'
+# Derive BIP84 account keys: m/84'/0'/0'
 bip84_acc_ctx = bip84_mst_ctx.Purpose().Coin().Account(0)
-# Generate BIP84 chain keys: m/84'/0'/0'/0
+# Derive BIP84 chain keys: m/84'/0'/0'/0
 bip84_chg_ctx = bip84_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
 
-# Generate addresses: m/84'/0'/0'/0/i
+# Derive addresses: m/84'/0'/0'/0/i
 print("Addresses:")
 for i in range(ADDR_NUM):
     bip84_addr_ctx = bip84_chg_ctx.AddressIndex(i)

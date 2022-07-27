@@ -79,7 +79,7 @@ class XlmAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            addr_type (XlmAddrTypes): Address type
+            addr_type (XlmAddrTypes): Address type (default: public key)
 
         Returns:
             bytes: Public key bytes
@@ -90,7 +90,7 @@ class XlmAddrDecoder(IAddrDecoder):
         """
 
         # Get and check address type
-        addr_type = kwargs["addr_type"]
+        addr_type = kwargs.get("addr_type", XlmAddrTypes.PUB_KEY)
         if not isinstance(addr_type, XlmAddrTypes):
             raise TypeError("Address type is not an enumerative of XlmAddrTypes")
 
@@ -133,7 +133,7 @@ class XlmAddrEncoder(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            addr_type (XlmAddrTypes): Address type
+            addr_type (XlmAddrTypes): Address type (default: public key)
 
         Returns:
             str: Address string
@@ -144,7 +144,7 @@ class XlmAddrEncoder(IAddrEncoder):
         """
 
         # Get and check address type
-        addr_type = kwargs["addr_type"]
+        addr_type = kwargs.get("addr_type", XlmAddrTypes.PUB_KEY)
         if not isinstance(addr_type, XlmAddrTypes):
             raise TypeError("Address type is not an enumerative of XlmAddrTypes")
 
@@ -158,8 +158,5 @@ class XlmAddrEncoder(IAddrEncoder):
         return Base32Encoder.EncodeNoPadding(payload_bytes + checksum_bytes)
 
 
-class XlmAddr(XlmAddrEncoder):
-    """
-    Stellar address class.
-    Only kept for compatibility, XlmAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+XlmAddr = XlmAddrEncoder

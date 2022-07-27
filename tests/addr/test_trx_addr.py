@@ -18,10 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
-from bip_utils import TrxAddrDecoder, TrxAddrEncoder
+from bip_utils import TrxAddrDecoder, TrxAddrEncoder, TrxAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -90,8 +89,14 @@ class TrxAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             TrxAddrEncoder,
-                                             {},
-                                             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_SECP256K1_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            TrxAddrEncoder,
+            {},
+            TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_SECP256K1_PUB_KEY_INVALID
+        )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertTrue(TrxAddr is TrxAddrEncoder)

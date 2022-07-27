@@ -135,11 +135,11 @@ class ElectrumV1Tests(unittest.TestCase):
     @staticmethod
     def __wif_to_priv(priv_key):
         return WifDecoder.Decode(priv_key,
-                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"))[0]
+                                 CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"))[0]
 
     # Encode private key to WIF
     @staticmethod
     def __priv_to_wif(priv_key):
         return WifEncoder.Encode(priv_key,
-                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+                                 CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                                  WifPubKeyModes.UNCOMPRESSED)

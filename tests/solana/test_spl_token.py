@@ -18,9 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
-import binascii
 import unittest
 from bip_utils import SplToken
 from bip_utils.solana.spl_token import SplTokenConst

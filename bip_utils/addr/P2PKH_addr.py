@@ -120,13 +120,6 @@ class P2PKHAddrEncoder(IAddrEncoder):
         return Base58Encoder.CheckEncode(net_ver_bytes + CryptoUtils.Hash160(pub_key_bytes), base58_alph)
 
 
-class P2PKHAddr(P2PKHAddrEncoder):
-    """
-    P2PKH address class.
-    Only kept for compatibility, P2PKHAddrEncoder shall be used instead.
-    """
-
-
 class BchP2PKHAddrDecoder(IAddrDecoder):
     """
     Bitcoin Cash P2PKH address decoder class.
@@ -205,8 +198,6 @@ class BchP2PKHAddrEncoder(IAddrEncoder):
                                        CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
 
 
-class BchP2PKHAddr(BchP2PKHAddrEncoder):
-    """
-    Bitcoin Cash P2PKH address.
-    Only kept for compatibility, BchP2PKHAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder classes shall be used instead
+P2PKHAddr = P2PKHAddrEncoder
+BchP2PKHAddr = BchP2PKHAddrEncoder

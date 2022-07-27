@@ -22,7 +22,7 @@
 
 # Imports
 from functools import lru_cache
-from bip_utils.addr import XmrAddrEncoder
+from bip_utils.addr import AdaShelleyAddrEncoder, XmrAddrEncoder
 from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.utils.misc import DataBytes
@@ -104,24 +104,18 @@ class Bip44PublicKey:
         Returns:
             str: Address string
         """
-        return self.__ComputeAddress()
-
-    def __ComputeAddress(self) -> str:
-        """
-        Compute address.
-
-        Returns:
-            str: Address string
-        """
-        addr_params = self.m_coin_conf.AddrParams()
         addr_cls = self.m_coin_conf.AddrClass()
-        pub_key_obj = self.Bip32Key().KeyObject()
+        pub_key_obj = self.m_pub_key.KeyObject()
 
+        # Exception for Cardano
+        if addr_cls is AdaShelleyAddrEncoder:
+            raise ValueError("Use the CardanoShelley class to get Cardano Shelley addresses")
         # Exception for Monero
         if addr_cls is XmrAddrEncoder:
             raise ValueError("Use the Monero class to get Monero addresses")
 
-        return addr_cls.EncodeKey(pub_key_obj, **addr_params)
+        return addr_cls.EncodeKey(pub_key_obj,
+                                  **self.m_coin_conf.AddrParamsWithResolvedCalls(self.m_pub_key))
 
 
 class Bip44PrivateKey:
@@ -181,6 +175,17 @@ class Bip44PrivateKey:
             DataBytes object: DataBytes object
         """
         return self.m_priv_key.Raw()
+
+    @lru_cache()
+    def PublicKey(self) -> Bip44PublicKey:
+        """
+        Get the public key correspondent to the private one.
+
+        Returns:
+            Bip44PublicKey object: Bip44PublicKey object
+        """
+        return Bip44PublicKey(self.m_priv_key.PublicKey(),
+                              self.m_coin_conf)
 
     @lru_cache()
     def ToWif(self,

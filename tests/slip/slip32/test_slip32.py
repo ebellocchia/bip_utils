@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
 from bip_utils import (
@@ -119,8 +118,6 @@ class Slip32Tests(unittest.TestCase):
 
     # Test invalid extended keys
     def test_invalid_ex_keys(self):
-        seed_bytes = Bip39SeedGenerator(TEST_MNEMONIC).Generate()
-        bip32_mst_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
         for test in TEST_VECT_EX_KEY_INVALID:
             self.assertRaises(ValueError, Slip32KeyDeserializer.DeserializeKey, test)
 

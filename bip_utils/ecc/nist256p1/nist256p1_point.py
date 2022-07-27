@@ -53,8 +53,10 @@ class Nist256p1Point(IPoint):
             raise ValueError("Invalid point key bytes") from ex
         # ECDSA < 0.17 doesn't have from_bytes method for PointJacobi
         except AttributeError:
-            return cls.FromCoordinates(BytesUtils.ToInteger(point_bytes[:EcdsaKeysConst.POINT_COORD_BYTE_LEN]),
-                                       BytesUtils.ToInteger(point_bytes[EcdsaKeysConst.POINT_COORD_BYTE_LEN:]))
+            return cls.FromCoordinates(
+                BytesUtils.ToInteger(point_bytes[:EcdsaKeysConst.POINT_COORD_BYTE_LEN]),
+                BytesUtils.ToInteger(point_bytes[EcdsaKeysConst.POINT_COORD_BYTE_LEN:])
+            )
 
     @classmethod
     def FromCoordinates(cls,
@@ -70,23 +72,20 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        return cls(ellipticcurve.PointJacobi.from_affine(
-            ellipticcurve.Point(curve_256, x, y))
+        return cls(
+            ellipticcurve.PointJacobi.from_affine(
+                ellipticcurve.Point(curve_256, x, y)
+            )
         )
 
     def __init__(self,
-                 point_obj: Any) -> None:
+                 point_obj: ellipticcurve.PointJacobi) -> None:
         """
         Construct class from point object.
 
         Args:
-            point_obj (class): Point object
-
-        Raises:
-            TypeError: If point object is not of the correct type
+            point_obj (ellipticcurve.PointJacobi): Point object
         """
-        if not isinstance(point_obj, ellipticcurve.PointJacobi):
-            raise TypeError("Invalid point object type")
         self.m_point = point_obj
 
     def UnderlyingObject(self) -> Any:

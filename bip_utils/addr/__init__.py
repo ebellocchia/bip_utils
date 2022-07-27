@@ -1,4 +1,11 @@
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.ada_byron_addr import AdaByronAddrTypes, AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronAddr
+from bip_utils.addr.ada_shelley_addr import (
+    AdaShelleyAddrNetworkTags,
+    AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddr,
+    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyRewardAddr,
+    AdaShelleyStakingAddrDecoder, AdaShelleyStakingAddrEncoder, AdaShelleyStakingAddr
+)
 from bip_utils.addr.algo_addr import AlgoAddrDecoder, AlgoAddrEncoder, AlgoAddr
 from bip_utils.addr.atom_addr import AtomAddrDecoder, AtomAddrEncoder, AtomAddr
 from bip_utils.addr.avax_addr import (

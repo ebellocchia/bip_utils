@@ -47,6 +47,8 @@ class Ed25519KeysConst:
 class Ed25519PublicKey(IPublicKey):
     """Ed25519 public key class."""
 
+    m_ver_key: signing.VerifyKey
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -97,20 +99,14 @@ class Ed25519PublicKey(IPublicKey):
         return cls.FromBytes(key_point.RawEncoded().ToBytes())
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_obj: signing.VerifyKey) -> None:
         """
-        Construct class from key object.
+        Construct class.
 
         Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
+            key_obj (signing.VerifyKey): Key object
         """
-        if isinstance(key_obj, signing.VerifyKey):
-            self.m_ver_key = key_obj
-        else:
-            raise TypeError("Invalid public key object type")
+        self.m_ver_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -184,6 +180,8 @@ class Ed25519PublicKey(IPublicKey):
 class Ed25519PrivateKey(IPrivateKey):
     """Ed25519 private key class."""
 
+    m_sign_key: signing.SigningKey
+
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -205,20 +203,14 @@ class Ed25519PrivateKey(IPrivateKey):
             raise ValueError("Invalid private key bytes") from ex
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_obj: signing.SigningKey) -> None:
         """
-        Construct class from key object.
+        Construct class.
 
         Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
+            key_obj (signing.SigningKey): Key object
         """
-        if isinstance(key_obj, signing.SigningKey):
-            self.m_sign_key = key_obj
-        else:
-            raise TypeError("Invalid private key object type")
+        self.m_sign_key = key_obj
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:

@@ -81,23 +81,19 @@ class Ed25519MoneroPublicKey(IPublicKey):
         return cls(key_point.RawEncoded().ToBytes())
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_bytes: bytes) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (class): Key object
+            key_bytes (bytes): Key bytes
 
         Raises:
-            TypeError: If key object is not of the correct type
             ValueError: If key is not valid
         """
-        if not isinstance(key_obj, bytes):
-            raise TypeError("Invalid public key object type")
-        if not ed25519_monero_lib.is_valid_pub_key(key_obj):
+        if not ed25519_monero_lib.is_valid_pub_key(key_bytes):
             raise ValueError("Invalid public key")
-
-        self.m_ver_key = key_obj
+        self.m_ver_key = key_bytes
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -191,23 +187,19 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         return cls(key_bytes)
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_bytes: bytes) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (class): Key object
+            key_bytes (bytes): Key bytes
 
         Raises:
-            TypeError: If key object is not of the correct type
             ValueError: If key is not valid
         """
-        if not isinstance(key_obj, bytes):
-            raise TypeError("Invalid private key object type")
-        if not ed25519_monero_lib.is_valid_priv_key(key_obj):
+        if not ed25519_monero_lib.is_valid_priv_key(key_bytes):
             raise ValueError("Invalid private key")
-
-        self.m_sign_key = key_obj
+        self.m_sign_key = key_bytes
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:

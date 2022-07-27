@@ -18,10 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
-from bip_utils import EgldAddrDecoder, EgldAddrEncoder
+from bip_utils import EgldAddrDecoder, EgldAddrEncoder, EgldAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey
@@ -96,8 +95,14 @@ class EgldAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             EgldAddrEncoder,
-                                             {},
-                                             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_ED25519_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            EgldAddrEncoder,
+            {},
+            TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_ED25519_PUB_KEY_INVALID
+        )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertTrue(EgldAddr is EgldAddrEncoder)

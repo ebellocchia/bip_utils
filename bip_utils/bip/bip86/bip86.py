@@ -157,19 +157,6 @@ class Bip86(Bip44Base):
     # Overridden abstract methods
     #
 
-    def DeriveDefaultPath(self) -> Bip44Base:
-        """
-        Derive the default coin path and return a new Bip44Base object.
-
-        Returns:
-            Bip44Base object: Bip44Base object
-
-        Raises:
-            Bip44DepthError: If current depth is not suitable for deriving keys
-            Bip32KeyError: If the derivation results in an invalid key
-        """
-        return self._DeriveDefaultPathGeneric(Bip86Const.PURPOSE)
-
     def Purpose(self) -> Bip44Base:
         """
         Derive a child key from the purpose and return a new Bip44Base object.
@@ -225,7 +212,7 @@ class Bip86(Bip44Base):
             Bip44Base object: Bip44Base object
 
         Raises:
-            TypeError: If chain index is not a Bip44Changes enum
+            TypeError: If change type is not a Bip44Changes enum
             Bip44DepthError: If current depth is not suitable for deriving keys
             Bip32KeyError: If the derivation results in an invalid key
         """

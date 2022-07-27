@@ -160,11 +160,13 @@ class Bip32Base(ABC):
             if key_data.Index() != 0:
                 raise Bip32KeyError(f"Invalid extended master key (wrong child index: {key_data.Index().ToInt()})")
 
-        return cls(priv_key=key_bytes if not is_public else None,
-                   pub_key=key_bytes if is_public else None,
-                   key_data=key_data,
-                   curve_type=cls.CurveType(),
-                   key_net_ver=key_net_ver)
+        return cls(
+            priv_key=key_bytes if not is_public else None,
+            pub_key=key_bytes if is_public else None,
+            key_data=key_data,
+            curve_type=cls.CurveType(),
+            key_net_ver=key_net_ver
+        )
 
     @classmethod
     def FromPrivateKey(cls,
@@ -187,11 +189,13 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
-        return cls(priv_key=priv_key,
-                   pub_key=None,
-                   key_data=key_data,
-                   curve_type=cls.CurveType(),
-                   key_net_ver=key_net_ver)
+        return cls(
+            priv_key=priv_key,
+            pub_key=None,
+            key_data=key_data,
+            curve_type=cls.CurveType(),
+            key_net_ver=key_net_ver
+        )
 
     @classmethod
     def FromPublicKey(cls,
@@ -214,11 +218,13 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the key is not valid
         """
-        return cls(priv_key=None,
-                   pub_key=pub_key,
-                   key_data=key_data,
-                   curve_type=cls.CurveType(),
-                   key_net_ver=key_net_ver)
+        return cls(
+            priv_key=None,
+            pub_key=pub_key,
+            key_data=key_data,
+            curve_type=cls.CurveType(),
+            key_net_ver=key_net_ver
+        )
 
     #
     # Public methods
@@ -314,7 +320,7 @@ class Bip32Base(ABC):
         return bip32_obj
 
     def ConvertToPublic(self) -> None:
-        """Convert a private Bip32 object into a public one."""
+        """Convert the object into a public one."""
         self.m_priv_key = None
 
     def IsPublicOnly(self) -> bool:

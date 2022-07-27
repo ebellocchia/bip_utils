@@ -75,18 +75,13 @@ class Secp256k1PointCoincurve(IPoint):
             raise ValueError("Invalid point coordinates") from ex
 
     def __init__(self,
-                 point_obj: Any) -> None:
+                 point_obj: coincurve.PublicKey) -> None:
         """
         Construct class from point object.
 
         Args:
-            point_obj (class): Point object
-
-        Raises:
-            TypeError: If point object is not of the correct type
+            point_obj (coincurve.PublicKey): Point object
         """
-        if not isinstance(point_obj, coincurve.PublicKey):
-            raise TypeError("Invalid point object type")
         self.m_pub_key = point_obj
 
     def UnderlyingObject(self) -> Any:

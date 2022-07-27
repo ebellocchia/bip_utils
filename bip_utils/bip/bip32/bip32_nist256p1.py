@@ -90,7 +90,7 @@ class Bip32Nist256p1(Bip32EcdsaBase):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        return self._CkdPrivEcdsa(self, index)
+        return self._CkdPrivEcdsa(index)
 
     def _CkdPub(self,
                 index: Bip32KeyIndex) -> Bip32Base:
@@ -106,4 +106,4 @@ class Bip32Nist256p1(Bip32EcdsaBase):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        return self._CkdPubEcdsa(self, index)
+        return self._CkdPubEcdsa(index)

@@ -21,10 +21,42 @@
 """Module with helper class for generic BIP coins configuration handling."""
 
 # Imports
-from typing import Any, Dict, Optional, Type
+from typing import Any, Dict, Optional, Tuple, Type
 from bip_utils.addr import IAddrEncoder
-from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base
+from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base, Bip32PublicKey
 from bip_utils.utils.conf import CoinNames as UtilsCoinNames
+
+
+class BipCoinFctCallsConf:
+    """Bip coin function calls configuration class."""
+
+    m_fct_names: Tuple[str, ...]
+
+    def __init__(self,
+                 *args: str) -> None:
+        """
+        Construct class.
+
+        Args:
+            args (str): Function names to be called
+        """
+        self.m_fct_names = args
+
+    def ResolveCalls(self,
+                     pub_key: Bip32PublicKey) -> Any:
+        """
+        Resolve function calls and get the result.
+
+        Args:
+            pub_key (Bip32PublicKey object): Bip32PublicKey object
+
+        Returns:
+            Any: Result
+        """
+        res = pub_key
+        for fct_call in self.m_fct_names:
+            res = getattr(res, fct_call)()
+        return res
 
 
 class BipCoinConf:
@@ -39,6 +71,7 @@ class BipCoinConf:
     m_bip32_cls: Type[Bip32Base]
     m_addr_params: Dict[str, Any]
     m_addr_cls: Type[IAddrEncoder]
+    m_any_addr_params_fct_call: bool
 
     def __init__(self,
                  coin_names: UtilsCoinNames,
@@ -72,6 +105,9 @@ class BipCoinConf:
         self.m_wif_net_ver = wif_net_ver
         self.m_bip32_cls = bip32_cls
         self.m_addr_params = addr_params
+        self.m_any_addr_params_fct_call = any(
+            (isinstance(param_val, BipCoinFctCallsConf) for param_val in addr_params.values())
+        )
         self.m_addr_cls = addr_cls
 
     def CoinNames(self) -> UtilsCoinNames:
@@ -147,18 +183,31 @@ class BipCoinConf:
         """
         return self.m_addr_params
 
-    def AddrParamsKey(self,
-                      key: str) -> Any:
+    def AddrParamsWithResolvedCalls(self,
+                                    pub_key: Bip32PublicKey) -> Dict[str, Any]:
         """
-        Get the address parameters for the specified key.
+        Get the address parameters with resolved function calls.
 
         Args:
-            key (str): Key
+            pub_key (Bip32PublicKey object): Bip32PublicKey object
 
         Returns:
-            bytes or str: Address parameters for the specified key
+            dict: Address parameters
         """
-        return self.AddrParams()[key]
+        addr_params = self.AddrParams()
+
+        # Just use the internal object if nothing to be resolved to avoid creating a new one
+        if not self.m_any_addr_params_fct_call:
+            return addr_params
+
+        # Resolve function calls
+        resolved_params = {}
+        for param_name, param_val in addr_params.items():
+            resolved_params[param_name] = (param_val.ResolveCalls(pub_key)
+                                           if isinstance(param_val, BipCoinFctCallsConf)
+                                           else param_val)
+
+        return resolved_params
 
     def AddrClass(self) -> Type[IAddrEncoder]:
         """

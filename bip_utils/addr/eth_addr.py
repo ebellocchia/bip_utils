@@ -91,7 +91,7 @@ class EthAddrDecoder(IAddrDecoder):
 
         # Validate and remove prefix
         addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
-                                                              CoinsConf.Ethereum.Params("addr_prefix"))
+                                                              CoinsConf.Ethereum.ParamByKey("addr_prefix"))
         # Validate length
         AddrDecUtils.ValidateLength(addr_no_prefix, EthAddrConst.ADDR_LEN)
         # Check checksum encoding
@@ -133,13 +133,10 @@ class EthAddrEncoder(IAddrEncoder):
         # First byte of the uncompressed key (i.e. 0x04) is not needed
         kekkak_hex = BytesUtils.ToHexString(CryptoUtils.Kekkak256(pub_key_obj.RawUncompressed().ToBytes()[1:]))
         addr = kekkak_hex[EthAddrConst.START_BYTE:]
-        return CoinsConf.Ethereum.Params("addr_prefix") + (_EthAddrUtils.ChecksumEncode(addr)
-                                                           if not skip_chksum_enc
-                                                           else addr)
+        return CoinsConf.Ethereum.ParamByKey("addr_prefix") + (_EthAddrUtils.ChecksumEncode(addr)
+                                                               if not skip_chksum_enc
+                                                               else addr)
 
 
-class EthAddr(EthAddrEncoder):
-    """
-    Ethereum address class.
-    Only kept for compatibility, EthAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+EthAddr = EthAddrEncoder

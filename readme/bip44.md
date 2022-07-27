@@ -29,6 +29,9 @@ Supported coins enumerative for BIP-0044:
 |Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
 |[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|*Bip44Coins.BITCOIN_CASH_SLP*|*Bip44Coins.BITCOIN_CASH_SLP_TESTNET*|
 |BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
+|Cardano Byron (Icarus)|*Bip44Coins.CARDANO_BYRON_ICARUS*, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
+|Cardano Byron (Ledger)|*Bip44Coins.CARDANO_BYRON_LEDGER*, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
+|Celo|*Bip44Coins.CELO*|-|
 |Celo|*Bip44Coins.CELO*|-|
 |Certik|*Bip44Coins.CERTIK*|-|
 |Chihuahua|*Bip44Coins.CHIHUAHUA*|-|
@@ -231,51 +234,51 @@ The private and public extended keys can be printed at any level.
 
     import binascii
     from bip_utils import Bip44Changes, Bip44Coins, Bip44Levels, Bip44
-
+    
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Create from seed
     bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
-
+    
     # Print master key in extended format
     print(bip44_mst_ctx.PrivateKey().ToExtended())
     # Print master key in hex format
     print(bip44_mst_ctx.PrivateKey().Raw().ToHex())
-
+    # Print the master key in WIF
+    print(bip44_mst_ctx.PrivateKey().ToWif())
+    
     # Print public key in extended format
     print(bip44_mst_ctx.PublicKey().ToExtended())
     # Print public key in raw uncompressed format
     print(bip44_mst_ctx.PublicKey().RawUncompressed().ToHex())
     # Print public key in raw compressed format
     print(bip44_mst_ctx.PublicKey().RawCompressed().ToHex())
-
-    # Print the master key in WIF
+    
+    # Print level
+    print(bip44_mst_ctx.Level())
+    # Check level
     print(bip44_mst_ctx.IsLevel(Bip44Levels.MASTER))
-    print(bip44_mst_ctx.PrivateKey().ToWif())
-
+    
     # Derive account 0 for Bitcoin: m/44'/0'/0'
     bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
     # Print keys in extended format
-    print(bip44_acc_ctx.IsLevel(Bip44Levels.ACCOUNT))
     print(bip44_acc_ctx.PrivateKey().ToExtended())
     print(bip44_acc_ctx.PublicKey().ToExtended())
     # Address of account level
     print(bip44_acc_ctx.PublicKey().ToAddress())
-
+    
     # Derive the external chain: m/44'/0'/0'/0
     bip44_chg_ctx = bip44_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
     # Print again keys in extended format
-    print(bip44_chg_ctx.IsLevel(Bip44Levels.CHANGE))
     print(bip44_chg_ctx.PrivateKey().ToExtended())
     print(bip44_chg_ctx.PublicKey().ToExtended())
     # Address of change level
     print(bip44_chg_ctx.PublicKey().ToAddress())
-
+    
     # Derive the first 20 addresses of the external chain: m/44'/0'/0'/0/i
     for i in range(20):
         bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)
-
-        print(bip44_addr_ctx.IsLevel(Bip44Levels.ADDRESS_INDEX))
+    
         # Print extended keys and address
         print(bip44_addr_ctx.PrivateKey().ToExtended())
         print(bip44_addr_ctx.PublicKey().ToExtended())

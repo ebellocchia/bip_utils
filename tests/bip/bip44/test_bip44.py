@@ -18,10 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
-from bip_utils import Bip44Conf, Bip44, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins
+from bip_utils import Bip44Conf, Bip44, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins, Cip1852Coins
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
 # Results generated with: https://iancoleman.io/bip39
@@ -363,6 +362,54 @@ TEST_VECT = [
             "155Vurs4bMMu5BemtZ6cVPhryGWef4VxZu",
             "1MgmeSFC4F5L8idUUW7fSL7QFfwbxJaW8B",
             "1D4eJS94heKPtAaU5jcfecMEk5i1vzEvAo",
+        ],
+    },
+    # Cardano Byron (Icarus)
+    {
+        "coin": Bip44Coins.CARDANO_BYRON_ICARUS,
+        "names": ("Cardano", "ADA"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "Har3K3MhV5fiuEp6zsN3uXH3PfkwVbnRNTuAiniJRps2XV6PCHcYteVzoDtXavwkvaZPG9gyUVHfw6UFdfqiF9RWbC5u6ZTdjPq6c6s96vKWnujBRAd7FifEKBjRawCrx4XEX9Zz26F29qUyqutkSndBXqL",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DEjRUvqKKhu4gCcPY565rS8uxfySAXiQ41g5MHUJD7xmLcE7kwZDhPrrdkszyg9ncEmRB2AJ5RxFBFNFtF7AP72fambv1jRu3WKX7YdCMg",
+            "ex_priv": "Har3K5WH4NfDtyHNE4b4cQFJLBc61Fbjzr6B1HdEmkMC7H6yHaNSWWtrqmWnTHpuWG7MfMthNJ6r7SEXa7gaxeJNsPhRkgSQxnVMhdRd4Mw9AXPadpTS1mCuBEC9LToywEAbTkPsAocY5GFxhWzfvPPcnqc",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6FEcXHyAkrq4cmgDYJmzswJfGQsWzTFfA6DBGcCbNYbE8k8eq5syGKGJQpGvTh9qW3guhW33peiJUsa3LUun4QGRSZddjyy3P75bU2mHVzW",
+            "ex_priv": "Har3K66heEZGu8dJ1e8HEjgGw1DdZoAos5pdE7QgbbJfaaPzXiz7H7tYvRQepMQhAp8hDZqiaZikhvBxjmLAfJC5qukQkPA4mZHrgDgwap1a8HhEeZzZdkAnmXKhT5fVWK4X7vnFd3eyrHmqqvPQMUHK5w4",
+        },
+        "addresses": [
+            "Ae2tdPwUPEZHL1W6CHW2ppcAdvF4LyaeRRFtfADjtrjtVjUiWjRCj4ukGxd",
+            "Ae2tdPwUPEZ3kHr8E5NtNNy8mApGkVjTLDUJBxCbCVXQvcrvBDptnK4fGjv",
+            "Ae2tdPwUPEZ3QY32qre9Se8KXr23yH8Xr5wkq3aSj6s4ohbsQaiWz1ifw88",
+            "Ae2tdPwUPEZ6noGdHKwKaHkYAbgXNCazqxn1h55N9trmwJghemDCdpcSXCv",
+            "Ae2tdPwUPEYywWFFzHjwVex9UezqN83jtRFAUD3Qkp31Kx7MVsUokzVaT9Q",
+        ],
+    },
+    # Cardano Byron (Ledger)
+    {
+        "coin": Bip44Coins.CARDANO_BYRON_LEDGER,
+        "names": ("Cardano", "ADA"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "Har3K3MhV5fiuEp6zeH7rL3RgBvUVXzsyvFJbPqquYBooHMLV6v7UjSVRCoxCxgCCsDYTJPAfaBm1rj5yMFFiQU4QZjzuWnCJC2V9q4C7y3Ji3eKXruF2H5WjrQRDyiKLK7QMwf39wywu3P5sCjSPhF7zLM",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CRk25MKKNDvXXfp5p5XhgHWYXpvniLc7J34baA5zs1eXDZNyAC9JRZSzTjPWSVwjyNLQuykq19qJqWB8sBbxXWGyfzsEc7MdygCSa3CpKh",
+            "ex_priv": "Har3K5GKSmGk2AJ6kNcBnnVvEkWD1nDvwpR8CvY5TnivTyyNUKE1J1T56Xzhg6iT68zYJQ5qsNh3XuESPseMPXs5aHBJn6AbZi96YXVdbkeucyMDQX1nVikdWRt1WRcr1JYto2GuUR2igtS12qC2foxF4Gi",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6Dn7Vzn4tNcqe9KDfQzgbJ6waG6KBumM72uqiLQT51Xtfq4MQWxouoKio31SySSTfYvKnuUzT9LiXDAmhjg2z27goWnmY4q3LWuaZKHZjjd",
+            "ex_priv": "Har3K5fbjauKDggqUZ3VZvnJn6XaHg8N8fAtAeYVMkmLvoTwh361qJQ4zbscdjXTZMroaJYGkikUCx56zSz2JZs8rDAwh7cgQnVP9mCU7UNcZdRwdnK4pgE7uKzMbC9kj78ZFjmetCicELGn2m1srRfMacP",
+        },
+        "addresses": [
+            "Ae2tdPwUPEZF4a8fNdkUt8HSyyWgsq2DqP2AKGFKiF3SLsXNDuu6wYp15Dp",
+            "Ae2tdPwUPEZE8Ni1q3K4yjQy4J52N1gfjZU5okdfC9WTP1CGrXjaYHzvNv8",
+            "Ae2tdPwUPEZ3iEwQgd1m86Q3BQQGACwh15qsycvyPXntMKrr1Rs47LrVgTi",
+            "Ae2tdPwUPEZJEqLTAF7tUG14FLMy4BQJ2gtkckiWpzk4Pf8nR5DvyMPvFPt",
+            "Ae2tdPwUPEYyH3w9G87544iteBxm7iqjMdkEav9K3t5G8GkZJga9nrYL2HX",
         ],
     },
     # Celo
@@ -1842,6 +1889,18 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "1K6LZdwpKT5XkEZo2T2kW197aMXYbYMc4f",
     },
+    # Cardano Byron (Icarus)
+    {
+        "coin": Bip44Coins.CARDANO_BYRON_ICARUS,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "Ae2tdPwUPEZHL1W6CHW2ppcAdvF4LyaeRRFtfADjtrjtVjUiWjRCj4ukGxd",
+    },
+    # Cardano Byron (Ledger)
+    {
+        "coin": Bip44Coins.CARDANO_BYRON_LEDGER,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "Ae2tdPwUPEZF4a8fNdkUt8HSyyWgsq2DqP2AKGFKiF3SLsXNDuu6wYp15Dp",
+    },
     # Celo
     {
         "coin": Bip44Coins.CELO,
@@ -2240,7 +2299,7 @@ class Bip44Tests(unittest.TestCase):
 
     # Test for IsLevel method
     def test_is_level(self):
-        Bip44BaseTestHelper.test_is_level(self, Bip44, Bip44Coins, TEST_SEED)
+        Bip44BaseTestHelper.test_is_level(self, Bip44, Bip44Coins.BITCOIN, TEST_SEED)
 
     # Test different key formats
     def test_key_formats(self):
@@ -2248,12 +2307,12 @@ class Bip44Tests(unittest.TestCase):
 
     # Test construction from extended keys with valid and invalid depths
     def test_from_ex_key_depth(self):
-        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip44, Bip44Coins, TEST_VECT_EX_KEY_DEPTHS)
+        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip44, Bip44Coins.BITCOIN, TEST_VECT_EX_KEY_DEPTHS)
 
     # Test type error during construction
     def test_type_error(self):
-        Bip44BaseTestHelper.test_type_error(self, Bip44, [Bip49Coins, Bip84Coins, Bip86Coins])
+        Bip44BaseTestHelper.test_type_error(self, Bip44, [Bip49Coins, Bip84Coins, Bip86Coins, Cip1852Coins])
 
     # Test invalid path derivations
     def test_invalid_derivations(self):
-        Bip44BaseTestHelper.test_invalid_derivations(self, Bip44, Bip44Coins, TEST_SEED)
+        Bip44BaseTestHelper.test_invalid_derivations(self, Bip44, Bip44Coins.BITCOIN, TEST_SEED)

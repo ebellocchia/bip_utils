@@ -18,10 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
-from bip_utils import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder
+from bip_utils import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder, XtzAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_PUB_KEY, Ed25519PublicKey
@@ -92,21 +91,31 @@ class XtzAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             XtzAddrEncoder,
-                                             {"prefix": XtzAddrPrefixes.TZ1},
-                                             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_ED25519_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            XtzAddrEncoder,
+            {"prefix": XtzAddrPrefixes.TZ1},
+            TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_ED25519_PUB_KEY_INVALID
+        )
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(self,
-                                                   XtzAddrDecoder,
-                                                   "tz1NPgUeafMfD7VZbsKkzoJiR8pRynViiTE3",
-                                                   {"prefix": 0},
-                                                   TypeError)
-        AddrBaseTestHelper.test_invalid_params_enc(self,
-                                                   XtzAddrEncoder,
-                                                   TEST_ED25519_PUB_KEY,
-                                                   {"prefix": 0},
-                                                   TypeError)
+        AddrBaseTestHelper.test_invalid_params_dec(
+            self,
+            XtzAddrDecoder,
+            "tz1NPgUeafMfD7VZbsKkzoJiR8pRynViiTE3",
+            {"prefix": 0},
+            TypeError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            XtzAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {"prefix": 0},
+            TypeError
+        )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertTrue(XtzAddr is XtzAddrEncoder)

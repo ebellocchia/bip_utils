@@ -43,6 +43,8 @@ class Bip44Coins(BipCoins):
     BITCOIN_CASH = auto()
     BITCOIN_CASH_SLP = auto()
     BITCOIN_SV = auto()
+    CARDANO_BYRON_ICARUS = auto()
+    CARDANO_BYRON_LEDGER = auto()
     CELO = auto()
     CERTIK = auto()
     CHIHUAHUA = auto()

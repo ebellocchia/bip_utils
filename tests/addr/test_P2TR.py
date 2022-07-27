@@ -18,10 +18,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
-from bip_utils import CoinsConf, P2TRAddrDecoder, P2TRAddrEncoder
+from bip_utils import CoinsConf, P2TRAddrDecoder, P2TRAddrEncoder, P2TRAddr
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
@@ -34,13 +33,17 @@ TEST_VECT = [
     {
         "pub_key": b"03e775fd51f0dfb8cd865d9ff1cca2a158cf651fe997fdc9fee9c1d3b5e995ea77",
         "address_dec": b"2771c09790b183d19c4a848282a37cb18b6aaf7edd863a689713bc7254ece2b7",
-        "address_params": {"hrp": CoinsConf.BitcoinMainNet.Params("p2tr_hrp")},
+        "address_params": {
+            "hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp"),
+        },
         "address": "bc1pyacup9uskxpar8z2sjpg9gmukx9k4tm7mkrr56yhzw78y48vu2msq4xugp",
     },
     {
         "pub_key": b"0299b4cb4809f52dac21bbd8c997d8bf052cf4d68bfe966c638c312fbfff636e17",
         "address_dec": b"80d015c9d3154474036b7a5b5459387d70cbb49343495276b1d322235c612b77",
-        "address_params": {"hrp": CoinsConf.BitcoinMainNet.Params("p2tr_hrp")},
+        "address_params": {
+            "hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp"),
+        },
         "address": "bc1psrgptjwnz4z8gqmt0fd4gkfc04cvhdyngdy4ya436v3zxhrp9dmsd05jqz",
     },
     #
@@ -49,7 +52,9 @@ TEST_VECT = [
     {
         "pub_key": b"02339193c34cd8ecb21ebd48af64ead71d78213470d61d7274f932489d6ba21bd3",
         "address_dec": b"0449445395669a6af387056764a5a5c41d68c5fe9cdaca6d11fe85352f331014",
-        "address_params": {"hrp": CoinsConf.BitcoinTestNet.Params("p2tr_hrp")},
+        "address_params": {
+            "hrp": CoinsConf.BitcoinTestNet.ParamByKey("p2tr_hrp"),
+        },
         "address": "tb1pq3y5g5u4v6dx4uu8q4nkffd9cswk3307nndv5mg3l6zn2tenzq2qufyzlx",
     },
 ]
@@ -86,15 +91,23 @@ class P2TRTests(unittest.TestCase):
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self,
-                                            P2TRAddrDecoder,
-                                            {"hrp": CoinsConf.BitcoinMainNet.Params("p2tr_hrp")},
-                                            TEST_VECT_DEC_INVALID)
+        AddrBaseTestHelper.test_invalid_dec(
+            self,
+            P2TRAddrDecoder,
+            {"hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp")},
+            TEST_VECT_DEC_INVALID
+        )
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             P2TRAddrEncoder,
-                                             {"hrp": ""},
-                                             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_SECP256K1_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            P2TRAddrEncoder,
+            {"hrp": ""},
+            TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_SECP256K1_PUB_KEY_INVALID
+        )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertTrue(P2TRAddr is P2TRAddrEncoder)

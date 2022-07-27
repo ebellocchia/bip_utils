@@ -29,7 +29,7 @@ An *ElectrumV1* object can be constructed from:
     def priv_to_wif(priv_key: IPrivateKey,
                     pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
         return WifEncoder.Encode(priv_key,
-                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+                                 CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                                  pub_key_mode)
 
 
@@ -61,7 +61,7 @@ An *ElectrumV1* object can be constructed from:
 
 The *ElectrumV2* classes generate keys and addresses using the current Electrum algorithm.\
 It shall be used with seeds generated with the *ElectrumV2SeedGenerator* class.\
-Since Electrum follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a *Bip32Secp256k1* object,
+Since Electrum v2 follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a *Bip32Secp256k1* object,
 which allows construction from public/private key bytes or extended keys.\
 The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
 
@@ -86,7 +86,7 @@ The usage of these two classes are exactly the same, since they inherit from the
     def priv_to_wif(priv_key: IPrivateKey,
                     pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
         return WifEncoder.Encode(priv_key,
-                                 CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+                                 CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                                  pub_key_mode)
 
 

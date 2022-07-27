@@ -211,13 +211,6 @@ class XmrAddrEncoder(IAddrEncoder):
         return _XmrAddrUtils.EncodeKey(pub_key, pub_vkey, net_ver)
 
 
-class XmrAddr(XmrAddrEncoder):
-    """
-    Monero address class.
-    Only kept for compatibility, XmrAddrEncoder shall be used instead.
-    """
-
-
 class XmrIntegratedAddrDecoder(IAddrDecoder):
     """
     Monero integrated address decoder class.
@@ -283,8 +276,6 @@ class XmrIntegratedAddrEncoder(IAddrEncoder):
         return _XmrAddrUtils.EncodeKey(pub_key, pub_vkey, net_ver, payment_id)
 
 
-class XmrIntegratedAddr(XmrIntegratedAddrEncoder):
-    """
-    Monero integrated address class.
-    Only kept for compatibility, XmrIntegratedAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder classes shall be used instead
+XmrAddr = XmrAddrEncoder
+XmrIntegratedAddr = XmrIntegratedAddrEncoder

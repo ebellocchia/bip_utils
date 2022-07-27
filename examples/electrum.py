@@ -1,4 +1,4 @@
-"""Example of mnemonic generation and key derivation like the Electrum wallet."""
+"""Example of mnemonic generation and keys derivation like the Electrum wallet."""
 
 import binascii
 from bip_utils import (
@@ -19,7 +19,7 @@ ADDR_NUM: int = 5
 def priv_to_wif(priv_key: IPrivateKey,
                 pub_key_mode: WifPubKeyModes = WifPubKeyModes.COMPRESSED) -> str:
     return WifEncoder.Encode(priv_key,
-                             CoinsConf.BitcoinMainNet.Params("wif_net_ver"),
+                             CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
                              pub_key_mode)
 
 
@@ -30,7 +30,7 @@ print(f"Mnemonic: {v1_mnemonic}")
 v1_seed_bytes = ElectrumV1SeedGenerator(v1_mnemonic).Generate()
 print(f"Seed: {binascii.hexlify(v1_seed_bytes)}")
 # Construct from seed
-electrum_v1 = ElectrumV1(v1_seed_bytes)
+electrum_v1 = ElectrumV1.FromSeed(v1_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v1.MasterPrivateKey(), WifPubKeyModes.UNCOMPRESSED)}")
 # Derive V1 addresses

@@ -18,11 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import unittest
 from bip_utils import (
-    SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder
+    SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateEd25519Addr,
+    SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SubstrateSr25519Addr
 )
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES, TEST_SR25519_ADDR_INVALID_KEY_TYPES
@@ -104,13 +104,22 @@ class SubstrateAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             SubstrateEd25519AddrEncoder,
-                                             {"ss58_format": 0},
-                                             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_ED25519_PUB_KEY_INVALID)
-        AddrBaseTestHelper.test_invalid_keys(self,
-                                             SubstrateSr25519AddrEncoder,
-                                             {"ss58_format": 0},
-                                             TEST_SR25519_ADDR_INVALID_KEY_TYPES,
-                                             TEST_VECT_SR25519_PUB_KEY_INVALID)
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            SubstrateEd25519AddrEncoder,
+            {"ss58_format": 0},
+            TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_ED25519_PUB_KEY_INVALID
+        )
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            SubstrateSr25519AddrEncoder,
+            {"ss58_format": 0},
+            TEST_SR25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_SR25519_PUB_KEY_INVALID
+        )
+
+    # Test old address class
+    def test_old_addr_cls(self):
+        self.assertTrue(SubstrateEd25519Addr is SubstrateEd25519AddrEncoder)
+        self.assertTrue(SubstrateSr25519Addr is SubstrateSr25519AddrEncoder)

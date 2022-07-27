@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-
 # Imports
 import binascii
 import unittest
@@ -76,7 +75,7 @@ class BchBech32Tests(unittest.TestCase):
             hrp = test["encode"][:test["encode"].find(":")]
             net_ver, dec = BchBech32Decoder.Decode(hrp, test["encode"])
 
-            self.assertEqual(net_ver, CoinsConf.BitcoinCashMainNet.Params("p2pkh_std_net_ver"))
+            self.assertEqual(net_ver, CoinsConf.BitcoinCashMainNet.ParamByKey("p2pkh_std_net_ver"))
             self.assertEqual(binascii.hexlify(dec), test["raw"])
 
     # Test encoder
@@ -85,7 +84,7 @@ class BchBech32Tests(unittest.TestCase):
             # Test encoder
             hrp = test["encode"][:test["encode"].find(":")]
             enc = BchBech32Encoder.Encode(hrp,
-                                          CoinsConf.BitcoinCashMainNet.Params("p2pkh_std_net_ver"),
+                                          CoinsConf.BitcoinCashMainNet.ParamByKey("p2pkh_std_net_ver"),
                                           binascii.unhexlify(test["raw"]))
             self.assertEqual(test["encode"], enc)
 

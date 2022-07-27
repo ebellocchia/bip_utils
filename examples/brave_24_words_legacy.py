@@ -1,5 +1,5 @@
 """
-Example of key derivation with 24-words mnemonic phrase in the same way of Brave crypto wallets extension (legacy).
+Example of keys derivation with 24-words mnemonic phrase in the same way of Brave crypto wallets extension (legacy).
 
 The old version of Brave crypto wallets extension (now referred as "legacy") worked differently from BIP39 when a 24-words mnemonic phrase was used.
 In fact, instead of computing the seed from the mnemonic as described in BIP39, it used the initial entropy directly as seed.

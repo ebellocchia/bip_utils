@@ -91,8 +91,5 @@ class SolAddrEncoder(IAddrEncoder):
         return Base58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:])
 
 
-class SolAddr(SolAddrEncoder):
-    """
-    Solana address class.
-    Only kept for compatibility, SolAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+SolAddr = SolAddrEncoder

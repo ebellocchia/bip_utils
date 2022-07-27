@@ -87,7 +87,7 @@ class NanoAddrDecoder(IAddrDecoder):
 
         # Validate and remove prefix
         addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr,
-                                                              CoinsConf.Nano.Params("addr_prefix"))
+                                                              CoinsConf.Nano.ParamByKey("addr_prefix"))
         # Decode from base32
         addr_dec_bytes = Base32Decoder.Decode(NanoAddrConst.PAYLOAD_PAD_ENC + addr_no_prefix,
                                               NanoAddrConst.BASE32_ALPHABET)
@@ -141,11 +141,8 @@ class NanoAddrEncoder(IAddrEncoder):
         b32_enc = Base32Encoder.EncodeNoPadding(payload_bytes, NanoAddrConst.BASE32_ALPHABET)
 
         # Add prefix
-        return CoinsConf.Nano.Params("addr_prefix") + b32_enc[len(NanoAddrConst.PAYLOAD_PAD_ENC):]
+        return CoinsConf.Nano.ParamByKey("addr_prefix") + b32_enc[len(NanoAddrConst.PAYLOAD_PAD_ENC):]
 
 
-class NanoAddr(NanoAddrEncoder):
-    """
-    Nano address class.
-    Only kept for compatibility, NanoAddrEncoder shall be used instead.
-    """
+# For compatibility with old versions, Encoder class shall be used instead
+NanoAddr = NanoAddrEncoder

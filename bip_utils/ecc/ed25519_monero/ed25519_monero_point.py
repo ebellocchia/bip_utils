@@ -37,7 +37,7 @@ class Ed25519MoneroPointConst:
 class Ed25519MoneroPoint(IPoint):
     """Ed25519-Monero point class."""
 
-    m_point: Tuple[int, ...]
+    m_point: Tuple[int, int, int, int]
 
     @classmethod
     def FromBytes(cls,
@@ -77,23 +77,13 @@ class Ed25519MoneroPoint(IPoint):
         return cls(ed25519_monero_lib.decodepointxy(x, y))
 
     def __init__(self,
-                 point_obj: Any) -> None:
+                 point_obj: Tuple[int, int, int, int]) -> None:
         """
         Construct class from point object.
 
         Args:
-            point_obj (class): Point object
-
-        Raises:
-            TypeError: If point object is not of the correct type
+            point_obj (tuple): Point object
         """
-        if (not isinstance(point_obj, tuple)
-                or len(point_obj) != 4
-                or not isinstance(point_obj[0], int)
-                or not isinstance(point_obj[1], int)
-                or not isinstance(point_obj[2], int)
-                or not isinstance(point_obj[3], int)):
-            raise TypeError("Invalid point object type")
         self.m_point = point_obj
 
     def UnderlyingObject(self) -> Any:

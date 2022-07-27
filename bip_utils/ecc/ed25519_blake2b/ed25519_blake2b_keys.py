@@ -87,18 +87,13 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         return cls.FromBytes(key_point.RawEncoded().ToBytes())
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_obj: ed25519_blake2b.VerifyingKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
+            key_obj (ed25519_blake2b.VerifyingKey): Key object
         """
-        if not isinstance(key_obj, ed25519_blake2b.VerifyingKey):
-            raise TypeError("Invalid public key object type")
         self.m_ver_key = key_obj
 
     @staticmethod
@@ -196,18 +191,13 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
             raise ValueError("Invalid private key bytes") from ex
 
     def __init__(self,
-                 key_obj: Any) -> None:
+                 key_obj: ed25519_blake2b.SigningKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (class): Key object
-
-        Raises:
-            TypeError: If key object is not of the correct type
+            key_obj (ed25519_blake2b.SigningKey): Key object
         """
-        if not isinstance(key_obj, ed25519_blake2b.SigningKey):
-            raise TypeError("Invalid private key object type")
         self.m_sign_key = key_obj
 
     @staticmethod
