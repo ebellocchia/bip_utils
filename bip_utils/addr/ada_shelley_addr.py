@@ -22,7 +22,7 @@
 
 # Imports
 from enum import IntEnum, unique
-from typing import Any, Dict, Tuple, Union
+from typing import Any, Dict, Union
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
@@ -84,30 +84,17 @@ class _AdaShelleyAddrUtils:
                                    AdaShelleyAddrConst.HASH_BYTE_LEN)
 
     @staticmethod
-    def DecodeFirstAddrByte(first_byte: int) -> Tuple[AdaShelleyAddrHeaderTypes, AdaShelleyAddrNetworkTags]:
+    def EncodePrefix(hdr_type: AdaShelleyAddrHeaderTypes,
+                     net_tag: AdaShelleyAddrNetworkTags) -> bytes:
         """
-        Decode first address byte.
-
-        Args:
-            first_byte (int): First address byte
-
-        Returns:
-            tuple[AdaShelleyAddrHeaderTypes, AdaShelleyAddrNetworkTags]: header type (index 0), network tag (index 1)
-        """
-        return AdaShelleyAddrHeaderTypes(first_byte >> 4), AdaShelleyAddrNetworkTags(first_byte & 0x0F)
-
-    @staticmethod
-    def EncodeFirstAddrByte(hdr_type: AdaShelleyAddrHeaderTypes,
-                            net_tag: AdaShelleyAddrNetworkTags) -> bytes:
-        """
-        Encode first address byte.
+        Encode address prefix.
 
         Args:
             hdr_type (AdaShelleyAddrHeaderTypes): Header type
             net_tag (AdaShelleyAddrNetworkTags) : Network tag
 
         Returns:
-            bytes: First address bytes
+            bytes: Prefix byte
         """
         return IntegerUtils.ToBytes((hdr_type << 4) + net_tag)
 
@@ -151,16 +138,9 @@ class AdaShelleyAddrDecoder(IAddrDecoder):
         else:
             AddrDecUtils.ValidateLength(addr_dec_bytes,
                                         (AdaShelleyAddrConst.HASH_BYTE_LEN * 2) + 1)
-            got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
-
-            # Check header type
-            if got_hdr_tag != AdaShelleyAddrHeaderTypes.PAYMENT:
-                raise ValueError(f"Invalid header type ({got_hdr_tag})")
-            # Check network tag
-            if got_net_tag != net_tag:
-                raise ValueError(f"Invalid network tag ({got_net_tag})")
-
-            return addr_dec_bytes[1:]
+            # Validate and remove prefix
+            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT, net_tag)
+            return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
 
 
 class AdaShelleyAddrEncoder(IAddrEncoder):
@@ -200,12 +180,12 @@ class AdaShelleyAddrEncoder(IAddrEncoder):
         # Compute keys hash
         pub_key_hash = _AdaShelleyAddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
         pub_skey_hash = _AdaShelleyAddrUtils.KeyHash(pub_skey_obj.RawCompressed().ToBytes()[1:])
-        # Get first byte
-        first_byte = _AdaShelleyAddrUtils.EncodeFirstAddrByte(AdaShelleyAddrHeaderTypes.PAYMENT, net_tag)
+        # Get prefix byte
+        prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT, net_tag)
 
         # Encode to bech32
         return Bech32Encoder.Encode(AdaShelleyAddrConst.NETWORK_TAG_TO_ADDR_HRP[net_tag],
-                                    first_byte + pub_key_hash + pub_skey_hash)
+                                    prefix_byte + pub_key_hash + pub_skey_hash)
 
 
 class AdaShelleyStakingAddrDecoder(IAddrDecoder):
@@ -244,16 +224,9 @@ class AdaShelleyStakingAddrDecoder(IAddrDecoder):
         else:
             AddrDecUtils.ValidateLength(addr_dec_bytes,
                                         AdaShelleyAddrConst.HASH_BYTE_LEN + 1)
-            got_hdr_tag, got_net_tag = _AdaShelleyAddrUtils.DecodeFirstAddrByte(addr_dec_bytes[0])
-
-            # Check header type
-            if got_hdr_tag != AdaShelleyAddrHeaderTypes.REWARD:
-                raise ValueError(f"Invalid header type ({got_hdr_tag})")
-            # Check network tag
-            if got_net_tag != net_tag:
-                raise ValueError(f"Invalid network tag ({got_net_tag})")
-
-            return addr_dec_bytes[1:]
+            # Validate and remove prefix
+            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD, net_tag)
+            return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
 
 
 class AdaShelleyStakingAddrEncoder(IAddrEncoder):
@@ -288,7 +261,7 @@ class AdaShelleyStakingAddrEncoder(IAddrEncoder):
         # Compute keys hash
         pub_key_hash = _AdaShelleyAddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
         # Get first byte
-        first_byte = _AdaShelleyAddrUtils.EncodeFirstAddrByte(AdaShelleyAddrHeaderTypes.REWARD, net_tag)
+        first_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD, net_tag)
 
         # Encode to bech32
         return Bech32Encoder.Encode(AdaShelleyAddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP[net_tag],
