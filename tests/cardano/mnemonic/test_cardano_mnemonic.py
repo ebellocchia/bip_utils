@@ -21,7 +21,7 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import CardanoByronOldSeedGenerator, CardanoIcarusSeedGenerator
+from bip_utils import CardanoByronLegacySeedGenerator, CardanoIcarusSeedGenerator
 
 # Test vector
 TEST_VECT = [
@@ -110,7 +110,7 @@ class CardanoMnemonicTests(unittest.TestCase):
     # Run all tests in test vector for Byron old seed generation
     def test_vector_byron_old(self):
         for test in TEST_VECT:
-            seed = CardanoByronOldSeedGenerator(test["mnemonic"]).Generate()
+            seed = CardanoByronLegacySeedGenerator(test["mnemonic"]).Generate()
             self.assertEqual(test["seed_byron_old"], binascii.hexlify(seed))
 
     # Run all tests in test vector for Icarus seed generation
@@ -121,5 +121,5 @@ class CardanoMnemonicTests(unittest.TestCase):
 
     # Tests invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, CardanoByronOldSeedGenerator, "", 0)
+        self.assertRaises(TypeError, CardanoByronLegacySeedGenerator, "", 0)
         self.assertRaises(TypeError, CardanoIcarusSeedGenerator, "", 0)

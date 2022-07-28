@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Cardano Byron mnemonic seed generation (old Daedalus version)."""
+"""Module for Cardano Byron legacy mnemonic seed generation (old Daedalus version)."""
 
 # Imports
 from typing import Optional, Union
@@ -29,16 +29,16 @@ from bip_utils.utils.mnemonic import Mnemonic
 
 
 class CardanoByronOldGeneratorConst:
-    """Class container for Cardano Byron old seed generator constants."""
+    """Class container for Cardano Byron legacy seed generator constants."""
 
     # Blake2b length in bytes
     BLAKE2B_BYTE_LEN: int = 32
 
 
-class CardanoByronOldSeedGenerator:
+class CardanoByronLegacySeedGenerator:
     """
-    Cardano Byron old seed generator class.
-    It generates seeds from a BIP39 mnemonic for Cardano Byron (old Daedalus version).
+    Cardano Byron legacy seed generator class.
+    It generates seeds from a BIP39 mnemonic for Cardano Byron (legacy).
     """
 
     m_ser_seed_bytes: bytes
