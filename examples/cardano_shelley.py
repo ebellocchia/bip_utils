@@ -3,7 +3,7 @@
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator,
-    Bip44Changes, Cip1852Coins, CardanoBip39SeedGenerator, CardanoShelley, Cip1852
+    Bip44Changes, Cip1852Coins, CardanoIcarusSeedGenerator, CardanoShelley, Cip1852
 )
 
 ADDR_NUM: int = 5
@@ -21,7 +21,7 @@ print("Shelley-Icarus")
 print("")
 
 # Generate seed from mnemonic
-seed_bytes = CardanoBip39SeedGenerator(mnemonic).Generate()
+seed_bytes = CardanoIcarusSeedGenerator(mnemonic).Generate()
 
 # Construct from seed
 cip1852_mst_ctx = Cip1852.FromSeed(seed_bytes, Cip1852Coins.CARDANO_ICARUS)

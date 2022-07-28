@@ -2,7 +2,7 @@
 
 from bip_utils import (
     Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator,
-    Bip44Changes, Bip44Coins, Bip44, CardanoBip39SeedGenerator
+    Bip44Changes, Bip44Coins, Bip44, CardanoIcarusSeedGenerator
 )
 
 ADDR_NUM: int = 5
@@ -20,7 +20,7 @@ print("Byron-Icarus")
 print("")
 
 # Generate seed from mnemonic
-seed_bytes = CardanoBip39SeedGenerator(mnemonic).Generate()
+seed_bytes = CardanoIcarusSeedGenerator(mnemonic).Generate()
 
 # Construct from seed
 bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.CARDANO_BYRON_ICARUS)

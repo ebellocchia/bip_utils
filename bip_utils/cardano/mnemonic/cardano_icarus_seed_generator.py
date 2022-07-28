@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Cardano mnemonic seed generation."""
+"""Module for Cardano Icarus mnemonic seed generation."""
 
 # Imports
 from typing import Optional, Union
@@ -26,10 +26,10 @@ from bip_utils.bip.bip39 import Bip39Languages, Bip39MnemonicDecoder
 from bip_utils.utils.mnemonic import Mnemonic
 
 
-class CardanoBip39SeedGenerator:
+class CardanoIcarusSeedGenerator:
     """
-    Cardano BIP39 seed generator class.
-    It generates seeds from a BIP39 mnemonic for Cardano.
+    Cardano Icarus seed generator class.
+    It generates seeds from a BIP39 mnemonic for Cardano Icarus.
     """
 
     m_entropy_bytes: bytes
