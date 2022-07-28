@@ -28,6 +28,9 @@ segwit
 electrum
 substrate
 taproot
+daedalus
+byron
+shelley
 
 # BIP coins
 akash
