@@ -200,14 +200,11 @@ class BipCoinConf:
         if not self.m_any_addr_params_fct_call:
             return addr_params
 
-        # Resolve function calls
-        resolved_params = {}
-        for param_name, param_val in addr_params.items():
-            resolved_params[param_name] = (param_val.ResolveCalls(pub_key)
-                                           if isinstance(param_val, BipCoinFctCallsConf)
-                                           else param_val)
-
-        return resolved_params
+        # Create a new dictionary with resolved function calls
+        return {
+            param_name: param_val.ResolveCalls(pub_key) if isinstance(param_val, BipCoinFctCallsConf) else param_val
+            for param_name, param_val in addr_params.items()
+        }
 
     def AddrClass(self) -> Type[IAddrEncoder]:
         """
