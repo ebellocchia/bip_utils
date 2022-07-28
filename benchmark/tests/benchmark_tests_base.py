@@ -60,7 +60,7 @@ class BenchmarkTestsBase(ABC):
             self.m_test_elapsed_times.append(tmr.stop())
 
     # Get elapsed times
-    def GetElapsedTimes(self) -> List[int]:
+    def GetElapsedTimes(self) -> List[float]:
         return self.m_test_elapsed_times
 
     # Get average time
