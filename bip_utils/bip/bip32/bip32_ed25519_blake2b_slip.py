@@ -24,9 +24,7 @@ Reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 """
 
 # Imports
-from bip_utils.bip.bip32.bip32_base import Bip32Base
 from bip_utils.bip.bip32.bip32_ed25519_slip_base import Bip32Ed25519SlipBaseConst, Bip32Ed25519SlipBase
-from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.ecc import EllipticCurveTypes
 
 
@@ -71,20 +69,3 @@ class Bip32Ed25519Blake2bSlip(Bip32Ed25519SlipBase):
             bytes: HMAC key
         """
         return Bip32Ed25519SlipBaseConst.MASTER_KEY_HMAC_KEY
-
-    def _CkdPriv(self,
-                 index: Bip32KeyIndex) -> Bip32Base:
-        """
-        Create a child key of the specified index using private derivation.
-        It shall be implemented by children classes depending on the elliptic curve.
-
-        Args:
-            index (Bip32KeyIndex object): Key index
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the index results in an invalid key
-        """
-        return self._CkdPrivEd25519Slip(index)

@@ -71,8 +71,8 @@ class Bip32EcdsaBase(Bip32Base, ABC):
     # Protected methods
     #
 
-    def _CkdPrivEcdsa(self,
-                      index: Bip32KeyIndex) -> Bip32Base:
+    def _CkdPriv(self,
+                 index: Bip32KeyIndex) -> Bip32Base:
         """
         Create a child key of the specified index using private derivation.
 
@@ -121,8 +121,8 @@ class Bip32EcdsaBase(Bip32Base, ABC):
             key_net_ver=self.KeyNetVersions()
         )
 
-    def _CkdPubEcdsa(self,
-                     index: Bip32KeyIndex) -> Bip32Base:
+    def _CkdPub(self,
+                index: Bip32KeyIndex) -> Bip32Base:
         """
         Create a child key of the specified index using public derivation.
 

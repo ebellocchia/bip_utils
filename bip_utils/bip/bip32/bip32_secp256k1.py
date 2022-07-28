@@ -27,9 +27,7 @@ References:
 """
 
 # Imports
-from bip_utils.bip.bip32.bip32_base import Bip32Base
 from bip_utils.bip.bip32.bip32_ecdsa_base import Bip32EcdsaBase
-from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.ecc import EllipticCurveTypes
 
 
@@ -75,35 +73,3 @@ class Bip32Secp256k1(Bip32EcdsaBase):
             bytes: HMAC key
         """
         return Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY
-
-    def _CkdPriv(self,
-                 index: Bip32KeyIndex) -> Bip32Base:
-        """
-        Create a child key of the specified index using private derivation.
-
-        Args:
-            index (Bip32KeyIndex object): Key index
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the index results in an invalid key
-        """
-        return self._CkdPrivEcdsa(index)
-
-    def _CkdPub(self,
-                index: Bip32KeyIndex) -> Bip32Base:
-        """
-        Create a child key of the specified index using public derivation.
-
-        Args:
-            index (Bip32KeyIndex object): Key index
-
-        Returns:
-            Bip32Base object: Bip32Base object
-
-        Raises:
-            Bip32KeyError: If the index results in an invalid key
-        """
-        return self._CkdPubEcdsa(index)

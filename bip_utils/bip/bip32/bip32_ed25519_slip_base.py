@@ -73,8 +73,8 @@ class Bip32Ed25519SlipBase(Bip32Base, ABC):
     # Protected methods
     #
 
-    def _CkdPrivEd25519Slip(self,
-                            index: Bip32KeyIndex) -> Bip32Base:
+    def _CkdPriv(self,
+                 index: Bip32KeyIndex) -> Bip32Base:
         """
         Create a child key of the specified index using private derivation.
         It shall be implemented by children classes depending on the elliptic curve.
