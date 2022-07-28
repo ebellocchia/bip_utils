@@ -90,6 +90,19 @@ class CryptoUtils:
         return hashlib.sha256(AlgoUtils.Encode(data)).digest()
 
     @staticmethod
+    def Sha512(data: Union[bytes, str]) -> bytes:
+        """
+        Compute the SHA512 of the specified bytes.
+
+        Args:
+            data (str or bytes): Data
+
+        Returns:
+            bytes: Computed SHA512
+        """
+        return hashlib.sha512(AlgoUtils.Encode(data)).digest()
+
+    @staticmethod
     def DoubleSha256(data: Union[bytes, str]) -> bytes:
         """
         Compute the double SHA256 of the specified bytes.

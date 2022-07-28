@@ -49,8 +49,8 @@ def point_mul(scalar: Union[bytes, int],
     Multiply a point on the ed25519 curve with a scalar.
 
     Args:
-        scalar (int) : Scalar
-        point (bytes): Point bytes
+        scalar (bytes or int): Scalar
+        point (bytes)        : Point bytes
 
     Returns:
         bytes: New point resulting from the multiplication
@@ -66,11 +66,29 @@ def point_mul_base(scalar: Union[bytes, int]) -> bytes:
     Multiply the base point of the ed25519 curve with a scalar.
 
     Args:
-        scalar (int) : Scalar
+        scalar (bytes or int) : Scalar
 
     Returns:
         bytes: New point resulting from the multiplication
     """
     return bindings.crypto_scalarmult_ed25519_base_noclamp(
         scalar if isinstance(scalar, bytes) else encode_int(scalar),
+    )
+
+
+def scalar_add(scalar1: Union[bytes, int],
+               scalar2: Union[bytes, int]) -> bytes:
+    """
+    Add two scalars modulo ed25519 curve order.
+
+    Args:
+        scalar1 (int) : Scalar 1
+        scalar2 (int) : Scalar 2
+
+    Returns:
+        bytes: New point resulting from the multiplication
+    """
+    return bindings.crypto_core_ed25519_scalar_add(
+        scalar1 if isinstance(scalar1, bytes) else encode_int(scalar1),
+        scalar2 if isinstance(scalar2, bytes) else encode_int(scalar2),
     )

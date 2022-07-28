@@ -58,10 +58,43 @@ class BytesUtils:
         Returns:
             bytes: XORed bytes
         """
-        res = bytearray()
-        for b1, b2 in zip(data_bytes_1, data_bytes_2):
-            res.append(b1 ^ b2)
-        return bytes(res)
+        return bytes(
+            [b1 ^ b2 for b1, b2 in zip(data_bytes_1, data_bytes_2)]
+        )
+
+    @staticmethod
+    def Add(data_bytes_1: bytes,
+            data_bytes_2: bytes) -> bytes:
+        """
+        Add the specified bytes (byte-by-byte, no carry).
+
+        Args:
+            data_bytes_1 (bytes): Data bytes 1
+            data_bytes_2 (bytes): Data bytes 2
+
+        Returns:
+            bytes: XORed bytes
+        """
+        return bytes(
+            [(b1 + b2) & 0xFF for b1, b2 in zip(data_bytes_1, data_bytes_2)]
+        )
+
+    @staticmethod
+    def Multiply(data_bytes: bytes,
+                 scalar: int) -> bytes:
+        """
+        Multiply the specified bytes with the specified scalar (byte-by-byte, no carry).
+
+        Args:
+            data_bytes (bytes): Data bytes
+            scalar (int)      : Scalar
+
+        Returns:
+            bytes: XORed bytes
+        """
+        return bytes(
+            [(b * scalar) & 0xFF for b in data_bytes]
+        )
 
     @staticmethod
     def ToBinaryStr(data_bytes: bytes,
