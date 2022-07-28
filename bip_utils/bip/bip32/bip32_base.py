@@ -101,7 +101,7 @@ class Bip32Base(ABC):
         """
         if not cls._IsSeedLengthValid(seed_bytes):
             raise ValueError(f"Seed length is too small, it shall be at least {Bip32BaseConst.SEED_MIN_BIT_LEN} bit")
-        return cls._FromSeed(seed_bytes, key_net_ver)
+        return cls._MasterKeyFromSeed(seed_bytes, key_net_ver)
 
     @classmethod
     def FromSeedAndPath(cls,
@@ -429,11 +429,11 @@ class Bip32Base(ABC):
         return len(seed_bytes) * 8 >= Bip32BaseConst.SEED_MIN_BIT_LEN
 
     @classmethod
-    def _FromSeed(cls,
-                  seed_bytes: bytes,
-                  key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
+    def _MasterKeyFromSeed(cls,
+                           seed_bytes: bytes,
+                           key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
         """
-        Create a Bip32 object from the specified seed (e.g. BIP39 seed).
+        Generate a master key from the specified seed and return a Bip32 object (e.g. BIP39 seed).
 
         Args:
             seed_bytes (bytes)                      : Seed bytes

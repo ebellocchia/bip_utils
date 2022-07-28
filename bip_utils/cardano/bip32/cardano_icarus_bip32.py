@@ -47,16 +47,16 @@ class CardanoIcarusBip32Const:
 class CardanoIcarusBip32(Bip32Ed25519Kholaw):
     """
     Cardano Icarus BIP32 class.
-    It allows master key generation and children keys derivation for Cardano.
-    Derivation based on Khovratovich/Law paper with a different algorithm for seed generation.
+    It allows master key generation and children keys derivation for Cardano Icarus.
+    Derivation based on Khovratovich/Law paper with a different algorithm for master key generation.
     """
 
     @classmethod
-    def _FromSeed(cls,
-                  seed_bytes: bytes,
-                  key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
+    def _MasterKeyFromSeed(cls,
+                           seed_bytes: bytes,
+                           key_net_ver: Bip32KeyNetVersions) -> Bip32Base:
         """
-        Create a Bip32 object from the specified seed (e.g. BIP39 seed).
+        Generate a master key from the specified seed and return a Bip32 object (e.g. BIP39 seed).
 
         Args:
             seed_bytes (bytes)                      : Seed bytes
@@ -68,15 +68,15 @@ class CardanoIcarusBip32(Bip32Ed25519Kholaw):
         Raises:
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        key = CryptoUtils.Pbkdf2HmacSha512(CardanoIcarusBip32Const.PBKDF2_PASSWORD,
-                                           seed_bytes,
-                                           CardanoIcarusBip32Const.PBKDF2_ROUNDS,
-                                           CardanoIcarusBip32Const.PBKDF2_OUT_BYTE_LEN)
-        key = cls._TweakMasterKeyBits(key)
+        key_bytes = CryptoUtils.Pbkdf2HmacSha512(CardanoIcarusBip32Const.PBKDF2_PASSWORD,
+                                                 seed_bytes,
+                                                 CardanoIcarusBip32Const.PBKDF2_ROUNDS,
+                                                 CardanoIcarusBip32Const.PBKDF2_OUT_BYTE_LEN)
+        key_bytes = cls._TweakMasterKeyBits(key_bytes)
 
-        return cls(priv_key=Ed25519KholawPrivateKey.FromBytes(key[:Ed25519KholawPrivateKey.Length()]),
+        return cls(priv_key=Ed25519KholawPrivateKey.FromBytes(key_bytes[:Ed25519KholawPrivateKey.Length()]),
                    pub_key=None,
-                   key_data=Bip32KeyData(chain_code=key[Ed25519KholawPrivateKey.Length():]),
+                   key_data=Bip32KeyData(chain_code=key_bytes[Ed25519KholawPrivateKey.Length():]),
                    curve_type=cls.CurveType(),
                    key_net_ver=key_net_ver)
 
