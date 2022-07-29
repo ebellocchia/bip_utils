@@ -100,7 +100,7 @@ class AdaByronAddrDecoder(IAddrDecoder):
             **kwargs  : Not used
 
         Returns:
-            bytes: Public key and chain code hash bytes
+            bytes: Public key/chain code hash bytes (first 28-byte) and encrypted HD path (if present)
 
         Raises:
             ValueError: If the address encoding is not valid
@@ -128,6 +128,13 @@ class AdaByronAddrDecoder(IAddrDecoder):
                     or not isinstance(addr_payload[1], dict)
                     or not isinstance(addr_payload[2], int)):
                 raise ValueError("Invalid address payload")
+            # Get and check address attributes
+            addr_attrs = addr_payload[1]
+            if (len(addr_attrs) > 2 or
+                    (len(addr_attrs) != 0 and 1 not in addr_attrs and 2 not in addr_attrs)):
+                raise ValueError("Invalid address attributes")
+            # Get encrypted HD path
+            hd_path_enc_bytes = addr_attrs[1] if 1 in addr_attrs else b""
             # Check address type
             if addr_payload[2] not in (AdaByronAddrTypes.PUBLIC_KEY, AdaByronAddrTypes.REDEMPTION):
                 raise ValueError(f"Invalid address type ({addr_payload[2]})")
@@ -135,7 +142,7 @@ class AdaByronAddrDecoder(IAddrDecoder):
             AddrDecUtils.ValidateLength(addr_payload[0],
                                         AdaByronAddrConst.HASH_BYTE_LEN)
 
-            return addr_payload[0]
+            return addr_payload[0] + hd_path_enc_bytes
         except cbor2.CBORDecodeValueError as ex:
             raise ValueError("Invalid CBOR encoding") from ex
 
