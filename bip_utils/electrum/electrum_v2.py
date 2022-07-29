@@ -99,7 +99,7 @@ class ElectrumV2Base(ABC):
         Get the master public key.
 
         Returns:
-            Bip32PrivateKey object: Bip32PrivateKey object
+            Bip32PublicKey object: Bip32PublicKey object
         """
         return self.m_bip32_obj.PublicKey()
 
@@ -239,6 +239,10 @@ class ElectrumV2Standard(ElectrumV2Base):
 
         Returns:
             Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
         return self.m_bip32_obj.DerivePath(f"m/{change_idx}/{addr_idx}")
 
@@ -334,5 +338,9 @@ class ElectrumV2Segwit(ElectrumV2Base):
 
         Returns:
             Bip32Base object: Bip32Base object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
         return self.m_bip32_acc.DerivePath(f"{change_idx}/{addr_idx}")
