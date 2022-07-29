@@ -22,10 +22,11 @@
 
 # Imports
 from __future__ import annotations
+from typing import Union
 from abc import ABC, abstractmethod
 from functools import lru_cache
 from bip_utils.addr import P2PKHAddr, P2WPKHAddr
-from bip_utils.bip.bip32 import Bip32PrivateKey, Bip32PublicKey, Bip32Base, Bip32Secp256k1
+from bip_utils.bip.bip32 import  Bip32Base, Bip32KeyIndex, Bip32PrivateKey, Bip32PublicKey, Bip32Secp256k1
 from bip_utils.coin_conf import CoinsConf
 
 
@@ -104,47 +105,59 @@ class ElectrumV2Base(ABC):
 
     @abstractmethod
     def GetPrivateKey(self,
-                      change_idx: int,
-                      addr_idx: int) -> Bip32PrivateKey:
+                      change_idx: Union[int, Bip32KeyIndex],
+                      addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PrivateKey:
         """
         Get the private key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key or the object is public-only
+            Bip32PathError: If the path indexes are not valid
         """
 
     @abstractmethod
     def GetPublicKey(self,
-                     change_idx: int,
-                     addr_idx: int) -> Bip32PublicKey:
+                     change_idx: Union[int, Bip32KeyIndex],
+                     addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PublicKey:
         """
         Get the public key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
 
     @abstractmethod
     def GetAddress(self,
-                   change_idx: int,
-                   addr_idx: int) -> str:
+                   change_idx: Union[int, Bip32KeyIndex],
+                   addr_idx: Union[int, Bip32KeyIndex]) -> str:
         """
         Get the address with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             str: Address
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
 
 
@@ -155,61 +168,74 @@ class ElectrumV2Standard(ElectrumV2Base):
     """
 
     def GetPrivateKey(self,
-                      change_idx: int,
-                      addr_idx: int) -> Bip32PrivateKey:
+                      change_idx: Union[int, Bip32KeyIndex],
+                      addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PrivateKey:
         """
         Get the private key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key or the object is public-only
+            Bip32PathError: If the path indexes are not valid
         """
         return self.__DeriveKey(change_idx, addr_idx).PrivateKey()
 
     def GetPublicKey(self,
-                     change_idx: int,
-                     addr_idx: int) -> Bip32PublicKey:
+                     change_idx: Union[int, Bip32KeyIndex],
+                     addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PublicKey:
         """
         Get the public key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
         return self.__DeriveKey(change_idx, addr_idx).PublicKey()
 
+    @lru_cache()
     def GetAddress(self,
-                   change_idx: int,
-                   addr_idx: int) -> str:
+                   change_idx: Union[int, Bip32KeyIndex],
+                   addr_idx: Union[int, Bip32KeyIndex]) -> str:
         """
         Get the address with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             str: Address
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
         return P2PKHAddr.EncodeKey(self.GetPublicKey(change_idx, addr_idx).KeyObject(),
                                    net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"))
 
     @lru_cache()
     def __DeriveKey(self,
-                    change_idx: int,
-                    addr_idx: int) -> Bip32Base:
+                    change_idx: Union[int, Bip32KeyIndex],
+                    addr_idx: Union[int, Bip32KeyIndex]) -> Bip32Base:
         """
         Derive the key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -237,61 +263,74 @@ class ElectrumV2Segwit(ElectrumV2Base):
         self.m_bip32_acc = bip32.DerivePath("m/0'")
 
     def GetPrivateKey(self,
-                      change_idx: int,
-                      addr_idx: int) -> Bip32PrivateKey:
+                      change_idx: Union[int, Bip32KeyIndex],
+                      addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PrivateKey:
         """
         Get the private key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32PrivateKey object: Bip32PrivateKey object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key or the object is public-only
+            Bip32PathError: If the path indexes are not valid
         """
         return self.__DeriveKey(change_idx, addr_idx).PrivateKey()
 
     def GetPublicKey(self,
-                     change_idx: int,
-                     addr_idx: int) -> Bip32PublicKey:
+                     change_idx: Union[int, Bip32KeyIndex],
+                     addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PublicKey:
         """
         Get the public key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32PublicKey object: Bip32PublicKey object
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
         return self.__DeriveKey(change_idx, addr_idx).PublicKey()
 
+    @lru_cache()
     def GetAddress(self,
-                   change_idx: int,
-                   addr_idx: int) -> str:
+                   change_idx: Union[int, Bip32KeyIndex],
+                   addr_idx: Union[int, Bip32KeyIndex]) -> str:
         """
         Get the address with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             str: Address
+
+        Raises:
+            Bip32KeyError: If the derivation results in an invalid key
+            Bip32PathError: If the path indexes are not valid
         """
         return P2WPKHAddr.EncodeKey(self.GetPublicKey(change_idx, addr_idx).KeyObject(),
                                     hrp=CoinsConf.BitcoinMainNet.ParamByKey("p2wpkh_hrp"))
 
     @lru_cache()
     def __DeriveKey(self,
-                    change_idx: int,
-                    addr_idx: int) -> Bip32Base:
+                    change_idx: Union[int, Bip32KeyIndex],
+                    addr_idx: Union[int, Bip32KeyIndex]) -> Bip32Base:
         """
         Derive the key with the specified change and address indexes.
 
         Args:
-            change_idx (int): Change index
-            addr_idx (int)  : Address index
+            change_idx (int or Bip32KeyIndex object): Change index
+            addr_idx (int or Bip32KeyIndex object)  : Address index
 
         Returns:
             Bip32Base object: Bip32Base object
