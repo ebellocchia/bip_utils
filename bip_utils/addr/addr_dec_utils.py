@@ -21,29 +21,19 @@
 """Module with utility functions for address decoding."""
 
 # Imports
-from typing import Callable, overload, Tuple, Type, Union
+from typing import Callable, Tuple, Type, TypeVar, Union
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import BytesUtils
+
+BytesOrStr = TypeVar("BytesOrStr", bytes, str)
 
 
 class AddrDecUtils:
     """Class container for address decoding utility functions."""
 
     @staticmethod
-    @overload
-    def ValidateAndRemovePrefix(addr: bytes,
-                                prefix: bytes) -> bytes:
-        ...
-
-    @staticmethod
-    @overload
-    def ValidateAndRemovePrefix(addr: str,
-                                prefix: str) -> str:
-        ...
-
-    @staticmethod
-    def ValidateAndRemovePrefix(addr: Union[bytes, str],
-                                prefix: Union[bytes, str]) -> Union[bytes, str]:
+    def ValidateAndRemovePrefix(addr: BytesOrStr,
+                                prefix: BytesOrStr) -> BytesOrStr:
         """
         Validate and remove prefix from an address.
 
