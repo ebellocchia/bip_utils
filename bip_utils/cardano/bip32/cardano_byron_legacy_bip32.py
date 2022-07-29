@@ -31,8 +31,7 @@ from typing import Tuple
 from bip_utils.bip.bip32 import Bip32Base, Bip32Ed25519Kholaw, Bip32KeyIndex, Bip32KeyData, Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils
 from bip_utils.ecc import Ed25519KholawPrivateKey, EllipticCurveGetter, IPublicKey, IPoint
-from bip_utils.ecc.ed25519.lib import ed25519_nacl_wrapper
-from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils
+from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils, IntegerUtils
 
 
 class CardanoByronLegacyBip32Const:
@@ -130,8 +129,14 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
         Returns:
             bytes: Leftmost new private key 32-byte
         """
+        curve = EllipticCurveGetter.FromType(CardanoByronLegacyBip32.CurveType())
+
         zl8_bytes = BytesUtils.MultiplyScalar(zl_bytes, 8)
-        return ed25519_nacl_wrapper.scalar_add(zl8_bytes, kl_bytes)
+
+        zl8_int = BytesUtils.ToInteger(zl8_bytes, endianness="little")
+        kl_int = BytesUtils.ToInteger(kl_bytes, endianness="little")
+
+        return IntegerUtils.ToBytes((zl8_int + kl_int) % curve.Order(), bytes_num=32, endianness="little")
 
     @staticmethod
     def _NewPrivateKeyRightPart(zr_bytes: bytes,
