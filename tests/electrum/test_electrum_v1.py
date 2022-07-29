@@ -24,6 +24,7 @@ import unittest
 from bip_utils import (
     CoinsConf, ElectrumV1, Secp256k1PublicKey, Secp256k1PrivateKey, WifPubKeyModes, WifDecoder, WifEncoder
 )
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_ED25519_PRIV_KEY
 
 # Test vector (verified with Electrum wallet)
@@ -84,6 +85,8 @@ TEST_VECT = [
     },
 ]
 
+TEST_SEED = b"0bbe2537d7527f2d7376d4bb9de8ac42ca202dbae310471b88f2cbb0492e6e73"
+
 
 #
 # Tests
@@ -107,6 +110,17 @@ class ElectrumV1Tests(unittest.TestCase):
     def test_invalid_params(self):
         self.assertRaises(TypeError, ElectrumV1, TEST_ED25519_PRIV_KEY, None)
         self.assertRaises(TypeError, ElectrumV1, None, TEST_ED25519_PUB_KEY)
+
+        invalid_index = Bip32KeyDataConst.KEY_INDEX_MAX_VAL + 1
+
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPrivateKey, invalid_index, 0)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPrivateKey, 0, invalid_index)
+
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPublicKey, invalid_index, 0)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPublicKey, 0, invalid_index)
+
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetAddress, invalid_index, 0)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetAddress, 0, invalid_index)
 
     # Test wallet
     def __test_wallet(self, electrum_v1, is_public_only, test):

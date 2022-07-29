@@ -25,6 +25,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Optional, Union
 from bip_utils.addr import P2PKHPubKeyModes, P2PKHAddr
+from bip_utils.bip.bip32 import Bip32KeyIndex
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey, IPrivateKey, Secp256k1, Secp256k1PublicKey, Secp256k1PrivateKey
 from bip_utils.utils.misc import AlgoUtils, BytesUtils, CryptoUtils, IntegerUtils
@@ -163,6 +164,9 @@ class ElectrumV1:
 
         Returns:
             IPrivateKey object: IPrivateKey object
+
+        Raises:
+            ValueError: If one of the index is not valid
         """
         if self.IsPublicOnly():
             raise ValueError("Public-only deterministic keys have no private half")
@@ -181,11 +185,15 @@ class ElectrumV1:
 
         Returns:
             IPublicKey object: IPublicKey object
+
+        Raises:
+            ValueError: If one of the index is not valid
         """
         return (self.__DerivePublicKey(change_idx, addr_idx)
                 if self.IsPublicOnly()
                 else self.GetPrivateKey(change_idx, addr_idx).PublicKey())
 
+    @lru_cache()
     def GetAddress(self,
                    change_idx: int,
                    addr_idx: int) -> str:
@@ -198,6 +206,9 @@ class ElectrumV1:
 
         Returns:
             str: Address
+
+        Raises:
+            ValueError: If one of the index is not valid
         """
         return P2PKHAddr.EncodeKey(self.GetPublicKey(change_idx, addr_idx),
                                    net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"),
@@ -216,7 +227,12 @@ class ElectrumV1:
 
         Returns:
             IPrivateKey object: IPrivateKey object
+
+        Raises:
+            ValueError: If one of the index is not valid
         """
+        self.__ValidateIndexes(change_idx, addr_idx)
+
         seq_bytes = self.__GetSequence(change_idx, addr_idx)
         priv_key_int = (self.MasterPrivateKey().Raw().ToInt() + BytesUtils.ToInteger(seq_bytes)) % Secp256k1.Order()
         return Secp256k1PrivateKey.FromBytes(
@@ -236,7 +252,12 @@ class ElectrumV1:
 
         Returns:
             IPublicKey object: IPublicKey object
+
+        Raises:
+            ValueError: If one of the index is not valid
         """
+        self.__ValidateIndexes(change_idx, addr_idx)
+
         seq_bytes = self.__GetSequence(change_idx, addr_idx)
         return Secp256k1PublicKey.FromPoint(
             self.MasterPublicKey().Point() + BytesUtils.ToInteger(seq_bytes) * Secp256k1.Generator()
@@ -258,3 +279,21 @@ class ElectrumV1:
         return CryptoUtils.DoubleSha256(
             AlgoUtils.Encode(f"{addr_idx}:{change_idx}:") + self.MasterPublicKey().RawUncompressed().ToBytes()[1:]
         )
+
+    @staticmethod
+    def __ValidateIndexes(change_idx: int,
+                          addr_idx: int) -> None:
+        """
+        Validate indexes and raise a ValueError if not valid.
+
+        Args:
+            change_idx (int): Change index
+            addr_idx (int)  : Address index
+
+        Raises:
+            ValueError: If one of the index is not valid
+        """
+
+        # Just try to create a key index object
+        Bip32KeyIndex(change_idx)
+        Bip32KeyIndex(addr_idx)
