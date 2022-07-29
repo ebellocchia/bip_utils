@@ -45,7 +45,8 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
     """
     Cardano Byron legacy BIP32 class, used by old versions of Daedalus.
     It allows master key generation and children keys derivation for Cardano-Byron (legacy).
-    Derivation based on Khovratovich/Law paper with a different algorithm for master key generation and keys derivation.
+    Derivation based on ed25519 Khovratovich/Law paper with a different algorithm for master key generation.
+    The keys derivation algorithm has some small differences as well.
     """
 
     @classmethod

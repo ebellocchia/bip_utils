@@ -48,7 +48,7 @@ class CardanoIcarusBip32(Bip32Ed25519Kholaw):
     """
     Cardano Icarus BIP32 class.
     It allows master key generation and children keys derivation for Cardano Icarus.
-    Derivation based on Khovratovich/Law paper with a different algorithm for master key generation.
+    Derivation based on ed25519 Khovratovich/Law paper with a different algorithm for master key generation.
     """
 
     @classmethod
