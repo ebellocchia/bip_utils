@@ -26,7 +26,7 @@ from typing import Union
 from abc import ABC, abstractmethod
 from functools import lru_cache
 from bip_utils.addr import P2PKHAddr, P2WPKHAddr
-from bip_utils.bip.bip32 import  Bip32Base, Bip32KeyIndex, Bip32PrivateKey, Bip32PublicKey, Bip32Secp256k1
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32PrivateKey, Bip32PublicKey, Bip32Secp256k1
 from bip_utils.coin_conf import CoinsConf
 
 

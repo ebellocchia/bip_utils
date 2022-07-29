@@ -130,8 +130,8 @@ class AdaByronAddrDecoder(IAddrDecoder):
                 raise ValueError("Invalid address payload")
             # Get and check address attributes
             addr_attrs = addr_payload[1]
-            if (len(addr_attrs) > 2 or
-                    (len(addr_attrs) != 0 and 1 not in addr_attrs and 2 not in addr_attrs)):
+            if (len(addr_attrs) > 2
+                    or (len(addr_attrs) != 0 and 1 not in addr_attrs and 2 not in addr_attrs)):
                 raise ValueError("Invalid address attributes")
             # Get encrypted HD path
             hd_path_enc_bytes = addr_attrs[1] if 1 in addr_attrs else b""
