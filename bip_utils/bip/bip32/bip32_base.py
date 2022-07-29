@@ -305,6 +305,7 @@ class Bip32Base(ABC):
             Bip32Base object: Bip32Base object
 
         Raises:
+            Bip32KeyError: If the index results in an invalid key
             Bip32PathError: If the path is not valid
             ValueError: If the path is a master path and the key is a child key
         """
