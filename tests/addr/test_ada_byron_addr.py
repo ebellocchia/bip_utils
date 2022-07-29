@@ -65,12 +65,11 @@ TEST_VECT = [
     },
     {
         "pub_key": b"00c87eccc612c395b23f413adc06dd9547072af0d413fd11a0c17e6101d8c0467c",
-        "address_dec": b"83287a391c6b3847c3d27117db11ae6922181140fcd638b01d3a32c9",
+        "address_dec": b"bdec6d334164c121afbd1beb255ef1f5f9851e1892ed87c9fce4e751",
         "address_params": {
-            "chain_code": binascii.unhexlify(b"34db859ba3294c2fa2c130587516f77f04cf70925c01e8f4cd5f34f7ba5b67a0"),
             "addr_type": AdaByronAddrTypes.REDEMPTION,
         },
-        "address": "Ae2tdPwUPEZ9tojGU84oHw8578UURrhGEiRKtAoExUJy9mrxJTdffEvyZ93",
+        "address": "Ae2tdPwUPEZFktumz3ThuTGVfTvackqmVFtZBFNSJLNRcsHCd3WdW2x3NJT",
     },
 ]
 

@@ -18,7 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Cardano Byron address encoding/decoding."""
+"""
+Module for Cardano Byron address encoding/decoding.
+References:
+    https://cips.cardano.org/cips/cip19
+    https://raw.githubusercontent.com/cardano-foundation/CIPs/master/CIP-0019/CIP-0019-byron-addresses.cddl
+"""
 
 # Imports
 from enum import IntEnum, unique
@@ -55,16 +60,14 @@ class _AdaByronAddrUtils:
     """Cardano Byron address utility class."""
 
     @staticmethod
-    def KeyHash(pub_key_bytes: bytes,
-                chain_code_bytes: bytes,
-                addr_attrs: Dict,
-                addr_type: AdaByronAddrTypes) -> bytes:
+    def KeyDoubleHash(key_bytes: bytes,
+                      addr_attrs: Dict,
+                      addr_type: AdaByronAddrTypes) -> bytes:
         """
-        Compute the key hash.
+        Compute the key double hash.
 
         Args:
-            pub_key_bytes (bytes)        : Public key bytes
-            chain_code_bytes (bytes)     : Chain code bytes
+            key_bytes (bytes)            : Key bytes
             addr_attrs (dict)            : Address attributes
             addr_type (AdaByronAddrTypes): Address type
 
@@ -72,11 +75,10 @@ class _AdaByronAddrUtils:
             bytes: Key hash bytes
         """
         addr_root = cbor2.dumps([
-            addr_type,
-            [0, pub_key_bytes + chain_code_bytes],
-            addr_attrs,
+            addr_type,                  # Address type
+            [addr_type, key_bytes],     # Address spending data
+            addr_attrs,                 # Address attributes
         ])
-        # Compute double hash: Blake2b-224(SHA3-256())
         return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(addr_root),
                                    AdaByronAddrConst.HASH_BYTE_LEN)
 
@@ -155,6 +157,7 @@ class AdaByronAddrEncoder(IAddrEncoder):
 
         Other Parameters:
             chain_code (bytes or Bip32ChainCode object): Chain code bytes or object
+                                                         (ignored if address type is redemption)
             addr_attrs (dict)                          : Address attributes (default: empty dict)
             addr_type (AdaByronAddrTypes)              : Address type (default: public key)
 
@@ -166,10 +169,6 @@ class AdaByronAddrEncoder(IAddrEncoder):
             TypeError: If the public key is not ed25519 or the address type is not a AdaByronAddrTypes enum
         """
 
-        # Get chain code
-        chain_code = kwargs["chain_code"]
-        if isinstance(chain_code, bytes):
-            chain_code = Bip32ChainCode(chain_code)
         # Get address attributes
         addr_attrs = kwargs.get("addr_attrs", {})
         # Get address type
@@ -177,20 +176,26 @@ class AdaByronAddrEncoder(IAddrEncoder):
         if not isinstance(addr_type, AdaByronAddrTypes):
             raise TypeError("Address type is not an enumerative of AdaByronAddrTypes")
 
+        # Get chain code only if address type is public key
+        if addr_type == AdaByronAddrTypes.PUBLIC_KEY:
+            chain_code = kwargs["chain_code"]
+            # Creating a Bip32ChainCode object checks for bytes validity
+            chain_code_bytes = (Bip32ChainCode(chain_code).ToBytes()
+                                if isinstance(chain_code, bytes)
+                                else chain_code.ToBytes())
+        else:
+            chain_code_bytes = b""
+
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         # Get key hash
-        key_hash_bytes = _AdaByronAddrUtils.KeyHash(
-            pub_key_obj.RawCompressed().ToBytes()[1:],
-            chain_code.ToBytes(),
-            addr_attrs,
-            addr_type
-        )
+        key_hash_bytes = _AdaByronAddrUtils.KeyDoubleHash(pub_key_obj.RawCompressed().ToBytes()[1:] + chain_code_bytes,
+                                                          addr_attrs, addr_type)
         # Get address payload
         addr_payload = cbor2.dumps([
-            key_hash_bytes,
-            addr_attrs,
-            addr_type,
+            key_hash_bytes,     # Key double hash
+            addr_attrs,         # Address attributes
+            addr_type,          # Address type
         ])
         # Add CRC32 and encode to base58
         return Base58Encoder.Encode(
