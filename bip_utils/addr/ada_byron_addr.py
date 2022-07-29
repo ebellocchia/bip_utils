@@ -134,7 +134,7 @@ class AdaByronAddrDecoder(IAddrDecoder):
                     or (len(addr_attrs) != 0 and 1 not in addr_attrs and 2 not in addr_attrs)):
                 raise ValueError("Invalid address attributes")
             # Get encrypted HD path
-            hd_path_enc_bytes = addr_attrs[1] if 1 in addr_attrs else b""
+            hd_path_enc_bytes = cbor2.loads(addr_attrs[1]) if 1 in addr_attrs else b""
             # Check address type
             if addr_payload[2] not in (AdaByronAddrTypes.PUBLIC_KEY, AdaByronAddrTypes.REDEMPTION):
                 raise ValueError(f"Invalid address type ({addr_payload[2]})")
