@@ -326,7 +326,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
         if kl_int % curve.Order() == 0:
             raise Bip32KeyError("Computed child key is not valid, very unlucky index")
 
-        return IntegerUtils.ToBytes(kl_int, endianness="little")
+        return IntegerUtils.ToBytes(kl_int, bytes_num=32, endianness="little")
 
     @staticmethod
     def _NewPrivateKeyRightPart(zr_bytes: bytes,
@@ -345,7 +345,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
         kpr_int = BytesUtils.ToInteger(kr_bytes, endianness="little")
         kr_int = (zr_int + kpr_int) % (2 ** 256)
 
-        return IntegerUtils.ToBytes(kr_int, endianness="little")
+        return IntegerUtils.ToBytes(kr_int, bytes_num=32, endianness="little")
 
     @staticmethod
     def _NewPublicKeyPoint(pub_key: IPublicKey,
