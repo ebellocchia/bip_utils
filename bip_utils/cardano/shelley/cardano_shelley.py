@@ -36,7 +36,7 @@ from bip_utils.cardano.shelley.cardano_shelley_keys import CardanoShelleyPublicK
 class CardanoShelley:
     """
     Cardano Shelley class.
-    It allows master key generation and children keys derivation in according to Cardano Shelley.
+    It allows keys derivation and addresses computation (including the staking one) in according to Cardano Shelley.
     """
 
     m_bip_obj: Bip44Base
