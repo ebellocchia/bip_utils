@@ -18,7 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Cardano Shelley address encoding/decoding."""
+"""
+Module for Cardano Shelley address encoding/decoding.
+Reference: https://cips.cardano.org/cips/cip19
+"""
 
 # Imports
 from enum import IntEnum, unique
