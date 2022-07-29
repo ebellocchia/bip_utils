@@ -318,15 +318,17 @@ class Bip32Ed25519Kholaw(Bip32Base):
         Returns:
             bytes: Leftmost new private key 32-byte
         """
+        curve = EllipticCurveGetter.FromType(Bip32Ed25519Kholaw.CurveType())
+
         zl_int = BytesUtils.ToInteger(zl_bytes[:28], endianness="little")
         kl_int = BytesUtils.ToInteger(kl_bytes, endianness="little")
 
-        kl_int = (zl_int * 8) + kl_int
-        curve = EllipticCurveGetter.FromType(Bip32Ed25519Kholaw.CurveType())
-        if kl_int % curve.Order() == 0:
+        prvl_int = (zl_int * 8) + kl_int
+        # Discard child if multiple of curve order
+        if prvl_int % curve.Order() == 0:
             raise Bip32KeyError("Computed child key is not valid, very unlucky index")
 
-        return IntegerUtils.ToBytes(kl_int, bytes_num=32, endianness="little")
+        return IntegerUtils.ToBytes(prvl_int, bytes_num=32, endianness="little")
 
     @staticmethod
     def _NewPrivateKeyRightPart(zr_bytes: bytes,
