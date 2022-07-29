@@ -80,8 +80,8 @@ class BytesUtils:
         )
 
     @staticmethod
-    def Multiply(data_bytes: bytes,
-                 scalar: int) -> bytes:
+    def MultiplyScalar(data_bytes: bytes,
+                       scalar: int) -> bytes:
         """
         Multiply the specified bytes with the specified scalar (byte-by-byte, no carry).
 
