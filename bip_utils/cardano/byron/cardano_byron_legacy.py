@@ -32,7 +32,7 @@ from bip_utils.cardano.bip32 import CardanoByronLegacyBip32
 from bip_utils.utils.misc import CryptoUtils
 
 
-class DaedalusLegacyConst:
+class CardanoByronLegacyConst:
     """Class container for Cardano Byron legacy constants."""
 
     # ChaCha20-Poly1305 nonce
@@ -107,9 +107,9 @@ class CardanoByronLegacy:
         """
         return CryptoUtils.Pbkdf2HmacSha512(
             self.m_bip32_obj.PublicKey().RawCompressed().ToBytes()[1:] + self.m_bip32_obj.ChainCode().ToBytes(),
-            DaedalusLegacyConst.PBKDF2_SALT,
-            DaedalusLegacyConst.PBKDF2_ROUNDS,
-            DaedalusLegacyConst.PBKDF2_OUT_BYTE_LEN
+            CardanoByronLegacyConst.PBKDF2_SALT,
+            CardanoByronLegacyConst.PBKDF2_ROUNDS,
+            CardanoByronLegacyConst.PBKDF2_OUT_BYTE_LEN
         )
 
     def MasterPrivateKey(self) -> Bip32PrivateKey:
@@ -239,8 +239,8 @@ class CardanoByronLegacy:
         """
         cipher_text_bytes, tag_bytes = CryptoUtils.ChaCha20Poly1305Encrypt(
             key=self.HdPathKey(),
-            nonce=DaedalusLegacyConst.CHACHA20_POLY1305_NONCE,
-            assoc_data=DaedalusLegacyConst.CHACHA20_POLY1305_ASSOC_DATA,
+            nonce=CardanoByronLegacyConst.CHACHA20_POLY1305_NONCE,
+            assoc_data=CardanoByronLegacyConst.CHACHA20_POLY1305_ASSOC_DATA,
             plain_text=self.__CborEncodeVarList(path_indexes)
         )
         return cipher_text_bytes + tag_bytes
