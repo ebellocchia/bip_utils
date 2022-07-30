@@ -165,8 +165,8 @@ class AdaByronAddrEncoder(IAddrEncoder):
         Other Parameters:
             chain_code (bytes or Bip32ChainCode object): Chain code bytes or object
                                                          (ignored if address type is redemption)
-            addr_attrs (dict)                          : Address attributes (default: empty dict)
-            addr_type (AdaByronAddrTypes)              : Address type (default: public key)
+            addr_type (AdaByronAddrTypes)                : Address type (default: public key)
+            hd_path_enc (bytes)                          : Encrypted HD path bytes (default: empty)
 
         Returns:
             str: Address string
@@ -175,13 +175,15 @@ class AdaByronAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519 or the address type is not a AdaByronAddrTypes enum
         """
+        addr_attrs = {}
 
-        # Get address attributes
-        addr_attrs = kwargs.get("addr_attrs", {})
         # Get address type
         addr_type = kwargs.get("addr_type", AdaByronAddrTypes.PUBLIC_KEY)
         if not isinstance(addr_type, AdaByronAddrTypes):
             raise TypeError("Address type is not an enumerative of AdaByronAddrTypes")
+        # Get encrypted HD path
+        if "hd_path_enc" in kwargs:
+            addr_attrs[1] = cbor2.dumps(kwargs["hd_path_enc"])
 
         # Get chain code only if address type is public key
         if addr_type == AdaByronAddrTypes.PUBLIC_KEY:
