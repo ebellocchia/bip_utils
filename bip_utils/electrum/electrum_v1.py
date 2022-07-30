@@ -157,6 +157,7 @@ class ElectrumV1:
                       addr_idx: int) -> IPrivateKey:
         """
         Get the private key with the specified change and address indexes.
+        Derivation path (not BIP32 derivation): m/change_idx/addr_idx
 
         Args:
             change_idx (int): Change index
@@ -177,6 +178,7 @@ class ElectrumV1:
                      addr_idx: int) -> IPublicKey:
         """
         Get the public key with the specified change and address indexes.
+        Derivation path (not BIP32 derivation): m/change_idx/addr_idx
 
         Args:
             change_idx (int): Change index
@@ -199,6 +201,7 @@ class ElectrumV1:
                    addr_idx: int) -> str:
         """
         Get the address with the specified change and address indexes.
+        Derivation path (not BIP32 derivation): m/change_idx/addr_idx
 
         Args:
             change_idx (int): Change index
@@ -220,6 +223,7 @@ class ElectrumV1:
                            addr_idx: int) -> IPrivateKey:
         """
         Derive the private key with the specified change and address indexes.
+        Derivation path (not BIP32 derivation): m/change_idx/addr_idx
 
         Args:
             change_idx (int): Change index
@@ -245,6 +249,7 @@ class ElectrumV1:
                           addr_idx: int) -> IPublicKey:
         """
         Derive the public key with the specified change and address indexes.
+        Derivation path (not BIP32 derivation): m/change_idx/addr_idx
 
         Args:
             change_idx (int): Change index

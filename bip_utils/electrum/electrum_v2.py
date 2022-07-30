@@ -172,6 +172,7 @@ class ElectrumV2Standard(ElectrumV2Base):
                       addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PrivateKey:
         """
         Get the private key with the specified change and address indexes.
+        Derivation path: m/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
@@ -191,6 +192,7 @@ class ElectrumV2Standard(ElectrumV2Base):
                      addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PublicKey:
         """
         Get the public key with the specified change and address indexes.
+        Derivation path: m/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
@@ -211,6 +213,7 @@ class ElectrumV2Standard(ElectrumV2Base):
                    addr_idx: Union[int, Bip32KeyIndex]) -> str:
         """
         Get the address with the specified change and address indexes.
+        Derivation path: m/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
@@ -232,6 +235,7 @@ class ElectrumV2Standard(ElectrumV2Base):
                     addr_idx: Union[int, Bip32KeyIndex]) -> Bip32Base:
         """
         Derive the key with the specified change and address indexes.
+        Derivation path: m/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
@@ -271,6 +275,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
                       addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PrivateKey:
         """
         Get the private key with the specified change and address indexes.
+        Derivation path: m/0'/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
@@ -290,6 +295,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
                      addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PublicKey:
         """
         Get the public key with the specified change and address indexes.
+        Derivation path: m/0'/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
@@ -310,6 +316,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
                    addr_idx: Union[int, Bip32KeyIndex]) -> str:
         """
         Get the address with the specified change and address indexes.
+        Derivation path: m/0'/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
@@ -331,6 +338,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
                     addr_idx: Union[int, Bip32KeyIndex]) -> Bip32Base:
         """
         Derive the key with the specified change and address indexes.
+        Derivation path: m/0'/change_idx/addr_idx
 
         Args:
             change_idx (int or Bip32KeyIndex object): Change index
