@@ -33,7 +33,7 @@ print(f"Seed: {binascii.hexlify(v1_seed_bytes)}")
 electrum_v1 = ElectrumV1.FromSeed(v1_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v1.MasterPrivateKey(), WifPubKeyModes.UNCOMPRESSED)}")
-# Derive V1 addresses
+# Derive V1 addresses: m/0/i
 print("Addresses:")
 for i in range(ADDR_NUM):
     print(f"  {i}. Private key: {priv_to_wif(electrum_v1.GetPrivateKey(0, i), WifPubKeyModes.UNCOMPRESSED)}")
@@ -51,7 +51,7 @@ print(f"Seed: {binascii.hexlify(v2_standard_seed_bytes)}")
 electrum_v2_standard = ElectrumV2Standard.FromSeed(v2_standard_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v2_standard.MasterPrivateKey().KeyObject())}")
-# Derive standard addresses
+# Derive standard addresses: m/0/i
 print("Addresses:")
 for i in range(ADDR_NUM):
     print(f"  {i}. Private key: {priv_to_wif(electrum_v2_standard.GetPrivateKey(0, i).KeyObject())}")
@@ -69,7 +69,7 @@ print(f"Seed: {binascii.hexlify(v2_segwit_seed_bytes)}")
 electrum_v2_segwit = ElectrumV2Segwit.FromSeed(v2_segwit_seed_bytes)
 # Print master key
 print(f"Master private key: {priv_to_wif(electrum_v2_segwit.MasterPrivateKey().KeyObject())}")
-# Derive segwit addresses
+# Derive segwit addresses: m/0'/0/i
 print("Addresses:")
 for i in range(ADDR_NUM):
     print(f"  {i}. Private key: {priv_to_wif(electrum_v2_segwit.GetPrivateKey(0, i).KeyObject())}")

@@ -26,7 +26,7 @@ seed_bytes = CardanoIcarusSeedGenerator(mnemonic).Generate()
 # Construct from seed
 cip1852_mst_ctx = Cip1852.FromSeed(seed_bytes, Cip1852Coins.CARDANO_ICARUS)
 # Print master key
-print(f"Master chain code (bytes): {cip1852_mst_ctx.PrivateKey().Bip32Key().Data().ChainCode().ToHex()}")
+print(f"Master chain code (bytes): {cip1852_mst_ctx.PrivateKey().ChainCode().ToHex()}")
 print(f"Master private key (bytes): {cip1852_mst_ctx.PrivateKey().Raw().ToHex()}")
 
 # Derive account keys and construct CardanoShelley
@@ -44,7 +44,7 @@ shelley_chg_ctx = shelley_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
 print("Addresses:")
 for i in range(ADDR_NUM):
     shelley_addr_ctx = shelley_chg_ctx.AddressIndex(i)
-    print(f"  {i}. Address chain code (bytes): {shelley_addr_ctx.PublicKeys().AddressKey().Data().ChainCode().ToHex()}")
+    print(f"  {i}. Address chain code (bytes): {shelley_addr_ctx.PublicKeys().AddressKey().ChainCode().ToHex()}")
     print(f"  {i}. Address public key (bytes): {shelley_addr_ctx.PublicKeys().AddressKey().RawCompressed().ToHex()[2:]}")
     print(f"  {i}. Address private key (bytes): {shelley_addr_ctx.PrivateKeys().AddressKey().Raw().ToHex()}")
     print(f"  {i}. Address: {shelley_addr_ctx.PublicKeys().ToAddress()}")
@@ -63,7 +63,7 @@ seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 # Construct from seed
 cip1852_mst_ctx = Cip1852.FromSeed(seed_bytes, Cip1852Coins.CARDANO_LEDGER)
 # Print master key
-print(f"Master chain code (bytes): {cip1852_mst_ctx.PrivateKey().Bip32Key().Data().ChainCode().ToHex()}")
+print(f"Master chain code (bytes): {cip1852_mst_ctx.PrivateKey().Bip32Key().ChainCode().ToHex()}")
 print(f"Master private key (bytes): {cip1852_mst_ctx.PrivateKey().Raw().ToHex()}")
 
 # Derive account keys and construct CardanoShelley
@@ -81,7 +81,7 @@ shelley_chg_ctx = shelley_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
 print("Addresses:")
 for i in range(ADDR_NUM):
     shelley_addr_ctx = shelley_chg_ctx.AddressIndex(i)
-    print(f"  {i}. Address chain code (bytes): {shelley_addr_ctx.PublicKeys().AddressKey().Data().ChainCode().ToHex()}")
+    print(f"  {i}. Address chain code (bytes): {shelley_addr_ctx.PublicKeys().AddressKey().ChainCode().ToHex()}")
     print(f"  {i}. Address public key (bytes): {shelley_addr_ctx.PublicKeys().AddressKey().RawCompressed().ToHex()[2:]}")
     print(f"  {i}. Address private key (bytes): {shelley_addr_ctx.PrivateKeys().AddressKey().Raw().ToHex()}")
     print(f"  {i}. Address: {shelley_addr_ctx.PublicKeys().ToAddress()}")
