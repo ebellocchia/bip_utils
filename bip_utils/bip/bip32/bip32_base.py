@@ -392,7 +392,7 @@ class Bip32Base(ABC):
         Returns:
             Bip32ChainCode: Chain code
         """
-        return self.m_pub_key.Data().ChainCode()
+        return self.m_pub_key.ChainCode()
 
     def FingerPrint(self) -> Bip32FingerPrint:
         """

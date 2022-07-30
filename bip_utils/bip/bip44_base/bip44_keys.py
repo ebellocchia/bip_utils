@@ -23,7 +23,7 @@
 # Imports
 from functools import lru_cache
 from bip_utils.addr import AdaShelleyAddrEncoder, XmrAddrEncoder
-from bip_utils.bip.bip32 import Bip32PublicKey, Bip32PrivateKey
+from bip_utils.bip.bip32 import Bip32ChainCode, Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.utils.misc import DataBytes
 from bip_utils.wif import WifPubKeyModes, WifEncoder
@@ -77,6 +77,15 @@ class Bip44PublicKey:
             str: Key in serialized extended format
         """
         return self.m_pub_key.ToExtended()
+
+    def ChainCode(self) -> Bip32ChainCode:
+        """
+        Return the chain code.
+
+        Returns:
+            Bip32ChainCode object: Bip32ChainCode object
+        """
+        return self.m_pub_key.ChainCode()
 
     def RawCompressed(self) -> DataBytes:
         """
@@ -166,6 +175,15 @@ class Bip44PrivateKey:
             str: Key in serialized extended format
         """
         return self.m_priv_key.ToExtended()
+
+    def ChainCode(self) -> Bip32ChainCode:
+        """
+        Return the chain code.
+
+        Returns:
+            Bip32ChainCode object: Bip32ChainCode object
+        """
+        return self.m_priv_key.ChainCode()
 
     def Raw(self) -> DataBytes:
         """

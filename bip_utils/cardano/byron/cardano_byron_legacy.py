@@ -201,7 +201,7 @@ class CardanoByronLegacy:
 
         return AdaByronAddrEncoder.EncodeKey(
             pub_key.KeyObject(),
-            chain_code=pub_key.Data().ChainCode(),
+            chain_code=pub_key.ChainCode(),
             hd_path_enc=hd_path_enc_bytes
         )
 

@@ -110,7 +110,7 @@ class Bip44KeyDataTests(unittest.TestCase):
                 test["key"], TEST_BIP32_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, test["key"].CurveType()
             )
             bip44_key = Bip44PrivateKey(bip32_key, test["conf"])
-            self.__test_priv_key(bip44_key, bip32_key, test, TEST_PUB_KEYS[i])
+            self.__test_priv_key_obj(bip44_key, bip32_key, test, TEST_PUB_KEYS[i])
 
     # Test public key
     def test_pub_key(self):
@@ -119,7 +119,7 @@ class Bip44KeyDataTests(unittest.TestCase):
                 test["key"], TEST_BIP32_KEY_DATA, Bip32Const.MAIN_NET_KEY_NET_VERSIONS, test["key"].CurveType()
             )
             bip44_key = Bip44PublicKey(bip32_key, test["conf"])
-            self.__test_pub_key(bip44_key, bip32_key, test)
+            self.__test_pub_key_obj(bip44_key, bip32_key, test)
 
     # Test invalid params
     def test_invalid_params(self):
@@ -147,30 +147,34 @@ class Bip44KeyDataTests(unittest.TestCase):
         )
         self.assertRaises(ValueError, Bip44PublicKey(bip32_key, Bip44Conf.MoneroSecp256k1).ToAddress)
 
-    # Test private key
-    def __test_priv_key(self, bip44_key, bip32_key, test, test_pub_key):
+    # Test private key object
+    def __test_priv_key_obj(self, bip44_key, bip32_key, test, test_pub_key):
         # Objects
         self.assertTrue(isinstance(bip44_key.Bip32Key(), Bip32PrivateKey))
         self.assertTrue(isinstance(bip44_key.Raw(), DataBytes))
         self.assertTrue(isinstance(bip44_key.PublicKey(), Bip44PublicKey))
         # BIP32 key
         self.assertTrue(bip44_key.Bip32Key() is bip32_key)
+        # Chain code
+        self.assertEqual(bip44_key.ChainCode(), bip32_key.Data().ChainCode())
         # Keys
         self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
         self.assertEqual(bip44_key.Raw().ToBytes(), bip32_key.Raw().ToBytes())
         # WIF
         self.assertEqual(bip44_key.ToWif(), test["wif"])
         # Test public key
-        self.__test_pub_key(bip44_key.PublicKey(), bip32_key.PublicKey(), test_pub_key)
+        self.__test_pub_key_obj(bip44_key.PublicKey(), bip32_key.PublicKey(), test_pub_key)
 
-    # Test public key
-    def __test_pub_key(self, bip44_key, bip32_key, test):
+    # Test public key object
+    def __test_pub_key_obj(self, bip44_key, bip32_key, test):
         # Object
         self.assertTrue(isinstance(bip44_key.Bip32Key(), Bip32PublicKey))
         self.assertTrue(isinstance(bip44_key.RawCompressed(), DataBytes))
         self.assertTrue(isinstance(bip44_key.RawUncompressed(), DataBytes))
         # BIP32 key
         self.assertTrue(bip44_key.Bip32Key() is bip32_key)
+        # Chain code
+        self.assertEqual(bip44_key.ChainCode(), bip32_key.Data().ChainCode())
         # Keys
         self.assertEqual(bip44_key.ToExtended(), bip32_key.ToExtended())
         self.assertEqual(bip44_key.RawCompressed().ToBytes(), bip32_key.RawCompressed().ToBytes())

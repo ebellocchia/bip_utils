@@ -27,7 +27,7 @@ from functools import lru_cache
 from typing import Union
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
-from bip_utils.bip.bip32.bip32_key_data import Bip32FingerPrint, Bip32KeyData
+from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32FingerPrint, Bip32KeyData
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPoint, IPrivateKey, IPublicKey
 from bip_utils.utils.misc import CryptoUtils, DataBytes
@@ -60,6 +60,15 @@ class _Bip32KeyBase(ABC):
             BipKeyData object: BipKeyData object
         """
         return self.m_key_data
+
+    def ChainCode(self) -> Bip32ChainCode:
+        """
+        Return the chain code.
+
+        Returns:
+            Bip32ChainCode object: Bip32ChainCode object
+        """
+        return self.Data().ChainCode()
 
     def KeyNetVersions(self) -> Bip32KeyNetVersions:
         """
