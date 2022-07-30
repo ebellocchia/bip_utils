@@ -22,7 +22,7 @@
 import random
 import os
 import unittest
-from bip_utils import Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyData
+from bip_utils import Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32FingerPrint, Bip32KeyData, Bip32Utils
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 
 
@@ -44,6 +44,14 @@ class Bip32KeyDataTests(unittest.TestCase):
         key_idx = Bip32KeyIndex(rnd)
         self.assertEqual(key_idx.ToInt(), rnd)
         self.assertEqual(int(key_idx), rnd)
+        if key_idx.IsHardened():
+            new_key_idx = key_idx.Unharden()
+            self.assertEqual(new_key_idx.ToInt(), Bip32Utils.UnhardenIndex(key_idx.ToInt()))
+            self.assertFalse(new_key_idx.IsHardened())
+        else:
+            new_key_idx = key_idx.Harden()
+            self.assertEqual(new_key_idx.ToInt(), Bip32Utils.HardenIndex(key_idx.ToInt()))
+            self.assertTrue(new_key_idx.IsHardened())
         # Bip32ChainCode
         self.assertEqual(Bip32ChainCode.Length(), Bip32KeyDataConst.CHAINCODE_BYTE_LEN)
         chaincode_bytes = os.urandom(Bip32KeyDataConst.CHAINCODE_BYTE_LEN)

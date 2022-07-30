@@ -297,6 +297,24 @@ class Bip32KeyIndex:
         """
         return Bip32KeyDataConst.KEY_INDEX_BYTE_LEN
 
+    def Harden(self) -> Bip32KeyIndex:
+        """
+        Get a new Bip32KeyIndex object with the current key index hardened.
+
+        Returns:
+            Bip32KeyIndex object: Bip32KeyIndex object
+        """
+        return Bip32KeyIndex(Bip32Utils.HardenIndex(self.m_idx))
+
+    def Unharden(self) -> Bip32KeyIndex:
+        """
+        Get a new Bip32KeyIndex object with the current key index unhardened.
+
+        Returns:
+            Bip32KeyIndex object: Bip32KeyIndex object
+        """
+        return Bip32KeyIndex(Bip32Utils.UnhardenIndex(self.m_idx))
+
     def IsHardened(self) -> bool:
         """
         Get if the key index is hardened.
