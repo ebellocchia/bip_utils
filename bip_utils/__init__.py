@@ -95,6 +95,7 @@ from bip_utils.bip.conf.bip86 import Bip86Coins, Bip86Conf, Bip86ConfGetter
 from bip_utils.cardano.bip32 import CardanoByronLegacyBip32, CardanoIcarusBip32
 from bip_utils.cardano.cip1852.conf import Cip1852Coins, Cip1852Conf, Cip1852ConfGetter
 from bip_utils.cardano.cip1852 import Cip1852
+from bip_utils.cardano.byron import CardanoByronLegacy
 from bip_utils.cardano.shelley import CardanoShelleyPublicKeys, CardanoShelleyPrivateKeys, CardanoShelley
 from bip_utils.cardano.mnemonic import CardanoByronLegacySeedGenerator, CardanoIcarusSeedGenerator
 # Generic coins configuration

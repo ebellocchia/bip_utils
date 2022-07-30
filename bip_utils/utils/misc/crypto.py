@@ -24,8 +24,9 @@
 import binascii
 import hashlib
 import hmac
-from typing import Optional, Union
+from typing import Optional, Tuple, Union
 import crcmod.predefined
+from Crypto.Cipher import ChaCha20_Poly1305
 from Crypto.Hash import keccak, RIPEMD160, SHA512, SHA3_256
 from Crypto.Protocol.KDF import PBKDF2, scrypt
 from bip_utils.utils.misc.algo import AlgoUtils
@@ -253,6 +254,53 @@ class CryptoUtils:
                       N=n,
                       r=r,
                       p=p)
+
+    @staticmethod
+    def ChaCha20Poly1305Decrypt(key: Union[bytes, str],
+                                nonce: Union[bytes, str],
+                                assoc_data: Union[bytes, str],
+                                cipher_text: Union[bytes, str],
+                                tag: Union[bytes, str]) -> bytes:
+        """
+        Decrypt data using ChaCha20-Poly1305 algorithm.
+
+        Args:
+            key (str or bytes)       : Key
+            nonce (str or bytes)     : Nonce
+            assoc_data (str or bytes): Associated data
+            cipher_text (bytes)      : Cipher text
+            tag (bytes)              : Tag
+
+        Returns:
+            bytes: Decrypted bytes
+        """
+        cipher = ChaCha20_Poly1305.new(key=AlgoUtils.Encode(key),
+                                       nonce=AlgoUtils.Encode(nonce))
+        cipher.update(AlgoUtils.Encode(assoc_data))
+        return cipher.decrypt_and_verify(AlgoUtils.Encode(cipher_text), AlgoUtils.Encode(tag))
+
+    @staticmethod
+    def ChaCha20Poly1305Encrypt(key: Union[bytes, str],
+                                nonce: Union[bytes, str],
+                                assoc_data: Union[bytes, str],
+                                plain_text: Union[bytes, str]) -> Tuple[bytes, bytes]:
+        """
+        Encrypt data using ChaCha20-Poly1305 algorithm.
+
+        Args:
+            key (str or bytes)       : Key
+            nonce (str or bytes)     : Nonce
+            assoc_data (str or bytes): Associated data
+            plain_text (str or bytes): Plain text
+
+        Returns:
+            tuple[bytes, bytes]: Cipher text bytes (index 0) and tag bytes (index 1)
+        """
+        cipher = ChaCha20_Poly1305.new(key=AlgoUtils.Encode(key),
+                                       nonce=AlgoUtils.Encode(nonce))
+        cipher.update(AlgoUtils.Encode(assoc_data))
+        cipher_text, tag = cipher.encrypt_and_digest(AlgoUtils.Encode(plain_text))
+        return cipher_text, tag
 
     @staticmethod
     def Ripemd160(data: Union[bytes, str]) -> bytes:

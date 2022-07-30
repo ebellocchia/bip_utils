@@ -64,6 +64,15 @@ TEST_VECT = [
         "address": "Ae2tdPwUPEZGHncTxWxeGm1JbDsgfCicRupttizSDUAMrD81h1XNDqbXzE7",
     },
     {
+        "pub_key": b"008c0d07ef1bd42e519d0f19847b44016cbe8b08982d70a916aadbce15934c0bdd",
+        "address_dec": b"62acec338d6ef0fcd34a99bdd458c159043fea5a9d037f64f3dc84454d557a466d0b4b2a6c59e2c654dc3eb4658bba2808f3a42224239f53",
+        "address_params": {
+            "chain_code": binascii.unhexlify(b"b3feee4ae77e6198ba213ab6bd9ceea9fa7f557698c694a4c11ef270e1fa8360"),
+            "hd_path_enc": binascii.unhexlify(b"4d557a466d0b4b2a6c59e2c654dc3eb4658bba2808f3a42224239f53"),
+        },
+        "address": "DdzFFzCqrhsrgymQtVRcX7iSXWHZoizEU9ji31ZtmzZdommSTUBii56egW4VT9d1Hz4DMU5gBp4AZX2jFpGmr3X3VMQ3WdaDTT7oGDok",
+    },
+    {
         "pub_key": b"00c87eccc612c395b23f413adc06dd9547072af0d413fd11a0c17e6101d8c0467c",
         "address_dec": b"bdec6d334164c121afbd1beb255ef1f5f9851e1892ed87c9fce4e751",
         "address_params": {
@@ -84,6 +93,8 @@ TEST_VECT_DEC_INVALID = [
     "Ae2tr7hYAE9LJU98dz6iHoDNozJq3EvtavT1eViVsMrVmtTiJ81sT7UgzZm",
     # Invalid address type
     "Ae2tdPwUPEZEReKzM7B6t4iLeSLkL4gZtE4G7Pvc3tZVcyaNmsX589QjDSX",
+    # Invalid address attributes
+    "DdzFFzCqrhsgTQrapUXd8JB5ELH8EBkvCPz2EnRxJTjJ5pqjGRk4wAS1FGJBfZ99xJdyn57kyxvztCUMwN3ZvRPLsozJYRrGbJqXowcF",
     # Invalid lengths
     "3Bf3BWfUXmSDiwn4LNDEAZJ4TWtvjubuo2FGMyrR5BxoAopTRDy7eFDAp2",
     "jYTLseJK1m4sWU7ba8ryVbZ2FwAoYyRAyPTxKLMiQ3wtR7XaEJ6pYZ1cAyY9",
