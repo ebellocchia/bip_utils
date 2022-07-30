@@ -30,6 +30,7 @@ The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
 
 **Code example**
 
+    import binascii
     from bip_utils import CardanoByronLegacy, CardanoByronLegacyBip32, CardanoByronLegacySeedGenerator
     
     # Generate seed from mnemonic using CardanoByronLegacySeedGenerator
@@ -42,6 +43,8 @@ The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
     byron_legacy = CardanoByronLegacy(
         CardanoByronLegacyBip32.FromSeed(seed_bytes)
     )
+    # Print HD path key
+    print(byron_legacy.HdPathKey())
     # Print master keys and chain code
     print(byron_legacy.MasterPrivateKey().Raw().ToHex())
     print(byron_legacy.MasterPublicKey().RawCompressed().ToHex())
