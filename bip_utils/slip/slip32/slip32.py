@@ -301,7 +301,7 @@ class Slip32KeyDeserializer:
 
         # Get back depth and path
         depth = ser_key_bytes[depth_idx]
-        path = Bip32Path([], True)
+        path = Bip32Path()
         for i in range(depth):
             key_index_bytes = ser_key_bytes[path_idx + (i * Bip32KeyIndex.Length()):
                                             path_idx + ((i + 1) * Bip32KeyIndex.Length())]

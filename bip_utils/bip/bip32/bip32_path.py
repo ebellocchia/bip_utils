@@ -22,7 +22,7 @@
 
 # Import
 from __future__ import annotations
-from typing import Iterator, List, Sequence, Tuple, Union
+from typing import Iterator, List, Optional, Sequence, Tuple, Union
 from bip_utils.bip.bip32.bip32_ex import Bip32PathError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 
@@ -46,17 +46,19 @@ class Bip32Path:
     m_is_absolute: bool
 
     def __init__(self,
-                 elems: Sequence[Union[int, Bip32KeyIndex]],
-                 is_absolute: bool) -> None:
+                 elems: Optional[Sequence[Union[int, Bip32KeyIndex]]] = None,
+                 is_absolute: bool = True) -> None:
         """
         Construct class.
 
         Args:
-            elems (list)      : Path elements
-            is_absolute (bool): True if path is an absolute one, false otherwise
+            elems (list, optional)      : Path elements (default: empty)
+            is_absolute (bool, optional): True if path is an absolute one, false otherwise (default: True)
         """
         try:
-            self.m_elems = [Bip32KeyIndex(elem) if isinstance(elem, int) else elem for elem in elems]
+            self.m_elems = ([]
+                            if elems is None
+                            else [Bip32KeyIndex(elem) if isinstance(elem, int) else elem for elem in elems])
         except ValueError as ex:
             raise Bip32PathError("The path contains some invalid key indexes") from ex
 
