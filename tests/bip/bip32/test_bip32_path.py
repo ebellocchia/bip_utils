@@ -132,6 +132,26 @@ TEST_VECT_PATH = [
     },
 ]
 
+# Tests for path add element
+TEST_VECT_ADD_ELEM = [
+    {
+        "elem": Bip32KeyIndex.HardenIndex(0),
+        "path": "m/0'",
+    },
+    {
+        "elem": Bip32KeyIndex(Bip32KeyIndex.HardenIndex(1)),
+        "path": "m/0'/1'",
+    },
+    {
+        "elem": 2,
+        "path": "m/0'/1'/2",
+    },
+    {
+        "elem": Bip32KeyIndex(3),
+        "path": "m/0'/1'/2/3",
+    },
+]
+
 # Tests for invalid paths
 TEST_VECT_PATH_INVALID = [
     "mm",
@@ -159,6 +179,18 @@ class Bip32PathTests(unittest.TestCase):
             # Test construction in different ways
             self.__test_path(test, Bip32PathParser.Parse(test["path"]))
             self.__test_path(test, Bip32Path(test["parsed"], test["is_absolute"]))
+
+    # Test add element
+    def test_add_elem(self):
+        path = Bip32Path()
+        self.assertEqual(0, path.Length())
+        self.assertEqual([], path.ToList())
+        self.assertEqual("m", path.ToStr())
+        self.assertTrue(path.IsAbsolute())
+
+        for test in TEST_VECT_ADD_ELEM:
+            path = path.AddElem(test["elem"])
+            self.assertEqual(test["path"], path.ToStr())
 
     # Test invalid paths
     def test_invalid_paths(self):
@@ -197,5 +229,4 @@ class Bip32PathTests(unittest.TestCase):
             self.assertEqual(Bip32KeyIndex.IsHardenedIndex(test_elem), elem.IsHardened())
 
         # Check by converting to list
-        for idx, elem in enumerate(path.ToList()):
-            self.assertEqual(test["parsed"][idx], elem)
+        self.assertEqual(test["parsed"], path.ToList())

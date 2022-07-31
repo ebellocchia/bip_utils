@@ -93,6 +93,26 @@ TEST_VECT_PATH = [
     },
 ]
 
+# Tests for path add element
+TEST_VECT_ADD_ELEM = [
+    {
+        "elem": "//hard1",
+        "path": "//hard1",
+    },
+    {
+        "elem": SubstratePathElem("//hard2"),
+        "path": "//hard1//hard2",
+    },
+    {
+        "elem": "/soft1",
+        "path": "//hard1//hard2/soft1",
+    },
+    {
+        "elem": SubstratePathElem("/soft2"),
+        "path": "//hard1//hard2/soft1/soft2",
+    },
+]
+
 # Tests for invalid path elements
 TEST_VECT_PATH_ELEM_INVALID = [
     {
@@ -163,6 +183,17 @@ class SubstratePathTests(unittest.TestCase):
             self.assertEqual(binascii.unhexlify(test["chain_code"]), path_elem.ChainCode())
             self.assertEqual(test["is_hard"], path_elem.IsHard())
             self.assertEqual(test["is_hard"], not path_elem.IsSoft())
+
+    # Test add element
+    def test_add_elem(self):
+        path = SubstratePath()
+        self.assertEqual(0, path.Length())
+        self.assertEqual([], path.ToList())
+        self.assertEqual("", path.ToStr())
+
+        for test in TEST_VECT_ADD_ELEM:
+            path = path.AddElem(test["elem"])
+            self.assertEqual(test["path"], path.ToStr())
 
     # Test invalid paths
     def test_invalid_path(self):
