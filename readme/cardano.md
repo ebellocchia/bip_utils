@@ -22,9 +22,9 @@ It uses BIP-0039 mnemonics, but the seed is the serialized hash of the serialize
 For this reason, the *CardanoByronLegacySeedGenerator* class shall be used to generate the seed.\
 The BIP32 derivation scheme is implemented by the *CardanoByronLegacyBip32* class.
 
-The legacy addresses contains the derivation path encrypted using the ChaCha20-Poly1305 algorithm, using a key
-that is derived from the master public key and chain code.\
-For handling this, the *CardanoByronLegacy* class shall be used, which can be constructed either from a seed or a 
+The legacy addresses contains the derivation path encrypted using the ChaCha20-Poly1305 algorithm. The encryption key 
+is derived from the master public key and chain code.\
+This is automatically handled by the *CardanoByronLegacy* class that can be constructed either from a seed or a 
 *CardanoByronLegacyBip32* class instance, which allows construction from public/private key bytes or extended keys.
 The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
 
@@ -48,13 +48,16 @@ The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
     # Print master keys and chain code
     print(byron_legacy.MasterPrivateKey().Raw().ToHex())
     print(byron_legacy.MasterPublicKey().RawCompressed().ToHex())
-    print(byron_legacy.MasterPublicKey().Data().ChainCode().ToHex())
+    print(byron_legacy.MasterPublicKey().ChainCode().ToHex())
     
     # Derive and print the first 5 addresses
     # Please note the key indexes are automatically hardened (i.e. 0, i -> 0', i')
     for i in range(5):
         print(byron_legacy.GetAddress(0, i))
         print(byron_legacy.GetPrivateKey(0, i).Raw().ToHex())
+        # Decrypt and get derivation path from address
+        # In order to be successful, the address shall be derived from the object master key
+        print(byron_legacy.HdPathFromAddress(byron_legacy.GetAddress(0, i)))
 
 #### Yoroi-Icarus
 
