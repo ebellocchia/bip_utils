@@ -185,8 +185,7 @@ class SubstratePathElem:
         return ((elem.startswith(SubstratePathConst.SOFT_PATH_PREFIX)
                  or elem.startswith(SubstratePathConst.HARD_PATH_PREFIX))
                 and elem.rfind("/") < 2
-                and len(elem.replace("/", "")) > 0
-                )
+                and len(elem.replace("/", "")) > 0)
 
 
 class SubstratePath:
@@ -203,7 +202,7 @@ class SubstratePath:
         Construct class.
 
         Args:
-            elems (list, optional): Path elements
+            elems (list, optional): Path elements (default: empty)
 
         Raises:
             SubstratePathError: If the path element is not valid
