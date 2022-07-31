@@ -28,6 +28,7 @@ References:
 
 # Imports
 from typing import Tuple
+import cbor2
 from bip_utils.bip.bip32 import Bip32Base, Bip32Ed25519Kholaw, Bip32KeyIndex, Bip32KeyData, Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils
 from bip_utils.ecc import Ed25519KholawPrivateKey, EllipticCurveGetter, IPublicKey, IPoint
@@ -39,6 +40,8 @@ class CardanoByronLegacyBip32Const:
 
     # HMAC message format
     HMAC_MESSAGE_FORMAT: bytes = b"Root Seed Chain %d"
+    # Length in bytes for seed
+    SEED_BYTE_LEN: int = 32
 
 
 class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
@@ -48,6 +51,19 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
     Derivation based on ed25519 Khovratovich/Law paper with a different algorithm for master key generation.
     The keys derivation algorithm has some small differences as well.
     """
+
+    @staticmethod
+    def _IsSeedLengthValid(seed_bytes: bytes) -> bool:
+        """
+        Get if the seed length is valid.
+
+        Args:
+            seed_bytes (bytes): Seed bytes
+
+        Returns:
+            bool: True if valid, false otherwise
+        """
+        return len(seed_bytes) == CardanoByronLegacyBip32Const.SEED_BYTE_LEN
 
     @classmethod
     def _MasterKeyFromSeed(cls,
@@ -66,7 +82,7 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
         Raises:
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        key_bytes, chain_code_bytes = cls.__HashRepeatedly(seed_bytes, 1)
+        key_bytes, chain_code_bytes = cls.__HashRepeatedly(cbor2.dumps(seed_bytes), 1)
         return cls(priv_key=Ed25519KholawPrivateKey.FromBytes(key_bytes),
                    pub_key=None,
                    key_data=Bip32KeyData(chain_code=chain_code_bytes),
@@ -82,7 +98,7 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
                          data_bytes: bytes,
                          itr_num: int) -> Tuple[bytes, bytes]:
         """
-        Continue to hash the data bytes until the third highest bit of the last byte is not zero.
+        Continue to hash the data bytes until the third-highest bit of the last byte is not zero.
 
         Args:
             data_bytes (bytes): Data bytes

@@ -57,10 +57,8 @@ class CardanoByronLegacySeedGenerator:
             ValueError: If the mnemonic is not valid
         """
         ser_entropy_bytes = cbor2.dumps(Bip39MnemonicDecoder(lang).Decode(mnemonic))
-        self.m_seed_bytes = cbor2.dumps(
-            CryptoUtils.Blake2b(ser_entropy_bytes,
-                                CardanoByronOldGeneratorConst.BLAKE2B_BYTE_LEN)
-        )
+        self.m_seed_bytes = CryptoUtils.Blake2b(ser_entropy_bytes,
+                                                CardanoByronOldGeneratorConst.BLAKE2B_BYTE_LEN)
 
     def Generate(self) -> bytes:
         """
