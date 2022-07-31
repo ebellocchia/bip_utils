@@ -40,9 +40,9 @@ from bip_utils.utils.misc import CryptoUtils
 class Bip32BaseConst:
     """Class container for BIP32 base constants."""
 
-    # Minimum length in bits for seed
-    SEED_MIN_BIT_LEN: int = 128
-    # HMAC half length in bytes
+    # Minimum length in bytes for seed
+    SEED_MIN_BYTE_LEN: int = 16
+    # HMAC half-length in bytes
     HMAC_HALF_BYTE_LEN: int = 32
 
 
@@ -100,7 +100,7 @@ class Bip32Base(ABC):
             Bip32KeyError: If the seed is not suitable for master key generation
         """
         if not cls._IsSeedLengthValid(seed_bytes):
-            raise ValueError(f"Seed length is too small, it shall be at least {Bip32BaseConst.SEED_MIN_BIT_LEN} bit")
+            raise ValueError(f"Invalid seed length ({len(seed_bytes)})")
         return cls._MasterKeyFromSeed(seed_bytes, key_net_ver)
 
     @classmethod
@@ -427,7 +427,7 @@ class Bip32Base(ABC):
         Returns:
             bool: True if valid, false otherwise
         """
-        return len(seed_bytes) * 8 >= Bip32BaseConst.SEED_MIN_BIT_LEN
+        return len(seed_bytes) >= Bip32BaseConst.SEED_MIN_BYTE_LEN
 
     @classmethod
     def _MasterKeyFromSeed(cls,
