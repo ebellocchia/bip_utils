@@ -365,7 +365,7 @@ class EccTests(unittest.TestCase):
         self.assertEqual(Ed25519KholawPublicKey.CurveType(), EllipticCurveTypes.ED25519_KHOLAW)
 
         # Private key
-        self.assertRaises(TypeError, Ed25519KholawPrivateKey, 0)
+        self.assertRaises(TypeError, Ed25519KholawPrivateKey, 0, b"")
         self.assertRaises(ValueError, Ed25519KholawPrivateKey, TEST_ED25519_PRIV_KEY, b"")
         self.assertEqual(Ed25519KholawPrivateKey.CurveType(), EllipticCurveTypes.ED25519_KHOLAW)
         self.assertEqual(Ed25519KholawPrivateKey.Length(), 64)
