@@ -79,7 +79,7 @@ class XlmAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            addr_type (XlmAddrTypes): Address type (default: public key)
+            addr_type (XlmAddrTypes): Expected address type (default: public key)
 
         Returns:
             bytes: Public key bytes

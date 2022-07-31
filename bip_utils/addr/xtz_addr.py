@@ -64,7 +64,7 @@ class XtzAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            prefix (XtzAddrPrefixes): Address prefix
+            prefix (XtzAddrPrefixes): Expected address prefix
 
         Returns:
             bytes: Public key hash bytes

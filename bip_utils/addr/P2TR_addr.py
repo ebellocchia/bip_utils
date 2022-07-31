@@ -144,7 +144,7 @@ class P2TRAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            hrp (str): HRP
+            hrp (str): Expected HRP
 
         Returns:
             bytes: X coordinate of the tweaked public key

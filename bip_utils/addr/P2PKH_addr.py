@@ -57,8 +57,8 @@ class P2PKHAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            net_ver (bytes)                        : Net address version
-            base58_alph (Base58Alphabets, optional): Base58 alphabet, Bitcoin alphabet by default
+            net_ver (bytes)                        : Expected net address version
+            base58_alph (Base58Alphabets, optional): Base58 alphabet (default: Bitcoin alphabet)
 
         Returns:
             bytes: Public key hash bytes
@@ -136,8 +136,8 @@ class BchP2PKHAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            hrp (str)      : HRP
-            net_ver (bytes): Net address version
+            hrp (str)      : Expected HRP
+            net_ver (bytes): Expected net address version
 
         Returns:
             bytes: Public key hash bytes

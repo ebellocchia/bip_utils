@@ -82,7 +82,7 @@ class SubstrateEd25519AddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            ss58_format (int): SS58 format
+            ss58_format (int): Expected SS58 format
 
         Returns:
             bytes: Public key bytes
@@ -139,7 +139,7 @@ class SubstrateSr25519AddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            ss58_format (int): SS58 format
+            ss58_format (int): Expected SS58 format
 
         Returns:
             bytes: Public key bytes

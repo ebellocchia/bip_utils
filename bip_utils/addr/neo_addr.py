@@ -56,7 +56,7 @@ class NeoAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            ver (bytes): Version
+            ver (bytes): Expected version
 
         Returns:
             bytes: Public key hash bytes

@@ -47,7 +47,7 @@ class AtomAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            hrp (str): HRP
+            hrp (str): Expected HRP
 
         Returns:
             bytes: Public key hash bytes

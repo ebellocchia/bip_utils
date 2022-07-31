@@ -119,7 +119,7 @@ class AdaShelleyAddrDecoder(IAddrDecoder):
             **kwargs  : Not used
 
         Other Parameters:
-            net_tag (AdaShelleyAddrNetworkTags): Network tag (default: main net)
+            net_tag (AdaShelleyAddrNetworkTags): Expected network tag (default: main net)
 
         Returns:
             bytes: Public keys hash bytes (public key + public staking key)
@@ -142,7 +142,8 @@ class AdaShelleyAddrDecoder(IAddrDecoder):
             AddrDecUtils.ValidateLength(addr_dec_bytes,
                                         (AdaShelleyAddrConst.HASH_BYTE_LEN * 2) + 1)
             # Validate and remove prefix
-            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT, net_tag)
+            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT,
+                                                            net_tag)
             return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
 
 
@@ -184,7 +185,8 @@ class AdaShelleyAddrEncoder(IAddrEncoder):
         pub_key_hash = _AdaShelleyAddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
         pub_skey_hash = _AdaShelleyAddrUtils.KeyHash(pub_skey_obj.RawCompressed().ToBytes()[1:])
         # Get prefix byte
-        prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT, net_tag)
+        prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT,
+                                                        net_tag)
 
         # Encode to bech32
         return Bech32Encoder.Encode(AdaShelleyAddrConst.NETWORK_TAG_TO_ADDR_HRP[net_tag],
@@ -231,7 +233,8 @@ class AdaShelleyStakingAddrDecoder(IAddrDecoder):
             AddrDecUtils.ValidateLength(addr_dec_bytes,
                                         AdaShelleyAddrConst.HASH_BYTE_LEN + 1)
             # Validate and remove prefix
-            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD, net_tag)
+            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD,
+                                                            net_tag)
             return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
 
 
@@ -269,7 +272,8 @@ class AdaShelleyStakingAddrEncoder(IAddrEncoder):
         # Compute keys hash
         pub_key_hash = _AdaShelleyAddrUtils.KeyHash(pub_key_obj.RawCompressed().ToBytes()[1:])
         # Get first byte
-        first_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD, net_tag)
+        first_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD,
+                                                       net_tag)
 
         # Encode to bech32
         return Bech32Encoder.Encode(AdaShelleyAddrConst.NETWORK_TAG_TO_REWARD_ADDR_HRP[net_tag],

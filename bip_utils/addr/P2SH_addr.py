@@ -78,7 +78,7 @@ class P2SHAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            net_ver (bytes): Net address version
+            net_ver (bytes): Expected net address version
 
         Returns:
             bytes: Script signature hash bytes
@@ -138,8 +138,8 @@ class BchP2SHAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            hrp (str)      : HRP
-            net_ver (bytes): Net address version
+            hrp (str)      : Expected HRP
+            net_ver (bytes): Expected net address version
 
         Returns:
             bytes: Script signature hash bytes

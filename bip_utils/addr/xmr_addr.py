@@ -91,9 +91,10 @@ class _XmrAddrUtils:
                                         Ed25519MoneroPublicKey.CompressedLength() * 2)
         except ValueError as ex:
             # Validate length with payment ID
-            AddrDecUtils.ValidateLength(payload_bytes,
-                                        (Ed25519MoneroPublicKey.CompressedLength() * 2)
-                                        + XmrAddrConst.PAYMENT_ID_BYTE_LEN)
+            AddrDecUtils.ValidateLength(
+                payload_bytes,
+                (Ed25519MoneroPublicKey.CompressedLength() * 2) + XmrAddrConst.PAYMENT_ID_BYTE_LEN
+            )
             # Check payment ID
             if payment_id_bytes is None or len(payment_id_bytes) != XmrAddrConst.PAYMENT_ID_BYTE_LEN:
                 raise ValueError("Invalid payment ID") from ex
@@ -165,7 +166,7 @@ class XmrAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            net_ver (bytes): Net version
+            net_ver (bytes): Expected net version
 
         Returns:
             bytes: Public spend (first) and view (second) keys joined together
@@ -174,7 +175,6 @@ class XmrAddrDecoder(IAddrDecoder):
             ValueError: If the address encoding is not valid
         """
         net_ver = kwargs["net_ver"]
-
         return _XmrAddrUtils.DecodeAddr(addr, net_ver)
 
 
@@ -227,8 +227,8 @@ class XmrIntegratedAddrDecoder(IAddrDecoder):
             addr (str): Address string
 
         Other Parameters:
-            net_ver (bytes)   : Net version
-            payment_id (bytes): Payment ID
+            net_ver (bytes)   : Expected net version
+            payment_id (bytes): Expected payment ID
 
         Returns:
             bytes: Public spend (first) and view (second) keys joined together
@@ -238,7 +238,6 @@ class XmrIntegratedAddrDecoder(IAddrDecoder):
         """
         net_ver = kwargs["net_ver"]
         payment_id = kwargs["payment_id"]
-
         return _XmrAddrUtils.DecodeAddr(addr, net_ver, payment_id)
 
 
