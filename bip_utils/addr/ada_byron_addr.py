@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 """
-Module for Cardano Byron address encoding/decoding.
+Module for Cardano Byron address encoding/decoding. Both legacy and Icarus addresses are supported.
 References:
     https://cips.cardano.org/cips/cip19
     https://raw.githubusercontent.com/cardano-foundation/CIPs/master/CIP-0019/CIP-0019-byron-addresses.cddl
@@ -27,16 +27,16 @@ References:
 
 # Imports
 from enum import IntEnum, unique
-from typing import Any, Dict, Union
+from typing import Any, Dict, Optional, Tuple, Union
 import cbor2
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.bip.bip32 import Bip32ChainCode
+from bip_utils.bip.bip32 import Bip32ChainCode, Bip32Path, Bip32PathParser
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.misc import CborIndefiniteLenArrayDecoder, CborIndefiniteLenArrayEncoder, CryptoUtils
 
 
 @unique
@@ -50,10 +50,69 @@ class AdaByronAddrTypes(IntEnum):
 class AdaByronAddrConst:
     """Class container for Cardano Byron address constants."""
 
-    # Hash length in bytes
-    HASH_BYTE_LEN: int = 28
+    # ChaCha20-Poly1305 nonce for HD path decryption/encryption
+    CHACHA20_POLY1305_NONCE: bytes = b"serokellfore"
+    # ChaCha20-Poly1305 associated data for HD path decryption/encryption
+    CHACHA20_POLY1305_ASSOC_DATA: bytes = b""
+    # ChaCha20-Poly1305 tag length in bytes
+    CHACHA20_POLY1305_TAG_BYTE_LEN: int = 16
+    # Address root hash length in bytes
+    ADDR_ROOT_HASH_BYTE_LEN: int = 28
+    # HD path key length in bytes
+    HD_PATH_KEY_BYTE_LEN: int = 32
     # Payload tag
     PAYLOAD_TAG: int = 24
+
+
+class _AdaByronAddrHdPath:
+    """Cardano Byron address HD path class."""
+
+    @staticmethod
+    def Decrypt(hd_path_enc_bytes: bytes,
+                hd_path_key_bytes: bytes) -> Bip32Path:
+        """
+        Encrypt the HD path.
+
+        Args:
+            hd_path_enc_bytes (bytes): Encrypted HD path bytes
+            hd_path_key_bytes (bytes): HD path key bytes
+
+        Returns:
+            Bip32Path object: Bip32Path object
+
+        Raises:
+            ValueError: If the decryption fails or the path cannot be decoded
+        """
+        plain_text_bytes = CryptoUtils.ChaCha20Poly1305Decrypt(
+            key=hd_path_key_bytes,
+            nonce=AdaByronAddrConst.CHACHA20_POLY1305_NONCE,
+            assoc_data=AdaByronAddrConst.CHACHA20_POLY1305_ASSOC_DATA,
+            cipher_text=hd_path_enc_bytes[:-AdaByronAddrConst.CHACHA20_POLY1305_TAG_BYTE_LEN],
+            tag=hd_path_enc_bytes[-AdaByronAddrConst.CHACHA20_POLY1305_TAG_BYTE_LEN:]
+        )
+        return Bip32Path(CborIndefiniteLenArrayDecoder.Decode(plain_text_bytes),
+                         True)
+
+    @staticmethod
+    def Encrypt(hd_path: Bip32Path,
+                hd_path_key_bytes: bytes) -> bytes:
+        """
+        Encrypt the HD path.
+
+        Args:
+            hd_path (Bip32Path object): HD path
+            hd_path_key_bytes (bytes) : HD path key bytes
+
+        Returns:
+            bytes: Computed key bytes
+        """
+        cipher_text_bytes, tag_bytes = CryptoUtils.ChaCha20Poly1305Encrypt(
+            key=hd_path_key_bytes,
+            nonce=AdaByronAddrConst.CHACHA20_POLY1305_NONCE,
+            assoc_data=AdaByronAddrConst.CHACHA20_POLY1305_ASSOC_DATA,
+            plain_text=CborIndefiniteLenArrayEncoder.Encode(hd_path.ToList())
+        )
+        return cipher_text_bytes + tag_bytes
 
 
 class _AdaByronAddrUtils:
@@ -61,14 +120,14 @@ class _AdaByronAddrUtils:
 
     @staticmethod
     def AddressRootHash(key_bytes: bytes,
-                        addr_attrs: Dict,
+                        addr_attrs: Dict[int, bytes],
                         addr_type: AdaByronAddrTypes) -> bytes:
         """
         Compute the address root hash.
 
         Args:
             key_bytes (bytes)            : Key bytes
-            addr_attrs (dict)            : Address attributes
+            addr_attrs (dict[int, bytes]): Address attributes
             addr_type (AdaByronAddrTypes): Address type
 
         Returns:
@@ -80,25 +139,29 @@ class _AdaByronAddrUtils:
             addr_attrs,                 # Address attributes
         ])
         return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(addr_root),
-                                   AdaByronAddrConst.HASH_BYTE_LEN)
+                                   AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN)
 
     @staticmethod
     def EncodeKey(pub_key_bytes: bytes,
                   chain_code_bytes: bytes,
                   addr_type: AdaByronAddrTypes,
-                  addr_attrs: Dict[int, Any]) -> str:
+                  hd_path_enc_bytes: Optional[bytes] = None) -> str:
         """
         Encode a public key to Cardano Byron address.
 
         Args:
-            pub_key_bytes (bytes)        : Public key bytes
-            chain_code_bytes (bytes)     : Chain code bytes
-            addr_type (AdaByronAddrTypes): Address type
-            addr_attrs (dict[int, any])  : Address attributes
+            pub_key_bytes (bytes)              : Public key bytes
+            chain_code_bytes (bytes)           : Chain code bytes
+            addr_type (AdaByronAddrTypes)      : Address type
+            hd_path_enc_bytes (bytes, optional): Encrypted HD path bytes
 
         Returns:
             str: Address string
         """
+        addr_attrs = {}
+        if hd_path_enc_bytes is not None:
+            addr_attrs[1] = cbor2.dumps(hd_path_enc_bytes)
+
         # Get key hash
         key_hash_bytes = _AdaByronAddrUtils.AddressRootHash(
             pub_key_bytes[1:] + chain_code_bytes, addr_attrs, addr_type)
@@ -124,21 +187,61 @@ class AdaByronAddrDecoder(IAddrDecoder):
     """
 
     @staticmethod
+    def DecryptHdPath(hd_path_enc_bytes: bytes,
+                      hd_path_key_bytes: bytes) -> Bip32Path:
+        """
+        Decrypt an HD path using the specified key.
+
+        Args:
+            hd_path_enc_bytes (bytes): Encrypted HD path bytes
+            hd_path_key_bytes (bytes): HD path key bytes
+
+        Returns:
+            Bip32Path object: Bip32Path object
+
+        Raises:
+            ValueError: If the decryption fails
+        """
+        return _AdaByronAddrHdPath.Decrypt(hd_path_enc_bytes, hd_path_key_bytes)
+
+    @staticmethod
+    def SplitDecodedBytes(dec_bytes: bytes) -> Tuple[bytes, bytes]:
+        """
+        Split the decoded bytes into address root hash and encrypted HD path.
+
+        Args:
+            dec_bytes (bytes): Decoded bytes
+
+        Returns:
+            tuple[bytes, bytes]: Address root hash (index 0), encrypted HD path (index 1)
+        """
+        return (dec_bytes[:AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN],
+                dec_bytes[AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN:])
+
+    @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
         """
-        Decode a Cardano Byron address to bytes.
+        Decode a Cardano Byron address (either legacy or Icarus) to bytes.
+        The result can be split with SplitDecodedBytes if needed, to get the address root hash and
+        encrypted HD path separately.
 
         Args:
             addr (str): Address string
-            **kwargs  : Not used
+
+        Other Parameters:
+            addr_type (AdaByronAddrTypes): Expected address type (default: public key)
 
         Returns:
-            bytes: Public key/chain code hash bytes (first 28-byte) and encrypted HD path (if present)
+            bytes: Address root hash bytes (first 28-byte) and encrypted HD path (following bytes, if present)
 
         Raises:
             ValueError: If the address encoding is not valid
+            TypeError: If the address type is not a AdaByronAddrTypes enum
         """
+        addr_type = kwargs.get("addr_type", AdaByronAddrTypes.PUBLIC_KEY)
+        if not isinstance(addr_type, AdaByronAddrTypes):
+            raise TypeError("Address type is not an enumerative of AdaByronAddrTypes")
 
         try:
             # Decode from base58
@@ -170,21 +273,21 @@ class AdaByronAddrDecoder(IAddrDecoder):
             # Get encrypted HD path
             hd_path_enc_bytes = cbor2.loads(addr_attrs[1]) if 1 in addr_attrs else b""
             # Check address type
-            if addr_payload[2] not in (AdaByronAddrTypes.PUBLIC_KEY, AdaByronAddrTypes.REDEMPTION):
-                raise ValueError(f"Invalid address type ({addr_payload[2]})")
+            if addr_payload[2] != addr_type:
+                raise ValueError(f"Invalid address type (expected: {addr_type}, got: {addr_payload[2]})")
             # Check key hash length
             AddrDecUtils.ValidateLength(addr_payload[0],
-                                        AdaByronAddrConst.HASH_BYTE_LEN)
+                                        AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN)
 
             return addr_payload[0] + hd_path_enc_bytes
         except cbor2.CBORDecodeValueError as ex:
             raise ValueError("Invalid CBOR encoding") from ex
 
 
-class AdaByronAddrEncoder(IAddrEncoder):
+class AdaByronIcarusAddrEncoder(IAddrEncoder):
     """
-    Cardano Byron address encoder class.
-    It allows the Cardano Byron address encoding.
+    Cardano Byron Icarus address encoder class.
+    It allows the Cardano Byron Icarus address encoding (i.e. without the encrypted derivation path, format Ae2...).
     """
 
     @staticmethod
@@ -198,23 +301,18 @@ class AdaByronAddrEncoder(IAddrEncoder):
 
         Other Parameters:
             chain_code (bytes or Bip32ChainCode object): Chain code bytes or object
-            hd_path_enc (bytes)                        : Encrypted HD path bytes (default: empty)
 
         Returns:
             str: Address string
 
         Raises:
-            ValueError: If the public key is not valid
+            Bip32PathError: If the path indexes are not valid
+            ValueError: If the public key, the chain code or the HD path key is not valid
             TypeError: If the public key is not ed25519
         """
-        addr_attrs = {}
 
-        # Get encrypted HD path
-        if "hd_path_enc" in kwargs:
-            addr_attrs[1] = cbor2.dumps(kwargs["hd_path_enc"])
-        # Get chain code
+        # Get chain code (creating a Bip32ChainCode object checks for its validity)
         chain_code = kwargs["chain_code"]
-        # Creating a Bip32ChainCode object checks for bytes validity
         chain_code_bytes = (Bip32ChainCode(chain_code).ToBytes()
                             if isinstance(chain_code, bytes)
                             else chain_code.ToBytes())
@@ -222,16 +320,14 @@ class AdaByronAddrEncoder(IAddrEncoder):
         return _AdaByronAddrUtils.EncodeKey(
             AddrKeyValidator.ValidateAndGetEd25519Key(pub_key).RawCompressed().ToBytes(),
             chain_code_bytes,
-            AdaByronAddrTypes.PUBLIC_KEY,
-            addr_attrs
+            AdaByronAddrTypes.PUBLIC_KEY
         )
 
 
-class AdaByronRedemptionAddrEncoder(IAddrEncoder):
+class AdaByronLegacyAddrEncoder(IAddrEncoder):
     """
-    Cardano Byron redemption address encoder class.
-    It allows the Cardano Byron redemption address encoding.
-    Redemption addresses are computed only from the public key, chain code is not needed.
+    Cardano Byron legacy address encoder class.
+    It allows the Cardano Byron legacy address encoding (i.e. containing the encrypted derivation path, format Ddz...).
     """
 
     @staticmethod
@@ -244,29 +340,43 @@ class AdaByronRedemptionAddrEncoder(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            hd_path_enc (bytes): Encrypted HD path bytes (default: empty)
+            chain_code (bytes or Bip32ChainCode object): Chain code bytes or object
+            hd_path (str or Bip32Path object)          : HD path
+            hd_path_key (bytes)                        : HD path key bytes, shall be 32-byte long
 
         Returns:
             str: Address string
 
         Raises:
-            ValueError: If the public key is not valid
+            Bip32PathError: If the path indexes are not valid
+            ValueError: If the public key, the chain code or the HD path key is not valid
             TypeError: If the public key is not ed25519
         """
-        addr_attrs = {}
 
-        # Get encrypted HD path
-        if "hd_path_enc" in kwargs:
-            addr_attrs[1] = cbor2.dumps(kwargs["hd_path_enc"])
+        # Get HD path
+        hd_path = kwargs["hd_path"]
+        if isinstance(hd_path, str):
+            hd_path = Bip32PathParser.Parse(hd_path)
+
+        # Get HD path key
+        hd_path_key_bytes = kwargs["hd_path_key"]
+        if hd_path_key_bytes is not None and len(hd_path_key_bytes) != AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN:
+            raise ValueError("HD path key shall be 32-byte long")
+
+        # Get chain code (creating a Bip32ChainCode object checks for its validity)
+        chain_code = kwargs["chain_code"]
+        chain_code_bytes = (Bip32ChainCode(chain_code).ToBytes()
+                            if isinstance(chain_code, bytes)
+                            else chain_code.ToBytes())
 
         return _AdaByronAddrUtils.EncodeKey(
             AddrKeyValidator.ValidateAndGetEd25519Key(pub_key).RawCompressed().ToBytes(),
-            b"",
-            AdaByronAddrTypes.REDEMPTION,
-            addr_attrs
+            chain_code_bytes,
+            AdaByronAddrTypes.PUBLIC_KEY,
+            _AdaByronAddrHdPath.Encrypt(hd_path, hd_path_key_bytes) if hd_path_key_bytes is not None else None
         )
 
 
 # For compatibility with old versions, Encoder class shall be used instead
-AdaByronAddr = AdaByronAddrEncoder
-AdaByronRedemptionAddr = AdaByronRedemptionAddrEncoder
+AdaByronIcarusAddr = AdaByronIcarusAddrEncoder
+AdaByronLegacyAddr = AdaByronLegacyAddrEncoder

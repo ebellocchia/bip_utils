@@ -22,14 +22,17 @@
 import binascii
 import unittest
 from bip_utils import (
-    AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronRedemptionAddrEncoder, AdaByronAddr, AdaByronRedemptionAddr
+    AdaByronAddrTypes,
+    AdaByronAddrDecoder, AdaByronLegacyAddrEncoder, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr, AdaByronIcarusAddr,
+    Bip32ChainCode, Bip32PathError, Bip32PathParser
 )
+from bip_utils.addr.ada_byron_addr import AdaByronAddrConst
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
 
-# Some random public keys for addresses
-TEST_VECT_ADDRESS = [
+# Some random public keys for Icarus addresses
+TEST_VECT_ICARUS_ADDRESS = [
     {
         "pub_key": b"0002b3add3c4ce78e2b4b671a2548182ecdbf92f7e82dfa0aba549b76cec1148f4",
         "address_dec": b"f8a3fb87d6853d699c4a116251c1053e461baf3ed926ad77b10aa53b",
@@ -51,47 +54,44 @@ TEST_VECT_ADDRESS = [
         "address_dec": b"2fd2ecc2c52a0b8f0b7c70f41ea989e52aab7654f1ce68d0ba84d3df",
         "address_params": {
             "chain_code": binascii.unhexlify(b"7f69a41a170714ca1d0ba84e33421301c7ad80e25f0c05d1d5910d422b063648"),
+            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
         },
         "address": "Ae2tdPwUPEZ1aXoiiRE6CHf7d4zFL2PwtC5WV5E7Cp7Dfjr9J9cL3pwywRU",
     },
-    {
-        "pub_key": b"001e5525d1f12eb9b06343626610b54373d3e3b1c4e699d5b22740bacd3dc2088f",
-        "address_dec": b"c342eab10589b628a75e5fd10366e5f2f45919e10180df4333a1d81b",
-        "address_params": {
-            "chain_code": binascii.unhexlify(b"f069f33174ba3117f4c6b0ee4b9fc568b0d6b17356a661f7210eca155f9a44ba"),
-        },
-        "address": "Ae2tdPwUPEZGHncTxWxeGm1JbDsgfCicRupttizSDUAMrD81h1XNDqbXzE7",
-    },
-    {
-        "pub_key": b"008c0d07ef1bd42e519d0f19847b44016cbe8b08982d70a916aadbce15934c0bdd",
-        "address_dec": b"62acec338d6ef0fcd34a99bdd458c159043fea5a9d037f64f3dc84454d557a466d0b4b2a6c59e2c654dc3eb4658bba2808f3a42224239f53",
-        "address_params": {
-            "chain_code": binascii.unhexlify(b"b3feee4ae77e6198ba213ab6bd9ceea9fa7f557698c694a4c11ef270e1fa8360"),
-            "hd_path_enc": binascii.unhexlify(b"4d557a466d0b4b2a6c59e2c654dc3eb4658bba2808f3a42224239f53"),
-        },
-        "address": "DdzFFzCqrhsrgymQtVRcX7iSXWHZoizEU9ji31ZtmzZdommSTUBii56egW4VT9d1Hz4DMU5gBp4AZX2jFpGmr3X3VMQ3WdaDTT7oGDok",
-    },
 ]
 
-# Some random public keys for redemption addresses
-TEST_VECT_REDEMPTION_ADDRESS = [
+# Some random public keys for legacy addresses
+TEST_VECT_LEGACY_ADDRESS = [
     {
-       "pub_key": b"00c87eccc612c395b23f413adc06dd9547072af0d413fd11a0c17e6101d8c0467c",
-       "address_dec": b"bdec6d334164c121afbd1beb255ef1f5f9851e1892ed87c9fce4e751",
-       "address_params": {},
-       "address": "Ae2tdPwUPEZFktumz3ThuTGVfTvackqmVFtZBFNSJLNRcsHCd3WdW2x3NJT",
+        "pub_key": b"00f286b12bacea7be1a19d581bd573bdc82e8410b98c3a70485b6d6eeb5e88028e",
+        "address_dec": b"4617109fadd39396b981833f3694fc8e60658cbcc2a40d831e43c00b140539c64edded60a7f2d46967d90757466da40a8148314d69bf00d2",
+        "address_params": {
+            "chain_code": binascii.unhexlify(b"00857e69a9598ab4db1346586f8f2c9440f61ccaca62ed36182b9f26fef4a9dd"),
+            "hd_path": "m/0'/0'",
+            "hd_path_key": binascii.unhexlify(b"c582f8e7cf7aeb6e5f3e96e939a92ae1642360a51d45150f34e70132a152203f"),
+        },
+        "address": "DdzFFzCqrhsnx5973UzwoEcQ7cN3THD9ZQZvbVd5srhrPoECSt1WUTrQSR8YicSnH3disaSxQPcNMUEC7XNuFxRd8jCAKVXLne3r29xs",
     },
     {
-        "pub_key": b"00e6f04522f875c1563682ca876ddb04c2e2e3ae718e3ff9f11c03dd9f9dccf698",
-        "address_dec": b"c2468e2fbbc0bcd61bc7a265003b08785831f289006a0d9594e34180",
-        "address_params": {},
-        "address": "Ae2tdPwUPEZGC5ivFV8dWPRCJes9sdCsW54brYEi7U8F6AEXXySyBxgJpza",
+        "pub_key": b"00e3a0ead2f426454f27333daa12e536d1e67ffa3fffd407ab820ab4d77206416e",
+        "address_dec": b"cd55975d48fa6a028739c85c24ebde614881f34efc073ee44b6ba13948d101da467d6c6931946f28f23594344eb09ca5b3c7961b452b11c3",
+        "address_params": {
+            "chain_code": binascii.unhexlify(b"a033015fa18212c2d825137b7565c6992cd1ba6f97f62b369849ca0ee950170e"),
+            "hd_path": Bip32PathParser().Parse("m/0'/1'"),
+            "hd_path_key": binascii.unhexlify(b"c7e8888175933d3a3a7ef3d1170024d33b4aaf256d7a54483895af99e053d1fc"),
+        },
+        "address": "DdzFFzCqrht6eK5MiHwersYzjc1eCeE6xNmc2goLk3d3DnHjSNUgAh8gQdNLD3263mN21Dv2DYKrEy2v5GXGwLDGNNrfdGvjxDkEKG5y",
     },
     {
-        "pub_key": b"009a5a567a265859e317c0bfa71cc5b27b1b37dbdfae35c8fd58029bbb812d0358",
-        "address_dec": b"cde13887061ed3c4b07d506ed3ff3917550e0dad0d7907901b731f7c",
-        "address_params": {},
-        "address": "Ae2tdPwUPEZHMEmjmzQfBTwKnQk7CrwwqQidnBLNnTsiRJyPHfaL2aQDV15",
+        "pub_key": b"00f8afc628fab5cd1670a3c06199f8f5f5a23ccfe70668a77a57a289bc86c1e981",
+        "address_dec": b"12ec070b007c8467e54cffa490d7094be089f970c3e067bcc7cd8ef1bd1e942a881aa4dfb113a02c63f72b1bda54de2c822751d492b068b5",
+        "address_params": {
+            "chain_code": binascii.unhexlify(b"f0c7e9ff5fb34273895ff3e2bd3c33e7a63ee9c1cba0a476e92bb9dc43d9feda"),
+            "hd_path": Bip32PathParser().Parse("m/0'/0'"),
+            "hd_path_key": binascii.unhexlify(b"330a021bdd25ee1d09d7ebd8fc326b8e9f716920df4483bba16e7d71002d83eb"),
+            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
+        },
+        "address": "DdzFFzCqrhsgFohKpmf6o9hzVLL48GzVnMwVk5StRj6cxKXHqkhbgxMsXwZNr7aPD5pEyDHbrDzwGPpUBuYdikjLtQtHtDFmJqXxBuXH",
     },
 ]
 
@@ -120,13 +120,13 @@ TEST_VECT_DEC_INVALID = [
 class AdaByronAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, AdaByronAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ADDRESS)
-        AddrBaseTestHelper.test_encode_key(self, AdaByronRedemptionAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_REDEMPTION_ADDRESS)
+        AddrBaseTestHelper.test_encode_key(self, AdaByronIcarusAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ICARUS_ADDRESS)
+        AddrBaseTestHelper.test_encode_key(self, AdaByronLegacyAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_LEGACY_ADDRESS)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_ADDRESS)
-        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_REDEMPTION_ADDRESS)
+        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_ICARUS_ADDRESS)
+        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_LEGACY_ADDRESS)
 
     # Test invalid decoding
     def test_invalid_dec(self):
@@ -134,7 +134,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronAddrDecoder,
             {
-                "chain_code": binascii.unhexlify(b"f069f33174ba3117f4c6b0ee4b9fc568b0d6b17356a661f7210eca155f9a44ba"),
+                "chain_code": b"\x00" * Bip32ChainCode.Length(),
             },
             TEST_VECT_DEC_INVALID
         )
@@ -143,34 +143,81 @@ class AdaByronAddrTests(unittest.TestCase):
     def test_invalid_keys(self):
         AddrBaseTestHelper.test_invalid_keys(
             self,
-            AdaByronAddrEncoder,
+            AdaByronIcarusAddrEncoder,
             {
-                "chain_code": binascii.unhexlify(b"f069f33174ba3117f4c6b0ee4b9fc568b0d6b17356a661f7210eca155f9a44ba"),
+                "chain_code": b"\x00" * Bip32ChainCode.Length(),
             },
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
         AddrBaseTestHelper.test_invalid_keys(
             self,
-            AdaByronRedemptionAddrEncoder,
-            {},
+            AdaByronLegacyAddrEncoder,
+            {
+                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "hd_path": "m/0'/0'",
+                "hd_path_key": b"\x00" * AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN,
+            },
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_enc(
+        AddrBaseTestHelper.test_invalid_params_dec(
             self,
-            AdaByronAddrEncoder,
+            AdaByronAddrDecoder,
             TEST_ED25519_PUB_KEY,
             {
-                "chain_code": b"",
+                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "addr_type": 0,
+            },
+            TypeError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            AdaByronIcarusAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "chain_code": b"\x00" * (Bip32ChainCode.Length() - 1),
             },
             ValueError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            AdaByronLegacyAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "chain_code": b"\x00" * (Bip32ChainCode.Length() - 1),
+                "hd_path": "m/0'/0'",
+                "hd_path_key": b"\x00" * AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN,
+            },
+            ValueError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            AdaByronLegacyAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "hd_path": "m/0'/0'",
+                "hd_path_key": b"\x00" * (AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN - 1),
+            },
+            ValueError
+        )
+        AddrBaseTestHelper.test_invalid_params_enc(
+            self,
+            AdaByronLegacyAddrEncoder,
+            TEST_ED25519_PUB_KEY,
+            {
+                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "hd_path": "m/a/0'",
+                "hd_path_key": b"\x00" * (AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN - 1),
+            },
+            Bip32PathError
         )
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertTrue(AdaByronAddr is AdaByronAddrEncoder)
-        self.assertTrue(AdaByronRedemptionAddr is AdaByronRedemptionAddrEncoder)
+        self.assertTrue(AdaByronLegacyAddr is AdaByronLegacyAddrEncoder)
+        self.assertTrue(AdaByronIcarusAddr is AdaByronIcarusAddrEncoder)

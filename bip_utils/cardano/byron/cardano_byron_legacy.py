@@ -24,10 +24,9 @@
 # Imports
 from __future__ import annotations
 from functools import lru_cache
-from typing import List, Union
-import cbor2
-from bip_utils.addr import AdaByronAddrEncoder
-from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32PublicKey, Bip32PrivateKey
+from typing import Union
+from bip_utils.addr import AdaByronAddrDecoder, AdaByronLegacyAddrEncoder
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32Path, Bip32PublicKey, Bip32PrivateKey
 from bip_utils.cardano.bip32 import CardanoByronLegacyBip32
 from bip_utils.utils.misc import CryptoUtils
 
@@ -35,16 +34,12 @@ from bip_utils.utils.misc import CryptoUtils
 class CardanoByronLegacyConst:
     """Class container for Cardano Byron legacy constants."""
 
-    # ChaCha20-Poly1305 nonce
-    CHACHA20_POLY1305_NONCE: bytes = b"serokellfore"
-    # ChaCha20-Poly1305 associated data
-    CHACHA20_POLY1305_ASSOC_DATA: bytes = b""
-    # PBKDF2 salt
-    PBKDF2_SALT: str = "address-hashing"
-    # PBKDF2 rounds
-    PBKDF2_ROUNDS: int = 500
-    # PBKDF2 output byte length
-    PBKDF2_OUT_BYTE_LEN: int = 32
+    # PBKDF2 salt used for deriving the HD path key
+    HD_PATH_KEY_PBKDF2_SALT: str = "address-hashing"
+    # PBKDF2 rounds used for deriving the HD path key
+    HD_PATH_KEY_PBKDF2_ROUNDS: int = 500
+    # PBKDF2 output byte length used for deriving the HD path key
+    HD_PATH_KEY_PBKDF2_OUT_BYTE_LEN: int = 32
 
 
 class CardanoByronLegacy:
@@ -107,10 +102,31 @@ class CardanoByronLegacy:
         """
         return CryptoUtils.Pbkdf2HmacSha512(
             self.m_bip32_obj.PublicKey().RawCompressed().ToBytes()[1:] + self.m_bip32_obj.ChainCode().ToBytes(),
-            CardanoByronLegacyConst.PBKDF2_SALT,
-            CardanoByronLegacyConst.PBKDF2_ROUNDS,
-            CardanoByronLegacyConst.PBKDF2_OUT_BYTE_LEN
+            CardanoByronLegacyConst.HD_PATH_KEY_PBKDF2_SALT,
+            CardanoByronLegacyConst.HD_PATH_KEY_PBKDF2_ROUNDS,
+            CardanoByronLegacyConst.HD_PATH_KEY_PBKDF2_OUT_BYTE_LEN
         )
+
+    def HdPathFromAddress(self,
+                          address: str) -> Bip32Path:
+        """
+        Get the HD path from an address by decrypting it.
+        The address shall be derived from the current object master key (i.e. self.m_bip32_obj) in order to
+        successfully decrypt the path.
+
+        Args:
+            address (str): Address string
+
+        Returns:
+            Bip32Path object: Bip32Path object
+
+        Raises:
+            ValueError: If the address encoding is not valid or the path cannot be decrypted
+        """
+        addr_dec_bytes = AdaByronAddrDecoder.DecodeAddr(address)
+        hd_path_dec_bytes = AdaByronAddrDecoder.DecryptHdPath(AdaByronAddrDecoder.SplitDecodedBytes(addr_dec_bytes)[1],
+                                                              self.HdPathKey())
+        return hd_path_dec_bytes
 
     def MasterPrivateKey(self) -> Bip32PrivateKey:
         """
@@ -194,15 +210,11 @@ class CardanoByronLegacy:
             Bip32PathError: If the path indexes are not valid
         """
         pub_key = self.GetPublicKey(first_idx, second_idx)
-        hd_path_enc_bytes = self.__EncryptHdPath(
-            [int(idx.Harden()) if isinstance(idx, Bip32KeyIndex) else Bip32KeyIndex.HardenIndex(idx)
-             for idx in (first_idx, second_idx)]
-        )
-
-        return AdaByronAddrEncoder.EncodeKey(
+        return AdaByronLegacyAddrEncoder.EncodeKey(
             pub_key.KeyObject(),
             chain_code=pub_key.ChainCode(),
-            hd_path_enc=hd_path_enc_bytes
+            hd_path=self.__GetDerivationPath(first_idx, second_idx),
+            hd_path_key=self.HdPathKey()
         )
 
     @lru_cache()
@@ -224,36 +236,21 @@ class CardanoByronLegacy:
             Bip32KeyError: If the derivation results in an invalid key
             Bip32PathError: If the path indexes are not valid
         """
-        return self.m_bip32_obj.DerivePath(f"m/{first_idx}'/{second_idx}'")
-
-    def __EncryptHdPath(self,
-                        path_indexes: List[int]) -> bytes:
-        """
-        Encrypt the HD path.
-
-        Args:
-            path_indexes (list[int]): Path indexes
-
-        Returns:
-            bytes: Computed key bytes
-        """
-        cipher_text_bytes, tag_bytes = CryptoUtils.ChaCha20Poly1305Encrypt(
-            key=self.HdPathKey(),
-            nonce=CardanoByronLegacyConst.CHACHA20_POLY1305_NONCE,
-            assoc_data=CardanoByronLegacyConst.CHACHA20_POLY1305_ASSOC_DATA,
-            plain_text=self.__CborEncodeVarList(path_indexes)
+        return self.m_bip32_obj.DerivePath(
+            self.__GetDerivationPath(first_idx, second_idx)
         )
-        return cipher_text_bytes + tag_bytes
 
     @staticmethod
-    def __CborEncodeVarList(var_list: List[int]) -> bytes:
+    def __GetDerivationPath(first_idx: Union[int, Bip32KeyIndex],
+                            second_idx: Union[int, Bip32KeyIndex]) -> str:
         """
-        CBOR-encode the specified list of variables.
+        Get the derivation path from the specified indexes.
 
         Args:
-            var_list (list[int]): List of variables
+            first_idx (int or Bip32KeyIndex object) : First index
+            second_idx (int or Bip32KeyIndex object): Second index
 
         Returns:
-            bytes: CBOR-encoded list of variables
+            str: Derivation path
         """
-        return b"\x9f" + b"".join([cbor2.dumps(p) for p in var_list]) + b"\xFF"
+        return f"m/{first_idx}'/{second_idx}'"

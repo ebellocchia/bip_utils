@@ -22,7 +22,7 @@
 
 # Imports
 from bip_utils.addr import (
-    AdaByronAddrEncoder, AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder,
+    AdaByronIcarusAddrEncoder, AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder,
     BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder,
     NearAddrEncoder, NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
     SubstrateEd25519AddrEncoder, TrxAddrEncoder, XlmAddrTypes, XlmAddrEncoder, XmrAddrEncoder,
@@ -325,9 +325,9 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=CardanoIcarusBip32,
-        addr_cls=AdaByronAddrEncoder,
+        addr_cls=AdaByronIcarusAddrEncoder,
         addr_params={
-            "chain_code": BipCoinFctCallsConf("Data", "ChainCode"),
+            "chain_code": BipCoinFctCallsConf("ChainCode"),
         },
     )
     # Configuration for Cardano Byron (Ledger)
@@ -339,9 +339,9 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Ed25519Kholaw,
-        addr_cls=AdaByronAddrEncoder,
+        addr_cls=AdaByronIcarusAddrEncoder,
         addr_params={
-            "chain_code": BipCoinFctCallsConf("Data", "ChainCode"),
+            "chain_code": BipCoinFctCallsConf("ChainCode"),
         },
     )
 

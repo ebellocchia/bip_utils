@@ -26,7 +26,7 @@ from bip_utils import Bip32Ed25519Slip, Bip32PublicKey, Bip32PrivateKey, Cardano
 # Test vector (verified with AdaLite)
 TEST_VECT = [
     {
-        "seed": b"58202f319d790e51c431e020dc21d09bfe7b40afa22a1b83e1eaa57cd50861bdda49",
+        "seed": b"2f319d790e51c431e020dc21d09bfe7b40afa22a1b83e1eaa57cd50861bdda49",
         "hd_path_key": "b688fac5ff84e46984112e6f5e91f22c2150ece7de48c3e1f0cff25ea8d192e9",
         "master_chain_code": "93346f3f36037504c3d6072abefcddb5782a6f1dfc6aaf506c68e5182600d7b7",
         "master_pub_key": "0072629d389eabb6a4a6e35c9b0cab50b546b4a49a20d1d831956bd06098ba3370",
@@ -50,7 +50,7 @@ TEST_VECT = [
         ],
     },
     {
-        "seed": b"5820d43083cf2ae7e9c73246ca1bd85afe559014d2290163940919faf2c7a83cda49",
+        "seed": b"d43083cf2ae7e9c73246ca1bd85afe559014d2290163940919faf2c7a83cda49",
         "hd_path_key": "de7e4259e27f032efab57679eeff51f21b4880e5e6c7b97dd4bd2bfcd4d4cec1",
         "master_chain_code": "808f49bea5e22f3c1a251fd54ed9600dccf00d40cac2f294b12a04b75135e21b",
         "master_pub_key": "006f014c85ab32883492e98b764b93bef7b9f8b1e0b6424d3d5803429a9d80b347",
@@ -74,7 +74,7 @@ TEST_VECT = [
         ],
     },
     {
-        "seed": b"58206e44c8da7e25f37513b01aba095ec72198e38b88dbb9219b97c856e062f6622c",
+        "seed": b"6e44c8da7e25f37513b01aba095ec72198e38b88dbb9219b97c856e062f6622c",
         "hd_path_key": "01790c39973b38a28eba4b7e73283355288bd9f724727ffefb8560822c3f6869",
         "master_chain_code": "b1f007dc2169e56cc871701b9eff00d2b718ea05419b1fc437b94b97ee8b0913",
         "master_pub_key": "000fb7d7210457aa248eaaed105b228b07150eec6f7c0ddb89e0f57f5e5040a854",
@@ -100,7 +100,7 @@ TEST_VECT = [
 ]
 
 # Test seed
-TEST_SEED = b"58206e44c8da7e25f37513b01aba095ec72198e38b88dbb9219b97c856e062f6622c"
+TEST_SEED = b"6e44c8da7e25f37513b01aba095ec72198e38b88dbb9219b97c856e062f6622c"
 
 
 #
@@ -138,3 +138,4 @@ class CardanoByronLegacyTests(unittest.TestCase):
             self.assertEqual(test_addr["address"], daedalus.GetAddress(0, i))
             self.assertEqual(test_addr["chain_code"], daedalus.GetPrivateKey(0, i).Data().ChainCode().ToHex())
             self.assertEqual(test_addr["priv_key"], daedalus.GetPrivateKey(0, i).Raw().ToHex())
+            self.assertEqual(f"m/0'/{i}'", daedalus.HdPathFromAddress(daedalus.GetAddress(0, i)).ToStr())

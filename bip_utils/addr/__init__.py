@@ -1,7 +1,7 @@
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.ada_byron_addr import (
-    AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronRedemptionAddrEncoder,
-    AdaByronAddr, AdaByronRedemptionAddr
+    AdaByronAddrTypes,
+    AdaByronAddrDecoder, AdaByronLegacyAddrEncoder, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr, AdaByronIcarusAddr
 )
 from bip_utils.addr.ada_shelley_addr import (
     AdaShelleyAddrNetworkTags,
