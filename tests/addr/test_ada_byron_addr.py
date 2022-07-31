@@ -21,13 +21,15 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import AdaByronAddrTypes, AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronAddr
+from bip_utils import (
+    AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronRedemptionAddrEncoder, AdaByronAddr, AdaByronRedemptionAddr
+)
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
 
-# Some random public keys
-TEST_VECT = [
+# Some random public keys for addresses
+TEST_VECT_ADDRESS = [
     {
         "pub_key": b"0002b3add3c4ce78e2b4b671a2548182ecdbf92f7e82dfa0aba549b76cec1148f4",
         "address_dec": b"f8a3fb87d6853d699c4a116251c1053e461baf3ed926ad77b10aa53b",
@@ -41,7 +43,6 @@ TEST_VECT = [
         "address_dec": b"f27e98d1bc867bff78310d9e8cd4dedc438e269a93470bf5fde53e20",
         "address_params": {
             "chain_code": binascii.unhexlify(b"b378616c5e7fa932c7563a390b5404419691ba53b0e37917650870679e061479"),
-            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
         },
         "address": "Ae2tdPwUPEZM18sAbkECJG9GxaRd2PMbaoxUjs5W7iUckiCGUSTMggRzLwt",
     },
@@ -50,7 +51,6 @@ TEST_VECT = [
         "address_dec": b"2fd2ecc2c52a0b8f0b7c70f41ea989e52aab7654f1ce68d0ba84d3df",
         "address_params": {
             "chain_code": binascii.unhexlify(b"7f69a41a170714ca1d0ba84e33421301c7ad80e25f0c05d1d5910d422b063648"),
-            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
         },
         "address": "Ae2tdPwUPEZ1aXoiiRE6CHf7d4zFL2PwtC5WV5E7Cp7Dfjr9J9cL3pwywRU",
     },
@@ -59,7 +59,6 @@ TEST_VECT = [
         "address_dec": b"c342eab10589b628a75e5fd10366e5f2f45919e10180df4333a1d81b",
         "address_params": {
             "chain_code": binascii.unhexlify(b"f069f33174ba3117f4c6b0ee4b9fc568b0d6b17356a661f7210eca155f9a44ba"),
-            "addr_type": AdaByronAddrTypes.PUBLIC_KEY,
         },
         "address": "Ae2tdPwUPEZGHncTxWxeGm1JbDsgfCicRupttizSDUAMrD81h1XNDqbXzE7",
     },
@@ -72,13 +71,27 @@ TEST_VECT = [
         },
         "address": "DdzFFzCqrhsrgymQtVRcX7iSXWHZoizEU9ji31ZtmzZdommSTUBii56egW4VT9d1Hz4DMU5gBp4AZX2jFpGmr3X3VMQ3WdaDTT7oGDok",
     },
+]
+
+# Some random public keys for redemption addresses
+TEST_VECT_REDEMPTION_ADDRESS = [
     {
-        "pub_key": b"00c87eccc612c395b23f413adc06dd9547072af0d413fd11a0c17e6101d8c0467c",
-        "address_dec": b"bdec6d334164c121afbd1beb255ef1f5f9851e1892ed87c9fce4e751",
-        "address_params": {
-            "addr_type": AdaByronAddrTypes.REDEMPTION,
-        },
-        "address": "Ae2tdPwUPEZFktumz3ThuTGVfTvackqmVFtZBFNSJLNRcsHCd3WdW2x3NJT",
+       "pub_key": b"00c87eccc612c395b23f413adc06dd9547072af0d413fd11a0c17e6101d8c0467c",
+       "address_dec": b"bdec6d334164c121afbd1beb255ef1f5f9851e1892ed87c9fce4e751",
+       "address_params": {},
+       "address": "Ae2tdPwUPEZFktumz3ThuTGVfTvackqmVFtZBFNSJLNRcsHCd3WdW2x3NJT",
+    },
+    {
+        "pub_key": b"00e6f04522f875c1563682ca876ddb04c2e2e3ae718e3ff9f11c03dd9f9dccf698",
+        "address_dec": b"c2468e2fbbc0bcd61bc7a265003b08785831f289006a0d9594e34180",
+        "address_params": {},
+        "address": "Ae2tdPwUPEZGC5ivFV8dWPRCJes9sdCsW54brYEi7U8F6AEXXySyBxgJpza",
+    },
+    {
+        "pub_key": b"009a5a567a265859e317c0bfa71cc5b27b1b37dbdfae35c8fd58029bbb812d0358",
+        "address_dec": b"cde13887061ed3c4b07d506ed3ff3917550e0dad0d7907901b731f7c",
+        "address_params": {},
+        "address": "Ae2tdPwUPEZHMEmjmzQfBTwKnQk7CrwwqQidnBLNnTsiRJyPHfaL2aQDV15",
     },
 ]
 
@@ -107,11 +120,13 @@ TEST_VECT_DEC_INVALID = [
 class AdaByronAddrTests(unittest.TestCase):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, AdaByronAddrEncoder, Ed25519KholawPublicKey, TEST_VECT)
+        AddrBaseTestHelper.test_encode_key(self, AdaByronAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ADDRESS)
+        AddrBaseTestHelper.test_encode_key(self, AdaByronRedemptionAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_REDEMPTION_ADDRESS)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT)
+        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_ADDRESS)
+        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_REDEMPTION_ADDRESS)
 
     # Test invalid decoding
     def test_invalid_dec(self):
@@ -135,6 +150,13 @@ class AdaByronAddrTests(unittest.TestCase):
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
+        AddrBaseTestHelper.test_invalid_keys(
+            self,
+            AdaByronRedemptionAddrEncoder,
+            {},
+            TEST_ED25519_ADDR_INVALID_KEY_TYPES,
+            TEST_VECT_ED25519_PUB_KEY_INVALID
+        )
 
     # Test invalid parameters
     def test_invalid_params(self):
@@ -147,17 +169,8 @@ class AdaByronAddrTests(unittest.TestCase):
             },
             ValueError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
-            AdaByronAddrEncoder,
-            TEST_ED25519_PUB_KEY,
-            {
-                "chain_code": binascii.unhexlify(b"f069f33174ba3117f4c6b0ee4b9fc568b0d6b17356a661f7210eca155f9a44ba"),
-                "addr_type": 0,
-            },
-            TypeError
-        )
 
     # Test old address class
     def test_old_addr_cls(self):
         self.assertTrue(AdaByronAddr is AdaByronAddrEncoder)
+        self.assertTrue(AdaByronRedemptionAddr is AdaByronRedemptionAddrEncoder)

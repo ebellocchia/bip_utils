@@ -60,11 +60,11 @@ class _AdaByronAddrUtils:
     """Cardano Byron address utility class."""
 
     @staticmethod
-    def KeyDoubleHash(key_bytes: bytes,
-                      addr_attrs: Dict,
-                      addr_type: AdaByronAddrTypes) -> bytes:
+    def AddressRootHash(key_bytes: bytes,
+                        addr_attrs: Dict,
+                        addr_type: AdaByronAddrTypes) -> bytes:
         """
-        Compute the key double hash.
+        Compute the address root hash.
 
         Args:
             key_bytes (bytes)            : Key bytes
@@ -81,6 +81,40 @@ class _AdaByronAddrUtils:
         ])
         return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(addr_root),
                                    AdaByronAddrConst.HASH_BYTE_LEN)
+
+    @staticmethod
+    def EncodeKey(pub_key_bytes: bytes,
+                  chain_code_bytes: bytes,
+                  addr_type: AdaByronAddrTypes,
+                  addr_attrs: Dict[int, Any]) -> str:
+        """
+        Encode a public key to Cardano Byron address.
+
+        Args:
+            pub_key_bytes (bytes)        : Public key bytes
+            chain_code_bytes (bytes)     : Chain code bytes
+            addr_type (AdaByronAddrTypes): Address type
+            addr_attrs (dict[int, any])  : Address attributes
+
+        Returns:
+            str: Address string
+        """
+        # Get key hash
+        key_hash_bytes = _AdaByronAddrUtils.AddressRootHash(
+            pub_key_bytes[1:] + chain_code_bytes, addr_attrs, addr_type)
+        # Get address payload
+        addr_payload = cbor2.dumps([
+            key_hash_bytes,     # Key double hash
+            addr_attrs,         # Address attributes
+            addr_type,          # Address type
+        ])
+        # Add CRC32 and encode to base58
+        return Base58Encoder.Encode(
+            cbor2.dumps([
+                cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, addr_payload),
+                CryptoUtils.Crc32(addr_payload),
+            ])
+        )
 
 
 class AdaByronAddrDecoder(IAddrDecoder):
@@ -164,56 +198,75 @@ class AdaByronAddrEncoder(IAddrEncoder):
 
         Other Parameters:
             chain_code (bytes or Bip32ChainCode object): Chain code bytes or object
-                                                         (ignored if address type is redemption)
-            addr_type (AdaByronAddrTypes)                : Address type (default: public key)
-            hd_path_enc (bytes)                          : Encrypted HD path bytes (default: empty)
+            hd_path_enc (bytes)                        : Encrypted HD path bytes (default: empty)
 
         Returns:
             str: Address string
 
         Raises:
             ValueError: If the public key is not valid
-            TypeError: If the public key is not ed25519 or the address type is not a AdaByronAddrTypes enum
+            TypeError: If the public key is not ed25519
         """
         addr_attrs = {}
 
-        # Get address type
-        addr_type = kwargs.get("addr_type", AdaByronAddrTypes.PUBLIC_KEY)
-        if not isinstance(addr_type, AdaByronAddrTypes):
-            raise TypeError("Address type is not an enumerative of AdaByronAddrTypes")
+        # Get encrypted HD path
+        if "hd_path_enc" in kwargs:
+            addr_attrs[1] = cbor2.dumps(kwargs["hd_path_enc"])
+        # Get chain code
+        chain_code = kwargs["chain_code"]
+        # Creating a Bip32ChainCode object checks for bytes validity
+        chain_code_bytes = (Bip32ChainCode(chain_code).ToBytes()
+                            if isinstance(chain_code, bytes)
+                            else chain_code.ToBytes())
+
+        return _AdaByronAddrUtils.EncodeKey(
+            AddrKeyValidator.ValidateAndGetEd25519Key(pub_key).RawCompressed().ToBytes(),
+            chain_code_bytes,
+            AdaByronAddrTypes.PUBLIC_KEY,
+            addr_attrs
+        )
+
+
+class AdaByronRedemptionAddrEncoder(IAddrEncoder):
+    """
+    Cardano Byron redemption address encoder class.
+    It allows the Cardano Byron redemption address encoding.
+    Redemption addresses are computed only from the public key, chain code is not needed.
+    """
+
+    @staticmethod
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                  **kwargs: Any) -> str:
+        """
+        Encode a public key to Cardano Byron address.
+
+        Args:
+            pub_key (bytes or IPublicKey): Public key bytes or object
+
+        Other Parameters:
+            hd_path_enc (bytes): Encrypted HD path bytes (default: empty)
+
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If the public key is not valid
+            TypeError: If the public key is not ed25519
+        """
+        addr_attrs = {}
+
         # Get encrypted HD path
         if "hd_path_enc" in kwargs:
             addr_attrs[1] = cbor2.dumps(kwargs["hd_path_enc"])
 
-        # Get chain code only if address type is public key
-        if addr_type == AdaByronAddrTypes.PUBLIC_KEY:
-            chain_code = kwargs["chain_code"]
-            # Creating a Bip32ChainCode object checks for bytes validity
-            chain_code_bytes = (Bip32ChainCode(chain_code).ToBytes()
-                                if isinstance(chain_code, bytes)
-                                else chain_code.ToBytes())
-        else:
-            chain_code_bytes = b""
-
-        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
-
-        # Get key hash
-        key_hash_bytes = _AdaByronAddrUtils.KeyDoubleHash(pub_key_obj.RawCompressed().ToBytes()[1:] + chain_code_bytes,
-                                                          addr_attrs, addr_type)
-        # Get address payload
-        addr_payload = cbor2.dumps([
-            key_hash_bytes,     # Key double hash
-            addr_attrs,         # Address attributes
-            addr_type,          # Address type
-        ])
-        # Add CRC32 and encode to base58
-        return Base58Encoder.Encode(
-            cbor2.dumps([
-                cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, addr_payload),
-                CryptoUtils.Crc32(addr_payload),
-            ])
+        return _AdaByronAddrUtils.EncodeKey(
+            AddrKeyValidator.ValidateAndGetEd25519Key(pub_key).RawCompressed().ToBytes(),
+            b"",
+            AdaByronAddrTypes.REDEMPTION,
+            addr_attrs
         )
 
 
 # For compatibility with old versions, Encoder class shall be used instead
 AdaByronAddr = AdaByronAddrEncoder
+AdaByronRedemptionAddr = AdaByronRedemptionAddrEncoder

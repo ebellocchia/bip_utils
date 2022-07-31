@@ -4,7 +4,7 @@ from bip_utils._version import __version__
 # Address computation
 from bip_utils.addr import (
     BchAddrConverter,
-    AdaByronAddrTypes, AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronAddr,
+    AdaByronAddrDecoder, AdaByronAddrEncoder, AdaByronRedemptionAddrEncoder, AdaByronAddr, AdaByronRedemptionAddr,
     AdaShelleyAddrNetworkTags,
     AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddr,
     AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyRewardAddr,
