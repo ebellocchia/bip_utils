@@ -111,7 +111,7 @@ class Bip32PublicKeySerializer:
                   key_data: Bip32KeyData,
                   key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> str:
         """
-        Serialize the a public key.
+        Serialize a public key.
 
         Args:
             pub_key (IPublicKey object)                       : IPublicKey object

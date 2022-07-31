@@ -36,7 +36,7 @@ from bip_utils.slip.slip32.slip32_key_net_ver import Slip32KeyNetVersions
 class Slip32KeySerConst:
     """Class container for SLIP32 key serialize constants."""
 
-    # Standard net versions
+    # Standard key net versions
     STD_KEY_NET_VERSIONS: Slip32KeyNetVersions = Slip32KeyNetVersions("xpub", "xprv")
 
 
@@ -135,7 +135,7 @@ class Slip32PublicKeySerializer:
                   chain_code: Union[bytes, Bip32ChainCode],
                   key_net_ver: Slip32KeyNetVersions = Slip32KeySerConst.STD_KEY_NET_VERSIONS) -> str:
         """
-        Serialize the a public key.
+        Serialize a public key.
 
         Args:
             pub_key (IPublicKey object)                        : IPublicKey object

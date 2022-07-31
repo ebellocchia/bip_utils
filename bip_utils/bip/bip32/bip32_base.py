@@ -90,7 +90,7 @@ class Bip32Base(ABC):
 
         Args:
             seed_bytes (bytes)                      : Seed bytes
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (default: BIP32 main net version)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -114,7 +114,7 @@ class Bip32Base(ABC):
         Args:
             seed_bytes (bytes)                      : Seed bytes
             path (str or Bip32Path object)          : Path
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (default: BIP32 main net version)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -137,7 +137,7 @@ class Bip32Base(ABC):
 
         Args:
             ex_key_str (str)                        : Extended key string
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (default: BIP32 main net version)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -181,7 +181,7 @@ class Bip32Base(ABC):
         Args:
             priv_key (bytes or IPrivateKey)         : Private key
             key_data (Bip32KeyData object, optional): Key data (default: all zeros)
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (default: BIP32 main net version)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -204,13 +204,13 @@ class Bip32Base(ABC):
                       key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> Bip32Base:
         """
         Create a Bip32 object from the specified public key and derivation data.
-        If only the the public key bytes are specified, the key will be considered a master key with
+        If only the public key bytes are specified, the key will be considered a master key with
         the chain code set to zero, since there is no way to recover the key derivation data.
 
         Args:
             pub_key (bytes or IPublicKey)           : Public key
             key_data (Bip32KeyData object, optional): Key data (default: all zeros)
-            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (BIP32 main net version by default)
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object (default: BIP32 main net version)
 
         Returns:
             Bip32Base object: Bip32Base object
@@ -235,17 +235,17 @@ class Bip32Base(ABC):
                  pub_key: Optional[Union[bytes, IPublicKey]],
                  key_data: Bip32KeyData,
                  curve_type: EllipticCurveTypes,
-                 key_net_ver: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS) -> None:
+                 key_net_ver: Bip32KeyNetVersions) -> None:
         """
         Construct class.
 
         Args:
-            priv_key (bytes or IPrivateKey)                   : Private key (None for a public-only object)
-            pub_key (bytes or IPublicKey)                     : Public key (only needed for a public-only object)
-                                                                If priv_key is not None, it'll be discarded
-            key_data (Bip32KeyData object)                    : Key data
-            curve_type (EllipticCurveTypes)                   : Elliptic curve type
-            key_net_ver (Bip32KeyNetVersions object, optional): Bip32KeyNetVersions object (Bip32 main net by default)
+            priv_key (bytes or IPrivateKey)         : Private key (None for a public-only object)
+            pub_key (bytes or IPublicKey)           : Public key (only needed for a public-only object)
+                                                      If priv_key is not None, it'll be discarded
+            key_data (Bip32KeyData object)          : Key data
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
+            key_net_ver (Bip32KeyNetVersions object): Bip32KeyNetVersions object
 
         Raises:
             Bip32KeyError: If the constructed key is not valid
