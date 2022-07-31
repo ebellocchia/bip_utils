@@ -21,20 +21,14 @@
 """Module with BIP32 utility functions."""
 
 # Imports
-from bip_utils.utils.misc import BitUtils
-
-
-class Bip32UtilsConst:
-    """Class container for BIP32 utility constants."""
-
-    # Hardened bit index
-    HARDENED_BIT_IDX: int = 31
+from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 
 
 class Bip32Utils:
     """
     BIP32 utility class.
-    It contains some helper method for Bip32 class.
+    It contains some helper methods for Bip32 indexes.
+    Kept for compatibility, methods were moved to Bip32KeyIndex.
     """
 
     @staticmethod
@@ -48,7 +42,7 @@ class Bip32Utils:
         Returns:
             int: Hardened index
         """
-        return BitUtils.SetBit(index, Bip32UtilsConst.HARDENED_BIT_IDX)
+        return Bip32KeyIndex.HardenIndex(index)
 
     @staticmethod
     def UnhardenIndex(index: int) -> int:
@@ -61,7 +55,7 @@ class Bip32Utils:
         Returns:
             int: Unhardened index
         """
-        return BitUtils.ResetBit(index, Bip32UtilsConst.HARDENED_BIT_IDX)
+        return Bip32KeyIndex.UnhardenIndex(index)
 
     @staticmethod
     def IsHardenedIndex(index: int) -> bool:
@@ -74,4 +68,4 @@ class Bip32Utils:
         Returns:
             bool: True if hardened, false otherwise
         """
-        return BitUtils.IsBitSet(index, Bip32UtilsConst.HARDENED_BIT_IDX)
+        return Bip32KeyIndex.IsHardenedIndex(index)

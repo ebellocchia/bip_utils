@@ -25,7 +25,7 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki
 
 # Imports
 from typing import Union
-from bip_utils.bip.bip32 import Bip32Utils, Bip32KeyData
+from bip_utils.bip.bip32 import Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Levels, Bip44Base
 from bip_utils.bip.conf.bip86 import Bip86ConfGetter
 from bip_utils.bip.conf.common import BipCoins
@@ -38,7 +38,7 @@ class Bip86Const:
     # Specification name
     SPEC_NAME: str = "BIP-0086"
     # Purpose
-    PURPOSE: int = Bip32Utils.HardenIndex(86)
+    PURPOSE: int = Bip32KeyIndex.HardenIndex(86)
 
 
 class Bip86(Bip44Base):

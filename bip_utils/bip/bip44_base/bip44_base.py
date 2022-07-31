@@ -27,7 +27,7 @@ from abc import ABC, abstractmethod
 from enum import IntEnum, unique
 from functools import lru_cache
 from typing import Union
-from bip_utils.bip.bip32 import Bip32Base, Bip32Utils, Bip32KeyData
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
 from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
 from bip_utils.bip.conf.common import BipCoins, BipCoinConf
@@ -349,7 +349,7 @@ class Bip44Base(ABC):
 
         coin_idx = self.m_coin_conf.CoinIndex()
 
-        return self.__class__(self.m_bip32_obj.ChildKey(Bip32Utils.HardenIndex(coin_idx)),
+        return self.__class__(self.m_bip32_obj.ChildKey(Bip32KeyIndex.HardenIndex(coin_idx)),
                               self.m_coin_conf)
 
     def _AccountGeneric(self,
@@ -373,7 +373,7 @@ class Bip44Base(ABC):
                 f"Current depth ({self.m_bip32_obj.Depth().ToInt()}) is not suitable for deriving account"
             )
 
-        return self.__class__(self.m_bip32_obj.ChildKey(Bip32Utils.HardenIndex(acc_idx)),
+        return self.__class__(self.m_bip32_obj.ChildKey(Bip32KeyIndex.HardenIndex(acc_idx)),
                               self.m_coin_conf)
 
     def _ChangeGeneric(self,
@@ -403,7 +403,7 @@ class Bip44Base(ABC):
 
         # Use hardened derivation if not-hardended is not supported
         if not self.m_bip32_obj.IsPrivateUnhardenedDerivationSupported():
-            change_idx = Bip32Utils.HardenIndex(int(change_type))
+            change_idx = Bip32KeyIndex.HardenIndex(int(change_type))
         else:
             change_idx = int(change_type)
 
@@ -433,7 +433,7 @@ class Bip44Base(ABC):
 
         # Use hardened derivation if not-hardended is not supported
         if not self.m_bip32_obj.IsPrivateUnhardenedDerivationSupported():
-            addr_idx = Bip32Utils.HardenIndex(addr_idx)
+            addr_idx = Bip32KeyIndex.HardenIndex(addr_idx)
 
         return self.__class__(self.m_bip32_obj.ChildKey(addr_idx),
                               self.m_coin_conf)

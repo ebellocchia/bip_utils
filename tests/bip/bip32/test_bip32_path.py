@@ -22,7 +22,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    Bip32PathError, Bip32PathParser, Bip32Path, Bip32Utils,
+    Bip32PathError, Bip32PathParser, Bip32Path, Bip32KeyIndex,
     Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1,
 )
 
@@ -66,25 +66,25 @@ TEST_VECT_PATH = [
     },
     {
         "path": "m/0  /1'",
-        "parsed": [0, Bip32Utils.HardenIndex(1)],
+        "parsed": [0, Bip32KeyIndex.HardenIndex(1)],
         "is_absolute": True,
         "to_str": "m/0/1'",
     },
     {
         "path": "m/0  /1p",
-        "parsed": [0, Bip32Utils.HardenIndex(1)],
+        "parsed": [0, Bip32KeyIndex.HardenIndex(1)],
         "is_absolute": True,
         "to_str": "m/0/1'",
     },
     {
         "path": "m/0'/1'/2/",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32KeyIndex.HardenIndex(0), Bip32KeyIndex.HardenIndex(1), 2],
         "is_absolute": True,
         "to_str": "m/0'/1'/2",
     },
     {
         "path": "m/0p/1p/2/",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32KeyIndex.HardenIndex(0), Bip32KeyIndex.HardenIndex(1), 2],
         "is_absolute": True,
         "to_str": "m/0'/1'/2",
     },
@@ -108,25 +108,25 @@ TEST_VECT_PATH = [
     },
     {
         "path": "0'/1'/2",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32KeyIndex.HardenIndex(0), Bip32KeyIndex.HardenIndex(1), 2],
         "is_absolute": False,
         "to_str": "0'/1'/2",
     },
     {
         "path": "0'//1'///2",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32KeyIndex.HardenIndex(0), Bip32KeyIndex.HardenIndex(1), 2],
         "is_absolute": False,
         "to_str": "0'/1'/2",
     },
     {
         "path": "0p/1p/2",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32KeyIndex.HardenIndex(0), Bip32KeyIndex.HardenIndex(1), 2],
         "is_absolute": False,
         "to_str": "0'/1'/2",
     },
     {
         "path": "0h/1h/2",
-        "parsed": [Bip32Utils.HardenIndex(0), Bip32Utils.HardenIndex(1), 2],
+        "parsed": [Bip32KeyIndex.HardenIndex(0), Bip32KeyIndex.HardenIndex(1), 2],
         "is_absolute": False,
         "to_str": "0'/1'/2",
     },
@@ -194,7 +194,7 @@ class Bip32PathTests(unittest.TestCase):
             self.assertEqual(test_elem, int(elem))
             self.assertEqual(test_elem, int(path[idx]))
             self.assertEqual(test_elem, elem.ToInt())
-            self.assertEqual(Bip32Utils.IsHardenedIndex(test_elem), elem.IsHardened())
+            self.assertEqual(Bip32KeyIndex.IsHardenedIndex(test_elem), elem.IsHardened())
 
         # Check by converting to list
         for idx, elem in enumerate(path.ToList()):

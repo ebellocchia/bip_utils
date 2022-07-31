@@ -20,7 +20,7 @@
 
 # Imports
 import unittest
-from bip_utils import Bip32Utils, CardanoByronLegacyBip32, EllipticCurveTypes
+from bip_utils import Bip32KeyIndex, CardanoByronLegacyBip32, EllipticCurveTypes
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 from tests.bip.bip32.test_bip32_ed25519_kholaw import TEST_VECT_EX_KEY_ERR
 
@@ -42,7 +42,7 @@ TEST_VECT = [
             # m/0'
             {
                 "path": "m/0'",
-                "index": Bip32Utils.HardenIndex(0),
+                "index": Bip32KeyIndex.HardenIndex(0),
                 "ex_pub": "xpub68CUUpLCv1ej8PFPbc6u3GDHNq7PwNYpVGEZMfYJe93tn4GAmLbA3ozr64PETQU7Hc2Uu9R2yBbWu94yrPP9gHXszAswu5wunscccMmFhxe",
                 "ex_priv": "Har3K41TaS8ywaUzpEE4ArUyfH26zeNMYUsiPrVX7KRFbtyehiEimrgi8oNZAVnyZHDp3X42oayLg4pDDpu9urWKD5SctZW5Ce1ZiTkFMAPX3kPvo2zeBvww6ecwjvePi9SCEciHtJcZBX1v2JeGzU5wuR6",
                 "pub_key": "003ae944aa0e3d2aa74f4fdf1b2f818244f7809a9c8583090e46a595e64d06224b",
@@ -64,7 +64,7 @@ TEST_VECT = [
             # m/0'/1/2'
             {
                 "path": "m/0'/1/2'",
-                "index": Bip32Utils.HardenIndex(2),
+                "index": Bip32KeyIndex.HardenIndex(2),
                 "ex_pub": "xpub6DC6DhwRrhZcYs3eFNVLCrmWGcvmvUojf7pdAQ3GF1LLCS9EGF3Q5KfHvRrUZSJuPHvnyGUywEEhLcKKg3BzVtKDNayqnKpJhnmYAdvQud3",
                 "ex_priv": "Har3K5VVYkJstGdpvQkmS5SuqbFwMcUxrhKxCko5rgWmP36vturBGAaZ1HZcdvZQ1hgqd9V2YUoZGGnE1RmGXDRR1b1te9EJqAEStAKKS3bdmk3NwePmtwnCrq3LRS63DDe53tduAzrvPARA92zy2uuy5ee",
                 "pub_key": "00aed5d2bb585f7c5d4facb8c49f77d53954d6dbc606b80ed218abf4cb099a0dd8",
@@ -123,7 +123,7 @@ TEST_VECT = [
             # m/0/2147483647'
             {
                 "path": "m/0/2147483647'",
-                "index": Bip32Utils.HardenIndex(2147483647),
+                "index": Bip32KeyIndex.HardenIndex(2147483647),
                 "ex_pub": "xpub6BCYprAX7nMJ9cBxtzuJUG65caBTdXHw4wrYaq2XcPL6SNgrQ9ga5wBCZChkSqUZFTkVsKEpmbHvvWv4kAGo3dsosSNHVqySrPj7E9PbMnF",
                 "ex_priv": "Har3K4uApR2kLfSVkrpRXspLqXQkvxrF9jGb5yYseFve4PVaMjNLPshH4YkbZy2mxXTP1gtzvrdfGbY5avgi9nBdY6FXHFbotCdW71FhBwDGpSVz3vDzhx5cfr9tJjDkqECSB66GMimrcG6oC27huGEnfHb",
                 "pub_key": "004b501327c18b38710f0d08b5fbd941a5caefe21e428c0442960c315a700cbbc8",
@@ -145,7 +145,7 @@ TEST_VECT = [
             # m/0/2147483647'/1/2147483646'
             {
                 "path": "m/0/2147483647'/1/2147483646'",
-                "index": Bip32Utils.HardenIndex(2147483646),
+                "index": Bip32KeyIndex.HardenIndex(2147483646),
                 "ex_pub": "xpub6Es6aGD81TheeJamsXcFLaVHH1hdFpUnNk7q9anpaTq332CMM9H5Di4uYX98ZdsQcP3fzN5hthGbH9qPNSMopzgHEdRE4qbAxfmmxKjtNBC",
                 "ex_priv": "Har3K5zJvaSNKWfQbjCGCEY3xVaUkjZSFPW4tc56DU3E8rRXCMsVwy4Qz4FL7NMveHkNRKed9nsProGa3dEBodwBwL7pwtrgmT6JGe8winR5w7z2QZBpPdrtjbknyTgfLkkPU8LbPkNKRDFxaBtDJNcvqWU",
                 "pub_key": "00a1cc378aea4c02bdf41a12edcd74a4273a061c0fe6c31d5f1ac702a55e7faba1",
@@ -185,7 +185,7 @@ TEST_VECT_PUBLIC_DER_EX_KEY = {
         },
         # m/0/0/0' : shall trigger an exception
         {
-            "index": Bip32Utils.HardenIndex(0),
+            "index": Bip32KeyIndex.HardenIndex(0),
         },
     ],
 }
@@ -207,7 +207,7 @@ TEST_VECT_PUBLIC_DER_PUB_KEY = {
         },
         # m/0/0/0' : shall trigger an exception
         {
-            "index": Bip32Utils.HardenIndex(0),
+            "index": Bip32KeyIndex.HardenIndex(0),
         },
     ],
 }

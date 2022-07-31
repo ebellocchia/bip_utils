@@ -25,7 +25,7 @@ Reference: https://cips.cardano.org/cips/cip1852
 
 # Imports
 from typing import Union
-from bip_utils.bip.bip32 import Bip32Utils, Bip32KeyData
+from bip_utils.bip.bip32 import Bip32KeyIndex, Bip32KeyData
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44Levels, Bip44Base
 from bip_utils.bip.conf.common import BipCoins
 from bip_utils.cardano.cip1852.conf import Cip1852ConfGetter
@@ -38,7 +38,7 @@ class Cip1852Const:
     # Specification name
     SPEC_NAME: str = "CIP-1852"
     # Purpose
-    PURPOSE: int = Bip32Utils.HardenIndex(1852)
+    PURPOSE: int = Bip32KeyIndex.HardenIndex(1852)
 
 
 class Cip1852(Bip44Base):

@@ -21,7 +21,7 @@
 # Imports
 import binascii
 from bip_utils import (
-    Bip32KeyError, Bip32Utils,
+    Bip32KeyError,
     Bip32KeyData, Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32FingerPrint,
     Bip32PublicKey, Bip32PrivateKey, EllipticCurveGetter
 )
@@ -263,7 +263,7 @@ class Bip32BaseTestHelper:
         # Test derivation paths
         for test in test_vector["der_paths"]:
             # Public derivation does not support hardened indexes
-            if Bip32Utils.IsHardenedIndex(test["index"]):
+            if Bip32KeyIndex.IsHardenedIndex(test["index"]):
                 ut_class.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
             else:
                 bip32_ctx = bip32_ctx.ChildKey(test["index"])
@@ -281,7 +281,7 @@ class Bip32BaseTestHelper:
         # Test derivation paths
         for test in test_vector["der_paths"]:
             # Public derivation does not support hardened indexes
-            if Bip32Utils.IsHardenedIndex(test["index"]):
+            if Bip32KeyIndex.IsHardenedIndex(test["index"]):
                 ut_class.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, test["index"])
             else:
                 bip32_ctx = bip32_ctx.ChildKey(test["index"])

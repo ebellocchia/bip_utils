@@ -169,21 +169,21 @@ The constructed class will be a public-only object (see the example in the next 
 ### Keys derivation
 
 Each time a key is derived, a new instance of the class is returned. This allows to chain the methods call or save a specific key pair for future derivation.\
-The *Bip32Utils.HardenIndex* method can be used to make an index hardened.
+The *Bip32KeyIndex.HardenIndex* method can be used to make an index hardened.
 
 **Code example**
 
     import binascii
-    from bip_utils import Bip32Secp256k1, Bip32Utils
+    from bip_utils import Bip32Secp256k1, Bip32KeyIndex
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Path: m
     bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
     # Derivation path: m/0'/1'/2/3
-    bip32_ctx = bip32_ctx.ChildKey(Bip32Utils.HardenIndex(0)) \
-                         .ChildKey(Bip32Utils.HardenIndex(1)) \
-                         .ChildKey(2)                         \
+    bip32_ctx = bip32_ctx.ChildKey(Bip32KeyIndex.HardenIndex(0)) \
+                         .ChildKey(Bip32KeyIndex.HardenIndex(1)) \
+                         .ChildKey(2)                            \
                          .ChildKey(3)
     # Print keys in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
@@ -254,7 +254,7 @@ In case of a public-only object, only public derivation will be supported (only 
 
 **Code example**
 
-    from bip_utils import Bip32KeyError, Bip32Utils, Bip32Secp256k1
+    from bip_utils import Bip32KeyError, Bip32KeyIndex, Bip32Secp256k1
 
     # Derive from a public extended key
     key_str = "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"
@@ -279,7 +279,7 @@ In case of a public-only object, only public derivation will be supported (only 
 
     # Deriving with hardened indexes will raise a Bip32KeyError
     try:
-        bip32_ctx = bip32_ctx.ChildKey(Bip32Utils.HardenIndex(0))
+        bip32_ctx = bip32_ctx.ChildKey(Bip32KeyIndex.HardenIndex(0))
         bip32_ctx = bip32_ctx.DerivePath("1'/2")
     except Bip32KeyError as ex:
         print(ex)
@@ -380,7 +380,7 @@ The Bip32 module allows also to parse derivation paths.
 
 **Code example**
 
-    from bip_utils import Bip32Path, Bip32PathParser, Bip32Utils
+    from bip_utils import Bip32Path, Bip32PathParser, Bip32KeyIndex
     
     # Parse path, Bip32PathError is raised in case of errors
     path = Bip32PathParser.Parse("0'/1'/2")
@@ -393,7 +393,7 @@ The Bip32 module allows also to parse derivation paths.
     path = Bip32PathParser.Parse("m//0'///1'/2")
     # A path can also be constructed directly from a list of indexes
     # "True" specifies that the path is absolute, "False" if relative
-    path = Bip32Path([0, 1, Bip32Utils.HardenIndex(2)], True)
+    path = Bip32Path([0, 1, Bip32KeyIndex.HardenIndex(2)], True)
     
     # Get if absolute
     print(path.IsAbsolute())

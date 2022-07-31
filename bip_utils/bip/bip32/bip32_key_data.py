@@ -23,25 +23,26 @@
 # Imports
 from __future__ import annotations
 from typing import Union
-from bip_utils.bip.bip32.bip32_utils import Bip32Utils
-from bip_utils.utils.misc import BytesUtils, DataBytes, IntegerUtils
+from bip_utils.utils.misc import BitUtils, BytesUtils, DataBytes, IntegerUtils
 
 
 class Bip32KeyDataConst:
     """Class container for BIP32 key data constants."""
 
-    # Depth length in bytes
-    DEPTH_BYTE_LEN: int = 1
-    # Key index length in bytes
-    KEY_INDEX_BYTE_LEN: int = 4
-    # Key index maximum value
-    KEY_INDEX_MAX_VAL: int = 2**32 - 1
     # Chaincode length in bytes
     CHAINCODE_BYTE_LEN: int = 32
+    # Depth length in bytes
+    DEPTH_BYTE_LEN: int = 1
     # Fingerprint length in bytes
     FINGERPRINT_BYTE_LEN: int = 4
     # Fingerprint of master key
     FINGERPRINT_MASTER_KEY: bytes = b"\x00\x00\x00\x00"
+    # Key index length in bytes
+    KEY_INDEX_BYTE_LEN: int = 4
+    # Key index maximum value
+    KEY_INDEX_MAX_VAL: int = 2**32 - 1
+    # Key index hardened bit number
+    KEY_INDEX_HARDENED_BIT_NUM: int = 31
 
 
 class Bip32ChainCode(DataBytes):
@@ -255,6 +256,45 @@ class Bip32KeyIndex:
 
     m_idx: int
 
+    @staticmethod
+    def HardenIndex(index: int) -> int:
+        """
+        Harden the specified index and return it.
+
+        Args:
+            index (int): Index
+
+        Returns:
+            int: Hardened index
+        """
+        return BitUtils.SetBit(index, Bip32KeyDataConst.KEY_INDEX_HARDENED_BIT_NUM)
+
+    @staticmethod
+    def UnhardenIndex(index: int) -> int:
+        """
+        Unharden the specified index and return it.
+
+        Args:
+            index (int): Index
+
+        Returns:
+            int: Unhardened index
+        """
+        return BitUtils.ResetBit(index, Bip32KeyDataConst.KEY_INDEX_HARDENED_BIT_NUM)
+
+    @staticmethod
+    def IsHardenedIndex(index: int) -> bool:
+        """
+        Get if the specified index is hardened.
+
+        Args:
+            index (int): Index
+
+        Returns:
+            bool: True if hardened, false otherwise
+        """
+        return BitUtils.IsBitSet(index, Bip32KeyDataConst.KEY_INDEX_HARDENED_BIT_NUM)
+
     @classmethod
     def FromBytes(cls,
                   index_bytes: bytes) -> Bip32KeyIndex:
@@ -304,7 +344,7 @@ class Bip32KeyIndex:
         Returns:
             Bip32KeyIndex object: Bip32KeyIndex object
         """
-        return Bip32KeyIndex(Bip32Utils.HardenIndex(self.m_idx))
+        return Bip32KeyIndex(self.HardenIndex(self.m_idx))
 
     def Unharden(self) -> Bip32KeyIndex:
         """
@@ -313,7 +353,7 @@ class Bip32KeyIndex:
         Returns:
             Bip32KeyIndex object: Bip32KeyIndex object
         """
-        return Bip32KeyIndex(Bip32Utils.UnhardenIndex(self.m_idx))
+        return Bip32KeyIndex(self.UnhardenIndex(self.m_idx))
 
     def IsHardened(self) -> bool:
         """
@@ -322,7 +362,7 @@ class Bip32KeyIndex:
         Returns:
             bool: True if hardened, false otherwise
         """
-        return Bip32Utils.IsHardenedIndex(self.m_idx)
+        return self.IsHardenedIndex(self.m_idx)
 
     def ToBytes(self,
                 endianness: str = "big") -> bytes:

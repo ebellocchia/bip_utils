@@ -27,7 +27,7 @@ from functools import lru_cache
 from typing import List, Union
 import cbor2
 from bip_utils.addr import AdaByronAddrEncoder
-from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32PublicKey, Bip32PrivateKey, Bip32Utils
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32PublicKey, Bip32PrivateKey
 from bip_utils.cardano.bip32 import CardanoByronLegacyBip32
 from bip_utils.utils.misc import CryptoUtils
 
@@ -195,7 +195,7 @@ class CardanoByronLegacy:
         """
         pub_key = self.GetPublicKey(first_idx, second_idx)
         hd_path_enc_bytes = self.__EncryptHdPath(
-            [int(idx.Harden()) if isinstance(idx, Bip32KeyIndex) else Bip32Utils.HardenIndex(idx)
+            [int(idx.Harden()) if isinstance(idx, Bip32KeyIndex) else Bip32KeyIndex.HardenIndex(idx)
              for idx in (first_idx, second_idx)]
         )
 

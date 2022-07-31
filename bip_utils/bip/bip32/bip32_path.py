@@ -25,7 +25,6 @@ from __future__ import annotations
 from typing import Iterator, List, Sequence, Tuple, Union
 from bip_utils.bip.bip32.bip32_ex import Bip32PathError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
-from bip_utils.bip.bip32.bip32_utils import Bip32Utils
 
 
 class Bip32PathConst:
@@ -120,7 +119,7 @@ class Bip32Path:
             if not elem.IsHardened():
                 path_str += f"{str(elem.ToInt())}/"
             else:
-                path_str += f"{str(Bip32Utils.UnhardenIndex(elem.ToInt()))}'/"
+                path_str += f"{str(Bip32KeyIndex.UnhardenIndex(elem.ToInt()))}'/"
 
         return path_str[:-1]
 
@@ -241,4 +240,4 @@ class Bip32PathParser:
         if not path_elem.isnumeric():
             raise Bip32PathError(f"Invalid path element ({path_elem})")
 
-        return int(path_elem) if not is_hardened else Bip32Utils.HardenIndex(int(path_elem))
+        return int(path_elem) if not is_hardened else Bip32KeyIndex.HardenIndex(int(path_elem))
