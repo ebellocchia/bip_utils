@@ -37,6 +37,7 @@ for i in range(ADDR_NUM):
     print(f"  {i}. Address chain code (bytes): {byron_legacy.GetPrivateKey(0, i).ChainCode().ToHex()}")
     print(f"  {i}. Address private key (bytes): {byron_legacy.GetPrivateKey(0, i).Raw().ToHex()}")
     print(f"  {i}. Address: {byron_legacy.GetAddress(0, i)}")
+    print(f"  {i}. Derivation path: {byron_legacy.HdPathFromAddress(byron_legacy.GetAddress(0, i))}")
 
 #
 # Cardano Byron (Icarus)
