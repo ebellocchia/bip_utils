@@ -27,8 +27,6 @@ from bip_utils import (
 )
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 
-# Invalid seed for testing
-TEST_SEED_ERR = b"000102030405060708090a0b0c0d0e"
 # Generic seed for testing
 TEST_SEED = b"000102030405060708090a0b0c0d0e0f"
 # Zero chain code
@@ -168,8 +166,8 @@ class Bip32BaseTestHelper:
 
     # Test invalid seed
     @staticmethod
-    def test_invalid_seed(ut_class, bip32_class):
-        ut_class.assertRaises(ValueError, bip32_class.FromSeed, binascii.unhexlify(TEST_SEED_ERR))
+    def test_invalid_seed(ut_class, bip32_class, err_seed_bytes):
+        ut_class.assertRaises(ValueError, bip32_class.FromSeed, err_seed_bytes)
 
     # Test from private key
     @staticmethod

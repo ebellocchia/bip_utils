@@ -21,6 +21,7 @@
 # Imports
 import unittest
 from bip_utils import Bip32KeyIndex, CardanoIcarusBip32, EllipticCurveTypes
+from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 from tests.bip.bip32.test_bip32_ed25519_kholaw import TEST_VECT_EX_KEY_ERR
 
@@ -260,4 +261,4 @@ class CardanoIcarusBip32Tests(unittest.TestCase):
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, CardanoIcarusBip32)
+        Bip32BaseTestHelper.test_invalid_seed(self, CardanoIcarusBip32, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 1))

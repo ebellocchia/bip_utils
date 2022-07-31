@@ -22,6 +22,7 @@
 import binascii
 import unittest
 from bip_utils import Bip32Nist256p1, Bip32KeyIndex, EllipticCurveTypes
+from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 from tests.bip.bip32.test_bip32_secp256k1 import TEST_VECT_EX_KEY_ERR
 
@@ -270,7 +271,7 @@ class Bip32Nist256p1Tests(unittest.TestCase):
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Nist256p1)
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Nist256p1, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 1))
 
     # Test retry seed
     def test_retry_seed(self):

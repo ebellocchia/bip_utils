@@ -21,6 +21,7 @@
 # Imports
 import unittest
 from bip_utils import Bip32Secp256k1, Bip32KeyIndex, EllipticCurveTypes
+from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 
 # Tests from BIP32 and SLIP-0010 pages
@@ -307,4 +308,4 @@ class Bip32Secp256k1Tests(unittest.TestCase):
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Secp256k1)
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Secp256k1, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 1))

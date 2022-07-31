@@ -22,6 +22,7 @@
 import binascii
 import unittest
 from bip_utils import Bip32Ed25519Slip, Bip32KeyError, Bip32KeyIndex, EllipticCurveTypes
+from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper, TEST_SEED
 
 # Tests from SLIP-0010 pages
@@ -226,7 +227,7 @@ class Bip32Ed25519SlipTests(unittest.TestCase):
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Ed25519Slip)
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Ed25519Slip, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 1))
 
     # Test invalid derivation
     def test_invalid_derivation(self):

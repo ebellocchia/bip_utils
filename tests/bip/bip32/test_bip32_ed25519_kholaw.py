@@ -21,6 +21,7 @@
 # Imports
 import unittest
 from bip_utils import Bip32Ed25519Kholaw, Bip32KeyIndex, EllipticCurveTypes
+from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 
 # Test vector
@@ -277,4 +278,4 @@ class Bip32Ed25519KholawTests(unittest.TestCase):
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Ed25519Kholaw)
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Ed25519Kholaw, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 1))
