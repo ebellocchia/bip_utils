@@ -370,15 +370,15 @@ TEST_VECT = [
         "names": ("Cardano", "ADA"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_master": "Har3K3MhV5fiuEp6zsN3uXH3PfkwVbnRNTuAiniJRps2XV6PCHcYteVzoDtXavwkvaZPG9gyUVHfw6UFdfqiF9RWbC5u6ZTdjPq6c6s96vKWnujBRAd7FifEKBjRawCrx4XEX9Zz26F29qUyqutkSndBXqL",
+        "ex_master": "xprv3QESAWYc9vDdZe96kW68FGJoM5SDWc6n7PMG2GYMQugVExnn5XPBvH2JtT5LvKU34bp1Zv8yEG7hsznPrC3tfVbJUeRxS6abLUKQy8kgNRYx49aEeTKCvqezGNxib9NjSxYgXkH2xh4RgkSccNK7HAf",
         "wif_master": "",
         "account": {
             "ex_pub": "xpub6DEjRUvqKKhu4gCcPY565rS8uxfySAXiQ41g5MHUJD7xmLcE7kwZDhPrrdkszyg9ncEmRB2AJ5RxFBFNFtF7AP72fambv1jRu3WKX7YdCMg",
-            "ex_priv": "Har3K5WH4NfDtyHNE4b4cQFJLBc61Fbjzr6B1HdEmkMC7H6yHaNSWWtrqmWnTHpuWG7MfMthNJ6r7SEXa7gaxeJNsPhRkgSQxnVMhdRd4Mw9AXPadpTS1mCuBEC9LToywEAbTkPsAocY5GFxhWzfvPPcnqc",
+            "ex_priv": "xprv3SP1joY79egtnqN7TP4PBn9wrjFY8zHnPtGCNC2Wzhh5LFYfhPn3xpeZkoxVW121Tp1jTix9QbsypSdGZgvkwhCq8mQjfVErRzstvaNJk3DMGoQZQVrsnt7i1uZqaK26PZNZgTeYt7qQYMYY5xfScde",
         },
         "chain_ext": {
             "ex_pub": "xpub6FEcXHyAkrq4cmgDYJmzswJfGQsWzTFfA6DBGcCbNYbE8k8eq5syGKGJQpGvTh9qW3guhW33peiJUsa3LUun4QGRSZddjyy3P75bU2mHVzW",
-            "ex_priv": "Har3K66heEZGu8dJ1e8HEjgGw1DdZoAos5pdE7QgbbJfaaPzXiz7H7tYvRQepMQhAp8hDZqiaZikhvBxjmLAfJC5qukQkPA4mZHrgDgwap1a8HhEeZzZdkAnmXKhT5fVWK4X7vnFd3eyrHmqqvPQMUHK5w4",
+            "ex_priv": "xprv3SySKfSA9p2paQuL5iVMnbmVRGpc1E2Eci3eC2yzTzz6aQALTzmk3UYS7sYHAZ3M21xkfza415qQz6GrGLpTvDFp8U8PUG3MQb9DT2SjhoX1HYwh2UpmPBFG8XRM9Pv23jkx8hgzf9MHgkwGX3e1yvY",
         },
         "addresses": [
             "Ae2tdPwUPEZHL1W6CHW2ppcAdvF4LyaeRRFtfADjtrjtVjUiWjRCj4ukGxd",
@@ -394,15 +394,15 @@ TEST_VECT = [
         "names": ("Cardano", "ADA"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-        "ex_master": "Har3K3MhV5fiuEp6zeH7rL3RgBvUVXzsyvFJbPqquYBooHMLV6v7UjSVRCoxCxgCCsDYTJPAfaBm1rj5yMFFiQU4QZjzuWnCJC2V9q4C7y3Ji3eKXruF2H5WjrQRDyiKLK7QMwf39wywu3P5sCjSPhF7zLM",
+        "ex_master": "xprv3QESAWYc9vDdZR4AhJrWXnULM1eg84SuyzUoVys8ghwSXn6LfcKgYFwjWUonCc8CFkWCm134K2NYDgBwKT6SUsFQHbkWztmytCWTzBUUHZU6AqrNR1jVMWKyuRUAyPxuHkdjfc1xhtxXi3HJZDJqMMR",
         "wif_master": "",
         "account": {
             "ex_pub": "xpub6CRk25MKKNDvXXfp5p5XhgHWYXpvniLc7J34baA5zs1eXDZNyAC9JRZSzTjPWSVwjyNLQuykq19qJqWB8sBbxXWGyfzsEc7MdygCSa3CpKh",
-            "ex_priv": "Har3K5GKSmGk2AJ6kNcBnnVvEkWD1nDvwpR8CvY5TnivTyyNUKE1J1T56Xzhg6iT68zYJQ5qsNh3XuESPseMPXs5aHBJn6AbZi96YXVdbkeucyMDQX1nVikdWRt1WRcr1JYto2GuUR2igtS12qC2foxF4Gi",
+            "ex_priv": "xprv3S948C9dGqhdK9PEdmK16M44sFsj5xcjbXB34EQFMQZUWzQEUtLGDb8Uycr35suC6rCsxoYLq4steCb2zaVTeagiAB8vGQtbGtwuTy65CVAz3VxutTQc85oaBsNhePQPiqFbz54jVk1SsfjtqSwMAEy",
         },
         "chain_ext": {
             "ex_pub": "xpub6Dn7Vzn4tNcqe9KDfQzgbJ6waG6KBumM72uqiLQT51Xtfq4MQWxouoKio31SySSTfYvKnuUzT9LiXDAmhjg2z27goWnmY4q3LWuaZKHZjjd",
-            "ex_priv": "Har3K5fbjauKDggqUZ3VZvnJn6XaHg8N8fAtAeYVMkmLvoTwh361qJQ4zbscdjXTZMroaJYGkikUCx56zSz2JZs8rDAwh7cgQnVP9mCU7UNcZdRwdnK4pgE7uKzMbC9kj78ZFjmetCicELGn2m1srRfMacP",
+            "ex_priv": "xprv3SYLR1nCUN6N3KpYQubPdh5S99nAGoNVZFBSxCSfpE43jiGF2BHG7f1PwFf3Z6mTNkfJr9bmW7iZEmvhucVWvWgM5Cb17VEst8ejygon99FiGmGCDQt6WyuvGducNBz4BYkMPrkd3BrDsbZk261BVon",
         },
         "addresses": [
             "Ae2tdPwUPEZF4a8fNdkUt8HSyyWgsq2DqP2AKGFKiF3SLsXNDuu6wYp15Dp",
