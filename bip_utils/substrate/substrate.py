@@ -34,8 +34,8 @@ from bip_utils.substrate.substrate_path import SubstratePathElem, SubstratePath,
 class SubstrateConst:
     """Class container for Substrate constants."""
 
-    # Seed length in bytes
-    SEED_BYTE_LEN: int = 32
+    # Seed minimum length in bytes
+    SEED_MIN_BYTE_LEN: int = 32
 
 
 class Substrate:
@@ -71,12 +71,12 @@ class Substrate:
             TypeError: If coin_type is not of SubstrateCoins enum
             ValueError: If the seed length is not valid
         """
-        if len(seed_bytes) < SubstrateConst.SEED_BYTE_LEN:
+        if len(seed_bytes) < SubstrateConst.SEED_MIN_BYTE_LEN:
             raise ValueError(
-                f"Seed length is too small, it shall be at least {SubstrateConst.SEED_BYTE_LEN} bytes"
+                f"Seed length is too small, it shall be at least {SubstrateConst.SEED_MIN_BYTE_LEN} bytes"
             )
 
-        pub_key_bytes, priv_key_bytes = sr25519.pair_from_seed(seed_bytes[:SubstrateConst.SEED_BYTE_LEN])
+        pub_key_bytes, priv_key_bytes = sr25519.pair_from_seed(seed_bytes[:SubstrateConst.SEED_MIN_BYTE_LEN])
         return cls(priv_key=priv_key_bytes,
                    pub_key=pub_key_bytes,
                    path=SubstratePath(),
