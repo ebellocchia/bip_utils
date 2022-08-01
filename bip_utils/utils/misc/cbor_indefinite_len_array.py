@@ -40,8 +40,8 @@ class CborIndefiniteLenArrayConst:
     CBOR_UINT64: int = 27
 
     # Begin/End identifiers
-    BEGIN_VAL: bytes = 0x9F
-    END_VAL: bytes = 0xFF
+    BEGIN_VAL: int = 0x9F
+    END_VAL: int = 0xFF
     BEGIN_BYTE: bytes = IntegerUtils.ToBytes(0x9F)
     END_BYTE: bytes = IntegerUtils.ToBytes(0xFF)
 
