@@ -25,25 +25,34 @@ the termination byte is found.
 """
 
 # Imports
-from typing import List, Sequence
+from enum import IntEnum, unique
+from typing import Dict, List, Sequence
 import cbor2
 from bip_utils.utils.misc.integer import IntegerUtils
+
+
+@unique
+class CborIds(IntEnum):
+    """Enumerative for CBOR identifiers."""
+
+    UINT8 = 24
+    UINT16 = 25
+    UINT32 = 26
+    UINT64 = 27
+    INDEF_LEN_ARRAY_START = 0x9F
+    INDEF_LEN_ARRAY_END = 0xFF
 
 
 class CborIndefiniteLenArrayConst:
     """Class container for CBOR indefinite length arrays constants."""
 
-    # Identifiers for integer types
-    CBOR_UINT8: int = 24
-    CBOR_UINT16: int = 25
-    CBOR_UINT32: int = 26
-    CBOR_UINT64: int = 27
-
-    # Begin/End identifiers
-    BEGIN_VAL: int = 0x9F
-    END_VAL: int = 0xFF
-    BEGIN_BYTE: bytes = IntegerUtils.ToBytes(0x9F)
-    END_BYTE: bytes = IntegerUtils.ToBytes(0xFF)
+    # CBOR uint IDs to byte length
+    UINT_IDS_TO_BYTE_LEN: Dict[int, int] = {
+        CborIds.UINT8: 2,
+        CborIds.UINT16: 3,
+        CborIds.UINT32: 5,
+        CborIds.UINT64: 9,
+    }
 
 
 class CborIndefiniteLenArrayDecoder:
@@ -70,9 +79,9 @@ class CborIndefiniteLenArrayDecoder:
         # Check for validity
         if len(enc_bytes) < 3:
             raise ValueError(f"Invalid length ({len(enc_bytes)})")
-        if enc_bytes[0] != CborIndefiniteLenArrayConst.BEGIN_VAL:
+        if enc_bytes[0] != CborIds.INDEF_LEN_ARRAY_START:
             raise ValueError(f"Invalid first byte ({enc_bytes[0]})")
-        if enc_bytes[-1] != CborIndefiniteLenArrayConst.END_VAL:
+        if enc_bytes[-1] != CborIds.INDEF_LEN_ARRAY_END:
             raise ValueError(f"Invalid last byte ({enc_bytes[-1]})")
 
         # Continue to decode elements until the end value is found
@@ -82,20 +91,11 @@ class CborIndefiniteLenArrayDecoder:
             # Get current byte
             if i >= len(enc_bytes):
                 raise ValueError("Invalid encoding (index overflow)")
-            curr_byte = enc_bytes[i]
-            if curr_byte == CborIndefiniteLenArrayConst.END_VAL:
+            curr_val = enc_bytes[i]
+            if curr_val == CborIds.INDEF_LEN_ARRAY_END:
                 break
-            # Get current length
-            if curr_byte == CborIndefiniteLenArrayConst.CBOR_UINT8:
-                curr_len = 2
-            elif curr_byte == CborIndefiniteLenArrayConst.CBOR_UINT16:
-                curr_len = 3
-            elif curr_byte == CborIndefiniteLenArrayConst.CBOR_UINT32:
-                curr_len = 5
-            elif curr_byte == CborIndefiniteLenArrayConst.CBOR_UINT64:
-                curr_len = 9
-            else:
-                curr_len = 1
+            # Get current length (1-byte if ID is found)
+            curr_len = CborIndefiniteLenArrayConst.UINT_IDS_TO_BYTE_LEN.get(curr_val, 1)
             # CBOR-decode the current integer
             int_elems.append(cbor2.loads(enc_bytes[i:i + curr_len]))
             # Move forward
@@ -121,6 +121,6 @@ class CborIndefiniteLenArrayEncoder:
         Returns:
             bytes: CBOR-encoded bytes
         """
-        return (CborIndefiniteLenArrayConst.BEGIN_BYTE
+        return (IntegerUtils.ToBytes(CborIds.INDEF_LEN_ARRAY_START, bytes_num=1)
                 + b"".join([cbor2.dumps(p) for p in int_seq])
-                + CborIndefiniteLenArrayConst.END_BYTE)
+                + IntegerUtils.ToBytes(CborIds.INDEF_LEN_ARRAY_END, bytes_num=1))

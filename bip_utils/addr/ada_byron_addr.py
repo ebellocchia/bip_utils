@@ -27,8 +27,9 @@ References:
 """
 
 # Imports
+from __future__ import annotations
 from enum import IntEnum, unique
-from typing import Any, Dict, Optional, Tuple, Union
+from typing import Any, Dict, NamedTuple, Optional, Tuple, Union
 import cbor2
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
@@ -51,14 +52,14 @@ class AdaByronAddrTypes(IntEnum):
 class AdaByronAddrConst:
     """Class container for Cardano Byron address constants."""
 
-    # ChaCha20-Poly1305 nonce for HD path decryption/encryption
-    CHACHA20_POLY1305_NONCE: bytes = b"serokellfore"
-    # ChaCha20-Poly1305 associated data for HD path decryption/encryption
-    CHACHA20_POLY1305_ASSOC_DATA: bytes = b""
-    # ChaCha20-Poly1305 tag length in bytes
-    CHACHA20_POLY1305_TAG_BYTE_LEN: int = 16
     # Address root hash length in bytes
     ADDR_ROOT_HASH_BYTE_LEN: int = 28
+    # ChaCha20-Poly1305 associated data for HD path decryption/encryption
+    CHACHA20_POLY1305_ASSOC_DATA: bytes = b""
+    # ChaCha20-Poly1305 nonce for HD path decryption/encryption
+    CHACHA20_POLY1305_NONCE: bytes = b"serokellfore"
+    # ChaCha20-Poly1305 tag length in bytes
+    CHACHA20_POLY1305_TAG_BYTE_LEN: int = 16
     # HD path key length in bytes
     HD_PATH_KEY_BYTE_LEN: int = 32
     # Payload tag
@@ -116,31 +117,218 @@ class _AdaByronAddrHdPath:
         return cipher_text_bytes + tag_bytes
 
 
-class _AdaByronAddrUtils:
-    """Cardano Byron address utility class."""
+class _AdaByronAddrAttrs(NamedTuple):
+    """Utility class for Cardano Byron address attributes."""
 
-    @staticmethod
-    def AddressRootHash(key_bytes: bytes,
-                        addr_attrs: Dict[int, bytes],
-                        addr_type: AdaByronAddrTypes) -> bytes:
+    hd_path_enc_bytes: Optional[bytes]
+    network_magic: Optional[int]
+
+    @classmethod
+    def FromDict(cls,
+                 attrs_dict: Dict[int, bytes]) -> _AdaByronAddrAttrs:
         """
-        Compute the address root hash.
+        Create from dictionary.
 
         Args:
-            key_bytes (bytes)            : Key bytes
-            addr_attrs (dict[int, bytes]): Address attributes
-            addr_type (AdaByronAddrTypes): Address type
+            attrs_dict (dict[int, bytes]): Attributes dictionary
 
         Returns:
-            bytes: Key hash bytes
+            _AdaByronAddrAttrs object: _AdaByronAddrAttrs object
+
+        Raises:
+            ValueError: If the dictionary is not valid
         """
-        addr_root = cbor2.dumps([
-            addr_type,                  # Address type
-            [addr_type, key_bytes],     # Address spending data
-            addr_attrs,                 # Address attributes
-        ])
-        return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(addr_root),
+        if (len(attrs_dict) > 2
+                or (len(attrs_dict) != 0 and 1 not in attrs_dict and 2 not in attrs_dict)):
+            raise ValueError("Invalid address attributes")
+        return cls(
+            cbor2.loads(attrs_dict[1]) if 1 in attrs_dict else None,
+            cbor2.loads(attrs_dict[2]) if 2 in attrs_dict else None
+        )
+
+    def ToDict(self) -> Dict[int, bytes]:
+        """
+        Get as a dictionary.
+
+        Returns:
+            dict[int, bytes]: Attributes dictionary
+        """
+        attrs = {}
+        if self.hd_path_enc_bytes is not None:
+            attrs[1] = cbor2.dumps(self.hd_path_enc_bytes)
+        if self.network_magic:
+            attrs[2] = cbor2.dumps(self.network_magic)
+        return attrs
+
+
+class _AdaByronAddrSpendingData(NamedTuple):
+    """Utility class for Cardano Byron address spending data."""
+
+    type: AdaByronAddrTypes
+    key_bytes: bytes
+
+
+class _AdaByronAddrRoot(NamedTuple):
+    """Utility class for Cardano Byron address root."""
+
+    type: AdaByronAddrTypes
+    spending_data: _AdaByronAddrSpendingData
+    attrs: _AdaByronAddrAttrs
+
+    def Hash(self) -> bytes:
+        """
+        Get the address root hash.
+
+        Returns:
+            bytes: Address root hash bytes
+        """
+        return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(self.Serialize()),
                                    AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN)
+
+    def Serialize(self) -> bytes:
+        """
+        Serialize the address root.
+
+        Returns:
+            bytes: Serialized address root bytes
+        """
+        return cbor2.dumps([
+            self.type,
+            tuple(self.spending_data),
+            self.attrs.ToDict(),
+        ])
+
+
+class _AdaByronAddrPayload(NamedTuple):
+    """Utility class for Cardano Byron address payload."""
+
+    root_hash_bytes: bytes
+    attrs: _AdaByronAddrAttrs
+    type: AdaByronAddrTypes
+
+    @classmethod
+    def Deserialize(cls,
+                    ser_payload_bytes: bytes) -> _AdaByronAddrPayload:
+        """
+        Deserialize from payload bytes.
+
+        Args:
+            ser_payload_bytes (bytes): Serialized payload bytes
+
+        Returns:
+            _AdaByronAddrPayload object: _AdaByronAddrPayload object
+
+        Raises:
+            ValueError: If the serialization is not valid
+        """
+        addr_payload = cbor2.loads(ser_payload_bytes)
+        if (len(addr_payload) != 3
+                or not isinstance(addr_payload[0], bytes)
+                or not isinstance(addr_payload[1], dict)
+                or not isinstance(addr_payload[2], int)):
+            raise ValueError("Invalid address payload")
+        # Check key hash length
+        AddrDecUtils.ValidateLength(addr_payload[0],
+                                    AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN)
+
+        return cls(
+            addr_payload[0],
+            _AdaByronAddrAttrs.FromDict(addr_payload[1]),
+            AdaByronAddrTypes(addr_payload[2])
+        )
+
+    def Serialize(self) -> bytes:
+        """
+        Serialize the address payload.
+
+        Returns:
+            bytes: Serialized address payload bytes
+        """
+        return cbor2.dumps([
+            self.root_hash_bytes,
+            self.attrs.ToDict(),
+            self.type,
+        ])
+
+
+class _AdaByronAddr(NamedTuple):
+    """Utility class for Cardano Byron address."""
+
+    payload: _AdaByronAddrPayload
+
+    @classmethod
+    def Decode(cls,
+               addr: str) -> _AdaByronAddr:
+        """
+        Decode address.
+
+        Args:
+            addr (str): Address string
+
+        Returns:
+            _AdaByronAddr object: _AdaByronAddr object
+
+        Raises:
+            ValueError: If the serialization is not valid
+        """
+        return cls.Deserialize(Base58Decoder.Decode(addr))
+
+    def Encode(self) -> str:
+        """
+        Encode address.
+
+        Returns:
+            str: Encoded address string
+        """
+        return Base58Encoder.Encode(self.Serialize())
+
+    @classmethod
+    def Deserialize(cls,
+                    ser_addr_bytes: bytes) -> _AdaByronAddr:
+        """
+        Deserialize from address bytes.
+
+        Args:
+            ser_addr_bytes (bytes): Serialized address bytes
+
+        Returns:
+            _AdaByronAddrPayload object: _AdaByronAddrPayload object
+
+        Raises:
+            ValueError: If the serialization is not valid
+        """
+        addr_bytes = cbor2.loads(ser_addr_bytes)
+        if (len(addr_bytes) != 2
+                or not isinstance(addr_bytes[0], cbor2.CBORTag)
+                or not isinstance(addr_bytes[1], int)):
+            raise ValueError("Invalid address encoding")
+        # Get and check CBOR tag
+        cbor_tag = addr_bytes[0]
+        if cbor_tag.tag != AdaByronAddrConst.PAYLOAD_TAG:
+            raise ValueError(f"Invalid CBOR tag ({cbor_tag.tag})")
+        # Check CRC
+        crc32_got = CryptoUtils.Crc32(cbor_tag.value)
+        if crc32_got != addr_bytes[1]:
+            raise ValueError(f"Invalid CRC (expected: {addr_bytes[1]}, got: {crc32_got})")
+
+        return cls(_AdaByronAddrPayload.Deserialize(cbor_tag.value))
+
+    def Serialize(self) -> bytes:
+        """
+        Serialize the address.
+
+        Returns:
+            bytes: Serialized address bytes
+        """
+        ser_payload = self.payload.Serialize()
+        return cbor2.dumps([
+            cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, ser_payload),
+            CryptoUtils.Crc32(ser_payload),
+        ])
+
+
+class _AdaByronAddrUtils:
+    """Cardano Byron address utility class."""
 
     @staticmethod
     def EncodeKey(pub_key_bytes: bytes,
@@ -159,26 +347,17 @@ class _AdaByronAddrUtils:
         Returns:
             str: Address string
         """
-        addr_attrs = {}
-        if hd_path_enc_bytes is not None:
-            addr_attrs[1] = cbor2.dumps(hd_path_enc_bytes)
+        addr_attrs = _AdaByronAddrAttrs(hd_path_enc_bytes, None)
 
-        # Get key hash
-        key_hash_bytes = _AdaByronAddrUtils.AddressRootHash(
-            pub_key_bytes[1:] + chain_code_bytes, addr_attrs, addr_type)
+        # Get address root
+        addr_root = _AdaByronAddrRoot(addr_type,
+                                      _AdaByronAddrSpendingData(addr_type, pub_key_bytes[1:] + chain_code_bytes),
+                                      addr_attrs)
         # Get address payload
-        addr_payload = cbor2.dumps([
-            key_hash_bytes,     # Key double hash
-            addr_attrs,         # Address attributes
-            addr_type,          # Address type
-        ])
+        addr_payload = _AdaByronAddrPayload(addr_root.Hash(), addr_attrs, addr_type)
+
         # Add CRC32 and encode to base58
-        return Base58Encoder.Encode(
-            cbor2.dumps([
-                cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, addr_payload),
-                CryptoUtils.Crc32(addr_payload),
-            ])
-        )
+        return _AdaByronAddr(addr_payload).Encode()
 
 
 class AdaByronAddrDecoder(IAddrDecoder):
@@ -245,42 +424,14 @@ class AdaByronAddrDecoder(IAddrDecoder):
             raise TypeError("Address type is not an enumerative of AdaByronAddrTypes")
 
         try:
-            # Decode from base58
-            addr_payload_with_crc = cbor2.loads(Base58Decoder.Decode(addr))
-            if (len(addr_payload_with_crc) != 2
-                    or not isinstance(addr_payload_with_crc[0], cbor2.CBORTag)
-                    or not isinstance(addr_payload_with_crc[1], int)):
-                raise ValueError("Invalid address encoding")
-            # Get and check CBOR tag
-            cbor_tag = addr_payload_with_crc[0]
-            if cbor_tag.tag != AdaByronAddrConst.PAYLOAD_TAG:
-                raise ValueError(f"Invalid CBOR tag ({cbor_tag.tag})")
-            # Check CRC
-            crc32_got = CryptoUtils.Crc32(cbor_tag.value)
-            if crc32_got != addr_payload_with_crc[1]:
-                raise ValueError(f"Invalid CRC (expected: {addr_payload_with_crc[1]}, got: {crc32_got})")
-            # Get and check tag value
-            addr_payload = cbor2.loads(cbor_tag.value)
-            if (len(addr_payload) != 3
-                    or not isinstance(addr_payload[0], bytes)
-                    or not isinstance(addr_payload[1], dict)
-                    or not isinstance(addr_payload[2], int)):
-                raise ValueError("Invalid address payload")
-            # Get and check address attributes
-            addr_attrs = addr_payload[1]
-            if (len(addr_attrs) > 2
-                    or (len(addr_attrs) != 0 and 1 not in addr_attrs and 2 not in addr_attrs)):
-                raise ValueError("Invalid address attributes")
-            # Get encrypted HD path
-            hd_path_enc_bytes = cbor2.loads(addr_attrs[1]) if 1 in addr_attrs else b""
+            dec_addr = _AdaByronAddr.Decode(addr)
             # Check address type
-            if addr_payload[2] != addr_type:
-                raise ValueError(f"Invalid address type (expected: {addr_type}, got: {addr_payload[2]})")
-            # Check key hash length
-            AddrDecUtils.ValidateLength(addr_payload[0],
-                                        AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN)
+            if dec_addr.payload.type != addr_type:
+                raise ValueError(f"Invalid address type (expected: {addr_type}, got: {dec_addr.payload.type})")
 
-            return addr_payload[0] + hd_path_enc_bytes
+            return dec_addr.payload.root_hash_bytes + (dec_addr.payload.attrs.hd_path_enc_bytes
+                                                       if dec_addr.payload.attrs.hd_path_enc_bytes is not None
+                                                       else b"")
         except cbor2.CBORDecodeValueError as ex:
             raise ValueError("Invalid CBOR encoding") from ex
 
