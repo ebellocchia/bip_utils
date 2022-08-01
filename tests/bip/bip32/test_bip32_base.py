@@ -25,10 +25,11 @@ from bip_utils import (
     Bip32KeyData, Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32FingerPrint,
     Bip32PublicKey, Bip32PrivateKey, EllipticCurveGetter
 )
+from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 
 # Generic seed for testing
-TEST_SEED = b"000102030405060708090a0b0c0d0e0f"
+TEST_SEED = b"\x00" * Bip32BaseConst.SEED_MIN_BYTE_LEN
 # Zero chain code
 ZERO_CHAIN_CODE = b"\x00" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN
 

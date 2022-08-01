@@ -387,7 +387,7 @@ TEST_VECT = [
 ]
 
 # Generic seed for testing
-TEST_SEED = b"2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107"
+TEST_SEED = b"\x00" * Ed25519MoneroPrivateKey.Length()
 
 
 #
@@ -429,7 +429,7 @@ class MoneroTests(unittest.TestCase):
 
     # Test invalid subaddress indexes
     def test_invalid_subaddress_idx(self):
-        monero = Monero.FromSeed(binascii.unhexlify(TEST_SEED))
+        monero = Monero.FromSeed(TEST_SEED)
 
         self.assertRaises(ValueError, monero.Subaddress, -1, 0)
         self.assertRaises(ValueError, monero.Subaddress, 0, -1)

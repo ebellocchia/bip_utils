@@ -25,6 +25,7 @@ from bip_utils import (
     Bip32PublicKey, Bip32PrivateKey, Bip32Ed25519Slip, Bip32Secp256k1,
     CoinsConf, ElectrumV2Standard, ElectrumV2Segwit, WifEncoder
 )
+from tests.bip.bip32.test_bip32_base import TEST_SEED
 
 # Test vector (verified with Electrum wallet)
 TEST_VECT = [
@@ -142,9 +143,6 @@ TEST_VECT = [
     },
 ]
 
-# Test seed
-TEST_SEED = b"000102030405060708090a0b0c0d0e0f"
-
 
 #
 # Tests
@@ -160,10 +158,10 @@ class ElectrumV2Tests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, ElectrumV2Standard, Bip32Ed25519Slip.FromSeed(binascii.unhexlify(TEST_SEED)))
-        self.assertRaises(TypeError, ElectrumV2Segwit, Bip32Ed25519Slip.FromSeed(binascii.unhexlify(TEST_SEED)))
+        self.assertRaises(TypeError, ElectrumV2Standard, Bip32Ed25519Slip.FromSeed(TEST_SEED))
+        self.assertRaises(TypeError, ElectrumV2Segwit, Bip32Ed25519Slip.FromSeed(TEST_SEED))
         # Not a master key
-        self.assertRaises(ValueError, ElectrumV2Segwit, Bip32Secp256k1.FromSeed(binascii.unhexlify(TEST_SEED)).DerivePath("m/0"))
+        self.assertRaises(ValueError, ElectrumV2Segwit, Bip32Secp256k1.FromSeed(TEST_SEED).DerivePath("m/0"))
 
     # Test wallet
     def __test_wallet(self, electrum_v2, test):

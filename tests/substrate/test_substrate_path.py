@@ -197,13 +197,11 @@ class SubstratePathTests(unittest.TestCase):
 
     # Test invalid paths
     def test_invalid_path(self):
-        seed = binascii.unhexlify(TEST_SEED)
-
         for test in TEST_VECT_PATH_INVALID:
             self.assertRaises(SubstratePathError, SubstratePathParser.Parse, test)
 
-            self.assertRaises(SubstratePathError, Substrate.FromSeed(seed, SubstrateCoins.POLKADOT).DerivePath, test)
-            self.assertRaises(SubstratePathError, Substrate.FromSeedAndPath, seed, test, SubstrateCoins.POLKADOT)
+            self.assertRaises(SubstratePathError, Substrate.FromSeed(TEST_SEED, SubstrateCoins.POLKADOT).DerivePath, test)
+            self.assertRaises(SubstratePathError, Substrate.FromSeedAndPath, TEST_SEED, test, SubstrateCoins.POLKADOT)
 
     # Test invalid path elements
     def test_invalid_path_elem(self):

@@ -21,6 +21,7 @@
 # Imports
 import unittest
 from bip_utils import Bip44Conf, Bip44, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins, Cip1852Coins
+from tests.bip.bip32.test_bip32_base import TEST_SEED
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
 # Results generated with: https://iancoleman.io/bip39
@@ -2264,9 +2265,6 @@ TEST_VECT_EX_KEY_DEPTHS = {
     # Public key with depth 6 shall raise an exception
     "ex_pub_6": "xpub6JtuhUVosPSgpBQFZS9oy6oorydcmXS66Kr2TmURvm8uu5wWBXRmRziMT85N4epgkVtwgxpt5FnduVJFi1ARiUcSELWhnZwp9Ge1icYFvhj",
 }
-
-# Seed for generic tests that need it
-TEST_SEED = b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4"
 
 
 #

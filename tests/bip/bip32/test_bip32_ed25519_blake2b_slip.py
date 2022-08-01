@@ -214,11 +214,10 @@ class Bip32Ed25519Blake2bSlipTests(unittest.TestCase):
 
     # Test invalid derivation
     def test_invalid_derivation(self):
-        seed_bytes = binascii.unhexlify(TEST_SEED)
-        bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeed(seed_bytes)
+        bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeed(TEST_SEED)
 
         # Not-hardened private derivation
-        self.assertRaises(Bip32KeyError, Bip32Ed25519Blake2bSlip.FromSeedAndPath, seed_bytes, "m/0'/1")
+        self.assertRaises(Bip32KeyError, Bip32Ed25519Blake2bSlip.FromSeedAndPath, TEST_SEED, "m/0'/1")
         self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, 0)
         self.assertRaises(Bip32KeyError, bip32_ctx.DerivePath, "0'/1")
 

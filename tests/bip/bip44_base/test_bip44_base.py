@@ -239,7 +239,7 @@ class Bip44BaseTestHelper:
     @staticmethod
     def test_is_level(ut_class, bip_class, bip_coin, test_seed_bytes):
         # Master level
-        bip_ctx = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), bip_coin)
+        bip_ctx = bip_class.FromSeed(test_seed_bytes, bip_coin)
         ut_class.assertEqual(bip_ctx.Level(), Bip44Levels.MASTER)
         ut_class.assertTrue(bip_ctx.IsLevel(Bip44Levels.MASTER))
         # Purpose level
@@ -312,7 +312,7 @@ class Bip44BaseTestHelper:
     @staticmethod
     def test_invalid_derivations(ut_class, bip_class, bip_coin, test_seed_bytes):
         # Create all the derivations
-        bip_mst_ctx = bip_class.FromSeed(binascii.unhexlify(test_seed_bytes), bip_coin)
+        bip_mst_ctx = bip_class.FromSeed(test_seed_bytes, bip_coin)
         bip_prp_ctx = bip_mst_ctx.Purpose()
         bip_coin_ctx = bip_prp_ctx.Coin()
         bip_acc_ctx = bip_coin_ctx.Account(0)

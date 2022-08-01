@@ -22,6 +22,7 @@
 import binascii
 import unittest
 from bip_utils import Bip32Ed25519Slip, Bip32PublicKey, Bip32PrivateKey, CardanoByronLegacyBip32, CardanoByronLegacy
+from bip_utils.cardano.bip32.cardano_byron_legacy_bip32 import CardanoByronLegacyBip32Const
 
 # Test vector (verified with AdaLite)
 TEST_VECT = [
@@ -99,8 +100,9 @@ TEST_VECT = [
     },
 ]
 
-# Test seed
-TEST_SEED = b"6e44c8da7e25f37513b01aba095ec72198e38b88dbb9219b97c856e062f6622c"
+# Generic seeds for testing
+TEST_SEED_1 = b"\x00" * CardanoByronLegacyBip32Const.SEED_BYTE_LEN
+TEST_SEED_2 = b"\x01" * CardanoByronLegacyBip32Const.SEED_BYTE_LEN
 
 
 #
@@ -115,27 +117,33 @@ class CardanoByronLegacyTests(unittest.TestCase):
             self.__test_wallet(CardanoByronLegacy.FromSeed(seed_bytes), test)
             self.__test_wallet(CardanoByronLegacy(CardanoByronLegacyBip32.FromSeed(seed_bytes)), test)
 
+    # Test invalid HD path decryption
+    def test_invalid_hd_path_decrypt(self):
+        byron_legacy = CardanoByronLegacy.FromSeed(TEST_SEED_1)
+        addr_err = CardanoByronLegacy.FromSeed(TEST_SEED_2).GetAddress(0, 0)
+        self.assertRaises(ValueError, byron_legacy.HdPathFromAddress, addr_err)
+
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, CardanoByronLegacy, Bip32Ed25519Slip.FromSeed(binascii.unhexlify(TEST_SEED)))
+        self.assertRaises(TypeError, CardanoByronLegacy, Bip32Ed25519Slip.FromSeed(TEST_SEED_1))
         # Not a master key
-        self.assertRaises(ValueError, CardanoByronLegacy, CardanoByronLegacyBip32.FromSeed(binascii.unhexlify(TEST_SEED)).DerivePath("m/0"))
+        self.assertRaises(ValueError, CardanoByronLegacy, CardanoByronLegacyBip32.FromSeed(TEST_SEED_1).DerivePath("m/0"))
 
     # Test wallet
-    def __test_wallet(self, daedalus, test):
-        self.assertTrue(isinstance(daedalus.Bip32Object(), CardanoByronLegacyBip32))
-        self.assertTrue(isinstance(daedalus.MasterPublicKey(), Bip32PublicKey))
-        self.assertTrue(isinstance(daedalus.MasterPrivateKey(), Bip32PrivateKey))
+    def __test_wallet(self, byron_legacy, test):
+        self.assertTrue(isinstance(byron_legacy.Bip32Object(), CardanoByronLegacyBip32))
+        self.assertTrue(isinstance(byron_legacy.MasterPublicKey(), Bip32PublicKey))
+        self.assertTrue(isinstance(byron_legacy.MasterPrivateKey(), Bip32PrivateKey))
 
-        self.assertEqual(test["master_chain_code"], daedalus.MasterPublicKey().Data().ChainCode().ToHex())
-        self.assertEqual(test["master_pub_key"], daedalus.MasterPublicKey().RawUncompressed().ToHex())
-        self.assertEqual(test["master_priv_key"], daedalus.MasterPrivateKey().Raw().ToHex())
+        self.assertEqual(test["master_chain_code"], byron_legacy.MasterPublicKey().Data().ChainCode().ToHex())
+        self.assertEqual(test["master_pub_key"], byron_legacy.MasterPublicKey().RawUncompressed().ToHex())
+        self.assertEqual(test["master_priv_key"], byron_legacy.MasterPrivateKey().Raw().ToHex())
 
         for i, test_addr in enumerate(test["addresses"]):
-            self.assertTrue(isinstance(daedalus.GetPublicKey(0, i), Bip32PublicKey))
-            self.assertTrue(isinstance(daedalus.GetPrivateKey(0, i), Bip32PrivateKey))
+            self.assertTrue(isinstance(byron_legacy.GetPublicKey(0, i), Bip32PublicKey))
+            self.assertTrue(isinstance(byron_legacy.GetPrivateKey(0, i), Bip32PrivateKey))
 
-            self.assertEqual(test_addr["address"], daedalus.GetAddress(0, i))
-            self.assertEqual(test_addr["chain_code"], daedalus.GetPrivateKey(0, i).Data().ChainCode().ToHex())
-            self.assertEqual(test_addr["priv_key"], daedalus.GetPrivateKey(0, i).Raw().ToHex())
-            self.assertEqual(f"m/0'/{i}'", daedalus.HdPathFromAddress(daedalus.GetAddress(0, i)).ToStr())
+            self.assertEqual(test_addr["address"], byron_legacy.GetAddress(0, i))
+            self.assertEqual(test_addr["chain_code"], byron_legacy.GetPrivateKey(0, i).Data().ChainCode().ToHex())
+            self.assertEqual(test_addr["priv_key"], byron_legacy.GetPrivateKey(0, i).Raw().ToHex())
+            self.assertEqual(f"m/0'/{i}'", byron_legacy.HdPathFromAddress(byron_legacy.GetAddress(0, i)).ToStr())

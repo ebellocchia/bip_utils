@@ -85,7 +85,8 @@ TEST_VECT = [
     },
 ]
 
-TEST_SEED = b"0bbe2537d7527f2d7376d4bb9de8ac42ca202dbae310471b88f2cbb0492e6e73"
+# Generic seed for testing
+TEST_SEED = b"\x01" * Secp256k1PrivateKey.Length()
 
 
 #
@@ -113,14 +114,14 @@ class ElectrumV1Tests(unittest.TestCase):
 
         invalid_index = Bip32KeyDataConst.KEY_INDEX_MAX_VAL + 1
 
-        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPrivateKey, invalid_index, 0)
-        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPrivateKey, 0, invalid_index)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(TEST_SEED).GetPrivateKey, invalid_index, 0)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(TEST_SEED).GetPrivateKey, 0, invalid_index)
 
-        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPublicKey, invalid_index, 0)
-        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetPublicKey, 0, invalid_index)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(TEST_SEED).GetPublicKey, invalid_index, 0)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(TEST_SEED).GetPublicKey, 0, invalid_index)
 
-        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetAddress, invalid_index, 0)
-        self.assertRaises(ValueError, ElectrumV1.FromSeed(binascii.unhexlify(TEST_SEED)).GetAddress, 0, invalid_index)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(TEST_SEED).GetAddress, invalid_index, 0)
+        self.assertRaises(ValueError, ElectrumV1.FromSeed(TEST_SEED).GetAddress, 0, invalid_index)
 
     # Test wallet
     def __test_wallet(self, electrum_v1, is_public_only, test):

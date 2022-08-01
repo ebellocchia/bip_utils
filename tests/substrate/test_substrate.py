@@ -25,6 +25,7 @@ from bip_utils import (
     SubstrateKeyError, SubstrateCoins, SubstratePublicKey, SubstratePrivateKey, SubstratePathElem, SubstratePath,
     Substrate, Sr25519PrivateKey, Sr25519PublicKey
 )
+from bip_utils.substrate.substrate import SubstrateConst
 from bip_utils.substrate.conf import SubstrateCoinConf
 from tests.ecc.test_ecc import (
     TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY, TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID
@@ -500,9 +501,9 @@ TEST_VECT_PUBLIC_DER = {
 }
 
 # Invalid seed
-TEST_SEED_ERR = b"4ed8d4b17698ddeaa1f1559f152f87b5d472f725ca86d341bd0276f1b61197"
-# Seed for generic tests that need it
-TEST_SEED = b"4ed8d4b17698ddeaa1f1559f152f87b5d472f725ca86d341bd0276f1b61197e2"
+TEST_SEED_ERR = b"\x00" * (SubstrateConst.SEED_MIN_BYTE_LEN - 1)
+# Generic seed for testing
+TEST_SEED = b"\x00" * SubstrateConst.SEED_MIN_BYTE_LEN
 
 
 #
@@ -598,12 +599,12 @@ class SubstrateTests(unittest.TestCase):
 
     # Test invalid seed
     def test_invalid_seed(self):
-        self.assertRaises(ValueError, Substrate.FromSeed, binascii.unhexlify(TEST_SEED_ERR), SubstrateCoins.POLKADOT)
+        self.assertRaises(ValueError, Substrate.FromSeed, TEST_SEED_ERR, SubstrateCoins.POLKADOT)
 
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, Substrate.FromSeed, binascii.unhexlify(TEST_SEED), 0)
-        self.assertRaises(TypeError, Substrate.FromSeedAndPath, binascii.unhexlify(TEST_SEED), 0)
+        self.assertRaises(TypeError, Substrate.FromSeed, TEST_SEED, 0)
+        self.assertRaises(TypeError, Substrate.FromSeedAndPath, TEST_SEED, 0)
         self.assertRaises(TypeError, Substrate.FromPrivateKey, TEST_SR25519_PRIV_KEY, 0)
         self.assertRaises(TypeError, Substrate.FromPublicKey, TEST_SR25519_PUB_KEY, 0)
 
