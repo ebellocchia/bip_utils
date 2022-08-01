@@ -20,6 +20,7 @@
 
 """
 Module for Cardano Byron address encoding/decoding. Both legacy and Icarus addresses are supported.
+
 References:
     https://cips.cardano.org/cips/cip19
     https://raw.githubusercontent.com/cardano-foundation/CIPs/master/CIP-0019/CIP-0019-byron-addresses.cddl
