@@ -22,6 +22,8 @@
 Module for CBOR decoding/encoding indefinite length arrays.
 Indefinite length arrays are encoded without writing the array length, so elements shall be read until
 the termination byte is found.
+
+NOTE: encoding of values greater than 2^64 is not supported.
 """
 
 # Imports
