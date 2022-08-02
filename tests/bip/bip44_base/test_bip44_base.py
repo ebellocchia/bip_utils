@@ -117,7 +117,9 @@ class Bip44BaseTestHelper:
                 test["ex_master_cls"].UseAlternateKeyNetVersions(False)
 
             # Only for Bitcoin Cash and Bitcoin Cash test net: test legacy addresses
-            if test["coin"] in (Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET) and "addresses_legacy" in test:
+            if test["coin"] in (Bip44Coins.BITCOIN_CASH, Bip44Coins.BITCOIN_CASH_TESTNET,
+                                Bip44Coins.BITCOIN_CASH_SLP, Bip44Coins.BITCOIN_CASH_SLP_TESTNET,
+                                Bip44Coins.ECASH, Bip44Coins.ECASH_TESTNET) and "addresses_legacy" in test:
                 # Set flag
                 test["addresses_legacy"]["cls"].UseLegacyAddress(True)
                 # Test addresses (bip_obj_ctx is already the external chain)
