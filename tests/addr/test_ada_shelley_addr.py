@@ -215,7 +215,6 @@ class AdaShelleyAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_dec(
             self,
             AdaShelleyAddrDecoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "net_tag": 0,
             },
@@ -224,7 +223,6 @@ class AdaShelleyAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             AdaShelleyAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "pub_skey": TEST_ED25519_PUB_KEY,
                 "net_tag": 0,
@@ -235,7 +233,6 @@ class AdaShelleyAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_dec(
             self,
             AdaShelleyStakingAddrDecoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "net_tag": 0,
             },
@@ -244,7 +241,6 @@ class AdaShelleyAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             AdaShelleyStakingAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "net_tag": 0,
             },

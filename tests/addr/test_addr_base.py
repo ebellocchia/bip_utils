@@ -65,10 +65,10 @@ class AddrBaseTestHelper:
 
     # Test invalid parameters (decoding)
     @staticmethod
-    def test_invalid_params_dec(ut_class, addr_dec_class, addr, err_params, ex_type):
-        ut_class.assertRaises(ex_type, addr_dec_class.DecodeAddr, addr, **err_params)
+    def test_invalid_params_dec(ut_class, addr_dec_class, err_params, ex_type):
+        ut_class.assertRaises(ex_type, addr_dec_class.DecodeAddr, "", **err_params)
 
     # Test invalid parameters (encoding)
     @staticmethod
-    def test_invalid_params_enc(ut_class, addr_enc_class, pub_key, err_params, ex_type):
-        ut_class.assertRaises(ex_type, addr_enc_class.EncodeKey, pub_key, **err_params)
+    def test_invalid_params_enc(ut_class, addr_enc_class, err_params, ex_type):
+        ut_class.assertRaises(ex_type, addr_enc_class.EncodeKey, b"", **err_params)

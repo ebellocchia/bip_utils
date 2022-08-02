@@ -167,7 +167,6 @@ class AdaByronAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_dec(
             self,
             AdaByronAddrDecoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.Length(),
                 "addr_type": 0,
@@ -177,7 +176,6 @@ class AdaByronAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             AdaByronIcarusAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "chain_code": b"\x00" * (Bip32ChainCode.Length() - 1),
             },
@@ -186,7 +184,6 @@ class AdaByronAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             AdaByronLegacyAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "chain_code": b"\x00" * (Bip32ChainCode.Length() - 1),
                 "hd_path": "m/0'/0'",
@@ -197,7 +194,6 @@ class AdaByronAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             AdaByronLegacyAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.Length(),
                 "hd_path": "m/0'/0'",
@@ -208,7 +204,6 @@ class AdaByronAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             AdaByronLegacyAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.Length(),
                 "hd_path": "m/a/0'",

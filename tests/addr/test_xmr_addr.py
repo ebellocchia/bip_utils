@@ -240,7 +240,6 @@ class XmrAddrTests(unittest.TestCase):
     def test_invalid_params(self):
         AddrBaseTestHelper.test_invalid_params_dec(
             self, XmrIntegratedAddrDecoder,
-            "4DrC7i9aDrgEJ532nkrBRxRqgCFgozQeCDmvaAVASdw5hVTmtiTEaKeDFW9XJj3VTK36Qm6PCxGjyLc9vXh1YmKph8qJwcHBaeWT21kw6w",
             {
                 "net_ver": CoinsConf.MoneroMainNet.ParamByKey("addr_int_net_ver"),
                 "payment_id": None,
@@ -249,7 +248,6 @@ class XmrAddrTests(unittest.TestCase):
         )
         AddrBaseTestHelper.test_invalid_params_enc(
             self, XmrIntegratedAddrEncoder,
-            TEST_ED25519_MONERO_PUB_KEY,
             {
                 "pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
                 "net_ver": b"",
@@ -258,7 +256,6 @@ class XmrAddrTests(unittest.TestCase):
             ValueError)
         AddrBaseTestHelper.test_invalid_params_enc(
             self, XmrIntegratedAddrEncoder,
-            TEST_ED25519_MONERO_PUB_KEY,
             {
                 "pub_vkey": TEST_ED25519_MONERO_PUB_KEY,
                 "net_ver": b"",

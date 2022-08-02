@@ -119,14 +119,12 @@ class XlmAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_dec(
             self,
             XlmAddrDecoder,
-            "GACG4MLLYMQHMOHZDAR3WSBCYZLC5CXPCXZ447RV3527PP3AQH6YCMW5",
             {"addr_type": 0},
             TypeError
         )
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             XlmAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {"addr_type": 0},
             TypeError
         )

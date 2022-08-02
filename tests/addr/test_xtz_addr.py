@@ -104,14 +104,12 @@ class XtzAddrTests(unittest.TestCase):
         AddrBaseTestHelper.test_invalid_params_dec(
             self,
             XtzAddrDecoder,
-            "tz1NPgUeafMfD7VZbsKkzoJiR8pRynViiTE3",
             {"prefix": 0},
             TypeError
         )
         AddrBaseTestHelper.test_invalid_params_enc(
             self,
             XtzAddrEncoder,
-            TEST_ED25519_PUB_KEY,
             {"prefix": 0},
             TypeError
         )
