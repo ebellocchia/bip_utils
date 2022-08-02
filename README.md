@@ -68,7 +68,7 @@ Supported BIP coins:
 - Bitcoin Cash (and related test net)
 - Bitcoin Cash Simple Ledger Protocol (and related test net)
 - BitcoinSV (and related test net)
-- Cardano (Byron and Shelley)
+- Cardano (Byron-Legacy, Byron-Icarus and Shelley)
 - Celo
 - Certik
 - Cosmos
@@ -77,6 +77,7 @@ Supported BIP coins:
 - eCash (and related test net)
 - Elrond
 - EOS
+- Ergo (and related test net)
 - Ethereum
 - Ethereum Classic
 - Fantom Opera
@@ -87,7 +88,7 @@ Supported BIP coins:
 - Kava
 - Kusama (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
 - Litecoin (and related test net)
-- Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses of the official wallets but it supports subaddresses generation)
+- Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses of the official wallets, but it supports subaddresses generation)
 - Nano
 - Near Protocol
 - NEO
@@ -132,7 +133,7 @@ Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...)
 ## Install the package
 
 For the secp256k1 curve, it's possible to use either the *coincurve* or the *ecdsa* library. *coincurve* is much faster since it's a Python wrapper to the secp256k1 C library, while *ecdsa* is a pure Python implementation.\
-By default, *coincurve* will be used but it's possible to disable it when installing.
+By default *coincurve* will be used, but it's possible to disable it when installing.
 
 To install the package:
 - Default installation (*coincurve* will be used for secp256k1)

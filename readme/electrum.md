@@ -61,8 +61,8 @@ An *ElectrumV1* object can be constructed from:
 
 The *ElectrumV2* classes generate keys and addresses using the current Electrum algorithm.\
 It shall be used with seeds generated with the *ElectrumV2SeedGenerator* class.\
-Since Electrum v2 follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a *Bip32Secp256k1* object,
-which allows construction from public/private key bytes or extended keys.\
+Since Electrum v2 follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a *Bip32Secp256k1* object.
+Constructing it from a BIP32 object allows construction from public/private key bytes or extended keys.\
 The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
 
 Two classes are available:

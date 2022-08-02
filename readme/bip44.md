@@ -41,6 +41,7 @@ Supported coins enumerative for BIP-0044:
 |eCash|*Bip44Coins.ECASH*|*Bip44Coins.ECASH_TESTNET*|
 |Elrond|*Bip44Coins.ELROND*|-|
 |EOS|*Bip44Coins.EOS*|-|
+|Ergo|*Bip44Coins.ERGO*|*Bip44Coins.ERGO_TESTNET*|
 |Ethereum|*Bip44Coins.ETHEREUM*|-|
 |Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
 |Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
