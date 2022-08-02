@@ -64,6 +64,8 @@ class Bip44ConfGetterConst:
         Bip44Coins.ECASH_TESTNET: Bip44Conf.EcashTestNet,
         Bip44Coins.ELROND: Bip44Conf.Elrond,
         Bip44Coins.EOS: Bip44Conf.Eos,
+        Bip44Coins.ERGO: Bip44Conf.ErgoMainNet,
+        Bip44Coins.ERGO_TESTNET: Bip44Conf.ErgoTestNet,
         Bip44Coins.ETHEREUM: Bip44Conf.Ethereum,
         Bip44Coins.ETHEREUM_CLASSIC: Bip44Conf.EthereumClassic,
         Bip44Coins.FANTOM_OPERA: Bip44Conf.FantomOpera,

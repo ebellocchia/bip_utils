@@ -54,6 +54,7 @@ class Slip44:
     TERRA: int = 330
     POLKADOT: int = 354
     NEAR_PROTOCOL: int = 397
+    ERGO: int = 429
     KUSAMA: int = 434
     KAVA: int = 459
     FILECOIN: int = 461

@@ -23,10 +23,10 @@
 # Imports
 from bip_utils.addr import (
     AdaByronIcarusAddrEncoder, AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder,
-    BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, EthAddrEncoder, FilSecp256k1AddrEncoder, NanoAddrEncoder,
-    NearAddrEncoder, NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
-    SubstrateEd25519AddrEncoder, TrxAddrEncoder, XlmAddrTypes, XlmAddrEncoder, XmrAddrEncoder,
-    XrpAddrEncoder, XtzAddrPrefixes, XtzAddrEncoder, ZilAddrEncoder
+    BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, ErgoNetworkTypes, ErgoP2PKHAddrEncoder, EthAddrEncoder,
+    FilSecp256k1AddrEncoder, NanoAddrEncoder, NearAddrEncoder, NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder,
+    P2PKHAddrEncoder, SolAddrEncoder, SubstrateEd25519AddrEncoder, TrxAddrEncoder, XlmAddrTypes, XlmAddrEncoder,
+    XmrAddrEncoder, XrpAddrEncoder, XtzAddrPrefixes, XtzAddrEncoder, ZilAddrEncoder
 )
 from bip_utils.bip.bip32 import (
     Bip32Const, Bip32KeyNetVersions, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1,
@@ -530,6 +530,36 @@ class Bip44Conf:
         bip32_cls=Bip32Secp256k1,
         addr_cls=EosAddrEncoder,
         addr_params={},
+    )
+
+    # Configuration for Ergo main net
+    ErgoMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.ErgoMainNet.CoinNames(),
+        coin_idx=Slip44.ERGO,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=ErgoP2PKHAddrEncoder,
+        addr_params={
+            "net_type": ErgoNetworkTypes.MAINNET,
+        },
+    )
+
+    # Configuration for Ergo test net
+    ErgoTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.ErgoTestNet.CoinNames(),
+        coin_idx=Slip44.ERGO,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=None,
+        bip32_cls=Bip32Secp256k1,
+        addr_cls=ErgoP2PKHAddrEncoder,
+        addr_params={
+            "net_type": ErgoNetworkTypes.TESTNET,
+        },
     )
 
     # Configuration for Ethereum

@@ -16,6 +16,7 @@ from bip_utils.addr import (
     AvaxXChainAddrDecoder, AvaxXChainAddrEncoder, AvaxXChainAddr,
     EgldAddrDecoder, EgldAddrEncoder, EgldAddr,
     EosAddrDecoder, EosAddrEncoder, EosAddr,
+    ErgoNetworkTypes, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder, ErgoP2PKHAddr,
     EthAddrDecoder, EthAddrEncoder, EthAddr,
     FilSecp256k1AddrDecoder, FilSecp256k1AddrEncoder, FilSecp256k1Addr,
     NanoAddrDecoder, NanoAddrEncoder, NanoAddr,

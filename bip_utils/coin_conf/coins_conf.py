@@ -384,6 +384,18 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Ergo main net
+    ErgoMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Ergo", "ERGO"),
+        params={},
+    )
+
+    # Configuration for Ergo test net
+    ErgoTestNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Ergo TestNet", "ERGO"),
+        params={},
+    )
+
     # Configuration for Ethereum
     Ethereum: CoinConf = CoinConf(
         coin_name=CoinNames("Ethereum", "ETH"),

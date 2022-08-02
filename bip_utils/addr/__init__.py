@@ -17,6 +17,7 @@ from bip_utils.addr.avax_addr import (
 )
 from bip_utils.addr.bch_addr_converter import BchAddrConverter
 from bip_utils.addr.egld_addr import EgldAddrDecoder, EgldAddrEncoder, EgldAddr
+from bip_utils.addr.ergo_addr import ErgoNetworkTypes, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder, ErgoP2PKHAddr
 from bip_utils.addr.eos_addr import EosAddrDecoder, EosAddrEncoder, EosAddr
 from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder, EthAddr
 from bip_utils.addr.fil_addr import FilSecp256k1AddrDecoder, FilSecp256k1AddrEncoder, FilSecp256k1Addr

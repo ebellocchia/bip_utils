@@ -639,6 +639,30 @@ TEST_VECT = [
             "EOS6ugvESPgGtaxJKsUf3cBmGVTJzGc1fvjhmSFyHheGAUqj3Tn7Y",
         ],
     },
+    # Ergo
+    {
+        "coin": Bip44Coins.ERGO,
+        "names": ("Ergo", "ERGO"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6BmNbmnCM5edELq1cCf9yQhEgBHe3qseP3M1FAtVt8hZtWAX1S3eABQdnPqm9Swe5xZzZMrpY7nHnDGdsRKu8iLzEUJtiHsHKZTEz78Agkj",
+            "ex_priv": "xprv9xn2CGFJWi6L1rkYWB89cGkW89T9eP9o1pRQSnUtKoAb1hqNTtjPcP69w9FAmAu6j5r51yWrh3KwwxXXd4dx4TkdKGBfejK25w6SridMKYX",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6FGkUqFx68GfystdcXrJHZqxZfzhwP1fqiKMR6KVo2C2oexd7ZsPWMKjjfr455WAxQrSnGmNvizTuqXJAu8jeaVWpLRaTwwHoDc2CoVk8Vv",
+            "ex_priv": "xprvA2HQ5Kj4FkiNmPpAWWKHvRuE1eADXvHpUVPkchutEgf3vrdUa2Z8xZ1FtMe8BUygvwfxgBDifG3bLu45NWkCCEHmpaQKVRkAA2YCqAcr49T",
+        },
+        "addresses": [
+            "9fv2n41gttbUx8oqqhexi68qPfoETFPxnLEEbTfaTk4SmY2knYC",
+            "9fwAsEewLQ9EogJyX3tJRrBx6rxNoW2bUQAjcmQfUHayQaHRriS",
+            "9hPbyNYpAitbRpCesss4yGkEi4FoyECG3A2BEAZphE5N9XdTc6g",
+            "9g22XukeZMY6byWjWgQ8jp1eTt8C29TEWt7eE4LsF9USjpdjEDw",
+            "9feMEaGbHPgRJiwRjJddwkFwfYtesuVYtjqKj4BQvNFJTG2wVMX",
+        ],
+    },
     # Ethereum
     {
         "coin": Bip44Coins.ETHEREUM,
@@ -1746,6 +1770,30 @@ TEST_VECT = [
             "ectest:qr32turulady0gcxhah9mgezqcczjunl6q5etrfmhh",
         ],
     },
+    # Ergo test net
+    {
+        "coin": Bip44Coins.ERGO_TESTNET,
+        "names": ("Ergo TestNet", "ERGO"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "tpubDC9181bt4Mc5W91s4PeFBL2c1JPJ3ENhvfwJbiweE3TTdnqE5etjJd5U2RvYfwtsss6uAwNh5DcLUPmFGHB929oHJ54CPpXWuX3ek35Gje7",
+            "ex_priv": "tprv8fSxybZduyvQcfz5AjyemvNVSGsMsuBoMNLXKCuLomf4oJaTTG5988TbrKQpmYHR6XNr258crPukQp5GkGytsX2DquPyK63512qsJPDoVDo",
+        },
+        "chain_ext": {
+            "ex_pub": "tpubDFeP155doQE8Fg5V4iqPVVBKto6MvmWjPLuemeNe8vwvYwdLBniUenzZyhvqbaTQkKPMPrHFTppWc21uZkyyY1woswAt9UbXPBCRxpRW49c",
+            "ex_priv": "tprv8ixLrf3Pf2YTND3hB5Ao65XDKmaRmSKpp3JsV8LLif9XiTNZZPttUJNhoXonBrN1JPCjgGqUpcdPokbpVj691HZNMDcd9nUD58HdGrAqLjN",
+        },
+        "addresses": [
+            "3Wx1BMpQVMYo5EM6h41whVbvpLtEb9b2ZrJKBs1BS7oSx4eEkJQs",
+            "3Wx2KT13jo4Lq5tbpjNB3DMyw45PjVqfCYNFgtJvX8LyUhip3zfM",
+            "3WyUkZ8wcdP6Bi2VW6C9oknYDfGhAfZps7878Vi5gMHTsSed5VY6",
+            "3Wx7B7g9T21jgtBoaizgsXKodR6ZYiV5qarCbVbriuCrx2zFK4YD",
+            "3WwjVpLfPk3t1awEGwcvNjG3vcmL1aF89xhvGzbhGaRdokWfYeHp",
+        ],
+    },
     # Litecoin test net
     {
         "coin": Bip44Coins.LITECOIN_TESTNET,
@@ -1955,6 +2003,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.EOS,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "EOS6zpSNY1YoLxNt2VsvJjoDfBueU6xC1M1ERJw1UoekL1NHn8KNA",
+    },
+    # Ergo
+    {
+        "coin": Bip44Coins.ERGO,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "9fv2n41gttbUx8oqqhexi68qPfoETFPxnLEEbTfaTk4SmY2knYC",
     },
     # Ethereum
     {
@@ -2224,6 +2278,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.ECASH_TESTNET,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "ectest:qqaz6s295ncfs53m86qj0uw6sl8u2kuw0yqy9a2fy0",
+    },
+    # Ergo test net
+    {
+        "coin": Bip44Coins.ERGO_TESTNET,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "3Wx1BMpQVMYo5EM6h41whVbvpLtEb9b2ZrJKBs1BS7oSx4eEkJQs",
     },
     # Litecoin test net
     {
