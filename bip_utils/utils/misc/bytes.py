@@ -63,8 +63,8 @@ class BytesUtils:
         )
 
     @staticmethod
-    def Add(data_bytes_1: bytes,
-            data_bytes_2: bytes) -> bytes:
+    def AddNoCarry(data_bytes_1: bytes,
+                   data_bytes_2: bytes) -> bytes:
         """
         Add the specified bytes (byte-by-byte, no carry).
 
@@ -80,8 +80,8 @@ class BytesUtils:
         )
 
     @staticmethod
-    def MultiplyScalar(data_bytes: bytes,
-                       scalar: int) -> bytes:
+    def MultiplyScalarNoCarry(data_bytes: bytes,
+                              scalar: int) -> bytes:
         """
         Multiply the specified bytes with the specified scalar (byte-by-byte, no carry).
 

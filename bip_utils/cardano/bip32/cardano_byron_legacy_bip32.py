@@ -149,7 +149,7 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
         """
         curve = EllipticCurveGetter.FromType(CardanoByronLegacyBip32.CurveType())
 
-        zl8_bytes = BytesUtils.MultiplyScalar(zl_bytes, 8)
+        zl8_bytes = BytesUtils.MultiplyScalarNoCarry(zl_bytes, 8)
 
         zl8_int = BytesUtils.ToInteger(zl8_bytes, endianness="little")
         kl_int = BytesUtils.ToInteger(kl_bytes, endianness="little")
@@ -169,7 +169,7 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
         Returns:
             bytes: Rightmost new private key 32-byte
         """
-        return BytesUtils.Add(zr_bytes, kr_bytes)
+        return BytesUtils.AddNoCarry(zr_bytes, kr_bytes)
 
     @staticmethod
     def _NewPublicKeyPoint(pub_key: IPublicKey,
@@ -187,6 +187,6 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
         curve = EllipticCurveGetter.FromType(pub_key.CurveType())
 
         # Compute the new public key point: PKEY + 8ZL * G
-        zl8_int = BytesUtils.ToInteger(BytesUtils.MultiplyScalar(zl_bytes, 8),
+        zl8_int = BytesUtils.ToInteger(BytesUtils.MultiplyScalarNoCarry(zl_bytes, 8),
                                        endianness="little")
         return pub_key.Point() + (zl8_int * curve.Generator())
