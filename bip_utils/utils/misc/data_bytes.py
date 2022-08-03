@@ -42,6 +42,24 @@ class DataBytes:
         """
         self.m_data_bytes = data_bytes
 
+    def Length(self) -> int:
+        """
+        Get length in bytes.
+
+        Returns:
+            int: Length in bytes
+        """
+        return len(self.m_data_bytes)
+
+    def Size(self) -> int:
+        """
+        Get length in bytes (same of Length()).
+
+        Returns:
+            int: Length in bytes
+        """
+        return self.Length()
+
     def ToBytes(self) -> bytes:
         """
         Get data bytes.
@@ -99,6 +117,22 @@ class DataBytes:
             str: Data bytes representation
         """
         return self.ToHex()
+
+    def __getitem__(self,
+                    idx: int) -> int:
+        """
+        Get the element with the specified index.
+
+        Args:
+            idx (int): Index
+
+        Returns:
+            int: Element
+
+        Raises:
+            IndexError: If the index is not valid
+        """
+        return self.m_data_bytes[idx]
 
     def __eq__(self,
                other: object) -> bool:

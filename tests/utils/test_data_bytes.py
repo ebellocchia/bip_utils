@@ -56,20 +56,27 @@ class DataBytesTests(unittest.TestCase):
             test_bytes = binascii.unhexlify(test["bytes"])
             data_bytes = DataBytes(test_bytes)
 
+            # ByteLength
+            self.assertEqual(len(test_bytes), data_bytes.Length())
+            self.assertEqual(len(test_bytes), data_bytes.Size())
+            # Bytes
             self.assertEqual(test_bytes, data_bytes.ToBytes())
             self.assertEqual(test_bytes, bytes(data_bytes))
             self.assertEqual(test_bytes, data_bytes)
-
+            # String
             self.assertEqual(test["hex"], data_bytes.ToHex())
             self.assertEqual(test["hex"], repr(data_bytes))
             self.assertEqual(test["hex"], str(data_bytes))
             self.assertEqual(test["hex"], data_bytes)
-
+            # Integer
             self.assertEqual(test["int_big"], data_bytes.ToInt())
             self.assertEqual(test["int_big"], int(data_bytes.ToInt()))
             self.assertEqual(test["int_big"], data_bytes)
             self.assertEqual(test["int_little"], data_bytes.ToInt("little"))
-
+            # [] operator
+            for i in range(len(test_bytes)):
+                self.assertEqual(test_bytes[i], data_bytes[i])
+            # Equality operator
             self.assertEqual(DataBytes(test_bytes), data_bytes)
 
     # Test invalid parameters
