@@ -58,7 +58,20 @@ class DataBytesTests(unittest.TestCase):
 
             self.assertEqual(test_bytes, data_bytes.ToBytes())
             self.assertEqual(test_bytes, bytes(data_bytes))
+            self.assertEqual(test_bytes, data_bytes)
+
             self.assertEqual(test["hex"], data_bytes.ToHex())
+            self.assertEqual(test["hex"], repr(data_bytes))
             self.assertEqual(test["hex"], str(data_bytes))
+            self.assertEqual(test["hex"], data_bytes)
+
             self.assertEqual(test["int_big"], data_bytes.ToInt())
+            self.assertEqual(test["int_big"], int(data_bytes.ToInt()))
+            self.assertEqual(test["int_big"], data_bytes)
             self.assertEqual(test["int_little"], data_bytes.ToInt("little"))
+
+            self.assertEqual(DataBytes(test_bytes), data_bytes)
+
+    # Test invalid parameters
+    def test_invalid_parameters(self):
+        self.assertRaises(TypeError, DataBytes(b"").__eq__, [])

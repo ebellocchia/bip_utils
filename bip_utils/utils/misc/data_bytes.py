@@ -26,7 +26,7 @@ from bip_utils.utils.misc.bytes import BytesUtils
 
 class DataBytes:
     """
-    Bytes class.
+    Data bytes class.
     It allows to get bytes in different formats.
     """
 
@@ -44,49 +44,83 @@ class DataBytes:
 
     def ToBytes(self) -> bytes:
         """
-        Get key bytes.
+        Get data bytes.
 
         Returns:
-            bytes: Key bytes
+            bytes: Data bytes
         """
         return self.m_data_bytes
 
     def ToHex(self) -> str:
         """
-        Get key bytes in hex format.
+        Get data bytes in hex format.
 
         Returns:
-            str: Key bytes in hex format
+            str: Data bytes in hex format
         """
         return BytesUtils.ToHexString(self.m_data_bytes)
 
     def ToInt(self,
               endianness: str = "big") -> int:
         """
-        Get key bytes as an integer.
+        Get data bytes as an integer.
 
         Args:
             endianness (str, optional): Endianness
 
         Returns:
-            int: Key bytes as an integer
+            int: Data bytes as an integer
         """
         return BytesUtils.ToInteger(self.m_data_bytes, endianness)
 
     def __bytes__(self) -> bytes:
         """
-        Get key bytes.
+        Get data bytes.
 
         Returns:
-            bytes: Key bytes
+            bytes: Data bytes
         """
         return self.ToBytes()
 
-    def __str__(self) -> str:
+    def __int__(self) -> int:
         """
-        Get key bytes as string.
+        Get data bytes as integer.
 
         Returns:
-            str: Key bytes as string
+            bytes: Data bytes as integer
+        """
+        return self.ToInt()
+
+    def __repr__(self) -> str:
+        """
+        Get data bytes representation.
+
+        Returns:
+            str: Data bytes representation
         """
         return self.ToHex()
+
+    def __eq__(self,
+               other: object) -> bool:
+        """
+        Equality operator.
+
+        Args:
+            other (bytes, str, int or DataBytes object): Other object to compare
+
+        Returns:
+            bool: True if equal false otherwise
+
+        Raises:
+            TypeError: If the other object is not of the correct type
+        """
+        if not isinstance(other, (bytes, int, str, DataBytes)):
+            raise TypeError(f"Invalid type for checking equality ({type(other)})")
+
+        if isinstance(other, bytes):
+            return other == bytes(self)
+        elif isinstance(other, int):
+            return other == int(self)
+        elif isinstance(other, str):
+            return other == str(self)
+        return bytes(other) == bytes(self)
