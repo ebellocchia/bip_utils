@@ -38,7 +38,7 @@ class DataBytes:
         Construct class.
 
         Args:
-            data_bytes (bytes): Key bytes
+            data_bytes (bytes): Data bytes
         """
         self.m_data_bytes = data_bytes
 
