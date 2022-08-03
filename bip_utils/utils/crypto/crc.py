@@ -33,7 +33,7 @@ XMODEM_CRC = crcmod.predefined.Crc("xmodem")
 class Crc32:
     """
     CRC32 class.
-    It computes CRC using CRC32 algorithm.
+    It computes digests using CRC32 algorithm.
     """
 
     @staticmethod
@@ -76,7 +76,7 @@ class Crc32:
 class XModemCrc:
     """
     XMODEM-CRC class.
-    It computes CRC using XMODEM-CRC algorithm.
+    It computes digests using XMODEM-CRC algorithm.
     """
 
     @staticmethod
@@ -90,9 +90,7 @@ class XModemCrc:
         Returns:
             bytes: Computed digest
         """
-        crc_fct = XMODEM_CRC.new()
-        crc_fct.update(AlgoUtils.Encode(data))
-        return crc_fct.digest()
+        return XMODEM_CRC.new(AlgoUtils.Encode(data)).digest()
 
     @staticmethod
     def DigestSize() -> int:
