@@ -119,8 +119,8 @@ class DataBytes:
 
         if isinstance(other, bytes):
             return other == bytes(self)
-        elif isinstance(other, int):
+        if isinstance(other, int):
             return other == int(self)
-        elif isinstance(other, str):
+        if isinstance(other, str):
             return other == str(self)
         return bytes(other) == bytes(self)
