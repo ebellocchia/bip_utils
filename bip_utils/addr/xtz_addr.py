@@ -29,7 +29,7 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Blake2b160
 
 
 @unique
@@ -39,13 +39,6 @@ class XtzAddrPrefixes(Enum):
     TZ1 = b"\x06\xa1\x9f"
     TZ2 = b"\x06\xa1\xa1"
     TZ3 = b"\x06\xa1\xa4"
-
-
-class XtzAddrConst:
-    """Class container for Tezos address constants."""
-
-    # Blake2b length in bytes
-    BLAKE2B_BYTE_LEN: int = 20
 
 
 class XtzAddrDecoder(IAddrDecoder):
@@ -87,7 +80,7 @@ class XtzAddrDecoder(IAddrDecoder):
         else:
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        len(prefix.value) + XtzAddrConst.BLAKE2B_BYTE_LEN)
+                                        len(prefix.value) + Blake2b160.DigestSize())
             # Validate and remove prefix
             blake_bytes = AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix.value)
 
@@ -129,8 +122,7 @@ class XtzAddrEncoder(IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         # Compute Blake2b and encode in base58 with checksum
-        blake_bytes = CryptoUtils.Blake2b(pub_key_obj.RawCompressed().ToBytes()[1:],
-                                          digest_size=XtzAddrConst.BLAKE2B_BYTE_LEN)
+        blake_bytes = Blake2b160.QuickDigest(pub_key_obj.RawCompressed().ToBytes()[1:])
 
         return Base58Encoder.CheckEncode(prefix.value + blake_bytes)
 

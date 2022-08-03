@@ -28,7 +28,8 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58XmrDecoder, Base58XmrEncoder
 from bip_utils.ecc import Ed25519MoneroPublicKey, IPublicKey
-from bip_utils.utils.misc import BytesUtils, CryptoUtils
+from bip_utils.utils.crypto import Kekkak256
+from bip_utils.utils.misc import BytesUtils
 
 
 class XmrAddrConst:
@@ -54,7 +55,7 @@ class _XmrAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        return CryptoUtils.Kekkak256(payload_bytes)[:XmrAddrConst.CHECKSUM_BYTE_LEN]
+        return Kekkak256.QuickDigest(payload_bytes)[:XmrAddrConst.CHECKSUM_BYTE_LEN]
 
     @staticmethod
     def DecodeAddr(addr: str,

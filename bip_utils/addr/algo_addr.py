@@ -27,7 +27,8 @@ from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.ecc import Ed25519PublicKey, IPublicKey
-from bip_utils.utils.misc import Base32Decoder, Base32Encoder, CryptoUtils
+from bip_utils.utils.crypto import Sha512_256
+from bip_utils.utils.misc import Base32Decoder, Base32Encoder
 
 
 class AlgoAddrConst:
@@ -51,7 +52,7 @@ class _AlgoAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        return CryptoUtils.Sha512_256(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
+        return Sha512_256.QuickDigest(pub_key_bytes)[-1 * AlgoAddrConst.CHECKSUM_BYTE_LEN:]
 
 
 class AlgoAddrDecoder(IAddrDecoder):

@@ -29,7 +29,8 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
-from bip_utils.utils.misc import CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Blake2b256
+from bip_utils.utils.misc import IntegerUtils
 
 
 @unique
@@ -51,12 +52,8 @@ class ErgoNetworkTypes(IntEnum):
 class ErgoAddrConst:
     """Class container for Ergo address constants."""
 
-    # Checksum Blake2b length in bytes
-    CHECKSUM_BLAKE2B_BYTE_LEN: int = 32
     # Checksum length in bytes
     CHECKSUM_BYTE_LEN: int = 4
-    # P2SH blake2b length in bytes
-    P2SH_BLAKE2B_BYTE_LEN: int = 24
 
 
 class _ErgoAddrUtils:
@@ -73,9 +70,7 @@ class _ErgoAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        blake2b = CryptoUtils.Blake2b(pub_key_bytes,
-                                      ErgoAddrConst.CHECKSUM_BLAKE2B_BYTE_LEN)
-        return blake2b[:ErgoAddrConst.CHECKSUM_BYTE_LEN]
+        return Blake2b256.QuickDigest(pub_key_bytes)[:ErgoAddrConst.CHECKSUM_BYTE_LEN]
 
     @staticmethod
     def EncodePrefix(addr_type: ErgoAddressTypes,

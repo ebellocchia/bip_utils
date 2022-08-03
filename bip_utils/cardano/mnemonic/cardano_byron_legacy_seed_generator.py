@@ -24,15 +24,8 @@
 from typing import Optional, Union
 import cbor2
 from bip_utils.bip.bip39 import Bip39Languages, Bip39MnemonicDecoder
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Blake2b256
 from bip_utils.utils.mnemonic import Mnemonic
-
-
-class CardanoByronOldGeneratorConst:
-    """Class container for Cardano Byron legacy seed generator constants."""
-
-    # Blake2b length in bytes
-    BLAKE2B_BYTE_LEN: int = 32
 
 
 class CardanoByronLegacySeedGenerator:
@@ -56,9 +49,7 @@ class CardanoByronLegacySeedGenerator:
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        ser_entropy_bytes = cbor2.dumps(Bip39MnemonicDecoder(lang).Decode(mnemonic))
-        self.m_seed_bytes = CryptoUtils.Blake2b(ser_entropy_bytes,
-                                                CardanoByronOldGeneratorConst.BLAKE2B_BYTE_LEN)
+        self.m_seed_bytes = Blake2b256.QuickDigest(cbor2.dumps(Bip39MnemonicDecoder(lang).Decode(mnemonic)))
 
     def Generate(self) -> bytes:
         """

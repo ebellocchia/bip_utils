@@ -24,12 +24,11 @@ import unittest
 from bip_utils import (
     AdaByronAddrTypes,
     AdaByronAddrDecoder, AdaByronLegacyAddrEncoder, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr, AdaByronIcarusAddr,
-    Bip32ChainCode, Bip32PathError, Bip32PathParser
+    Bip32ChainCode, Bip32PathError, Bip32PathParser, ChaCha20Poly1305
 )
-from bip_utils.addr.ada_byron_addr import AdaByronAddrConst
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
-from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
+from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
 
 # Some random public keys for Icarus addresses
 TEST_VECT_ICARUS_ADDRESS = [
@@ -156,7 +155,7 @@ class AdaByronAddrTests(unittest.TestCase):
             {
                 "chain_code": b"\x00" * Bip32ChainCode.Length(),
                 "hd_path": "m/0'/0'",
-                "hd_path_key": b"\x00" * AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN,
+                "hd_path_key": b"\x00" * ChaCha20Poly1305.KeySize(),
             },
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
@@ -187,7 +186,7 @@ class AdaByronAddrTests(unittest.TestCase):
             {
                 "chain_code": b"\x00" * (Bip32ChainCode.Length() - 1),
                 "hd_path": "m/0'/0'",
-                "hd_path_key": b"\x00" * AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN,
+                "hd_path_key": b"\x00" * ChaCha20Poly1305.KeySize(),
             },
             ValueError
         )
@@ -197,7 +196,7 @@ class AdaByronAddrTests(unittest.TestCase):
             {
                 "chain_code": b"\x00" * Bip32ChainCode.Length(),
                 "hd_path": "m/0'/0'",
-                "hd_path_key": b"\x00" * (AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN - 1),
+                "hd_path_key": b"\x00" * (ChaCha20Poly1305.KeySize() - 1),
             },
             ValueError
         )
@@ -207,7 +206,7 @@ class AdaByronAddrTests(unittest.TestCase):
             {
                 "chain_code": b"\x00" * Bip32ChainCode.Length(),
                 "hd_path": "m/a/0'",
-                "hd_path_key": b"\x00" * (AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN - 1),
+                "hd_path_key": b"\x00" * (ChaCha20Poly1305.KeySize() - 1),
             },
             Bip32PathError
         )

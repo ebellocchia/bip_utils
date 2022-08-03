@@ -25,7 +25,8 @@ from typing import Optional, Tuple
 from bip_utils.addr import XmrAddrEncoder
 from bip_utils.ecc import Ed25519Monero
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
-from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Kekkak256
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 class MoneroSubaddressConst:
@@ -96,7 +97,7 @@ class MoneroSubaddress:
                                                endianness="little")
 
         # m = Kekkak256("SubAddr" + master_priv_vkey + major_idx + minor_idx)
-        m = CryptoUtils.Kekkak256(MoneroSubaddressConst.SUBADDR_PREFIX
+        m = Kekkak256.QuickDigest(MoneroSubaddressConst.SUBADDR_PREFIX
                                   + self.m_priv_vkey.Raw().ToBytes()
                                   + major_idx_bytes
                                   + minor_idx_bytes)

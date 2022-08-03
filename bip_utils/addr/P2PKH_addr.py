@@ -30,7 +30,8 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Alphabets, Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.bech32 import Bech32ChecksumError, BchBech32Decoder, BchBech32Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import BytesUtils, CryptoUtils
+from bip_utils.utils.crypto import Hash160
+from bip_utils.utils.misc import BytesUtils
 
 
 @unique
@@ -76,7 +77,7 @@ class P2PKHAddrDecoder(IAddrDecoder):
         else:
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        CryptoUtils.Hash160DigestSize() + len(net_ver_bytes))
+                                        Hash160.DigestSize() + len(net_ver_bytes))
             # Validate and remove prefix
             return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, net_ver_bytes)
 
@@ -117,7 +118,7 @@ class P2PKHAddrEncoder(IAddrEncoder):
                          if pub_key_mode == P2PKHPubKeyModes.COMPRESSED
                          else pub_key_obj.RawUncompressed().ToBytes())
 
-        return Base58Encoder.CheckEncode(net_ver_bytes + CryptoUtils.Hash160(pub_key_bytes), base58_alph)
+        return Base58Encoder.CheckEncode(net_ver_bytes + Hash160.QuickDigest(pub_key_bytes), base58_alph)
 
 
 class BchP2PKHAddrDecoder(IAddrDecoder):
@@ -159,7 +160,7 @@ class BchP2PKHAddrDecoder(IAddrDecoder):
                                  f"got {BytesUtils.ToHexString(net_ver_bytes_got)})")
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        CryptoUtils.Hash160DigestSize())
+                                        Hash160.DigestSize())
             return addr_dec_bytes
 
 
@@ -195,7 +196,7 @@ class BchP2PKHAddrEncoder(IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
         return BchBech32Encoder.Encode(hrp,
                                        net_ver_bytes,
-                                       CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+                                       Hash160.QuickDigest(pub_key_obj.RawCompressed().ToBytes()))
 
 
 # For compatibility with old versions, Encoder classes shall be used instead

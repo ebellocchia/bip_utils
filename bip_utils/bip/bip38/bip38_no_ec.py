@@ -28,9 +28,8 @@ from typing import Tuple, Union
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes, Bip38Addr
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
-from bip_utils.utils.misc import (
-    AesEcbDecrypter, AesEcbEncrypter, BytesUtils, CryptoUtils, IntegerUtils, StringUtils
-)
+from bip_utils.utils.crypto import AesEcbDecrypter, AesEcbEncrypter, Scrypt
+from bip_utils.utils.misc import BytesUtils, IntegerUtils, StringUtils
 
 
 class Bip38NoEcConst:
@@ -88,12 +87,12 @@ class _Bip38NoEcUtils:
         """
 
         # Derive a key from passphrase and address hash
-        key = CryptoUtils.Scrypt(StringUtils.NormalizeNfc(passphrase),
-                                 address_hash,
-                                 key_len=Bip38NoEcConst.SCRYPT_KEY_LEN,
-                                 n=Bip38NoEcConst.SCRYPT_N,
-                                 r=Bip38NoEcConst.SCRYPT_R,
-                                 p=Bip38NoEcConst.SCRYPT_P)
+        key = Scrypt.DeriveKey(StringUtils.NormalizeNfc(passphrase),
+                               address_hash,
+                               key_len=Bip38NoEcConst.SCRYPT_KEY_LEN,
+                               n=Bip38NoEcConst.SCRYPT_N,
+                               r=Bip38NoEcConst.SCRYPT_R,
+                               p=Bip38NoEcConst.SCRYPT_P)
         # Split the resulting 64 bytes in half
         derived_half_1 = key[:Bip38NoEcConst.SCRYPT_KEY_LEN // 2]
         derived_half_2 = key[Bip38NoEcConst.SCRYPT_KEY_LEN // 2:]

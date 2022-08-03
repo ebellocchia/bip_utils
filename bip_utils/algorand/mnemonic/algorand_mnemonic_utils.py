@@ -23,7 +23,7 @@
 # Imports
 from typing import List, Optional, Union
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandMnemonicConst
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Sha512_256
 
 
 class AlgorandMnemonicUtils:
@@ -40,7 +40,7 @@ class AlgorandMnemonicUtils:
         Returns:
             bytes: Computed checksum
         """
-        return CryptoUtils.Sha512_256(data_bytes)[:AlgorandMnemonicConst.CHECKSUM_BYTE_LEN]
+        return Sha512_256.QuickDigest(data_bytes)[:AlgorandMnemonicConst.CHECKSUM_BYTE_LEN]
 
     @staticmethod
     def ComputeChecksumWordIndex(data_bytes: bytes) -> int:

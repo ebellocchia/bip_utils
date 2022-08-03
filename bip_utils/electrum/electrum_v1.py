@@ -28,7 +28,8 @@ from bip_utils.addr import P2PKHPubKeyModes, P2PKHAddr
 from bip_utils.bip.bip32 import Bip32KeyIndex
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey, IPrivateKey, Secp256k1, Secp256k1PublicKey, Secp256k1PrivateKey
-from bip_utils.utils.misc import AlgoUtils, BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import DoubleSha256
+from bip_utils.utils.misc import AlgoUtils, BytesUtils, IntegerUtils
 
 
 class ElectrumV1:
@@ -281,9 +282,8 @@ class ElectrumV1:
         Returns:
             bytes: Sequence bytes
         """
-        return CryptoUtils.DoubleSha256(
-            AlgoUtils.Encode(f"{addr_idx}:{change_idx}:") + self.MasterPublicKey().RawUncompressed().ToBytes()[1:]
-        )
+        return DoubleSha256.QuickDigest(
+            AlgoUtils.Encode(f"{addr_idx}:{change_idx}:") + self.MasterPublicKey().RawUncompressed().ToBytes()[1:])
 
     @staticmethod
     def __ValidateIndexes(change_idx: int,

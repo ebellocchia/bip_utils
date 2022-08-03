@@ -30,7 +30,8 @@ from bip_utils.monero.conf import MoneroCoins, MoneroCoinConf, MoneroConfGetter
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.monero.monero_subaddr import MoneroSubaddress
-from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Kekkak256
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 class _MoneroUtils:
@@ -81,7 +82,7 @@ class Monero:
         """
         priv_skey_bytes = (seed_bytes
                            if len(seed_bytes) == Ed25519MoneroPrivateKey.Length()
-                           else CryptoUtils.Kekkak256(seed_bytes))
+                           else Kekkak256.QuickDigest(seed_bytes))
         return cls.FromPrivateSpendKey(_MoneroUtils.ScReduce(priv_skey_bytes), coin_type)
 
     @classmethod
@@ -100,7 +101,10 @@ class Monero:
         """
         if not isinstance(priv_key, bytes):
             priv_key = priv_key.Raw().ToBytes()
-        return cls.FromPrivateSpendKey(_MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_key)), coin_type)
+        return cls.FromPrivateSpendKey(
+            _MoneroUtils.ScReduce(Kekkak256.QuickDigest(priv_key)),
+            coin_type
+        )
 
     @classmethod
     def FromPrivateSpendKey(cls,
@@ -302,5 +306,5 @@ class Monero:
         Returns:
             MoneroPrivateKey object: Private view key
         """
-        priv_vkey_bytes = _MoneroUtils.ScReduce(CryptoUtils.Kekkak256(priv_skey.Raw().ToBytes()))
+        priv_vkey_bytes = _MoneroUtils.ScReduce(Kekkak256.QuickDigest(priv_skey.Raw().ToBytes()))
         return MoneroPrivateKey.FromBytes(priv_vkey_bytes)

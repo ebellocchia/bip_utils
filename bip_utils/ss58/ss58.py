@@ -27,7 +27,8 @@ Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-
 from typing import Tuple
 from bip_utils.ss58.ss58_ex import SS58ChecksumError
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Blake2b512
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 class SS58Const:
@@ -63,7 +64,7 @@ class _SS58Utils:
         Returns:
             bytes: Computed checksum
         """
-        return CryptoUtils.Blake2b(SS58Const.CHECKSUM_PREFIX + data_bytes)[:SS58Const.CHECKSUM_BYTE_LEN]
+        return Blake2b512.QuickDigest(SS58Const.CHECKSUM_PREFIX + data_bytes)[:SS58Const.CHECKSUM_BYTE_LEN]
 
 
 class SS58Encoder:

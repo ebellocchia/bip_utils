@@ -32,7 +32,8 @@ import cbor2
 from bip_utils.bip.bip32 import Bip32Base, Bip32Ed25519Kholaw, Bip32KeyIndex, Bip32KeyData, Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_base import Bip32BaseUtils
 from bip_utils.ecc import Ed25519KholawPrivateKey, EllipticCurveGetter, IPublicKey, IPoint
-from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Sha512
+from bip_utils.utils.misc import BitUtils, BytesUtils, IntegerUtils
 
 
 class CardanoByronLegacyBip32Const:
@@ -111,7 +112,7 @@ class CardanoByronLegacyBip32(Bip32Ed25519Kholaw):
             data_bytes,
             CardanoByronLegacyBip32Const.HMAC_MESSAGE_FORMAT % itr_num
         )
-        key_bytes = cls._TweakMasterKeyBits(CryptoUtils.Sha512(il_bytes))
+        key_bytes = cls._TweakMasterKeyBits(Sha512.QuickDigest(il_bytes))
         if BitUtils.AreBitsSet(key_bytes[31], 0x20):
             return cls.__HashRepeatedly(data_bytes, itr_num + 1)
         return key_bytes, ir_bytes

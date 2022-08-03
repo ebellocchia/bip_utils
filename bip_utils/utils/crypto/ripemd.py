@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2022 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,47 +18,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for SHA256 computation."""
+"""Module for RIPEMD algorithm."""
 
-
-#
 # Imports
-#
-import hashlib
-from typing import Any
+from typing import Union
+from Crypto.Hash import RIPEMD160
+from bip_utils.utils.misc import AlgoUtils
 
 
-#
-# Classes
-#
-
-class Sha256:
+class Ripemd160:
     """
-    SHA256 class.
-    It computes SHA256 of the given data.
+    RIPEMD160 class.
+    It computes digests using RIPEMD160 algorithm.
     """
 
-    handle: Any
-
-    def __init__(self) -> None:
-        """Construct class."""
-        self.handle = hashlib.sha256()
-
-    def Update(self,
-               data_bytes: bytes) -> None:
+    @staticmethod
+    def QuickDigest(data: Union[bytes, str]) -> bytes:
         """
-        Update digest.
+        Compute the digest (quick version).
 
         Args:
-            data_bytes (bytes): Data bytes
-        """
-        self.handle.update(data_bytes)
-
-    def Digest(self) -> bytes:
-        """
-        Get the computed digest.
+            data (str or bytes): Data
 
         Returns:
-            bytes: Digest bytes
+            bytes: Computed digest
         """
-        return self.handle.digest()
+        return RIPEMD160.new(AlgoUtils.Encode(data)).digest()
+
+    @staticmethod
+    def DigestSize() -> int:
+        """
+        Get the digest size in bytes.
+
+        Returns:
+            int: Digest size in bytes
+        """
+        return RIPEMD160.digest_size

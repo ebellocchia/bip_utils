@@ -30,7 +30,8 @@ from bip_utils.bip.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32Pu
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32FingerPrint, Bip32KeyData
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPoint, IPrivateKey, IPublicKey
-from bip_utils.utils.misc import CryptoUtils, DataBytes
+from bip_utils.utils.crypto import Hash160
+from bip_utils.utils.misc import DataBytes
 
 
 class _Bip32KeyBase(ABC):
@@ -224,7 +225,7 @@ class Bip32PublicKey(_Bip32KeyBase):
         Returns:
             bytes: Key identifier bytes
         """
-        return CryptoUtils.Hash160(self.m_pub_key.RawCompressed().ToBytes())
+        return Hash160.QuickDigest(self.m_pub_key.RawCompressed().ToBytes())
 
     @lru_cache()
     def ToExtended(self) -> str:

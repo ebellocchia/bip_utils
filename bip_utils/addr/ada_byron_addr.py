@@ -38,7 +38,8 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip32 import Bip32ChainCode, Bip32Path, Bip32PathParser
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CborIndefiniteLenArrayDecoder, CborIndefiniteLenArrayEncoder, CryptoUtils
+from bip_utils.utils.crypto import Blake2b224, ChaCha20Poly1305, Crc32, Sha3_256
+from bip_utils.utils.misc import CborIndefiniteLenArrayDecoder, CborIndefiniteLenArrayEncoder
 
 
 @unique
@@ -52,16 +53,10 @@ class AdaByronAddrTypes(IntEnum):
 class AdaByronAddrConst:
     """Class container for Cardano Byron address constants."""
 
-    # Address root hash length in bytes
-    ADDR_ROOT_HASH_BYTE_LEN: int = 28
     # ChaCha20-Poly1305 associated data for HD path decryption/encryption
     CHACHA20_POLY1305_ASSOC_DATA: bytes = b""
     # ChaCha20-Poly1305 nonce for HD path decryption/encryption
     CHACHA20_POLY1305_NONCE: bytes = b"serokellfore"
-    # ChaCha20-Poly1305 tag length in bytes
-    CHACHA20_POLY1305_TAG_BYTE_LEN: int = 16
-    # HD path key length in bytes
-    HD_PATH_KEY_BYTE_LEN: int = 32
     # Payload tag
     PAYLOAD_TAG: int = 24
 
@@ -85,12 +80,12 @@ class _AdaByronAddrHdPath:
         Raises:
             ValueError: If the decryption fails or the path cannot be decoded
         """
-        plain_text_bytes = CryptoUtils.ChaCha20Poly1305Decrypt(
+        plain_text_bytes = ChaCha20Poly1305.Decrypt(
             key=hd_path_key_bytes,
             nonce=AdaByronAddrConst.CHACHA20_POLY1305_NONCE,
             assoc_data=AdaByronAddrConst.CHACHA20_POLY1305_ASSOC_DATA,
-            cipher_text=hd_path_enc_bytes[:-AdaByronAddrConst.CHACHA20_POLY1305_TAG_BYTE_LEN],
-            tag=hd_path_enc_bytes[-AdaByronAddrConst.CHACHA20_POLY1305_TAG_BYTE_LEN:]
+            cipher_text=hd_path_enc_bytes[:-ChaCha20Poly1305.TagSize()],
+            tag=hd_path_enc_bytes[-ChaCha20Poly1305.TagSize():]
         )
         return Bip32Path(CborIndefiniteLenArrayDecoder.Decode(plain_text_bytes),
                          True)
@@ -108,7 +103,7 @@ class _AdaByronAddrHdPath:
         Returns:
             bytes: Computed key bytes
         """
-        cipher_text_bytes, tag_bytes = CryptoUtils.ChaCha20Poly1305Encrypt(
+        cipher_text_bytes, tag_bytes = ChaCha20Poly1305.Encrypt(
             key=hd_path_key_bytes,
             nonce=AdaByronAddrConst.CHACHA20_POLY1305_NONCE,
             assoc_data=AdaByronAddrConst.CHACHA20_POLY1305_ASSOC_DATA,
@@ -182,8 +177,7 @@ class _AdaByronAddrRoot(NamedTuple):
         Returns:
             bytes: Address root hash bytes
         """
-        return CryptoUtils.Blake2b(CryptoUtils.Sha3_256(self.Serialize()),
-                                   AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN)
+        return Blake2b224.QuickDigest(Sha3_256.QuickDigest(self.Serialize()))
 
     def Serialize(self) -> bytes:
         """
@@ -229,7 +223,7 @@ class _AdaByronAddrPayload(NamedTuple):
             raise ValueError("Invalid address payload")
         # Check key hash length
         AddrDecUtils.ValidateLength(addr_payload[0],
-                                    AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN)
+                                    Blake2b224.DigestSize())
 
         return cls(
             addr_payload[0],
@@ -307,7 +301,7 @@ class _AdaByronAddr(NamedTuple):
         if cbor_tag.tag != AdaByronAddrConst.PAYLOAD_TAG:
             raise ValueError(f"Invalid CBOR tag ({cbor_tag.tag})")
         # Check CRC
-        crc32_got = CryptoUtils.Crc32(cbor_tag.value)
+        crc32_got = Crc32.QuickIntDigest(cbor_tag.value)
         if crc32_got != addr_bytes[1]:
             raise ValueError(f"Invalid CRC (expected: {addr_bytes[1]}, got: {crc32_got})")
 
@@ -323,7 +317,7 @@ class _AdaByronAddr(NamedTuple):
         ser_payload = self.payload.Serialize()
         return cbor2.dumps([
             cbor2.CBORTag(AdaByronAddrConst.PAYLOAD_TAG, ser_payload),
-            CryptoUtils.Crc32(ser_payload),
+            Crc32.QuickIntDigest(ser_payload),
         ])
 
 
@@ -395,8 +389,8 @@ class AdaByronAddrDecoder(IAddrDecoder):
         Returns:
             tuple[bytes, bytes]: Address root hash (index 0), encrypted HD path (index 1)
         """
-        return (dec_bytes[:AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN],
-                dec_bytes[AdaByronAddrConst.ADDR_ROOT_HASH_BYTE_LEN:])
+        return (dec_bytes[:Blake2b224.DigestSize()],
+                dec_bytes[Blake2b224.DigestSize():])
 
     @staticmethod
     def DecodeAddr(addr: str,
@@ -512,7 +506,7 @@ class AdaByronLegacyAddrEncoder(IAddrEncoder):
 
         # Get HD path key
         hd_path_key_bytes = kwargs["hd_path_key"]
-        if hd_path_key_bytes is not None and len(hd_path_key_bytes) != AdaByronAddrConst.HD_PATH_KEY_BYTE_LEN:
+        if hd_path_key_bytes is not None and len(hd_path_key_bytes) != ChaCha20Poly1305.KeySize():
             raise ValueError("HD path key shall be 32-byte long")
 
         # Get chain code (creating a Bip32ChainCode object checks for its validity)

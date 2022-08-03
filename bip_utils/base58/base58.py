@@ -24,7 +24,8 @@
 from enum import Enum, auto, unique
 from typing import Dict
 from bip_utils.base58.base58_ex import Base58ChecksumError
-from bip_utils.utils.misc import BytesUtils, CryptoUtils
+from bip_utils.utils.crypto import DoubleSha256
+from bip_utils.utils.misc import BytesUtils
 
 
 @unique
@@ -63,7 +64,7 @@ class Base58Utils:
         Returns:
             bytes: Computed checksum
         """
-        return CryptoUtils.DoubleSha256(data_bytes)[:Base58Const.CHECKSUM_BYTE_LEN]
+        return DoubleSha256.QuickDigest(data_bytes)[:Base58Const.CHECKSUM_BYTE_LEN]
 
 
 class Base58Encoder:

@@ -31,13 +31,13 @@ from bip_utils.substrate.scale import (
     SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
 )
 from bip_utils.substrate.substrate_ex import SubstratePathError
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Blake2b256
 
 
 class SubstratePathConst:
     """Container for Substrate path constants."""
 
-    # Encoded element maximumn length in bytes
+    # Encoded element maximum length in bytes
     ENCODED_ELEM_MAX_BYTE_LEN: int = 32
     # Regex for path
     RE_PATH: str = r"\/+[^/]+"
@@ -165,7 +165,7 @@ class SubstratePathElem:
         # Compute chain code
         max_len = SubstratePathConst.ENCODED_ELEM_MAX_BYTE_LEN
         if len(enc_data) > max_len:
-            chain_code = CryptoUtils.Blake2b(enc_data, digest_size=max_len)
+            chain_code = Blake2b256.QuickDigest(enc_data)
         else:
             chain_code = enc_data.ljust(max_len, b"\x00")
 

@@ -28,7 +28,7 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Hash160
 
 
 class AtomAddrDecoder(IAddrDecoder):
@@ -63,7 +63,7 @@ class AtomAddrDecoder(IAddrDecoder):
             raise ValueError("Invalid bech32 checksum") from ex
         else:
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        CryptoUtils.Hash160DigestSize())
+                                        Hash160.DigestSize())
             return addr_dec_bytes
 
 
@@ -96,7 +96,7 @@ class AtomAddrEncoder(IAddrEncoder):
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
         return Bech32Encoder.Encode(hrp,
-                                    CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+                                    Hash160.QuickDigest(pub_key_obj.RawCompressed().ToBytes()))
 
 
 # For compatibility with old versions, Encoder class shall be used instead

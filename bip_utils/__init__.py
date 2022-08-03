@@ -176,8 +176,13 @@ from bip_utils.substrate.scale import (
 )
 
 # Utils
+from bip_utils.utils.crypto import (
+    AesEcbDecrypter, AesEcbEncrypter, Blake2b160, Blake2b224, Blake2b256, Blake2b, ChaCha20Poly1305,
+    Crc32, XModemCrc, Hash160, HmacSha256, HmacSha512, Pbkdf2HmacSha512, Ripemd160, Scrypt,
+    DoubleSha256, Sha256, Sha512, Sha512_256, Kekkak256, Sha3_256
+)
 from bip_utils.utils.misc import (
-    AlgoUtils, BitUtils, BytesUtils, CryptoUtils, DataBytes, IntegerUtils, StringUtils
+    AlgoUtils, BitUtils, BytesUtils, DataBytes, IntegerUtils, StringUtils
 )
 from bip_utils.utils.mnemonic import MnemonicChecksumError
 # WIF

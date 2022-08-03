@@ -28,7 +28,7 @@ from typing import Union
 from bip_utils.addr import AdaByronAddrDecoder, AdaByronLegacyAddrEncoder
 from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32Path, Bip32PublicKey, Bip32PrivateKey
 from bip_utils.cardano.bip32 import CardanoByronLegacyBip32
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Pbkdf2HmacSha512
 
 
 class CardanoByronLegacyConst:
@@ -100,7 +100,7 @@ class CardanoByronLegacy:
         Returns:
             bytes: Key bytes
         """
-        return CryptoUtils.Pbkdf2HmacSha512(
+        return Pbkdf2HmacSha512.DeriveKey(
             self.m_bip32_obj.PublicKey().RawCompressed().ToBytes()[1:] + self.m_bip32_obj.ChainCode().ToBytes(),
             CardanoByronLegacyConst.HD_PATH_KEY_PBKDF2_SALT,
             CardanoByronLegacyConst.HD_PATH_KEY_PBKDF2_ROUNDS,

@@ -29,7 +29,7 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey, Secp256k1PublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Ripemd160
 
 
 class EosAddrConst:
@@ -53,7 +53,7 @@ class _EosAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        return CryptoUtils.Ripemd160(pub_key_bytes)[:EosAddrConst.CHECKSUM_BYTE_LEN]
+        return Ripemd160.QuickDigest(pub_key_bytes)[:EosAddrConst.CHECKSUM_BYTE_LEN]
 
 
 class EosAddrDecoder(IAddrDecoder):

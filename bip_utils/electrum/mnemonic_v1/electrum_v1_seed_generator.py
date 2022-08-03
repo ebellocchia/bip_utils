@@ -24,7 +24,8 @@
 from typing import Optional, Union
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_decoder import ElectrumV1MnemonicDecoder
-from bip_utils.utils.misc import AlgoUtils, BytesUtils, CryptoUtils
+from bip_utils.utils.crypto import Sha256
+from bip_utils.utils.misc import AlgoUtils, BytesUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
@@ -86,7 +87,7 @@ class ElectrumV1SeedGenerator:
             bytes: Generated seed
         """
         entropy_hex = AlgoUtils.Encode(BytesUtils.ToHexString(entropy_bytes))
-        x = entropy_hex
+        h = entropy_hex
         for _ in range(ElectrumV1SeedGeneratorConst.HASH_ITR_NUM):
-            x = CryptoUtils.Sha256(x + entropy_hex)
-        return x
+            h = Sha256.QuickDigest(h + entropy_hex)
+        return h

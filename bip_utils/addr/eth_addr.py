@@ -28,7 +28,8 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import BytesUtils, CryptoUtils
+from bip_utils.utils.crypto import Kekkak256
+from bip_utils.utils.misc import BytesUtils
 
 
 class EthAddrConst:
@@ -56,7 +57,7 @@ class _EthAddrUtils:
         """
 
         # Compute address digest
-        addr_hex_digest = BytesUtils.ToHexString(CryptoUtils.Kekkak256(addr.lower()))
+        addr_hex_digest = BytesUtils.ToHexString(Kekkak256.QuickDigest(addr.lower()))
         # Encode it
         enc_addr = [c.upper() if (int(addr_hex_digest[i], 16) >= 8) else c.lower() for i, c in enumerate(addr)]
 
@@ -131,7 +132,7 @@ class EthAddrEncoder(IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
         # First byte of the uncompressed key (i.e. 0x04) is not needed
-        kekkak_hex = BytesUtils.ToHexString(CryptoUtils.Kekkak256(pub_key_obj.RawUncompressed().ToBytes()[1:]))
+        kekkak_hex = BytesUtils.ToHexString(Kekkak256.QuickDigest(pub_key_obj.RawUncompressed().ToBytes()[1:]))
         addr = kekkak_hex[EthAddrConst.START_BYTE:]
         return CoinsConf.Ethereum.ParamByKey("addr_prefix") + (_EthAddrUtils.ChecksumEncode(addr)
                                                                if not skip_chksum_enc

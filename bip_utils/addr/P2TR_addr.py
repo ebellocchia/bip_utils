@@ -34,7 +34,8 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, SegwitBech32Decoder, SegwitBech32Encoder
 from bip_utils.ecc import IPoint, IPublicKey, Secp256k1, Secp256k1Point, Secp256k1PublicKey
-from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Sha256
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 class P2TRConst:
@@ -67,8 +68,8 @@ class _P2TRUtils:
         Returns:
             bytes: Tagged hash
         """
-        tag_hash = CryptoUtils.Sha256(tag) if isinstance(tag, str) else tag
-        return CryptoUtils.Sha256(tag_hash + tag_hash + data_bytes)
+        tag_hash = Sha256.QuickDigest(tag) if isinstance(tag, str) else tag
+        return Sha256.QuickDigest(tag_hash + tag_hash + data_bytes)
 
     @staticmethod
     def HashTapTweak(pub_key: IPublicKey) -> bytes:

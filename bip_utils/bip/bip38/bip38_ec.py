@@ -29,9 +29,8 @@ from typing import Optional, Tuple
 from bip_utils.base58 import Base58Decoder, Base58Encoder
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes, Bip38Addr
 from bip_utils.ecc import Secp256k1PrivateKey, Secp256k1PublicKey, Secp256k1
-from bip_utils.utils.misc import (
-    AesEcbDecrypter, AesEcbEncrypter, BitUtils, BytesUtils, CryptoUtils, IntegerUtils, StringUtils
-)
+from bip_utils.utils.crypto import AesEcbDecrypter, AesEcbEncrypter, DoubleSha256, Scrypt
+from bip_utils.utils.misc import BitUtils, BytesUtils, IntegerUtils, StringUtils
 
 
 class Bip38EcConst:
@@ -158,15 +157,15 @@ class _Bip38EcUtils:
         """
 
         # Compute the prefactor
-        prefactor = CryptoUtils.Scrypt(StringUtils.NormalizeNfc(passphrase),
-                                       _Bip38EcUtils.OwnerSaltFromEntropy(owner_entropy, has_lot_seq),
-                                       key_len=Bip38EcConst.SCRYPT_PREFACTOR_KEY_LEN,
-                                       n=Bip38EcConst.SCRYPT_PREFACTOR_N,
-                                       r=Bip38EcConst.SCRYPT_PREFACTOR_P,
-                                       p=Bip38EcConst.SCRYPT_PREFACTOR_R)
+        prefactor = Scrypt.DeriveKey(StringUtils.NormalizeNfc(passphrase),
+                                     _Bip38EcUtils.OwnerSaltFromEntropy(owner_entropy, has_lot_seq),
+                                     key_len=Bip38EcConst.SCRYPT_PREFACTOR_KEY_LEN,
+                                     n=Bip38EcConst.SCRYPT_PREFACTOR_N,
+                                     r=Bip38EcConst.SCRYPT_PREFACTOR_P,
+                                     p=Bip38EcConst.SCRYPT_PREFACTOR_R)
         # Compute the passfactor
         if has_lot_seq:
-            passfactor = CryptoUtils.DoubleSha256(prefactor + owner_entropy)
+            passfactor = DoubleSha256.QuickDigest(prefactor + owner_entropy)
         else:
             passfactor = prefactor
 
@@ -206,12 +205,12 @@ class _Bip38EcUtils:
         """
 
         # Derive a key from passpoint, address hash and owner entropy
-        key = CryptoUtils.Scrypt(passpoint,
-                                 address_hash + owner_entropy,
-                                 key_len=Bip38EcConst.SCRYPT_HALVES_KEY_LEN,
-                                 n=Bip38EcConst.SCRYPT_HALVES_N,
-                                 r=Bip38EcConst.SCRYPT_HALVES_R,
-                                 p=Bip38EcConst.SCRYPT_HALVES_P)
+        key = Scrypt.DeriveKey(passpoint,
+                               address_hash + owner_entropy,
+                               key_len=Bip38EcConst.SCRYPT_HALVES_KEY_LEN,
+                               n=Bip38EcConst.SCRYPT_HALVES_N,
+                               r=Bip38EcConst.SCRYPT_HALVES_R,
+                               p=Bip38EcConst.SCRYPT_HALVES_P)
         # Split the resulting 64 bytes in half
         derived_half_1 = key[:Bip38EcConst.SCRYPT_HALVES_KEY_LEN // 2]
         derived_half_2 = key[Bip38EcConst.SCRYPT_HALVES_KEY_LEN // 2:]
@@ -296,7 +295,7 @@ class Bip38EcKeysGenerator:
         # Generate seedb
         seedb = os.urandom(Bip38EcConst.SEED_B_BYTE_LEN)
         # Compute factorb from seedb
-        factorb = CryptoUtils.DoubleSha256(seedb)
+        factorb = DoubleSha256.QuickDigest(seedb)
 
         # Compute address hash
         address_hash = Bip38Addr.AddressHash(
@@ -474,7 +473,7 @@ class Bip38EcDecrypter:
         seedb = seedb_part_1 + seedb_part_2
 
         # Compute factorb from seedb
-        return CryptoUtils.DoubleSha256(seedb)
+        return DoubleSha256.QuickDigest(seedb)
 
     @staticmethod
     def __ComputePrivateKey(passfactor: bytes,

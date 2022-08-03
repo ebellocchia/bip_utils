@@ -33,7 +33,8 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Blake2b224
+from bip_utils.utils.misc import IntegerUtils
 
 
 @unique
@@ -55,8 +56,6 @@ class AdaShelleyAddrHeaderTypes(IntEnum):
 class AdaShelleyAddrConst:
     """Class container for Cardano Shelley address constants."""
 
-    # Hash length in bytes
-    HASH_BYTE_LEN: int = 28
     # Network tag to address HRP
     NETWORK_TAG_TO_ADDR_HRP: Dict[AdaShelleyAddrNetworkTags, str] = {
         AdaShelleyAddrNetworkTags.MAINNET: CoinsConf.CardanoMainNet.ParamByKey("addr_hrp"),
@@ -83,8 +82,7 @@ class _AdaShelleyAddrUtils:
         Returns:
             bytes: Key hash bytes
         """
-        return CryptoUtils.Blake2b(pub_key_bytes,
-                                   AdaShelleyAddrConst.HASH_BYTE_LEN)
+        return Blake2b224.QuickDigest(pub_key_bytes)
 
     @staticmethod
     def EncodePrefix(hdr_type: AdaShelleyAddrHeaderTypes,
@@ -140,7 +138,7 @@ class AdaShelleyAddrDecoder(IAddrDecoder):
             raise ValueError("Invalid bech32 checksum") from ex
         else:
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        (AdaShelleyAddrConst.HASH_BYTE_LEN * 2) + 1)
+                                        (Blake2b224.DigestSize() * 2) + 1)
             # Validate and remove prefix
             prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT,
                                                             net_tag)
@@ -231,7 +229,7 @@ class AdaShelleyStakingAddrDecoder(IAddrDecoder):
             raise ValueError("Invalid bech32 checksum") from ex
         else:
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        AdaShelleyAddrConst.HASH_BYTE_LEN + 1)
+                                        Blake2b224.DigestSize() + 1)
             # Validate and remove prefix
             prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD,
                                                             net_tag)

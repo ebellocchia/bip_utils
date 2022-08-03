@@ -36,7 +36,8 @@ from bip_utils.ecc import (
     EllipticCurveGetter, EllipticCurveTypes, Ed25519KholawPublicKey, Ed25519KholawPrivateKey,
     IPoint, IPublicKey, IPrivateKey
 )
-from bip_utils.utils.misc import BitUtils, BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import HmacSha256, HmacSha512
+from bip_utils.utils.misc import BitUtils, BytesUtils, IntegerUtils
 
 
 class Bip32Ed25519KholawConst:
@@ -240,8 +241,7 @@ class Bip32Ed25519Kholaw(Bip32Base):
         kl_bytes = cls._TweakMasterKeyBits(kl_bytes)
 
         # Compute chain code
-        chain_code_bytes = CryptoUtils.HmacSha256(cls._MasterKeyHmacKey(),
-                                                  b"\x01" + seed_bytes)
+        chain_code_bytes = HmacSha256.QuickDigest(cls._MasterKeyHmacKey(), b"\x01" + seed_bytes)
         # Compute private key
         priv_key = Ed25519KholawPrivateKey.FromBytes(kl_bytes + kr_bytes)
 
@@ -296,23 +296,13 @@ class Bip32Ed25519Kholaw(Bip32Base):
 
         # Compute Z and chain code
         if index.IsHardened():
-            z_bytes = CryptoUtils.HmacSha512(
-                self.ChainCode().ToBytes(),
-                b"\x00" + priv_key_bytes + index_bytes
-            )
-            chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(
-                self.ChainCode().ToBytes(),
-                b"\x01" + priv_key_bytes + index_bytes
-            )[1]
+            z_bytes = HmacSha512.QuickDigest(self.ChainCode().ToBytes(), b"\x00" + priv_key_bytes + index_bytes)
+            chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(self.ChainCode().ToBytes(),
+                                                               b"\x01" + priv_key_bytes + index_bytes)[1]
         else:
-            z_bytes = CryptoUtils.HmacSha512(
-                self.ChainCode().ToBytes(),
-                b"\x02" + pub_key_bytes + index_bytes
-            )
-            chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(
-                self.ChainCode().ToBytes(),
-                b"\x03" + pub_key_bytes + index_bytes
-            )[1]
+            z_bytes = HmacSha512.QuickDigest(self.ChainCode().ToBytes(), b"\x02" + pub_key_bytes + index_bytes)
+            chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(self.ChainCode().ToBytes(),
+                                                               b"\x03" + pub_key_bytes + index_bytes)[1]
 
         # Compute the left and right part of the new private key
         kl_bytes = self._NewPrivateKeyLeftPart(z_bytes[:32], priv_key_bytes[:32])
@@ -352,14 +342,9 @@ class Bip32Ed25519Kholaw(Bip32Base):
         pub_key_bytes = self.m_pub_key.RawCompressed().ToBytes()[1:]
 
         # Compute Z and chain code
-        z_bytes = CryptoUtils.HmacSha512(
-            self.ChainCode().ToBytes(),
-            b"\x02" + pub_key_bytes + index_bytes
-        )
-        chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(
-            self.ChainCode().ToBytes(),
-            b"\x03" + pub_key_bytes + index_bytes
-        )[1]
+        z_bytes = HmacSha512.QuickDigest(self.ChainCode().ToBytes(), b"\x02" + pub_key_bytes + index_bytes)
+        chain_code_bytes = Bip32BaseUtils.HmacSha512Halves(self.ChainCode().ToBytes(),
+                                                           b"\x03" + pub_key_bytes + index_bytes)[1]
 
         # Compute the new public key point
         pub_key_point = self._NewPublicKeyPoint(self.m_pub_key.KeyObject(), z_bytes[:32])

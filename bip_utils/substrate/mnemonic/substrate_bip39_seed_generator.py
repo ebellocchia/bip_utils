@@ -24,7 +24,8 @@
 from typing import Optional, Union
 from bip_utils.bip.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39MnemonicDecoder
 from bip_utils.bip.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
-from bip_utils.utils.misc import CryptoUtils, StringUtils
+from bip_utils.utils.crypto import Pbkdf2HmacSha512
+from bip_utils.utils.misc import StringUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
@@ -65,6 +66,6 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
             bytes: Generated seed
         """
         salt = StringUtils.NormalizeNfkd(Bip39SeedGeneratorConst.SEED_SALT_MOD + passphrase)
-        return CryptoUtils.Pbkdf2HmacSha512(self.m_entropy_bytes,
-                                            salt,
-                                            Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)
+        return Pbkdf2HmacSha512.DeriveKey(self.m_entropy_bytes,
+                                          salt,
+                                          Bip39SeedGeneratorConst.SEED_PBKDF2_ROUNDS)

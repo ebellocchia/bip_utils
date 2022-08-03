@@ -25,7 +25,8 @@ from typing import Optional
 from bip_utils.bip.bip39 import Bip39MnemonicValidator
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst, ElectrumV2MnemonicTypes
 from bip_utils.electrum.mnemonic_v1 import ElectrumV1MnemonicValidator
-from bip_utils.utils.misc import BytesUtils, CryptoUtils
+from bip_utils.utils.crypto import HmacSha512
+from bip_utils.utils.misc import BytesUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
@@ -82,7 +83,7 @@ class ElectrumV2MnemonicUtils:
         Returns:
             bool: True if valid, false otherwise
         """
-        h = CryptoUtils.HmacSha512(ElectrumV2MnemonicUtilsConst.HMAC_KEY, mnemonic.ToStr())
+        h = HmacSha512.QuickDigest(ElectrumV2MnemonicUtilsConst.HMAC_KEY, mnemonic.ToStr())
         for mnemonic_type in ElectrumV2MnemonicTypes:
             if BytesUtils.ToHexString(h).startswith(ElectrumV2MnemonicConst.TYPE_TO_PREFIX[mnemonic_type]):
                 return True
@@ -101,5 +102,5 @@ class ElectrumV2MnemonicUtils:
         Returns:
             bool: True if valid, false otherwise
         """
-        h = CryptoUtils.HmacSha512(ElectrumV2MnemonicUtilsConst.HMAC_KEY, mnemonic.ToStr())
+        h = HmacSha512.QuickDigest(ElectrumV2MnemonicUtilsConst.HMAC_KEY, mnemonic.ToStr())
         return BytesUtils.ToHexString(h).startswith(ElectrumV2MnemonicConst.TYPE_TO_PREFIX[mnemonic_type])

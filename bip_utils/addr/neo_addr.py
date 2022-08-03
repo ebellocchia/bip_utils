@@ -28,7 +28,8 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Hash160
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 class NeoAddrConst:
@@ -74,7 +75,7 @@ class NeoAddrDecoder(IAddrDecoder):
         else:
             # Validate length
             AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        CryptoUtils.Hash160DigestSize() + len(ver_bytes))
+                                        Hash160.DigestSize() + len(ver_bytes))
             # Check version
             ver_got = IntegerUtils.ToBytes(addr_dec_bytes[0])
             if ver_bytes != ver_got:
@@ -118,7 +119,7 @@ class NeoAddrEncoder(IAddrEncoder):
                          + pub_key_obj.RawCompressed().ToBytes()
                          + NeoAddrConst.SUFFIX)
         # Encode to base58
-        return Base58Encoder.CheckEncode(ver_bytes + CryptoUtils.Hash160(payload_bytes))
+        return Base58Encoder.CheckEncode(ver_bytes + Hash160.QuickDigest(payload_bytes))
 
 
 # For compatibility with old versions, Encoder class shall be used instead

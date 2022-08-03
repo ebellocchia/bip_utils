@@ -27,7 +27,8 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 from typing import Optional, Union
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst, Bip39Languages, Bip39Mnemonic
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
-from bip_utils.utils.misc import BytesUtils, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Sha256
+from bip_utils.utils.misc import BytesUtils, IntegerUtils
 from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicWordsList
 
 
@@ -148,8 +149,8 @@ class Bip39MnemonicDecoder(MnemonicDecoderBase):
         # Get entropy bytes
         entropy_bytes = self.__EntropyBytesFromBinaryStr(mnemonic_bin_str)
         # Convert entropy hash to binary string
-        entropy_hash_bin_str = BytesUtils.ToBinaryStr(CryptoUtils.Sha256(entropy_bytes),
-                                                      CryptoUtils.Sha256DigestSize() * 8)
+        entropy_hash_bin_str = BytesUtils.ToBinaryStr(Sha256.QuickDigest(entropy_bytes),
+                                                      Sha256.DigestSize() * 8)
 
         # Return checksum
         return entropy_hash_bin_str[:self.__GetChecksumLen(mnemonic_bin_str)]

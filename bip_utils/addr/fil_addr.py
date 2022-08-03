@@ -29,7 +29,8 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import Base32Decoder, Base32Encoder, CryptoUtils, IntegerUtils
+from bip_utils.utils.crypto import Blake2b32, Blake2b160
+from bip_utils.utils.misc import Base32Decoder, Base32Encoder, IntegerUtils
 
 
 @unique
@@ -45,10 +46,6 @@ class FilAddrConst:
 
     # Alphabet for base32
     BASE32_ALPHABET: str = "abcdefghijklmnopqrstuvwxyz234567"
-    # Blake2b length in bytes
-    BLAKE2B_BYTE_LEN: int = 20
-    # Checksum length in bytes
-    CHECKSUM_BYTE_LEN: int = 4
 
 
 class _FilAddrUtils:
@@ -68,8 +65,7 @@ class _FilAddrUtils:
             bytes: Computed checksum
         """
         addr_type_byte = IntegerUtils.ToBytes(addr_type)
-        return CryptoUtils.Blake2b(addr_type_byte + pub_key_hash,
-                                   digest_size=FilAddrConst.CHECKSUM_BYTE_LEN)
+        return Blake2b32.QuickDigest(addr_type_byte + pub_key_hash)
 
     @staticmethod
     def DecodeAddr(addr: str,
@@ -98,11 +94,11 @@ class _FilAddrUtils:
         addr_dec_bytes = Base32Decoder.Decode(addr_no_prefix[1:], FilAddrConst.BASE32_ALPHABET)
         # Validate length
         AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                    FilAddrConst.BLAKE2B_BYTE_LEN + FilAddrConst.CHECKSUM_BYTE_LEN)
+                                    Blake2b160.DigestSize() + Blake2b32.DigestSize())
 
         # Get back checksum and public key bytes
         pub_key_hash_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
-                                                                               FilAddrConst.CHECKSUM_BYTE_LEN)
+                                                                               Blake2b32.DigestSize())
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_hash_bytes, checksum_bytes,
                                       lambda pub_key_bytes: _FilAddrUtils.ComputeChecksum(pub_key_bytes, addr_type))
@@ -127,8 +123,7 @@ class _FilAddrUtils:
         addr_type_str = chr(addr_type + ord("0"))
 
         # Compute public key hash and checksum
-        pub_key_hash_bytes = CryptoUtils.Blake2b(pub_key_bytes,
-                                                 digest_size=FilAddrConst.BLAKE2B_BYTE_LEN)
+        pub_key_hash_bytes = Blake2b160.QuickDigest(pub_key_bytes)
         checksum_bytes = _FilAddrUtils.ComputeChecksum(pub_key_hash_bytes, addr_type)
         # Encode to base32
         b32_enc = Base32Encoder.EncodeNoPadding(pub_key_hash_bytes + checksum_bytes, FilAddrConst.BASE32_ALPHABET)

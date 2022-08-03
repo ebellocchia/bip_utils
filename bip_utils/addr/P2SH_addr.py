@@ -29,7 +29,7 @@ from bip_utils.addr.P2PKH_addr import BchP2PKHAddrDecoder, P2PKHAddrDecoder
 from bip_utils.base58 import Base58Encoder
 from bip_utils.bech32 import BchBech32Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Hash160
 
 
 class P2SHAddrConst:
@@ -55,11 +55,11 @@ class _P2SHAddrUtils:
         """
 
         # Key hash: Hash160(public_key)
-        key_hash_bytes = CryptoUtils.Hash160(pub_key.RawCompressed().ToBytes())
+        key_hash_bytes = Hash160.QuickDigest(pub_key.RawCompressed().ToBytes())
         # Script signature: 0x0014 | Hash160(public_key)
         script_sig_bytes = P2SHAddrConst.SCRIPT_BYTES + key_hash_bytes
         # Address bytes = Hash160(script_signature)
-        return CryptoUtils.Hash160(script_sig_bytes)
+        return Hash160.QuickDigest(script_sig_bytes)
 
 
 class P2SHAddrDecoder(IAddrDecoder):

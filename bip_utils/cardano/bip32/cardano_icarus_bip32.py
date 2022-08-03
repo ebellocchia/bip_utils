@@ -30,7 +30,8 @@ References:
 # Imports
 from bip_utils.bip.bip32 import Bip32Base, Bip32Ed25519Kholaw, Bip32KeyData, Bip32KeyNetVersions
 from bip_utils.ecc import Ed25519KholawPrivateKey
-from bip_utils.utils.misc import BitUtils, CryptoUtils
+from bip_utils.utils.crypto import Pbkdf2HmacSha512
+from bip_utils.utils.misc import BitUtils
 
 
 class CardanoIcarusBip32Const:
@@ -68,10 +69,10 @@ class CardanoIcarusBip32(Bip32Ed25519Kholaw):
         Raises:
             Bip32KeyError: If the seed is not suitable for master key generation
         """
-        key_bytes = CryptoUtils.Pbkdf2HmacSha512(CardanoIcarusBip32Const.PBKDF2_PASSWORD,
-                                                 seed_bytes,
-                                                 CardanoIcarusBip32Const.PBKDF2_ROUNDS,
-                                                 CardanoIcarusBip32Const.PBKDF2_OUT_BYTE_LEN)
+        key_bytes = Pbkdf2HmacSha512.DeriveKey(CardanoIcarusBip32Const.PBKDF2_PASSWORD,
+                                               seed_bytes,
+                                               CardanoIcarusBip32Const.PBKDF2_ROUNDS,
+                                               CardanoIcarusBip32Const.PBKDF2_OUT_BYTE_LEN)
         key_bytes = cls._TweakMasterKeyBits(key_bytes)
 
         return cls(priv_key=Ed25519KholawPrivateKey.FromBytes(key_bytes[:Ed25519KholawPrivateKey.Length()]),

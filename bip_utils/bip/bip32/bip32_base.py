@@ -34,7 +34,7 @@ from bip_utils.bip.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip.bip32.bip32_path import Bip32Path, Bip32PathParser
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPrivateKey, IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import HmacSha512
 
 
 class Bip32BaseConst:
@@ -43,7 +43,7 @@ class Bip32BaseConst:
     # Minimum length in bytes for seed
     SEED_MIN_BYTE_LEN: int = 16
     # HMAC half-length in bytes
-    HMAC_HALF_BYTE_LEN: int = 32
+    HMAC_HALF_BYTE_LEN: int = HmacSha512.DigestSize() // 2
 
 
 class Bip32BaseUtils:
@@ -63,7 +63,7 @@ class Bip32BaseUtils:
         Returns:
             tuple[bytes, bytes]: Left and right halves of the HMAC
         """
-        hmac = CryptoUtils.HmacSha512(key_bytes, data_bytes)
+        hmac = HmacSha512.QuickDigest(key_bytes, data_bytes)
         return hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN], hmac[Bip32BaseConst.HMAC_HALF_BYTE_LEN:]
 
 
@@ -455,7 +455,7 @@ class Bip32Base(ABC):
         success = False
 
         while not success:
-            hmac = CryptoUtils.HmacSha512(cls._MasterKeyHmacKey(), hmac_data)
+            hmac = HmacSha512.QuickDigest(cls._MasterKeyHmacKey(), hmac_data)
             # If private key is not valid, the new HMAC data is the current HMAC
             success = priv_key_cls.IsValidBytes(hmac[:Bip32BaseConst.HMAC_HALF_BYTE_LEN])
             if not success:

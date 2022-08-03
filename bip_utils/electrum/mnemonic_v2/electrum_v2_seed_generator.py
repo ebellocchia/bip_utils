@@ -24,7 +24,8 @@
 from typing import Optional, Union
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2Languages, ElectrumV2Mnemonic
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_validator import ElectrumV2MnemonicValidator
-from bip_utils.utils.misc import CryptoUtils, StringUtils
+from bip_utils.utils.crypto import Pbkdf2HmacSha512
+from bip_utils.utils.misc import StringUtils
 from bip_utils.utils.mnemonic import Mnemonic
 
 
@@ -75,6 +76,6 @@ class ElectrumV2SeedGenerator:
             bytes: Generated seed
         """
         salt = StringUtils.NormalizeNfkd(ElectrumV2SeedGeneratorConst.SEED_SALT_MOD + passphrase)
-        return CryptoUtils.Pbkdf2HmacSha512(self.m_mnemonic.ToStr(),
-                                            salt,
-                                            ElectrumV2SeedGeneratorConst.SEED_PBKDF2_ROUNDS)
+        return Pbkdf2HmacSha512.DeriveKey(self.m_mnemonic.ToStr(),
+                                          salt,
+                                          ElectrumV2SeedGeneratorConst.SEED_PBKDF2_ROUNDS)

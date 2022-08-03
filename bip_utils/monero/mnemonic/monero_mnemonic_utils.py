@@ -24,7 +24,7 @@
 import os
 from typing import List, Tuple
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroMnemonicConst, MoneroLanguages
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Crc32
 from bip_utils.utils.mnemonic import (
     MnemonicWordsList, MnemonicLanguages, Mnemonic, MnemonicWordsListGetterBase, MnemonicWordsListFinderBase
 )
@@ -119,4 +119,4 @@ class MoneroMnemonicUtils:
         # Join the prefix of all words together
         prefixes = "".join(word[:unique_prefix_len] for word in mnemonic)
 
-        return mnemonic[CryptoUtils.Crc32(prefixes) % len(mnemonic)]
+        return mnemonic[Crc32.QuickIntDigest(prefixes) % len(mnemonic)]

@@ -33,7 +33,7 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, SegwitBech32Decoder, SegwitBech32Encoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Hash160
 
 
 class P2WPKHAddrConst:
@@ -112,7 +112,7 @@ class P2WPKHAddrEncoder(IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
         return SegwitBech32Encoder.Encode(hrp,
                                           P2WPKHAddrConst.WITNESS_VER,
-                                          CryptoUtils.Hash160(pub_key_obj.RawCompressed().ToBytes()))
+                                          Hash160.QuickDigest(pub_key_obj.RawCompressed().ToBytes()))
 
 
 # For compatibility with old versions, Encoder class shall be used instead

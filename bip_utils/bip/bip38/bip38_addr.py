@@ -25,7 +25,7 @@ from typing import Union
 from bip_utils.addr import P2PKHAddr
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import DoubleSha256
 from bip_utils.wif import WifPubKeyModes
 
 
@@ -66,4 +66,4 @@ class Bip38Addr:
                                       net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"),
                                       pub_key_mode=pub_key_mode)
         # Take the first four bytes of SHA256(SHA256())
-        return CryptoUtils.DoubleSha256(address)[:Bip38AddrConst.ADDR_HASH_LEN]
+        return DoubleSha256.QuickDigest(address)[:Bip38AddrConst.ADDR_HASH_LEN]

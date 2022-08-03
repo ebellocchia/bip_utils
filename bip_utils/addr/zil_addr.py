@@ -29,7 +29,7 @@ from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
-from bip_utils.utils.misc import CryptoUtils
+from bip_utils.utils.crypto import Sha256
 
 
 class ZilAddrConst:
@@ -96,7 +96,7 @@ class ZilAddrEncoder(IAddrEncoder):
         """
         pub_key_obj = AddrKeyValidator.ValidateAndGetSecp256k1Key(pub_key)
 
-        key_hash = CryptoUtils.Sha256(pub_key_obj.RawCompressed().ToBytes())
+        key_hash = Sha256.QuickDigest(pub_key_obj.RawCompressed().ToBytes())
         return Bech32Encoder.Encode(CoinsConf.Zilliqa.ParamByKey("addr_hrp"),
                                     key_hash[-ZilAddrConst.SHA256_BYTE_LEN:])
 

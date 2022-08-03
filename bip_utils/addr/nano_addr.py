@@ -28,7 +28,8 @@ from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import Ed25519Blake2bPublicKey, IPublicKey
-from bip_utils.utils.misc import Base32Decoder, Base32Encoder, BytesUtils, CryptoUtils
+from bip_utils.utils.crypto import Blake2b40
+from bip_utils.utils.misc import Base32Decoder, Base32Encoder, BytesUtils
 
 
 class NanoAddrConst:
@@ -40,8 +41,6 @@ class NanoAddrConst:
     PAYLOAD_PAD_DEC: bytes = b"\x00\x00\x00"
     # Payload padding (encoded)
     PAYLOAD_PAD_ENC: str = "1111"
-    # Checksum length in bytes
-    CHECKSUM_BYTE_LEN: int = 5
 
 
 class _NanoAddrUtils:
@@ -58,8 +57,7 @@ class _NanoAddrUtils:
         Returns:
             bytes: Computed checksum
         """
-        return BytesUtils.Reverse(CryptoUtils.Blake2b(pub_key_bytes,
-                                                      digest_size=NanoAddrConst.CHECKSUM_BYTE_LEN))
+        return BytesUtils.Reverse(Blake2b40.QuickDigest(pub_key_bytes))
 
 
 class NanoAddrDecoder(IAddrDecoder):
@@ -93,13 +91,14 @@ class NanoAddrDecoder(IAddrDecoder):
                                               NanoAddrConst.BASE32_ALPHABET)
         # Validate length
         AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                    Ed25519Blake2bPublicKey.CompressedLength() + NanoAddrConst.CHECKSUM_BYTE_LEN
+                                    Ed25519Blake2bPublicKey.CompressedLength() + Blake2b40.DigestSize()
                                     + len(NanoAddrConst.PAYLOAD_PAD_DEC) - 1)
 
         # Get back checksum and public key bytes
         pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(
             addr_dec_bytes[len(NanoAddrConst.PAYLOAD_PAD_DEC):],
-            NanoAddrConst.CHECKSUM_BYTE_LEN)
+            Blake2b40.DigestSize()
+        )
         # Validate checksum
         AddrDecUtils.ValidateChecksum(pub_key_bytes, checksum_bytes, _NanoAddrUtils.ComputeChecksum)
         # Validate public key
