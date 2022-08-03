@@ -26,6 +26,9 @@ from typing import Union
 import crcmod.predefined
 from bip_utils.utils.misc import AlgoUtils, IntegerUtils
 
+# Get the class only once for efficiency
+XMODEM_CRC = crcmod.predefined.Crc("xmodem")
+
 
 class Crc32:
     """
@@ -87,7 +90,7 @@ class XModemCrc:
         Returns:
             bytes: Computed digest
         """
-        crc_fct = crcmod.predefined.Crc("xmodem")
+        crc_fct = XMODEM_CRC.new()
         crc_fct.update(AlgoUtils.Encode(data))
         return crc_fct.digest()
 
@@ -99,4 +102,4 @@ class XModemCrc:
         Returns:
             int: Digest size in bytes
         """
-        return crcmod.predefined.Crc("xmodem").digest_size
+        return XMODEM_CRC.digest_size
