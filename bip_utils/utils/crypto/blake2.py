@@ -56,7 +56,7 @@ class Blake2b:
                                salt=AlgoUtils.Encode(salt)).digest()
 
 
-class _Blake2bWitSpecificSize(ABC):
+class _Blake2bWithSpecificSize(ABC):
     """Abstract class for Blake2b with specific digest size."""
 
     @classmethod
@@ -88,7 +88,7 @@ class _Blake2bWitSpecificSize(ABC):
         """
 
 
-class Blake2b32(_Blake2bWitSpecificSize):
+class Blake2b32(_Blake2bWithSpecificSize):
     """
     BLAKE2b-32 class.
     It computes digests using BLAKE2b-32 algorithm.
@@ -105,7 +105,7 @@ class Blake2b32(_Blake2bWitSpecificSize):
         return 4
 
 
-class Blake2b40(_Blake2bWitSpecificSize):
+class Blake2b40(_Blake2bWithSpecificSize):
     """
     BLAKE2b-40 class.
     It computes digests using BLAKE2b-40 algorithm.
@@ -122,7 +122,7 @@ class Blake2b40(_Blake2bWitSpecificSize):
         return 5
 
 
-class Blake2b160(_Blake2bWitSpecificSize):
+class Blake2b160(_Blake2bWithSpecificSize):
     """
     BLAKE2b-160 class.
     It computes digests using BLAKE2b-160 algorithm.
@@ -139,7 +139,7 @@ class Blake2b160(_Blake2bWitSpecificSize):
         return 20
 
 
-class Blake2b224(_Blake2bWitSpecificSize):
+class Blake2b224(_Blake2bWithSpecificSize):
     """
     BLAKE2b-224 class.
     It computes digests using BLAKE2b-224 algorithm.
@@ -156,7 +156,7 @@ class Blake2b224(_Blake2bWitSpecificSize):
         return 28
 
 
-class Blake2b256(_Blake2bWitSpecificSize):
+class Blake2b256(_Blake2bWithSpecificSize):
     """
     BLAKE2b-256 class.
     It computes digests using BLAKE2b-256 algorithm.
@@ -173,7 +173,7 @@ class Blake2b256(_Blake2bWitSpecificSize):
         return 32
 
 
-class Blake2b512(_Blake2bWitSpecificSize):
+class Blake2b512(_Blake2bWithSpecificSize):
     """
     BLAKE2b-512 class.
     It computes digests using BLAKE2b-512 algorithm.
