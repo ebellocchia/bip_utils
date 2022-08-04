@@ -21,6 +21,7 @@
 """Module with helper class for data bytes."""
 
 # Imports
+from typing import Iterator
 from bip_utils.utils.misc.bytes import BytesUtils
 
 
@@ -91,6 +92,15 @@ class DataBytes:
         """
         return BytesUtils.ToInteger(self.m_data_bytes, endianness)
 
+    def __len__(self) -> int:
+        """
+        Get length in bytes.
+
+        Returns:
+            int: Length in bytes
+        """
+        return self.Length()
+
     def __bytes__(self) -> bytes:
         """
         Get data bytes.
@@ -133,6 +143,15 @@ class DataBytes:
             IndexError: If the index is not valid
         """
         return self.m_data_bytes[idx]
+
+    def __iter__(self) -> Iterator[int]:
+        """
+        Get the iterator to the current element.
+
+        Returns:
+            Iterator object: Iterator to the current element
+        """
+        yield from self.m_data_bytes
 
     def __eq__(self,
                other: object) -> bool:
