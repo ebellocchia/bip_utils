@@ -23,6 +23,7 @@
 # Imports
 from typing import Any, Tuple
 from bip_utils.ecc.common.ipoint import IPoint
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519_monero.lib import ed25519_monero_lib
 from bip_utils.utils.misc import DataBytes
 
@@ -85,6 +86,16 @@ class Ed25519MoneroPoint(IPoint):
             point_obj (tuple): Point object
         """
         self.m_point = point_obj
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.ED25519_MONERO
 
     def UnderlyingObject(self) -> Any:
         """
@@ -153,7 +164,7 @@ class Ed25519MoneroPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519MoneroPoint(ed25519_monero_lib.edwards_add(self.m_point, point.UnderlyingObject()))
+        return self.__class__(ed25519_monero_lib.edwards_add(self.m_point, point.UnderlyingObject()))
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -182,8 +193,8 @@ class Ed25519MoneroPoint(IPoint):
 
         # Use scalarmult_B for generator point, which is more efficient
         if ed25519_monero_lib.is_generator_point(self.m_point):
-            return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult_B(scalar))
-        return Ed25519MoneroPoint(ed25519_monero_lib.scalarmult(self.m_point, scalar))
+            return self.__class__(ed25519_monero_lib.scalarmult_B(scalar))
+        return self.__class__(ed25519_monero_lib.scalarmult(self.m_point, scalar))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:

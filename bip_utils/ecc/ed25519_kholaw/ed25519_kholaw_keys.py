@@ -28,9 +28,11 @@ right 32-byte extension part).
 from typing import Any
 from nacl import signing
 from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PublicKey, Ed25519PrivateKey
 from bip_utils.ecc.ed25519.lib import ed25519_nacl_wrapper
+from bip_utils.ecc.ed25519_kholaw.ed25519_kholaw_point import Ed25519KholawPoint
 from bip_utils.utils.misc import DataBytes
 
 
@@ -53,6 +55,15 @@ class Ed25519KholawPublicKey(Ed25519PublicKey):
            EllipticCurveTypes: Elliptic curve type
         """
         return EllipticCurveTypes.ED25519_KHOLAW
+
+    def Point(self) -> IPoint:
+        """
+        Get public key point.
+
+        Returns:
+            IPoint object: IPoint object
+        """
+        return Ed25519KholawPoint(bytes(self.m_ver_key))
 
 
 class Ed25519KholawPrivateKey(IPrivateKey):

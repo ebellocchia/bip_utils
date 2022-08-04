@@ -21,8 +21,19 @@
 """Module for ed25519-blake2b point."""
 
 # Imports
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
 
 
 class Ed25519Blake2bPoint(Ed25519Point):
     """Ed25519-Blake2b point class."""
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.ED25519_BLAKE2B

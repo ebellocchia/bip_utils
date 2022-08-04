@@ -25,6 +25,7 @@ from typing import Any
 from ecdsa import ellipticcurve, keys
 from ecdsa.ecdsa import curve_256
 from bip_utils.ecc.common.ipoint import IPoint
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
 from bip_utils.utils.misc import BytesUtils, DataBytes, IntegerUtils
 
@@ -87,6 +88,16 @@ class Nist256p1Point(IPoint):
             point_obj (ellipticcurve.PointJacobi): Point object
         """
         self.m_point = point_obj
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.NIST256P1
 
     def UnderlyingObject(self) -> Any:
         """
@@ -169,7 +180,7 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Nist256p1Point(self.m_point + point.UnderlyingObject())
+        return self.__class__(self.m_point + point.UnderlyingObject())
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -195,7 +206,7 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Nist256p1Point(self.m_point * scalar)
+        return self.__class__(self.m_point * scalar)
 
     def __rmul__(self,
                  scalar: int) -> IPoint:

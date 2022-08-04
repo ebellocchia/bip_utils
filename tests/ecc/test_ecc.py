@@ -117,30 +117,32 @@ TEST_VECT_SR25519_PRIV_KEY_INVALID = [
     b"2ec306fc1c5bc2f0e3a2c7a6ec6014ca4a0823a7d7d42ad5e9d7f376a1c36c0d14a2ddb1ef1df4adba49f3a4d8c0f6205117907265f09a53ccf07a4e8616dfd802",
 ]
 
-# Some valid ed25519 keys
+# Some valid ed25519 keys and points
 TEST_ED25519_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"007d5ea03ab150169176f66df6f6f67afe70b4d9e8b06fa6b46cd74bab1ca5e75c")
 TEST_ED25519_UNCOMPR_PUB_KEY_BYTES = TEST_ED25519_COMPR_PUB_KEY_BYTES
 TEST_ED25519_PRIV_KEY_BYTES = binascii.unhexlify(b"63326e09d412622906496bdde342b4a60410b3f48db5e74a27bfc1b0b044f80b")
-TEST_ED25519_POINT = {"x": 9544908692706232050418921582846632277899217119854710143221364991731932531808,
-                      "y": 42022063302689642893531488676382080543224379794475185917604557437515478359677}
-TEST_ED25519_POINT_ADD = {"x": 55141681421452555293909900571285759672225843830785085368623058512752097552086,
-                          "y": 55661007266727711625639119634001223501040176472020818523053744363278410546097}
-TEST_ED25519_POINT_MUL = TEST_ED25519_POINT_ADD
+TEST_ED25519_POINT_COORD = {"x": 9544908692706232050418921582846632277899217119854710143221364991731932531808,
+                            "y": 42022063302689642893531488676382080543224379794475185917604557437515478359677}
+TEST_ED25519_POINT_COORD_ADD = {"x": 55141681421452555293909900571285759672225843830785085368623058512752097552086,
+                                "y": 55661007266727711625639119634001223501040176472020818523053744363278410546097}
+TEST_ED25519_POINT_COORD_MUL = TEST_ED25519_POINT_COORD_ADD
 TEST_ED25519_POINT_DEC_BYTES = binascii.unhexlify(b"600c7ff2f2378b3063e0f014ad40f46277a8cd389f6457ebf201af4e143a1a157d5ea03ab150169176f66df6f6f67afe70b4d9e8b06fa6b46cd74bab1ca5e75c")
 TEST_ED25519_POINT_ENC_BYTES = binascii.unhexlify(b"7d5ea03ab150169176f66df6f6f67afe70b4d9e8b06fa6b46cd74bab1ca5e75c")
 
 TEST_ED25519_PUB_KEY = Ed25519PublicKey.FromBytes(TEST_ED25519_COMPR_PUB_KEY_BYTES)
 TEST_ED25519_PRIV_KEY = Ed25519PrivateKey.FromBytes(TEST_ED25519_PRIV_KEY_BYTES)
+TEST_ED25519_POINT = Ed25519Point.FromCoordinates(TEST_ED25519_POINT_COORD["x"], TEST_ED25519_POINT_COORD["y"])
 
-# Some valid ed25519-blake2b keys
+# Some valid ed25519-blake2b keys and points
 TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"00cb8638e89ee650fdd09dc3b3342940e52598b06e3af81597471a087651875491")
 TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES = TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES
 TEST_ED25519_BLAKE2B_PRIV_KEY_BYTES = TEST_ED25519_PRIV_KEY_BYTES
-TEST_ED25519_BLAKE2B_POINT = {"x": 48294182392756967208697837273234399312104812383024614014757224045799169481421,
-                              "y": 7838667511299593307117012662349698472015960877655170347921379664136072890059}
+TEST_ED25519_BLAKE2B_COORD_POINT = {"x": 48294182392756967208697837273234399312104812383024614014757224045799169481421,
+                                    "y": 7838667511299593307117012662349698472015960877655170347921379664136072890059}
 
 TEST_ED25519_BLAKE2B_PUB_KEY = Ed25519Blake2bPublicKey.FromBytes(TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
 TEST_ED25519_BLAKE2B_PRIV_KEY = Ed25519Blake2bPrivateKey.FromBytes(TEST_ED25519_BLAKE2B_PRIV_KEY_BYTES)
+TEST_ED25519_BLAKE2B_POINT = Ed25519Blake2bPoint.FromCoordinates(TEST_ED25519_BLAKE2B_COORD_POINT["x"], TEST_ED25519_BLAKE2B_COORD_POINT["y"])
 
 # Some valid ed25519-kholaw keys
 TEST_ED25519_KHOLAW_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"001f4dc49e82a836dfd380925261315f213adef7aae3f34de699d7f32ba0982c6d")
@@ -150,51 +152,54 @@ TEST_ED25519_KHOLAW_PRIV_KEY_BYTES = binascii.unhexlify(b"1075ab5e3fcedcb69eef77
 TEST_ED25519_KHOLAW_PUB_KEY = Ed25519KholawPublicKey.FromBytes(TEST_ED25519_KHOLAW_COMPR_PUB_KEY_BYTES)
 TEST_ED25519_KHOLAW_PRIV_KEY = Ed25519KholawPrivateKey.FromBytes(TEST_ED25519_KHOLAW_PRIV_KEY_BYTES)
 
-# Some valid ed25519-monero keys
+# Some valid ed25519-monero keys and points
 TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"5432db2c5e3953afda4184e534a25abe78bd08027d9c048d9c16c15fd73280e6")
 TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES = TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES
 TEST_ED25519_MONERO_PRIV_KEY_BYTES = TEST_ED25519_PRIV_KEY_BYTES
-TEST_ED25519_MONERO_POINT = {"x": 16674457676716737978374862850521939870908941361163415909647017870848613367519,
-                             "y": 46362417873574777412568930969947358133147671210501021588337420811295298105940}
-TEST_ED25519_MONERO_POINT_ADD = {"x": 13930418472044895290497888747615270075016875604194627471625519398504944511899,
-                                 "y": 15336111391733078044429207665332363699141677331017352788634292302866727375323}
-TEST_ED25519_MONERO_POINT_MUL = {"x": 34789931687656264796703000222125978025079838656668354131627430558988588357648,
-                                 "y": 2721629446270666256884081992575940007727520472834215862794756683791049918461}
+TEST_ED25519_MONERO_POINT_COORD = {"x": 16674457676716737978374862850521939870908941361163415909647017870848613367519,
+                                   "y": 46362417873574777412568930969947358133147671210501021588337420811295298105940}
+TEST_ED25519_MONERO_POINT_COORD_ADD = {"x": 13930418472044895290497888747615270075016875604194627471625519398504944511899,
+                                       "y": 15336111391733078044429207665332363699141677331017352788634292302866727375323}
+TEST_ED25519_MONERO_POINT_COORD_MUL = {"x": 34789931687656264796703000222125978025079838656668354131627430558988588357648,
+                                       "y": 2721629446270666256884081992575940007727520472834215862794756683791049918461}
 TEST_ED25519_MONERO_POINT_DEC_BYTES = binascii.unhexlify(b"df3e4bb2ea53b7620df15208f40fe79beab9ecb8c4ec73eadb7d11bd9968dd245432db2c5e3953afda4184e534a25abe78bd08027d9c048d9c16c15fd7328066")
 TEST_ED25519_MONERO_POINT_ENC_BYTES = binascii.unhexlify(b"5432db2c5e3953afda4184e534a25abe78bd08027d9c048d9c16c15fd73280e6")
 
 TEST_ED25519_MONERO_PUB_KEY = Ed25519MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
 TEST_ED25519_MONERO_PRIV_KEY = Ed25519MoneroPrivateKey.FromBytes(TEST_ED25519_MONERO_PRIV_KEY_BYTES)
+TEST_ED25519_MONERO_POINT = Ed25519MoneroPoint.FromCoordinates(TEST_ED25519_MONERO_POINT_COORD["x"], TEST_ED25519_MONERO_POINT_COORD["y"])
 
 # Some valid nist256p1 keys and points
 TEST_NIST256P1_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
 TEST_NIST256P1_UNCOMPR_PUB_KEY_BYTES = binascii.unhexlify(b"048ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b465656d4dd23293a66bbbd3cc07cf6e5b1cd3b81d8e3da4eed050ac0ab2094b9")
 TEST_NIST256P1_PRIV_KEY_BYTES = binascii.unhexlify(b"e44c51393e98a691439f74c2060138fa2bcefae59ab277bd81907c93fb16fce1")
-TEST_NIST256P1_POINT = {"x": 64511146437640532869164237123971144495620316712208575072439516305921182895195,
-                        "y": 31814447537382586537576639307337099269020393742089100496617531967175387026617}
-TEST_NIST256P1_POINT_ADD = {"x": 101370444989464769337019234113187919586549255451863198632358447242825043882751,
-                            "y": 96679656738774927550763413778994915607472627190911082265431331813273377117362}
-TEST_NIST256P1_POINT_MUL = TEST_NIST256P1_POINT_ADD
+TEST_NIST256P1_POINT_COORD = {"x": 64511146437640532869164237123971144495620316712208575072439516305921182895195,
+                              "y": 31814447537382586537576639307337099269020393742089100496617531967175387026617}
+TEST_NIST256P1_POINT_COORD_ADD = {"x": 101370444989464769337019234113187919586549255451863198632358447242825043882751,
+                                  "y": 96679656738774927550763413778994915607472627190911082265431331813273377117362}
+TEST_NIST256P1_POINT_COORD_MUL = TEST_NIST256P1_POINT_COORD_ADD
 TEST_NIST256P1_POINT_DEC_BYTES = binascii.unhexlify(b"8ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b465656d4dd23293a66bbbd3cc07cf6e5b1cd3b81d8e3da4eed050ac0ab2094b9")
 TEST_NIST256P1_POINT_ENC_BYTES = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
 
 TEST_NIST256P1_PUB_KEY = Nist256p1PublicKey.FromBytes(TEST_NIST256P1_COMPR_PUB_KEY_BYTES)
 TEST_NIST256P1_PRIV_KEY = Nist256p1PrivateKey.FromBytes(TEST_NIST256P1_PRIV_KEY_BYTES)
+TEST_NIST256P1_POINT = Nist256p1Point.FromCoordinates(TEST_NIST256P1_POINT_COORD["x"], TEST_NIST256P1_POINT_COORD["y"])
 
 # Some valid secp256k1 keys and points
 TEST_SECP256K1_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"02c3d01cb07697dc5105013bea2e73a896b6019ec3c5ea2b97dba14ae4456439f4")
 TEST_SECP256K1_UNCOMPR_PUB_KEY_BYTES = binascii.unhexlify(b"04c3d01cb07697dc5105013bea2e73a896b6019ec3c5ea2b97dba14ae4456439f4ec9654b17e30a8a5232078201ecf5cc702dfbb70266aecf16b1f81d85e6b9942")
 TEST_SECP256K1_PRIV_KEY_BYTES = binascii.unhexlify(b"e1d36931d581b4dcae0bb03929adcfb5ab0cdc0f4886ff6c5098591636ace214")
-TEST_SECP256K1_POINT = {"x": 88568707669548495476516508095445138344657010992834487537871095020828542384628,
-                        "y": 107011443857260681605663973889402727500845015180707970416758298978829074143554}
-TEST_SECP256K1_POINT_ADD = {"x": 36055427468220068554092197997262360511679559617381195682414059417211150654731,
-                            "y": 35614013837322639151401845680153599308855232143046454444952007884320857835400}
-TEST_SECP256K1_POINT_MUL = TEST_SECP256K1_POINT_ADD
+TEST_SECP256K1_POINT_COORD = {"x": 88568707669548495476516508095445138344657010992834487537871095020828542384628,
+                              "y": 107011443857260681605663973889402727500845015180707970416758298978829074143554}
+TEST_SECP256K1_POINT_COORD_ADD = {"x": 36055427468220068554092197997262360511679559617381195682414059417211150654731,
+                                  "y": 35614013837322639151401845680153599308855232143046454444952007884320857835400}
+TEST_SECP256K1_POINT_COORD_MUL = TEST_SECP256K1_POINT_COORD_ADD
 TEST_SECP256K1_POINT_DEC_BYTES = binascii.unhexlify(b"c3d01cb07697dc5105013bea2e73a896b6019ec3c5ea2b97dba14ae4456439f4ec9654b17e30a8a5232078201ecf5cc702dfbb70266aecf16b1f81d85e6b9942")
 TEST_SECP256K1_POINT_ENC_BYTES = binascii.unhexlify(b"02c3d01cb07697dc5105013bea2e73a896b6019ec3c5ea2b97dba14ae4456439f4")
 
 TEST_SECP256K1_PUB_KEY = Secp256k1PublicKey.FromBytes(TEST_SECP256K1_COMPR_PUB_KEY_BYTES)
 TEST_SECP256K1_PRIV_KEY = Secp256k1PrivateKey.FromBytes(TEST_SECP256K1_PRIV_KEY_BYTES)
+TEST_SECP256K1_POINT = Secp256k1Point.FromCoordinates(TEST_SECP256K1_POINT_COORD["x"], TEST_SECP256K1_POINT_COORD["y"])
 
 # Some valid sr25519 keys
 TEST_SR25519_COMPR_PUB_KEY_BYTES = binascii.unhexlify(b"66933bd1f37070ef87bd1198af3dacceb095237f803f3d32b173e6b425ed7972")
@@ -247,7 +252,8 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_UNCOMPR_PUB_KEY_BYTES)
         # From point
-        pub_key = Ed25519PublicKey.FromPoint(Ed25519Point.FromCoordinates(TEST_ED25519_POINT["x"], TEST_ED25519_POINT["y"]))
+        pub_key = Ed25519PublicKey.FromPoint(Ed25519Point.FromCoordinates(TEST_ED25519_POINT_COORD["x"],
+                                                                          TEST_ED25519_POINT_COORD["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_UNCOMPR_PUB_KEY_BYTES)
 
@@ -265,41 +271,43 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
+        self.assertEqual(Ed25519Point.CurveType(), EllipticCurveTypes.ED25519)
+
         point = pub_key.Point()
         self.assertTrue(isinstance(point.Raw(), DataBytes))
         self.assertTrue(isinstance(point.RawDecoded(), DataBytes))
         self.assertTrue(isinstance(point.RawEncoded(), DataBytes))
         self.assertTrue(isinstance(point.UnderlyingObject(), bytes))
-        self.assertEqual(point.X(), TEST_ED25519_POINT["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_POINT["y"])
+        self.assertEqual(point.X(), TEST_ED25519_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_ED25519_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_POINT_DEC_BYTES)
         self.assertEqual(point.RawDecoded().ToBytes(), TEST_ED25519_POINT_DEC_BYTES)
         self.assertEqual(point.RawEncoded().ToBytes(), TEST_ED25519_POINT_ENC_BYTES)
 
         # Addition
         point_add = point + point
-        self.assertEqual(point_add.X(), TEST_ED25519_POINT_ADD["x"])
-        self.assertEqual(point_add.Y(), TEST_ED25519_POINT_ADD["y"])
+        self.assertEqual(point_add.X(), TEST_ED25519_POINT_COORD_ADD["x"])
+        self.assertEqual(point_add.Y(), TEST_ED25519_POINT_COORD_ADD["y"])
 
         # Multiplication
         point_mul = point * 2
-        self.assertEqual(point_mul.X(), TEST_ED25519_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_ED25519_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_ED25519_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_ED25519_POINT_COORD_MUL["y"])
 
         # Reverse multiplication
         point_mul = 2 * point
-        self.assertEqual(point_mul.X(), TEST_ED25519_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_ED25519_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_ED25519_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_ED25519_POINT_COORD_MUL["y"])
 
         # From bytes
         point = Ed25519Point.FromBytes(TEST_ED25519_POINT_DEC_BYTES)
-        self.assertEqual(point.X(), TEST_ED25519_POINT["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_POINT["y"])
+        self.assertEqual(point.X(), TEST_ED25519_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_ED25519_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_POINT_DEC_BYTES)
 
         point = Ed25519Point.FromBytes(TEST_ED25519_POINT_ENC_BYTES)
-        self.assertEqual(point.X(), TEST_ED25519_POINT["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_POINT["y"])
+        self.assertEqual(point.X(), TEST_ED25519_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_ED25519_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_POINT_DEC_BYTES)
 
     # Test Ed25519-Blake2b class
@@ -331,7 +339,8 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES)
         # From point
-        pub_key = Ed25519Blake2bPublicKey.FromPoint(Ed25519Blake2bPoint.FromCoordinates(TEST_ED25519_BLAKE2B_POINT["x"], TEST_ED25519_BLAKE2B_POINT["y"]))
+        pub_key = Ed25519Blake2bPublicKey.FromPoint(Ed25519Blake2bPoint.FromCoordinates(TEST_ED25519_BLAKE2B_COORD_POINT["x"],
+                                                                                        TEST_ED25519_BLAKE2B_COORD_POINT["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_BLAKE2B_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_BLAKE2B_UNCOMPR_PUB_KEY_BYTES)
 
@@ -348,6 +357,7 @@ class EccTests(unittest.TestCase):
 
         # No need to test point, same of ed25519
         self.assertTrue(issubclass(Ed25519Blake2bPoint, Ed25519Point))
+        self.assertEqual(Ed25519Blake2bPoint.CurveType(), EllipticCurveTypes.ED25519_BLAKE2B)
 
     # Test Ed25519-Kholaw class
     def test_ed25519_kholaw(self):
@@ -363,6 +373,8 @@ class EccTests(unittest.TestCase):
         # No need to test public key, same of ed25519
         self.assertTrue(issubclass(Ed25519KholawPublicKey, Ed25519PublicKey))
         self.assertEqual(Ed25519KholawPublicKey.CurveType(), EllipticCurveTypes.ED25519_KHOLAW)
+        pub_key = Ed25519KholawPublicKey.FromBytes(TEST_ED25519_KHOLAW_COMPR_PUB_KEY_BYTES)
+        self.assertTrue(isinstance(pub_key.Point(), Ed25519KholawPoint))
 
         # Private key
         self.assertRaises(TypeError, Ed25519KholawPrivateKey, 0, b"")
@@ -379,6 +391,7 @@ class EccTests(unittest.TestCase):
 
         # No need to test point, same of ed25519
         self.assertTrue(issubclass(Ed25519KholawPoint, Ed25519Point))
+        self.assertEqual(Ed25519KholawPoint.CurveType(), EllipticCurveTypes.ED25519_KHOLAW)
 
     # Test Ed25519-Monero class
     def test_ed25519_monero(self):
@@ -411,7 +424,8 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES)
         # From point
-        pub_key = Ed25519MoneroPublicKey.FromPoint(Ed25519MoneroPoint.FromCoordinates(TEST_ED25519_MONERO_POINT["x"], TEST_ED25519_MONERO_POINT["y"]))
+        pub_key = Ed25519MoneroPublicKey.FromPoint(Ed25519MoneroPoint.FromCoordinates(TEST_ED25519_MONERO_POINT_COORD["x"],
+                                                                                      TEST_ED25519_MONERO_POINT_COORD["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES)
 
@@ -431,41 +445,43 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
+        self.assertEqual(Ed25519MoneroPoint.CurveType(), EllipticCurveTypes.ED25519_MONERO)
+
         point = pub_key.Point()
         self.assertTrue(isinstance(point.Raw(), DataBytes))
         self.assertTrue(isinstance(point.RawDecoded(), DataBytes))
         self.assertTrue(isinstance(point.RawEncoded(), DataBytes))
         self.assertTrue(isinstance(point.UnderlyingObject(), tuple))
-        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT["y"])
+        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
         self.assertEqual(point.RawDecoded().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
         self.assertEqual(point.RawEncoded().ToBytes(), TEST_ED25519_MONERO_POINT_ENC_BYTES)
 
         # Addition
         point_add = point + point
-        self.assertEqual(point_add.X(), TEST_ED25519_MONERO_POINT_ADD["x"])
-        self.assertEqual(point_add.Y(), TEST_ED25519_MONERO_POINT_ADD["y"])
+        self.assertEqual(point_add.X(), TEST_ED25519_MONERO_POINT_COORD_ADD["x"])
+        self.assertEqual(point_add.Y(), TEST_ED25519_MONERO_POINT_COORD_ADD["y"])
 
         # Multiplication
         point_mul = point * 2
-        self.assertEqual(point_mul.X(), TEST_ED25519_MONERO_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_ED25519_MONERO_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_ED25519_MONERO_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_ED25519_MONERO_POINT_COORD_MUL["y"])
 
         # Reverse multiplication
         point_mul = 2 * point
-        self.assertEqual(point_mul.X(), TEST_ED25519_MONERO_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_ED25519_MONERO_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_ED25519_MONERO_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_ED25519_MONERO_POINT_COORD_MUL["y"])
 
         # From bytes
         point = Ed25519MoneroPoint.FromBytes(TEST_ED25519_MONERO_POINT_DEC_BYTES)
-        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT["y"])
+        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
 
         point = Ed25519MoneroPoint.FromBytes(TEST_ED25519_MONERO_POINT_ENC_BYTES)
-        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT["y"])
+        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
 
     # Test Nist256p1 class
@@ -500,7 +516,8 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_NIST256P1_UNCOMPR_PUB_KEY_BYTES)
 
         # From point
-        pub_key = Nist256p1PublicKey.FromPoint(Nist256p1Point.FromCoordinates(TEST_NIST256P1_POINT["x"], TEST_NIST256P1_POINT["y"]))
+        pub_key = Nist256p1PublicKey.FromPoint(Nist256p1Point.FromCoordinates(TEST_NIST256P1_POINT_COORD["x"],
+                                                                              TEST_NIST256P1_POINT_COORD["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_NIST256P1_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_NIST256P1_UNCOMPR_PUB_KEY_BYTES)
 
@@ -520,41 +537,43 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
+        self.assertEqual(Nist256p1Point.CurveType(), EllipticCurveTypes.NIST256P1)
+
         point = pub_key.Point()
         self.assertTrue(isinstance(point.Raw(), DataBytes))
         self.assertTrue(isinstance(point.RawDecoded(), DataBytes))
         self.assertTrue(isinstance(point.RawEncoded(), DataBytes))
         self.assertTrue(isinstance(point.UnderlyingObject(), ellipticcurve.PointJacobi))
-        self.assertEqual(point.X(), TEST_NIST256P1_POINT["x"])
-        self.assertEqual(point.Y(), TEST_NIST256P1_POINT["y"])
+        self.assertEqual(point.X(), TEST_NIST256P1_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_NIST256P1_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_NIST256P1_POINT_DEC_BYTES)
         self.assertEqual(point.RawDecoded().ToBytes(), TEST_NIST256P1_POINT_DEC_BYTES)
         self.assertEqual(point.RawEncoded().ToBytes(), TEST_NIST256P1_POINT_ENC_BYTES)
 
         # Addition
         point_add = point + point
-        self.assertEqual(point_add.X(), TEST_NIST256P1_POINT_ADD["x"])
-        self.assertEqual(point_add.Y(), TEST_NIST256P1_POINT_ADD["y"])
+        self.assertEqual(point_add.X(), TEST_NIST256P1_POINT_COORD_ADD["x"])
+        self.assertEqual(point_add.Y(), TEST_NIST256P1_POINT_COORD_ADD["y"])
 
         # Multiplication
         point_mul = point * 2
-        self.assertEqual(point_mul.X(), TEST_NIST256P1_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_NIST256P1_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_NIST256P1_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_NIST256P1_POINT_COORD_MUL["y"])
 
         # Reverse multiplication
         point_mul = 2 * point
-        self.assertEqual(point_mul.X(), TEST_NIST256P1_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_NIST256P1_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_NIST256P1_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_NIST256P1_POINT_COORD_MUL["y"])
 
         # From bytes
         point = Nist256p1Point.FromBytes(TEST_NIST256P1_POINT_DEC_BYTES)
-        self.assertEqual(point.X(), TEST_NIST256P1_POINT["x"])
-        self.assertEqual(point.Y(), TEST_NIST256P1_POINT["y"])
+        self.assertEqual(point.X(), TEST_NIST256P1_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_NIST256P1_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_NIST256P1_POINT_DEC_BYTES)
 
         point = Nist256p1Point.FromBytes(TEST_NIST256P1_POINT_ENC_BYTES)
-        self.assertEqual(point.X(), TEST_NIST256P1_POINT["x"])
-        self.assertEqual(point.Y(), TEST_NIST256P1_POINT["y"])
+        self.assertEqual(point.X(), TEST_NIST256P1_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_NIST256P1_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_NIST256P1_POINT_DEC_BYTES)
 
     # Test Secp256k1 class
@@ -589,7 +608,8 @@ class EccTests(unittest.TestCase):
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_SECP256K1_UNCOMPR_PUB_KEY_BYTES)
 
         # From point
-        pub_key = Secp256k1PublicKey.FromPoint(Secp256k1Point.FromCoordinates(TEST_SECP256K1_POINT["x"], TEST_SECP256K1_POINT["y"]))
+        pub_key = Secp256k1PublicKey.FromPoint(Secp256k1Point.FromCoordinates(TEST_SECP256K1_POINT_COORD["x"],
+                                                                              TEST_SECP256K1_POINT_COORD["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_SECP256K1_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_SECP256K1_UNCOMPR_PUB_KEY_BYTES)
 
@@ -609,41 +629,43 @@ class EccTests(unittest.TestCase):
         #
         # Point
         #
+        self.assertEqual(Secp256k1Point.CurveType(), EllipticCurveTypes.SECP256K1)
+
         point = pub_key.Point()
         self.assertTrue(isinstance(point.Raw(), DataBytes))
         self.assertTrue(isinstance(point.RawDecoded(), DataBytes))
         self.assertTrue(isinstance(point.RawEncoded(), DataBytes))
         self.assertTrue(isinstance(point.UnderlyingObject(), coincurve.PublicKey if EccConf.USE_COINCURVE else ellipticcurve.PointJacobi))
-        self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
-        self.assertEqual(point.Y(), TEST_SECP256K1_POINT["y"])
+        self.assertEqual(point.X(), TEST_SECP256K1_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_SECP256K1_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_SECP256K1_POINT_DEC_BYTES)
         self.assertEqual(point.RawDecoded().ToBytes(), TEST_SECP256K1_POINT_DEC_BYTES)
         self.assertEqual(point.RawEncoded().ToBytes(), TEST_SECP256K1_POINT_ENC_BYTES)
 
         # Addition
         point_add = point + point
-        self.assertEqual(point_add.X(), TEST_SECP256K1_POINT_ADD["x"])
-        self.assertEqual(point_add.Y(), TEST_SECP256K1_POINT_ADD["y"])
+        self.assertEqual(point_add.X(), TEST_SECP256K1_POINT_COORD_ADD["x"])
+        self.assertEqual(point_add.Y(), TEST_SECP256K1_POINT_COORD_ADD["y"])
 
         # Multiplication
         point_mul = point * 2
-        self.assertEqual(point_mul.X(), TEST_SECP256K1_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_SECP256K1_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_SECP256K1_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_SECP256K1_POINT_COORD_MUL["y"])
 
         # Reverse multiplication
         point_mul = 2 * point
-        self.assertEqual(point_mul.X(), TEST_SECP256K1_POINT_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_SECP256K1_POINT_MUL["y"])
+        self.assertEqual(point_mul.X(), TEST_SECP256K1_POINT_COORD_MUL["x"])
+        self.assertEqual(point_mul.Y(), TEST_SECP256K1_POINT_COORD_MUL["y"])
 
         # From bytes
         point = Secp256k1Point.FromBytes(TEST_SECP256K1_POINT_DEC_BYTES)
-        self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
-        self.assertEqual(point.Y(), TEST_SECP256K1_POINT["y"])
+        self.assertEqual(point.X(), TEST_SECP256K1_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_SECP256K1_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_SECP256K1_POINT_DEC_BYTES)
 
         point = Secp256k1Point.FromBytes(TEST_SECP256K1_POINT_ENC_BYTES)
-        self.assertEqual(point.X(), TEST_SECP256K1_POINT["x"])
-        self.assertEqual(point.Y(), TEST_SECP256K1_POINT["y"])
+        self.assertEqual(point.X(), TEST_SECP256K1_POINT_COORD["x"])
+        self.assertEqual(point.Y(), TEST_SECP256K1_POINT_COORD["y"])
         self.assertEqual(point.Raw().ToBytes(), TEST_SECP256K1_POINT_DEC_BYTES)
 
     # Test Sr25519 class
@@ -744,6 +766,7 @@ class EccTests(unittest.TestCase):
     def __test_dummy_point(self, point_cls):
         self.assertRaises(TypeError, point_cls, 0)
         self.assertTrue(point_cls.FromBytes(b"") is None)
+        self.assertTrue(point_cls.CurveType() is None)
 
         point = point_cls.FromCoordinates(1, 2)
 

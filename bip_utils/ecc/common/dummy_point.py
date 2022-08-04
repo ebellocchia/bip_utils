@@ -23,6 +23,7 @@
 # Imports
 from typing import Any
 from bip_utils.ecc.common.ipoint import IPoint
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.utils.misc import DataBytes
 
 
@@ -79,6 +80,15 @@ class DummyPoint(IPoint):
             raise TypeError("Invalid point object type")
         self.m_x = point_obj[0]
         self.m_y = point_obj[1]
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
 
     def UnderlyingObject(self) -> Any:
         """

@@ -24,6 +24,7 @@
 from typing import Any
 import coincurve
 from bip_utils.ecc.common.ipoint import IPoint
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
 from bip_utils.utils.misc import DataBytes, IntegerUtils
 
@@ -83,6 +84,16 @@ class Secp256k1PointCoincurve(IPoint):
             point_obj (coincurve.PublicKey): Point object
         """
         self.m_pub_key = point_obj
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.SECP256K1
 
     def UnderlyingObject(self) -> Any:
         """
@@ -149,7 +160,7 @@ class Secp256k1PointCoincurve(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1PointCoincurve(self.m_pub_key.combine([point.UnderlyingObject()]))
+        return self.__class__(self.m_pub_key.combine([point.UnderlyingObject()]))
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -175,7 +186,7 @@ class Secp256k1PointCoincurve(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1PointCoincurve(self.m_pub_key.multiply(IntegerUtils.ToBytes(scalar)))
+        return self.__class__(self.m_pub_key.multiply(IntegerUtils.ToBytes(scalar)))
 
     def __rmul__(self,
                  scalar: int) -> IPoint:

@@ -24,6 +24,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Any
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.utils.misc import DataBytes
 
 
@@ -58,6 +59,16 @@ class IPoint(ABC):
 
         Returns:
             IPoint: IPoint object
+        """
+
+    @staticmethod
+    @abstractmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
         """
 
     @abstractmethod

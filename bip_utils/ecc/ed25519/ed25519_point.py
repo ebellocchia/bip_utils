@@ -23,6 +23,7 @@
 # Imports
 from typing import Any
 from bip_utils.ecc.common.ipoint import IPoint
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.lib import ed25519_lib, ed25519_nacl_wrapper
 from bip_utils.utils.misc import DataBytes
 
@@ -93,6 +94,16 @@ class Ed25519Point(IPoint):
         """
         self.m_point = point_bytes
 
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.ED25519
+
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -159,7 +170,7 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519Point(
+        return self.__class__(
             ed25519_nacl_wrapper.point_add(self.m_point, point.UnderlyingObject())
         )
 
@@ -187,7 +198,7 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519Point(
+        return self.__class__(
             ed25519_nacl_wrapper.point_mul(scalar, self.m_point)
         )
 
