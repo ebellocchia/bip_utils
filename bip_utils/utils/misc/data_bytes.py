@@ -21,7 +21,7 @@
 """Module with helper class for data bytes."""
 
 # Imports
-from typing import Iterator
+from typing import Iterator, Literal
 from bip_utils.utils.misc.bytes import BytesUtils
 
 
@@ -80,12 +80,12 @@ class DataBytes:
         return BytesUtils.ToHexString(self.m_data_bytes)
 
     def ToInt(self,
-              endianness: str = "big") -> int:
+              endianness: Literal["little", "big"] = "big") -> int:
         """
         Get data bytes as an integer.
 
         Args:
-            endianness (str, optional): Endianness
+            endianness ("big" or "little", optional): Endianness (default: big)
 
         Returns:
             int: Data bytes as an integer

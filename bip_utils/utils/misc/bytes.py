@@ -22,7 +22,7 @@
 
 # Imports
 import binascii
-from typing import List, Union
+from typing import List, Literal, Union
 from bip_utils.utils.misc.algo import AlgoUtils
 from bip_utils.utils.misc.integer import IntegerUtils
 
@@ -113,15 +113,15 @@ class BytesUtils:
 
     @staticmethod
     def ToInteger(data_bytes: bytes,
-                  endianness: str = "big",
+                  endianness: Literal["little", "big"] = "big",
                   signed: bool = False) -> int:
         """
         Convert the specified bytes to integer.
 
         Args:
-            data_bytes (bytes)        : Data bytes
-            endianness (str, optional): Endianness
-            signed (bool, optional)   : True if signed, false otherwise (default: false)
+            data_bytes (bytes)                      : Data bytes
+            endianness ("big" or "little", optional): Endianness (default: big)
+            signed (bool, optional)                 : True if signed, false otherwise (default: false)
 
         Returns:
             int: Integer representation

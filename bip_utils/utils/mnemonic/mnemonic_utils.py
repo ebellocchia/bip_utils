@@ -23,7 +23,7 @@
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Tuple, Type
+from typing import Dict, List, Literal, Optional, Tuple, Type
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 from bip_utils.utils.mnemonic.mnemonic import MnemonicLanguages, Mnemonic
 
@@ -34,14 +34,14 @@ class MnemonicUtils:
     @staticmethod
     def BytesChunkToWords(bytes_chunk: bytes,
                           words_list: MnemonicWordsList,
-                          endianness: str) -> List[str]:
+                          endianness: Literal["little", "big"]) -> List[str]:
         """
         Get words from a bytes chunk.
 
         Args:
             bytes_chunk (bytes)                  : Bytes chunk
             words_list (MnemonicWordsList object): Mnemonic list
-            endianness (str)                     : Bytes endianness
+            endianness ("big" or "little")       : Bytes endianness
 
         Returns:
             list[str]: 3 word indexes
@@ -61,7 +61,7 @@ class MnemonicUtils:
                           word2: str,
                           word3: str,
                           words_list: MnemonicWordsList,
-                          endianness: str) -> bytes:
+                          endianness: Literal["little", "big"]) -> bytes:
         """
         Get bytes chunk from words.
 
@@ -70,7 +70,7 @@ class MnemonicUtils:
             word2 (str)                          : Word 2
             word3 (str)                          : Word 3
             words_list (MnemonicWordsList object): Mnemonic list
-            endianness (str)                     : Bytes endianness
+            endianness ("big" or "little")       : Bytes endianness
 
         Returns:
             bytes: Bytes chunk

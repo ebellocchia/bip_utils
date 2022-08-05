@@ -21,7 +21,7 @@
 """Module with some integer utility functions."""
 
 # Imports
-from typing import Optional, Union
+from typing import Literal, Optional, Union
 from bip_utils.utils.misc.algo import AlgoUtils
 
 
@@ -31,23 +31,23 @@ class IntegerUtils:
     @staticmethod
     def ToBytes(data_int: int,
                 bytes_num: Optional[int] = None,
-                endianness: str = "big",
+                endianness: Literal["little", "big"] = "big",
                 signed: bool = False) -> bytes:
         """
         Convert integer to bytes.
 
         Args:
-            data_int (int)            : Data integer
-            bytes_num (int, optional) : Number of bytes, automatic if None
-            endianness (str, optional): Endianness (default: big endian)
-            signed (bool, optional)   : True if signed, false otherwise (default: false)
+            data_int (int)                          : Data integer
+            bytes_num (int, optional)               : Number of bytes, automatic if None
+            endianness ("big" or "little", optional): Endianness (default: big)
+            signed (bool, optional)                 : True if signed, false otherwise (default: false)
 
         Returns:
             bytes: Bytes representation
         """
 
         # In case gmpy is used
-        if data_int.__class__.__name__ == 'mpz':
+        if data_int.__class__.__name__ == "mpz":
             data_int = int(data_int)
 
         bytes_num = bytes_num or ((data_int.bit_length() if data_int > 0 else 1) + 7) // 8

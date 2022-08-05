@@ -22,7 +22,7 @@
 
 # Imports
 from __future__ import annotations
-from typing import Union
+from typing import Literal, Union
 from bip_utils.utils.misc import BitUtils, BytesUtils, DataBytes, IntegerUtils
 
 
@@ -365,12 +365,12 @@ class Bip32KeyIndex:
         return self.IsHardenedIndex(self.m_idx)
 
     def ToBytes(self,
-                endianness: str = "big") -> bytes:
+                endianness: Literal["little", "big"] = "big") -> bytes:
         """
         Get the key index as bytes.
 
         Args:
-            endianness (str): Endianness
+            endianness ("big" or "little", optional): Endianness (default: big)
 
         Returns:
             bytes: Key bytes
