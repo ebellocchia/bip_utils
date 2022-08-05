@@ -40,10 +40,10 @@ class Bip32KholawMstKeyGeneratorConst:
     MASTER_KEY_HMAC_KEY: bytes = Bip32Slip10MstKeyGeneratorConst.HMAC_KEY_ED25519_BYTES
 
 
-class Bip32KholawMstKeyGenerator(IBip32MstKeyGenerator):
+class Bip32KholawEd25519MstKeyGenerator(IBip32MstKeyGenerator):
     """
-    BIP32 Khovratovich/Law master key generator class.
-    It allows master keys generation in according to BIP32 Khovratovich/Law.
+    BIP32 Khovratovich/Law ed25519 master key generator class.
+    It allows master keys generation in according to BIP32 Khovratovich/Law for ed25519 curve.
     """
 
     @classmethod

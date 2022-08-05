@@ -22,7 +22,8 @@
 
 # Imports
 from __future__ import annotations
-from typing import Literal, Union
+from typing import Union
+from typing_extensions import Literal
 from bip_utils.utils.misc import BitUtils, BytesUtils, DataBytes, IntegerUtils
 
 

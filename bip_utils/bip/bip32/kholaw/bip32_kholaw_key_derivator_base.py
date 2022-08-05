@@ -34,9 +34,9 @@ from bip_utils.ecc import EllipticCurve, IPoint
 from bip_utils.utils.crypto import HmacSha512
 
 
-class Bip32KholawKeyDerivatorBase(IBip32KeyDerivator, ABC):
+class Bip32KholawEd25519KeyDerivatorBase(IBip32KeyDerivator, ABC):
     """
-    BIP32 SLIP-0010 Khovratovich/Law key derivator base class.
+    BIP32 Khovratovich/Law ed25519 key derivator base class.
     It allows keys derivation for ed25519 curves in according to BIP32 Khovratovich/Law.
     It shall be inherited by child classes to customize the derivation algorithm.
     """

@@ -12,8 +12,9 @@ from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_path import Bip32PathParser, Bip32Path
 from bip_utils.bip.bip32.bip32_utils import Bip32Utils
 from bip_utils.bip.bip32.kholaw import (
-    Bip32Ed25519Kholaw, Bip32KholawEd25519, Bip32KholawKeyDerivatorBase, Bip32KholawKeyDerivator,
-    Bip32KholawMstKeyGenerator
+    Bip32Ed25519Kholaw, Bip32KholawEd25519,
+    Bip32KholawEd25519KeyDerivatorBase, Bip32KholawEd25519KeyDerivator,
+    Bip32KholawEd25519MstKeyGenerator
 )
 from bip_utils.bip.bip32.slip10 import (
     Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1,

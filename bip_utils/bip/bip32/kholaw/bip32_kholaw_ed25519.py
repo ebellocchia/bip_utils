@@ -25,8 +25,8 @@ from typing import Type
 from bip_utils.bip.bip32.base import Bip32Base, IBip32KeyDerivator, IBip32MstKeyGenerator
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
-from bip_utils.bip.bip32.kholaw.bip32_kholaw_key_derivator import Bip32KholawKeyDerivator
-from bip_utils.bip.bip32.kholaw.bip32_kholaw_mst_key_generator import Bip32KholawMstKeyGenerator
+from bip_utils.bip.bip32.kholaw.bip32_kholaw_key_derivator import Bip32KholawEd25519KeyDerivator
+from bip_utils.bip.bip32.kholaw.bip32_kholaw_mst_key_generator import Bip32KholawEd25519MstKeyGenerator
 from bip_utils.ecc import EllipticCurveTypes
 
 
@@ -64,7 +64,7 @@ class Bip32KholawEd25519(Bip32Base):
         Returns:
             IBip32KeyDerivator class: Key derivator class
         """
-        return Bip32KholawKeyDerivator
+        return Bip32KholawEd25519KeyDerivator
 
     @staticmethod
     def _MasterKeyGenerator() -> Type[IBip32MstKeyGenerator]:
@@ -74,7 +74,7 @@ class Bip32KholawEd25519(Bip32Base):
         Returns:
             IBip32MstKeyGenerator class: Master key generator class
         """
-        return Bip32KholawMstKeyGenerator
+        return Bip32KholawEd25519MstKeyGenerator
 
 
 # Deprecated: only for compatibility

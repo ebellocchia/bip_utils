@@ -27,12 +27,12 @@ References:
 """
 
 # Imports
-from bip_utils.bip.bip32 import Bip32KeyIndex, Bip32KholawKeyDerivatorBase, Bip32PublicKey
+from bip_utils.bip.bip32 import Bip32KeyIndex, Bip32KholawEd25519KeyDerivatorBase, Bip32PublicKey
 from bip_utils.ecc import EllipticCurve, IPoint
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
-class CardanoByronLegacyKeyDerivator(Bip32KholawKeyDerivatorBase):
+class CardanoByronLegacyKeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
     """
     Cardano Byron legacy key derivator class.
     It allows keys derivation for Cardano-Byron (legacy, used by old versions of Daedalus).

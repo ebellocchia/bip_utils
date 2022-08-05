@@ -27,14 +27,14 @@ Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
-from bip_utils.bip.bip32.kholaw.bip32_kholaw_key_derivator_base import Bip32KholawKeyDerivatorBase
+from bip_utils.bip.bip32.kholaw.bip32_kholaw_key_derivator_base import Bip32KholawEd25519KeyDerivatorBase
 from bip_utils.ecc import Ed25519KholawPrivateKey, EllipticCurve, IPoint
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
-class Bip32KholawKeyDerivator(Bip32KholawKeyDerivatorBase):
+class Bip32KholawEd25519KeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
     """
-    BIP32 SLIP-0010 Khovratovich/Law key derivator class.
+    BIP32 Khovratovich/Law ed25519 key derivator class.
     It allows keys derivation for ed25519 curves in according to BIP32 Khovratovich/Law.
     """
 
