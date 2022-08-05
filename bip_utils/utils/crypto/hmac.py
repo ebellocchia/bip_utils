@@ -23,7 +23,7 @@
 # Imports
 import hashlib
 import hmac
-from typing import Union
+from typing import Tuple, Union
 from bip_utils.utils.misc import AlgoUtils
 
 HMAC_USE_DIGEST: bool = hasattr(hmac, "digest")
@@ -88,6 +88,22 @@ class HmacSha512:
         if HMAC_USE_DIGEST:
             return hmac.digest(AlgoUtils.Encode(key), AlgoUtils.Encode(data), "sha512")
         return hmac.new(AlgoUtils.Encode(key), AlgoUtils.Encode(data), hashlib.sha512).digest()
+
+    @staticmethod
+    def QuickDigestHalves(key: Union[bytes, str],
+                          data: Union[bytes, str]) -> Tuple[bytes, bytes]:
+        """
+        Compute the digest and return it split into two halves (quick version).
+
+        Args:
+            key (str or bytes) : Key
+            data (str or bytes): Data
+
+        Returns:
+            tuple[bytes, bytes]: Computed digest left part (index 0) and right part (index 1)
+        """
+        digest_bytes = HmacSha512.QuickDigest(key, data)
+        return digest_bytes[:HmacSha512.DigestSize() // 2], digest_bytes[HmacSha512.DigestSize() // 2:]
 
     @staticmethod
     def DigestSize() -> int:

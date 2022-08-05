@@ -29,7 +29,7 @@ from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_ser import Bip32PrivateKeySerializer, Bip32PublicKeySerializer
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32FingerPrint, Bip32KeyData
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
-from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes, IPoint, IPrivateKey, IPublicKey
+from bip_utils.ecc import EllipticCurve, EllipticCurveGetter, EllipticCurveTypes, IPoint, IPrivateKey, IPublicKey
 from bip_utils.utils.crypto import Hash160
 from bip_utils.utils.misc import DataBytes
 
@@ -37,21 +37,45 @@ from bip_utils.utils.misc import DataBytes
 class _Bip32KeyBase(ABC):
     """Base class for a generic BIP32 key."""
 
+    m_curve: EllipticCurve
+    m_curve_type: EllipticCurveTypes
     m_key_data: Bip32KeyData
     m_key_net_ver: Bip32KeyNetVersions
 
     def __init__(self,
                  key_data: Bip32KeyData,
-                 key_net_ver: Bip32KeyNetVersions) -> None:
+                 key_net_ver: Bip32KeyNetVersions,
+                 curve_type: EllipticCurveTypes) -> None:
         """
         Construct class.
 
         Args:
             key_data (Bip32KeyData object)          : Key data
             key_net_ver (Bip32KeyNetVersions object): Key net versions
+            curve_type (EllipticCurveTypes)         : Elliptic curve type
         """
+        self.m_curve = EllipticCurveGetter.FromType(curve_type)
+        self.m_curve_type = curve_type
         self.m_key_data = key_data
         self.m_key_net_ver = key_net_ver
+
+    def Curve(self) -> EllipticCurve:
+        """
+        Return key elliptic curve.
+
+        Returns:
+            EllipticCurve object: EllipticCurve object
+        """
+        return self.m_curve
+
+    def CurveType(self) -> EllipticCurveTypes:
+        """
+        Return key elliptic curve type.
+
+        Returns:
+            EllipticCurveTypes: Elliptic curve type
+        """
+        return self.m_curve_type
 
     def Data(self) -> Bip32KeyData:
         """
@@ -100,7 +124,7 @@ class Bip32PublicKey(_Bip32KeyBase):
 
     @classmethod
     def FromBytesOrKeyObject(cls,
-                             pub_key: Union[bytes, IPublicKey],
+                             pub_key: Union[bytes, IPoint, IPublicKey],
                              key_data: Bip32KeyData,
                              key_net_ver: Bip32KeyNetVersions,
                              curve_type: EllipticCurveTypes) -> Bip32PublicKey:
@@ -108,7 +132,7 @@ class Bip32PublicKey(_Bip32KeyBase):
         Get the public key from key bytes or object.
 
         Args:
-            pub_key (bytes or IPublicKey)           : Public key
+            pub_key (bytes, IPoint or IPublicKey)   : Public key
             key_data (Bip32KeyData object)          : Key data
             key_net_ver (Bip32KeyNetVersions object): Key net versions
             curve_type (EllipticCurveTypes)         : Elliptic curve type
@@ -119,9 +143,11 @@ class Bip32PublicKey(_Bip32KeyBase):
         Raises:
             Bip32KeyError: If the key constructed from the bytes is not valid
         """
-        return (cls.FromBytes(pub_key, key_data, key_net_ver, curve_type)
-                if isinstance(pub_key, bytes)
-                else cls(pub_key, key_data, key_net_ver))
+        if isinstance(pub_key, bytes):
+            return cls.FromBytes(pub_key, key_data, key_net_ver, curve_type)
+        if isinstance(pub_key, IPoint):
+            return cls.FromPoint(pub_key, key_data, key_net_ver)
+        return cls(pub_key, key_data, key_net_ver)
 
     @classmethod
     def FromBytes(cls,
@@ -145,6 +171,26 @@ class Bip32PublicKey(_Bip32KeyBase):
                    key_data,
                    key_net_ver)
 
+    @classmethod
+    def FromPoint(cls,
+                  key_point: IPoint,
+                  key_data: Bip32KeyData,
+                  key_net_ver: Bip32KeyNetVersions) -> Bip32PublicKey:
+        """
+        Create from point.
+
+        Args:
+            key_point (IPoint object)               : Key point
+            key_data (Bip32KeyData object)          : Key data
+            key_net_ver (Bip32KeyNetVersions object): Key net versions
+
+        Raises:
+            Bip32KeyError: If the key constructed from the bytes is not valid
+        """
+        return cls(cls.__KeyFromPoint(key_point),
+                   key_data,
+                   key_net_ver)
+
     def __init__(self,
                  pub_key: IPublicKey,
                  key_data: Bip32KeyData,
@@ -157,17 +203,8 @@ class Bip32PublicKey(_Bip32KeyBase):
             key_data (Bip32KeyData object)          : Key data
             key_net_ver (Bip32KeyNetVersions object): Key net versions
         """
-        super().__init__(key_data, key_net_ver)
+        super().__init__(key_data, key_net_ver, pub_key.CurveType())
         self.m_pub_key = pub_key
-
-    def CurveType(self) -> EllipticCurveTypes:
-        """
-        Return key elliptic curve type.
-
-        Returns:
-            EllipticCurveTypes: Elliptic curve type
-        """
-        return self.m_pub_key.CurveType()
 
     def KeyObject(self) -> IPublicKey:
         """
@@ -259,7 +296,27 @@ class Bip32PublicKey(_Bip32KeyBase):
             curve = EllipticCurveGetter.FromType(curve_type)
             return curve.PublicKeyClass().FromBytes(key_bytes)
         except ValueError as ex:
-            raise Bip32KeyError("Invalid public key") from ex
+            raise Bip32KeyError("Invalid public key bytes") from ex
+
+    @staticmethod
+    def __KeyFromPoint(key_point: IPoint) -> IPublicKey:
+        """
+        Construct key from point.
+
+        Args:
+            key_point (IPoint object): Key point
+
+        Returns:
+            IPublicKey object: IPublicKey object
+
+        Raises:
+            Bip32KeyError: If the key constructed from the bytes is not valid
+        """
+        try:
+            curve = EllipticCurveGetter.FromType(key_point.CurveType())
+            return curve.PublicKeyClass().FromPoint(key_point)
+        except ValueError as ex:
+            raise Bip32KeyError("Invalid public key point") from ex
 
 
 class Bip32PrivateKey(_Bip32KeyBase):
@@ -329,17 +386,8 @@ class Bip32PrivateKey(_Bip32KeyBase):
             key_data (Bip32KeyData object)          : Key data
             key_net_ver (Bip32KeyNetVersions object): Key net versions
         """
-        super().__init__(key_data, key_net_ver)
+        super().__init__(key_data, key_net_ver, priv_key.CurveType())
         self.m_priv_key = priv_key
-
-    def CurveType(self) -> EllipticCurveTypes:
-        """
-        Return key elliptic curve type.
-
-        Returns:
-            EllipticCurveTypes: Elliptic curve type
-        """
-        return self.m_priv_key.CurveType()
 
     def KeyObject(self) -> IPrivateKey:
         """
@@ -404,4 +452,4 @@ class Bip32PrivateKey(_Bip32KeyBase):
             curve = EllipticCurveGetter.FromType(curve_type)
             return curve.PrivateKeyClass().FromBytes(key_bytes)
         except ValueError as ex:
-            raise Bip32KeyError("Invalid private key") from ex
+            raise Bip32KeyError("Invalid private key bytes") from ex

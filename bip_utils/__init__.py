@@ -78,7 +78,9 @@ from bip_utils.bip.bip32 import (
     Bip32Path, Bip32PathParser,
     Bip32PublicKey, Bip32PrivateKey,
     Bip32Utils,
-    Bip32Ed25519Blake2bSlip, Bip32Ed25519Kholaw, Bip32Ed25519Slip, Bip32Nist256p1, Bip32Secp256k1
+    Bip32Slip10Ed25519Blake2b, Bip32Ed25519Blake2bSlip, Bip32Slip10Ed25519, Bip32Ed25519Slip,
+    Bip32Slip10Nist256p1, Bip32Nist256p1, Bip32Slip10Secp256k1, Bip32Secp256k1,
+    Bip32KholawEd25519, Bip32Ed25519Kholaw
 )
 # BIP44/49/84
 from bip_utils.bip.bip44_base import (
@@ -104,7 +106,7 @@ from bip_utils.cardano.mnemonic import CardanoByronLegacySeedGenerator, CardanoI
 from bip_utils.coin_conf import CoinsConf
 # ECC
 from bip_utils.ecc import (
-    IPublicKey, IPrivateKey,
+    IPoint, IPublicKey, IPrivateKey,
     EllipticCurveGetter, EllipticCurveTypes,
     Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
     Ed25519Kholaw, Ed25519KholawPoint, Ed25519KholawPublicKey, Ed25519KholawPrivateKey,

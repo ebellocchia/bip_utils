@@ -22,7 +22,7 @@
 
 # Imports
 from bip_utils.addr import P2WPKHAddrEncoder
-from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Secp256k1
+from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Slip10Secp256k1
 from bip_utils.bip.conf.common import BipCoinConf, NOT_HARDENED_DEF_PATH
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
@@ -44,7 +44,7 @@ class Bip84Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
         wif_net_ver=CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
-        bip32_cls=Bip32Secp256k1,
+        bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2wpkh_hrp"),
@@ -59,7 +59,7 @@ class Bip84Conf:
         key_net_ver=Bip32KeyNetVersions(b"\x04\x5f\x1c\xf6",
                                         b"\x04\x5f\x18\xbc"),   # vpub / vprv
         wif_net_ver=CoinsConf.BitcoinTestNet.ParamByKey("wif_net_ver"),
-        bip32_cls=Bip32Secp256k1,
+        bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinTestNet.ParamByKey("p2wpkh_hrp"),
@@ -74,7 +74,7 @@ class Bip84Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
         wif_net_ver=CoinsConf.LitecoinMainNet.ParamByKey("wif_net_ver"),
-        bip32_cls=Bip32Secp256k1,
+        bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.LitecoinMainNet.ParamByKey("p2wpkh_hrp"),
@@ -89,7 +89,7 @@ class Bip84Conf:
         key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
                                         b"\x04\x36\xef\x7d"),   # ttub / ttpv
         wif_net_ver=CoinsConf.LitecoinTestNet.ParamByKey("wif_net_ver"),
-        bip32_cls=Bip32Secp256k1,
+        bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=P2WPKHAddrEncoder,
         addr_params={
             "hrp": CoinsConf.LitecoinTestNet.ParamByKey("p2wpkh_hrp"),

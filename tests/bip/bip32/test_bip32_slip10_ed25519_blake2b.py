@@ -19,12 +19,13 @@
 # THE SOFTWARE.
 
 # Imports
-import binascii
 import unittest
-from bip_utils import Bip32Ed25519Blake2bSlip, Bip32KeyError, Bip32KeyIndex, EllipticCurveTypes
-from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
+from bip_utils import (
+    Bip32Ed25519Blake2bSlip, Bip32Slip10Ed25519Blake2b, Bip32KeyError, Bip32KeyIndex, EllipticCurveTypes
+)
+from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper, TEST_SEED
-from tests.bip.bip32.test_bip32_ed25519_slip import TEST_VECT_EX_KEY_ERR
+from tests.bip.bip32.test_bip32_slip10_ed25519 import TEST_VECT_EX_KEY_ERR
 
 # Tests
 TEST_VECT = [
@@ -174,53 +175,60 @@ TEST_VECT = [
 #
 # Tests
 #
-class Bip32Ed25519Blake2bSlipTests(unittest.TestCase):
+class Bip32Slip10Ed25519Blake2bTests(unittest.TestCase):
     # Tets supported derivation
     def test_supported_derivation(self):
-        self.assertFalse(Bip32Ed25519Blake2bSlip.IsPrivateUnhardenedDerivationSupported())
-        self.assertFalse(Bip32Ed25519Blake2bSlip.IsPublicDerivationSupported())
+        self.assertFalse(Bip32Slip10Ed25519Blake2b.IsPublicDerivationSupported())
 
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_from_seed_with_child_key(self):
-        Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Slip10Ed25519Blake2b, TEST_VECT)
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_from_seed_with_derive_path(self):
-        Bip32BaseTestHelper.test_from_seed_with_derive_path(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_seed_with_derive_path(self, Bip32Slip10Ed25519Blake2b, TEST_VECT)
 
     # Run all tests in test vector using FromSeedAndPath for construction
     def test_from_seed_and_path(self):
-        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Slip10Ed25519Blake2b, TEST_VECT)
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_from_ex_key(self):
-        Bip32BaseTestHelper.test_from_ex_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_ex_key(self, Bip32Slip10Ed25519Blake2b, TEST_VECT)
 
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_priv_key(self):
-        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Slip10Ed25519Blake2b, TEST_VECT)
 
     # Run all tests in test vector using FromPublicKey for construction
     def test_from_pub_key(self):
-        Bip32BaseTestHelper.test_from_pub_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT)
+        Bip32BaseTestHelper.test_from_pub_key(self, Bip32Slip10Ed25519Blake2b, TEST_VECT)
+
+    # Test elliptic curve
+    def test_elliptic_curve(self):
+        Bip32BaseTestHelper.test_elliptic_curve(self, Bip32Slip10Ed25519Blake2b, EllipticCurveTypes.ED25519_BLAKE2B)
 
     # Test invalid extended key
     def test_invalid_ex_key(self):
-        Bip32BaseTestHelper.test_invalid_ex_key(self, Bip32Ed25519Blake2bSlip, TEST_VECT_EX_KEY_ERR)
+        Bip32BaseTestHelper.test_invalid_ex_key(self, Bip32Slip10Ed25519Blake2b, TEST_VECT_EX_KEY_ERR)
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Ed25519Blake2bSlip, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 2))
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Slip10Ed25519Blake2b, b"\x00" * (Bip32Slip10MstKeyGeneratorConst.SEED_MIN_BYTE_LEN - 2))
 
     # Test invalid derivation
     def test_invalid_derivation(self):
-        bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeed(TEST_SEED)
+        bip32_ctx = Bip32Slip10Ed25519Blake2b.FromSeed(TEST_SEED)
 
         # Not-hardened private derivation
-        self.assertRaises(Bip32KeyError, Bip32Ed25519Blake2bSlip.FromSeedAndPath, TEST_SEED, "m/0'/1")
+        self.assertRaises(Bip32KeyError, Bip32Slip10Ed25519Blake2b.FromSeedAndPath, TEST_SEED, "m/0'/1")
         self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, 0)
         self.assertRaises(Bip32KeyError, bip32_ctx.DerivePath, "0'/1")
 
         # Public derivation
         bip32_ctx.ConvertToPublic()
         self.assertRaises(Bip32KeyError, bip32_ctx.ChildKey, 0)
+
+    # Test old class
+    def test_old_cls(self):
+        self.assertTrue(Bip32Ed25519Blake2bSlip is Bip32Slip10Ed25519Blake2b)

@@ -22,7 +22,7 @@
 
 # Imports
 from bip_utils.addr import P2TRAddrEncoder
-from bip_utils.bip.bip32 import Bip32Const, Bip32KeyNetVersions, Bip32Secp256k1
+from bip_utils.bip.bip32 import Bip32Const, Bip32KeyNetVersions, Bip32Slip10Secp256k1
 from bip_utils.bip.conf.common import BipCoinConf, NOT_HARDENED_DEF_PATH
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
@@ -45,7 +45,7 @@ class Bip86Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP86_BTC_KEY_NET_VER,
         wif_net_ver=CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
-        bip32_cls=Bip32Secp256k1,
+        bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=P2TRAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp"),
@@ -60,7 +60,7 @@ class Bip86Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=_BIP86_BTC_KEY_NET_VER_TEST,
         wif_net_ver=CoinsConf.BitcoinTestNet.ParamByKey("wif_net_ver"),
-        bip32_cls=Bip32Secp256k1,
+        bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=P2TRAddrEncoder,
         addr_params={
             "hrp": CoinsConf.BitcoinTestNet.ParamByKey("p2tr_hrp"),

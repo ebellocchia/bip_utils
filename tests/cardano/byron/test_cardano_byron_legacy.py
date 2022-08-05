@@ -21,8 +21,8 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32Ed25519Slip, Bip32PublicKey, Bip32PrivateKey, CardanoByronLegacyBip32, CardanoByronLegacy
-from bip_utils.cardano.bip32.cardano_byron_legacy_bip32 import CardanoByronLegacyBip32Const
+from bip_utils import Bip32Slip10Ed25519, Bip32PublicKey, Bip32PrivateKey, CardanoByronLegacyBip32, CardanoByronLegacy
+from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import CardanoByronLegacyMstKeyGeneratorConst
 
 # Test vector (verified with AdaLite)
 TEST_VECT = [
@@ -101,8 +101,8 @@ TEST_VECT = [
 ]
 
 # Generic seeds for testing
-TEST_SEED_1 = b"\x00" * CardanoByronLegacyBip32Const.SEED_BYTE_LEN
-TEST_SEED_2 = b"\x01" * CardanoByronLegacyBip32Const.SEED_BYTE_LEN
+TEST_SEED_1 = b"\x00" * CardanoByronLegacyMstKeyGeneratorConst.SEED_BYTE_LEN
+TEST_SEED_2 = b"\x01" * CardanoByronLegacyMstKeyGeneratorConst.SEED_BYTE_LEN
 
 
 #
@@ -125,7 +125,7 @@ class CardanoByronLegacyTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, CardanoByronLegacy, Bip32Ed25519Slip.FromSeed(TEST_SEED_1))
+        self.assertRaises(TypeError, CardanoByronLegacy, Bip32Slip10Ed25519.FromSeed(TEST_SEED_1))
         # Not a master key
         self.assertRaises(ValueError, CardanoByronLegacy, CardanoByronLegacyBip32.FromSeed(TEST_SEED_1).DerivePath("m/0"))
 

@@ -23,7 +23,7 @@ import binascii
 import unittest
 from bip_utils import (
     Bip32PathError, Bip32PathParser, Bip32Path, Bip32KeyIndex,
-    Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip, Bip32Nist256p1, Bip32Secp256k1,
+    Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b, Bip32Slip10Nist256p1, Bip32Slip10Secp256k1
 )
 
 # Tests for paths
@@ -199,17 +199,17 @@ class Bip32PathTests(unittest.TestCase):
         for test in TEST_VECT_PATH_INVALID:
             self.assertRaises(Bip32PathError, Bip32PathParser.Parse, test)
 
-            self.assertRaises(Bip32PathError, Bip32Ed25519Slip.FromSeed(seed).DerivePath, test)
-            self.assertRaises(Bip32PathError, Bip32Ed25519Slip.FromSeedAndPath, seed, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Ed25519.FromSeed(seed).DerivePath, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Ed25519.FromSeedAndPath, seed, test)
 
-            self.assertRaises(Bip32PathError, Bip32Ed25519Blake2bSlip.FromSeed(seed).DerivePath, test)
-            self.assertRaises(Bip32PathError, Bip32Ed25519Blake2bSlip.FromSeedAndPath, seed, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Ed25519Blake2b.FromSeed(seed).DerivePath, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Ed25519Blake2b.FromSeedAndPath, seed, test)
 
-            self.assertRaises(Bip32PathError, Bip32Nist256p1.FromSeed(seed).DerivePath, test)
-            self.assertRaises(Bip32PathError, Bip32Nist256p1.FromSeedAndPath, seed, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Nist256p1.FromSeed(seed).DerivePath, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Nist256p1.FromSeedAndPath, seed, test)
 
-            self.assertRaises(Bip32PathError, Bip32Secp256k1.FromSeed(seed).DerivePath, test)
-            self.assertRaises(Bip32PathError, Bip32Secp256k1.FromSeedAndPath, seed, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Secp256k1.FromSeed(seed).DerivePath, test)
+            self.assertRaises(Bip32PathError, Bip32Slip10Secp256k1.FromSeedAndPath, seed, test)
 
     # Test a path object
     def __test_path(self, test, path):

@@ -20,8 +20,8 @@
 
 # Imports
 import unittest
-from bip_utils import Bip32Secp256k1, Bip32KeyIndex, EllipticCurveTypes
-from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
+from bip_utils import Bip32KeyIndex, Bip32Secp256k1, Bip32Slip10Secp256k1, EllipticCurveTypes
+from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 
 # Tests from BIP32 and SLIP-0010 pages
@@ -264,48 +264,55 @@ TEST_VECT_EX_KEY_ERR = [
 #
 # Tests
 #
-class Bip32Secp256k1Tests(unittest.TestCase):
+class Bip32Slip10Secp256k1Tests(unittest.TestCase):
     # Tets supported derivation
     def test_supported_derivation(self):
-        self.assertTrue(Bip32Secp256k1.IsPrivateUnhardenedDerivationSupported())
-        self.assertTrue(Bip32Secp256k1.IsPublicDerivationSupported())
+        self.assertTrue(Bip32Slip10Secp256k1.IsPublicDerivationSupported())
 
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_from_seed_with_child_key(self):
-        Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_seed_with_child_key(self, Bip32Slip10Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_from_seed_with_derive_path(self):
-        Bip32BaseTestHelper.test_from_seed_with_derive_path(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_seed_with_derive_path(self, Bip32Slip10Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromSeedAndPath for construction
     def test_from_seed_and_path(self):
-        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_seed_and_path(self, Bip32Slip10Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_from_ex_key(self):
-        Bip32BaseTestHelper.test_from_ex_key(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_ex_key(self, Bip32Slip10Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_priv_key(self):
-        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_priv_key(self, Bip32Slip10Secp256k1, TEST_VECT)
 
     # Run all tests in test vector using FromPublicKey for construction
     def test_from_pub_key(self):
-        Bip32BaseTestHelper.test_from_pub_key(self, Bip32Secp256k1, TEST_VECT)
+        Bip32BaseTestHelper.test_from_pub_key(self, Bip32Slip10Secp256k1, TEST_VECT)
 
     # Test public derivation from extended key
     def test_public_derivation_ex_key(self):
-        Bip32BaseTestHelper.test_public_derivation_ex_key(self, Bip32Secp256k1, TEST_VECT_PUBLIC_DER_EX_KEY)
+        Bip32BaseTestHelper.test_public_derivation_ex_key(self, Bip32Slip10Secp256k1, TEST_VECT_PUBLIC_DER_EX_KEY)
 
     # Test public derivation from public key
     def test_public_derivation_pub_key(self):
-        Bip32BaseTestHelper.test_public_derivation_pub_key(self, Bip32Secp256k1, TEST_VECT_PUBLIC_DER_PUB_KEY)
+        Bip32BaseTestHelper.test_public_derivation_pub_key(self, Bip32Slip10Secp256k1, TEST_VECT_PUBLIC_DER_PUB_KEY)
+
+    # Test elliptic curve
+    def test_elliptic_curve(self):
+        Bip32BaseTestHelper.test_elliptic_curve(self, Bip32Slip10Secp256k1, EllipticCurveTypes.SECP256K1)
 
     # Test invalid extended key
     def test_invalid_ex_key(self):
-        Bip32BaseTestHelper.test_invalid_ex_key(self, Bip32Secp256k1, TEST_VECT_EX_KEY_ERR)
+        Bip32BaseTestHelper.test_invalid_ex_key(self, Bip32Slip10Secp256k1, TEST_VECT_EX_KEY_ERR)
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Secp256k1, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 1))
+        Bip32BaseTestHelper.test_invalid_seed(self, Bip32Slip10Secp256k1, b"\x00" * (Bip32Slip10MstKeyGeneratorConst.SEED_MIN_BYTE_LEN - 1))
+
+    # Test old class
+    def test_old_cls(self):
+        self.assertTrue(Bip32Secp256k1 is Bip32Slip10Secp256k1)

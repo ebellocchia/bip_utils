@@ -2,7 +2,6 @@
 
 import binascii
 from bip_utils import (
-    Bip32Secp256k1,
     CoinsConf,
     ElectrumV1WordsNum, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator,
     ElectrumV1,

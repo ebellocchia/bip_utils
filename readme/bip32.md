@@ -4,11 +4,11 @@ The BIP-0032 library allows deriving children keys as defined by [BIP-0032](http
 
 Since this library is wrapped inside the BIP-0044, BIP-0049 and BIP-0084 libraries, there is no need to use it alone unless you need to derive some non-standard paths.\
 The library currently supports the following elliptic curves for key derivation, each one is implemented by a specific class:
-- Ed25519 (based on SLIP-0010): *Bip32Ed25519Slip* class
-- Ed25519-Blake2b (based on SLIP-0010): *Bip32Ed25519Blake2bSlip* class
-- BIP32-Ed25519 (Khovratovich/Law): *Bip32Ed25519Kholaw* class
-- Nist256p1 (based on SLIP-0010): *Bip32Nist256p1* class
-- Secp256k1: *Bip32Secp256k1* class
+- Ed25519 (based on SLIP-0010): *Bip32Slip10Ed25519* class
+- Ed25519-Blake2b (based on SLIP-0010): *Bip32Slip10Ed25519Blake2b* class
+- BIP32-Ed25519 (Khovratovich/Law): *Bip32KholawEd25519* class
+- Nist256p1 (based on SLIP-0010): *Bip32Slip10Nist256p1* class
+- Secp256k1: *Bip32Slip10Secp256k1* class
 
 They all inherit from the generic *Bip32Base* class, which can be extended to implement new elliptic curves derivation.\
 The curve depends on the specific coin and it's automatically selected if you use the *Bip44* library.
@@ -21,7 +21,7 @@ The constructed class is the master path, so printing the private key will resul
 **Code example**
 
     import binascii
-    from bip_utils import Bip39SeedGenerator, Bip32Secp256k1
+    from bip_utils import Bip39SeedGenerator, Bip32Slip10Secp256k1
 
     # Generate from mnemonic
     mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
@@ -30,7 +30,7 @@ The constructed class is the master path, so printing the private key will resul
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
 
     # Construct from seed, derivation path returned: m
-    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Slip10Secp256k1.FromSeed(seed_bytes)
     # Print master key in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
 
@@ -39,11 +39,11 @@ In addition to a seed, it's also possible to specify a derivation path.
 **Code example**
 
     import binascii
-    from bip_utils import Bip32Secp256k1
+    from bip_utils import Bip32Slip10Secp256k1
 
     # Derivation path returned: m/0'/1'/2
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
-    bip32_ctx = Bip32Secp256k1.FromSeedAndPath(seed_bytes, "m/0'/1'/2")
+    bip32_ctx = Bip32Slip10Secp256k1.FromSeedAndPath(seed_bytes, "m/0'/1'/2")
     # Print private key for derivation path m/0'/1'/2 in extended format
     print(bip32_ctx.PrivateKey().ToExtended())
 
@@ -54,12 +54,12 @@ The returned object will be at the same depth of the specified key.
 
 **Code example**
 
-    from bip_utils import Bip32Secp256k1
+    from bip_utils import Bip32Slip10Secp256k1
 
     # Private extended key from derivation path m/0'/1 (depth 2)
     key_str = "xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs"
     # Construct from key (return object has depth 2)
-    bip32_ctx = Bip32Secp256k1.FromExtendedKey(key_str)
+    bip32_ctx = Bip32Slip10Secp256k1.FromExtendedKey(key_str)
     # Return false
     print(bip32_ctx.IsPublicOnly())
     # Print keys
@@ -70,7 +70,7 @@ The returned object will be at the same depth of the specified key.
     key_str = "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"
     # Construct from key (return object has depth 2)
     # The object will be public-only and support only public derivation
-    bip32_ctx = Bip32Secp256k1.FromExtendedKey(key_str)
+    bip32_ctx = Bip32Slip10Secp256k1.FromExtendedKey(key_str)
     # Return true
     print(bip32_ctx.IsPublicOnly())
     # Print public key
@@ -85,13 +85,13 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
 **Code example**
 
     import binascii
-    from bip_utils import Bip32KeyData, Bip32Secp256k1, Secp256k1PrivateKey
+    from bip_utils import Bip32KeyData, Bip32Slip10Secp256k1, Secp256k1PrivateKey
     
     # Construct from private key bytes
     priv_key_bytes = binascii.unhexlify(b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35")
-    bip32_ctx = Bip32Secp256k1.FromPrivateKey(priv_key_bytes)
+    bip32_ctx = Bip32Slip10Secp256k1.FromPrivateKey(priv_key_bytes)
     # Or key object directly (the curve shall match the one of the Bip32 class, otherwise a Bip32KeyError will be raised)
-    bip32_ctx = Bip32Secp256k1.FromPrivateKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes))
+    bip32_ctx = Bip32Slip10Secp256k1.FromPrivateKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes))
     # Print keys and data
     print(bip32_ctx.PrivateKey().Raw().ToHex())
     print(bip32_ctx.PublicKey().RawCompressed().ToHex())
@@ -101,7 +101,7 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
     
     # Construct by specifying derivation data
     chain_code_bytes = binascii.unhexlify(b"873dff81c02f525623fd1fe5167eac3a55a049de3d314bb42ee227ffed37d508")
-    bip32_ctx = Bip32Secp256k1.FromPrivateKey(
+    bip32_ctx = Bip32Slip10Secp256k1.FromPrivateKey(
         priv_key_bytes,
         Bip32KeyData(
             chain_code=chain_code_bytes,
@@ -127,13 +127,13 @@ The constructed class will be a public-only object (see the example in the next 
 **Code example**
 
     import binascii
-    from bip_utils import Bip32KeyError, Bip32KeyData, Bip32Secp256k1, Secp256k1PublicKey
+    from bip_utils import Bip32KeyError, Bip32KeyData, Bip32Slip10Secp256k1, Secp256k1PublicKey
     
     # Construct from public key bytes
     pub_key_bytes = binascii.unhexlify(b"0339a36013301597daef41fbe593a02cc513d0b55527ec2df1050e2e8ff49c85c2")
-    bip32_ctx = Bip32Secp256k1.FromPublicKey(pub_key_bytes)
+    bip32_ctx = Bip32Slip10Secp256k1.FromPublicKey(pub_key_bytes)
     # Or key object directly (the curve shall match the one of the Bip32 class, otherwise a Bip32KeyError will be raised)
-    bip32_ctx = Bip32Secp256k1.FromPublicKey(Secp256k1PublicKey.FromBytes(pub_key_bytes))
+    bip32_ctx = Bip32Slip10Secp256k1.FromPublicKey(Secp256k1PublicKey.FromBytes(pub_key_bytes))
     # Print keys and data
     print(bip32_ctx.PublicKey().RawCompressed().ToHex())
     print(bip32_ctx.Depth().ToInt())
@@ -150,7 +150,7 @@ The constructed class will be a public-only object (see the example in the next 
     
     # Construct by specifying derivation data
     chain_code_bytes = binascii.unhexlify(b"873dff81c02f525623fd1fe5167eac3a55a049de3d314bb42ee227ffed37d508")
-    bip32_ctx = Bip32Secp256k1.FromPublicKey(
+    bip32_ctx = Bip32Slip10Secp256k1.FromPublicKey(
         pub_key_bytes,
         Bip32KeyData(
             chain_code=chain_code_bytes,
@@ -174,12 +174,12 @@ The *Bip32KeyIndex.HardenIndex* method can be used to make an index hardened.
 **Code example**
 
     import binascii
-    from bip_utils import Bip32Secp256k1, Bip32KeyIndex
+    from bip_utils import Bip32Slip10Secp256k1, Bip32KeyIndex
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Path: m
-    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Slip10Secp256k1.FromSeed(seed_bytes)
     # Derivation path: m/0'/1'/2/3
     bip32_ctx = bip32_ctx.ChildKey(Bip32KeyIndex.HardenIndex(0)) \
                          .ChildKey(Bip32KeyIndex.HardenIndex(1)) \
@@ -232,11 +232,11 @@ The *Bip32KeyIndex.HardenIndex* method can be used to make an index hardened.
     print(bytes(bip32_ctx.ParentFingerPrint()))
 
     # Alternative: use DerivePath method
-    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Slip10Secp256k1.FromSeed(seed_bytes)
     bip32_ctx = bip32_ctx.DerivePath("0'/1'/2/3")
 
     # DerivePath derives from the current depth, so it can be split
-    bip32_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
+    bip32_ctx = Bip32Slip10Secp256k1.FromSeed(seed_bytes)
     bip32_ctx = bip32_ctx.DerivePath("0'/1'")   # Derivation path: m/0'/1'
     bip32_ctx = bip32_ctx.DerivePath("2/3")     # Derivation path: m/0'/1'/2/3
 
@@ -254,11 +254,11 @@ In case of a public-only object, only public derivation will be supported (only 
 
 **Code example**
 
-    from bip_utils import Bip32KeyError, Bip32KeyIndex, Bip32Secp256k1
+    from bip_utils import Bip32KeyError, Bip32KeyIndex, Bip32Slip10Secp256k1
 
     # Derive from a public extended key
     key_str = "xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ"
-    bip32_ctx = Bip32Secp256k1.FromExtendedKey(key_str)
+    bip32_ctx = Bip32Slip10Secp256k1.FromExtendedKey(key_str)
 
     # Return true
     print(bip32_ctx.IsPublicOnly())
@@ -286,29 +286,29 @@ In case of a public-only object, only public derivation will be supported (only 
 
     # Derive from a private extended key
     key_str = "xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs"
-    bip32_ctx = Bip32Secp256k1.FromExtendedKey(key_str)
+    bip32_ctx = Bip32Slip10Secp256k1.FromExtendedKey(key_str)
     # Convert to public object
     bip32_ctx.ConvertToPublic()
     # Same as before...
 
 The other BIP32 classes work exactly in the same way.\
-However, the *Bip32Ed25519Slip* and *Bip32Ed25519Blake2bSlip* classes have some differences (as written in SLIP-0010):
+However, the *Bip32Slip10Ed25519* and *Bip32Slip10Ed25519Blake2b* classes have some differences (as written in SLIP-0010):
 - Not-hardened private key derivation is not supported
 - Public key derivation is not supported
 
 For example:
 
     import binascii
-    from bip_utils import Bip32KeyError, Bip32Ed25519Slip, Bip32Ed25519Blake2bSlip
+    from bip_utils import Bip32KeyError, Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b
 
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Only hardened private key derivation, fine
-    bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
+    bip32_ctx = Bip32Slip10Ed25519.FromSeedAndPath(seed_bytes, "m/0'/1'")
 
     # Public derivation, Bip32KeyError is raised
     try:
-        bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0'/1'")
+        bip32_ctx = Bip32Slip10Ed25519.FromSeedAndPath(seed_bytes, "m/0'/1'")
         bip32_ctx.ConvertToPublic()
         bip32_ctx.ChildKey(0)
     except Bip32KeyError as ex:
@@ -316,7 +316,7 @@ For example:
 
     # Same as before
     try:
-        bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0'/1'")
+        bip32_ctx = Bip32Slip10Ed25519Blake2b.FromSeedAndPath(seed_bytes, "m/0'/1'")
         bip32_ctx.ConvertToPublic()
         bip32_ctx.ChildKey(0)
     except Bip32KeyError as ex:
@@ -324,8 +324,8 @@ For example:
 
     # Not-hardened private key derivation, Bip32KeyError is raised
     try:
-        bip32_ctx = Bip32Ed25519Slip.FromSeedAndPath(seed_bytes, "m/0/1")
-        bip32_ctx = Bip32Ed25519Blake2bSlip.FromSeedAndPath(seed_bytes, "m/0/1")
+        bip32_ctx = Bip32Slip10Ed25519.FromSeedAndPath(seed_bytes, "m/0/1")
+        bip32_ctx = Bip32Slip10Ed25519Blake2b.FromSeedAndPath(seed_bytes, "m/0/1")
     except Bip32KeyError as ex:
         print(ex)
 

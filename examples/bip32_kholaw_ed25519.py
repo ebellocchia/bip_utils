@@ -1,7 +1,7 @@
-"""Example of keys derivation using BIP32 (secp256k1 curve)."""
+"""Example of keys derivation using BIP32 (ed25519 curve based on Khovratovich/Law paper)."""
 
 from bip_utils import (
-    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Secp256k1, EthAddrEncoder
+    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32KholawEd25519, AlgoAddrEncoder
 )
 
 # Generate random mnemonic
@@ -10,21 +10,21 @@ print(f"Mnemonic string: {mnemonic}")
 # Generate seed from mnemonic
 seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
-# Construct from seed, using secp256k1 curve for key derivation
-bip32_mst_ctx = Bip32Secp256k1.FromSeed(seed_bytes)
+# Construct from seed, using ed25519 curve for key derivation
+bip32_mst_ctx = Bip32KholawEd25519.FromSeed(seed_bytes)
 # Print master key
 print(f"Master key (bytes): {bip32_mst_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Master key (extended): {bip32_mst_ctx.PrivateKey().ToExtended()}")
 
 # Derive a path
-bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/60'/0'/0/0")
+bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/283'/0'/0/0")
 # Print key
 print(f"Derived private key (bytes): {bip32_der_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Derived private key (extended): {bip32_der_ctx.PrivateKey().ToExtended()}")
 print(f"Derived public key (bytes): {bip32_der_ctx.PublicKey().RawCompressed().ToHex()}")
 print(f"Derived public key (extended): {bip32_der_ctx.PublicKey().ToExtended()}")
 
-# Print address in Ethereum encoding
-# The BIP32 elliptic curve shall be the same one expected by Ethereum (secp256k1 in this case)
-eth_addr = EthAddrEncoder.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
-print(f"Address (ETH): {eth_addr}")
+# Print address in Algorand encoding
+# The BIP32 elliptic curve shall be the same one expected by Algorand (ed25519 in this case)
+algo_addr = AlgoAddrEncoder.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
+print(f"Address (ALGO): {algo_addr}")

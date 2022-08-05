@@ -1,7 +1,7 @@
-"""Example of keys derivation using BIP32 (nist256p1 curve)."""
+"""Example of keys derivation using BIP32 (ed25519 curve based on SLIP-0010)."""
 
 from bip_utils import (
-    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Nist256p1, CoinsConf, NeoAddr
+    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Slip10Ed25519, SolAddrEncoder
 )
 
 # Generate random mnemonic
@@ -10,22 +10,21 @@ print(f"Mnemonic string: {mnemonic}")
 # Generate seed from mnemonic
 seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
-# Construct from seed, using nist256p1 curve for key derivation
-bip32_mst_ctx = Bip32Nist256p1.FromSeed(seed_bytes)
+# Construct from seed, using ed25519 curve for key derivation
+bip32_mst_ctx = Bip32Slip10Ed25519.FromSeed(seed_bytes)
 # Print master key
 print(f"Master key (bytes): {bip32_mst_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Master key (extended): {bip32_mst_ctx.PrivateKey().ToExtended()}")
 
 # Derive a path
-bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/888'/0'/0/0")
+bip32_der_ctx = bip32_mst_ctx.DerivePath("m/44'/501'/0'")
 # Print key
 print(f"Derived private key (bytes): {bip32_der_ctx.PrivateKey().Raw().ToHex()}")
 print(f"Derived private key (extended): {bip32_der_ctx.PrivateKey().ToExtended()}")
 print(f"Derived public key (bytes): {bip32_der_ctx.PublicKey().RawCompressed().ToHex()}")
 print(f"Derived public key (extended): {bip32_der_ctx.PublicKey().ToExtended()}")
 
-# Print address in NEO encoding
-# The BIP32 elliptic curve shall be the same one expected by NEO (nist256p1 in this case)
-neo_addr = NeoAddr.EncodeKey(bip32_der_ctx.PublicKey().KeyObject(),
-                             ver=CoinsConf.Neo.ParamByKey("addr_ver"))
-print(f"Address (NEO): {neo_addr}")
+# Print address in Solana encoding
+# The BIP32 elliptic curve shall be the same one expected by Solana (ed25519 in this case)
+sol_addr = SolAddrEncoder.EncodeKey(bip32_der_ctx.PublicKey().KeyObject())
+print(f"Address (SOL): {sol_addr}")

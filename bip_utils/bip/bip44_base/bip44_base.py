@@ -402,7 +402,7 @@ class Bip44Base(ABC):
             )
 
         # Use hardened derivation if not-hardended is not supported
-        if not self.m_bip32_obj.IsPrivateUnhardenedDerivationSupported():
+        if not self.m_bip32_obj.IsPublicDerivationSupported():
             change_idx = Bip32KeyIndex.HardenIndex(int(change_type))
         else:
             change_idx = int(change_type)
@@ -432,7 +432,7 @@ class Bip44Base(ABC):
             )
 
         # Use hardened derivation if not-hardended is not supported
-        if not self.m_bip32_obj.IsPrivateUnhardenedDerivationSupported():
+        if not self.m_bip32_obj.IsPublicDerivationSupported():
             addr_idx = Bip32KeyIndex.HardenIndex(addr_idx)
 
         return self.__class__(self.m_bip32_obj.ChildKey(addr_idx),

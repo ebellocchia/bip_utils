@@ -25,11 +25,11 @@ from bip_utils import (
     Bip32KeyData, Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32FingerPrint,
     Bip32PublicKey, Bip32PrivateKey, EllipticCurveGetter
 )
-from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
+from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 
 # Generic seed for testing
-TEST_SEED = b"\x00" * Bip32BaseConst.SEED_MIN_BYTE_LEN
+TEST_SEED = b"\x00" * Bip32Slip10MstKeyGeneratorConst.SEED_MIN_BYTE_LEN
 # Zero chain code
 ZERO_CHAIN_CODE = b"\x00" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN
 
@@ -158,6 +158,12 @@ class Bip32BaseTestHelper:
         # And by constructing directly from the public key
         bip32_ctx = bip32_class.FromPublicKey(binascii.unhexlify(test_vector["pub_key"]))
         Bip32BaseTestHelper.__test_public_derivation_pub_key(ut_class, bip32_ctx, test_vector)
+
+    # Test elliptic curve
+    @staticmethod
+    def test_elliptic_curve(ut_class, bip32_class, curve_type):
+        ut_class.assertEqual(bip32_class.Curve(), EllipticCurveGetter.FromType(curve_type))
+        ut_class.assertEqual(bip32_class.CurveType(), curve_type)
 
     # Test invalid extended key
     @staticmethod

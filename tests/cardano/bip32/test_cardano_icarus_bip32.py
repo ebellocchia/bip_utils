@@ -21,7 +21,7 @@
 # Imports
 import unittest
 from bip_utils import Bip32KeyIndex, CardanoIcarusBip32, EllipticCurveTypes
-from bip_utils.bip.bip32.bip32_base import Bip32BaseConst
+from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 from tests.bip.bip32.test_bip32_ed25519_kholaw import TEST_VECT_EX_KEY_ERR
 
@@ -220,7 +220,6 @@ TEST_VECT_PUBLIC_DER_PUB_KEY = {
 class CardanoIcarusBip32Tests(unittest.TestCase):
     # Tets supported derivation
     def test_supported_derivation(self):
-        self.assertTrue(CardanoIcarusBip32.IsPrivateUnhardenedDerivationSupported())
         self.assertTrue(CardanoIcarusBip32.IsPublicDerivationSupported())
 
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
@@ -255,10 +254,14 @@ class CardanoIcarusBip32Tests(unittest.TestCase):
     def test_public_derivation_pub_key(self):
         Bip32BaseTestHelper.test_public_derivation_pub_key(self, CardanoIcarusBip32, TEST_VECT_PUBLIC_DER_PUB_KEY)
 
+    # Test elliptic curve
+    def test_elliptic_curve(self):
+        Bip32BaseTestHelper.test_elliptic_curve(self, CardanoIcarusBip32, EllipticCurveTypes.ED25519_KHOLAW)
+
     # Test invalid extended key
     def test_invalid_ex_key(self):
         Bip32BaseTestHelper.test_invalid_ex_key(self, CardanoIcarusBip32, TEST_VECT_EX_KEY_ERR)
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, CardanoIcarusBip32, b"\x00" * (Bip32BaseConst.SEED_MIN_BYTE_LEN - 1))
+        Bip32BaseTestHelper.test_invalid_seed(self, CardanoIcarusBip32, b"\x00" * (Bip32Slip10MstKeyGeneratorConst.SEED_MIN_BYTE_LEN - 1))

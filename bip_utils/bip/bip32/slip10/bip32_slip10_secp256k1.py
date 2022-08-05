@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,22 +18,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for keys derivation based for Cardano Byron (legacy)."""
+"""Module for derivation scheme based on secp256k1 curve as defined by BIP32 SLIP-0010."""
 
 # Imports
 from typing import Type
-from bip_utils.bip.bip32 import Bip32Base, Bip32Const, Bip32KeyNetVersions, IBip32KeyDerivator, IBip32MstKeyGenerator
-from bip_utils.cardano.bip32.cardano_byron_legacy_key_derivation import CardanoByronLegacyKeyDerivator
-from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import CardanoByronLegacyMstKeyGenerator
+from bip_utils.bip.bip32.base import Bip32Base, IBip32KeyDerivator, IBip32MstKeyGenerator
+from bip_utils.bip.bip32.bip32_const import Bip32Const
+from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
+from bip_utils.bip.bip32.slip10.bip32_slip10_key_derivator import Bip32Slip10EcdsaDerivator
+from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10Secp256k1MstKeyGenerator
 from bip_utils.ecc import EllipticCurveTypes
 
 
-class CardanoByronLegacyBip32(Bip32Base):
+class Bip32Slip10Secp256k1(Bip32Base):
     """
-    Cardano Byron legacy BIP32 class.
-    It allows master keys generation and keys derivation for Cardano-Byron (legacy, used by old Daedalus).
-    Derivation based on BIP32 ed25519 Khovratovich/Law with a different algorithm for master key generation and
-    keys derivation.
+    BIP32 SLIP-0010 secp256k1 v.
+    It allows master keys generation and keys derivation using secp256k1 curve.
     """
 
     @staticmethod
@@ -44,7 +44,7 @@ class CardanoByronLegacyBip32(Bip32Base):
         Returns:
             EllipticCurveTypes: Curve type
         """
-        return EllipticCurveTypes.ED25519_KHOLAW
+        return EllipticCurveTypes.SECP256K1
 
     @staticmethod
     def _DefaultKeyNetVersion() -> Bip32KeyNetVersions:
@@ -54,7 +54,7 @@ class CardanoByronLegacyBip32(Bip32Base):
         Returns:
             Bip32KeyNetVersions object: Bip32KeyNetVersions object
         """
-        return Bip32Const.KHOLAW_KEY_NET_VERSIONS
+        return Bip32Const.MAIN_NET_KEY_NET_VERSIONS
 
     @staticmethod
     def _KeyDerivator() -> Type[IBip32KeyDerivator]:
@@ -64,7 +64,7 @@ class CardanoByronLegacyBip32(Bip32Base):
         Returns:
             IBip32KeyDerivator class: Key derivator class
         """
-        return CardanoByronLegacyKeyDerivator
+        return Bip32Slip10EcdsaDerivator
 
     @staticmethod
     def _MasterKeyGenerator() -> Type[IBip32MstKeyGenerator]:
@@ -74,4 +74,8 @@ class CardanoByronLegacyBip32(Bip32Base):
         Returns:
             IBip32MstKeyGenerator class: Master key generator class
         """
-        return CardanoByronLegacyMstKeyGenerator
+        return Bip32Slip10Secp256k1MstKeyGenerator
+
+
+# Deprecated: only for compatibility
+Bip32Secp256k1 = Bip32Slip10Secp256k1

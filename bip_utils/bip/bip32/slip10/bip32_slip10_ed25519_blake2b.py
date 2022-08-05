@@ -18,37 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""
-Module for BIP32 keys derivation based on secp256k1 curve.
-
-References:
-    https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki
-    https://github.com/satoshilabs/slips/blob/master/slip-0010.md
-"""
+"""Module for derivation scheme based on ed25519-blake2b curve as defined by BIP32 SLIP-0010."""
 
 # Imports
-from bip_utils.bip.bip32.bip32_ecdsa_base import Bip32EcdsaBase
+from bip_utils.bip.bip32.slip10.bip32_slip10_ed25519 import Bip32Slip10Ed25519
 from bip_utils.ecc import EllipticCurveTypes
 
 
-class Bip32Secp256k1Const:
-    """Class container for BIP32 secp256k1 constants."""
-
-    # Elliptic curve type
-    CURVE_TYPE: EllipticCurveTypes = EllipticCurveTypes.SECP256K1
-    # HMAC key for generating master key
-    MASTER_KEY_HMAC_KEY: bytes = b"Bitcoin seed"
-
-
-class Bip32Secp256k1(Bip32EcdsaBase):
+class Bip32Slip10Ed25519Blake2b(Bip32Slip10Ed25519):
     """
-    BIP32 secp256k1 class.
-    It allows master key generation and children keys derivation using secp256k1 curve.
+    BIP32 SLIP-0010 ed25519-blake2b class.
+    It allows master keys generation and keys derivation using ed25519-blake2b curve.
     """
-
-    #
-    # Public methods
-    #
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -58,18 +39,8 @@ class Bip32Secp256k1(Bip32EcdsaBase):
         Returns:
             EllipticCurveTypes: Curve type
         """
-        return Bip32Secp256k1Const.CURVE_TYPE
+        return EllipticCurveTypes.ED25519_BLAKE2B
 
-    #
-    # Protected methods
-    #
 
-    @staticmethod
-    def _MasterKeyHmacKey() -> bytes:
-        """
-        Return the HMAC key for generating the master key.
-
-        Returns:
-            bytes: HMAC key
-        """
-        return Bip32Secp256k1Const.MASTER_KEY_HMAC_KEY
+# Deprecated: only for compatibility
+Bip32Ed25519Blake2bSlip = Bip32Slip10Ed25519Blake2b

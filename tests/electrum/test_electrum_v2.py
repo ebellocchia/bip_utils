@@ -22,7 +22,7 @@
 import binascii
 import unittest
 from bip_utils import (
-    Bip32PublicKey, Bip32PrivateKey, Bip32Ed25519Slip, Bip32Secp256k1,
+    Bip32PublicKey, Bip32PrivateKey, Bip32Slip10Ed25519, Bip32Slip10Secp256k1,
     CoinsConf, ElectrumV2Standard, ElectrumV2Segwit, WifEncoder
 )
 from tests.bip.bip32.test_bip32_base import TEST_SEED
@@ -154,19 +154,19 @@ class ElectrumV2Tests(unittest.TestCase):
             seed_bytes = binascii.unhexlify(test["seed"])
             # Test both FromSeed and direct construction
             self.__test_wallet(test["class"].FromSeed(seed_bytes), test)
-            self.__test_wallet(test["class"](Bip32Secp256k1.FromSeed(seed_bytes)), test)
+            self.__test_wallet(test["class"](Bip32Slip10Secp256k1.FromSeed(seed_bytes)), test)
 
     # Test invalid parameters
     def test_invalid_params(self):
-        self.assertRaises(TypeError, ElectrumV2Standard, Bip32Ed25519Slip.FromSeed(TEST_SEED))
-        self.assertRaises(TypeError, ElectrumV2Segwit, Bip32Ed25519Slip.FromSeed(TEST_SEED))
+        self.assertRaises(TypeError, ElectrumV2Standard, Bip32Slip10Ed25519.FromSeed(TEST_SEED))
+        self.assertRaises(TypeError, ElectrumV2Segwit, Bip32Slip10Ed25519.FromSeed(TEST_SEED))
         # Not a master key
-        self.assertRaises(ValueError, ElectrumV2Segwit, Bip32Secp256k1.FromSeed(TEST_SEED).DerivePath("m/0"))
+        self.assertRaises(ValueError, ElectrumV2Segwit, Bip32Slip10Secp256k1.FromSeed(TEST_SEED).DerivePath("m/0"))
 
     # Test wallet
     def __test_wallet(self, electrum_v2, test):
         self.assertFalse(electrum_v2.IsPublicOnly())
-        self.assertTrue(isinstance(electrum_v2.Bip32Object(), Bip32Secp256k1))
+        self.assertTrue(isinstance(electrum_v2.Bip32Object(), Bip32Slip10Secp256k1))
         self.assertTrue(isinstance(electrum_v2.MasterPublicKey(), Bip32PublicKey))
         self.assertTrue(isinstance(electrum_v2.MasterPrivateKey(), Bip32PrivateKey))
 

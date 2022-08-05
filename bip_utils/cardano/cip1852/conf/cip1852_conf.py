@@ -22,7 +22,7 @@
 
 # Imports
 from bip_utils.addr import AdaShelleyAddrNetworkTags, AdaShelleyAddrEncoder
-from bip_utils.bip.bip32 import Bip32Const, Bip32Ed25519Kholaw
+from bip_utils.bip.bip32 import Bip32Const, Bip32KholawEd25519
 from bip_utils.bip.conf.common import BipCoinConf, NOT_HARDENED_DEF_PATH
 from bip_utils.cardano.bip32.cardano_icarus_bip32 import CardanoIcarusBip32
 from bip_utils.coin_conf import CoinsConf
@@ -70,7 +70,7 @@ class Cip1852Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=Bip32Const.MAIN_NET_KEY_NET_VERSIONS,
         wif_net_ver=None,
-        bip32_cls=Bip32Ed25519Kholaw,
+        bip32_cls=Bip32KholawEd25519,
         addr_cls=AdaShelleyAddrEncoder,
         addr_params={
             "net_tag": AdaShelleyAddrNetworkTags.MAINNET,
@@ -85,7 +85,7 @@ class Cip1852Conf:
         def_path=NOT_HARDENED_DEF_PATH,
         key_net_ver=Bip32Const.TEST_NET_KEY_NET_VERSIONS,
         wif_net_ver=None,
-        bip32_cls=Bip32Ed25519Kholaw,
+        bip32_cls=Bip32KholawEd25519,
         addr_cls=AdaShelleyAddrEncoder,
         addr_params={
             "net_tag": AdaShelleyAddrNetworkTags.TESTNET,

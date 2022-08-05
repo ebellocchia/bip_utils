@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2021 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -18,27 +18,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for keys derivation based for Cardano Icarus."""
+"""Module for BIP32 SLIP-0010 keys derivation."""
 
 # Imports
-from typing import Type
-from bip_utils.bip.bip32 import Bip32KholawEd25519, IBip32MstKeyGenerator
-from bip_utils.cardano.bip32.cardano_icarus_mst_key_generator import CardanoIcarusMstKeyGenerator
+from abc import ABC, abstractmethod
+from typing import Tuple
 
 
-class CardanoIcarusBip32(Bip32KholawEd25519):
-    """
-    Cardano Icarus BIP32 class.
-    It allows master keys generation and keys derivation for Cardano Icarus.
-    Derivation based on BIP32 ed25519 Khovratovich/Law with a different algorithm for master key generation.
-    """
+class IBip32MstKeyGenerator(ABC):
+    """Interface for generic BIP32 master key generator."""
 
-    @staticmethod
-    def _MasterKeyGenerator() -> Type[IBip32MstKeyGenerator]:
+    @classmethod
+    @abstractmethod
+    def GenerateFromSeed(cls,
+                         seed_bytes: bytes) -> Tuple[bytes, bytes]:
         """
-        Return the master key generator class.
+        Generate a master key from the specified seed.
+
+        Args:
+            seed_bytes (bytes): Seed bytes
 
         Returns:
-            IBip32MstKeyGenerator class: Master key generator class
+            tuple[bytes, bytes]: Private key bytes (index 0) and chain code bytes (index 1)
+
+        Raises:
+            Bip32KeyError: If the seed is not suitable for master key generation
+            ValueError: If seed length is not valid
         """
-        return CardanoIcarusMstKeyGenerator

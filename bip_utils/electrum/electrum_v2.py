@@ -26,7 +26,7 @@ from typing import Union
 from abc import ABC, abstractmethod
 from functools import lru_cache
 from bip_utils.addr import P2PKHAddr, P2WPKHAddr
-from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32PrivateKey, Bip32PublicKey, Bip32Secp256k1
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32PrivateKey, Bip32PublicKey, Bip32Slip10Secp256k1
 from bip_utils.coin_conf import CoinsConf
 
 
@@ -47,7 +47,7 @@ class ElectrumV2Base(ABC):
         Returns:
             ElectrumV2Base object: ElectrumV2Base object
         """
-        return cls(Bip32Secp256k1.FromSeed(seed_bytes))
+        return cls(Bip32Slip10Secp256k1.FromSeed(seed_bytes))
 
     def __init__(self,
                  bip32_obj: Bip32Base) -> None:
@@ -55,14 +55,14 @@ class ElectrumV2Base(ABC):
         Construct class.
 
         Args:
-            bip32_obj (Bip32Base object): Bip32Base object (shall be a Bip32Secp256k1 instance)
+            bip32_obj (Bip32Base object): Bip32Base object (shall be a Bip32Slip10Secp256k1 instance)
 
         Raises:
-            TypeError: If the bip32 object is not a Bip32Secp256k1 class instance
+            TypeError: If the bip32 object is not a Bip32Slip10Secp256k1 class instance
             ValueError: If the bip32 object is not a master key
         """
-        if not isinstance(bip32_obj, Bip32Secp256k1):
-            raise TypeError("A Bip32Secp256k1 class instance is required")
+        if not isinstance(bip32_obj, Bip32Slip10Secp256k1):
+            raise TypeError("A Bip32Slip10Secp256k1 class instance is required")
         if bip32_obj.Depth() > 0:
             raise ValueError("The Bip32 object shall be a master key (i.e. depth equal to 0)")
         self.m_bip32_obj = bip32_obj

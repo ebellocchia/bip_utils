@@ -61,7 +61,7 @@ An *ElectrumV1* object can be constructed from:
 
 The *ElectrumV2* classes generate keys and addresses using the current Electrum algorithm.\
 It shall be used with seeds generated with the *ElectrumV2SeedGenerator* class.\
-Since Electrum v2 follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a *Bip32Secp256k1* object.
+Since Electrum v2 follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a *Bip32Slip10Secp256k1* object.
 Constructing it from a BIP32 object allows construction from public/private key bytes or extended keys.\
 The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
 
@@ -74,7 +74,7 @@ The usage of these two classes are exactly the same, since they inherit from the
 **Code example**
 
     from bip_utils import (
-        Bip32Secp256k1,
+        Bip32Slip10Secp256k1,
         CoinsConf,
         ElectrumV2WordsNum, ElectrumV2MnemonicTypes, ElectrumV2MnemonicGenerator, ElectrumV2SeedGenerator,
         ElectrumV2Standard,
@@ -96,9 +96,9 @@ The usage of these two classes are exactly the same, since they inherit from the
     seed_bytes = ElectrumV2SeedGenerator(mnemonic).Generate()
     # Construct from seed
     electrum_v2 = ElectrumV2Standard.FromSeed(seed_bytes)
-    # Or directly from a Bip32Secp256k1 object
+    # Or directly from a Bip32Slip10Secp256k1 object
     electrum_v2 = ElectrumV2Standard(
-        Bip32Secp256k1.FromSeed(seed_bytes)
+        Bip32Slip10Secp256k1.FromSeed(seed_bytes)
     )
     # Get if public-only
     print(electrum_v2.IsPublicOnly())
