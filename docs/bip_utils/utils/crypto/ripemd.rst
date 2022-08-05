@@ -1,7 +1,7 @@
-sha256
+ripemd
 ======
 
-.. automodule:: bip_utils.utils.misc.sha256
+.. automodule:: bip_utils.utils.crypto.ripemd
    :members:
    :undoc-members:
    :show-inheritance:

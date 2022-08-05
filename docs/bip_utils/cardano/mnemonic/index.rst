@@ -3,4 +3,5 @@ mnemonic
 .. toctree::
    :maxdepth: 10
 
-   cardano_bip39_seed_generator
+   cardano_byron_legacy_seed_generator
+   cardano_icarus_seed_generator

@@ -3,13 +3,11 @@ misc
 .. toctree::
    :maxdepth: 10
 
-   aes_ecb
    algo
    base32
    bit
    bytes
-   crypto
+   cbor_indefinite_len_array
    data_bytes
    integer
-   sha256
    string

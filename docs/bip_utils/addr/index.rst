@@ -17,6 +17,7 @@ addr
    bch_addr_converter
    egld_addr
    eos_addr
+   ergo_addr
    eth_addr
    fil_addr
    iaddr_decoder
