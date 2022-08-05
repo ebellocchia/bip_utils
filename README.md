@@ -21,9 +21,10 @@ This package allows generating mnemonics, seeds, private/public keys and address
   - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki) (Bitcoin Segwit)
   - [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki) (Bitcoin Native Segwit)
   - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki) (Bitcoin Taproot)
+  - [CIP-1852](https://cips.cardano.org/cips/cip1852)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
 - Keys derivation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) (Polkadot/Kusama ecosystem, same of Polkadot-JS)
-- Keys and addresses generation for Cardano (Byron and Shelley, same of Ledger and AdaLite/Yoroi wallets)
+- Keys and addresses generation for Cardano (Byron-Legacy, Byron-Icarus and Shelley, same of Ledger and AdaLite/Yoroi wallets)
 - Mnemonic and seed generation for Monero
 - Keys and addresses/subaddresses generation for Monero (same of official Monero wallet)
 - Mnemonic and seed generation for Algorand (Algorand 25-word mnemonic)
