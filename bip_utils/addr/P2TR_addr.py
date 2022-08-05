@@ -201,5 +201,5 @@ class P2TRAddrEncoder(IAddrEncoder):
                                           _P2TRUtils.TweakPublicKey(pub_key_obj))
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 P2TRAddr = P2TRAddrEncoder

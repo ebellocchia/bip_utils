@@ -127,5 +127,5 @@ class XtzAddrEncoder(IAddrEncoder):
         return Base58Encoder.CheckEncode(prefix.value + blake_bytes)
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 XtzAddr = XtzAddrEncoder

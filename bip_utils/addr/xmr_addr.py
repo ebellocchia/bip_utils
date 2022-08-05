@@ -276,6 +276,6 @@ class XmrIntegratedAddrEncoder(IAddrEncoder):
         return _XmrAddrUtils.EncodeKey(pub_key, pub_vkey, net_ver, payment_id)
 
 
-# For compatibility with old versions, Encoder classes shall be used instead
+# Deprecated: only for compatibility, Encoder classes shall be used instead
 XmrAddr = XmrAddrEncoder
 XmrIntegratedAddr = XmrIntegratedAddrEncoder

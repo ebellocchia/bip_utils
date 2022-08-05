@@ -28,7 +28,8 @@ class Bip32Utils:
     """
     BIP32 utility class.
     It contains some helper methods for Bip32 indexes.
-    Kept for compatibility, methods were moved to Bip32KeyIndex.
+
+    Deprecated: only for compatibility, methods were moved to Bip32KeyIndex.
     """
 
     @staticmethod

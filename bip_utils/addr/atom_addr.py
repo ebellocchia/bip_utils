@@ -99,5 +99,5 @@ class AtomAddrEncoder(IAddrEncoder):
                                     Hash160.QuickDigest(pub_key_obj.RawCompressed().ToBytes()))
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility,, Encoder class shall be used instead
 AtomAddr = AtomAddrEncoder

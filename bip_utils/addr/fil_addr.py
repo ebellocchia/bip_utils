@@ -185,5 +185,5 @@ class FilSecp256k1AddrEncoder(IAddrEncoder):
         return _FilAddrUtils.EncodeKeyBytes(pub_key_bytes, FillAddrTypes.SECP256K1)
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 FilSecp256k1Addr = FilSecp256k1AddrEncoder

@@ -199,6 +199,6 @@ class BchP2PKHAddrEncoder(IAddrEncoder):
                                        Hash160.QuickDigest(pub_key_obj.RawCompressed().ToBytes()))
 
 
-# For compatibility with old versions, Encoder classes shall be used instead
+# Deprecated: only for compatibility, Encoder classes shall be used instead
 P2PKHAddr = P2PKHAddrEncoder
 BchP2PKHAddr = BchP2PKHAddrEncoder

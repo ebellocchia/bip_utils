@@ -278,7 +278,7 @@ class AdaShelleyStakingAddrEncoder(IAddrEncoder):
                                     first_byte + pub_key_hash)
 
 
-# For compatibility with old versions, Encoder classes shall be used instead
+# Deprecated: only for compatibility, Encoder classes shall be used instead
 AdaShelleyAddr = AdaShelleyAddrEncoder
 AdaShelleyStakingAddr = AdaShelleyStakingAddrEncoder
 

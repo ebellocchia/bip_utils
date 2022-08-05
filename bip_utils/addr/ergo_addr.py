@@ -177,5 +177,5 @@ class ErgoP2PKHAddrEncoder(IAddrEncoder):
         return Base58Encoder.Encode(addr_payload_bytes + _ErgoAddrUtils.ComputeChecksum(addr_payload_bytes))
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 ErgoP2PKHAddr = ErgoP2PKHAddrEncoder

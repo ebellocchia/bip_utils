@@ -89,5 +89,5 @@ class XrpAddrEncoder(IAddrEncoder):
                                           base58_alph=Base58Alphabets.RIPPLE)
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 XrpAddr = XrpAddrEncoder

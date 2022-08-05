@@ -180,6 +180,6 @@ class SubstrateSr25519AddrEncoder(IAddrEncoder):
         return SS58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes(), ss58_format)
 
 
-# For compatibility with old versions, Encoder classes shall be used instead
+# Deprecated: only for compatibility, Encoder classes shall be used instead
 SubstrateEd25519Addr = SubstrateEd25519AddrEncoder
 SubstrateSr25519Addr = SubstrateSr25519AddrEncoder

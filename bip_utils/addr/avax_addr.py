@@ -165,6 +165,6 @@ class AvaxXChainAddrEncoder(IAddrEncoder):
                                                   hrp=CoinsConf.AvaxXChain.ParamByKey("addr_hrp"))
 
 
-# For compatibility with old versions, Encoder classes shall be used instead
+# Deprecated: only for compatibility,, Encoder classes shall be used instead
 AvaxPChainAddr = AvaxPChainAddrEncoder
 AvaxXChainAddr = AvaxXChainAddrEncoder

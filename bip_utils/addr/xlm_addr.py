@@ -159,5 +159,5 @@ class XlmAddrEncoder(IAddrEncoder):
         return Base32Encoder.EncodeNoPadding(payload_bytes + checksum_bytes)
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 XlmAddr = XlmAddrEncoder

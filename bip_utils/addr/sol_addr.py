@@ -91,5 +91,5 @@ class SolAddrEncoder(IAddrEncoder):
         return Base58Encoder.Encode(pub_key_obj.RawCompressed().ToBytes()[1:])
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 SolAddr = SolAddrEncoder

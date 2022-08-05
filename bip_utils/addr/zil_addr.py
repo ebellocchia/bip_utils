@@ -101,5 +101,5 @@ class ZilAddrEncoder(IAddrEncoder):
                                     key_hash[-ZilAddrConst.SHA256_BYTE_LEN:])
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 ZilAddr = ZilAddrEncoder

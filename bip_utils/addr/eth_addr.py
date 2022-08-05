@@ -139,5 +139,5 @@ class EthAddrEncoder(IAddrEncoder):
                                                                else addr)
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 EthAddr = EthAddrEncoder

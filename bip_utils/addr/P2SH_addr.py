@@ -185,6 +185,6 @@ class BchP2SHAddrEncoder(IAddrEncoder):
         return BchBech32Encoder.Encode(hrp, net_ver_bytes, _P2SHAddrUtils.AddScriptSig(pub_key_obj))
 
 
-# For compatibility with old versions, Encoder classes shall be used instead
+# Deprecated: only for compatibility, Encoder classes shall be used instead
 P2SHAddr = P2SHAddrEncoder
 BchP2SHAddr = BchP2SHAddrEncoder

@@ -91,5 +91,5 @@ class NearAddrEncoder(IAddrEncoder):
         return pub_key_obj.RawCompressed().ToHex()[2:]
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 NearAddr = NearAddrEncoder

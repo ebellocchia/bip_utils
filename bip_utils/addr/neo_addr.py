@@ -122,5 +122,5 @@ class NeoAddrEncoder(IAddrEncoder):
         return Base58Encoder.CheckEncode(ver_bytes + Hash160.QuickDigest(payload_bytes))
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 NeoAddr = NeoAddrEncoder

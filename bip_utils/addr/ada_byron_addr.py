@@ -523,6 +523,6 @@ class AdaByronLegacyAddrEncoder(IAddrEncoder):
         )
 
 
-# For compatibility with old versions, Encoder class shall be used instead
+# Deprecated: only for compatibility, Encoder class shall be used instead
 AdaByronIcarusAddr = AdaByronIcarusAddrEncoder
 AdaByronLegacyAddr = AdaByronLegacyAddrEncoder
