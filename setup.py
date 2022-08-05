@@ -120,6 +120,11 @@ setuptools.setup(
         "develop": DevelopCommand,
     },
     install_requires=load_requirements("requirements.txt"),
+    extras_require={
+        ":python_version == '3.7'": [
+            "typing_extensions",
+        ],
+    },
     packages=setuptools.find_packages(exclude=["*tests*"]),
     package_data={
         "bip_utils": [

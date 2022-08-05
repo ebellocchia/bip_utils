@@ -21,8 +21,9 @@
 """Module with some integer utility functions."""
 
 # Imports
-from typing import Literal, Optional, Union
+from typing import Optional, Union
 from bip_utils.utils.misc.algo import AlgoUtils
+from bip_utils.utils.typing import Literal
 
 
 class IntegerUtils:

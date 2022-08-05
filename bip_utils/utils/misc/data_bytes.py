@@ -21,8 +21,9 @@
 """Module with helper class for data bytes."""
 
 # Imports
-from typing import Iterator, Literal
+from typing import Iterator
 from bip_utils.utils.misc.bytes import BytesUtils
+from bip_utils.utils.typing import Literal
 
 
 class DataBytes:

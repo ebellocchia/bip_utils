@@ -23,9 +23,10 @@
 # Imports
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from typing import Dict, List, Literal, Optional, Tuple, Type
+from typing import Dict, List, Optional, Tuple, Type
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 from bip_utils.utils.mnemonic.mnemonic import MnemonicLanguages, Mnemonic
+from bip_utils.utils.typing import Literal
 
 
 class MnemonicUtils:
