@@ -27,27 +27,19 @@ not designed for use in cryptography.  Specifically, it may take more
 or less time to execute an operation depending on the values of the
 inputs, and its memory access patterns may also depend on the inputs.
 This opens it to timing and cache side-channel attacks which can
-disclose data to an attacker.  We rely on Python's long-integer
+disclose data to an attacker. We rely on Python's long-integer
 arithmetic, so we cannot handle secrets without risking their disclosure.
 """
 
 # Copied from: https://github.com/monero-ecosystem/monero-python/blob/master/monero/ed25519.py
 # With some little changes and additions
+# Remove six and python 2 stuff
 
-import six
-import sys
+import operator
+import struct
 
 # Added
 from bip_utils.utils.misc import BytesUtils
-
-
-if sys.version_info >= (3,): # pragma: no cover
-    intlist2bytes = bytes
-else:                       # pragma: no cover
-    range = xrange
-
-    def intlist2bytes(l):
-        return b"".join(chr(c) for c in l)
 
 
 b = 256
@@ -191,7 +183,7 @@ def scalarmult_B(e):
 def encodeint(y):
     bits = [(y >> i) & 1 for i in range(b)]
     return b''.join([
-        six.int2byte(sum([bits[i * 8 + j] << j for j in range(8)]))
+        struct.Struct(">B").pack(sum([bits[i * 8 + j] << j for j in range(8)]))
         for i in range(b//8)
     ])
 
@@ -203,13 +195,13 @@ def encodepoint(P):
     y = (y * zi) % q
     bits = [(y >> i) & 1 for i in range(b - 1)] + [x & 1]
     return b''.join([
-        six.int2byte(sum([bits[i * 8 + j] << j for j in range(8)]))
+        struct.Struct(">B").pack(sum([bits[i * 8 + j] << j for j in range(8)]))
         for i in range(b // 8)
     ])
 
 
 def bit(h, i):
-    return (six.indexbytes(h, i // 8) >> (i % 8)) & 1
+    return (operator.getitem(h, i // 8) >> (i % 8)) & 1
 
 
 def isoncurve(P):
