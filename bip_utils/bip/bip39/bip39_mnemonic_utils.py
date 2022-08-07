@@ -59,12 +59,12 @@ class Bip39WordsListGetter(MnemonicWordsListGetterBase):
                                    Bip39MnemonicConst.WORDS_LIST_NUM)
 
     @staticmethod
-    def __GetLanguageFile(lang: Bip39Languages) -> str:
+    def __GetLanguageFile(lang: MnemonicLanguages) -> str:
         """
         Get the specified language file name.
 
         Args:
-            lang (Bip39Languages): Language
+            lang (MnemonicLanguages): Language
 
         Returns:
             str: Language file name

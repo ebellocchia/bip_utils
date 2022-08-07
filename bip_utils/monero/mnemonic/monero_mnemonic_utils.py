@@ -60,12 +60,12 @@ class MoneroWordsListGetter(MnemonicWordsListGetterBase):
                                    MoneroMnemonicConst.WORDS_LIST_NUM)
 
     @staticmethod
-    def __GetLanguageFile(lang: MoneroLanguages) -> str:
+    def __GetLanguageFile(lang: MnemonicLanguages) -> str:
         """
         Get the specified language file name.
 
         Args:
-            lang (MoneroLanguages): Language
+            lang (MnemonicLanguages): Language
 
         Returns:
             str: Language file name
@@ -103,13 +103,13 @@ class MoneroMnemonicUtils:
 
     @staticmethod
     def ComputeChecksum(mnemonic: List[str],
-                        lang: MoneroLanguages) -> str:
+                        lang: MnemonicLanguages) -> str:
         """
         Compute checksum.
 
         Args:
-            mnemonic (list[str])  : Mnemonic list of words
-            lang (MoneroLanguages): Language
+            mnemonic (list[str])    : Mnemonic list of words
+            lang (MnemonicLanguages): Language
 
         Returns:
             str: Checksum word

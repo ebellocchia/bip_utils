@@ -59,7 +59,7 @@ class ElectrumV1WordsListGetter(MnemonicWordsListGetterBase):
                                    ElectrumV1MnemonicConst.WORDS_LIST_NUM)
 
     @staticmethod
-    def __GetLanguageFile(lang: ElectrumV1Languages) -> str:
+    def __GetLanguageFile(lang: MnemonicLanguages) -> str:
         """
         Get the specified language file name.
 

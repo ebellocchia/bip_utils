@@ -70,7 +70,7 @@ class MoneroMnemonicConst:
     ]
 
     # Language unique prefix lengths
-    LANGUAGE_UNIQUE_PREFIX_LEN: Dict[MoneroLanguages, int] = {
+    LANGUAGE_UNIQUE_PREFIX_LEN: Dict[MnemonicLanguages, int] = {
         MoneroLanguages.CHINESE_SIMPLIFIED: 1,
         MoneroLanguages.DUTCH: 4,
         MoneroLanguages.ENGLISH: 3,
@@ -84,7 +84,7 @@ class MoneroMnemonicConst:
     }
 
     # Language files
-    LANGUAGE_FILES: Dict[MoneroLanguages, str] = {
+    LANGUAGE_FILES: Dict[MnemonicLanguages, str] = {
         MoneroLanguages.CHINESE_SIMPLIFIED: "wordlist/chinese_simplified.txt",
         MoneroLanguages.DUTCH: "wordlist/dutch.txt",
         MoneroLanguages.ENGLISH: "wordlist/english.txt",

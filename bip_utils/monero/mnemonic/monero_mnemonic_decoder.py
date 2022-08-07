@@ -26,7 +26,9 @@ from bip_utils.monero.mnemonic.monero_mnemonic import MoneroMnemonicConst, Moner
 from bip_utils.monero.mnemonic.monero_mnemonic_utils import (
     MoneroWordsListFinder, MoneroWordsListGetter, MoneroMnemonicUtils
 )
-from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicUtils
+from bip_utils.utils.mnemonic import (
+    MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicLanguages, MnemonicUtils
+)
 
 
 class MoneroMnemonicDecoder(MnemonicDecoderBase):
@@ -94,13 +96,13 @@ class MoneroMnemonicDecoder(MnemonicDecoderBase):
 
     @staticmethod
     def __ValidateChecksum(words: List[str],
-                           lang: MoneroLanguages) -> None:
+                           lang: MnemonicLanguages) -> None:
         """
         Validate a mnemonic checksum.
 
         Args:
-            words (list[str])     : Words list
-            lang (MoneroLanguages): Language
+            words (list[str])       : Words list
+            lang (MnemonicLanguages): Language
 
         Raises:
             MnemonicChecksumError: If checksum is not valid

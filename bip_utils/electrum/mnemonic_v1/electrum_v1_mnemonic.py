@@ -50,7 +50,7 @@ class ElectrumV1MnemonicConst:
     ]
 
     # Language files
-    LANGUAGE_FILES: Dict[ElectrumV1Languages, str] = {
+    LANGUAGE_FILES: Dict[MnemonicLanguages, str] = {
         ElectrumV1Languages.ENGLISH: "wordlist/english.txt",
     }
 

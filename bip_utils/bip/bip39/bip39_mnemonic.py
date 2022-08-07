@@ -66,7 +66,7 @@ class Bip39MnemonicConst:
     ]
 
     # Language files
-    LANGUAGE_FILES: Dict[Bip39Languages, str] = {
+    LANGUAGE_FILES: Dict[MnemonicLanguages, str] = {
         Bip39Languages.ENGLISH: "wordlist/english.txt",
         Bip39Languages.ITALIAN: "wordlist/italian.txt",
         Bip39Languages.FRENCH: "wordlist/french.txt",
