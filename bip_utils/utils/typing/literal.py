@@ -24,4 +24,4 @@ try:
     from typing import Literal
 except ImportError:
     # Literal not supported by Python 3.7
-    from typing_extensions import Literal
+    from typing_extensions import Literal   # type: ignore
