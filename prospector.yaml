@@ -4,7 +4,11 @@ doc-warnings: true
 member-warnings: true
 
 ignore-paths:
+  - .tox
   - benchmark
+  - docs
+  - examples
+  - readme
   - tests
 
 ignore-patterns:
@@ -33,8 +37,8 @@ mypy:
     ignore-missing-imports: true
     follow-imports: skip
 
-# pep257 configuration
-pep257:
+# pydocstyle (old pep257) configuration
+pydocstyle:
   disable:
     - D104    # Missing docstring in public package
     - D202    # No blank lines allowed after function docstring
@@ -45,8 +49,8 @@ pep257:
     - D407    # Missing dashed underline after section
     - D413    # Missing blank line after last section
 
-# pep8 configuration
-pep8:
+# pycodestyle (old pep8) configuration
+pycodestyle:
   disable:
     - N802    # function name should be lowercase
   options:
