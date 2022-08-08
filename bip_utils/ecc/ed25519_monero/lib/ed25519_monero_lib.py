@@ -35,7 +35,6 @@ arithmetic, so we cannot handle secrets without risking their disclosure.
 # With some little changes and additions
 # Remove six and python 2 stuff
 
-import operator
 import struct
 
 # Added
@@ -183,7 +182,9 @@ def scalarmult_B(e):
 def encodeint(y):
     bits = [(y >> i) & 1 for i in range(b)]
     return b''.join([
-        struct.Struct(">B").pack(sum([bits[i * 8 + j] << j for j in range(8)]))
+        struct.Struct(">B").pack(
+            sum([bits[i * 8 + j] << j for j in range(8)])
+        )
         for i in range(b//8)
     ])
 
@@ -195,13 +196,15 @@ def encodepoint(P):
     y = (y * zi) % q
     bits = [(y >> i) & 1 for i in range(b - 1)] + [x & 1]
     return b''.join([
-        struct.Struct(">B").pack(sum([bits[i * 8 + j] << j for j in range(8)]))
+        struct.Struct(">B").pack(
+            sum([bits[i * 8 + j] << j for j in range(8)])
+        )
         for i in range(b // 8)
     ])
 
 
 def bit(h, i):
-    return (operator.getitem(h, i // 8) >> (i % 8)) & 1
+    return (h[i // 8] >> (i % 8)) & 1
 
 
 def isoncurve(P):
