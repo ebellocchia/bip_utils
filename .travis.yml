@@ -1,10 +1,15 @@
 dist: focal
 language: python
-python:
-- "3.7"
-- "3.8"
-- "3.9"
-- "3.10"
+matrix:
+ include:
+  - python: "3.7"
+    dist: xenial
+  - python: "3.8"
+    dist: xenial
+  - python: "3.9"
+    dist: focal
+  - python: "3.10"
+    dist: focal
 
 before_install:
  - pip install coverage
