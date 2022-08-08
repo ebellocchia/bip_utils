@@ -225,8 +225,13 @@ class ElectrumV2MnemonicTests(unittest.TestCase):
     # Test construction from valid words number
     def test_from_valid_words_num(self):
         for test_words_num in ElectrumV2WordsNum:
-            mnemonic = ElectrumV2MnemonicGenerator(ElectrumV2MnemonicTypes.STANDARD).FromWordsNumber(test_words_num)
-            self.assertEqual(mnemonic.WordsCount(), test_words_num)
+            while True:
+                try:
+                    mnemonic = ElectrumV2MnemonicGenerator(ElectrumV2MnemonicTypes.STANDARD).FromWordsNumber(test_words_num)
+                    self.assertEqual(mnemonic.WordsCount(), test_words_num)
+                    break
+                except ValueError:
+                    continue
 
     # Test construction from invalid words number
     def test_from_invalid_words_num(self):
