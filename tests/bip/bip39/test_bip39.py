@@ -21,9 +21,10 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    MnemonicChecksumError, Bip39WordsNum, Bip39EntropyBitLen, Bip39Languages,
-    Bip39EntropyGenerator, Bip39MnemonicGenerator, Bip39MnemonicValidator, Bip39SeedGenerator, Bip39MnemonicDecoder
+    Bip39EntropyBitLen, Bip39EntropyGenerator, Bip39Languages, Bip39MnemonicDecoder, Bip39MnemonicGenerator,
+    Bip39MnemonicValidator, Bip39SeedGenerator, Bip39WordsNum, MnemonicChecksumError
 )
 
 # Tests from BIP39 page

@@ -26,9 +26,10 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
 # Imports
 import os
 from typing import Optional, Tuple
+
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes, Bip38Addr
-from bip_utils.ecc import Secp256k1PrivateKey, Secp256k1PublicKey, Secp256k1
+from bip_utils.bip.bip38.bip38_addr import Bip38Addr, Bip38PubKeyModes
+from bip_utils.ecc import Secp256k1, Secp256k1PrivateKey, Secp256k1PublicKey
 from bip_utils.utils.crypto import AesEcbDecrypter, AesEcbEncrypter, DoubleSha256, Scrypt
 from bip_utils.utils.misc import BitUtils, BytesUtils, IntegerUtils, StringUtils
 

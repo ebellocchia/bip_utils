@@ -24,6 +24,7 @@
 import base64
 import binascii
 from typing import Optional, Union
+
 from bip_utils.utils.misc.algo import AlgoUtils
 
 

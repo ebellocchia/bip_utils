@@ -22,11 +22,13 @@
 
 # Imports
 from __future__ import annotations
+
 from functools import lru_cache
 from typing import Optional, Union
+
 from bip_utils.addr import XmrIntegratedAddrEncoder
 from bip_utils.ecc import Ed25519Monero, Ed25519MoneroPrivateKey, IPrivateKey, IPublicKey
-from bip_utils.monero.conf import MoneroCoins, MoneroCoinConf, MoneroConfGetter
+from bip_utils.monero.conf import MoneroCoinConf, MoneroCoins, MoneroConfGetter
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.monero.monero_subaddr import MoneroSubaddress

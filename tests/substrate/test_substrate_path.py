@@ -21,7 +21,10 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import SubstratePathError, SubstrateCoins, SubstratePathParser, SubstratePathElem, SubstratePath, Substrate
+
+from bip_utils import (
+    Substrate, SubstrateCoins, SubstratePath, SubstratePathElem, SubstratePathError, SubstratePathParser
+)
 from tests.substrate.test_substrate import TEST_SEED
 
 # Tests for path elements

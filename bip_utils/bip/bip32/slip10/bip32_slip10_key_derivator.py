@@ -28,9 +28,10 @@ References:
 
 # Imports
 from typing import Tuple, Union
+
 from bip_utils.bip.bip32.base import IBip32KeyDerivator
-from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey, Bip32PrivateKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.ecc import IPoint
 from bip_utils.utils.crypto import HmacSha512
 from bip_utils.utils.misc import BytesUtils, IntegerUtils

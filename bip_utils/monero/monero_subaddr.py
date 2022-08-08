@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional, Tuple
+
 from bip_utils.addr import XmrAddrEncoder
 from bip_utils.ecc import Ed25519Monero
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey

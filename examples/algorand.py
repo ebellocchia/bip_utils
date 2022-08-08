@@ -1,8 +1,6 @@
 """Example of wallet creation using Algorand (same addresses of official wallet)."""
 
-from bip_utils import (
-    AlgorandWordsNum, AlgorandMnemonicGenerator, AlgorandSeedGenerator, Bip44Coins, Bip44
-)
+from bip_utils import AlgorandMnemonicGenerator, AlgorandSeedGenerator, AlgorandWordsNum, Bip44, Bip44Coins
 
 # Generate random mnemonic
 mnemonic = AlgorandMnemonicGenerator().FromWordsNumber(AlgorandWordsNum.WORDS_NUM_25)

@@ -23,7 +23,8 @@
 # Imports
 from abc import ABC, abstractmethod
 from typing import Type
-from bip_utils.utils.mnemonic.mnemonic import MnemonicLanguages, Mnemonic
+
+from bip_utils.utils.mnemonic.mnemonic import Mnemonic, MnemonicLanguages
 from bip_utils.utils.mnemonic.mnemonic_utils import MnemonicWordsList, MnemonicWordsListGetterBase
 
 

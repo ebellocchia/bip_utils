@@ -25,8 +25,9 @@ Reference: https://github.com/paritytech/substrate/wiki/External-Address-Format-
 
 # Imports
 from typing import Tuple
-from bip_utils.ss58.ss58_ex import SS58ChecksumError
+
 from bip_utils.base58 import Base58Decoder, Base58Encoder
+from bip_utils.ss58.ss58_ex import SS58ChecksumError
 from bip_utils.utils.crypto import Blake2b512
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 

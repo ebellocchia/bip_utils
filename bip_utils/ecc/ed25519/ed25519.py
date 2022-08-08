@@ -23,9 +23,8 @@
 # Imports
 from bip_utils.ecc.curve.elliptic_curve import EllipticCurve
 from bip_utils.ecc.ed25519.ed25519_const import Ed25519Const
-from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PublicKey, Ed25519PrivateKey
+from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey, Ed25519PublicKey
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
-
 
 # Ed25519 curve definition
 Ed25519: EllipticCurve = EllipticCurve(Ed25519Const.NAME,

@@ -22,11 +22,11 @@
 import binascii
 import math
 import unittest
+
 from bip_utils import (
-    ElectrumV2WordsNum, ElectrumV2EntropyBitLen, ElectrumV2Languages, ElectrumV2MnemonicTypes,
-    ElectrumV2EntropyGenerator, ElectrumV2MnemonicGenerator, ElectrumV2MnemonicValidator, ElectrumV2SeedGenerator,
-    ElectrumV2MnemonicDecoder, ElectrumV2Segwit, ElectrumV2Standard,
-    BytesUtils
+    BytesUtils, ElectrumV2EntropyBitLen, ElectrumV2EntropyGenerator, ElectrumV2Languages, ElectrumV2MnemonicDecoder,
+    ElectrumV2MnemonicGenerator, ElectrumV2MnemonicTypes, ElectrumV2MnemonicValidator, ElectrumV2SeedGenerator,
+    ElectrumV2Segwit, ElectrumV2Standard, ElectrumV2WordsNum
 )
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst
 

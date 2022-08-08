@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any
+
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.lib import ed25519_lib, ed25519_nacl_wrapper

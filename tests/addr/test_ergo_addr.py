@@ -20,10 +20,13 @@
 
 # Imports
 import unittest
-from bip_utils import ErgoNetworkTypes, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder, ErgoP2PKHAddr
+
+from bip_utils import ErgoNetworkTypes, ErgoP2PKHAddr, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
-from tests.ecc.test_ecc import TEST_SECP256K1_COMPR_PUB_KEY_BYTES, TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
+from tests.ecc.test_ecc import (
+    TEST_SECP256K1_COMPR_PUB_KEY_BYTES, TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
+)
 
 # Some random public keys
 TEST_VECT = [

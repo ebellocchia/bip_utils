@@ -25,11 +25,12 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki
 
 # Imports
 from typing import Union
-from bip_utils.bip.bip32 import Bip32KeyIndex, Bip32KeyData
-from bip_utils.bip.bip44_base import Bip44Changes, Bip44Levels, Bip44Base
+
+from bip_utils.bip.bip32 import Bip32KeyData, Bip32KeyIndex
+from bip_utils.bip.bip44_base import Bip44Base, Bip44Changes, Bip44Levels
 from bip_utils.bip.conf.bip84 import Bip84ConfGetter
 from bip_utils.bip.conf.common import BipCoins
-from bip_utils.ecc import IPublicKey, IPrivateKey
+from bip_utils.ecc import IPrivateKey, IPublicKey
 
 
 class Bip84Const:

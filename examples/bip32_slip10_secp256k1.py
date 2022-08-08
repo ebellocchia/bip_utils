@@ -1,8 +1,6 @@
 """Example of keys derivation using BIP32 (secp256k1 curve)."""
 
-from bip_utils import (
-    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Slip10Secp256k1, EthAddrEncoder
-)
+from bip_utils import Bip32Slip10Secp256k1, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, EthAddrEncoder
 
 # Generate random mnemonic
 mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)

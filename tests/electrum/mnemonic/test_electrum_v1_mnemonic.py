@@ -21,10 +21,10 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    ElectrumV1WordsNum, ElectrumV1EntropyBitLen, ElectrumV1Languages,
-    ElectrumV1EntropyGenerator, ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator,
-    ElectrumV1MnemonicDecoder, ElectrumV1
+    ElectrumV1, ElectrumV1EntropyBitLen, ElectrumV1EntropyGenerator, ElectrumV1Languages, ElectrumV1MnemonicDecoder,
+    ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator, ElectrumV1WordsNum
 )
 
 # Verified with the official Electrum wallet

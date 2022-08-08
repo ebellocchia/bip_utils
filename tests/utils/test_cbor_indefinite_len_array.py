@@ -21,6 +21,7 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils.utils.misc import CborIndefiniteLenArrayDecoder, CborIndefiniteLenArrayEncoder
 
 # Test vector

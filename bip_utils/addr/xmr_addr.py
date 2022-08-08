@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Optional, Union
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder

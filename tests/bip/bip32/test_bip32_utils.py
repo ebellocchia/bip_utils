@@ -20,6 +20,7 @@
 
 # Imports
 import unittest
+
 from bip_utils import Bip32KeyIndex, Bip32Utils
 
 

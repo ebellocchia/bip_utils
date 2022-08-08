@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional, Union
+
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_decoder import ElectrumV1MnemonicDecoder
 from bip_utils.utils.crypto import Sha256

@@ -21,6 +21,7 @@
 
 # Imports
 from typing import Type
+
 from bip_utils import Bip44Changes
 from bip_utils.bip.bip44_base import Bip44Base
 from bip_utils.bip.conf.common import BipCoins

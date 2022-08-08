@@ -1,8 +1,9 @@
 import os
 import re
+
 import setuptools
-from setuptools.command.install import install
 from setuptools.command.develop import develop
+from setuptools.command.install import install
 
 
 # Load long description

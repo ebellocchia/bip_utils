@@ -20,9 +20,10 @@
 
 # Imports
 import unittest
-from bip_utils import Cip1852, Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins, Cip1852Coins
-from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
+
+from bip_utils import Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins, Cip1852, Cip1852Coins
 from tests.bip.bip44.test_bip44 import TEST_SEED
+from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
 # Test vector
 TEST_VECT = [

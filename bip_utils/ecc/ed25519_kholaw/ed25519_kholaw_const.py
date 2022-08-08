@@ -20,9 +20,10 @@
 
 """Module with ed25519-kholaw constants."""
 
+from bip_utils.ecc.common.ipoint import IPoint
+
 # Imports
 from bip_utils.ecc.ed25519.ed25519_const import Ed25519Const
-from bip_utils.ecc.common.ipoint import IPoint
 
 
 class Ed25519KholawConst:

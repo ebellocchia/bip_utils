@@ -21,10 +21,10 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    AdaByronAddrTypes,
-    AdaByronAddrDecoder, AdaByronLegacyAddrEncoder, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr, AdaByronIcarusAddr,
-    Bip32ChainCode, Bip32PathError, Bip32PathParser, ChaCha20Poly1305
+    AdaByronAddrDecoder, AdaByronAddrTypes, AdaByronIcarusAddr, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr,
+    AdaByronLegacyAddrEncoder, Bip32ChainCode, Bip32PathError, Bip32PathParser, ChaCha20Poly1305
 )
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES

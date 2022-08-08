@@ -23,6 +23,7 @@
 # Imports
 from abc import ABC, abstractmethod
 from typing import Optional, Union
+
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages
 from bip_utils.utils.mnemonic import Mnemonic
 

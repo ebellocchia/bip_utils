@@ -22,8 +22,10 @@
 
 # Imports
 from typing import Any
+
 from ecdsa import ellipticcurve, keys
 from ecdsa.ecdsa import curve_secp256k1
+
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst

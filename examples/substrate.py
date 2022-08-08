@@ -1,8 +1,6 @@
 """Example of keys derivation for Substrate (same addresses of PolkadotJS)."""
 
-from bip_utils import (
-    Bip39WordsNum, Bip39MnemonicGenerator, SubstrateBip39SeedGenerator, SubstrateCoins, Substrate
-)
+from bip_utils import Bip39MnemonicGenerator, Bip39WordsNum, Substrate, SubstrateBip39SeedGenerator, SubstrateCoins
 
 # Generate random mnemonic
 mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)

@@ -1,15 +1,12 @@
 """Example of mnemonic generation and keys derivation like the Electrum wallet."""
 
 import binascii
-from bip_utils import (
-    CoinsConf,
-    ElectrumV1WordsNum, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator,
-    ElectrumV1,
-    ElectrumV2WordsNum, ElectrumV2MnemonicTypes, ElectrumV2MnemonicGenerator, ElectrumV2SeedGenerator,
-    ElectrumV2Standard, ElectrumV2Segwit,
-    IPrivateKey, WifPubKeyModes, WifEncoder
-)
 
+from bip_utils import (
+    CoinsConf, ElectrumV1, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator, ElectrumV1WordsNum,
+    ElectrumV2MnemonicGenerator, ElectrumV2MnemonicTypes, ElectrumV2SeedGenerator, ElectrumV2Segwit, ElectrumV2Standard,
+    ElectrumV2WordsNum, IPrivateKey, WifEncoder, WifPubKeyModes
+)
 
 ADDR_NUM: int = 5
 

@@ -24,6 +24,7 @@
 import math
 from enum import IntEnum, unique
 from typing import List, Union
+
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst
 from bip_utils.utils.misc import BytesUtils
 from bip_utils.utils.mnemonic import EntropyGenerator

@@ -22,9 +22,10 @@
 
 # Imports
 from typing import Optional
+
 from bip_utils.bip.bip39 import Bip39MnemonicValidator
-from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst, ElectrumV2MnemonicTypes
 from bip_utils.electrum.mnemonic_v1 import ElectrumV1MnemonicValidator
+from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst, ElectrumV2MnemonicTypes
 from bip_utils.utils.crypto import HmacSha512
 from bip_utils.utils.misc import BytesUtils
 from bip_utils.utils.mnemonic import Mnemonic

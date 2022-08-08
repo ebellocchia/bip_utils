@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Type
+
 from bip_utils.bip.bip32 import Bip32Base, Bip32Const, Bip32KeyNetVersions, IBip32KeyDerivator, IBip32MstKeyGenerator
 from bip_utils.cardano.bip32.cardano_byron_legacy_key_derivation import CardanoByronLegacyKeyDerivator
 from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import CardanoByronLegacyMstKeyGenerator

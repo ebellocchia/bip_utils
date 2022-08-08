@@ -24,12 +24,12 @@
 # Imports
 #
 from typing import List
+
 from bip_utils.addr import SolAddrDecoder
 from bip_utils.base58 import Base58Encoder
 from bip_utils.ecc import Ed25519PublicKey
 from bip_utils.utils.crypto import Sha256
 from bip_utils.utils.misc import IntegerUtils
-
 
 #
 # Classes

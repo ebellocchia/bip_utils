@@ -22,7 +22,9 @@
 
 # Imports
 from typing import Tuple, Union
+
 from Crypto.Cipher import ChaCha20_Poly1305
+
 from bip_utils.utils.misc import AlgoUtils
 
 

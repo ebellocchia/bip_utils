@@ -20,10 +20,11 @@
 
 # Imports
 import unittest
-from bip_utils import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder, XtzAddr
+
+from bip_utils import XtzAddr, XtzAddrDecoder, XtzAddrEncoder, XtzAddrPrefixes
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
-from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_PUB_KEY, Ed25519PublicKey
+from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey
 
 # Some random public keys
 TEST_VECT = [

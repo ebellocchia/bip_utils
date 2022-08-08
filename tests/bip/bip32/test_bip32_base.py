@@ -20,13 +20,13 @@
 
 # Imports
 import binascii
+
 from bip_utils import (
-    Bip32KeyError,
-    Bip32KeyData, Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32KeyNetVersions, Bip32FingerPrint,
-    Bip32PublicKey, Bip32PrivateKey, EllipticCurveGetter
+    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyData, Bip32KeyError, Bip32KeyIndex, Bip32KeyNetVersions,
+    Bip32PrivateKey, Bip32PublicKey, EllipticCurveGetter
 )
-from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
+from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 
 # Generic seed for testing
 TEST_SEED = b"\x00" * Bip32Slip10MstKeyGeneratorConst.SEED_MIN_BYTE_LEN

@@ -28,9 +28,10 @@ References:
 """
 
 # Imports
-from enum import auto, Enum, unique
+from enum import Enum, auto, unique
 from typing import Dict, List
-from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
+
+from bip_utils.bech32.bech32_base import Bech32BaseUtils, Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.utils.misc import BytesUtils
 
 

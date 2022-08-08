@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional, Union
+
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2Languages, ElectrumV2Mnemonic
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_validator import ElectrumV2MnemonicValidator
 from bip_utils.utils.crypto import Pbkdf2HmacSha512

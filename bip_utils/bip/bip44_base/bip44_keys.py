@@ -22,11 +22,12 @@
 
 # Imports
 from functools import lru_cache
+
 from bip_utils.addr import AdaShelleyAddrEncoder, XmrAddrEncoder
-from bip_utils.bip.bip32 import Bip32ChainCode, Bip32PublicKey, Bip32PrivateKey
+from bip_utils.bip.bip32 import Bip32ChainCode, Bip32PrivateKey, Bip32PublicKey
 from bip_utils.bip.conf.common import BipCoinConf
 from bip_utils.utils.misc import DataBytes
-from bip_utils.wif import WifPubKeyModes, WifEncoder
+from bip_utils.wif import WifEncoder, WifPubKeyModes
 
 
 class Bip44PublicKey:

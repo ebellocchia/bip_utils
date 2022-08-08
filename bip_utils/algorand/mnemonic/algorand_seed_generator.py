@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional, Union
+
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages
 from bip_utils.algorand.mnemonic.algorand_mnemonic_decoder import AlgorandMnemonicDecoder
 from bip_utils.utils.mnemonic import Mnemonic

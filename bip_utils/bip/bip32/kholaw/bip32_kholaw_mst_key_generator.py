@@ -25,6 +25,7 @@ Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20
 
 # Imports
 from typing import Tuple
+
 from bip_utils.bip.bip32.base import IBip32MstKeyGenerator
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from bip_utils.utils.crypto import HmacSha256, HmacSha512

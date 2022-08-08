@@ -23,6 +23,7 @@
 # Imports
 from abc import ABC, abstractmethod
 from typing import Any, Union
+
 from bip_utils.ecc import IPublicKey
 
 

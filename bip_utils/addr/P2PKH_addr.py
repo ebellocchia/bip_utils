@@ -21,14 +21,15 @@
 """Module for P2PKH address encoding/decoding."""
 
 # Imports
-from enum import auto, Enum, unique
+from enum import Enum, auto, unique
 from typing import Any, Union
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.base58 import Base58Alphabets, Base58ChecksumError, Base58Decoder, Base58Encoder
-from bip_utils.bech32 import Bech32ChecksumError, BchBech32Decoder, BchBech32Encoder
+from bip_utils.bech32 import BchBech32Decoder, BchBech32Encoder, Bech32ChecksumError
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.crypto import Hash160
 from bip_utils.utils.misc import BytesUtils

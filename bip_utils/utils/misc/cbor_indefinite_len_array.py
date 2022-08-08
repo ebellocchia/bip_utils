@@ -29,7 +29,9 @@ NOTE: encoding of values greater than 2^64 is not supported.
 # Imports
 from enum import IntEnum, unique
 from typing import Dict, List, Sequence
+
 import cbor2
+
 from bip_utils.utils.misc.integer import IntegerUtils
 
 

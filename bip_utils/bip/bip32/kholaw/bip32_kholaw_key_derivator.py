@@ -25,8 +25,8 @@ Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20
 
 # Imports
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey
 from bip_utils.bip.bip32.kholaw.bip32_kholaw_key_derivator_base import Bip32KholawEd25519KeyDerivatorBase
 from bip_utils.ecc import Ed25519KholawPrivateKey, EllipticCurve, IPoint
 from bip_utils.utils.misc import BytesUtils, IntegerUtils

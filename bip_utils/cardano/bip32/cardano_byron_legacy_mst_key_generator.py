@@ -28,7 +28,9 @@ References:
 
 # Imports
 from typing import Tuple
+
 import cbor2
+
 from bip_utils.bip.bip32 import IBip32MstKeyGenerator
 from bip_utils.utils.crypto import HmacSha512, Sha512
 from bip_utils.utils.misc import BitUtils

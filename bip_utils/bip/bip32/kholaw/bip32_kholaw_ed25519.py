@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Type
+
 from bip_utils.bip.bip32.base import Bip32Base, IBip32KeyDerivator, IBip32MstKeyGenerator
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions

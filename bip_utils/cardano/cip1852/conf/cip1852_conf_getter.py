@@ -22,8 +22,8 @@
 
 # Imports
 from typing import Dict
-from bip_utils.bip.conf.common import BipCoinConf
-from bip_utils.bip.conf.common import BipCoins
+
+from bip_utils.bip.conf.common import BipCoinConf, BipCoins
 from bip_utils.cardano.cip1852.conf.cip1852_coins import Cip1852Coins
 from bip_utils.cardano.cip1852.conf.cip1852_conf import Cip1852Conf
 

@@ -22,6 +22,7 @@
 
 # Imports
 from typing import List, Optional, Union
+
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandMnemonicConst
 from bip_utils.utils.crypto import Sha512_256
 

@@ -20,8 +20,8 @@
 
 # Imports
 import unittest
-from bip_utils import BchAddrConverter
 
+from bip_utils import BchAddrConverter
 
 # Some random addresses
 TEST_VECT = [

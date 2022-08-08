@@ -25,10 +25,11 @@
 # Imports
 #
 from typing import Any, Union
+
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-from bip_utils.utils.misc.algo import AlgoUtils
 
+from bip_utils.utils.misc.algo import AlgoUtils
 
 #
 # Classes

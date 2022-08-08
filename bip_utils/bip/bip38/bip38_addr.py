@@ -22,12 +22,12 @@
 
 # Imports
 from typing import Union
+
 from bip_utils.addr import P2PKHAddr
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.crypto import DoubleSha256
 from bip_utils.wif import WifPubKeyModes
-
 
 # Alias for WifPubKeyModes
 Bip38PubKeyModes = WifPubKeyModes

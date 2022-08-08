@@ -22,8 +22,10 @@
 
 # Imports
 from __future__ import annotations
+
 from functools import lru_cache
 from typing import Union
+
 from bip_utils.ecc import Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey, IPrivateKey, IPublicKey
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.utils.misc import DataBytes

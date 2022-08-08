@@ -21,11 +21,11 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    AdaShelleyAddrNetworkTags,
-    AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddr,
-    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyRewardAddr,
-    AdaShelleyStakingAddrDecoder, AdaShelleyStakingAddrEncoder, AdaShelleyStakingAddr
+    AdaShelleyAddr, AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddrNetworkTags, AdaShelleyRewardAddr,
+    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyStakingAddr, AdaShelleyStakingAddrDecoder,
+    AdaShelleyStakingAddrEncoder
 )
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES

@@ -20,15 +20,17 @@
 
 # Imports
 import unittest
+
 from bip_utils import (
-    Bip44Conf, Bip32PublicKey, Bip32PrivateKey, Bip44PublicKey, Bip44PrivateKey,
-    Cip1852Coins, Cip1852ConfGetter, DataBytes
+    Bip32PrivateKey, Bip32PublicKey, Bip44Conf, Bip44PrivateKey, Bip44PublicKey, Cip1852Coins, Cip1852ConfGetter,
+    DataBytes
 )
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.bip.bip32.test_bip32_keys import TEST_BIP32_KEY_DATA
 from tests.ecc.test_ecc import (
-    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_KHOLAW_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SECP256K1_PRIV_KEY,
-    TEST_ED25519_PUB_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_KHOLAW_PUB_KEY, TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PUB_KEY
+    TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_BLAKE2B_PUB_KEY, TEST_ED25519_KHOLAW_PRIV_KEY,
+    TEST_ED25519_KHOLAW_PUB_KEY, TEST_ED25519_PRIV_KEY, TEST_ED25519_PUB_KEY, TEST_NIST256P1_PRIV_KEY,
+    TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PRIV_KEY, TEST_SECP256K1_PUB_KEY
 )
 
 # Public keys for testing

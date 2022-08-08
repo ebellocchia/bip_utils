@@ -21,10 +21,11 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    MnemonicChecksumError, AlgorandWordsNum, AlgorandEntropyBitLen, AlgorandLanguages,
-    AlgorandEntropyGenerator, AlgorandMnemonicGenerator, AlgorandMnemonicValidator, AlgorandSeedGenerator,
-    AlgorandMnemonicDecoder, Bip44Coins, Bip44
+    AlgorandEntropyBitLen, AlgorandEntropyGenerator, AlgorandLanguages, AlgorandMnemonicDecoder,
+    AlgorandMnemonicGenerator, AlgorandMnemonicValidator, AlgorandSeedGenerator, AlgorandWordsNum, Bip44, Bip44Coins,
+    MnemonicChecksumError
 )
 
 # Verified with the official Algorand wallet: https://wallet.myalgo.com/

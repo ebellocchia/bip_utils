@@ -21,9 +21,8 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import (
-    CoinsConf, BchBech32Decoder, BchBech32Encoder
-)
+
+from bip_utils import BchBech32Decoder, BchBech32Encoder, CoinsConf
 
 # Some random public keys
 TEST_VECT = [

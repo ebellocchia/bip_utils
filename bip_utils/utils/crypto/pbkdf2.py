@@ -23,8 +23,10 @@
 # Imports
 import hashlib
 from typing import Optional, Union
+
 from Crypto.Hash import SHA512
 from Crypto.Protocol.KDF import PBKDF2
+
 from bip_utils.utils.misc import AlgoUtils
 
 HASHLIB_USE_PBKDF2_SHA512: bool = hasattr(hashlib, "pbkdf2_hmac")   # For future changes

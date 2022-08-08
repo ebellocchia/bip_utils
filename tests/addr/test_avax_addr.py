@@ -20,9 +20,10 @@
 
 # Imports
 import unittest
+
 from bip_utils import (
-    AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxPChainAddr,
-    AvaxXChainAddrDecoder, AvaxXChainAddrEncoder, AvaxXChainAddr
+    AvaxPChainAddr, AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxXChainAddr, AvaxXChainAddrDecoder,
+    AvaxXChainAddrEncoder
 )
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES

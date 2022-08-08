@@ -26,11 +26,13 @@ right 32-byte extension part).
 
 # Imports
 from typing import Any
+
 from nacl import signing
-from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+
+from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PublicKey, Ed25519PrivateKey
+from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey, Ed25519PublicKey
 from bip_utils.ecc.ed25519.lib import ed25519_nacl_wrapper
 from bip_utils.ecc.ed25519_kholaw.ed25519_kholaw_point import Ed25519KholawPoint
 from bip_utils.utils.misc import DataBytes

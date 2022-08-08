@@ -22,14 +22,13 @@
 
 # Imports
 from typing import Tuple
+
 from bip_utils.base58 import Base58Decoder, Base58Encoder
-from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_const import Bip32Const
-from bip_utils.bip.bip32.bip32_key_data import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
-)
+from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
+from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyData, Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
-from bip_utils.ecc import IPublicKey, IPrivateKey
+from bip_utils.ecc import IPrivateKey, IPublicKey
 from bip_utils.utils.misc import BytesUtils
 
 

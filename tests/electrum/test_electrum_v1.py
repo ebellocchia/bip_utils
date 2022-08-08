@@ -21,11 +21,12 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    CoinsConf, ElectrumV1, Secp256k1PublicKey, Secp256k1PrivateKey, WifPubKeyModes, WifDecoder, WifEncoder
+    CoinsConf, ElectrumV1, Secp256k1PrivateKey, Secp256k1PublicKey, WifDecoder, WifEncoder, WifPubKeyModes
 )
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
-from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_ED25519_PRIV_KEY
+from tests.ecc.test_ecc import TEST_ED25519_PRIV_KEY, TEST_ED25519_PUB_KEY
 
 # Test vector (verified with Electrum wallet)
 TEST_VECT = [

@@ -22,8 +22,9 @@
 
 # Imports
 from typing import Dict, Union
+
 from bip_utils.algorand.mnemonic.algorand_entropy_generator import AlgorandEntropyBitLen, AlgorandEntropyGenerator
-from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandMnemonicConst, AlgorandLanguages, AlgorandWordsNum
+from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages, AlgorandMnemonicConst, AlgorandWordsNum
 from bip_utils.algorand.mnemonic.algorand_mnemonic_encoder import AlgorandMnemonicEncoder
 from bip_utils.utils.mnemonic import Mnemonic
 

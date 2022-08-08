@@ -22,7 +22,8 @@
 
 # Imports
 from typing import Optional, Union
-from bip_utils.bip.bip39 import Bip39Languages, IBip39SeedGenerator, Bip39MnemonicDecoder
+
+from bip_utils.bip.bip39 import Bip39Languages, Bip39MnemonicDecoder, IBip39SeedGenerator
 from bip_utils.bip.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
 from bip_utils.utils.crypto import Pbkdf2HmacSha512
 from bip_utils.utils.misc import StringUtils

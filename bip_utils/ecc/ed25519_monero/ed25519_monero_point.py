@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Tuple
+
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519_monero.lib import ed25519_monero_lib

@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Dict
+
 from bip_utils.ecc.curve.elliptic_curve import EllipticCurve
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519 import Ed25519

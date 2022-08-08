@@ -20,6 +20,7 @@
 
 # Imports
 import unittest
+
 from bip_utils import Bip32KeyIndex, CardanoByronLegacyBip32, EllipticCurveTypes
 from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import CardanoByronLegacyMstKeyGeneratorConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper

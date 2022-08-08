@@ -22,10 +22,11 @@
 
 # Imports
 from typing import Any, Union
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
+from bip_utils.addr.eth_addr import EthAddrConst, EthAddrDecoder, EthAddrEncoder
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.eth_addr import EthAddrConst, EthAddrDecoder, EthAddrEncoder
 from bip_utils.base58 import Base58ChecksumError, Base58Decoder, Base58Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey

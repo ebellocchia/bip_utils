@@ -20,7 +20,8 @@
 
 # Imports
 import unittest
-from bip_utils import AlgoAddrDecoder, AlgoAddrEncoder, AlgoAddr
+
+from bip_utils import AlgoAddr, AlgoAddrDecoder, AlgoAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey

@@ -21,9 +21,10 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    Bip32PathError, Bip32PathParser, Bip32Path, Bip32KeyIndex,
-    Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b, Bip32Slip10Nist256p1, Bip32Slip10Secp256k1
+    Bip32KeyIndex, Bip32Path, Bip32PathError, Bip32PathParser, Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b,
+    Bip32Slip10Nist256p1, Bip32Slip10Secp256k1
 )
 
 # Tests for paths

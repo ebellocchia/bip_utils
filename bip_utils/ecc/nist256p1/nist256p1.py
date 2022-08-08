@@ -23,9 +23,8 @@
 # Imports
 from bip_utils.ecc.curve.elliptic_curve import EllipticCurve
 from bip_utils.ecc.nist256p1.nist256p1_const import Nist256p1Const
-from bip_utils.ecc.nist256p1.nist256p1_keys import Nist256p1PublicKey, Nist256p1PrivateKey
+from bip_utils.ecc.nist256p1.nist256p1_keys import Nist256p1PrivateKey, Nist256p1PublicKey
 from bip_utils.ecc.nist256p1.nist256p1_point import Nist256p1Point
-
 
 # Nist256p1 curve definition
 Nist256p1: EllipticCurve = EllipticCurve(Nist256p1Const.NAME,

@@ -21,6 +21,7 @@
 # Imports
 import os
 import unittest
+
 from bip_utils import Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersionsConst
 

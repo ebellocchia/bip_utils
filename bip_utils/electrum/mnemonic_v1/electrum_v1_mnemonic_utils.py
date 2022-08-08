@@ -23,9 +23,10 @@
 # Imports
 import os
 from typing import Tuple
-from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1MnemonicConst, ElectrumV1Languages
+
+from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages, ElectrumV1MnemonicConst
 from bip_utils.utils.mnemonic import (
-    Mnemonic, MnemonicLanguages, MnemonicWordsList, MnemonicWordsListGetterBase, MnemonicWordsListFinderBase
+    Mnemonic, MnemonicLanguages, MnemonicWordsList, MnemonicWordsListFinderBase, MnemonicWordsListGetterBase
 )
 
 

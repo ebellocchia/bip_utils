@@ -22,6 +22,7 @@
 
 # Imports
 from typing import List
+
 from bip_utils.base58.base58 import Base58Alphabets, Base58Const, Base58Decoder, Base58Encoder
 
 

@@ -25,21 +25,19 @@ from bip_utils.addr import (
     AdaByronIcarusAddrEncoder, AlgoAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder, AvaxXChainAddrEncoder,
     BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, ErgoNetworkTypes, ErgoP2PKHAddrEncoder, EthAddrEncoder,
     FilSecp256k1AddrEncoder, NanoAddrEncoder, NearAddrEncoder, NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder,
-    P2PKHAddrEncoder, SolAddrEncoder, SubstrateEd25519AddrEncoder, TrxAddrEncoder, XlmAddrTypes, XlmAddrEncoder,
-    XmrAddrEncoder, XrpAddrEncoder, XtzAddrPrefixes, XtzAddrEncoder, ZilAddrEncoder
+    P2PKHAddrEncoder, SolAddrEncoder, SubstrateEd25519AddrEncoder, TrxAddrEncoder, XlmAddrEncoder, XlmAddrTypes,
+    XmrAddrEncoder, XrpAddrEncoder, XtzAddrEncoder, XtzAddrPrefixes, ZilAddrEncoder
 )
 from bip_utils.bip.bip32 import (
-    Bip32Const, Bip32KeyNetVersions,
-    Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b, Bip32Slip10Nist256p1, Bip32Slip10Secp256k1, Bip32KholawEd25519
+    Bip32Const, Bip32KeyNetVersions, Bip32KholawEd25519, Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b,
+    Bip32Slip10Nist256p1, Bip32Slip10Secp256k1
 )
 from bip_utils.bip.conf.common import (
-    BipCoinFctCallsConf, BipCoinConf, BipBitcoinCashConf, BipLitecoinConf,
-    HARDENED_DEF_PATH, NOT_HARDENED_DEF_PATH
+    HARDENED_DEF_PATH, NOT_HARDENED_DEF_PATH, BipBitcoinCashConf, BipCoinConf, BipCoinFctCallsConf, BipLitecoinConf
 )
 from bip_utils.cardano.bip32.cardano_icarus_bip32 import CardanoIcarusBip32
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
-
 
 # Bitcoin key net version for main net (same as BIP32)
 _BIP44_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS

@@ -21,11 +21,11 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Base58ChecksumError, Bip38PubKeyModes, Bip38Decrypter, Bip38Encrypter
+
+from bip_utils import Base58ChecksumError, Bip38Decrypter, Bip38Encrypter, Bip38PubKeyModes
 from tests.ecc.test_ecc import (
-    TEST_VECT_SECP256K1_PRIV_KEY_INVALID,
-    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY,
-    TEST_NIST256P1_PRIV_KEY, TEST_SR25519_PRIV_KEY
+    TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY, TEST_ED25519_PRIV_KEY, TEST_NIST256P1_PRIV_KEY,
+    TEST_SR25519_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID
 )
 
 # Tests from BIP38 page (without EC multiplication)

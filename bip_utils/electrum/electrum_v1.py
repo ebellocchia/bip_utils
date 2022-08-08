@@ -22,12 +22,14 @@
 
 # Imports
 from __future__ import annotations
+
 from functools import lru_cache
 from typing import Optional, Union
-from bip_utils.addr import P2PKHPubKeyModes, P2PKHAddr
+
+from bip_utils.addr import P2PKHAddr, P2PKHPubKeyModes
 from bip_utils.bip.bip32 import Bip32KeyIndex
 from bip_utils.coin_conf import CoinsConf
-from bip_utils.ecc import IPublicKey, IPrivateKey, Secp256k1, Secp256k1PublicKey, Secp256k1PrivateKey
+from bip_utils.ecc import IPrivateKey, IPublicKey, Secp256k1, Secp256k1PrivateKey, Secp256k1PublicKey
 from bip_utils.utils.crypto import DoubleSha256
 from bip_utils.utils.misc import AlgoUtils, BytesUtils, IntegerUtils
 

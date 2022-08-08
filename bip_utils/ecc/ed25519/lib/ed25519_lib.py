@@ -24,6 +24,7 @@ Encode/Decode operations copied from: https://github.com/warner/python-pure25519
 """
 
 from typing import Tuple, Union
+
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 Q = 2 ** 255 - 19

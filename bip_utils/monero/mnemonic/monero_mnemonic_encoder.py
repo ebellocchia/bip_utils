@@ -23,9 +23,10 @@
 # Imports
 from abc import ABC
 from typing import List
+
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic
-from bip_utils.monero.mnemonic.monero_mnemonic_utils import MoneroWordsListGetter, MoneroMnemonicUtils
+from bip_utils.monero.mnemonic.monero_mnemonic_utils import MoneroMnemonicUtils, MoneroWordsListGetter
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicEncoderBase, MnemonicUtils
 
 

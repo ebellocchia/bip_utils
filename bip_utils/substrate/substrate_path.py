@@ -22,13 +22,14 @@
 
 # Imports
 from __future__ import annotations
+
 import re
 from functools import lru_cache
 from typing import Dict, Iterator, List, Optional, Sequence, Type, Union
+
 from bip_utils.substrate.scale import (
-    SubstrateScaleEncoderBase, SubstrateScaleBytesEncoder,
-    SubstrateScaleU8Encoder, SubstrateScaleU16Encoder, SubstrateScaleU32Encoder,
-    SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
+    SubstrateScaleBytesEncoder, SubstrateScaleEncoderBase, SubstrateScaleU8Encoder, SubstrateScaleU16Encoder,
+    SubstrateScaleU32Encoder, SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
 )
 from bip_utils.substrate.substrate_ex import SubstratePathError
 from bip_utils.utils.crypto import Blake2b256

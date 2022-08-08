@@ -22,14 +22,14 @@
 
 # Imports
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Optional, Type, Union
+
 from bip_utils.bip.bip32.base.ibip32_key_derivator import IBip32KeyDerivator
 from bip_utils.bip.bip32.base.ibip32_mst_key_generator import IBip32MstKeyGenerator
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
-from bip_utils.bip.bip32.bip32_key_data import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyIndex, Bip32KeyData
-)
+from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyData, Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
 from bip_utils.bip.bip32.bip32_key_ser import Bip32KeyDeserializer
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey

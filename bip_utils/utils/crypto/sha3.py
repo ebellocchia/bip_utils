@@ -23,7 +23,9 @@
 # Imports
 import hashlib
 from typing import Union
-from Crypto.Hash import keccak, SHA3_256
+
+from Crypto.Hash import SHA3_256, keccak
+
 from bip_utils.utils.misc import AlgoUtils
 
 HASHLIB_USE_SHA3_256: bool = "sha3_256" in hashlib.algorithms_available

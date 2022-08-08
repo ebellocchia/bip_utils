@@ -21,11 +21,10 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    SubstrateScaleBytesEncoder,
-    SubstrateScaleCUintEncoder,
-    SubstrateScaleU8Encoder, SubstrateScaleU16Encoder, SubstrateScaleU32Encoder,
-    SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
+    SubstrateScaleBytesEncoder, SubstrateScaleCUintEncoder, SubstrateScaleU8Encoder, SubstrateScaleU16Encoder,
+    SubstrateScaleU32Encoder, SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
 )
 
 # Test vector

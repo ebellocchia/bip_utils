@@ -21,6 +21,7 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import SubstrateBip39SeedGenerator
 
 # Tests for substrate variant

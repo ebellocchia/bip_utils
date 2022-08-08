@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional
+
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages
 from bip_utils.monero.mnemonic.monero_mnemonic_decoder import MoneroMnemonicDecoder
 from bip_utils.utils.mnemonic import MnemonicValidator

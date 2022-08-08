@@ -21,9 +21,10 @@
 """Module for Monero mnemonic."""
 
 # Imports
-from enum import auto, IntEnum, unique
+from enum import IntEnum, auto, unique
 from typing import Dict, List
-from bip_utils.utils.mnemonic import MnemonicLanguages, Mnemonic
+
+from bip_utils.utils.mnemonic import Mnemonic, MnemonicLanguages
 
 
 @unique

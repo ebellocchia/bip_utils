@@ -22,7 +22,9 @@
 
 # Imports
 from __future__ import annotations
+
 from typing import Dict
+
 from bip_utils.coin_conf import CoinConf
 from bip_utils.utils.conf import CoinNames as UtilsCoinNames
 

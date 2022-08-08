@@ -21,6 +21,7 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import Bech32ChecksumError, SegwitBech32Decoder, SegwitBech32Encoder
 
 # Some random public keys

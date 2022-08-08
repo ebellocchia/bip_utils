@@ -22,8 +22,10 @@
 
 # Imports
 from typing import Any
+
 from nacl import exceptions, signing
-from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+
+from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point

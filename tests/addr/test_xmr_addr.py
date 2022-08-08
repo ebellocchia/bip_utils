@@ -21,17 +21,15 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    CoinsConf,
-    XmrAddrDecoder, XmrAddrEncoder, XmrAddr,
-    XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XmrIntegratedAddr
+    CoinsConf, XmrAddr, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddr, XmrIntegratedAddrDecoder,
+    XmrIntegratedAddrEncoder
 )
 from bip_utils.addr.xmr_addr import XmrAddrConst
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES
-from tests.ecc.test_ecc import (
-    TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_ED25519_MONERO_PUB_KEY, Ed25519MoneroPublicKey
-)
+from tests.ecc.test_ecc import TEST_ED25519_MONERO_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519MoneroPublicKey
 
 # Some random public keys
 # Verified with: https://xmr.llcoins.net/addresstests.html

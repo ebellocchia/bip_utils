@@ -25,7 +25,8 @@ Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/ca
 
 # Imports
 from typing import List, Tuple
-from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
+
+from bip_utils.bech32.bech32_base import Bech32BaseUtils, Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 

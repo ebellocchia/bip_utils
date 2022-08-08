@@ -22,7 +22,9 @@
 
 # Imports
 from typing import Union
+
 from Crypto.Protocol.KDF import scrypt
+
 from bip_utils.utils.misc import AlgoUtils
 
 

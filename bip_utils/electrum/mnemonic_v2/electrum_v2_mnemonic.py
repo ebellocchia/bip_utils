@@ -21,8 +21,9 @@
 """Module for Electrum v2 mnemonic."""
 
 # Imports
-from enum import auto, Enum, IntEnum, unique
+from enum import Enum, IntEnum, auto, unique
 from typing import Dict, List
+
 from bip_utils.bip.bip39 import Bip39Languages, Bip39Mnemonic
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst
 from bip_utils.utils.mnemonic import MnemonicLanguages

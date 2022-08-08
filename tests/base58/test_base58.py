@@ -21,7 +21,8 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Base58Decoder, Base58Encoder, Base58ChecksumError, Base58Alphabets
+
+from bip_utils import Base58Alphabets, Base58ChecksumError, Base58Decoder, Base58Encoder
 
 # Test vector from Bitcoin alphabet
 # https://github.com/bitcoin/bitcoin/blob/master/src/test/data/base58_encode_decode.json

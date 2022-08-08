@@ -25,11 +25,10 @@ Reference: https://github.com/satoshilabs/slips/blob/master/slip-0032.md
 
 # Imports
 from typing import Tuple, Union
+
 from bip_utils.bech32 import Bech32Decoder, Bech32Encoder
-from bip_utils.bip.bip32 import (
-    Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32Path, Bip32PathParser
-)
-from bip_utils.ecc import IPublicKey, IPrivateKey
+from bip_utils.bip.bip32 import Bip32ChainCode, Bip32Depth, Bip32KeyIndex, Bip32Path, Bip32PathParser
+from bip_utils.ecc import IPrivateKey, IPublicKey
 from bip_utils.slip.slip32.slip32_key_net_ver import Slip32KeyNetVersions
 
 

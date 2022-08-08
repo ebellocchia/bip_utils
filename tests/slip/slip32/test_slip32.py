@@ -20,9 +20,10 @@
 
 # Imports
 import unittest
+
 from bip_utils import (
-    Bip39SeedGenerator, Bip32PathParser, Bip32Slip10Secp256k1,
-    Slip32PublicKeySerializer, Slip32PrivateKeySerializer, Slip32KeyDeserializer
+    Bip32PathParser, Bip32Slip10Secp256k1, Bip39SeedGenerator, Slip32KeyDeserializer, Slip32PrivateKeySerializer,
+    Slip32PublicKeySerializer
 )
 
 # Tests from SLIP32 page

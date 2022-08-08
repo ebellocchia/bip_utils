@@ -21,9 +21,10 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    Bip44Changes, Bip44Coins, Bip44,
-    CardanoShelleyPublicKeys, CardanoShelleyPrivateKeys, CardanoShelley, Cip1852, Cip1852Coins
+    Bip44, Bip44Changes, Bip44Coins, CardanoShelley, CardanoShelleyPrivateKeys, CardanoShelleyPublicKeys, Cip1852,
+    Cip1852Coins
 )
 
 # Test vector

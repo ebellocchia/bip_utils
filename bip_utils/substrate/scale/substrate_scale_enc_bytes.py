@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any
+
 from bip_utils.substrate.scale.substrate_scale_enc_base import SubstrateScaleEncoderBase
 from bip_utils.substrate.scale.substrate_scale_enc_cuint import SubstrateScaleCUintEncoder
 from bip_utils.utils.misc import AlgoUtils

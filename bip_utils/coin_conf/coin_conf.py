@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Dict
+
 from bip_utils.utils.conf import CoinNames as ConfCoinNames
 
 

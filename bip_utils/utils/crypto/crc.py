@@ -23,7 +23,9 @@
 # Imports
 import binascii
 from typing import Union
+
 import crcmod.predefined
+
 from bip_utils.utils.misc import AlgoUtils, IntegerUtils
 
 # Get the class only once for efficiency

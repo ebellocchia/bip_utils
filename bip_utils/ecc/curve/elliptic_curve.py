@@ -22,7 +22,8 @@
 
 # Imports
 from typing import Type
-from bip_utils.ecc.common.ikeys import IPublicKey, IPrivateKey
+
+from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 
 

@@ -28,9 +28,12 @@ References:
 
 # Imports
 from __future__ import annotations
+
 from enum import IntEnum, unique
 from typing import Any, Dict, NamedTuple, Optional, Tuple, Union
+
 import cbor2
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder

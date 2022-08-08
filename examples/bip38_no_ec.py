@@ -1,6 +1,7 @@
 """Example of private key encryption/decryption without EC multiplication using BIP38."""
 
 import binascii
+
 from bip_utils import Bip38Decrypter, Bip38Encrypter, WifDecoder, WifEncoder
 
 # BIP38 passphrase

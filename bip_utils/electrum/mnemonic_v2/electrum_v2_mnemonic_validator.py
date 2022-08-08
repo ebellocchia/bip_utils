@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional
+
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2Languages, ElectrumV2MnemonicTypes
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_decoder import ElectrumV2MnemonicDecoder
 from bip_utils.utils.mnemonic import MnemonicValidator

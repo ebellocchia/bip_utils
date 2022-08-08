@@ -20,7 +20,8 @@
 
 # Imports
 import unittest
-from bip_utils import NanoAddrDecoder, NanoAddrEncoder, NanoAddr
+
+from bip_utils import NanoAddr, NanoAddrDecoder, NanoAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_BLAKE2B_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519Blake2bPublicKey

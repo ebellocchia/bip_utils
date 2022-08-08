@@ -21,12 +21,11 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import (
-    CoinsConf, Base58ChecksumError, Secp256k1PrivateKey, WifPubKeyModes, WifDecoder, WifEncoder
-)
+
+from bip_utils import Base58ChecksumError, CoinsConf, Secp256k1PrivateKey, WifDecoder, WifEncoder, WifPubKeyModes
 from tests.ecc.test_ecc import (
-    TEST_VECT_SECP256K1_PRIV_KEY_INVALID,
-    TEST_ED25519_PRIV_KEY, TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SR25519_PRIV_KEY
+    TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_PRIV_KEY, TEST_NIST256P1_PRIV_KEY, TEST_SR25519_PRIV_KEY,
+    TEST_VECT_SECP256K1_PRIV_KEY_INVALID
 )
 
 # Some keys randomly generated from:

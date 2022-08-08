@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.P2PKH_addr import P2PKHAddrDecoder, P2PKHAddrEncoder

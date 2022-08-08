@@ -23,12 +23,9 @@
 # Imports
 from bip_utils.addr import BchP2SHAddrEncoder, P2SHAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Slip10Secp256k1
-from bip_utils.bip.conf.common import (
-    BipCoinConf, BipBitcoinCashConf, BipLitecoinConf, NOT_HARDENED_DEF_PATH
-)
+from bip_utils.bip.conf.common import NOT_HARDENED_DEF_PATH, BipBitcoinCashConf, BipCoinConf, BipLitecoinConf
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
-
 
 # Bitcoin key net version for main net (ypub / yprv)
 _BIP49_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\x9d\x7c\xb2",

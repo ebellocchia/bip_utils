@@ -21,9 +21,9 @@
 """Module for CIP-1852 coins configuration."""
 
 # Imports
-from bip_utils.addr import AdaShelleyAddrNetworkTags, AdaShelleyAddrEncoder
+from bip_utils.addr import AdaShelleyAddrEncoder, AdaShelleyAddrNetworkTags
 from bip_utils.bip.bip32 import Bip32Const, Bip32KholawEd25519
-from bip_utils.bip.conf.common import BipCoinConf, NOT_HARDENED_DEF_PATH
+from bip_utils.bip.conf.common import NOT_HARDENED_DEF_PATH, BipCoinConf
 from bip_utils.cardano.bip32.cardano_icarus_bip32 import CardanoIcarusBip32
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44

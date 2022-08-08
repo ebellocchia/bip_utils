@@ -23,6 +23,7 @@
 # Imports
 from enum import Enum, auto, unique
 from typing import Dict
+
 from bip_utils.base58.base58_ex import Base58ChecksumError
 from bip_utils.utils.crypto import DoubleSha256
 from bip_utils.utils.misc import BytesUtils

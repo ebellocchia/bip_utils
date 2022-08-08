@@ -7,9 +7,10 @@ It replicates the functionalities of:
 """
 
 import binascii
-from enum import auto, Enum, unique
+from enum import Enum, auto, unique
+
 from bip_utils import (
-    AlgorandMnemonicGenerator, Bip39SeedGenerator, Bip32KholawEd25519, Bip32Slip10Ed25519, Bip32Slip10Secp256k1,
+    AlgorandMnemonicGenerator, Bip32KholawEd25519, Bip32Slip10Ed25519, Bip32Slip10Secp256k1, Bip39SeedGenerator,
     Ed25519PrivateKey
 )
 

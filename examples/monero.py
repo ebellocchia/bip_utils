@@ -1,9 +1,8 @@
 """Example of keys derivation for Monero (same addresses of official wallet)."""
 
 import binascii
-from bip_utils import (
-    MoneroWordsNum, MoneroMnemonicGenerator, MoneroSeedGenerator, Monero
-)
+
+from bip_utils import Monero, MoneroMnemonicGenerator, MoneroSeedGenerator, MoneroWordsNum
 
 # Generate random mnemonic
 mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25)

@@ -22,7 +22,9 @@
 
 # Import
 from __future__ import annotations
+
 from typing import Iterator, List, Optional, Sequence, Tuple, Union
+
 from bip_utils.bip.bip32.bip32_ex import Bip32PathError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 

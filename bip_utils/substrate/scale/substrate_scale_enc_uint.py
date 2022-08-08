@@ -23,6 +23,7 @@
 # Imports
 from abc import ABC
 from typing import Any
+
 from bip_utils.substrate.scale.substrate_scale_enc_base import SubstrateScaleEncoderBase
 from bip_utils.utils.misc import IntegerUtils
 

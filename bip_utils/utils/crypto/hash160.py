@@ -22,8 +22,9 @@
 
 # Imports
 from typing import Union
-from bip_utils.utils.crypto.sha2 import Sha256
+
 from bip_utils.utils.crypto.ripemd import Ripemd160
+from bip_utils.utils.crypto.sha2 import Sha256
 
 
 class Hash160:

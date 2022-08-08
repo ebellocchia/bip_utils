@@ -23,6 +23,7 @@
 # Imports
 from enum import IntEnum, unique
 from typing import List, Union
+
 from bip_utils.utils.mnemonic import EntropyGenerator
 
 

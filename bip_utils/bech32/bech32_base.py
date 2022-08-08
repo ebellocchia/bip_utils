@@ -23,6 +23,7 @@
 # Imports
 from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple, Union
+
 from bip_utils.bech32.bech32_ex import Bech32ChecksumError
 from bip_utils.utils.misc import AlgoUtils
 

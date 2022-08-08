@@ -22,9 +22,10 @@
 
 # Imports
 from typing import Union
-from bip_utils.utils.mnemonic.mnemonic_ex import MnemonicChecksumError
+
 from bip_utils.utils.mnemonic.mnemonic import Mnemonic
 from bip_utils.utils.mnemonic.mnemonic_decoder_base import MnemonicDecoderBase
+from bip_utils.utils.mnemonic.mnemonic_ex import MnemonicChecksumError
 
 
 class MnemonicValidator:

@@ -23,15 +23,17 @@
 
 # Imports
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from enum import IntEnum, unique
 from functools import lru_cache
 from typing import Union
-from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32KeyData
+
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyData, Bip32KeyIndex
 from bip_utils.bip.bip44_base.bip44_base_ex import Bip44DepthError
-from bip_utils.bip.bip44_base.bip44_keys import Bip44PublicKey, Bip44PrivateKey
-from bip_utils.bip.conf.common import BipCoins, BipCoinConf
-from bip_utils.ecc import IPublicKey, IPrivateKey
+from bip_utils.bip.bip44_base.bip44_keys import Bip44PrivateKey, Bip44PublicKey
+from bip_utils.bip.conf.common import BipCoinConf, BipCoins
+from bip_utils.ecc import IPrivateKey, IPublicKey
 
 
 @unique

@@ -25,8 +25,9 @@ Reference: https://github.com/spesmilo/electrum
 
 # Imports
 from typing import Optional, Union
+
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import (
-    ElectrumV1MnemonicConst, ElectrumV1Languages, ElectrumV1Mnemonic
+    ElectrumV1Languages, ElectrumV1Mnemonic, ElectrumV1MnemonicConst
 )
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_utils import (
     ElectrumV1WordsListFinder, ElectrumV1WordsListGetter

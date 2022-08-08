@@ -26,6 +26,7 @@ Reference: https://cips.cardano.org/cips/cip19
 # Imports
 from enum import IntEnum, unique
 from typing import Any, Dict, Union
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder

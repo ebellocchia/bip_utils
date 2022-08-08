@@ -20,7 +20,8 @@
 
 # Imports
 import unittest
-from bip_utils import CoinsConf, NeoAddrDecoder, NeoAddrEncoder, NeoAddr
+
+from bip_utils import CoinsConf, NeoAddr, NeoAddrDecoder, NeoAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_NIST256P1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_NIST256P1_PUB_KEY_INVALID, Nist256p1PublicKey

@@ -23,6 +23,7 @@
 # Imports
 from enum import IntEnum, unique
 from typing import List
+
 from bip_utils.bip.bip39 import Bip39Languages, Bip39Mnemonic
 from bip_utils.utils.mnemonic import MnemonicLanguages
 

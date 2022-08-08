@@ -1,52 +1,49 @@
-from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.ada_byron_addr import (
-    AdaByronAddrTypes,
-    AdaByronAddrDecoder, AdaByronLegacyAddrEncoder, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr, AdaByronIcarusAddr
+    AdaByronAddrDecoder, AdaByronAddrTypes, AdaByronIcarusAddr, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr,
+    AdaByronLegacyAddrEncoder
 )
 from bip_utils.addr.ada_shelley_addr import (
-    AdaShelleyAddrNetworkTags,
-    AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddr,
-    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyRewardAddr,
-    AdaShelleyStakingAddrDecoder, AdaShelleyStakingAddrEncoder, AdaShelleyStakingAddr
+    AdaShelleyAddr, AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddrNetworkTags, AdaShelleyRewardAddr,
+    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyStakingAddr, AdaShelleyStakingAddrDecoder,
+    AdaShelleyStakingAddrEncoder
 )
-from bip_utils.addr.algo_addr import AlgoAddrDecoder, AlgoAddrEncoder, AlgoAddr
-from bip_utils.addr.atom_addr import AtomAddrDecoder, AtomAddrEncoder, AtomAddr
+from bip_utils.addr.algo_addr import AlgoAddr, AlgoAddrDecoder, AlgoAddrEncoder
+from bip_utils.addr.atom_addr import AtomAddr, AtomAddrDecoder, AtomAddrEncoder
 from bip_utils.addr.avax_addr import (
-    AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxPChainAddr,
-    AvaxXChainAddrDecoder, AvaxXChainAddrEncoder, AvaxXChainAddr
+    AvaxPChainAddr, AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxXChainAddr, AvaxXChainAddrDecoder,
+    AvaxXChainAddrEncoder
 )
 from bip_utils.addr.bch_addr_converter import BchAddrConverter
-from bip_utils.addr.egld_addr import EgldAddrDecoder, EgldAddrEncoder, EgldAddr
-from bip_utils.addr.ergo_addr import ErgoNetworkTypes, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder, ErgoP2PKHAddr
-from bip_utils.addr.eos_addr import EosAddrDecoder, EosAddrEncoder, EosAddr
-from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder, EthAddr
-from bip_utils.addr.fil_addr import FilSecp256k1AddrDecoder, FilSecp256k1AddrEncoder, FilSecp256k1Addr
-from bip_utils.addr.nano_addr import NanoAddrDecoder, NanoAddrEncoder, NanoAddr
-from bip_utils.addr.near_addr import NearAddrDecoder, NearAddrEncoder, NearAddr
-from bip_utils.addr.neo_addr import NeoAddrDecoder, NeoAddrEncoder, NeoAddr
-from bip_utils.addr.okex_addr import OkexAddrDecoder, OkexAddrEncoder, OkexAddr
-from bip_utils.addr.one_addr import OneAddrDecoder, OneAddrEncoder, OneAddr
+from bip_utils.addr.egld_addr import EgldAddr, EgldAddrDecoder, EgldAddrEncoder
+from bip_utils.addr.eos_addr import EosAddr, EosAddrDecoder, EosAddrEncoder
+from bip_utils.addr.ergo_addr import ErgoNetworkTypes, ErgoP2PKHAddr, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder
+from bip_utils.addr.eth_addr import EthAddr, EthAddrDecoder, EthAddrEncoder
+from bip_utils.addr.fil_addr import FilSecp256k1Addr, FilSecp256k1AddrDecoder, FilSecp256k1AddrEncoder
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.nano_addr import NanoAddr, NanoAddrDecoder, NanoAddrEncoder
+from bip_utils.addr.near_addr import NearAddr, NearAddrDecoder, NearAddrEncoder
+from bip_utils.addr.neo_addr import NeoAddr, NeoAddrDecoder, NeoAddrEncoder
+from bip_utils.addr.okex_addr import OkexAddr, OkexAddrDecoder, OkexAddrEncoder
+from bip_utils.addr.one_addr import OneAddr, OneAddrDecoder, OneAddrEncoder
 from bip_utils.addr.P2PKH_addr import (
-    BchP2PKHAddrDecoder, BchP2PKHAddrEncoder, BchP2PKHAddr,
-    P2PKHPubKeyModes, P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHAddr
+    BchP2PKHAddr, BchP2PKHAddrDecoder, BchP2PKHAddrEncoder, P2PKHAddr, P2PKHAddrDecoder, P2PKHAddrEncoder,
+    P2PKHPubKeyModes
 )
 from bip_utils.addr.P2SH_addr import (
-    BchP2SHAddrDecoder, BchP2SHAddrEncoder, BchP2SHAddr,
-    P2SHAddrDecoder, P2SHAddrEncoder, P2SHAddr
+    BchP2SHAddr, BchP2SHAddrDecoder, BchP2SHAddrEncoder, P2SHAddr, P2SHAddrDecoder, P2SHAddrEncoder
 )
-from bip_utils.addr.P2WPKH_addr import P2WPKHAddrDecoder, P2WPKHAddrEncoder, P2WPKHAddr
-from bip_utils.addr.P2TR_addr import P2TRAddrDecoder, P2TRAddrEncoder, P2TRAddr
-from bip_utils.addr.sol_addr import SolAddrDecoder, SolAddrEncoder, SolAddr
+from bip_utils.addr.P2TR_addr import P2TRAddr, P2TRAddrDecoder, P2TRAddrEncoder
+from bip_utils.addr.P2WPKH_addr import P2WPKHAddr, P2WPKHAddrDecoder, P2WPKHAddrEncoder
+from bip_utils.addr.sol_addr import SolAddr, SolAddrDecoder, SolAddrEncoder
 from bip_utils.addr.substrate_addr import (
-    SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateEd25519Addr,
-    SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SubstrateSr25519Addr
+    SubstrateEd25519Addr, SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateSr25519Addr,
+    SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder
 )
-from bip_utils.addr.trx_addr import TrxAddrDecoder, TrxAddrEncoder, TrxAddr
-from bip_utils.addr.xlm_addr import XlmAddrTypes, XlmAddrDecoder, XlmAddrEncoder, XlmAddr
+from bip_utils.addr.trx_addr import TrxAddr, TrxAddrDecoder, TrxAddrEncoder
+from bip_utils.addr.xlm_addr import XlmAddr, XlmAddrDecoder, XlmAddrEncoder, XlmAddrTypes
 from bip_utils.addr.xmr_addr import (
-    XmrAddrDecoder, XmrAddrEncoder, XmrAddr,
-    XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XmrIntegratedAddr
+    XmrAddr, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddr, XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder
 )
-from bip_utils.addr.xrp_addr import XrpAddrDecoder, XrpAddrEncoder, XrpAddr
-from bip_utils.addr.xtz_addr import XtzAddrPrefixes, XtzAddrDecoder, XtzAddrEncoder, XtzAddr
-from bip_utils.addr.zil_addr import ZilAddrDecoder, ZilAddrEncoder, ZilAddr
+from bip_utils.addr.xrp_addr import XrpAddr, XrpAddrDecoder, XrpAddrEncoder
+from bip_utils.addr.xtz_addr import XtzAddr, XtzAddrDecoder, XtzAddrEncoder, XtzAddrPrefixes
+from bip_utils.addr.zil_addr import ZilAddr, ZilAddrDecoder, ZilAddrEncoder

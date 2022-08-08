@@ -20,7 +20,7 @@
 
 
 # Imports
-from bip_utils import Bip44Coins, Bip44
+from bip_utils import Bip44, Bip44Coins
 from tests.bip44_tests import Bip44Tests
 
 

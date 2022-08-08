@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional
+
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages
 from bip_utils.bip.bip39.bip39_mnemonic_decoder import Bip39MnemonicDecoder
 from bip_utils.utils.mnemonic import MnemonicValidator

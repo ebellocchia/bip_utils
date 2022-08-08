@@ -22,7 +22,9 @@
 
 # Imports
 from typing import Union
+
 from Crypto.Hash import RIPEMD160
+
 from bip_utils.utils.misc import AlgoUtils
 
 

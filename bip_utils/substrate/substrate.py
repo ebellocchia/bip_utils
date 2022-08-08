@@ -22,13 +22,16 @@
 
 # Imports
 from __future__ import annotations
+
 from typing import Optional, Union
+
 import sr25519
+
 from bip_utils.ecc import IPrivateKey, IPublicKey
-from bip_utils.substrate.conf import SubstrateCoins, SubstrateCoinConf, SubstrateConfGetter
+from bip_utils.substrate.conf import SubstrateCoinConf, SubstrateCoins, SubstrateConfGetter
 from bip_utils.substrate.substrate_ex import SubstrateKeyError
-from bip_utils.substrate.substrate_keys import SubstratePublicKey, SubstratePrivateKey
-from bip_utils.substrate.substrate_path import SubstratePathElem, SubstratePath, SubstratePathParser
+from bip_utils.substrate.substrate_keys import SubstratePrivateKey, SubstratePublicKey
+from bip_utils.substrate.substrate_path import SubstratePath, SubstratePathElem, SubstratePathParser
 
 
 class SubstrateConst:

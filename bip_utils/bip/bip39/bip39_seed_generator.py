@@ -25,9 +25,10 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
 from typing import Optional, Union
-from bip_utils.bip.bip39.ibip39_seed_generator import IBip39SeedGenerator
+
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic
 from bip_utils.bip.bip39.bip39_mnemonic_validator import Bip39MnemonicValidator
+from bip_utils.bip.bip39.ibip39_seed_generator import IBip39SeedGenerator
 from bip_utils.utils.crypto import Pbkdf2HmacSha512
 from bip_utils.utils.misc import StringUtils
 from bip_utils.utils.mnemonic import Mnemonic

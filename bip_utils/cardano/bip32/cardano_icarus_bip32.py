@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Type
+
 from bip_utils.bip.bip32 import Bip32KholawEd25519, IBip32MstKeyGenerator
 from bip_utils.cardano.bip32.cardano_icarus_mst_key_generator import CardanoIcarusMstKeyGenerator
 

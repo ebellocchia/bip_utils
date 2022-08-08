@@ -23,7 +23,9 @@
 # Imports
 import hashlib
 from typing import Any, Union
+
 from Crypto.Hash import SHA512
+
 from bip_utils.utils.misc import AlgoUtils
 
 HASHLIB_USE_SHA512_256: bool = "sha512_256" in hashlib.algorithms_available

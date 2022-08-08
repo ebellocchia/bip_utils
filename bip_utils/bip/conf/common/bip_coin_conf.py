@@ -22,8 +22,9 @@
 
 # Imports
 from typing import Any, Dict, Optional, Tuple, Type
+
 from bip_utils.addr import IAddrEncoder
-from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Base, Bip32PublicKey
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyNetVersions, Bip32PublicKey
 from bip_utils.utils.conf import CoinNames as UtilsCoinNames
 
 

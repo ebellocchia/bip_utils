@@ -25,11 +25,12 @@ Reference: https://github.com/algorand/py-algorand-sdk
 
 # Imports
 from typing import Optional, Union
-from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandMnemonicConst, AlgorandLanguages, AlgorandMnemonic
+
+from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages, AlgorandMnemonic, AlgorandMnemonicConst
 from bip_utils.algorand.mnemonic.algorand_mnemonic_utils import AlgorandMnemonicUtils
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
 from bip_utils.utils.misc import BytesUtils
-from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicWordsList
+from bip_utils.utils.mnemonic import Mnemonic, MnemonicChecksumError, MnemonicDecoderBase, MnemonicWordsList
 
 
 class AlgorandMnemonicDecoder(MnemonicDecoderBase):

@@ -24,6 +24,7 @@
 import hashlib
 from abc import ABC, abstractmethod
 from typing import Union
+
 from bip_utils.utils.misc import AlgoUtils
 
 

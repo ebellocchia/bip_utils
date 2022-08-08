@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Callable, Tuple, Type, TypeVar, Union
+
 from bip_utils.ecc import IPublicKey
 from bip_utils.utils.misc import BytesUtils
 

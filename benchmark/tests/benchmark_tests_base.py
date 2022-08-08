@@ -21,8 +21,9 @@
 
 # Imports
 from abc import ABC, abstractmethod
-from codetiming import Timer
 from typing import List
+
+from codetiming import Timer
 
 
 # Benchmark tests base class

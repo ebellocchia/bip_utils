@@ -25,8 +25,9 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
 
 # Imports
 from typing import Optional, Tuple, Union
+
 from bip_utils.bip.bip38.bip38_addr import Bip38PubKeyModes
-from bip_utils.bip.bip38.bip38_ec import Bip38EcKeysGenerator, Bip38EcDecrypter
+from bip_utils.bip.bip38.bip38_ec import Bip38EcDecrypter, Bip38EcKeysGenerator
 from bip_utils.bip.bip38.bip38_no_ec import Bip38NoEcDecrypter, Bip38NoEcEncrypter
 from bip_utils.ecc import IPrivateKey
 

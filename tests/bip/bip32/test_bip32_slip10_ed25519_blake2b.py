@@ -20,11 +20,12 @@
 
 # Imports
 import unittest
+
 from bip_utils import (
-    Bip32Ed25519Blake2bSlip, Bip32Slip10Ed25519Blake2b, Bip32KeyError, Bip32KeyIndex, EllipticCurveTypes
+    Bip32Ed25519Blake2bSlip, Bip32KeyError, Bip32KeyIndex, Bip32Slip10Ed25519Blake2b, EllipticCurveTypes
 )
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
-from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper, TEST_SEED
+from tests.bip.bip32.test_bip32_base import TEST_SEED, Bip32BaseTestHelper
 from tests.bip.bip32.test_bip32_slip10_ed25519 import TEST_VECT_EX_KEY_ERR
 
 # Tests

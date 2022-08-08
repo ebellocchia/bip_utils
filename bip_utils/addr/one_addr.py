@@ -22,9 +22,10 @@
 
 # Imports
 from typing import Any, Union
+
+from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPublicKey

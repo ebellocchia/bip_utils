@@ -21,10 +21,10 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import (
-    MnemonicChecksumError, MoneroWordsNum, MoneroEntropyBitLen, MoneroLanguages,
-    MoneroEntropyGenerator, MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator, MoneroMnemonicDecoder,
-    Monero
+    MnemonicChecksumError, Monero, MoneroEntropyBitLen, MoneroEntropyGenerator, MoneroLanguages, MoneroMnemonicDecoder,
+    MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator, MoneroWordsNum
 )
 
 # Verified with the official Monero wallet and: https://xmr.llcoins.net/addresstests.html

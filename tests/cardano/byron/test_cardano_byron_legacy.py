@@ -21,7 +21,8 @@
 # Imports
 import binascii
 import unittest
-from bip_utils import Bip32Slip10Ed25519, Bip32PublicKey, Bip32PrivateKey, CardanoByronLegacyBip32, CardanoByronLegacy
+
+from bip_utils import Bip32PrivateKey, Bip32PublicKey, Bip32Slip10Ed25519, CardanoByronLegacy, CardanoByronLegacyBip32
 from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import CardanoByronLegacyMstKeyGeneratorConst
 
 # Test vector (verified with AdaLite)

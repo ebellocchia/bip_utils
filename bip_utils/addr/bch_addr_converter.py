@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional
+
 from bip_utils.bech32 import BchBech32Decoder, BchBech32Encoder
 
 

@@ -21,8 +21,10 @@
 """Tiny wrapper for pynacl point arithmetic."""
 
 from typing import Union
+
 from nacl import bindings
-from bip_utils.ecc.ed25519.lib.ed25519_lib import encode_int, point_is_encoded, point_encode
+
+from bip_utils.ecc.ed25519.lib.ed25519_lib import encode_int, point_encode, point_is_encoded
 
 
 def point_add(point_1: bytes,

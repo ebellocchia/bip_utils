@@ -25,11 +25,12 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 
 # Imports
 from typing import Optional, Union
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst, Bip39Languages, Bip39Mnemonic
+
+from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicConst
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
 from bip_utils.utils.crypto import Sha256
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
-from bip_utils.utils.mnemonic import MnemonicChecksumError, Mnemonic, MnemonicDecoderBase, MnemonicWordsList
+from bip_utils.utils.mnemonic import Mnemonic, MnemonicChecksumError, MnemonicDecoderBase, MnemonicWordsList
 
 
 class Bip39MnemonicDecoder(MnemonicDecoderBase):

@@ -23,8 +23,9 @@
 # Imports
 from abc import ABC, abstractmethod
 from typing import Tuple, Union
-from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey, Bip32PrivateKey
+
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
+from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.ecc import IPoint
 
 

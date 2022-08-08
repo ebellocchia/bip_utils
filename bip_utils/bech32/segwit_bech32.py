@@ -28,8 +28,9 @@ References:
 
 # Imports
 from typing import List, Tuple
-from bip_utils.bech32.bech32_base import Bech32DecoderBase, Bech32EncoderBase, Bech32BaseUtils
-from bip_utils.bech32.bech32 import Bech32Encodings, Bech32Const, Bech32Utils
+
+from bip_utils.bech32.bech32 import Bech32Const, Bech32Encodings, Bech32Utils
+from bip_utils.bech32.bech32_base import Bech32BaseUtils, Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.utils.misc import BytesUtils
 
 

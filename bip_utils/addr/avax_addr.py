@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Any, Union
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.atom_addr import AtomAddrDecoder, AtomAddrEncoder
 from bip_utils.addr.iaddr_decoder import IAddrDecoder

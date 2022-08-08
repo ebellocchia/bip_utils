@@ -25,6 +25,7 @@ Reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 
 # Imports
 from typing import Tuple
+
 from bip_utils.bip.bip32.base import IBip32MstKeyGenerator
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes
 from bip_utils.utils.crypto import HmacSha512

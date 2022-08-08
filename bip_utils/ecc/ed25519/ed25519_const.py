@@ -20,9 +20,10 @@
 
 """Module with ed25519 constants."""
 
+from bip_utils.ecc.common.ipoint import IPoint
+
 # Imports
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
-from bip_utils.ecc.common.ipoint import IPoint
 
 
 class Ed25519Const:

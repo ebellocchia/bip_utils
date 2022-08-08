@@ -22,8 +22,10 @@
 
 # Imports
 from __future__ import annotations
+
 from abc import ABC, abstractmethod
 from typing import Any
+
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.utils.misc import DataBytes
 

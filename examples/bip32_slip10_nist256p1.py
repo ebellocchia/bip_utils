@@ -1,7 +1,7 @@
 """Example of keys derivation using BIP32 (nist256p1 curve)."""
 
 from bip_utils import (
-    Bip39WordsNum, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip32Slip10Nist256p1, CoinsConf, NeoAddr
+    Bip32Slip10Nist256p1, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, CoinsConf, NeoAddr
 )
 
 # Generate random mnemonic

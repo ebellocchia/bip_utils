@@ -21,6 +21,7 @@
 # Imports
 import binascii
 import unittest
+
 from bip_utils import MoneroPrivateKey, MoneroPublicKey, MoneroSubaddress
 from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 

@@ -22,6 +22,7 @@
 
 # Imports
 from typing import Optional, Union
+
 from bip_utils.utils.misc.algo import AlgoUtils
 from bip_utils.utils.typing import Literal
 

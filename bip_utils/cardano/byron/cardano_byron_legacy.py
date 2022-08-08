@@ -23,10 +23,12 @@
 
 # Imports
 from __future__ import annotations
+
 from functools import lru_cache
 from typing import Union
+
 from bip_utils.addr import AdaByronAddrDecoder, AdaByronLegacyAddrEncoder
-from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32Path, Bip32PublicKey, Bip32PrivateKey
+from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32Path, Bip32PrivateKey, Bip32PublicKey
 from bip_utils.cardano.bip32 import CardanoByronLegacyBip32
 from bip_utils.utils.crypto import Pbkdf2HmacSha512
 

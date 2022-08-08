@@ -20,9 +20,10 @@
 
 """Module for ed25519-blake2b constants."""
 
+from bip_utils.ecc.common.ipoint import IPoint
+
 # Imports
 from bip_utils.ecc.ed25519.ed25519 import Ed25519Const
-from bip_utils.ecc.common.ipoint import IPoint
 
 
 class Ed25519Blake2bConst:

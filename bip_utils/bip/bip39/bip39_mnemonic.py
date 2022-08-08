@@ -21,8 +21,9 @@
 """Module for BIP39 mnemonic."""
 
 # Imports
-from enum import auto, IntEnum, unique
+from enum import IntEnum, auto, unique
 from typing import Dict, List, Union
+
 from bip_utils.utils.misc import StringUtils
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicLanguages
 

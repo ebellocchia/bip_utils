@@ -23,6 +23,7 @@
 # Imports
 import binascii
 from typing import List, Union
+
 from bip_utils.utils.misc.algo import AlgoUtils
 from bip_utils.utils.misc.integer import IntegerUtils
 from bip_utils.utils.typing import Literal

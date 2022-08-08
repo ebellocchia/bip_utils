@@ -22,7 +22,9 @@
 
 # Imports
 from typing import Optional, Union
+
 import cbor2
+
 from bip_utils.bip.bip39 import Bip39Languages, Bip39MnemonicDecoder
 from bip_utils.utils.crypto import Blake2b256
 from bip_utils.utils.mnemonic import Mnemonic
