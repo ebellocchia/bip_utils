@@ -1,7 +1,7 @@
 ## Address encoding/decoding
 
 The address library allows encoding/decoding addresses for all the supported coins.\
-*ValueError* is raised in case of errors.
+`ValueError` is raised in case of errors.
 
 **Code example (coins based on the secp256k1 curve)**
 

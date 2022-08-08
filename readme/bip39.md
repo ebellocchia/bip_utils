@@ -14,35 +14,35 @@ Supported words number:
 
 |Words number|Enum|
 |---|---|
-|12|*Bip39WordsNum.WORDS_NUM_12*|
-|15|*Bip39WordsNum.WORDS_NUM_15*|
-|18|*Bip39WordsNum.WORDS_NUM_18*|
-|21|*Bip39WordsNum.WORDS_NUM_21*|
-|24|*Bip39WordsNum.WORDS_NUM_24*|
+|12|`Bip39WordsNum.WORDS_NUM_12`|
+|15|`Bip39WordsNum.WORDS_NUM_15`|
+|18|`Bip39WordsNum.WORDS_NUM_18`|
+|21|`Bip39WordsNum.WORDS_NUM_21`|
+|24|`Bip39WordsNum.WORDS_NUM_24`|
 
 Supported entropy bits:
 
 |Entropy bits|Enum|
 |---|---|
-|128|*Bip39EntropyBitLen.BIT_LEN_128*|
-|160|*Bip39EntropyBitLen.BIT_LEN_160*|
-|192|*Bip39EntropyBitLen.BIT_LEN_192*|
-|224|*Bip39EntropyBitLen.BIT_LEN_224*|
-|256|*Bip39EntropyBitLen.BIT_LEN_256*|
+|128|`Bip39EntropyBitLen.BIT_LEN_128`|
+|160|`Bip39EntropyBitLen.BIT_LEN_160`|
+|192|`Bip39EntropyBitLen.BIT_LEN_192`|
+|224|`Bip39EntropyBitLen.BIT_LEN_224`|
+|256|`Bip39EntropyBitLen.BIT_LEN_256`|
 
 Supported languages:
 
 |Language|Enum|
 |---|---|
-|Chinese (simplified)|*Bip39Languages.CHINESE_SIMPLIFIED*|
-|Chinese (traditional)|*Bip39Languages.CHINESE_TRADITIONAL*|
-|Czech|*Bip39Languages.CZECH*|
-|English|*Bip39Languages.ENGLISH*|
-|French|*Bip39Languages.FRENCH*|
-|Italian|*Bip39Languages.ITALIAN*|
-|Korean|*Bip39Languages.KOREAN*|
-|Portuguese|*Bip39Languages.PORTUGUESE*|
-|Spanish|*Bip39Languages.SPANISH*|
+|Chinese (simplified)|`Bip39Languages.CHINESE_SIMPLIFIED`|
+|Chinese (traditional)|`Bip39Languages.CHINESE_TRADITIONAL`|
+|Czech|`Bip39Languages.CZECH`|
+|English|`Bip39Languages.ENGLISH`|
+|French|`Bip39Languages.FRENCH`|
+|Italian|`Bip39Languages.ITALIAN`|
+|Korean|`Bip39Languages.KOREAN`|
+|Portuguese|`Bip39Languages.PORTUGUESE`|
+|Spanish|`Bip39Languages.SPANISH`|
 
 **Code example**
 
@@ -126,7 +126,7 @@ Automatic detection takes more time, so if the mnemonic language is known in adv
 ### Seed generation
 
 A secure 64-byte seed is generated from a mnemonic and can be protected by a passphrase.\
-This seed can be used to construct a Bip class using the *FromSeed* method (e.g. *Bip44.FromSeed*, see
+This seed can be used to construct a Bip class using the `FromSeed` method (e.g. `Bip44.FromSeed`, see
 [Bip32](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md) or 
 [Bip44](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip44.md) ).\
 Also in this case, the language can be specified or automatically detected.
@@ -151,8 +151,8 @@ Also in this case, the language can be specified or automatically detected.
 
 Polkadot introduced a variant for generating seed, which computes the seed directly from the mnemonic entropy instead of the mnemonic string.\
 Reference: [Substrate seed generation](https://wiki.polkadot.network/docs/learn-accounts#seed-generation)\
-For this purpose, the class *SubstrateBip39SeedGenerator* can be used, which has the same usage of *Bip39SeedGenerator*.\
-The seed can be used to construct a *Substrate* class using the *Substrate.FromSeed* method, see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md).
+For this purpose, the class `SubstrateBip39SeedGenerator` can be used, which has the same usage of `Bip39SeedGenerator`.\
+The seed can be used to construct a `Substrate` class using the `Substrate.FromSeed` method, see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md).
 
     from bip_utils import Bip39Languages, Bip39WordsNum, Bip39MnemonicGenerator, SubstrateBip39SeedGenerator
 

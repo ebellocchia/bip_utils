@@ -11,4 +11,3 @@ The functionalities of this library are the same of the [BIP-0039](https://githu
 Two mnemonic "versions" are supported:
 - [V1, i.e. "old seed" in Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum_v1_mnemonic.md)
 - [V2, i.e. the current seeds used by Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum_v2_mnemonic.md)
-

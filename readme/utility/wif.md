@@ -1,7 +1,7 @@
 ## WIF
 
 The WIF library allows encoding/decoding secp256k1 private keys in WIF format, both with compressed and uncompressed mode.\
-*ValueError* is raised in case of errors.
+`ValueError` is raised in case of errors.
 
 **Code example**
 

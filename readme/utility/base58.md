@@ -8,10 +8,10 @@ Alphabet enumeratives:
 
 |Alphabet|Enum|
 |---|---|
-|Bitcoin|*Base58Alphabets.BITCOIN*|
-|Ripple|*Base58Alphabets.RIPPLE*|
+|Bitcoin|`Base58Alphabets.BITCOIN`|
+|Ripple|`Base58Alphabets.RIPPLE`|
 
-*ValueError* is raised in case of errors.
+`ValueError` is raised in case of errors.
 
 **Code example**
 

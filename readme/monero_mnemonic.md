@@ -11,21 +11,22 @@ The functionalities of this library are the same of the [BIP-0039](https://githu
 
 ### Library usage
 
-The usage of the Monero mnemonic library is basically equivalent to the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one, just replace the *Bip39* prefix with *Monero*.\
+The usage of the Monero mnemonic library is basically equivalent to the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one,
+just replace the `Bip39` prefix with `Monero`.\
 The only differences are:
 - It's possible to generate mnemonics both with and without checksum
 - It's not possible to use a passphrase for seed generation like BIP-0039
 
-The generated seed can be then used to construct a *Monero* class using the *Monero.FromSeed* method, see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md).
+The generated seed can be then used to construct a `Monero` class using the `Monero.FromSeed` method, see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md).
 
 Supported words number:
 
 |Words number|Enum|Description|
 |---|---|---|
-|12|*MoneroWordsNum.WORDS_NUM_12*|No checksum|
-|13|*MoneroWordsNum.WORDS_NUM_13*|Like before with checksum|
-|24|*MoneroWordsNum.WORDS_NUM_24*|No checksum|
-|25|*MoneroWordsNum.WORDS_NUM_25*|Like before with checksum|
+|12|`MoneroWordsNum.WORDS_NUM_12`|No checksum|
+|13|`MoneroWordsNum.WORDS_NUM_13`|Like before with checksum|
+|24|`MoneroWordsNum.WORDS_NUM_24`|No checksum|
+|25|`MoneroWordsNum.WORDS_NUM_25`|Like before with checksum|
 
 Now, Monero wallets use 25 words (24 is exactly the same but without the last checksum word).\
 The 12/13 words mnemonic was an old format used by MyMonero. It's supported only for compatibility but it's not suggested to use mnemonics with those lengths.
@@ -34,23 +35,23 @@ Supported entropy bits:
 
 |Entropy bits|Enum|
 |---|---|
-|128|*MoneroEntropyBitLen.BIT_LEN_128*|
-|256|*MoneroEntropyBitLen.BIT_LEN_256*|
+|128|`MoneroEntropyBitLen.BIT_LEN_128`|
+|256|`MoneroEntropyBitLen.BIT_LEN_256`|
 
 Supported languages:
 
 |Language|Enum|
 |---|---|
-|Chinese (simplified)|*MoneroLanguages.CHINESE_SIMPLIFIED*|
-|Dutch|*MoneroLanguages.DUTCH*|
-|English|*MoneroLanguages.ENGLISH*|
-|French|*MoneroLanguages.FRENCH*|
-|German|*MoneroLanguages.GERMAN*|
-|Italian|*MoneroLanguages.ITALIAN*|
-|Japanese|*MoneroLanguages.JAPANESE*|
-|Portuguese|*MoneroLanguages.PORTUGUESE*|
-|Spanish|*MoneroLanguages.SPANISH*|
-|Russian|*MoneroLanguages.RUSSIAN*|
+|Chinese (simplified)|`MoneroLanguages.CHINESE_SIMPLIFIED`|
+|Dutch|`MoneroLanguages.DUTCH`|
+|English|`MoneroLanguages.ENGLISH`|
+|French|`MoneroLanguages.FRENCH`|
+|German|`MoneroLanguages.GERMAN`|
+|Italian|`MoneroLanguages.ITALIAN`|
+|Japanese|`MoneroLanguages.JAPANESE`|
+|Portuguese|`MoneroLanguages.PORTUGUESE`|
+|Spanish|`MoneroLanguages.SPANISH`|
+|Russian|`MoneroLanguages.RUSSIAN`|
 
 **Code example (mnemonic generation)**
 

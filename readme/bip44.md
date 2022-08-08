@@ -16,80 +16,80 @@ Supported coins enumerative for BIP-0044:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
-|Akash Network|*Bip44Coins.AKASH_NETWORK*|-|
-|Algorand|*Bip44Coins.ALGORAND*|-|
-|Avalanche C-Chain|*Bip44Coins.AVAX_C_CHAIN*|-|
-|Avalanche P-Chain|*Bip44Coins.AVAX_P_CHAIN*|-|
-|Avalanche X-Chain|*Bip44Coins.AVAX_X_CHAIN*|-|
-|Axelar|*Bip44Coins.AXELAR*|-|
-|Band Protocol|*Bip44Coins.BAND_PROTOCOL*|-|
-|Binance Chain|*Bip44Coins.BINANCE_CHAIN*|-|
-|Binance Smart Chain|*Bip44Coins.BINANCE_SMART_CHAIN*|-|
-|Bitcoin|*Bip44Coins.BITCOIN*|*Bip44Coins.BITCOIN_TESTNET*|
-|Bitcoin Cash|*Bip44Coins.BITCOIN_CASH*|*Bip44Coins.BITCOIN_CASH_TESTNET*|
-|[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|*Bip44Coins.BITCOIN_CASH_SLP*|*Bip44Coins.BITCOIN_CASH_SLP_TESTNET*|
-|BitcoinSV|*Bip44Coins.BITCOIN_SV*|*Bip44Coins.BITCOIN_SV_TESTNET*|
-|Cardano Byron (Icarus)|*Bip44Coins.CARDANO_BYRON_ICARUS*, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
-|Cardano Byron (Ledger)|*Bip44Coins.CARDANO_BYRON_LEDGER*, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
-|Celo|*Bip44Coins.CELO*|-|
-|Certik|*Bip44Coins.CERTIK*|-|
-|Chihuahua|*Bip44Coins.CHIHUAHUA*|-|
-|Cosmos|*Bip44Coins.COSMOS*|-|
-|Dash|*Bip44Coins.DASH*|*Bip44Coins.DASH_TESTNET*|
-|Dogecoin|*Bip44Coins.DOGECOIN*|*Bip44Coins.DOGECOIN_TESTNET*|
-|eCash|*Bip44Coins.ECASH*|*Bip44Coins.ECASH_TESTNET*|
-|Elrond|*Bip44Coins.ELROND*|-|
-|EOS|*Bip44Coins.EOS*|-|
-|Ergo|*Bip44Coins.ERGO*|*Bip44Coins.ERGO_TESTNET*|
-|Ethereum|*Bip44Coins.ETHEREUM*|-|
-|Ethereum Classic|*Bip44Coins.ETHEREUM_CLASSIC*|-|
-|Fantom Opera|*Bip44Coins.FANTOM_OPERA*|-|
-|Filecoin|*Bip44Coins.FILECOIN*|-|
-|Harmony One (Cosmos address)|*Bip44Coins.HARMONY_ONE_ATOM*|-|
-|Harmony One (Ethereum address)|*Bip44Coins.HARMONY_ONE_ETH*|-|
-|Harmony One (Metamask address)|*Bip44Coins.HARMONY_ONE_METAMASK*|-|
-|Huobi Chain|*Bip44Coins.HUOBI_CHAIN*|-|
-|IRIS Network|*Bip44Coins.IRIS_NET*|-|
-|Kava|*Bip44Coins.KAVA*|-|
-|Kusama (ed25519 SLIP-0010)|*Bip44Coins.KUSAMA_ED25519_SLIP*|-|
-|Litecoin|*Bip44Coins.LITECOIN*|*Bip44Coins.LITECOIN_TESTNET*|
-|Monero (ed25519 SLIP-0010, please see the Monero paragraph below)|*Bip44Coins.MONERO_ED25519_SLIP*|-|
-|Monero (secp256k1, please see the Monero paragraph below)|*Bip44Coins.MONERO_SECP256K1*|-|
-|Nano|*Bip44Coins.NANO*|-|
-|Near Protocol|*Bip44Coins.NEAR_PROTOCOL*|-|
-|NEO|*Bip44Coins.NEO*|-|
-|OKEx Chain (Cosmos address)|*Bip44Coins.OKEX_CHAIN_ATOM*|-|
-|OKEx Chain (Ethereum address)|*Bip44Coins.OKEX_CHAIN_ETH*|-|
-|OKEx Chain (Old Cosmos address before mainnet upgrade)|*Bip44Coins.OKEX_CHAIN_ATOM_OLD*|-|
-|Ontology|*Bip44Coins.ONTOLOGY*|-|
-|Osmosis|*Bip44Coins.OSMOSIS*|-|
-|Polkadot (ed25519 SLIP-0010)|*Bip44Coins.POLKADOT_ED25519_SLIP*|-|
-|Polygon|*Bip44Coins.POLYGON*|-|
-|Ripple|*Bip44Coins.RIPPLE*|-|
-|Secret Network (old path)|*Bip44Coins.SECRET_NETWORK_OLD*|-|
-|Secret Network (new path)|*Bip44Coins.SECRET_NETWORK_NEW*|-|
-|Solana|*Bip44Coins.SOLANA*|-|
-|Stellar|*Bip44Coins.STELLAR*|-|
-|Terra|*Bip44Coins.TERRA*|-|
-|Tezos|*Bip44Coins.TEZOS*|-|
-|Theta Network|*Bip44Coins.THETA*|-|
-|Tron|*Bip44Coins.TRON*|-|
-|VeChain|*Bip44Coins.VECHAIN*|-|
-|Verge|*Bip44Coins.VERGE*|-|
-|Zcash|*Bip44Coins.ZCASH*|*Bip44Coins.ZCASH_TESTNET*|
-|Zilliqa|*Bip44Coins.ZILLIQA*|-|
+|Akash Network|`Bip44Coins.AKASH_NETWORK`|-|
+|Algorand|`Bip44Coins.ALGORAND`|-|
+|Avalanche C-Chain|`Bip44Coins.AVAX_C_CHAIN`|-|
+|Avalanche P-Chain|`Bip44Coins.AVAX_P_CHAIN`|-|
+|Avalanche X-Chain|`Bip44Coins.AVAX_X_CHAIN`|-|
+|Axelar|`Bip44Coins.AXELAR`|-|
+|Band Protocol|`Bip44Coins.BAND_PROTOCOL`|-|
+|Binance Chain|`Bip44Coins.BINANCE_CHAIN`|-|
+|Binance Smart Chain|`Bip44Coins.BINANCE_SMART_CHAIN`|-|
+|Bitcoin|`Bip44Coins.BITCOIN`|`Bip44Coins.BITCOIN_TESTNET`|
+|Bitcoin Cash|`Bip44Coins.BITCOIN_CASH`|`Bip44Coins.BITCOIN_CASH_TESTNET`|
+|[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|`Bip44Coins.BITCOIN_CASH_SLP`|`Bip44Coins.BITCOIN_CASH_SLP_TESTNET`|
+|BitcoinSV|`Bip44Coins.BITCOIN_SV`|`Bip44Coins.BITCOIN_SV_TESTNET`|
+|Cardano Byron (Icarus)|`Bip44Coins.CARDANO_BYRON_ICARUS`, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
+|Cardano Byron (Ledger)|`Bip44Coins.CARDANO_BYRON_LEDGER`, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
+|Celo|`Bip44Coins.CELO`|-|
+|Certik|`Bip44Coins.CERTIK`|-|
+|Chihuahua|`Bip44Coins.CHIHUAHUA`|-|
+|Cosmos|`Bip44Coins.COSMOS`|-|
+|Dash|`Bip44Coins.DASH`|`Bip44Coins.DASH_TESTNET`|
+|Dogecoin|`Bip44Coins.DOGECOIN`|`Bip44Coins.DOGECOIN_TESTNET`|
+|eCash|`Bip44Coins.ECASH`|`Bip44Coins.ECASH_TESTNET`|
+|Elrond|`Bip44Coins.ELROND`|-|
+|EOS|`Bip44Coins.EOS`|-|
+|Ergo|`Bip44Coins.ERGO`|`Bip44Coins.ERGO_TESTNET`|
+|Ethereum|`Bip44Coins.ETHEREUM`|-|
+|Ethereum Classic|`Bip44Coins.ETHEREUM_CLASSIC`|-|
+|Fantom Opera|`Bip44Coins.FANTOM_OPERA`|-|
+|Filecoin|`Bip44Coins.FILECOIN`|-|
+|Harmony One (Cosmos address)|`Bip44Coins.HARMONY_ONE_ATOM`|-|
+|Harmony One (Ethereum address)|`Bip44Coins.HARMONY_ONE_ETH`|-|
+|Harmony One (Metamask address)|`Bip44Coins.HARMONY_ONE_METAMASK`|-|
+|Huobi Chain|`Bip44Coins.HUOBI_CHAIN`|-|
+|IRIS Network|`Bip44Coins.IRIS_NET`|-|
+|Kava|`Bip44Coins.KAVA`|-|
+|Kusama (ed25519 SLIP-0010)|`Bip44Coins.KUSAMA_ED25519_SLIP`|-|
+|Litecoin|`Bip44Coins.LITECOIN`|`Bip44Coins.LITECOIN_TESTNET`|
+|Monero (ed25519 SLIP-0010, please see the Monero paragraph below)|`Bip44Coins.MONERO_ED25519_SLIP`|-|
+|Monero (secp256k1, please see the Monero paragraph below)|`Bip44Coins.MONERO_SECP256K1`|-|
+|Nano|`Bip44Coins.NANO`|-|
+|Near Protocol|`Bip44Coins.NEAR_PROTOCOL`|-|
+|NEO|`Bip44Coins.NEO`|-|
+|OKEx Chain (Cosmos address)|`Bip44Coins.OKEX_CHAIN_ATOM`|-|
+|OKEx Chain (Ethereum address)|`Bip44Coins.OKEX_CHAIN_ETH`|-|
+|OKEx Chain (Old Cosmos address before mainnet upgrade)|`Bip44Coins.OKEX_CHAIN_ATOM_OLD`|-|
+|Ontology|`Bip44Coins.ONTOLOGY`|-|
+|Osmosis|`Bip44Coins.OSMOSIS`|-|
+|Polkadot (ed25519 SLIP-0010)|`Bip44Coins.POLKADOT_ED25519_SLIP`|-|
+|Polygon|`Bip44Coins.POLYGON`|-|
+|Ripple|`Bip44Coins.RIPPLE`|-|
+|Secret Network (old path)|`Bip44Coins.SECRET_NETWORK_OLD`|-|
+|Secret Network (new path)|`Bip44Coins.SECRET_NETWORK_NEW`|-|
+|Solana|`Bip44Coins.SOLANA`|-|
+|Stellar|`Bip44Coins.STELLAR`|-|
+|Terra|`Bip44Coins.TERRA`|-|
+|Tezos|`Bip44Coins.TEZOS`|-|
+|Theta Network|`Bip44Coins.THETA`|-|
+|Tron|`Bip44Coins.TRON`|-|
+|VeChain|`Bip44Coins.VECHAIN`|-|
+|Verge|`Bip44Coins.VERGE`|-|
+|Zcash|`Bip44Coins.ZCASH`|`Bip44Coins.ZCASH_TESTNET`|
+|Zilliqa|`Bip44Coins.ZILLIQA`|-|
 
 The code is structured so that it can be easily extended with other coins if needed (provided that the coin elliptic curve is supported).
 
 **NOTES**
 
-- *Bip44Coins.HARMONY_ONE_ETH* generates the address using the Harmony One coin index (i.e. *1023*).
+- `Bip44Coins.HARMONY_ONE_ETH` generates the address using the Harmony One coin index (i.e. *1023*).
 This is the behavior of the official Harmony One wallet and the Ethereum address that you get in the Harmony One explorer.\
   However, if you just add the Harmony One network in Metamask, Metamask will use the Ethereum coin index (i.e. *60*) thus resulting in a different address.
-Therefore, if you need to generate the Harmony One address for Metamask, use *Bip44Coins.HARMONY_ONE_METAMASK*.
-- *Bip44Coins.OKEX_CHAIN_ETH* and *Bip44Coins.OKEX_CHAIN_ATOM* generate the address using the Ethereum coin index (i.e. *60*).
-These formats are the ones used by the OKEx wallet. *Bip44Coins.OKEX_CHAIN_ETH* is compatible with Metamask.\
-*Bip44Coins.OKEX_CHAIN_ATOM_OLD* generates the address using the OKEx Chain coin index (i.e. *996*).
+Therefore, if you need to generate the Harmony One address for Metamask, use `Bip44Coins.HARMONY_ONE_METAMASK`.
+- `Bip44Coins.OKEX_CHAIN_ETH` and `Bip44Coins.OKEX_CHAIN_ATOM` generate the address using the Ethereum coin index (i.e. *60*).
+These formats are the ones used by the OKEx wallet. `Bip44Coins.OKEX_CHAIN_ETH` is compatible with Metamask.\
+`Bip44Coins.OKEX_CHAIN_ATOM_OLD` generates the address using the OKEx Chain coin index (i.e. *996*).
   This address format was used before the mainnet upgrade (some wallets still use it, e.g. Cosmostation).
 
 #### BIP-0049
@@ -98,15 +98,15 @@ Supported coins enumerative for BIP-0049:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
-|Bitcoin|*Bip49Coins.BITCOIN*|*Bip49Coins.BITCOIN_TESTNET*|
-|Bitcoin Cash|*Bip49Coins.BITCOIN_CASH*|*Bip49Coins.BITCOIN_CASH_TESTNET*|
-|[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|*Bip49Coins.BITCOIN_CASH_SLP*|*Bip49Coins.BITCOIN_CASH_SLP_TESTNET*|
-|BitcoinSV|*Bip49Coins.BITCOIN_SV*|*Bip49Coins.BITCOIN_SV_TESTNET*|
-|Dash|*Bip49Coins.DASH*|*Bip49Coins.DASH_TESTNET*|
-|Dogecoin|*Bip49Coins.DOGECOIN*|*Bip49Coins.DOGECOIN_TESTNET*|
-|eCash|*Bip49Coins.ECASH*|*Bip49Coins.ECASH_TESTNET*|
-|Litecoin|*Bip49Coins.LITECOIN*|*Bip49Coins.LITECOIN_TESTNET*|
-|Zcash|*Bip49Coins.ZCASH*|*Bip49Coins.ZCASH_TESTNET*|
+|Bitcoin|`Bip49Coins.BITCOIN`|`Bip49Coins.BITCOIN_TESTNET`|
+|Bitcoin Cash|`Bip49Coins.BITCOIN_CASH`|`Bip49Coins.BITCOIN_CASH_TESTNET`|
+|[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|`Bip49Coins.BITCOIN_CASH_SLP`|`Bip49Coins.BITCOIN_CASH_SLP_TESTNET`|
+|BitcoinSV|`Bip49Coins.BITCOIN_SV`|`Bip49Coins.BITCOIN_SV_TESTNET`|
+|Dash|`Bip49Coins.DASH`|`Bip49Coins.DASH_TESTNET`|
+|Dogecoin|`Bip49Coins.DOGECOIN`|`Bip49Coins.DOGECOIN_TESTNET`|
+|eCash|`Bip49Coins.ECASH`|`Bip49Coins.ECASH_TESTNET`|
+|Litecoin|`Bip49Coins.LITECOIN`|`Bip49Coins.LITECOIN_TESTNET`|
+|Zcash|`Bip49Coins.ZCASH`|`Bip49Coins.ZCASH_TESTNET`|
 
 #### BIP-0084
 
@@ -114,8 +114,8 @@ Supported coins enumerative for BIP-0084:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
-|Bitcoin|*Bip84Coins.BITCOIN*|*Bip84Coins.BITCOIN_TESTNET*|
-|Litecoin|*Bip84Coins.LITECOIN*|*Bip84Coins.LITECOIN_TESTNET*|
+|Bitcoin|`Bip84Coins.BITCOIN`|`Bip84Coins.BITCOIN_TESTNET`|
+|Litecoin|`Bip84Coins.LITECOIN`|`Bip84Coins.LITECOIN_TESTNET`|
 
 #### BIP-0086
 
@@ -123,11 +123,11 @@ Supported coins enumerative for BIP-0086:
 
 |Coin|Main net enum|Test net enum|
 |---|---|---|
-|Bitcoin|*Bip86Coins.BITCOIN*|*Bip86Coins.BITCOIN_TESTNET*|
+|Bitcoin|`Bip86Coins.BITCOIN`|`Bip86Coins.BITCOIN_TESTNET`|
 
 ### Construction from seed
 
-A Bip class can be constructed from a seed, like *Bip32*. The seed can be specified manually or generated by *Bip39SeedGenerator*.
+A Bip class can be constructed from a seed. The seed can be specified manually or generated by `Bip39SeedGenerator`.
 
 **Code example**
 
@@ -145,7 +145,7 @@ A Bip class can be constructed from a seed, like *Bip32*. The seed can be specif
 ### Construction from extended key
 
 A Bip class can be constructed directly from an extended key.\
-The returned Bip object will be at the same depth of the specified key. If the depth of the key is not valid, a *Bip44DepthError* exception will be raised.
+The returned Bip object will be at the same depth of the specified key. If the depth of the key is not valid, a `Bip44DepthError` exception will be raised.
 
 **Code example**
 
@@ -159,7 +159,7 @@ The returned Bip object will be at the same depth of the specified key. If the d
 ### Construction from private key
 
 A Bip class can be constructed directly from a private key, with the possibility to specify the derivation data.\
-Like *Bip32*, if only the key bytes is specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Like [`Bip32`](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md), if only the key bytes is specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth and index equal to zero, a zero chain code and parent fingerprint.
 
 **Code example**
@@ -218,12 +218,12 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
 
 ### Keys derivation
 
-Like *Bip32*, each time a key is derived a new instance of the Bip class is returned.\
+Like [`Bip32`](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md), each time a key is derived a new instance of the Bip class is returned.\
 The keys must be derived with the levels specified by BIP-0044:
 
     m / purpose' / coin_type' / account' / change / address_index
 
-using the correspondent methods. If keys are derived in the wrong level, a *Bip44DepthError* will be raised.\
+using the correspondent methods. If keys are derived in the wrong level, a `Bip44DepthError` will be raised.\
 The private and public extended keys can be printed at any level.
 
 **NOTE**: In case not-hardened private derivation is not supported (e.g. in ed25519 SLIP-0010), all indexes will be hardened:
@@ -284,7 +284,7 @@ The private and public extended keys can be printed at any level.
         print(bip44_addr_ctx.PublicKey().ToExtended())
         print(bip44_addr_ctx.PublicKey().ToAddress())
 
-**NOTE:** since all the classes derive from the same base class, their usage is the same. Therefore, in all the code examples *Bip44* can be substituted by *Bip49* or *Bip84* without changing the code.
+**NOTE:** since all the classes derive from the same base class, their usage is the same. Therefore, in all the code examples `Bip44` can be substituted by `Bip49`, `Bip84` or `Bip86` without changing the code.
 
 ### Default derivation paths
 
@@ -307,7 +307,7 @@ This can be derived manually, for example:
     # Default address generated by the wallet (e.g. TrustWallet): m/44'/501'/0'
     print(bip44_acc_ctx.PublicKey().ToAddress())
 
-However, in order to avoid remembering the default path for each coin, the *DeriveDefaultPath* method can be used to automatically derive the default path:
+However, in order to avoid remembering the default path for each coin, the `DeriveDefaultPath` method can be used to automatically derive the default path:
 
     import binascii
     from bip_utils import Bip44Coins, Bip44
@@ -327,28 +327,28 @@ However, in order to avoid remembering the default path for each coin, the *Deri
 
 ### Polkadot/Kusama addresses generation
 
-Polkadot and Kusama don't support BIP44, so if you use them through the *Bip44* class you're basically "forcing" them to follow it. Therefore, keys and addresses generated in this way will be different from the official Polkadot wallet.\
+Polkadot and Kusama don't support BIP44, so if you use them through the `Bip44` class you're basically "forcing" them to follow it. Therefore, keys and addresses generated in this way will be different from the official Polkadot wallet.\
 For this, I used the same implementation of TrustWallet, i.e.:
 - The derivation scheme is based on ed25519 SLIP-0010
 - The default derivation path is: m/44'/354'/0'/0'/0'
 
-If you want to get the same keys and addresses of the Polkadot-JS wallet, use the *Substrate* module (see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)).
+If you want to get the same keys and addresses of the Polkadot-JS wallet, use the `Substrate` module (see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)).
 
 ### Monero addresses generation
 
 Monero works differently from other coins, because it has 2 private keys and 2 public keys (one for spending, one for viewing).\
 Moreover, it has its own algorithm to generate the so-called "subaddresses", which have nothing to do with the addresses derived at the "address" level in BIP44.\
-Therefore, Monero shall be treated separately to get keys and addresses by using the *Monero* module.
+Therefore, Monero shall be treated separately to get keys and addresses by using the `Monero` module.
 
-Like Polkadot/Kusama in the previous paragraph, Monero doesn't support BIP44 so if you use it through the *Bip44* class you're basically "forcing" Monero to follow it.\
+Like Polkadot/Kusama in the previous paragraph, Monero doesn't support BIP44 so if you use it through the `Bip44` class you're basically "forcing" Monero to follow it.\
 Since there is no specification that states how to implement Monero using BIP44, I look a little bit around and I created two implementations:
-- *Bip44Coins.MONERO_ED25519_SLIP* uses the ed25519 curve (like Monero itself) with the SLIP-0010 derivation scheme and the default derivation path is m/44'/128'/0'/0'/0'
-- *Bip44Coins.MONERO_SECP256K1* uses the secp256k1 curve (like Bitcoin) and the default derivation path is m/44'/128'/0'/0/0 (like the Ledger implementation)
+- `Bip44Coins.MONERO_ED25519_SLIP` uses the ed25519 curve (like Monero itself) with the SLIP-0010 derivation scheme and the default derivation path is m/44'/128'/0'/0'/0'
+- `Bip44Coins.MONERO_SECP256K1` uses the secp256k1 curve (like Bitcoin) and the default derivation path is m/44'/128'/0'/0/0 (like the Ledger implementation)
 
 Of course, you are free to derive other paths if you want.\
-Whatever implementation or path you choose, the Monero private spend key is computed from the *Bip44* private key as follows:
+Whatever implementation or path you choose, the Monero private spend key is computed from the `Bip44` private key as follows:
 - perform keccak256 of the key bytes
-- apply *sc_reduce* to the result to get a valid Monero private key
+- apply `sc_reduce` to the result to get a valid Monero private key
 
 **Code example**
 
@@ -378,7 +378,7 @@ Whatever implementation or path you choose, the Monero private spend key is comp
     print(monero.Subaddress(0, 1))      # Account 1, Subaddress 0
     print(monero.Subaddress(1, 1))      # Account 1, Subaddress 1
 
-If you prefer not to perform the kekkak256 of the key bytes, you can just use the *Bip44* private key directly as a Monero seed:
+If you prefer not to perform the kekkak256 of the key bytes, you can just use the `Bip44` private key directly as a Monero seed:
 
 **Code example**
 
@@ -396,4 +396,4 @@ If you prefer not to perform the kekkak256 of the key bytes, you can just use th
     # Same as before...
 
 Please note that, if the seed is generated from a Monero mnemonic phrase, you'll get the same keys and addresses of the official Monero wallets.\
-For the usage of the *Monero* module alone, see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md).
+For the usage of the `Monero` module alone, see the [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md).

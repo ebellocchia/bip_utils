@@ -4,25 +4,25 @@ Electrum V1 mnemonics are the old type of mnemonics used by Electrum (called "ol
 Electrum doesn't generate them anymore but they can still be imported.\
 Electrum V1 mnemonics uses its words list with 1626 words and its decoding/encoding algorithm is similar to Moner mnemonics.\
 The usage of the Electrum V1 mnemonic library is basically equivalent to the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one,
-just replace the *Bip39* prefix with *ElectrumV1*.
+just replace the `Bip39` prefix with `ElectrumV1`.
 
 Supported words number:
 
 |Words number|Enum|
 |---|---|
-|12|*ElectrumV1WordsNum.WORDS_NUM_12*|
+|12|`ElectrumV1WordsNum.WORDS_NUM_12`|
 
 Supported entropy bits:
 
 |Entropy bits|Enum|
 |---|---|
-|128|*ElectrumV1EntropyBitLen.BIT_LEN_128*|
+|128|`ElectrumV1EntropyBitLen.BIT_LEN_128`|
 
 Supported languages:
 
 |Language|Enum|
 |---|---|
-|English|*ElectrumV1Languages.ENGLISH*|
+|English|`ElectrumV1Languages.ENGLISH`|
 
 **Code example (mnemonic generation)**
 
@@ -92,7 +92,7 @@ Supported languages:
 
 **Code example (mnemonic seed generation)**
 
-The generated seed can be used to construct a *ElectrumV1* class, see the
+The generated seed can be used to construct a `ElectrumV1` class, see the
 [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/eletrum.md).
 
     from bip_utils import ElectrumV1Languages, ElectrumV1WordsNum, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator

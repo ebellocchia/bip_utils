@@ -5,8 +5,8 @@ The bech32 library allows encoding/decoding in:
 - Segwit
 - Bitcoin Cash bech32
 
-*Bech32ChecksumError* is raised if checksum verification fails.\
-*ValueError* is raised in case of other errors.
+`Bech32ChecksumError` is raised if checksum verification fails.\
+`ValueError` is raised in case of other errors.
 
 **Code example**
 

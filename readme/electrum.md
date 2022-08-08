@@ -5,12 +5,12 @@ its own derivation paths and algorithms.
 
 ### Electrum v1
 
-The *ElectrumV1* class generates keys and addresses using the old Electrum algorithm.\
-It shall be used with seeds generated with the *ElectrumV1SeedGenerator* class.\
+The `ElectrumV1` class generates keys and addresses using the old Electrum algorithm.\
+It shall be used with seeds generated with the `ElectrumV1SeedGenerator` class.\
 Since Electrum v1 doesn't follow the BIP-0032 derivation scheme, the returned public/private keys are 
-*Secp256k1PublicKey*/*Secp256k1PrivateKey* objects.
+`Secp256k1PublicKey`/`Secp256k1PrivateKey` objects.
 
-An *ElectrumV1* object can be constructed from:
+An `ElectrumV1` object can be constructed from:
 - A seed
 - A private key
 - A public key
@@ -59,15 +59,15 @@ An *ElectrumV1* object can be constructed from:
 
 ### Electrum v2
 
-The *ElectrumV2* classes generate keys and addresses using the current Electrum algorithm.\
-It shall be used with seeds generated with the *ElectrumV2SeedGenerator* class.\
-Since Electrum v2 follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a *Bip32Slip10Secp256k1* object.
+The `ElectrumV2` classes generate keys and addresses using the current Electrum algorithm.\
+It shall be used with seeds generated with the `ElectrumV2SeedGenerator` class.\
+Since Electrum v2 follows the BIP-0032 derivation scheme, the classes can also be directly constructed from a `Bip32Slip10Secp256k1` object.
 Constructing it from a BIP32 object allows construction from public/private key bytes or extended keys.\
-The returned public/private keys are *Bip32PublicKey*/*Bip32PrivateKey* objects.
+The returned public/private keys are `Bip32PublicKey`/`Bip32PrivateKey` objects.
 
 Two classes are available:
-- *ElectrumV2Standard*: generate Bitcoin legacy addresses, like importing a standard seed in Electrum
-- *ElectrumV2Segwit*: generate Bitcoin native Segwit addresses, like importing a Segwit seed in Electrum
+- `ElectrumV2Standard`: generate Bitcoin legacy addresses, like importing a standard seed in Electrum
+- `ElectrumV2Segwit`: generate Bitcoin native Segwit addresses, like importing a Segwit seed in Electrum
 
 The usage of these two classes are exactly the same, since they inherit from the same base class.
 

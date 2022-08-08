@@ -8,9 +8,9 @@ Supported coins enumerative:
 
 |Coin|Enum|
 |---|---|
-|Monero main net|*MoneroCoins.MONERO_MAINNET*|
-|Monero stage net|*MoneroCoins.MONERO_STAGENET*|
-|Monero test net|*MoneroCoins.MONERO_TESTNET*|
+|Monero main net|`MoneroCoins.MONERO_MAINNET`|
+|Monero stage net|`MoneroCoins.MONERO_STAGENET`|
+|Monero test net|`MoneroCoins.MONERO_TESTNET`|
 
 Coin type is passed to all construction methods. The default type is always Monero main net.
 
@@ -61,7 +61,7 @@ The class can be constructed directly from the private spend key.
 
 ### Construction from Bip44 private key
 
-The class can be constructed from a *Bip44* private key. Please refer to the related paragraph in the Bip44 chapter.
+The class can be constructed from a `Bip44` private key. Please refer to the related paragraph in the Bip44 chapter.
 
 ### Watch-only class
 

@@ -12,25 +12,25 @@ The functionalities of this library are the same of the [BIP-0039](https://githu
 ### Library usage
 
 The usage of the Algorand mnemonic library is basically equivalent to the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one,
-just replace the *Bip39* prefix with *Algorand*.
+just replace the `Bip39` prefix with `Algorand`.
 
 Supported words number:
 
 |Words number|Enum|
 |---|---|
-|25|*AlgorandWordsNum.WORDS_NUM_25*|
+|25|`AlgorandWordsNum.WORDS_NUM_25`|
 
 Supported entropy bits:
 
 |Entropy bits|Enum|
 |---|---|
-|256|*AlgorandEntropyBitLen.BIT_LEN_256*|
+|256|`AlgorandEntropyBitLen.BIT_LEN_256`|
 
 Supported languages:
 
 |Language|Enum|
 |---|---|
-|English|*AlgorandLanguages.ENGLISH*|
+|English|`AlgorandLanguages.ENGLISH`|
 
 **Code example (mnemonic generation)**
 

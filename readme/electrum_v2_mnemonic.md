@@ -8,7 +8,7 @@ There 4 type of V2 mnemonics (all supported):
 - Segwit 2FA
 
 The usage of the Electrum V2 mnemonic library is basically equivalent to the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one,
-just replace the *Bip39* prefix with *ElectrumV2*.
+just replace the `Bip39` prefix with `ElectrumV2`.
 
 ### Mnemonic generation
 
@@ -16,47 +16,47 @@ Supported words number:
 
 |Words number|Enum|
 |---|---|
-|12|*ElectrumV2WordsNum.WORDS_NUM_12*|
-|24|*ElectrumV2WordsNum.WORDS_NUM_24*|
+|12|`ElectrumV2WordsNum.WORDS_NUM_12`|
+|24|`ElectrumV2WordsNum.WORDS_NUM_24`|
 
 Supported entropy bits:
 
 |Entropy bits|Enum|
 |---|---|
-|132|*ElectrumV2EntropyBitLen.BIT_LEN_132*|
-|264|*ElectrumV2EntropyBitLen.BIT_LEN_264*|
+|132|`ElectrumV2EntropyBitLen.BIT_LEN_132`|
+|264|`ElectrumV2EntropyBitLen.BIT_LEN_264`|
 
 Supported languages:
 
 |Language|Enum|
 |---|---|
-|Chinese Simplified|*ElectrumV2Languages.CHINESE_SIMPLIFIED*|
-|English|*ElectrumV2Languages.ENGLISH*|
-|Portuguese|*ElectrumV2Languages.PORTUGUESE*|
-|Spanish|*ElectrumV2Languages.SPANISH*|
+|Chinese Simplified|`ElectrumV2Languages.CHINESE_SIMPLIFIED`|
+|English|`ElectrumV2Languages.ENGLISH`|
+|Portuguese|`ElectrumV2Languages.PORTUGUESE`|
+|Spanish|`ElectrumV2Languages.SPANISH`|
 
 Supported mnemonic types:
 
 |Mnemonic type|Enum|
 |---|---|
-|Standard|*ElectrumV2MnemonicTypes.STANDARD*|
-|Segwit|*ElectrumV2MnemonicTypes.SEGWIT*|
-|Standard 2FA|*ElectrumV2MnemonicTypes.STANDARD_2FA*|
-|Segwit 2FA|*ElectrumV2MnemonicTypes.SEGWIT_2FA*|
+|Standard|`ElectrumV2MnemonicTypes.STANDARD`|
+|Segwit|`ElectrumV2MnemonicTypes.SEGWIT`|
+|Standard 2FA|`ElectrumV2MnemonicTypes.STANDARD_2FA`|
+|Segwit 2FA|`ElectrumV2MnemonicTypes.SEGWIT_2FA`|
 
 With respect to BIP-0039, the desired mnemonic type shall be specified when generating or encoding a mnemonic.
 
 Please note that, because of the generation algorithm used by Electrum:
-- When using *ElectrumV2MnemonicGenerator*:
+- When using `ElectrumV2MnemonicGenerator`:
     - When generating a mnemonic from entropy bytes, the specified entropy is only a starting point for finding a suitable 
 one for generating a mnemonic. Therefore, it's very likely that the actual entropy bytes will be different.
 To get the actual entropy bytes, just decode the generated mnemonic.
     - Depending on the number of attempts to find a suitable entropy, the mnemonic generation can be faster or slower.
     - The bits of the big endian integer encoded by the entropy bytes shall be at least 121 (for 12 words) or 253 (for 24 words). 
 Otherwise, a mnemonic generation is not possible and a ValueError exception will be raised.
-- When using *ElectrumV2MnemonicEncoder*:
+- When using `ElectrumV2MnemonicEncoder`:
     - The specified entropy bytes are directly used to generate the mnemonic, without trying different ones if not suitable.
-Therefore, *ValueError* will be raised if the entropy bytes are not suitable for generating a valid mnemonic.
+Therefore, `ValueError` will be raised if the entropy bytes are not suitable for generating a valid mnemonic.
 
 **Code example**
 
@@ -108,8 +108,8 @@ Therefore, *ValueError* will be raised if the entropy bytes are not suitable for
 ### Mnemonic validation
 
 With respect to BIP-0039, the desired mnemonic type can be specified when validating or encoding a mnemonic.
-If *None*, any valid mnemonic type will be accepted.\
-For *ElectrumV2MnemonicValidator.Validate* and *ElectrumV2MnemonicDecoder*, *ValueError* will be raised in case
+If `None`, any valid mnemonic type will be accepted.\
+For `ElectrumV2MnemonicValidator.Validate` and `ElectrumV2MnemonicDecoder`, `ValueError` will be raised in case
 the mnemonic type is not existent of it's different to the specified one,
 
 **Code example**
@@ -164,7 +164,7 @@ the mnemonic type is not existent of it's different to the specified one,
 
 ### Seed generation
 
-The generated seed can be used to construct a *ElectrumV2* classes, see the
+The generated seed can be used to construct a `ElectrumV2` classes, see the
 [related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/eletrum.md).
 
 **Code example**
