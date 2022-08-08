@@ -1,3 +1,35 @@
+# 2.6.0
+
+- Add support for Cardano:
+  - Cardano Byron legacy (old Daedalus addresses, i.e. `Ddz...`)
+  - Cardano Byron-Icarus (Yoroi addresses in the `Ae2...` format)
+  - Cardano Shelley (Yoroi addresses in the `addr1...` format)
+- Add support for Ergo (`Bip44Coins.ERGO`, `Bip44Coins.ERGO_TESTNET`)
+- Add `ChainCode` method to Bip32 and Bip44 key classes to quickly get it
+- Add `PublicKey` method to `Bip44PrivateKey`
+- `Bip32Base` class:
+  - Add `Curve` method
+  - Remove `IsPrivateUnhardenedDerivationSupported` method (same meaning of `IsPublicDerivationSupported`)
+- `Bip32KeyIndex` class:
+  - `Bip32Utils` methods move to `Bip32KeyIndex`
+  - Add `Harden`/`Unharden` methods to `Bip32KeyIndex`
+- `DataBytes` class:
+  - Add possibility to get length (`Length`, `Size`, `__len__`)
+  - Add possibility to check for equality (`__eq__`)
+  - Add possibility to iterate over bytes (`__iter__`)
+- Add `Curve` method to `Bip32PublicKey`/`Bip32PrivateKey` classes
+- Add possibility to create a `Bip32PublicKey` class from an `IPoint` instance
+- Add `CurveType` method to `IPoint` classes
+- BIP32 classes were renamed in a consistent way:
+  - `Bip32Ed25519Slip` -> `Bip32Slip10Ed25519`
+  - `Bip32Ed25519Blake2bSlip` -> `Bip32Slip10Ed25519Blake2b`
+  - `Bip32Nist256p1` -> `Bip32Slip10Nist256p1`
+  - `Bip32Secp256k1` -> `Bip32Slip10Secp256k1`
+  - `Bip32Ed25519Kholaw` -> `Bip32KholawEd25519`
+
+  Old classes kept for compatibility
+- Update key net version to get `xprv` prefix for BIP32 Kholaw private extended keys
+
 # 2.5.1
 
 - Fix public derivation for `ElectrumV1` and `ElectrumV2` classes
