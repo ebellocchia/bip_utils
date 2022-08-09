@@ -173,14 +173,14 @@ Or you can install *tox*:
 
     pip install tox
 
-And then:
-- Run tests using *pytest* (it includes code coverage and report):
+And then simply run it:
 
-        tox -e pytest
+    tox
 
-- Run tests using *coverage* (it includes code coverage and report):
+This will run code coverage with different Python versions and perform style and code analysis.\
+For quick test:
 
-        tox -e coverage
+    tox -e unittest
 
 ## Modules description
 
