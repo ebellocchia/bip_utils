@@ -35,7 +35,7 @@ class Scrypt:
     """
 
     @staticmethod
-    def DeriveKey(password: Union[bytes, str],
+    def DeriveKey(password: Union[bytes, str],  # pylint: disable=too-many-arguments
                   salt: Union[bytes, str],
                   key_len: int,
                   n: int,

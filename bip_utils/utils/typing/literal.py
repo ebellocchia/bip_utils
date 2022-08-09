@@ -21,7 +21,7 @@
 """Module with Literal type definition."""
 
 try:
-    from typing import Literal
+    from typing import Literal  # pylint: disable=unused-import
 except ImportError:
     # Literal not supported by Python 3.7
     from typing_extensions import Literal  # type: ignore # noqa: F401

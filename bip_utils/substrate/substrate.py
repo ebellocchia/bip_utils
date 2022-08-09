@@ -79,7 +79,9 @@ class Substrate:
                 f"Seed length is too small, it shall be at least {SubstrateConst.SEED_MIN_BYTE_LEN} bytes"
             )
 
-        pub_key_bytes, priv_key_bytes = sr25519.pair_from_seed(seed_bytes[:SubstrateConst.SEED_MIN_BYTE_LEN])
+        pub_key_bytes, priv_key_bytes = sr25519.pair_from_seed(  # pylint: disable=no-member
+            seed_bytes[:SubstrateConst.SEED_MIN_BYTE_LEN]
+        )
         return cls(priv_key=priv_key_bytes,
                    pub_key=pub_key_bytes,
                    path=SubstratePath(),
@@ -318,9 +320,11 @@ class Substrate:
         ex_key_pair = (path_elem.ChainCode(), self.m_pub_key.RawCompressed().ToBytes(), self.m_priv_key.Raw().ToBytes())
 
         if path_elem.IsHard():
-            _, pub_key_bytes, priv_key_bytes = sr25519.hard_derive_keypair(ex_key_pair, b"")
+            _, pub_key_bytes, priv_key_bytes = sr25519.hard_derive_keypair(ex_key_pair,  # pylint: disable=no-member
+                                                                           b"")
         else:
-            _, pub_key_bytes, priv_key_bytes = sr25519.derive_keypair(ex_key_pair, b"")
+            _, pub_key_bytes, priv_key_bytes = sr25519.derive_keypair(ex_key_pair,  # pylint: disable=no-member
+                                                                      b"")
 
         return Substrate(priv_key=priv_key_bytes,
                          pub_key=pub_key_bytes,
@@ -346,7 +350,7 @@ class Substrate:
 
         ex_key_pair = (path_elem.ChainCode(), self.m_pub_key.RawCompressed().ToBytes())
 
-        _, pub_key_bytes = sr25519.derive_pubkey(ex_key_pair, b"")
+        _, pub_key_bytes = sr25519.derive_pubkey(ex_key_pair, b"")  # pylint: disable=no-member
 
         return Substrate(priv_key=None,
                          pub_key=pub_key_bytes,

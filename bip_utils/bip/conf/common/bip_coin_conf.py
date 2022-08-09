@@ -60,7 +60,7 @@ class BipCoinFctCallsConf:
         return res
 
 
-class BipCoinConf:
+class BipCoinConf:  # pylint: disable=too-many-instance-attributes
     """Bip coin configuration class."""
 
     m_coin_names: UtilsCoinNames
@@ -74,7 +74,7 @@ class BipCoinConf:
     m_addr_cls: Type[IAddrEncoder]
     m_any_addr_params_fct_call: bool
 
-    def __init__(self,
+    def __init__(self,  # pylint: disable=too-many-arguments
                  coin_names: UtilsCoinNames,
                  coin_idx: int,
                  is_testnet: bool,

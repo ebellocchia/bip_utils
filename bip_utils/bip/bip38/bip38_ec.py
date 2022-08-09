@@ -377,7 +377,7 @@ class Bip38EcDecrypter:
     """
 
     @staticmethod
-    def Decrypt(priv_key_enc: str,
+    def Decrypt(priv_key_enc: str,  # pylint: disable=too-many-locals
                 passphrase: str) -> Tuple[bytes, Bip38PubKeyModes]:
         """
         Decrypt the specified private key.

@@ -245,4 +245,4 @@ class Sr25519PrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Sr25519PublicKey(sr25519.public_from_secret_key(self.m_sign_key))
+        return Sr25519PublicKey(sr25519.public_from_secret_key(self.m_sign_key))  # pylint: disable=no-member

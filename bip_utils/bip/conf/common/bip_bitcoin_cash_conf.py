@@ -38,7 +38,7 @@ class BipBitcoinCashConf(BipCoinConf):
     m_addr_cls_legacy: Type[IAddrEncoder]
     m_use_legacy_addr: bool
 
-    def __init__(self,
+    def __init__(self,  # pylint: disable=too-many-arguments
                  coin_names: CoinNames,
                  coin_idx: int,
                  is_testnet: bool,

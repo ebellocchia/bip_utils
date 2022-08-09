@@ -39,7 +39,7 @@ class BipLitecoinConf(BipCoinConf):
     m_use_alt_key_net_ver: bool
     m_use_depr_addr: bool
 
-    def __init__(self,
+    def __init__(self,  # pylint: disable=too-many-arguments
                  coin_names: CoinNames,
                  coin_idx: int,
                  is_testnet: bool,
