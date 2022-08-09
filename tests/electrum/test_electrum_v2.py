@@ -28,6 +28,7 @@ from bip_utils import (
 )
 from tests.bip.bip32.test_bip32_base import TEST_SEED
 
+
 # Test vector (verified with Electrum wallet)
 TEST_VECT = [
     {

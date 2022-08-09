@@ -28,6 +28,7 @@ from bip_utils import (
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 from tests.ecc.test_ecc import TEST_ED25519_PRIV_KEY, TEST_ED25519_PUB_KEY
 
+
 # Test vector (verified with Electrum wallet)
 TEST_VECT = [
     {

@@ -40,6 +40,7 @@ from bip_utils import (
 from bip_utils.ecc.conf import EccConf
 from bip_utils.utils.misc import IntegerUtils
 
+
 # ed25519 order and generator
 ED25519_ORDER = 2**252 + 27742317777372353535851937790883648493
 ED25519_GENERATOR_X = 15112221349535400772501151409588531511454012693041857206046113283949847762202

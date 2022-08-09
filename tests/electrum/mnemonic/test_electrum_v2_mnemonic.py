@@ -30,6 +30,7 @@ from bip_utils import (
 )
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst
 
+
 # Verified with the official Electrum wallet
 TEST_VECT = [
     #

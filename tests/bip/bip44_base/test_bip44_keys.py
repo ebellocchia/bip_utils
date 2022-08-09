@@ -33,6 +33,7 @@ from tests.ecc.test_ecc import (
     TEST_NIST256P1_PUB_KEY, TEST_SECP256K1_PRIV_KEY, TEST_SECP256K1_PUB_KEY
 )
 
+
 # Public keys for testing
 TEST_PUB_KEYS = [
     {

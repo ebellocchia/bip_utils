@@ -7,6 +7,7 @@ from bip_utils import (
     CardanoByronLegacySeedGenerator, CardanoIcarusSeedGenerator
 )
 
+
 ADDR_NUM: int = 5
 
 # Generate random mnemonic

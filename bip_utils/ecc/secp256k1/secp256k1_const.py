@@ -27,6 +27,7 @@ from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.conf import EccConf
 
+
 # Variables
 Secp256k1Point: Type[IPoint]
 Secp256k1PublicKey: Type[IPublicKey]

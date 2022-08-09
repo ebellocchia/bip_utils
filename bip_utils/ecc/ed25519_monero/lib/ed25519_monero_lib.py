@@ -40,6 +40,7 @@ import struct
 # Added
 from bip_utils.utils.misc import BytesUtils
 
+
 b = 256
 q = 2 ** 255 - 19
 l = 2 ** 252 + 27742317777372353535851937790883648493

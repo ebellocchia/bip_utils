@@ -9,6 +9,7 @@ the HMAC-SHA512 like BIP32.
 
 from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip44, Bip44Coins
 
+
 # Generate random mnemonic
 mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12)
 print(f"Mnemonic string: {mnemonic}")

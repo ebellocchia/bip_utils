@@ -29,6 +29,7 @@ from bip_utils.coin_conf import CoinsConf
 from bip_utils.ecc import IPrivateKey, Secp256k1PrivateKey
 from bip_utils.utils.misc import BytesUtils
 
+
 # Alias for P2PKHPubKeyModes
 WifPubKeyModes = P2PKHPubKeyModes
 

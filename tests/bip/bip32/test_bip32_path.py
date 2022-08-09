@@ -27,6 +27,7 @@ from bip_utils import (
     Bip32Slip10Nist256p1, Bip32Slip10Secp256k1
 )
 
+
 # Tests for paths
 TEST_VECT_PATH = [
     {

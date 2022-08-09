@@ -25,6 +25,7 @@ import unittest
 from bip_utils import MoneroPrivateKey, MoneroPublicKey, MoneroSubaddress
 from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 
+
 # Test vector
 TEST_VECT = [
     {

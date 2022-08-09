@@ -31,6 +31,7 @@ from tests.ecc.test_ecc import (
     TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID, Ed25519PublicKey, Sr25519PublicKey
 )
 
+
 # Some random public keys
 TEST_VECT = [
     {

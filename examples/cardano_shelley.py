@@ -6,6 +6,7 @@ from bip_utils import (
     Cip1852, Cip1852Coins
 )
 
+
 ADDR_NUM: int = 5
 
 # Generate random mnemonic

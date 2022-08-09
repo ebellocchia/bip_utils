@@ -27,6 +27,7 @@ from bip_utils import (
     SubstrateScaleU32Encoder, SubstrateScaleU64Encoder, SubstrateScaleU128Encoder, SubstrateScaleU256Encoder
 )
 
+
 # Test vector
 TEST_VECT = [
     # Unsigned integers

@@ -26,6 +26,7 @@ from bip_utils import (
     Slip32PublicKeySerializer
 )
 
+
 # Tests from SLIP32 page
 # https://github.com/satoshilabs/slips/blob/master/slip-0032.md
 TEST_VECT = [

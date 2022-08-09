@@ -25,6 +25,7 @@ from bip_utils import Bip44, Bip44Coins, Bip44Conf, Bip49Coins, Bip84Coins, Bip8
 from tests.bip.bip32.test_bip32_base import TEST_SEED
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
+
 # Results generated with: https://iancoleman.io/bip39
 # Or with coin-specific/multi-coin wallets (e.g. TronLink, Cosmostation, Trust Wallet, Math Wallet)
 # There are some differences from the website and the specs I found for Litecoin testnet (extended keys prefixes) so,

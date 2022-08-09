@@ -28,6 +28,7 @@ from Crypto.Hash import SHA512
 
 from bip_utils.utils.misc import AlgoUtils
 
+
 HASHLIB_USE_SHA512_256: bool = "sha512_256" in hashlib.algorithms_available
 
 
@@ -146,7 +147,7 @@ class Sha512:
         return hashlib.sha512().digest_size
 
 
-class Sha512_256:
+class Sha512_256:   # noqa: N801
     """
     SHA512/256 class.
     It computes digests using SHA512/256 algorithm.

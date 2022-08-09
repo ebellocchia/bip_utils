@@ -32,6 +32,7 @@ from tests.ecc.test_ecc import (
     TEST_SR25519_PRIV_KEY, TEST_SR25519_PUB_KEY, TEST_VECT_SR25519_PRIV_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID
 )
 
+
 # Test vector
 # Only Kusama and Polkadot are tested, since the keys are always the same for all coins (only the address format changes)
 # The other coins are tested in TEST_VECT_ADDR

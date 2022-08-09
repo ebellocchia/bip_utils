@@ -26,6 +26,7 @@ from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b_const import Ed25519Blake2bCo
 from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b_keys import Ed25519Blake2bPrivateKey, Ed25519Blake2bPublicKey
 from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b_point import Ed25519Blake2bPoint
 
+
 # Ed25519-Blake2b curve definition
 Ed25519Blake2b: EllipticCurve = EllipticCurve(Ed25519Blake2bConst.NAME,
                                               Ed25519Blake2bConst.CURVE_ORDER,

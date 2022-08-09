@@ -28,6 +28,7 @@ from bip_utils import (
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 from bip_utils.bip.conf.common import BipCoinConf
 
+
 ZERO_CHAIN_CODE = b"\x00" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN
 
 

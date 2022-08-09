@@ -27,6 +27,7 @@ from bip_utils.bip.conf.common import NOT_HARDENED_DEF_PATH, BipCoinConf
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
 
+
 # Bitcoin key net version (zpub / zprv)
 _BIP84_BTC_KEY_NET_VER: Bip32KeyNetVersions = Bip32KeyNetVersions(b"\x04\xb2\x47\x46",
                                                                   b"\x04\xb2\x43\x0c")

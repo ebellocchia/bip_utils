@@ -24,6 +24,7 @@ import unittest
 
 from bip_utils import SubstrateBip39SeedGenerator
 
+
 # Tests for substrate variant
 # https://github.com/paritytech/substrate-bip39/blob/master/src/lib.rs
 TEST_VECT = [

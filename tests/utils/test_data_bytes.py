@@ -24,6 +24,7 @@ import unittest
 
 from bip_utils import DataBytes
 
+
 # Test vector
 TEST_VECT = [
     {

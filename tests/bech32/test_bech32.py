@@ -24,6 +24,7 @@ import unittest
 
 from bip_utils import Bech32Decoder, Bech32Encoder
 
+
 # Some random public keys
 TEST_VECT = [
     {

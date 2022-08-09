@@ -4,6 +4,7 @@ import binascii
 
 from bip_utils import Monero, MoneroMnemonicGenerator, MoneroSeedGenerator, MoneroWordsNum
 
+
 # Generate random mnemonic
 mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25)
 print(f"Mnemonic string: {mnemonic}")

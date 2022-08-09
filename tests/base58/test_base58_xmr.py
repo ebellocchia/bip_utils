@@ -25,6 +25,7 @@ import unittest
 from bip_utils import Base58XmrDecoder, Base58XmrEncoder
 from tests.base58.test_base58 import TEST_VECT_DEC_INVALID
 
+
 # Test vector
 TEST_VECT = [
     {

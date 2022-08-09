@@ -25,6 +25,7 @@ import unittest
 from bip_utils import Base58ChecksumError, Bip38Decrypter, Bip38EcKeysGenerator, Bip38Encrypter, Bip38PubKeyModes
 from bip_utils.bip.bip38.bip38_ec import Bip38EcConst
 
+
 # Tests for decoding from BIP38 page (with EC multiplication)
 # https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
 TEST_VECT_DEC = [

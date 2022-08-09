@@ -24,6 +24,7 @@ import unittest
 
 from bip_utils import CardanoByronLegacySeedGenerator, CardanoIcarusSeedGenerator
 
+
 # Test vector
 TEST_VECT = [
     #

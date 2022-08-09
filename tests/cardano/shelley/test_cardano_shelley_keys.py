@@ -29,6 +29,7 @@ from bip_utils import (
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.bip.bip32.test_bip32_keys import TEST_BIP32_KEY_DATA
 
+
 # Test vector
 TEST_VECT = [
     {

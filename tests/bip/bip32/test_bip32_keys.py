@@ -26,6 +26,7 @@ from bip_utils import (
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.ecc.test_ecc import *
 
+
 # Public keys for testing
 TEST_PUB_KEYS = [
     {

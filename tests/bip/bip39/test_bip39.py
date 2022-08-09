@@ -27,6 +27,7 @@ from bip_utils import (
     Bip39MnemonicValidator, Bip39SeedGenerator, Bip39WordsNum, MnemonicChecksumError
 )
 
+
 # Tests from BIP39 page
 # https://github.com/trezor/python-mnemonic/blob/master/vectors.json
 TEST_VECT = [

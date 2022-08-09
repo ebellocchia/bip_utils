@@ -26,6 +26,7 @@ from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import Carda
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 from tests.bip.bip32.test_bip32_ed25519_kholaw import TEST_VECT_EX_KEY_ERR
 
+
 # Test vector
 TEST_VECT = [
     {

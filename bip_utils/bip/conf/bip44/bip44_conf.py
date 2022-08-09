@@ -39,6 +39,7 @@ from bip_utils.cardano.bip32.cardano_icarus_bip32 import CardanoIcarusBip32
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
 
+
 # Bitcoin key net version for main net (same as BIP32)
 _BIP44_BTC_KEY_NET_VER_MAIN: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS
 # Bitcoin key net version for test net (same as BIP32)

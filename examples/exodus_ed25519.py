@@ -8,6 +8,7 @@ It's not the only wallet doing this (Atomic Wallet does the same), because in th
 
 from bip_utils import Bip32Slip10Secp256k1, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44ConfGetter
 
+
 # Coin that we want
 coin_type = Bip44Coins.SOLANA
 

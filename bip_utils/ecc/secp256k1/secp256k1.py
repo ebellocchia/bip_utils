@@ -26,6 +26,7 @@ from bip_utils.ecc.secp256k1.secp256k1_const import (
     Secp256k1Const, Secp256k1Point, Secp256k1PrivateKey, Secp256k1PublicKey
 )
 
+
 # Secp256k1 curve definition
 Secp256k1: EllipticCurve = EllipticCurve(Secp256k1Const.NAME,
                                          Secp256k1Const.CURVE_ORDER,

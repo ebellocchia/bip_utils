@@ -27,6 +27,7 @@ from bip_utils import (
 )
 from tests.substrate.test_substrate import TEST_SEED
 
+
 # Tests for path elements
 TEST_VECT_PATH_ELEM = [
     {

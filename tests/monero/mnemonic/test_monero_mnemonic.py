@@ -27,6 +27,7 @@ from bip_utils import (
     MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator, MoneroWordsNum
 )
 
+
 # Verified with the official Monero wallet and: https://xmr.llcoins.net/addresstests.html
 TEST_VECT = [
     #

@@ -29,6 +29,7 @@ from bip_utils.ecc import IPublicKey
 from bip_utils.utils.crypto import DoubleSha256
 from bip_utils.wif import WifPubKeyModes
 
+
 # Alias for WifPubKeyModes
 Bip38PubKeyModes = WifPubKeyModes
 

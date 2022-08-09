@@ -2,6 +2,7 @@
 
 from bip_utils import Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip44Changes, Bip86, Bip86Coins
 
+
 ADDR_NUM: int = 5
 
 # Generate random mnemonic

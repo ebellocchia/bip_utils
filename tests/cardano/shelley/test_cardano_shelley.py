@@ -27,6 +27,7 @@ from bip_utils import (
     Cip1852Coins
 )
 
+
 # Test vector
 TEST_VECT = [
     {

@@ -31,6 +31,7 @@ from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_MONERO_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_ED25519_MONERO_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519MoneroPublicKey
 
+
 # Some random public keys
 # Verified with: https://xmr.llcoins.net/addresstests.html
 TEST_VECT = [

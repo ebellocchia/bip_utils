@@ -25,6 +25,7 @@ from bip_utils import Bip32Ed25519Kholaw, Bip32KeyIndex, Bip32KholawEd25519, Ell
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 
+
 # Test vector
 TEST_VECT = [
     {

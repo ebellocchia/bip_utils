@@ -4,6 +4,7 @@ from bip_utils import (
     Bip32Slip10Nist256p1, Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, CoinsConf, NeoAddr
 )
 
+
 # Generate random mnemonic
 mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
 print(f"Mnemonic string: {mnemonic}")

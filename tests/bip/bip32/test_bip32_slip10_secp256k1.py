@@ -25,6 +25,7 @@ from bip_utils import Bip32KeyIndex, Bip32Secp256k1, Bip32Slip10Secp256k1, Ellip
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
 
+
 # Tests from BIP32 and SLIP-0010 pages
 TEST_VECT = [
     {

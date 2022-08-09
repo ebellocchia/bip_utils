@@ -28,6 +28,7 @@ from tests.ecc.test_ecc import (
     TEST_SECP256K1_COMPR_PUB_KEY_BYTES, TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
 )
 
+
 # Some random public keys
 TEST_VECT = [
     {

@@ -28,6 +28,7 @@ from tests.ecc.test_ecc import (
     TEST_SR25519_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID
 )
 
+
 # Tests from BIP38 page (without EC multiplication)
 # https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki
 TEST_VECT = [

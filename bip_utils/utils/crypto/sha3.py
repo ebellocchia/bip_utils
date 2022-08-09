@@ -28,6 +28,7 @@ from Crypto.Hash import SHA3_256, keccak
 
 from bip_utils.utils.misc import AlgoUtils
 
+
 HASHLIB_USE_SHA3_256: bool = "sha3_256" in hashlib.algorithms_available
 
 
@@ -63,7 +64,7 @@ class Kekkak256:
                 else keccak.new(digest_bits=256).digest_size)
 
 
-class Sha3_256:
+class Sha3_256:     # noqa: N801
     """
     SHA3-256 class.
     It computes digests using SHA3-256 algorithm.

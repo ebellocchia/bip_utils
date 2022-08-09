@@ -28,6 +28,7 @@ from bip_utils import (
     MnemonicChecksumError
 )
 
+
 # Verified with the official Algorand wallet: https://wallet.myalgo.com/
 TEST_VECT = [
     #

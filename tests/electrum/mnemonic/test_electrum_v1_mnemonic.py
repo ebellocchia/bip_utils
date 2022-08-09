@@ -27,6 +27,7 @@ from bip_utils import (
     ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator, ElectrumV1WordsNum
 )
 
+
 # Verified with the official Electrum wallet
 TEST_VECT = [
     #

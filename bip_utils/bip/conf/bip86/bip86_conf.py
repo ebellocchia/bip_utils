@@ -27,6 +27,7 @@ from bip_utils.bip.conf.common import NOT_HARDENED_DEF_PATH, BipCoinConf
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
 
+
 # Bitcoin key net version for main net (same as BIP32)
 _BIP86_BTC_KEY_NET_VER: Bip32KeyNetVersions = Bip32Const.MAIN_NET_KEY_NET_VERSIONS
 # Bitcoin key net version for test net (same as BIP32)

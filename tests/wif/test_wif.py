@@ -28,6 +28,7 @@ from tests.ecc.test_ecc import (
     TEST_VECT_SECP256K1_PRIV_KEY_INVALID
 )
 
+
 # Some keys randomly generated from:
 # https://gobittest.appspot.com/PrivateKey
 TEST_VECT = [

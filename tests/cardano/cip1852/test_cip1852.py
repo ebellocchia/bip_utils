@@ -25,6 +25,7 @@ from bip_utils import Bip44Coins, Bip49Coins, Bip84Coins, Bip86Coins, Cip1852, C
 from tests.bip.bip44.test_bip44 import TEST_SEED
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
+
 # Test vector
 TEST_VECT = [
     # Cardano main net (Icarus)

@@ -4,6 +4,7 @@ import binascii
 
 from bip_utils import Bip38Decrypter, Bip38EcKeysGenerator, Bip38Encrypter, Bip38PubKeyModes, WifEncoder
 
+
 # BIP38 passphrase
 passphrase = "DummyPassphrase"
 

@@ -2,6 +2,7 @@
 
 from bip_utils import AlgorandMnemonicGenerator, AlgorandSeedGenerator, AlgorandWordsNum, Bip44, Bip44Coins
 
+
 # Generate random mnemonic
 mnemonic = AlgorandMnemonicGenerator().FromWordsNumber(AlgorandWordsNum.WORDS_NUM_25)
 print(f"Mnemonic string: {mnemonic}")

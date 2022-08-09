@@ -27,6 +27,7 @@ from typing import Tuple, Union
 
 from bip_utils.utils.misc import AlgoUtils
 
+
 HMAC_USE_DIGEST: bool = hasattr(hmac, "digest")
 
 

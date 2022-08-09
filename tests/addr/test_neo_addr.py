@@ -26,6 +26,7 @@ from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_NIST256P1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_NIST256P1_PUB_KEY_INVALID, Nist256p1PublicKey
 
+
 # Some random public keys
 TEST_VECT = [
     {

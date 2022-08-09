@@ -8,6 +8,7 @@ from bip_utils import (
     ElectrumV2WordsNum, IPrivateKey, WifEncoder, WifPubKeyModes
 )
 
+
 ADDR_NUM: int = 5
 
 

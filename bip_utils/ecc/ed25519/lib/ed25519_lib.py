@@ -27,6 +27,7 @@ from typing import Tuple, Union
 
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
+
 Q = 2 ** 255 - 19
 
 

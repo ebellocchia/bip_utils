@@ -25,6 +25,7 @@ from bip_utils import Bip44Coins, Bip49Coins, Bip84Coins, Bip86, Bip86Coins, Cip
 from tests.bip.bip44.test_bip44 import TEST_SEED
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
 
+
 # Some tests from BIP-0086 page
 # https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki
 TEST_VECT = [

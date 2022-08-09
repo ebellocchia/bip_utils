@@ -30,6 +30,7 @@ from tests.addr.test_addr_base import AddrBaseTestHelper
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
 
+
 # Some random public keys for Icarus addresses
 TEST_VECT_ICARUS_ADDRESS = [
     {

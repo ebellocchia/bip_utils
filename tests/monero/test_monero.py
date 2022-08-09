@@ -29,6 +29,7 @@ from bip_utils import (
 from bip_utils.monero.conf import MoneroCoinConf
 from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 
+
 # Some random private spend keys
 # Verified with the official Monero wallet and: https://xmr.llcoins.net/addresstests.html
 TEST_VECT = [

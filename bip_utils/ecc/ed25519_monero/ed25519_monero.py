@@ -26,6 +26,7 @@ from bip_utils.ecc.ed25519_monero.ed25519_monero_const import Ed25519MoneroConst
 from bip_utils.ecc.ed25519_monero.ed25519_monero_keys import Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey
 from bip_utils.ecc.ed25519_monero.ed25519_monero_point import Ed25519MoneroPoint
 
+
 # Ed25519-Monero curve definition
 Ed25519Monero: EllipticCurve = EllipticCurve(Ed25519MoneroConst.NAME,
                                              Ed25519MoneroConst.CURVE_ORDER,
