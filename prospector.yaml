@@ -6,6 +6,7 @@ member-warnings: true
 ignore-paths:
   - .tox
   - benchmark
+  - build
   - docs
   - examples
   - readme
@@ -22,6 +23,8 @@ pylint:
   disable:
     - invalid-name
     - missing-module-docstring
+    - too-many-lines
+    - ungrouped-imports
   options:
     max-line-length: 120
 
@@ -36,6 +39,10 @@ mypy:
   options:
     ignore-missing-imports: true
     follow-imports: skip
+
+# pyroma configuration
+pyroma:
+  run: true
 
 # pydocstyle (old pep257) configuration
 pydocstyle:
