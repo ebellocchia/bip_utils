@@ -296,19 +296,19 @@ class Slip32KeyDeserializer:
             Tuple[bytes, Bip32Path, Bip32ChainCode]: key bytes (index 0), BIP32 path (index 1) and chain code (index 2)
         """
         depth_idx = 0
-        path_idx = depth_idx + Bip32Depth.Length()
+        path_idx = depth_idx + Bip32Depth.FixedLength()
 
         # Get back depth and path
         depth = ser_key_bytes[depth_idx]
         path = Bip32Path()
         for i in range(depth):
-            key_index_bytes = ser_key_bytes[path_idx + (i * Bip32KeyIndex.Length()):
-                                            path_idx + ((i + 1) * Bip32KeyIndex.Length())]
+            key_index_bytes = ser_key_bytes[path_idx + (i * Bip32KeyIndex.FixedLength()):
+                                            path_idx + ((i + 1) * Bip32KeyIndex.FixedLength())]
             path = path.AddElem(Bip32KeyIndex.FromBytes(key_index_bytes))
 
         # Get back chain code and key
-        chain_code_idx = path_idx + (depth * Bip32KeyIndex.Length())
-        key_idx = chain_code_idx + Bip32ChainCode.Length()
+        chain_code_idx = path_idx + (depth * Bip32KeyIndex.FixedLength())
+        key_idx = chain_code_idx + Bip32ChainCode.FixedLength()
 
         chain_code_bytes = ser_key_bytes[chain_code_idx:key_idx]
         key_bytes = ser_key_bytes[key_idx:]

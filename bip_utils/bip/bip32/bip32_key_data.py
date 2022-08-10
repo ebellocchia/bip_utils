@@ -65,14 +65,14 @@ class Bip32ChainCode(DataBytes):
         Raises:
             ValueError: If the chain code length is not valid
         """
-        if len(chaincode) != self.Length():
+        if len(chaincode) != self.FixedLength():
             raise ValueError(f"Invalid chaincode length ({len(chaincode)})")
         super().__init__(chaincode)
 
     @staticmethod
-    def Length() -> int:
+    def FixedLength() -> int:
         """
-        Get length in bytes.
+        Get the fixed length in bytes.
 
         Returns:
             int: Length in bytes
@@ -97,14 +97,14 @@ class Bip32FingerPrint(DataBytes):
         Raises:
             ValueError: If the chain code length is not valid
         """
-        if len(fprint) < self.Length():
+        if len(fprint) < self.FixedLength():
             raise ValueError(f"Invalid fingerprint length ({len(fprint)})")
         super().__init__(fprint[:Bip32KeyDataConst.FINGERPRINT_BYTE_LEN])
 
     @staticmethod
-    def Length() -> int:
+    def FixedLength() -> int:
         """
-        Get length in bytes.
+        Get the fixed length in bytes.
 
         Returns:
             int: Length in bytes
@@ -145,9 +145,9 @@ class Bip32Depth:
         self.m_depth = depth
 
     @staticmethod
-    def Length() -> int:
+    def FixedLength() -> int:
         """
-        Get length in bytes.
+        Get the fixed length in bytes.
 
         Returns:
             int: Length in bytes
@@ -170,7 +170,7 @@ class Bip32Depth:
         Returns:
             bytes: Depth bytes
         """
-        return IntegerUtils.ToBytes(self.m_depth, bytes_num=self.Length())
+        return IntegerUtils.ToBytes(self.m_depth, bytes_num=self.FixedLength())
 
     def ToInt(self) -> int:
         """
@@ -331,9 +331,9 @@ class Bip32KeyIndex:
         self.m_idx = idx
 
     @staticmethod
-    def Length() -> int:
+    def FixedLength() -> int:
         """
-        Get length in bytes.
+        Get the fixed length in bytes.
 
         Returns:
             int: Length in bytes
@@ -379,7 +379,7 @@ class Bip32KeyIndex:
             bytes: Key bytes
         """
         return IntegerUtils.ToBytes(self.m_idx,
-                                    bytes_num=self.Length(),
+                                    bytes_num=self.FixedLength(),
                                     endianness=endianness)
 
     def ToInt(self) -> int:

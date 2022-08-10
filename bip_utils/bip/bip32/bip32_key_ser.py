@@ -269,10 +269,10 @@ class Bip32KeyDeserializer:
 
         # Compute indexes
         depth_idx = Bip32KeyNetVersions.Length()
-        fprint_idx = depth_idx + Bip32Depth.Length()
-        key_index_idx = fprint_idx + Bip32FingerPrint.Length()
-        chain_code_idx = key_index_idx + Bip32KeyIndex.Length()
-        key_idx = chain_code_idx + Bip32ChainCode.Length()
+        fprint_idx = depth_idx + Bip32Depth.FixedLength()
+        key_index_idx = fprint_idx + Bip32FingerPrint.FixedLength()
+        chain_code_idx = key_index_idx + Bip32KeyIndex.FixedLength()
+        key_idx = chain_code_idx + Bip32ChainCode.FixedLength()
 
         # Get parts
         depth = ser_key_bytes[depth_idx]

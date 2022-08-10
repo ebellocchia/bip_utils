@@ -134,7 +134,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronAddrDecoder,
             {
-                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
             },
             TEST_VECT_DEC_INVALID
         )
@@ -145,7 +145,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronIcarusAddrEncoder,
             {
-                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
             },
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
@@ -154,7 +154,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronLegacyAddrEncoder,
             {
-                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
                 "hd_path": "m/0'/0'",
                 "hd_path_key": b"\x00" * ChaCha20Poly1305.KeySize(),
             },
@@ -168,7 +168,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronAddrDecoder,
             {
-                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
                 "addr_type": 0,
             },
             TypeError
@@ -177,7 +177,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronIcarusAddrEncoder,
             {
-                "chain_code": b"\x00" * (Bip32ChainCode.Length() - 1),
+                "chain_code": b"\x00" * (Bip32ChainCode.FixedLength() - 1),
             },
             ValueError
         )
@@ -185,7 +185,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronLegacyAddrEncoder,
             {
-                "chain_code": b"\x00" * (Bip32ChainCode.Length() - 1),
+                "chain_code": b"\x00" * (Bip32ChainCode.FixedLength() - 1),
                 "hd_path": "m/0'/0'",
                 "hd_path_key": b"\x00" * ChaCha20Poly1305.KeySize(),
             },
@@ -195,7 +195,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronLegacyAddrEncoder,
             {
-                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
                 "hd_path": "m/0'/0'",
                 "hd_path_key": b"\x00" * (ChaCha20Poly1305.KeySize() - 1),
             },
@@ -205,7 +205,7 @@ class AdaByronAddrTests(unittest.TestCase):
             self,
             AdaByronLegacyAddrEncoder,
             {
-                "chain_code": b"\x00" * Bip32ChainCode.Length(),
+                "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
                 "hd_path": "m/a/0'",
                 "hd_path_key": b"\x00" * (ChaCha20Poly1305.KeySize() - 1),
             },
