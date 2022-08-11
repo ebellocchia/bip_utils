@@ -1,4 +1,3 @@
 include keywords.txt
 include requirements.txt
-include readme/*
-include readme/utility/*
+recursive-include readme/
