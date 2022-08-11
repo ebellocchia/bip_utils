@@ -1,5 +1,4 @@
 """Example of key derivation for Cardano (Shelley addresses)."""
-"""Example of key derivation for Cardano (Byron addresses)."""
 
 from bip_utils import (
     Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip44Changes, CardanoIcarusSeedGenerator, CardanoShelley,
@@ -9,19 +8,19 @@ from bip_utils import (
 
 ADDR_NUM: int = 5
 
-# Generate random mnemonic
-mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
-print(f"Mnemonic string: {mnemonic}")
-
 #
 # Cardano Shelley (Icarus)
+# 15-word or 24-word : same addresses of Yoroi
+# 12-word : same addresses of TrustWallet
 #
 
 print("")
 print("Shelley-Icarus")
 print("")
 
-# Generate seed from mnemonic
+# Generate mnemonic and seed
+mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_15)
+print(f"Mnemonic string: {mnemonic}")
 seed_bytes = CardanoIcarusSeedGenerator(mnemonic).Generate()
 
 # Construct from seed
@@ -58,7 +57,9 @@ print("")
 print("Shelley-Ledger")
 print("")
 
-# Generate seed from mnemonic
+# Generate mnemonic and seed
+mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
+print(f"Mnemonic string: {mnemonic}")
 seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
 # Construct from seed
