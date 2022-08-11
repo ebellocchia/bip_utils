@@ -138,10 +138,6 @@ By default *coincurve* will be used, but it's possible to disable it when instal
 
 To install the package:
 - Default installation (*coincurve* will be used for secp256k1)
-    - Using *setuptools*:
-
-            python setup.py install
-
     - Using *pip*, from this directory (local):
 
             pip install .
