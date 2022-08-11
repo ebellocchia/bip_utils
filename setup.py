@@ -8,7 +8,7 @@ from setuptools.command.install import install
 
 # Load long description
 def load_long_description(desc_file):
-    return open(desc_file).read()
+    return open(desc_file, encoding='utf-8').read()
 
 
 # Load keywords
