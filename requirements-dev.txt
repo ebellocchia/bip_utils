@@ -1,0 +1,7 @@
+coverage>=5.3
+flake8>=3.8
+isort[pyproject]>=5
+mypy>=0.900
+prospector[with_mypy,with_pyroma]>=1.7
+pytest>=7.0
+pytest-cov>=2.10
