@@ -1,3 +1,9 @@
+# 2.6.1
+
+- Fix CIP1852 Cardano Icarus/Ledger extended key prefix
+- Fix `Bip32ChainCode.Length` and `Bip32FingerPrint.Length` methods that were conflicting with the base class method 
+- Reformat files with `isort`
+
 # 2.6.0
 
 - Add support for Cardano:
