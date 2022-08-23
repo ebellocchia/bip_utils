@@ -32,7 +32,7 @@ from bip_utils import (
 TEST_VECT = [
     {
         "coin": Cip1852Coins.CARDANO_ICARUS,
-        "ex_acc": "Har3K5aGUG5qwstcvEQ4wBLZcJaiNemK6RJxXVYWqtRkpGxoRgmd44trbZpz2nrYYWvLtjMLAxt137KBiNvHkc2pvvQFa3u3iPaVgpL2VsfZt8tcbBNVQxycHsDXDKfg2H1PeafzKuHUfbzJjmNWDP5ckyo",
+        "ex_acc": "xprv3ST19gxjCZJ9V1B7nA9eTu8aE8R7EZWZv6BUSL75hhYuUMwrEwn3icxmLJz8YFpzhBUNGPjJLGxdxhryMefD1Duex8sNR6KzRBnJN66jTeiPEAKcohdauX95tmRXfMrtaPegqZKVUTZkabvNNwF6gDz",
         "staking": {
             "pub_key": "00a22d0b8709e6bc04d11257dc405410d1ace01f207c391ba4788ea17198ee1a08",
             "priv_key": "305969fa551be3ef077cca781aaa0794207207048e9c6172de14ceec5246204c15f15c6367cc79b590d37d50acd3edb5507e5f1044289e9532f95e262c1bff71",
@@ -66,7 +66,7 @@ TEST_VECT = [
     },
     {
         "coin": Cip1852Coins.CARDANO_LEDGER,
-        "ex_acc": "Har3K5B3tcLZ8AQefPdwAS9f7fjDvTeVXrKw9WeSFgpJxoJRS42zL1ndrXt423goDnHqrt8pcKXPE6r9BKa2E1j9AifCHtHsUZRZVQyyJinbXkevrJfLYGP3PwJnWZpv17dCLs3FVraGYZmbzCWQZRxLTjX",
+        "ex_acc": "xprv3S3na3DSNqpBEAQz1QxjyGH5mwJHfzXYY7HPr8VdrDtXUjDDWtfpyb1qKZpPDXCVfLFrhkNgXGVbReWhq4MXF2AbfyGCBGB4DnSFAwDm7GUhVHcTw1321bEMC1ameCUhGg1x1WcHMRM3q34GizJ2deS",
         "staking": {
             "pub_key": "007bedc6ee43a5e3a4fb1b683e87adf312882be01367d387318e91b0fdcd603af7",
             "priv_key": "e08c70733d0b31968411743f1238bc7a642640a3f6f2e2922a07f7ddbde41c47c5af85fed47bdca0df5b36c22ae7be47b9478f6c478c34e3d524feb14941b347",

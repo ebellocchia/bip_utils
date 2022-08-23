@@ -34,15 +34,15 @@ TEST_VECT = [
         "names": ("Cardano", "ADA"),
         "is_testnet": False,
         "seed": b"0000000000000000000000000000000000000000",
-        "ex_master": "Har3K3MhV5fiuEp6zt7L6PSsiERqTuF5vbJydkH1pwzQ3JyhMgqErQU176MCmy312nnrv1t9t7WLud6RPd79HRvkByrYkpDqV9NJYCs71CLRUqTTNdafJzHDKeRHvEB2dM1k61odSMfMAxhfex8i3vBQ611",
+        "ex_master": "xprv3QESAWYc9vDdZetNwNFxZpyhKNtt4jWb2LuyRPfivjZoQN1U3HMCE9Uz5VAb2XhWiU1ByYMeCnjsdx3ptUZ8GHMx8uCABr7oGaKNsQmb4MHE1cXnhiwBwJLrbfvtGRsF1pnKx1hMypH7VngaDWcwhq5",
         "wif_master": "",
         "account": {
             "ex_pub": "xpub6DUARacQUBVjuzYbuJcCHrrBFZRPW77T9azYjcfVib74wQcrJLx5L6iAad5nG5Q31mqM7GqPeHC3oh5nFSvWjiYKsA68sS9WQL8KW71HizP",
-            "ex_priv": "Har3K5aGUG5qwstcvEQ4wBLZcJaiNemK6RJxXVYWqtRkpGxoRgmd44trbZpz2nrYYWvLtjMLAxt137KBiNvHkc2pvvQFa3u3iPaVgpL2VsfZt8tcbBNVQxycHsDXDKfg2H1PeafzKuHUfbzJjmNWDP5ckyo",
+            "ex_priv": "xprv3ST19gxjCZJ9V1B7nA9eTu8aE8R7EZWZv6BUSL75hhYuUMwrEwn3icxmLJz8YFpzhBUNGPjJLGxdxhryMefD1Duex8sNR6KzRBnJN66jTeiPEAKcohdauX95tmRXfMrtaPegqZKVUTZkabvNNwF6gDz",
         },
         "chain_ext": {
             "ex_pub": "xpub6EcciAquF76hSEE4uZhRduj3WLTdywuM3gnvnHWbnoqymhNyCN9Bjy3YVHed56waaVRkeUjKWSPm5nLt2iYy9FVpuUK4ZGwMXGxzz5SqgU5",
-            "ex_priv": "Har3K5v1S4d89SEnNwsZzB7nQiV4VYBkufp74kJBHfr3u1rMXSBKCT8PLh1DFrMtA9nVS9b7upQTYehwYcvsU4Re6bCjBWVn9rzfESWVXGbxdJ4s99edkUJRxBPEpm8QbbChSPsG7gRXPotRTvo7vMjL2eL",
+            "ex_priv": "xprv3Snk7VW1Q7eJwiecq9vsGK2vM1qZ3p1iTLw8t7XNnSSTa7MYPL1aTk8zZNVU9th9EbiA1FFkqpMPnwsZ5742Ati8ZbU6rZk9xoxmPV38Cotdn8bm9CxQZqJoWCtGEg4CNCqxdLTYCfTsJmLz5uQ9ivG",
         },
         "addresses": [
             "addr1qxz6hulv54gzf2suy2u5gkvmt6ysasfdlvvegy3fmf969y7r3y3kdut55a40jff00qmg74686vz44v6k363md06qkq0q8eqdws",
@@ -59,15 +59,15 @@ TEST_VECT = [
         "names": ("Cardano", "ADA"),
         "is_testnet": False,
         "seed": b"0000000000000000000000000000000000000000",
-        "ex_master": "Har3K3MhV5fiuEp6zeULbP5fKHLt1xo4D2znhFMnwcmTrUs9AshJY3aBvzLL6MgrRaTXpqNr3JDfRTmP4vjvNpM2XSWZstw4Ez8EGfu4WBN5ZzGiwdhgPH2VibLuJqvDH4r52En4JbK18rZn1m8vL4sKvYo",
+        "ex_master": "xprv3QESAWYc9vDdZRFPSMtkAstjsSSrMBCQ5qzkY4SnjuTFDYsXivTP43U7PspSRKNBdHVt8j4xidQqKFgbyryQbk1yFyuNwgsj13MLNPoF9W6Vaceon1gULFGTzHg4v9hZx3kkpFM1wi9DrbgnVhEUwia",
         "wif_master": "",
         "account": {
             "ex_pub": "xpub6C81RzDgoVC6Wvshp14Jq1YaYqvfZ2srXFs6NkugRKXBHR88q84mB4bZjrh2nRcS1EXmExUdjEzf7JpaCMy3Lo3CJrABf8YnMJqahvmkWTJ",
-            "ex_priv": "Har3K5B3tcLZ8AQefPdwAS9f7fjDvTeVXrKw9WeSFgpJxoJRS42zL1ndrXt423goDnHqrt8pcKXPE6r9BKa2E1j9AifCHtHsUZRZVQyyJinbXkevrJfLYGP3PwJnWZpv17dCLs3FVraGYZmbzCWQZRxLTjX",
+            "ex_priv": "xprv3S3na3DSNqpBEAQz1QxjyGH5mwJHfzXYY7HPr8VdrDtXUjDDWtfpyb1qKZpPDXCVfLFrhkNgXGVbReWhq4MXF2AbfyGCBGB4DnSFAwDm7GUhVHcTw1321bEMC1ameCUhGg1x1WcHMRM3q34GizJ2deS",
         },
         "chain_ext": {
             "ex_pub": "xpub6DdUn7r4scAN5ajsQE65PgnRLL9TrNAzsYAzBWdHfYsg157PycbaZbu4yiD81oLRsEm2tEVw4JpT5PdcQ859cKDkJLDBpf5C2a3XbAxXbiB",
-            "ex_priv": "Har3K5d2zLzVc4SreQGnsXek2KkZF7y6v9xmKdc1aJtDgryws1jC7Jd5own711Tww6oj85YqXxaeQiEoMHfHmkGevLB9srarfxA84XzeSYwGCc5RfHy7rM6uxSYUoXfRUafLpRDbeN9Yyzfzb9fh9vdzATp",
+            "ex_priv": "xprv3SVmfmsNrjrPDB3qiWTpsvJR6bcu4JANiEEyAkZYaHa3uguRJBWGvzutJXbXvqiNvXfsdPRwhstFbcbyNnu2zdgZFwZBNeucnuSvJmNRn7uCJGvFF5kta6U3UyRH7fWqkECJA2BZnrFSRzDZKUtqm6G",
         },
         "addresses": [
             "addr1q9ug2zur0nmy0pwjk023cnzxlru6vc3rw67r9qlsufjg5rtsgz3vs9ld89vhmvmnhhazr2tdgxkgq9xu8mzzlwwxvuksx5aka8",
@@ -138,7 +138,7 @@ TEST_VECT_DEFAULT_PATH = []
 TEST_VECT_KEY_FORMATS = {
     "coin": Cip1852Coins.CARDANO_ICARUS,
     "seed": "5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
-    "ex_priv": "Har3K3MhV5fiuEp6zsN3uXH3PfkwVbnRNTuAiniJRps2XV6PCHcYteVzoDtXavwkvaZPG9gyUVHfw6UFdfqiF9RWbC5u6ZTdjPq6c6s96vKWnujBRAd7FifEKBjRawCrx4XEX9Zz26F29qUyqutkSndBXqL",
+    "ex_priv": "xprv3QESAWYc9vDdZe96kW68FGJoM5SDWc6n7PMG2GYMQugVExnn5XPBvH2JtT5LvKU34bp1Zv8yEG7hsznPrC3tfVbJUeRxS6abLUKQy8kgNRYx49aEeTKCvqezGNxib9NjSxYgXkH2xh4RgkSccNK7HAf",
     "raw_priv": "90fe045d7c56df39574eff1ce14c49844f758fa20139947425df74bc8647ae4069ea9658ff974de1b3c967febc9c40771cb1de416e6db0a61394803f245d06f8",
     "ex_pub": "xpub661MyMwAqRbcFoZEHCepczoPjV1qDcqqwxX2WpoSKRQ3nQBXSsyMKmKxx6fHNcQ5znKZtV76QwMGscjbzj1ooF87Rk1o6rLnHteGz4Vsrwu",
     "raw_compr_pub": "0050715791b0a6d1b7e3944299dd24ff12f8dc5f7820440775ff8e3330e89ee463",
@@ -148,9 +148,9 @@ TEST_VECT_KEY_FORMATS = {
 # Tests for extended keys with valid and invalid depths
 TEST_VECT_EX_KEY_DEPTHS = {
     # Private key with depth 5 is fine
-    "ex_priv_5": "Har3K6f1WLfuNv8iijdyM3u6MdThpKUc4jzd9sSGfR3X1kLxmwVdiYcvfsgjTEEoyLuHbkJddsHBPS3CfBQVi1VKt29wbAM1uiaTdVtS5EK5azjGBWapieHTMDSa4f7rCHnmNZMEhEpbwzbHHr6RCy2rUwg",
+    "ex_priv_5": "xprv3TXkBmYndbYFHWR2C2iBDE1Zfo8QCtCEYU5EFriquAw4pcfruRW7nvpWkkNPy5owQCRfjJ8UgbgeuWMBK47hxKfLyFKLcRKxMsLhwSkFAWZ2pVXx7NwRxsN8k6shqNeGJNKwCtrckrAj8geHNZnP5NP",
     # Private key with depth 6 shall raise an exception
-    "ex_priv_6": "Har3K79CEQWnSCuwyhKz4bXmgAbkcy1BMuvWSmVu8Fev1zHy5HrtHLRhEJKSkTFw9x9JCsmZrTx2Rggu7PYkMkwMiCBS7cs9ajjWVjANYsrQLtSZCiPHyLPZfRPshwyy3Q2tgsPcwr9KRnPe2GDw7MNHj1Z",
+    "ex_priv_6": "xprv3U1vuqPfgtKUYU72uaLrXm9cUSeyW487qN8rihLEuQt57y37UDJtMMTE3yPX9h3x1KtbwtoKirLMMiVRxoZjnVgqVhqUHSV1E6ceR6HZvQGKqhLRN53YH5KSPPjpgUtPcgNKTWBLEdy5s6moGzWiLys",
     # Public key with depth 2 shall raise an exception
     "ex_pub_2": "xpub6A4tnUjutEhspSy1HiG6wzfcfZkypeAto6txryTRKbGeacQHzatSRvB74iMgazgzTruzAgx8qv66c8GYKiCwZFjDMugqZinLtg9CwekG2bi",
     # Public key with depth 3 shall raise an exception
