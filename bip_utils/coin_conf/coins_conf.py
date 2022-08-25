@@ -446,6 +446,14 @@ class CoinsConf:
         params={},
     )
 
+    # Configuration for Icon
+    Icon: CoinConf = CoinConf(
+        coin_name=CoinNames("Icon", "ICX"),
+        params={
+            "addr_prefix": "hx",
+        },
+    )
+
     # Configuration for IRISnet
     IrisNet: CoinConf = CoinConf(
         coin_name=CoinNames("IRIS Network", "IRIS"),

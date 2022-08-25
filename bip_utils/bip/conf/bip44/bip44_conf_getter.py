@@ -74,6 +74,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.HARMONY_ONE_ETH: Bip44Conf.HarmonyOneEth,
         Bip44Coins.HARMONY_ONE_METAMASK: Bip44Conf.HarmonyOneMetamask,
         Bip44Coins.HUOBI_CHAIN: Bip44Conf.HuobiChain,
+        Bip44Coins.ICON: Bip44Conf.Icon,
         Bip44Coins.IRIS_NET: Bip44Conf.IrisNet,
         Bip44Coins.KAVA: Bip44Conf.Kava,
         Bip44Coins.KUSAMA_ED25519_SLIP: Bip44Conf.KusamaEd25519Slip,

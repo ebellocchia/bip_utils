@@ -38,6 +38,7 @@ class Slip44:
     DASH: int = 5
     ETHEREUM: int = 60
     ETHEREUM_CLASSIC: int = 61
+    ICON: int = 74
     VERGE: int = 77
     ATOM: int = 118
     MONERO: int = 128
