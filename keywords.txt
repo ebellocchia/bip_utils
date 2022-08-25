@@ -63,6 +63,7 @@ fantom opera
 filecoin
 harmony one
 huobi chain
+icon
 iris
 irisnet
 kava
