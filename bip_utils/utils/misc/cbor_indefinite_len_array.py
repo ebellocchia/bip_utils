@@ -98,7 +98,7 @@ class CborIndefiniteLenArrayDecoder:
             curr_val = enc_bytes[i]
             if curr_val == CborIds.INDEF_LEN_ARRAY_END:
                 break
-            # Get current length (1-byte if ID is found)
+            # Get current length (1-byte if ID is not found)
             curr_len = CborIndefiniteLenArrayConst.UINT_IDS_TO_BYTE_LEN.get(curr_val, 1)
             # CBOR-decode the current integer
             int_elems.append(cbor2.loads(enc_bytes[i:i + curr_len]))
