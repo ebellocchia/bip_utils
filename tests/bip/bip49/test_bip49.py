@@ -19,11 +19,9 @@
 # THE SOFTWARE.
 
 # Imports
-import unittest
-
 from bip_utils import Bip44Coins, Bip49, Bip49Coins, Bip49Conf, Bip84Coins, Bip86Coins, Cip1852Coins
 from tests.bip.bip44.test_bip44 import TEST_SEED
-from tests.bip.bip44_base.test_bip44_base import Bip44BaseTestHelper
+from tests.bip.bip44_base.test_bip44_base import Bip44BaseTests
 
 
 # Results generated with: https://iancoleman.io/bip39
@@ -697,47 +695,47 @@ TEST_VECT_EX_KEY_DEPTHS = {
 #
 # Tests
 #
-class Bip49Tests(unittest.TestCase):
+class Bip49Tests(Bip44BaseTests):
     # Test specification name
     def test_spec_name(self):
         self.assertEqual(Bip49.SpecName(), "BIP-0049")
 
     # Run all tests in test vector using FromSeed for construction
     def test_from_seed(self):
-        Bip44BaseTestHelper.test_from_seed(self, Bip49, TEST_VECT)
+        self._test_from_seed(Bip49, TEST_VECT)
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_from_ex_key(self):
-        Bip44BaseTestHelper.test_from_ex_key(self, Bip49, TEST_VECT)
+        self._test_from_ex_key(Bip49, TEST_VECT)
 
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_priv_key(self):
-        Bip44BaseTestHelper.test_from_priv_key(self, Bip49, TEST_VECT)
+        self._test_from_priv_key(Bip49, TEST_VECT)
 
     # Run all tests in test vector using FromPublicKey for construction
     def test_from_pub_key(self):
-        Bip44BaseTestHelper.test_from_pub_key(self, Bip49, TEST_VECT)
+        self._test_from_pub_key(Bip49, TEST_VECT)
 
     # Test default path derivation
     def test_default_path_derivation(self):
-        Bip44BaseTestHelper.test_default_path_derivation(self, Bip49, TEST_VECT_DEFAULT_PATH)
+        self._test_default_path_derivation(Bip49, TEST_VECT_DEFAULT_PATH)
 
     # Test for IsLevel method
     def test_is_level(self):
-        Bip44BaseTestHelper.test_is_level(self, Bip49, Bip49Coins.BITCOIN, TEST_SEED)
+        self._test_is_level(Bip49, Bip49Coins.BITCOIN, TEST_SEED)
 
     # Test different key formats
     def test_key_formats(self):
-        Bip44BaseTestHelper.test_key_formats(self, Bip49, TEST_VECT_KEY_FORMATS)
+        self._test_key_formats(Bip49, TEST_VECT_KEY_FORMATS)
 
     # Test construction from extended keys with valid and invalid depths
     def test_from_ex_key_depth(self):
-        Bip44BaseTestHelper.test_from_ex_key_depth(self, Bip49, Bip49Coins.BITCOIN, TEST_VECT_EX_KEY_DEPTHS)
+        self._test_from_ex_key_depth(Bip49, Bip49Coins.BITCOIN, TEST_VECT_EX_KEY_DEPTHS)
 
     # Test type error during construction
     def test_type_error(self):
-        Bip44BaseTestHelper.test_type_error(self, Bip49, [Bip44Coins, Bip84Coins, Bip86Coins, Cip1852Coins])
+        self._test_type_error(Bip49, [Bip44Coins, Bip84Coins, Bip86Coins, Cip1852Coins])
 
     # Test invalid path derivations
     def test_invalid_derivations(self):
-        Bip44BaseTestHelper.test_invalid_derivations(self, Bip49, Bip49Coins.BITCOIN, TEST_SEED)
+        self._test_invalid_derivations(Bip49, Bip49Coins.BITCOIN, TEST_SEED)
