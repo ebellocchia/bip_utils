@@ -19,11 +19,9 @@
 # THE SOFTWARE.
 
 # Imports
-import unittest
-
 from bip_utils import Bip32KeyIndex, CardanoByronLegacyBip32, EllipticCurveTypes
 from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import CardanoByronLegacyMstKeyGeneratorConst
-from tests.bip.bip32.test_bip32_base import Bip32BaseTestHelper
+from tests.bip.bip32.test_bip32_base import Bip32BaseTests
 from tests.bip.bip32.test_bip32_ed25519_kholaw import TEST_VECT_EX_KEY_ERR
 
 
@@ -220,52 +218,52 @@ TEST_VECT_PUBLIC_DER_PUB_KEY = {
 #
 # Tests
 #
-class CardanoByronLegacyBip32Tests(unittest.TestCase):
+class CardanoByronLegacyBip32Tests(Bip32BaseTests):
     # Tets supported derivation
     def test_supported_derivation(self):
         self.assertTrue(CardanoByronLegacyBip32.IsPublicDerivationSupported())
 
     # Run all tests in test vector using FromSeed for construction and ChildKey for derivation
     def test_from_seed_with_child_key(self):
-        Bip32BaseTestHelper.test_from_seed_with_child_key(self, CardanoByronLegacyBip32, TEST_VECT)
+        self._test_from_seed_with_child_key(CardanoByronLegacyBip32, TEST_VECT)
 
     # Run all tests in test vector using FromSeed for construction and DerivePath for derivation
     def test_from_seed_with_derive_path(self):
-        Bip32BaseTestHelper.test_from_seed_with_derive_path(self, CardanoByronLegacyBip32, TEST_VECT)
+        self._test_from_seed_with_derive_path(CardanoByronLegacyBip32, TEST_VECT)
 
     # Run all tests in test vector using FromSeedAndPath for construction
     def test_from_seed_and_path(self):
-        Bip32BaseTestHelper.test_from_seed_and_path(self, CardanoByronLegacyBip32, TEST_VECT)
+        self._test_from_seed_and_path(CardanoByronLegacyBip32, TEST_VECT)
 
     # Run all tests in test vector using FromExtendedKey for construction
     def test_from_ex_key(self):
-        Bip32BaseTestHelper.test_from_ex_key(self, CardanoByronLegacyBip32, TEST_VECT)
+        self._test_from_ex_key(CardanoByronLegacyBip32, TEST_VECT)
 
     # Run all tests in test vector using FromPrivateKey for construction
     def test_from_priv_key(self):
-        Bip32BaseTestHelper.test_from_priv_key(self, CardanoByronLegacyBip32, TEST_VECT)
+        self._test_from_priv_key(CardanoByronLegacyBip32, TEST_VECT)
 
     # Run all tests in test vector using FromPublicKey for construction
     def test_from_pub_key(self):
-        Bip32BaseTestHelper.test_from_pub_key(self, CardanoByronLegacyBip32, TEST_VECT)
+        self._test_from_pub_key(CardanoByronLegacyBip32, TEST_VECT)
 
     # Test public derivation from extended key
     def test_public_derivation_ex_key(self):
-        Bip32BaseTestHelper.test_public_derivation_ex_key(self, CardanoByronLegacyBip32, TEST_VECT_PUBLIC_DER_EX_KEY)
+        self._test_public_derivation_ex_key(CardanoByronLegacyBip32, TEST_VECT_PUBLIC_DER_EX_KEY)
 
     # Test public derivation from public key
     def test_public_derivation_pub_key(self):
-        Bip32BaseTestHelper.test_public_derivation_pub_key(self, CardanoByronLegacyBip32, TEST_VECT_PUBLIC_DER_PUB_KEY)
+        self._test_public_derivation_pub_key(CardanoByronLegacyBip32, TEST_VECT_PUBLIC_DER_PUB_KEY)
 
     # Test elliptic curve
     def test_elliptic_curve(self):
-        Bip32BaseTestHelper.test_elliptic_curve(self, CardanoByronLegacyBip32, EllipticCurveTypes.ED25519_KHOLAW)
+        self._test_elliptic_curve(CardanoByronLegacyBip32, EllipticCurveTypes.ED25519_KHOLAW)
 
     # Test invalid extended key
     def test_invalid_ex_key(self):
-        Bip32BaseTestHelper.test_invalid_ex_key(self, CardanoByronLegacyBip32, TEST_VECT_EX_KEY_ERR)
+        self._test_invalid_ex_key(CardanoByronLegacyBip32, TEST_VECT_EX_KEY_ERR)
 
     # Test invalid seed
     def test_invalid_seed(self):
-        Bip32BaseTestHelper.test_invalid_seed(self, CardanoByronLegacyBip32, b"\x00" * (CardanoByronLegacyMstKeyGeneratorConst.SEED_BYTE_LEN - 1))
-        Bip32BaseTestHelper.test_invalid_seed(self, CardanoByronLegacyBip32, b"\x00" * (CardanoByronLegacyMstKeyGeneratorConst.SEED_BYTE_LEN + 1))
+        self._test_invalid_seed(CardanoByronLegacyBip32, b"\x00" * (CardanoByronLegacyMstKeyGeneratorConst.SEED_BYTE_LEN - 1))
+        self._test_invalid_seed(CardanoByronLegacyBip32, b"\x00" * (CardanoByronLegacyMstKeyGeneratorConst.SEED_BYTE_LEN + 1))
