@@ -126,7 +126,7 @@ class Bip44BaseTests(unittest.TestCase):
                 # Test addresses (bip_obj_ctx is already the external chain)
                 for idx, test_addr in enumerate(test["addresses_legacy"]["addresses"]):
                     self.assertEqual(test_addr,
-                                         bip_chg_ctx.AddressIndex(idx).PublicKey().ToAddress())
+                                     bip_chg_ctx.AddressIndex(idx).PublicKey().ToAddress())
                 # Reset flag
                 test["addresses_legacy"]["cls"].UseLegacyAddress(False)
 
