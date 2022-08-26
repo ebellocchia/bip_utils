@@ -19,14 +19,10 @@
 # THE SOFTWARE.
 
 # Imports
-import unittest
-
 from bip_utils import ErgoNetworkTypes, ErgoP2PKHAddr, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder
-from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
-from tests.ecc.test_ecc import (
-    TEST_SECP256K1_COMPR_PUB_KEY_BYTES, TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
-)
+from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
 
 
 # Some random public keys
@@ -84,23 +80,22 @@ TEST_VECT_DEC_INVALID = [
 #
 # Tests
 #
-class ErgoAddrTests(unittest.TestCase):
+class ErgoAddrTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, ErgoP2PKHAddrEncoder, Secp256k1PublicKey, TEST_VECT)
+        self._test_encode_key(ErgoP2PKHAddrEncoder, Secp256k1PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, ErgoP2PKHAddrDecoder, TEST_VECT)
+        self._test_decode_addr(ErgoP2PKHAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, ErgoP2PKHAddrDecoder, {}, TEST_VECT_DEC_INVALID)
+        self._test_invalid_dec(ErgoP2PKHAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             ErgoP2PKHAddrEncoder,
             {},
             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,
@@ -109,16 +104,14 @@ class ErgoAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(
-            self,
+        self._test_invalid_params_dec(
             ErgoP2PKHAddrDecoder,
             {
                 "net_type": 0,
             },
             TypeError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             ErgoP2PKHAddrEncoder,
             {
                 "net_type": 0,

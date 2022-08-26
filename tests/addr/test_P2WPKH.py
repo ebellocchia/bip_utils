@@ -19,10 +19,8 @@
 # THE SOFTWARE.
 
 # Imports
-import unittest
-
 from bip_utils import CoinsConf, P2WPKHAddr, P2WPKHAddrDecoder, P2WPKHAddrEncoder
-from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
 
@@ -106,19 +104,18 @@ TEST_VECT_DEC_INVALID = [
 #
 # Tests
 #
-class P2WPKHTests(unittest.TestCase):
+class P2WPKHTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, P2WPKHAddrEncoder, Secp256k1PublicKey, TEST_VECT)
+        self._test_encode_key(P2WPKHAddrEncoder, Secp256k1PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, P2WPKHAddrDecoder, TEST_VECT)
+        self._test_decode_addr(P2WPKHAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(
-            self,
+        self._test_invalid_dec(
             P2WPKHAddrDecoder,
             {
                 "hrp": CoinsConf.BitcoinMainNet.ParamByKey("p2wpkh_hrp"),
@@ -128,8 +125,7 @@ class P2WPKHTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             P2WPKHAddrEncoder,
             {"hrp": ""},
             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,

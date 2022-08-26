@@ -20,14 +20,13 @@
 
 # Imports
 import binascii
-import unittest
 
 from bip_utils import (
     AdaShelleyAddr, AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddrNetworkTags, AdaShelleyRewardAddr,
     AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyStakingAddr, AdaShelleyStakingAddrDecoder,
     AdaShelleyStakingAddrEncoder
 )
-from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
 
@@ -164,29 +163,27 @@ TEST_VECT_DEC_INVALID_REWARD_ADDRESS = [
 #
 # Tests
 #
-class AdaShelleyAddrTests(unittest.TestCase):
+class AdaShelleyAddrTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, AdaShelleyAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ADDRESS)
-        AddrBaseTestHelper.test_encode_key(self, AdaShelleyStakingAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_REWARD_ADDRESS)
+        self._test_encode_key(AdaShelleyAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ADDRESS)
+        self._test_encode_key(AdaShelleyStakingAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_REWARD_ADDRESS)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, AdaShelleyAddrDecoder, TEST_VECT_ADDRESS)
-        AddrBaseTestHelper.test_decode_addr(self, AdaShelleyStakingAddrDecoder, TEST_VECT_REWARD_ADDRESS)
+        self._test_decode_addr(AdaShelleyAddrDecoder, TEST_VECT_ADDRESS)
+        self._test_decode_addr(AdaShelleyStakingAddrDecoder, TEST_VECT_REWARD_ADDRESS)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(
-            self,
+        self._test_invalid_dec(
             AdaShelleyAddrDecoder,
             {
                 "pub_skey": TEST_ED25519_PUB_KEY,
             },
             TEST_VECT_DEC_INVALID_ADDRESS
         )
-        AddrBaseTestHelper.test_invalid_dec(
-            self,
+        self._test_invalid_dec(
             AdaShelleyStakingAddrDecoder,
             {},
             TEST_VECT_DEC_INVALID_REWARD_ADDRESS
@@ -194,8 +191,7 @@ class AdaShelleyAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             AdaShelleyAddrEncoder,
             {
                 "pub_skey": TEST_ED25519_PUB_KEY,
@@ -203,8 +199,7 @@ class AdaShelleyAddrTests(unittest.TestCase):
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             AdaShelleyStakingAddrEncoder,
             {},
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
@@ -213,16 +208,14 @@ class AdaShelleyAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(
-            self,
+        self._test_invalid_params_dec(
             AdaShelleyAddrDecoder,
             {
                 "net_tag": 0,
             },
             TypeError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             AdaShelleyAddrEncoder,
             {
                 "pub_skey": TEST_ED25519_PUB_KEY,
@@ -231,16 +224,14 @@ class AdaShelleyAddrTests(unittest.TestCase):
             TypeError
         )
 
-        AddrBaseTestHelper.test_invalid_params_dec(
-            self,
+        self._test_invalid_params_dec(
             AdaShelleyStakingAddrDecoder,
             {
                 "net_tag": 0,
             },
             TypeError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             AdaShelleyStakingAddrEncoder,
             {
                 "net_tag": 0,

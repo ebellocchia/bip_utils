@@ -19,10 +19,8 @@
 # THE SOFTWARE.
 
 # Imports
-import unittest
-
 from bip_utils import EgldAddr, EgldAddrDecoder, EgldAddrEncoder
-from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey
 
@@ -82,23 +80,22 @@ TEST_VECT_DEC_INVALID = [
 #
 # Tests
 #
-class EgldAddrTests(unittest.TestCase):
+class EgldAddrTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, EgldAddrEncoder, Ed25519PublicKey, TEST_VECT)
+        self._test_encode_key(EgldAddrEncoder, Ed25519PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, EgldAddrDecoder, TEST_VECT)
+        self._test_decode_addr(EgldAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, EgldAddrDecoder, {}, TEST_VECT_DEC_INVALID)
+        self._test_invalid_dec(EgldAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             EgldAddrEncoder,
             {},
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,

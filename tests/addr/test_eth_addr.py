@@ -19,10 +19,8 @@
 # THE SOFTWARE.
 
 # Imports
-import unittest
-
 from bip_utils import EthAddr, EthAddrDecoder, EthAddrEncoder
-from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_SECP256K1_PUB_KEY_INVALID, Secp256k1PublicKey
 
@@ -80,23 +78,22 @@ TEST_VECT_DEC_INVALID = [
 #
 # Tests
 #
-class EthAddrTests(unittest.TestCase):
+class EthAddrTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, EthAddrEncoder, Secp256k1PublicKey, TEST_VECT)
+        self._test_encode_key(EthAddrEncoder, Secp256k1PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, EthAddrDecoder, TEST_VECT)
+        self._test_decode_addr(EthAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(self, EthAddrDecoder, {}, TEST_VECT_DEC_INVALID)
+        self._test_invalid_dec(EthAddrDecoder, {}, TEST_VECT_DEC_INVALID)
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             EthAddrEncoder,
             {},
             TEST_SECP256K1_ADDR_INVALID_KEY_TYPES,

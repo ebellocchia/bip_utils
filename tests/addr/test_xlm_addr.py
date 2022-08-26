@@ -19,12 +19,10 @@
 # THE SOFTWARE.
 
 # Imports
-import unittest
-
 from bip_utils import XlmAddr, XlmAddrDecoder, XlmAddrEncoder, XlmAddrTypes
-from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
-from tests.ecc.test_ecc import TEST_ED25519_PUB_KEY, TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey
+from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicKey
 
 
 # Some random public keys
@@ -88,44 +86,44 @@ TEST_VECT_DEC_INVALID = [
 #
 # Tests
 #
-class XlmAddrTests(unittest.TestCase):
+class XlmAddrTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, XlmAddrEncoder, Ed25519PublicKey, TEST_VECT)
+        self._test_encode_key(XlmAddrEncoder, Ed25519PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, XlmAddrDecoder, TEST_VECT)
+        self._test_decode_addr(XlmAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(
-            self,
+        self._test_invalid_dec(
             XlmAddrDecoder,
-            {"addr_type": XlmAddrTypes.PUB_KEY},
+            {
+                "addr_type": XlmAddrTypes.PUB_KEY,
+            },
             TEST_VECT_DEC_INVALID
         )
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             XlmAddrEncoder,
-            {"addr_type": XlmAddrTypes.PUB_KEY},
+            {
+                "addr_type": XlmAddrTypes.PUB_KEY,
+            },
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(
-            self,
+        self._test_invalid_params_dec(
             XlmAddrDecoder,
             {"addr_type": 0},
             TypeError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             XlmAddrEncoder,
             {"addr_type": 0},
             TypeError

@@ -20,13 +20,12 @@
 
 # Imports
 import binascii
-import unittest
 
 from bip_utils import (
     AdaByronAddrDecoder, AdaByronAddrTypes, AdaByronIcarusAddr, AdaByronIcarusAddrEncoder, AdaByronLegacyAddr,
     AdaByronLegacyAddrEncoder, Bip32ChainCode, Bip32PathError, Bip32PathParser, ChaCha20Poly1305
 )
-from tests.addr.test_addr_base import AddrBaseTestHelper
+from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519KholawPublicKey
 
@@ -117,21 +116,20 @@ TEST_VECT_DEC_INVALID = [
 #
 # Tests
 #
-class AdaByronAddrTests(unittest.TestCase):
+class AdaByronAddrTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        AddrBaseTestHelper.test_encode_key(self, AdaByronIcarusAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ICARUS_ADDRESS)
-        AddrBaseTestHelper.test_encode_key(self, AdaByronLegacyAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_LEGACY_ADDRESS)
+        self._test_encode_key(AdaByronIcarusAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_ICARUS_ADDRESS)
+        self._test_encode_key(AdaByronLegacyAddrEncoder, Ed25519KholawPublicKey, TEST_VECT_LEGACY_ADDRESS)
 
     # Test decode address
     def test_decode_addr(self):
-        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_ICARUS_ADDRESS)
-        AddrBaseTestHelper.test_decode_addr(self, AdaByronAddrDecoder, TEST_VECT_LEGACY_ADDRESS)
+        self._test_decode_addr(AdaByronAddrDecoder, TEST_VECT_ICARUS_ADDRESS)
+        self._test_decode_addr(AdaByronAddrDecoder, TEST_VECT_LEGACY_ADDRESS)
 
     # Test invalid decoding
     def test_invalid_dec(self):
-        AddrBaseTestHelper.test_invalid_dec(
-            self,
+        self._test_invalid_dec(
             AdaByronAddrDecoder,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
@@ -141,8 +139,7 @@ class AdaByronAddrTests(unittest.TestCase):
 
     # Test invalid keys
     def test_invalid_keys(self):
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             AdaByronIcarusAddrEncoder,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
@@ -150,8 +147,7 @@ class AdaByronAddrTests(unittest.TestCase):
             TEST_ED25519_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_ED25519_PUB_KEY_INVALID
         )
-        AddrBaseTestHelper.test_invalid_keys(
-            self,
+        self._test_invalid_keys(
             AdaByronLegacyAddrEncoder,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
@@ -164,8 +160,7 @@ class AdaByronAddrTests(unittest.TestCase):
 
     # Test invalid parameters
     def test_invalid_params(self):
-        AddrBaseTestHelper.test_invalid_params_dec(
-            self,
+        self._test_invalid_params_dec(
             AdaByronAddrDecoder,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
@@ -173,16 +168,14 @@ class AdaByronAddrTests(unittest.TestCase):
             },
             TypeError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             AdaByronIcarusAddrEncoder,
             {
                 "chain_code": b"\x00" * (Bip32ChainCode.FixedLength() - 1),
             },
             ValueError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             AdaByronLegacyAddrEncoder,
             {
                 "chain_code": b"\x00" * (Bip32ChainCode.FixedLength() - 1),
@@ -191,8 +184,7 @@ class AdaByronAddrTests(unittest.TestCase):
             },
             ValueError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             AdaByronLegacyAddrEncoder,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
@@ -201,8 +193,7 @@ class AdaByronAddrTests(unittest.TestCase):
             },
             ValueError
         )
-        AddrBaseTestHelper.test_invalid_params_enc(
-            self,
+        self._test_invalid_params_enc(
             AdaByronLegacyAddrEncoder,
             {
                 "chain_code": b"\x00" * Bip32ChainCode.FixedLength(),
