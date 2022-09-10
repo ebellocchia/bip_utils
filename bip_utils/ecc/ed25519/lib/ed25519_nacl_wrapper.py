@@ -45,8 +45,8 @@ def point_add(point_1: bytes,
     )
 
 
-def point_mul(scalar: Union[bytes, int],
-              point: bytes) -> bytes:
+def point_scalar_mul(scalar: Union[bytes, int],
+                     point: bytes) -> bytes:
     """
     Multiply a point on the ed25519 curve with a scalar.
 
@@ -63,7 +63,7 @@ def point_mul(scalar: Union[bytes, int],
     )
 
 
-def point_mul_base(scalar: Union[bytes, int]) -> bytes:
+def point_scalar_mul_base(scalar: Union[bytes, int]) -> bytes:
     """
     Multiply the base point of the ed25519 curve with a scalar.
 

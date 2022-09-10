@@ -200,7 +200,7 @@ class Ed25519Point(IPoint):
             IPoint object: IPoint object
         """
         return self.__class__(
-            ed25519_nacl_wrapper.point_mul(scalar, self.m_point)
+            ed25519_nacl_wrapper.point_scalar_mul(scalar, self.m_point)
         )
 
     def __rmul__(self,

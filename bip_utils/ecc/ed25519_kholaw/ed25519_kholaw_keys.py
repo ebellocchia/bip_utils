@@ -161,6 +161,6 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         """
         return Ed25519KholawPublicKey(
             signing.VerifyKey(
-                ed25519_nacl_wrapper.point_mul_base(self.m_sign_key.Raw().ToBytes())
+                ed25519_nacl_wrapper.point_scalar_mul_base(self.m_sign_key.Raw().ToBytes())
             )
         )
