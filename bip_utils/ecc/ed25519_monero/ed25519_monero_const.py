@@ -24,7 +24,7 @@ from bip_utils.ecc.common.ipoint import IPoint
 
 # Imports
 from bip_utils.ecc.ed25519.ed25519 import Ed25519Const
-from bip_utils.ecc.ed25519_monero.ed25519_monero_keys import Ed25519MoneroPoint
+from bip_utils.ecc.ed25519_monero.ed25519_monero_point import Ed25519MoneroPoint
 
 
 class Ed25519MoneroConst:
