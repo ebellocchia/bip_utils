@@ -38,10 +38,8 @@ class Ed25519KeysConst:
 
     # Public key prefix
     PUB_KEY_PREFIX: bytes = b"\x00"
-    # Compressed public key length in bytes
-    PUB_KEY_COMPRESSED_BYTE_LEN: int = 33
-    # Uncompressed public key length in bytes
-    PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 33
+    # Public key length in bytes
+    PUB_KEY_BYTE_LEN: int = 32
     # Private key length in bytes
     PRIV_KEY_BYTE_LEN: int = 32
 
@@ -128,7 +126,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
+        return Ed25519KeysConst.PUB_KEY_BYTE_LEN + len(Ed25519KeysConst.PUB_KEY_PREFIX)
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -138,7 +136,7 @@ class Ed25519PublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
+        return Ed25519PublicKey.CompressedLength()
 
     def UnderlyingObject(self) -> Any:
         """

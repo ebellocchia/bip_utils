@@ -28,7 +28,7 @@ import ed25519_blake2b
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst
+from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst, Ed25519PublicKey
 from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b_point import Ed25519Blake2bPoint
 from bip_utils.utils.misc import BytesUtils, DataBytes
@@ -116,7 +116,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
+        return Ed25519PublicKey.CompressedLength()
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -126,7 +126,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Ed25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
+        return Ed25519PublicKey.UncompressedLength()
 
     def UnderlyingObject(self) -> Any:
         """

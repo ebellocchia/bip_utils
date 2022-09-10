@@ -34,10 +34,8 @@ from bip_utils.utils.misc import DataBytes
 class Sr25519KeysConst:
     """Class container for ed25519 keys constants."""
 
-    # Compressed public key length in bytes
-    PUB_KEY_COMPRESSED_BYTE_LEN: int = 32
-    # Uncompressed public key length in bytes
-    PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 32
+    # Public key length in bytes
+    PUB_KEY_BYTE_LEN: int = 32
     # Private key length in bytes
     PRIV_KEY_BYTE_LEN: int = 64
 
@@ -113,7 +111,7 @@ class Sr25519PublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Sr25519KeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
+        return Sr25519KeysConst.PUB_KEY_BYTE_LEN
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -123,7 +121,7 @@ class Sr25519PublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Sr25519KeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
+        return Sr25519PublicKey.CompressedLength()
 
     def UnderlyingObject(self) -> Any:
         """
