@@ -26,7 +26,7 @@ from typing import Type
 from bip_utils.bip.bip32.base import Bip32Base, IBip32KeyDerivator, IBip32MstKeyGenerator
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
-from bip_utils.bip.bip32.kholaw.bip32_kholaw_key_derivator import Bip32KholawEd25519KeyDerivator
+from bip_utils.bip.bip32.kholaw.bip32_kholaw_ed25519_key_derivator import Bip32KholawEd25519KeyDerivator
 from bip_utils.bip.bip32.kholaw.bip32_kholaw_mst_key_generator import Bip32KholawEd25519MstKeyGenerator
 from bip_utils.ecc import EllipticCurveTypes
 
