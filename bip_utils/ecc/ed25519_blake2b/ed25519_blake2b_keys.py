@@ -29,7 +29,7 @@ from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst, Ed25519PublicKey
-from bip_utils.ecc.ed25519.lib import ed25519_lib
+from bip_utils.ecc.ed25519.lib import ed25519_point_lib
 from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b_point import Ed25519Blake2bPoint
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
@@ -64,10 +64,8 @@ class Ed25519Blake2bPublicKey(IPublicKey):
             raise ValueError("Invalid public key bytes")
 
         # The library doesn't check if the point lies on curve
-        try:
-            ed25519_lib.point_decode(key_bytes)
-        except ValueError as ex:
-            raise ValueError("Invalid public key bytes") from ex
+        if not ed25519_point_lib.point_is_on_curve(key_bytes):
+            raise ValueError("Invalid public key bytes")
 
         return cls(ed25519_blake2b.VerifyingKey(key_bytes))
 

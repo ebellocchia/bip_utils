@@ -25,7 +25,7 @@ from typing import Any
 
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519.lib import ed25519_lib, ed25519_nacl_wrapper
+from bip_utils.ecc.ed25519.lib import ed25519_point_lib
 from bip_utils.utils.misc import DataBytes
 
 
@@ -39,7 +39,10 @@ class Ed25519PointConst:
 class Ed25519Point(IPoint):
     """Ed25519 point class."""
 
-    m_point: bytes
+    m_is_generator: bool
+    m_enc_bytes: bytes
+    m_x: int
+    m_y: int
 
     @classmethod
     def FromBytes(cls,
@@ -53,19 +56,13 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        if len(point_bytes) == Ed25519PointConst.POINT_COORD_BYTE_LEN:
-            try:
-                ed25519_lib.point_decode(point_bytes)
-            except ValueError as ex:
-                raise ValueError("Invalid point bytes") from ex
-            return cls(point_bytes)
-        if len(point_bytes) == Ed25519PointConst.POINT_COORD_BYTE_LEN * 2:
-            if not ed25519_lib.point_is_on_curve(ed25519_lib.point_bytes_to_coord(point_bytes)):
-                raise ValueError("Invalid point bytes")
-            return cls(
-                ed25519_lib.point_encode(point_bytes)
+        if not ed25519_point_lib.point_is_on_curve(point_bytes):
+            raise ValueError("Invalid point bytes")
+        if ed25519_point_lib.point_is_decoded_bytes(point_bytes):
+            point_bytes = ed25519_point_lib.point_encode(
+                ed25519_point_lib.point_bytes_to_coord(point_bytes)
             )
-        raise ValueError("Invalid point bytes")
+        return cls(point_bytes)
 
     @classmethod
     def FromCoordinates(cls,
@@ -82,7 +79,7 @@ class Ed25519Point(IPoint):
             IPoint: IPoint object
         """
         return cls.FromBytes(
-            ed25519_lib.point_coord_to_bytes((x, y))
+            ed25519_point_lib.point_coord_to_bytes((x, y))
         )
 
     def __init__(self,
@@ -93,7 +90,14 @@ class Ed25519Point(IPoint):
         Args:
             point_bytes (bytes): Point bytes
         """
-        self.m_point = point_bytes
+        if not ed25519_point_lib.point_is_encoded_bytes(point_bytes):
+            raise ValueError("Invalid point bytes")
+
+        point_coord = ed25519_point_lib.point_bytes_to_coord(point_bytes)
+
+        self.m_enc_bytes = point_bytes
+        self.m_is_generator = ed25519_point_lib.point_is_generator(point_coord)
+        self.m_x, self.m_y = point_coord[0], point_coord[1]
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -112,7 +116,7 @@ class Ed25519Point(IPoint):
         Returns:
            Any: Underlying object
         """
-        return self.m_point
+        return self.m_enc_bytes
 
     def X(self) -> int:
         """
@@ -121,7 +125,7 @@ class Ed25519Point(IPoint):
         Returns:
            int: Point X coordinate
         """
-        return ed25519_lib.point_decode_no_check(self.m_point)[0]
+        return self.m_x
 
     def Y(self) -> int:
         """
@@ -130,7 +134,7 @@ class Ed25519Point(IPoint):
         Returns:
            int: Point Y coordinate
         """
-        return ed25519_lib.point_decode_no_check(self.m_point)[1]
+        return self.m_y
 
     def Raw(self) -> DataBytes:
         """
@@ -148,7 +152,7 @@ class Ed25519Point(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_point)
+        return DataBytes(self.m_enc_bytes)
 
     def RawDecoded(self) -> DataBytes:
         """
@@ -157,8 +161,8 @@ class Ed25519Point(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        dec = ed25519_lib.point_decode_no_check(self.m_point)
-        return DataBytes(ed25519_lib.encode_int(dec[0]) + ed25519_lib.encode_int(dec[1]))
+        return DataBytes(ed25519_point_lib.int_encode(self.m_x)
+                         + ed25519_point_lib.int_encode(self.m_y))
 
     def __add__(self,
                 point: IPoint) -> IPoint:
@@ -172,7 +176,7 @@ class Ed25519Point(IPoint):
             IPoint object: IPoint object
         """
         return self.__class__(
-            ed25519_nacl_wrapper.point_add(self.m_point, point.UnderlyingObject())
+            ed25519_point_lib.point_add(self.m_enc_bytes, point.UnderlyingObject())
         )
 
     def __radd__(self,
@@ -199,8 +203,12 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint object: IPoint object
         """
+        if self.m_is_generator:
+            return self.__class__(
+                ed25519_point_lib.point_scalar_mul_base(scalar)
+            )
         return self.__class__(
-            ed25519_nacl_wrapper.point_scalar_mul(scalar, self.m_point)
+            ed25519_point_lib.point_scalar_mul(scalar, self.m_enc_bytes)
         )
 
     def __rmul__(self,
