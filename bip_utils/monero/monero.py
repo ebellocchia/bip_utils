@@ -282,7 +282,7 @@ class Monero:
 
         Args:
             minor_idx (int)          : Minor index (i.e. subaddress index)
-            major_idx (int, optional): Major index (i.e. account index)
+            major_idx (int, optional): Major index (i.e. account index, default: 0)
 
         Returns:
             str: Subaddress string
