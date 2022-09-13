@@ -22,6 +22,7 @@ addr
    fil_addr
    iaddr_decoder
    iaddr_encoder
+   icx_addr
    nano_addr
    near_addr
    neo_addr
