@@ -128,6 +128,9 @@ def point_bytes_to_coord(point_bytes: bytes) -> Tuple[int, int]:
 
     Returns:
         tuple[int, int]: Point coordinates
+
+    Raises:
+        ValueError: If point bytes are not valid
     """
     if point_is_decoded_bytes(point_bytes):
         return int_decode(point_bytes[:_COORD_BYTE_LEN]), int_decode(point_bytes[_COORD_BYTE_LEN:])
@@ -158,6 +161,9 @@ def point_decode_no_check(point_bytes: bytes) -> Tuple[int, int]:
 
     Returns:
         tuple[int, int]: Point coordinates
+
+    Raises:
+        ValueError: If point bytes are not valid
     """
     if not point_is_encoded_bytes(point_bytes):
         raise ValueError("Invalid point bytes")
@@ -182,6 +188,9 @@ def point_decode(point_bytes: bytes) -> Tuple[int, int]:
 
     Returns:
         tuple[int, int]: Point coordinates
+
+    Raises:
+        ValueError: If the point bytes are not valid or the decoded point doesn't lie on the curve
     """
     point_coord = point_decode_no_check(point_bytes)
     if not point_is_on_curve(point_coord):
@@ -216,6 +225,9 @@ def point_is_generator(point: Union[bytes, Tuple[int, int]]) -> bool:
 
     Returns:
         bool: True if generator, false otherwise
+
+    Raises:
+        ValueError: If point bytes are not valid
     """
     if isinstance(point, bytes):
         point = point_bytes_to_coord(point)
@@ -233,6 +245,9 @@ def point_is_on_curve(point: Union[bytes, Tuple[int, int]]) -> bool:
 
     Returns:
         bool: True if it lies on the curve, false otherwise
+
+    Raises:
+        ValueError: If point bytes are not valid
     """
     if isinstance(point, bytes):
         point = point_bytes_to_coord(point)
@@ -248,8 +263,8 @@ def point_add(point_1: Union[bytes, Tuple[int, int]],
     Add two points on the ed25519 curve.
 
     Args:
-        point_1 (bytes or tuple[int, int])): Point 1
-        point_2 (bytes or tuple[int, int])): Point 2
+        point_1 (bytes or tuple[int, int]): Point 1
+        point_2 (bytes or tuple[int, int]): Point 2
 
     Returns:
         bytes: New point resulting from the addition
@@ -266,8 +281,8 @@ def point_scalar_mul(scalar: Union[bytes, int],
     Multiply a point on the ed25519 curve with a scalar.
 
     Args:
-        scalar (bytes or int)            : Scalar
-        point (bytes or tuple[int, int])): Point
+        scalar (bytes or int)           : Scalar
+        point (bytes or tuple[int, int]): Point
 
     Returns:
         bytes: New point resulting from the multiplication
@@ -283,7 +298,7 @@ def point_scalar_mul_base(scalar: Union[bytes, int]) -> bytes:
     Multiply the base (i.e. generator) point of the ed25519 curve with a scalar.
 
     Args:
-        scalar (bytes or int) : Scalar
+        scalar (bytes or int): Scalar
 
     Returns:
         bytes: New point resulting from the multiplication
