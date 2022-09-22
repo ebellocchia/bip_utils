@@ -21,6 +21,8 @@
 """Module for ed25519-monero keys."""
 
 # Imports
+from nacl import signing
+
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
@@ -122,5 +124,7 @@ class Ed25519MoneroPrivateKey(Ed25519PrivateKey):
             IPublicKey object: IPublicKey object
         """
         return Ed25519MoneroPublicKey(
-            ed25519_lib.point_scalar_mul_base(bytes(self.m_sign_key))
+            signing.VerifyKey(
+                ed25519_lib.point_scalar_mul_base(bytes(self.m_sign_key))
+            )
         )
