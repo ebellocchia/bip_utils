@@ -18,22 +18,52 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for ed25519-monero point."""
+"""Module for ed25519 utility functions."""
 
 # Imports
-from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
+from typing import Union
+
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 
 
-class Ed25519MoneroPoint(Ed25519Point):
-    """Ed25519-Monero point class."""
+class Ed25519Utils:
+    """Class container for ed25519 utility functions."""
 
     @staticmethod
-    def CurveType() -> EllipticCurveTypes:
+    def IntDecode(int_bytes: bytes) -> int:
         """
-        Get the elliptic curve type.
+        Decode int from bytes.
+
+        Args:
+            int_bytes (bytes): Integer bytes
 
         Returns:
-           EllipticCurveTypes: Elliptic curve type
+            int: Decoded integer
         """
-        return EllipticCurveTypes.ED25519_MONERO
+        return ed25519_lib.int_decode(int_bytes)
+
+    @staticmethod
+    def IntEncode(int_val: int) -> bytes:
+        """
+        Encode int to bytes.
+
+        Args:
+            int_val (int): Integer value
+
+        Returns:
+            bytes: Encoded integer
+        """
+        return ed25519_lib.int_encode(int_val)
+
+    @staticmethod
+    def ScalarReduce(scalar: Union[bytes, int]) -> bytes:
+        """
+        Convert the specified bytes to integer and return its lowest 32-bytes modulo ed25519-order.
+
+        Args:
+            scalar (bytes or int): Scalar
+
+        Returns:
+            bytes: Lowest 32-bytes modulo ed25519-order
+        """
+        return ed25519_lib.scalar_reduce(scalar)

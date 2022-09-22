@@ -21,80 +21,17 @@
 """Module for ed25519-monero keys."""
 
 # Imports
-from typing import Any
-
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
+from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst, Ed25519PrivateKey, Ed25519PublicKey
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.ecc.ed25519_monero.ed25519_monero_point import Ed25519MoneroPoint
-from bip_utils.ecc.ed25519_monero.lib import ed25519_monero_lib
 from bip_utils.utils.misc import DataBytes
 
 
-class Ed25519MoneroKeysConst:
-    """Class container for ed25519-monero keys constants."""
-
-    # Compressed public key length in bytes
-    PUB_KEY_COMPRESSED_BYTE_LEN: int = 32
-    # Uncompressed public key length in bytes
-    PUB_KEY_UNCOMPRESSED_BYTE_LEN: int = 32
-    # Private key length in bytes
-    PRIV_KEY_BYTE_LEN: int = 32
-
-
-class Ed25519MoneroPublicKey(IPublicKey):
+class Ed25519MoneroPublicKey(Ed25519PublicKey):
     """Ed25519-Monero public key class."""
-
-    m_ver_key: bytes
-
-    @classmethod
-    def FromBytes(cls,
-                  key_bytes: bytes) -> IPublicKey:
-        """
-        Construct class from key bytes.
-
-        Args:
-            key_bytes (bytes): Key bytes
-
-        Returns:
-            IPublicKey: IPublicKey object
-
-        Raises:
-            ValueError: If key bytes are not valid
-        """
-        return cls(key_bytes)
-
-    @classmethod
-    def FromPoint(cls,
-                  key_point: IPoint) -> IPublicKey:
-        """
-        Construct class from key point.
-
-        Args:
-            key_point (IPoint object): Key point
-
-        Returns:
-            IPublicKey: IPublicKey object
-
-        Raises:
-            ValueError: If key point is not valid
-        """
-        return cls(key_point.RawEncoded().ToBytes())
-
-    def __init__(self,
-                 key_bytes: bytes) -> None:
-        """
-        Construct class from key object.
-
-        Args:
-            key_bytes (bytes): Key bytes
-
-        Raises:
-            ValueError: If key is not valid
-        """
-        if not ed25519_monero_lib.is_valid_pub_key(key_bytes):
-            raise ValueError("Invalid public key")
-        self.m_ver_key = key_bytes
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -114,7 +51,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Returns:
            int: Compressed key length
         """
-        return Ed25519MoneroKeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
+        return Ed25519KeysConst.PUB_KEY_BYTE_LEN
 
     @staticmethod
     def UncompressedLength() -> int:
@@ -124,16 +61,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Returns:
            int: Uncompressed key length
         """
-        return Ed25519MoneroKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
-
-    def UnderlyingObject(self) -> Any:
-        """
-        Get the underlying object.
-
-        Returns:
-           Any: Underlying object
-        """
-        return self.m_ver_key
+        return Ed25519MoneroPublicKey.CompressedLength()
 
     def RawCompressed(self) -> DataBytes:
         """
@@ -142,18 +70,7 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_ver_key)
-
-    def RawUncompressed(self) -> DataBytes:
-        """
-        Return raw uncompressed public key.
-
-        Returns:
-            DataBytes object: DataBytes object
-        """
-
-        # Same as compressed
-        return self.RawCompressed()
+        return DataBytes(bytes(self.m_ver_key))
 
     def Point(self) -> IPoint:
         """
@@ -162,13 +79,11 @@ class Ed25519MoneroPublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Ed25519MoneroPoint.FromBytes(self.m_ver_key)
+        return Ed25519MoneroPoint(bytes(self.m_ver_key))
 
 
-class Ed25519MoneroPrivateKey(IPrivateKey):
+class Ed25519MoneroPrivateKey(Ed25519PrivateKey):
     """Ed25519-Monero private key class."""
-
-    m_sign_key: bytes
 
     @classmethod
     def FromBytes(cls,
@@ -185,22 +100,9 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-        return cls(key_bytes)
-
-    def __init__(self,
-                 key_bytes: bytes) -> None:
-        """
-        Construct class from key object.
-
-        Args:
-            key_bytes (bytes): Key bytes
-
-        Raises:
-            ValueError: If key is not valid
-        """
-        if not ed25519_monero_lib.is_valid_priv_key(key_bytes):
-            raise ValueError("Invalid private key")
-        self.m_sign_key = key_bytes
+        if not ed25519_lib.scalar_is_less_than_order(key_bytes):
+            raise ValueError("Invalid private key bytes")
+        return super().FromBytes(key_bytes)
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -212,34 +114,6 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         """
         return EllipticCurveTypes.ED25519_MONERO
 
-    @staticmethod
-    def Length() -> int:
-        """
-        Get the key length.
-
-        Returns:
-           int: Key length
-        """
-        return Ed25519MoneroKeysConst.PRIV_KEY_BYTE_LEN
-
-    def UnderlyingObject(self) -> Any:
-        """
-        Get the underlying object.
-
-        Returns:
-           Any: Underlying object
-        """
-        return self.m_sign_key
-
-    def Raw(self) -> DataBytes:
-        """
-        Return raw private key.
-
-        Returns:
-            DataBytes object: DataBytes object
-        """
-        return DataBytes(self.m_sign_key)
-
     def PublicKey(self) -> IPublicKey:
         """
         Get the public key correspondent to the private one.
@@ -247,4 +121,6 @@ class Ed25519MoneroPrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Ed25519MoneroPublicKey(ed25519_monero_lib.public_from_secret(self.m_sign_key))
+        return Ed25519MoneroPublicKey(
+            ed25519_lib.point_scalar_mul_base(bytes(self.m_sign_key))
+        )

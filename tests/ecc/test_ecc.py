@@ -159,12 +159,6 @@ TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES = TEST_ED25519_MONERO_COMPR_PUB_KEY_BY
 TEST_ED25519_MONERO_PRIV_KEY_BYTES = TEST_ED25519_PRIV_KEY_BYTES
 TEST_ED25519_MONERO_POINT_COORD = {"x": 16674457676716737978374862850521939870908941361163415909647017870848613367519,
                                    "y": 46362417873574777412568930969947358133147671210501021588337420811295298105940}
-TEST_ED25519_MONERO_POINT_COORD_ADD = {"x": 13930418472044895290497888747615270075016875604194627471625519398504944511899,
-                                       "y": 15336111391733078044429207665332363699141677331017352788634292302866727375323}
-TEST_ED25519_MONERO_POINT_COORD_MUL = {"x": 34789931687656264796703000222125978025079838656668354131627430558988588357648,
-                                       "y": 2721629446270666256884081992575940007727520472834215862794756683791049918461}
-TEST_ED25519_MONERO_POINT_DEC_BYTES = binascii.unhexlify(b"df3e4bb2ea53b7620df15208f40fe79beab9ecb8c4ec73eadb7d11bd9968dd245432db2c5e3953afda4184e534a25abe78bd08027d9c048d9c16c15fd7328066")
-TEST_ED25519_MONERO_POINT_ENC_BYTES = binascii.unhexlify(b"5432db2c5e3953afda4184e534a25abe78bd08027d9c048d9c16c15fd73280e6")
 
 TEST_ED25519_MONERO_PUB_KEY = Ed25519MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
 TEST_ED25519_MONERO_PRIV_KEY = Ed25519MoneroPrivateKey.FromBytes(TEST_ED25519_MONERO_PRIV_KEY_BYTES)
@@ -405,85 +399,28 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Ed25519Monero.PublicKeyClass() is Ed25519MoneroPublicKey)
         self.assertTrue(Ed25519Monero.PrivateKeyClass() is Ed25519MoneroPrivateKey)
 
-        #
-        # Public key
-        #
+        # Almost the same of ed25519, only lengths change
+        self.assertTrue(issubclass(Ed25519MoneroPublicKey, Ed25519PublicKey))
         self.assertEqual(Ed25519MoneroPublicKey.CurveType(), EllipticCurveTypes.ED25519_MONERO)
         self.assertEqual(Ed25519MoneroPublicKey.CompressedLength(), 32)
         self.assertEqual(Ed25519MoneroPublicKey.UncompressedLength(), 32)
 
-        # From compressed
         pub_key = Ed25519MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES)
-        self.assertTrue(isinstance(pub_key.RawCompressed(), DataBytes))
-        self.assertTrue(isinstance(pub_key.RawUncompressed(), DataBytes))
         self.assertTrue(isinstance(pub_key.Point(), Ed25519MoneroPoint))
-        self.assertTrue(isinstance(pub_key.UnderlyingObject(), bytes))
-        # From uncompressed
-        pub_key = Ed25519MoneroPublicKey.FromBytes(TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES)
-        self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
-        self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES)
-        # From point
-        pub_key = Ed25519MoneroPublicKey.FromPoint(Ed25519MoneroPoint.FromCoordinates(TEST_ED25519_MONERO_POINT_COORD["x"],
-                                                                                      TEST_ED25519_MONERO_POINT_COORD["y"]))
-        self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
-        self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_ED25519_MONERO_UNCOMPR_PUB_KEY_BYTES)
 
-        #
-        # Private key
-        #
+        # Almost the same of ed25519, only public key computation changes
+        self.assertTrue(issubclass(Ed25519MoneroPrivateKey, Ed25519PrivateKey))
         self.assertEqual(Ed25519MoneroPrivateKey.CurveType(), EllipticCurveTypes.ED25519_MONERO)
-        self.assertEqual(Ed25519MoneroPrivateKey.Length(), 32)
 
         priv_key = Ed25519MoneroPrivateKey.FromBytes(TEST_ED25519_MONERO_PRIV_KEY_BYTES)
-        self.assertTrue(isinstance(priv_key.Raw(), DataBytes))
         self.assertTrue(isinstance(priv_key.PublicKey(), Ed25519MoneroPublicKey))
-        self.assertTrue(isinstance(priv_key.UnderlyingObject(), bytes))
-        self.assertEqual(priv_key.Raw().ToBytes(), TEST_ED25519_MONERO_PRIV_KEY_BYTES)
         self.assertEqual(priv_key.PublicKey().RawCompressed().ToBytes(), TEST_ED25519_MONERO_COMPR_PUB_KEY_BYTES)
 
-        #
-        # Point
-        #
+        # No need to test point, same of ed25519
+        self.assertTrue(issubclass(Ed25519MoneroPoint, Ed25519Point))
         self.assertEqual(Ed25519MoneroPoint.CurveType(), EllipticCurveTypes.ED25519_MONERO)
-
-        point = pub_key.Point()
-        self.assertTrue(isinstance(point.Raw(), DataBytes))
-        self.assertTrue(isinstance(point.RawDecoded(), DataBytes))
-        self.assertTrue(isinstance(point.RawEncoded(), DataBytes))
-        self.assertTrue(isinstance(point.UnderlyingObject(), tuple))
-        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT_COORD["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT_COORD["y"])
-        self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
-        self.assertEqual(point.RawDecoded().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
-        self.assertEqual(point.RawEncoded().ToBytes(), TEST_ED25519_MONERO_POINT_ENC_BYTES)
-
-        # Addition
-        point_add = point + point
-        self.assertEqual(point_add.X(), TEST_ED25519_MONERO_POINT_COORD_ADD["x"])
-        self.assertEqual(point_add.Y(), TEST_ED25519_MONERO_POINT_COORD_ADD["y"])
-
-        # Multiplication
-        point_mul = point * 2
-        self.assertEqual(point_mul.X(), TEST_ED25519_MONERO_POINT_COORD_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_ED25519_MONERO_POINT_COORD_MUL["y"])
-
-        # Reverse multiplication
-        point_mul = 2 * point
-        self.assertEqual(point_mul.X(), TEST_ED25519_MONERO_POINT_COORD_MUL["x"])
-        self.assertEqual(point_mul.Y(), TEST_ED25519_MONERO_POINT_COORD_MUL["y"])
-
-        # From bytes
-        point = Ed25519MoneroPoint.FromBytes(TEST_ED25519_MONERO_POINT_DEC_BYTES)
-        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT_COORD["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT_COORD["y"])
-        self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
-
-        point = Ed25519MoneroPoint.FromBytes(TEST_ED25519_MONERO_POINT_ENC_BYTES)
-        self.assertEqual(point.X(), TEST_ED25519_MONERO_POINT_COORD["x"])
-        self.assertEqual(point.Y(), TEST_ED25519_MONERO_POINT_COORD["y"])
-        self.assertEqual(point.Raw().ToBytes(), TEST_ED25519_MONERO_POINT_DEC_BYTES)
 
     # Test Nist256p1 class
     def test_nist256p1(self):

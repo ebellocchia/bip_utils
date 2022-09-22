@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2022 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
-from bip_utils.ecc.ed25519.lib import ed25519_point_lib
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
 
@@ -66,12 +66,12 @@ class Ed25519PublicKey(IPublicKey):
         """
 
         # Remove the 0x00 prefix if present because nacl requires 32-byte length
-        if (len(key_bytes) == cls.CompressedLength()
+        if (len(key_bytes) == Ed25519KeysConst.PUB_KEY_BYTE_LEN + len(Ed25519KeysConst.PUB_KEY_PREFIX)
                 and key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
 
         # nacl doesn't check if the point lies on curve
-        if not ed25519_point_lib.point_is_on_curve(key_bytes):
+        if not ed25519_lib.point_is_on_curve(key_bytes):
             raise ValueError("Invalid public key bytes")
 
         try:

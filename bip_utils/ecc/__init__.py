@@ -11,6 +11,7 @@ from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519 import Ed25519
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey, Ed25519PublicKey
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
+from bip_utils.ecc.ed25519.ed25519_utils import Ed25519Utils
 
 # ed25519-blake2b
 from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b import Ed25519Blake2b

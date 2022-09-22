@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2022 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,11 +21,11 @@
 """Module for ed25519 point."""
 
 # Imports
-from typing import Any
+from typing import Any, Optional
 
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.ecc.ed25519.lib import ed25519_point_lib
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.utils.misc import DataBytes
 
 
@@ -41,8 +41,8 @@ class Ed25519Point(IPoint):
 
     m_is_generator: bool
     m_enc_bytes: bytes
-    m_x: int
-    m_y: int
+    m_x: Optional[int]
+    m_y: Optional[int]
 
     @classmethod
     def FromBytes(cls,
@@ -56,11 +56,11 @@ class Ed25519Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        if not ed25519_point_lib.point_is_on_curve(point_bytes):
+        if not ed25519_lib.point_is_on_curve(point_bytes):
             raise ValueError("Invalid point bytes")
-        if ed25519_point_lib.point_is_decoded_bytes(point_bytes):
-            point_bytes = ed25519_point_lib.point_encode(
-                ed25519_point_lib.point_bytes_to_coord(point_bytes)
+        if ed25519_lib.point_is_decoded_bytes(point_bytes):
+            point_bytes = ed25519_lib.point_encode(
+                ed25519_lib.point_bytes_to_coord(point_bytes)
             )
         return cls(point_bytes)
 
@@ -79,7 +79,7 @@ class Ed25519Point(IPoint):
             IPoint: IPoint object
         """
         return cls.FromBytes(
-            ed25519_point_lib.point_coord_to_bytes((x, y))
+            ed25519_lib.point_coord_to_bytes((x, y))
         )
 
     def __init__(self,
@@ -90,14 +90,12 @@ class Ed25519Point(IPoint):
         Args:
             point_bytes (bytes): Point bytes
         """
-        if not ed25519_point_lib.point_is_encoded_bytes(point_bytes):
+        if not ed25519_lib.point_is_encoded_bytes(point_bytes):
             raise ValueError("Invalid point bytes")
 
-        point_coord = ed25519_point_lib.point_bytes_to_coord(point_bytes)
-
         self.m_enc_bytes = point_bytes
-        self.m_is_generator = ed25519_point_lib.point_is_generator(point_coord)
-        self.m_x, self.m_y = point_coord[0], point_coord[1]
+        self.m_is_generator = ed25519_lib.point_is_generator(point_bytes)
+        self.m_x, self.m_y = None, None
 
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
@@ -125,6 +123,8 @@ class Ed25519Point(IPoint):
         Returns:
            int: Point X coordinate
         """
+        if self.m_x is None:
+            self.m_x, self.m_y = ed25519_lib.point_bytes_to_coord(self.m_enc_bytes)
         return self.m_x
 
     def Y(self) -> int:
@@ -134,6 +134,8 @@ class Ed25519Point(IPoint):
         Returns:
            int: Point Y coordinate
         """
+        if self.m_y is None:
+            self.m_x, self.m_y = ed25519_lib.point_bytes_to_coord(self.m_enc_bytes)
         return self.m_y
 
     def Raw(self) -> DataBytes:
@@ -161,8 +163,7 @@ class Ed25519Point(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(ed25519_point_lib.int_encode(self.m_x)
-                         + ed25519_point_lib.int_encode(self.m_y))
+        return DataBytes(ed25519_lib.int_encode(self.X()) + ed25519_lib.int_encode(self.Y()))
 
     def __add__(self,
                 point: IPoint) -> IPoint:
@@ -176,7 +177,7 @@ class Ed25519Point(IPoint):
             IPoint object: IPoint object
         """
         return self.__class__(
-            ed25519_point_lib.point_add(self.m_enc_bytes, point.UnderlyingObject())
+            ed25519_lib.point_add(self.m_enc_bytes, point.UnderlyingObject())
         )
 
     def __radd__(self,
@@ -205,10 +206,10 @@ class Ed25519Point(IPoint):
         """
         if self.m_is_generator:
             return self.__class__(
-                ed25519_point_lib.point_scalar_mul_base(scalar)
+                ed25519_lib.point_scalar_mul_base(scalar)
             )
         return self.__class__(
-            ed25519_point_lib.point_scalar_mul(scalar, self.m_enc_bytes)
+            ed25519_lib.point_scalar_mul(scalar, self.m_enc_bytes)
         )
 
     def __rmul__(self,

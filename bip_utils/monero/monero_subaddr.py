@@ -24,10 +24,10 @@
 from typing import Optional, Tuple
 
 from bip_utils.addr import XmrAddrEncoder
-from bip_utils.ecc import Ed25519Monero
+from bip_utils.ecc import Ed25519Monero, Ed25519Utils
 from bip_utils.monero.monero_keys import MoneroPrivateKey, MoneroPublicKey
 from bip_utils.utils.crypto import Kekkak256
-from bip_utils.utils.misc import BytesUtils, IntegerUtils
+from bip_utils.utils.misc import IntegerUtils
 
 
 class MoneroSubaddressConst:
@@ -102,7 +102,7 @@ class MoneroSubaddress:
                                   + self.m_priv_vkey.Raw().ToBytes()
                                   + major_idx_bytes
                                   + minor_idx_bytes)
-        m_int = BytesUtils.ToInteger(m, endianness="little")
+        m_int = Ed25519Utils.IntDecode(Ed25519Utils.ScalarReduce(m))
 
         # Compute subaddress public spend key
         # D = master_pub_skey + m * B

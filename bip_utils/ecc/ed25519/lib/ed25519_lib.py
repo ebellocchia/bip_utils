@@ -22,7 +22,7 @@
 Helper library for ed25519 point encoding/decoding, which cannot be done with pynacl APIs.
 Encode/Decode operations copied from: https://github.com/warner/python-pure25519/blob/master/pure25519/basic.py
 """
-
+import binascii
 from typing import Tuple, Union
 
 from nacl import bindings
@@ -31,8 +31,12 @@ from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
 _Q = 2 ** 255 - 19
+_L = 2**252 + 27742317777372353535851937790883648493
 _G = (15112221349535400772501151409588531511454012693041857206046113283949847762202,
       46316835694926478169428394003475163141307993866256225615783033603165251855960)
+_G_DEC_BYTES = binascii.unhexlify("1ad5258f602d56c9b2a7259560c72c695cdcd6fd31e2a4c0fe536ecdd3366921"
+                                  "5866666666666666666666666666666666666666666666666666666666666666")
+_G_ENC_BYTES = binascii.unhexlify("5866666666666666666666666666666666666666666666666666666666666666")
 _COORD_BYTE_LEN = 32
 
 
@@ -229,8 +233,13 @@ def point_is_generator(point: Union[bytes, Tuple[int, int]]) -> bool:
     Raises:
         ValueError: If point bytes are not valid
     """
+    # Avoid converting to coordinates if bytes to increase speed
     if isinstance(point, bytes):
-        point = point_bytes_to_coord(point)
+        if point_is_encoded_bytes(point):
+            return point == _G_ENC_BYTES
+        if point_is_decoded_bytes(point):
+            return point == _G_DEC_BYTES
+        raise ValueError("Invalid point bytes")
     return point == _G
 
 
@@ -306,3 +315,35 @@ def point_scalar_mul_base(scalar: Union[bytes, int]) -> bytes:
     return bindings.crypto_scalarmult_ed25519_base_noclamp(
         scalar if isinstance(scalar, bytes) else int_encode(scalar)
     )
+
+
+def scalar_reduce(scalar: Union[bytes, int]) -> bytes:
+    """
+    Convert the specified bytes to integer and return its lowest 32-bytes modulo ed25519 curve order.
+
+    Args:
+        scalar (bytes or int): Scalar
+
+    Returns:
+        bytes: Lowest 32-bytes modulo ed25519-order
+    """
+    if isinstance(scalar, int):
+        scalar = int_encode(scalar)
+    return bindings.crypto_core_ed25519_scalar_reduce(
+        scalar.ljust(_COORD_BYTE_LEN * 2, b"\x00")
+    )
+
+
+def scalar_is_less_than_order(scalar: Union[bytes, int]) -> bool:
+    """
+    Get if the specified scalar is less than the ed25519 curve order.
+
+    Args:
+        scalar (bytes or int): Scalar
+
+    Returns:
+        bool: True if lower, false otherwise
+    """
+    if isinstance(scalar, bytes):
+        scalar = int_decode(scalar)
+    return scalar < _L

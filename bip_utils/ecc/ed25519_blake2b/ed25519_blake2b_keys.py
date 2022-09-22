@@ -29,7 +29,7 @@ from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst, Ed25519PublicKey
-from bip_utils.ecc.ed25519.lib import ed25519_point_lib
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.ecc.ed25519_blake2b.ed25519_blake2b_point import Ed25519Blake2bPoint
 from bip_utils.utils.misc import BytesUtils, DataBytes
 
@@ -56,15 +56,15 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         """
 
         # Remove the 0x00 prefix if present
-        if (len(key_bytes) == cls.CompressedLength()
+        if (len(key_bytes) == Ed25519KeysConst.PUB_KEY_BYTE_LEN + len(Ed25519KeysConst.PUB_KEY_PREFIX)
                 and key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             key_bytes = key_bytes[1:]
         # The library does not raise any exception in case of length error
-        elif len(key_bytes) != cls.CompressedLength() - 1:
+        elif len(key_bytes) != Ed25519KeysConst.PUB_KEY_BYTE_LEN:
             raise ValueError("Invalid public key bytes")
 
         # The library doesn't check if the point lies on curve
-        if not ed25519_point_lib.point_is_on_curve(key_bytes):
+        if not ed25519_lib.point_is_on_curve(key_bytes):
             raise ValueError("Invalid public key bytes")
 
         return cls(ed25519_blake2b.VerifyingKey(key_bytes))

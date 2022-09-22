@@ -389,7 +389,7 @@ TEST_VECT = [
 ]
 
 # Generic seed for testing
-TEST_SEED = b"\x00" * Ed25519MoneroPrivateKey.Length()
+TEST_SEED = b"\x01" * Ed25519MoneroPrivateKey.Length()
 
 
 #

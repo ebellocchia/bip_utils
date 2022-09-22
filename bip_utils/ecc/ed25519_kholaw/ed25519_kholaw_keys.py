@@ -33,7 +33,7 @@ from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey, Ed25519PublicKey
-from bip_utils.ecc.ed25519.lib import ed25519_point_lib
+from bip_utils.ecc.ed25519.lib import ed25519_lib
 from bip_utils.ecc.ed25519_kholaw.ed25519_kholaw_point import Ed25519KholawPoint
 from bip_utils.utils.misc import DataBytes
 
@@ -161,6 +161,6 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         """
         return Ed25519KholawPublicKey(
             signing.VerifyKey(
-                ed25519_point_lib.point_scalar_mul_base(self.m_sign_key.Raw().ToBytes())
+                ed25519_lib.point_scalar_mul_base(self.m_sign_key.Raw().ToBytes())
             )
         )
