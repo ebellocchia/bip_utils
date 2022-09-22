@@ -29,20 +29,18 @@ class SubstrateTests(BenchmarkTestsBase):
     # Run test
     def _RunTest(self,
                  seed_bytes: bytes) -> None:
+        substrate_mst_ctx = Substrate.FromSeed(seed_bytes, SubstrateCoins.POLKADOT)
+
         for i in range(0, self.m_test_itr_num):
-            substrate_ctx = Substrate.FromSeed(seed_bytes, SubstrateCoins.POLKADOT)
-            substrate_ctx = substrate_ctx.ChildKey("//hard1").ChildKey("//hard2")
+            substrate_child_ctx = substrate_mst_ctx.ChildKey("//hard1")\
+                                                   .ChildKey("//hard2")\
+                                                   .ChildKey("//hard3")\
+                                                   .ChildKey("/soft1")\
+                                                   .ChildKey("/soft2")
 
             for j in range(0, self.m_test_cache_num):
-                substrate_ctx.PublicKey().ToAddress()
-                substrate_ctx.PublicKey().RawCompressed().ToHex()
-                substrate_ctx.PublicKey().RawUncompressed().ToHex()
-                substrate_ctx.PrivateKey().Raw().ToHex()
+                substrate_child_ctx.PublicKey().ToAddress()
+                substrate_child_ctx.PublicKey().RawCompressed().ToHex()
+                substrate_child_ctx.PublicKey().RawUncompressed().ToHex()
+                substrate_child_ctx.PrivateKey().Raw().ToHex()
 
-            substrate_ctx = substrate_ctx.ChildKey("/soft1").ChildKey("/soft2")
-
-            for j in range(0, self.m_test_cache_num):
-                substrate_ctx.PublicKey().ToAddress()
-                substrate_ctx.PublicKey().RawCompressed().ToHex()
-                substrate_ctx.PublicKey().RawUncompressed().ToHex()
-                substrate_ctx.PrivateKey().Raw().ToHex()

@@ -48,8 +48,10 @@ class Bip44Tests(BenchmarkTestsBase):
     # Run test
     def _RunTest(self,
                  seed_bytes: bytes) -> None:
+        bip44_mst_ctx = self.m_bip_cls.FromSeed(seed_bytes, self.m_bip_coin)
+
         for i in range(0, self.m_test_itr_num):
-            bip44_addr_ctx = self.m_bip_cls.FromSeed(seed_bytes, self.m_bip_coin).DeriveDefaultPath()
+            bip44_addr_ctx = bip44_mst_ctx.DeriveDefaultPath()
 
             for j in range(0, self.m_test_cache_num):
                 bip44_addr_ctx.PublicKey().ToAddress()
