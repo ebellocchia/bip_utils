@@ -102,7 +102,7 @@ class Ed25519MoneroPrivateKey(Ed25519PrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
-        if not ed25519_lib.scalar_is_less_than_order(key_bytes):
+        if not ed25519_lib.scalar_is_valid(key_bytes):
             raise ValueError("Invalid private key bytes")
         return super().FromBytes(key_bytes)
 

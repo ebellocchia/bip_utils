@@ -334,9 +334,9 @@ def scalar_reduce(scalar: Union[bytes, int]) -> bytes:
     )
 
 
-def scalar_is_less_than_order(scalar: Union[bytes, int]) -> bool:
+def scalar_is_valid(scalar: Union[bytes, int]) -> bool:
     """
-    Get if the specified scalar is less than the ed25519 curve order.
+    Get if the specified scalar is valid (i.e. less than the ed25519 curve order).
 
     Args:
         scalar (bytes or int): Scalar
