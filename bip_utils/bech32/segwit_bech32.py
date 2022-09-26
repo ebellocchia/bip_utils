@@ -39,8 +39,8 @@ class SegwitBech32Const:
 
     # Separator
     SEPARATOR: str = Bech32Const.SEPARATOR
-    # Checksum length in bytes
-    CHECKSUM_BYTE_LEN: int = Bech32Const.CHECKSUM_STR_LEN
+    # Checksum length
+    CHECKSUM_STR_LEN: int = Bech32Const.CHECKSUM_STR_LEN
     # Minimum witness program length in bytes
     WITNESS_PROG_MIN_BYTE_LEN: int = 2
     # Maximum witness program length in bytes
@@ -130,7 +130,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         # Decode string
         hrp_got, data = cls._DecodeBech32(addr,
                                           SegwitBech32Const.SEPARATOR,
-                                          SegwitBech32Const.CHECKSUM_BYTE_LEN)
+                                          SegwitBech32Const.CHECKSUM_STR_LEN)
         # Check HRP
         if hrp != hrp_got:
             raise ValueError(
