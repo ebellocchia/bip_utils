@@ -35,37 +35,37 @@ from bip_utils.monero.monero_subaddr import MoneroSubaddressConst
 TEST_VECT = [
     # Main net
     {
-        "seed": b"2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107",
+        "seed": b"2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874117",
         "coin": MoneroCoins.MONERO_MAINNET,
-        "priv_skey": "2c9623882df4940a734b009e0732ce5a8de7a62c4c1a2a53767a8f6c04874107",
-        "priv_vkey": "14467d1b9bb8d1fcfb5b7ae08cc9994367e917efd7e08cf94f9882ffa0629e09",
-        "pub_skey": "a95d2eb7e157f0a169df0a9c490dcd8e0feefb31bbf1328ca4938592a9d02422",
-        "pub_vkey": "dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5",
-        "primary_address": "483MrwgmB1yTzuzmJPSiWGQmBYC1Z21yTQXQuDWv4MZm6qBnA4CCMXVgsjoFRmGkATR8yeytc2tFJKgvKz1Bbhj5UhSCham",
+        "priv_skey": "3fc22d2b139182b29cae08fb2838ef458de7a62c4c1a2a53767a8f6c04874107",
+        "priv_vkey": "66e7495a49d2f1b9458204386bd6aadf6402c270d37d503a1cebde58a0d38a00",
+        "pub_skey": "f7ee64693c501c0f6112f5ab4d33b405c35f66efb2c704ffbd2f7dc63408235e",
+        "pub_vkey": "7f9e54e6dc3fbbd4b7a3b4412c22f4e2d78ee91ddfeaa30a9181e4b374ac3613",
+        "primary_address": "4B23epeYLCj3aCTG8X83ZM1xunHBjWEB5jmzM1zfrAKcGokjBPvS7eAcadEQZEgDhDeweod9KEZ5L2mXYVthxdxy3CQiRDK",
         "integrated_address": {
             "payment_id": b"d6f093554c0daa94",
-            "address": "4Hk2skWFnHVTzuzmJPSiWGQmBYC1Z21yTQXQuDWv4MZm6qBnA4CCMXVgsjoFRmGkATR8yeytc2tFJKgvKz1Bbhj5i7xE3Q5peeVHkkrCWJ",
+            "address": "4LiifdU2wUF3aCTG8X83ZM1xunHBjWEB5jmzM1zfrAKcGokjBPvS7eAcadEQZEgDhDeweod9KEZ5L2mXYVthxdxy4KUCty2MEBbHiGc8eM",
         },
         "subaddresses": [
             {
                 "major_idx": 0,
                 "minor_idx": 0,
-                "address": "483MrwgmB1yTzuzmJPSiWGQmBYC1Z21yTQXQuDWv4MZm6qBnA4CCMXVgsjoFRmGkATR8yeytc2tFJKgvKz1Bbhj5UhSCham",
+                "address": "4B23epeYLCj3aCTG8X83ZM1xunHBjWEB5jmzM1zfrAKcGokjBPvS7eAcadEQZEgDhDeweod9KEZ5L2mXYVthxdxy3CQiRDK",
             },
             {
                 "major_idx": 0,
                 "minor_idx": 1,
-                "address": "8ACSUFFHQPT5bm2wok3B7W2LMC66SEA14NB5nLo6ZQbucr2iFPaBTyCQMkJoWi6vDnjYTWvot71evNc9USzMHjBW1FPRq2k",
+                "address": "89EpSrB4wKB3UrLk8Zf4dHhvcfo1TqVfR6PAE8WPtwK9YuJhiEaU49y8w9fBaCTPUSCmaYTQbD3LhgbkHriuQLgDMM1dpsk",
             },
             {
                 "major_idx": 1,
                 "minor_idx": 0,
-                "address": "853mecUvFaKCZDTSmeY3S2SatQEVcEc57jTr15HjdoVF4rPdaSebydLYnwrkn9fn5rcJUQnS8c7WqfTotxwBRLpXJip2gzJ",
+                "address": "87zT4PHnBDUJodyx5gzbenceaByre9ijiHa9FkZnu2yJP2xLEv9ivMTcLtkzaFp6pffWwcZ2htGU94VGiXMsR67q9yenKYT",
             },
             {
                 "major_idx": 1,
                 "minor_idx": 1,
-                "address": "85rtDvTdrMsR9CXjL4XCAEgEiwuXW3iP9SYevQskNVTydzamE7RAbVYKL5mHVbKsx3ExhLs5EvFn6Q9wfj55vEtt95fYVNv",
+                "address": "88gNnRiJ4q9BrcsaxoTxFMPeVHPuZELNwTZgqSNwbRKv9gSbfzJDgyKB1sKsH81mGVN991LaAaN9f5v8orhk6Yf64F2XmT8",
             },
         ]
     },

@@ -69,13 +69,13 @@ class Base58XmrEncoder:
 
         # Encode each single block and pad
         for i in range(tot_block_cnt):
-            block_enc = Base58Encoder.Encode(data_bytes[(i * block_dec_len):((i + 1) * block_dec_len)])
+            block_enc = Base58Encoder.Encode(data_bytes[i * block_dec_len:(i + 1) * block_dec_len])
             enc += Base58XmrEncoder.__Pad(block_enc, Base58XmrConst.BLOCK_ENC_MAX_BYTE_LEN)
 
         # Encode last block and pad
         if last_block_enc_len > 0:
             block_enc = Base58Encoder.Encode(
-                data_bytes[(tot_block_cnt * block_dec_len):((tot_block_cnt * block_dec_len) + last_block_enc_len)])
+                data_bytes[tot_block_cnt * block_dec_len:(tot_block_cnt * block_dec_len) + last_block_enc_len])
             enc += Base58XmrEncoder.__Pad(block_enc, Base58XmrConst.BLOCK_ENC_BYTE_LENS[last_block_enc_len])
 
         return enc

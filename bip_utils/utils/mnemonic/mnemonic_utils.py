@@ -86,9 +86,9 @@ class MnemonicUtils:
         word3_idx = words_list.GetWordIdx(word3) % n
 
         # Get back the bytes chunk
-        bytes_chunk = word1_idx + (n * ((word2_idx - word1_idx) % n)) + (n * n * ((word3_idx - word2_idx) % n))
+        int_chunk = word1_idx + (n * ((word2_idx - word1_idx) % n)) + (n * n * ((word3_idx - word2_idx) % n))
 
-        return IntegerUtils.ToBytes(bytes_chunk, bytes_num=4, endianness=endianness)
+        return IntegerUtils.ToBytes(int_chunk, bytes_num=4, endianness=endianness)
 
 
 class MnemonicWordsList:
