@@ -1,3 +1,8 @@
+# 2.7.0
+
+- Add support for Icon
+- Use *pynacl* library for Monero ed25519 arithmetics, speeding it up a lot (around 5 times faster on my machine)
+
 # 2.6.1
 
 - Fix CIP1852 Cardano Icarus/Ledger extended key prefix
