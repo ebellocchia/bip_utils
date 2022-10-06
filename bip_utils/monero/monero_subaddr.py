@@ -112,8 +112,8 @@ class MoneroSubaddress:
         # C = master_priv_vkey * D
         subaddr_pub_vkey_point = subaddr_pub_skey_point * self.m_priv_vkey.Raw().ToInt("little")
 
-        return (MoneroPublicKey.FromBytes(subaddr_pub_skey_point.RawEncoded().ToBytes()),
-                MoneroPublicKey.FromBytes(subaddr_pub_vkey_point.RawEncoded().ToBytes()))
+        return (MoneroPublicKey.FromPoint(subaddr_pub_skey_point),
+                MoneroPublicKey.FromPoint(subaddr_pub_vkey_point))
 
     def ComputeAndEncodeKeys(self,
                              minor_idx: int,

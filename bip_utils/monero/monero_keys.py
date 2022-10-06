@@ -26,7 +26,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Union
 
-from bip_utils.ecc import Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey, IPrivateKey, IPublicKey
+from bip_utils.ecc import Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey, IPoint, IPrivateKey, IPublicKey
 from bip_utils.monero.monero_ex import MoneroKeyError
 from bip_utils.utils.misc import DataBytes
 
@@ -64,10 +64,30 @@ class MoneroPublicKey:
         Args:
             key_bytes (bytes): Key bytes
 
+        Returns:
+            MoneroPublicKey object: MoneroPublicKey object
+
         Raises:
             MoneroKeyError: If the key constructed from the bytes is not valid
         """
         return cls(cls.__KeyFromBytes(key_bytes))
+
+    @classmethod
+    def FromPoint(cls,
+                  key_point: IPoint) -> MoneroPublicKey:
+        """
+        Create from point.
+
+        Args:
+            key_point (IPoint object): Key point
+
+        Returns:
+            MoneroPublicKey object: MoneroPublicKey object
+
+        Raises:
+            Bip32KeyError: If the key constructed from the bytes is not valid
+        """
+        return cls(cls.__KeyFromPoint(key_point))
 
     def __init__(self,
                  pub_key: IPublicKey) -> None:
@@ -132,6 +152,25 @@ class MoneroPublicKey:
             return Ed25519MoneroPublicKey.FromBytes(key_bytes)
         except ValueError as ex:
             raise MoneroKeyError("Invalid public key") from ex
+
+    @staticmethod
+    def __KeyFromPoint(key_point: IPoint) -> IPublicKey:
+        """
+        Construct key from point.
+
+        Args:
+            key_point (IPoint object): Key point
+
+        Returns:
+            IPublicKey object: IPublicKey object
+
+        Raises:
+            MoneroKeyError: If the key constructed from the bytes is not valid
+        """
+        try:
+            return Ed25519MoneroPublicKey.FromPoint(key_point)
+        except ValueError as ex:
+            raise MoneroKeyError("Invalid key point") from ex
 
 
 class MoneroPrivateKey:
