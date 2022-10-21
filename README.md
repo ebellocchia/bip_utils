@@ -159,7 +159,9 @@ To install the package:
 
             pip install bip_utils --install-option="--coincurve=0"
 
-**NOTE:** if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0 otherwise it won't work.
+**NOTES:**
+- if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0
+- in case of problems when building the *ed25519_blake2b* library, you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels\ed25519_blake2b)
 
 To run tests:
 
