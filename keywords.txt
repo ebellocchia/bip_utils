@@ -78,6 +78,7 @@ nano
 near
 near protocol
 neo
+pi network
 polygon
 ripple
 secret
