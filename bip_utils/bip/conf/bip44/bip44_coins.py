@@ -33,6 +33,7 @@ class Bip44Coins(BipCoins):
     # Main nets
     AKASH_NETWORK = auto()
     ALGORAND = auto()
+    APTOS = auto()
     AVAX_C_CHAIN = auto()
     AVAX_P_CHAIN = auto()
     AVAX_X_CHAIN = auto()

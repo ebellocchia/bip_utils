@@ -35,6 +35,7 @@ class Bip44ConfGetterConst:
     COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
         Bip44Coins.AKASH_NETWORK: Bip44Conf.AkashNetwork,
         Bip44Coins.ALGORAND: Bip44Conf.Algorand,
+        Bip44Coins.APTOS: Bip44Conf.Aptos,
         Bip44Coins.AVAX_C_CHAIN: Bip44Conf.AvaxCChain,
         Bip44Coins.AVAX_P_CHAIN: Bip44Conf.AvaxPChain,
         Bip44Coins.AVAX_X_CHAIN: Bip44Conf.AvaxXChain,
