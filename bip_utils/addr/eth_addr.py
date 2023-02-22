@@ -98,7 +98,7 @@ class EthAddrDecoder(IAddrDecoder):
         AddrDecUtils.ValidateLength(addr_no_prefix, EthAddrConst.ADDR_LEN)
         # Check checksum encoding
         if not skip_chksum_enc and addr_no_prefix != _EthAddrUtils.ChecksumEncode(addr_no_prefix):
-            raise ValueError("Invalid checksum encode")
+            raise ValueError("Invalid checksum encoding")
 
         return BytesUtils.FromHexString(addr_no_prefix)
 
