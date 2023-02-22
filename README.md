@@ -60,6 +60,7 @@ Please note that, for the py-sr25519-bindings library, Rust is required to be in
 Supported BIP coins:
 - Akash Network
 - Algorand
+- Aptos
 - Avalanche (all the 3 chains)
 - Axelar
 - Band Protocol

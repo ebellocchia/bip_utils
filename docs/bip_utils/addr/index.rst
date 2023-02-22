@@ -12,6 +12,7 @@ addr
    addr_dec_utils
    addr_key_validator
    algo_addr
+   aptos_addr
    atom_addr
    avax_addr
    bch_addr_converter

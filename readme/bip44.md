@@ -18,6 +18,7 @@ Supported coins enumerative for BIP-0044:
 |---|---|---|
 |Akash Network|`Bip44Coins.AKASH_NETWORK`|-|
 |Algorand|`Bip44Coins.ALGORAND`|-|
+|Aptos|`Bip44Coins.APTOS`|-|
 |Avalanche C-Chain|`Bip44Coins.AVAX_C_CHAIN`|-|
 |Avalanche P-Chain|`Bip44Coins.AVAX_P_CHAIN`|-|
 |Avalanche X-Chain|`Bip44Coins.AVAX_X_CHAIN`|-|
