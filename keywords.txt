@@ -35,6 +35,7 @@ shelley
 # BIP coins
 akash
 algorand
+aptos
 atom
 avalanche
 avax
