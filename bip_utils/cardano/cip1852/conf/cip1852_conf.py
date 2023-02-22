@@ -23,7 +23,7 @@
 # Imports
 from bip_utils.addr import AdaShelleyAddrEncoder, AdaShelleyAddrNetworkTags
 from bip_utils.bip.bip32 import Bip32Const, Bip32KholawEd25519
-from bip_utils.bip.conf.common import NOT_HARDENED_DEF_PATH, BipCoinConf
+from bip_utils.bip.conf.common import DER_PATH_NON_HARDENED_FULL, BipCoinConf
 from bip_utils.cardano.bip32.cardano_icarus_bip32 import CardanoIcarusBip32
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
@@ -37,7 +37,7 @@ class Cip1852Conf:
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=False,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=Bip32Const.KHOLAW_KEY_NET_VERSIONS,
         wif_net_ver=None,
         bip32_cls=CardanoIcarusBip32,
@@ -52,7 +52,7 @@ class Cip1852Conf:
         coin_names=CoinsConf.CardanoTestNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=True,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=Bip32Const.TEST_NET_KEY_NET_VERSIONS,
         wif_net_ver=None,
         bip32_cls=CardanoIcarusBip32,
@@ -67,7 +67,7 @@ class Cip1852Conf:
         coin_names=CoinsConf.CardanoMainNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=False,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=Bip32Const.KHOLAW_KEY_NET_VERSIONS,
         wif_net_ver=None,
         bip32_cls=Bip32KholawEd25519,
@@ -82,7 +82,7 @@ class Cip1852Conf:
         coin_names=CoinsConf.CardanoTestNet.CoinNames(),
         coin_idx=Slip44.CARDANO,
         is_testnet=True,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=Bip32Const.TEST_NET_KEY_NET_VERSIONS,
         wif_net_ver=None,
         bip32_cls=Bip32KholawEd25519,
