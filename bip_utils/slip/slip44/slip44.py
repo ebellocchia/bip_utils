@@ -76,3 +76,4 @@ class Slip44:
     CARDANO: int = 1815
     AVALANCHE: int = 9000
     CELO: int = 52752
+    PI_NETWORK: int = 314159

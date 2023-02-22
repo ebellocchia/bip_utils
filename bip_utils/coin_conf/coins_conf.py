@@ -628,6 +628,12 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Pi Network
+    PiNetwork: CoinConf = CoinConf(
+        coin_name=CoinNames("Pi Network", "PI"),
+        params={},
+    )
+
     # Configuration for Plasm
     Plasm: CoinConf = CoinConf(
         coin_name=CoinNames("Plasm Network", "PLM"),

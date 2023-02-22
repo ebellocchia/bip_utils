@@ -918,6 +918,19 @@ class Bip44Conf:
         },
     )
 
+    # Configuration for Pi Network
+    PiNetwork: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.PiNetwork.CoinNames(),
+        coin_idx=Slip44.PI_NETWORK,
+        is_testnet=False,
+        def_path="0'",
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Ed25519,
+        addr_cls=XlmAddrEncoder,
+        addr_params={"addr_type": XlmAddrTypes.PUB_KEY},
+    )
+
     # Configuration for Polkadot (ed25519 SLIP-0010)
     PolkadotEd25519Slip: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.Polkadot.CoinNames(),
