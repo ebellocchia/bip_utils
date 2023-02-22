@@ -36,10 +36,10 @@ from bip_utils.utils.misc import BytesUtils, IntegerUtils
 class NeoAddrConst:
     """Class container for NEO address constants."""
 
-    # Address prefix
-    PREFIX: bytes = b"\x21"
-    # Address suffix
-    SUFFIX: bytes = b"\xac"
+    # Address prefix byte
+    PREFIX_BYTE: bytes = b"\x21"
+    # Address suffix byte
+    SUFFIX_BYTE: bytes = b"\xac"
 
 
 class NeoAddrDecoder(IAddrDecoder):
@@ -116,9 +116,9 @@ class NeoAddrEncoder(IAddrEncoder):
         pub_key_obj = AddrKeyValidator.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
-        payload_bytes = (NeoAddrConst.PREFIX
+        payload_bytes = (NeoAddrConst.PREFIX_BYTE
                          + pub_key_obj.RawCompressed().ToBytes()
-                         + NeoAddrConst.SUFFIX)
+                         + NeoAddrConst.SUFFIX_BYTE)
         # Encode to base58
         return Base58Encoder.CheckEncode(ver_bytes + Hash160.QuickDigest(payload_bytes))
 
