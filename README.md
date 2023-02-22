@@ -97,6 +97,7 @@ Supported BIP coins:
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology
 - Osmosis
+- Pi Network
 - Polkadot (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
 - Polygon
 - Ripple

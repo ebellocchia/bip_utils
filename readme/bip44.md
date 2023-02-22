@@ -65,6 +65,7 @@ Supported coins enumerative for BIP-0044:
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|`Bip44Coins.OKEX_CHAIN_ATOM_OLD`|-|
 |Ontology|`Bip44Coins.ONTOLOGY`|-|
 |Osmosis|`Bip44Coins.OSMOSIS`|-|
+|Pi Network|`Bip44Coins.PI_NETWORK`|-|
 |Polkadot (ed25519 SLIP-0010)|`Bip44Coins.POLKADOT_ED25519_SLIP`|-|
 |Polygon|`Bip44Coins.POLYGON`|-|
 |Ripple|`Bip44Coins.RIPPLE`|-|
