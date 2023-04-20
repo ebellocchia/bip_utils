@@ -20,7 +20,9 @@
 
 """Module for generic BIP configuration constants."""
 
-# Hardened default path
-HARDENED_DEF_PATH: str = "0'/0'/0'"
-# Not hardened default path
-NOT_HARDENED_DEF_PATH: str = "0'/0/0"
+# Hardened default path (full)
+DER_PATH_HARDENED_FULL: str = "0'/0'/0'"
+# Hardened default path (short)
+DER_PATH_HARDENED_SHORT: str = "0'"
+# Non-hardened default path (full)
+DER_PATH_NON_HARDENED_FULL: str = "0'/0/0"

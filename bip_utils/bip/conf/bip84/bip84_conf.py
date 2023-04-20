@@ -23,7 +23,7 @@
 # Imports
 from bip_utils.addr import P2WPKHAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions, Bip32Slip10Secp256k1
-from bip_utils.bip.conf.common import NOT_HARDENED_DEF_PATH, BipCoinConf
+from bip_utils.bip.conf.common import DER_PATH_NON_HARDENED_FULL, BipCoinConf
 from bip_utils.coin_conf import CoinsConf
 from bip_utils.slip.slip44 import Slip44
 
@@ -41,7 +41,7 @@ class Bip84Conf:
         coin_names=CoinsConf.BitcoinMainNet.CoinNames(),
         coin_idx=Slip44.BITCOIN,
         is_testnet=False,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
         wif_net_ver=CoinsConf.BitcoinMainNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Slip10Secp256k1,
@@ -55,7 +55,7 @@ class Bip84Conf:
         coin_names=CoinsConf.BitcoinTestNet.CoinNames(),
         coin_idx=Slip44.TESTNET,
         is_testnet=True,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=Bip32KeyNetVersions(b"\x04\x5f\x1c\xf6",
                                         b"\x04\x5f\x18\xbc"),   # vpub / vprv
         wif_net_ver=CoinsConf.BitcoinTestNet.ParamByKey("wif_net_ver"),
@@ -71,7 +71,7 @@ class Bip84Conf:
         coin_names=CoinsConf.LitecoinMainNet.CoinNames(),
         coin_idx=Slip44.LITECOIN,
         is_testnet=False,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=_BIP84_BTC_KEY_NET_VER,
         wif_net_ver=CoinsConf.LitecoinMainNet.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Slip10Secp256k1,
@@ -85,7 +85,7 @@ class Bip84Conf:
         coin_names=CoinsConf.LitecoinTestNet.CoinNames(),
         coin_idx=Slip44.TESTNET,
         is_testnet=True,
-        def_path=NOT_HARDENED_DEF_PATH,
+        def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=Bip32KeyNetVersions(b"\x04\x36\xf6\xe1",
                                         b"\x04\x36\xef\x7d"),   # ttub / ttpv
         wif_net_ver=CoinsConf.LitecoinTestNet.ParamByKey("wif_net_ver"),

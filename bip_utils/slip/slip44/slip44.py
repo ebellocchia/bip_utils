@@ -65,6 +65,7 @@ class Slip44:
     ELROND: int = 508
     SECRET_NETWORK: int = 529
     NINE_CHRONICLES: int = 567
+    APTOS: int = 637
     BINANCE_CHAIN: int = 714
     VECHAIN: int = 818
     NEO: int = 888
@@ -75,3 +76,4 @@ class Slip44:
     CARDANO: int = 1815
     AVALANCHE: int = 9000
     CELO: int = 52752
+    PI_NETWORK: int = 314159

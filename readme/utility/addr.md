@@ -143,6 +143,9 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Algorand address
     addr = AlgoAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = AlgoAddrDecoder.DecodeAddr(addr)
+    # Aptos address
+    addr = AptosAddrEncoder.EncodeKey(pub_key)
+    pub_key_hash = AptosAddrDecoder.DecodeAddr(addr)
     # Elrond address
     addr = EgldAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = EgldAddrDecoder.DecodeAddr(addr)
@@ -243,6 +246,40 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key_bytes = XmrIntegratedAddrDecoder.DecodeAddr(addr,
                                                         net_ver=CoinsConf.MoneroMainNet.ParamByKey("addr_int_net_ver"),
                                                         payment_id=binascii.unhexlify(b"d7af025ab223b74e"))
+
+**Code example (coins based on the ed25519-kholaw curve)**
+
+    import binascii
+    from bip_utils import *
+    
+    # Public key bytes or a public key object can be used
+    pub_key = binascii.unhexlify(b"01f9256746c79ad5ba163ae677e3e3477471f0c3f8e1b5012c7a09f862e3972d")
+    pub_key = Ed25519KholawPublicKey.FromBytes(
+        binascii.unhexlify(b"0072629d389eabb6a4a6e35c9b0cab50b546b4a49a20d1d831956bd06098ba3370")
+    )
+    
+    # ADA Byron Icarus address (a chain code is also required)
+    chain_code = binascii.unhexlify(b"fa8397359cea983fe2195214e96b4d9f9bc31941d973a77d2d98ac77ea186db8")
+    
+    addr = AdaByronIcarusAddrEncoder.EncodeKey(pub_key, chain_code=chain_code)
+    pub_key_hash = AdaByronAddrDecoder.DecodeAddr(addr)
+    
+    # ADA Byron legacy address (chain code and HD data are also required)
+    hd_path_key = binascii.unhexlify(b"c582f8e7cf7aeb6e5f3e96e939a92ae1642360a51d45150f34e70132a152203f")
+    
+    addr = AdaByronLegacyAddrEncoder.EncodeKey(pub_key,
+                                               chain_code=chain_code,
+                                               hd_path="m/0'/0'",
+                                               hd_path_key=hd_path_key)
+    pub_key_hash = AdaByronAddrDecoder.DecodeAddr(addr)
+    
+    # ADA Shelley address (a staking key is also required)
+    pub_skey = binascii.unhexlify(b"7680c767b8096daa3299dc282068327c79976f346e55b72d0ffd751295a45913")
+    
+    addr = AdaShelleyAddrEncoder.EncodeKey(pub_key,
+                                           pub_skey=pub_skey,
+                                           net_tag=AdaShelleyAddrNetworkTags.MAINNET)
+    pub_key_hash = AdaShelleyAddrDecoder.DecodeAddr(addr)
 
 **Code example (coins based on the nist256p1 curve)**
 

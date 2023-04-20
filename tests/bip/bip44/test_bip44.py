@@ -81,6 +81,30 @@ TEST_VECT = [
             "NLMHFPS37XEHFWDPUUN3MHWVPYEBRUPFQWZVHIMRKPHSW5UPUYLJCVZN5I",
         ],
     },
+    # Aptos
+    {
+        "coin": Bip44Coins.APTOS,
+        "names": ("Aptos", "APTOS"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CvHL8ES4DAXC3o4SucYcjz4YF9gRowdK2KFqCQxfXmMtndFdE6RDtk3GM8oudsV554oRJJnXD2bsMsJhvv6uFBmKqBStKM978Zign3aMzR",
+            "ex_priv": "xprv9yvvvchYDqcDyZibLt5YFc3KzDKC2MDmwoPf2p1M7CEP1zJ75gnAg6RZRAN8kHL5GSnpgRdihfFDheXnW9K65KH49X4fScVNJX9ZYCgZu6M",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6E3eCYcrCF6rSobrrrGjKokSLvEVgTE2CzuQ4mvXrvcuNVTs4tMpzjaeE9gai3zjpR2EQa7jeqmjQrAsZi3DQRrBaTBQnrcqzu3bVPGX1ko",
+            "ex_priv": "xprvA14Ho35xMsYZEKXPkpjixfohntQ1GzWAqmyoGPWvJb5vVh8iXM3aSwGANwRgbvB7SNgpPLXgvR8efnSYCJSZvAmXy1mQfP144nCnx8zVzsa",
+        },
+        "addresses": [
+            "0xeb663b681209e7087d681c5d3eed12aaa8e1915e7c87794542c3f96e94b3d3bf",
+            "0x1e3357e64ae4dfb82e5cac3ee77aee1648e526a2ab84476bda8bf9e1c4f10231",
+            "0x87428b0462b8174f951c4e11cdeb780656dab808b989cb0ee62c9bac423dabbb",
+            "0xb49e3dd5212cfed1762c09001e2a8b4aab6c4cda2956e60e13b826deddb1e4a4",
+            "0x598979bade27730c0a3de3ee38d644c7a85040209929c40fcf72527a50c2d9",
+        ],
+    },
     # Avax C-Chain
     {
         "coin": Bip44Coins.AVAX_C_CHAIN,
@@ -1231,6 +1255,30 @@ TEST_VECT = [
             "osmo12ecyuddg4wlnhztusgju5zxxjgznkz7fcj8wqj",
         ],
     },
+    # Pi Network
+    {
+        "coin": Bip44Coins.PI_NETWORK,
+        "names": ("Pi Network", "PI"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DWt9k4uiiGA6rATg6gYb2tnvg11wGSVeUsZxqrmwYg5Ur1mqVMpPCik3NDn2RPuNpeMoS2Wn51HrjPHkERywVhuLEEXSiJe9PC32nUo7wq",
+            "ex_priv": "xprv9zXXkEY1tLhrtN5za59YDtx4NeAXXoieHFwyATTAPD96c3gdHx3ZqQQGCBeGuww2LsKF6mPhg92XPPi7G96VV5FC1RjF1WiudK1imNPMouX",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6Ew5s5vzKFZ2jNeb4qAHTz9JxocFXqKQkWwbe17ZVS21T9PdSqQUGbeVNLJvogP5Lqher1ipGxSHUWtct5xpFs4wTsTjge6c94GKW7nRoSg",
+            "ex_priv": "xprvA1wjTaQ6UszjWta7xodH6rCaQmmm8NbZPJ1zqchww6V2aM4UuJ6DioL1X8L6uetvefvspbpZ7ks9NeWWZK8L7Gr9NfQUdrXJuhF92kV3XDB",
+        },
+        "addresses": [
+            "GC6GRWN5UUS4KVBXX3V3AOMB7MIAIKDHEIVZM7XABUYWECSSTRVYFPTV",
+            "GAR6VQWAP2GJ5ZNJRNQSJRHCS7YSHYZC2XQNBEGNFM3CI6JHOIUUYTAM",
+            "GDFLLM4N3F3KJAXDDBVPBBFRVOYYKFP5VGXZ2OWUNZWZTGF65B7L5HRY",
+            "GBHVSO3UU4N2KCJAHDDXVRL4NIGNNANQLRN47FAG2TRT7AODRPRMNZFH",
+            "GDFH7NROWTR7CLH5UYYGZAP4NEC25LNPM3RQXRG4YPEQWBKL2J65NMJV",
+        ],
+    },
     # Polkadot (ed25519 SLIP-0010)
     {
         "coin": Bip44Coins.POLKADOT_ED25519_SLIP,
@@ -1896,6 +1944,12 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "EP2D7TV7IAFANZHK3B6QLKB53N5UTD7RARVXZTWCPCRQQBKYVGM2XIMT2Q",
     },
+    # Aptos
+    {
+        "coin": Bip44Coins.APTOS,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "0xeb663b681209e7087d681c5d3eed12aaa8e1915e7c87794542c3f96e94b3d3bf",
+    },
     # Avax C-Chain
     {
         "coin": Bip44Coins.AVAX_C_CHAIN,
@@ -2172,7 +2226,13 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "osmo19rl4cm2hmr8afy4kldpxz3fka4jguq0a5m7df8",
     },
-    # Polkadot (ed25519 SLIP-0010)usdc
+    # Pi Network
+    {
+        "coin": Bip44Coins.PI_NETWORK,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "GA2XRX65VZ4NRZG4FBQHREOR3Y2J3V55WW6KMUDCH64MFK2PBQB42JID",
+    },
+    # Polkadot (ed25519 SLIP-0010)
     {
         "coin": Bip44Coins.POLKADOT_ED25519_SLIP,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",

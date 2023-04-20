@@ -8,6 +8,7 @@ from bip_utils.addr.ada_shelley_addr import (
     AdaShelleyStakingAddrEncoder
 )
 from bip_utils.addr.algo_addr import AlgoAddr, AlgoAddrDecoder, AlgoAddrEncoder
+from bip_utils.addr.aptos_addr import AptosAddr, AptosAddrDecoder, AptosAddrEncoder
 from bip_utils.addr.atom_addr import AtomAddr, AtomAddrDecoder, AtomAddrEncoder
 from bip_utils.addr.avax_addr import (
     AvaxPChainAddr, AvaxPChainAddrDecoder, AvaxPChainAddrEncoder, AvaxXChainAddr, AvaxXChainAddrDecoder,

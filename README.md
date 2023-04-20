@@ -60,6 +60,7 @@ Please note that, for the py-sr25519-bindings library, Rust is required to be in
 Supported BIP coins:
 - Akash Network
 - Algorand
+- Aptos
 - Avalanche (all the 3 chains)
 - Axelar
 - Band Protocol
@@ -96,6 +97,7 @@ Supported BIP coins:
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology
 - Osmosis
+- Pi Network
 - Polkadot (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
 - Polygon
 - Ripple

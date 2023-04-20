@@ -70,6 +70,14 @@ class CoinsConf:
         params={},
     )
 
+    # Configuration for Aptos
+    Aptos: CoinConf = CoinConf(
+        coin_name=CoinNames("Aptos", "APTOS"),
+        params={
+            "addr_prefix": "0x",
+        },
+    )
+
     # Configuration for Avax C-Chain
     AvaxCChain: CoinConf = CoinConf(
         coin_name=CoinNames("Avax C-Chain", "AVAX"),
@@ -638,6 +646,12 @@ class CoinsConf:
         params={
             "addr_ss58_format": 30,
         },
+    )
+
+    # Configuration for Pi Network
+    PiNetwork: CoinConf = CoinConf(
+        coin_name=CoinNames("Pi Network", "PI"),
+        params={},
     )
 
     # Configuration for Plasm
