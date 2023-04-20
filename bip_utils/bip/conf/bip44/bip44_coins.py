@@ -104,6 +104,7 @@ class Bip44Coins(BipCoins):
     BITCOIN_SV_TESTNET = auto()
     BITCOIN_TESTNET = auto()
     DASH_TESTNET = auto()
+    DIVI_TESTNET = auto()
     DOGECOIN_TESTNET = auto()
     ECASH_TESTNET = auto()
     ERGO_TESTNET = auto()

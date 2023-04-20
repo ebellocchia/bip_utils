@@ -59,6 +59,8 @@ class Bip44ConfGetterConst:
         Bip44Coins.COSMOS: Bip44Conf.Cosmos,
         Bip44Coins.DASH: Bip44Conf.DashMainNet,
         Bip44Coins.DASH_TESTNET: Bip44Conf.DashTestNet,
+        Bip44Coins.DIVI: Bip44Conf.DiviMainNet,
+        Bip44Coins.DIVI_TESTNET: Bip44Conf.DiviTestNet,
         Bip44Coins.DOGECOIN: Bip44Conf.DogecoinMainNet,
         Bip44Coins.DOGECOIN_TESTNET: Bip44Conf.DogecoinTestNet,
         Bip44Coins.ECASH: Bip44Conf.EcashMainNet,
