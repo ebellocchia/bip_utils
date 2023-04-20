@@ -430,7 +430,34 @@ class Bip44Conf:
             "net_ver": CoinsConf.DashTestNet.ParamByKey("p2pkh_net_ver"),
         },
     )
-
+    # Configuration for Divi main net
+    DiviMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.DiviMainNet.CoinNames(),
+        coin_idx=Slip44.DIVI,
+        is_testnet=False,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.DiviMainNet.ParamByKey("wif_net_ver"),
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=P2PKHAddrEncoder,
+        addr_params={
+            "net_ver": CoinsConf.DiviMainNet.ParamByKey("p2pkh_net_ver"),
+        },
+    )
+    # Configuration for Divi test net
+    DiviTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.DiviTestNet.CoinNames(),
+        coin_idx=Slip44.TESTNET,
+        is_testnet=True,
+        def_path=NOT_HARDENED_DEF_PATH,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.DiviTestNet.ParamByKey("wif_net_ver"),
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=P2PKHAddrEncoder,
+        addr_params={
+            "net_ver": CoinsConf.DiviTestNet.ParamByKey("p2pkh_net_ver"),
+        },
+    )
     # Configuration for Dogecoin main net
     DogecoinMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.DogecoinMainNet.CoinNames(),

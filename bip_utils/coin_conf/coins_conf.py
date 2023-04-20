@@ -312,6 +312,26 @@ class CoinsConf:
         },
     )
 
+   # Configuration for Divi main net
+    DiviMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Divi", "DIVI"),
+        params={
+            "p2pkh_net_ver": b"\x1e",
+            "p2sh_net_ver": b"\x0d",
+            "wif_net_ver": b"\xd4",
+        },
+    )
+
+    # Configuration for Divi test net
+    DiviTestNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Divi TestNet", "DIVI"),
+        params={
+            "p2pkh_net_ver": b"\x8b",
+            "p2sh_net_ver": b"\x13",
+            "wif_net_ver": _BTC_WIF_NET_VER_TN,
+        },
+    )
+
     # Configuration for Dogecoin main net
     DogecoinMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("Dogecoin", "DOGE"),
