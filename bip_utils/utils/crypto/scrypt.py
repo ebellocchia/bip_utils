@@ -58,8 +58,8 @@ class Scrypt:
 
         # Type for password and salt should be Union[bytes, str] in pycryptodome, but it's only str
         # So, we ignore the mypy warning
-        return scrypt(AlgoUtils.Encode(password),   # type: ignore
-                      AlgoUtils.Encode(salt),       # type: ignore
+        return scrypt(AlgoUtils.Encode(password),   # type: ignore [arg-type, return-value]
+                      AlgoUtils.Encode(salt),       # type: ignore [arg-type]
                       key_len=key_len,
                       N=n,
                       r=r,

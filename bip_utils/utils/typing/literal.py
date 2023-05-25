@@ -24,4 +24,4 @@ try:
     from typing import Literal  # pylint: disable=unused-import
 except ImportError:
     # Literal not supported by Python 3.7
-    from typing_extensions import Literal  # type: ignore # noqa: F401
+    from typing_extensions import Literal  # type: ignore [assignment] # noqa: F401

@@ -246,7 +246,7 @@ class Bip38EcKeysGenerator:
 
         # Compute owner entropy and salt
         # We can ignore the mypy warning because has_lot_seq checks for variables for being not None
-        owner_entropy = (_Bip38EcUtils.OwnerEntropyWithLotSeq(lot_num, sequence_num)    # type: ignore
+        owner_entropy = (_Bip38EcUtils.OwnerEntropyWithLotSeq(lot_num, sequence_num)    # type: ignore [arg-type]
                          if has_lot_seq
                          else _Bip38EcUtils.OwnerEntropyNoLotSeq())
         # Compute passpoint
