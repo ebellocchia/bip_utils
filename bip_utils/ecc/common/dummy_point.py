@@ -28,6 +28,13 @@ from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.utils.misc import DataBytes
 
 
+class DummyPointConst:
+    """Class container for dummy point constants."""
+
+    # Point coordinate length in bytes
+    POINT_COORD_BYTE_LEN: int = 32
+
+
 class DummyPoint(IPoint):
     """Dummy point class."""
 
@@ -90,6 +97,16 @@ class DummyPoint(IPoint):
         Returns:
            EllipticCurveTypes: Elliptic curve type
         """
+
+    @staticmethod
+    def CoordinateLength() -> int:
+        """
+        Get the coordinate length.
+
+        Returns:
+           int: Coordinate key length
+        """
+        return DummyPointConst.POINT_COORD_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """

@@ -73,6 +73,16 @@ class IPoint(ABC):
            EllipticCurveTypes: Elliptic curve type
         """
 
+    @staticmethod
+    @abstractmethod
+    def CoordinateLength() -> int:
+        """
+        Get the coordinate length.
+
+        Returns:
+           int: Coordinate key length
+        """
+
     @abstractmethod
     def UnderlyingObject(self) -> Any:
         """

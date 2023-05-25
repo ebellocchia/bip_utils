@@ -101,6 +101,16 @@ class Nist256p1Point(IPoint):
         """
         return EllipticCurveTypes.NIST256P1
 
+    @staticmethod
+    def CoordinateLength() -> int:
+        """
+        Get the coordinate length.
+
+        Returns:
+           int: Coordinate key length
+        """
+        return EcdsaKeysConst.POINT_COORD_BYTE_LEN
+
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.

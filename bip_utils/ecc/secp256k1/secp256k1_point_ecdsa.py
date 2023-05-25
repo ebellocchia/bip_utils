@@ -101,6 +101,16 @@ class Secp256k1PointEcdsa(IPoint):
         """
         return EllipticCurveTypes.SECP256K1
 
+    @staticmethod
+    def CoordinateLength() -> int:
+        """
+        Get the coordinate length.
+
+        Returns:
+           int: Coordinate key length
+        """
+        return EcdsaKeysConst.POINT_COORD_BYTE_LEN
+
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.

@@ -267,6 +267,7 @@ class EccTests(unittest.TestCase):
         # Point
         #
         self.assertEqual(Ed25519Point.CurveType(), EllipticCurveTypes.ED25519)
+        self.assertEqual(Ed25519Point.CoordinateLength(), 32)
 
         point = pub_key.Point()
         self.assertTrue(isinstance(point.Raw(), DataBytes))
@@ -476,6 +477,7 @@ class EccTests(unittest.TestCase):
         # Point
         #
         self.assertEqual(Nist256p1Point.CurveType(), EllipticCurveTypes.NIST256P1)
+        self.assertEqual(Nist256p1Point.CoordinateLength(), 32)
 
         point = pub_key.Point()
         self.assertTrue(isinstance(point.Raw(), DataBytes))
@@ -568,6 +570,7 @@ class EccTests(unittest.TestCase):
         # Point
         #
         self.assertEqual(Secp256k1Point.CurveType(), EllipticCurveTypes.SECP256K1)
+        self.assertEqual(Secp256k1Point.CoordinateLength(), 32)
 
         point = pub_key.Point()
         self.assertTrue(isinstance(point.Raw(), DataBytes))
@@ -702,6 +705,8 @@ class EccTests(unittest.TestCase):
 
     # Test for DummyPoint
     def __test_dummy_point(self, point_cls):
+        self.assertEqual(point_cls.CoordinateLength(), 32)
+        
         self.assertRaises(TypeError, point_cls, 0)
         self.assertTrue(point_cls.FromBytes(b"") is None)
         self.assertTrue(point_cls.CurveType() is None)

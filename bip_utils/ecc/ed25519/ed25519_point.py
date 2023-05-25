@@ -32,7 +32,7 @@ from bip_utils.utils.misc import DataBytes
 class Ed25519PointConst:
     """Class container for ed25519 point constants."""
 
-    # Point coordinte length in bytes
+    # Point coordinate length in bytes
     POINT_COORD_BYTE_LEN: int = 32
 
 
@@ -106,6 +106,16 @@ class Ed25519Point(IPoint):
            EllipticCurveTypes: Elliptic curve type
         """
         return EllipticCurveTypes.ED25519
+
+    @staticmethod
+    def CoordinateLength() -> int:
+        """
+        Get the coordinate length.
+
+        Returns:
+           int: Coordinate key length
+        """
+        return Ed25519PointConst.POINT_COORD_BYTE_LEN
 
     def UnderlyingObject(self) -> Any:
         """
