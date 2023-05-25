@@ -75,12 +75,12 @@ class P2PKHAddrDecoder(IAddrDecoder):
             addr_dec_bytes = Base58Decoder.CheckDecode(addr, base58_alph)
         except Base58ChecksumError as ex:
             raise ValueError("Invalid base58 checksum") from ex
-        else:
-            # Validate length
-            AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        Hash160.DigestSize() + len(net_ver_bytes))
-            # Validate and remove prefix
-            return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, net_ver_bytes)
+
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    Hash160.DigestSize() + len(net_ver_bytes))
+        # Validate and remove prefix
+        return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, net_ver_bytes)
 
 
 class P2PKHAddrEncoder(IAddrEncoder):
@@ -154,15 +154,15 @@ class BchP2PKHAddrDecoder(IAddrDecoder):
             net_ver_bytes_got, addr_dec_bytes = BchBech32Decoder.Decode(hrp, addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            # Check net version
-            if net_ver_bytes != net_ver_bytes_got:
-                raise ValueError(f"Invalid net version (expected {BytesUtils.ToHexString(net_ver_bytes)}, "
-                                 f"got {BytesUtils.ToHexString(net_ver_bytes_got)})")
-            # Validate length
-            AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        Hash160.DigestSize())
-            return addr_dec_bytes
+
+        # Check net version
+        if net_ver_bytes != net_ver_bytes_got:
+            raise ValueError(f"Invalid net version (expected {BytesUtils.ToHexString(net_ver_bytes)}, "
+                             f"got {BytesUtils.ToHexString(net_ver_bytes_got)})")
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    Hash160.DigestSize())
+        return addr_dec_bytes
 
 
 class BchP2PKHAddrEncoder(IAddrEncoder):

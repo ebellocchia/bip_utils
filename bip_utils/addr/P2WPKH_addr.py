@@ -75,12 +75,12 @@ class P2WPKHAddrDecoder(IAddrDecoder):
             wit_ver_got, addr_dec_bytes = SegwitBech32Decoder.Decode(hrp, addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            # Check witness version
-            if wit_ver_got != P2WPKHAddrConst.WITNESS_VER:
-                raise ValueError(f"Invalid witness version (expected {P2WPKHAddrConst.WITNESS_VER}, "
-                                 f"got {wit_ver_got})")
-            return addr_dec_bytes
+
+        # Check witness version
+        if wit_ver_got != P2WPKHAddrConst.WITNESS_VER:
+            raise ValueError(f"Invalid witness version (expected {P2WPKHAddrConst.WITNESS_VER}, "
+                             f"got {wit_ver_got})")
+        return addr_dec_bytes
 
 
 class P2WPKHAddrEncoder(IAddrEncoder):

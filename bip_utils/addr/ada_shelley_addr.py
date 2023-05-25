@@ -137,13 +137,13 @@ class AdaShelleyAddrDecoder(IAddrDecoder):
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        (Blake2b224.DigestSize() * 2) + 1)
-            # Validate and remove prefix
-            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT,
-                                                            net_tag)
-            return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
+
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    (Blake2b224.DigestSize() * 2) + 1)
+        # Validate and remove prefix
+        prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.PAYMENT,
+                                                        net_tag)
+        return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
 
 
 class AdaShelleyAddrEncoder(IAddrEncoder):
@@ -228,13 +228,13 @@ class AdaShelleyStakingAddrDecoder(IAddrDecoder):
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        Blake2b224.DigestSize() + 1)
-            # Validate and remove prefix
-            prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD,
-                                                            net_tag)
-            return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
+
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    Blake2b224.DigestSize() + 1)
+        # Validate and remove prefix
+        prefix_byte = _AdaShelleyAddrUtils.EncodePrefix(AdaShelleyAddrHeaderTypes.REWARD,
+                                                        net_tag)
+        return AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix_byte)
 
 
 class AdaShelleyStakingAddrEncoder(IAddrEncoder):

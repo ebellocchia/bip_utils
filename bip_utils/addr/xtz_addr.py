@@ -78,14 +78,14 @@ class XtzAddrDecoder(IAddrDecoder):
             addr_dec_bytes = Base58Decoder.CheckDecode(addr)
         except Base58ChecksumError as ex:
             raise ValueError("Invalid base58 checksum") from ex
-        else:
-            # Validate length
-            AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        len(prefix.value) + Blake2b160.DigestSize())
-            # Validate and remove prefix
-            blake_bytes = AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix.value)
 
-            return blake_bytes
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    len(prefix.value) + Blake2b160.DigestSize())
+        # Validate and remove prefix
+        blake_bytes = AddrDecUtils.ValidateAndRemovePrefix(addr_dec_bytes, prefix.value)
+
+        return blake_bytes
 
 
 class XtzAddrEncoder(IAddrEncoder):

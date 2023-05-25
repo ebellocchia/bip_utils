@@ -59,11 +59,11 @@ class OneAddrDecoder(IAddrDecoder):
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            return EthAddrDecoder.DecodeAddr(
-                CoinsConf.Ethereum.ParamByKey("addr_prefix") + BytesUtils.ToHexString(addr_dec_bytes),
-                skip_chksum_enc=True
-            )
+
+        return EthAddrDecoder.DecodeAddr(
+            CoinsConf.Ethereum.ParamByKey("addr_prefix") + BytesUtils.ToHexString(addr_dec_bytes),
+            skip_chksum_enc=True
+        )
 
 
 class OneAddrEncoder(IAddrEncoder):

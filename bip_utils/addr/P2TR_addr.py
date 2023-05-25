@@ -164,13 +164,13 @@ class P2TRAddrDecoder(IAddrDecoder):
             wit_ver_got, addr_dec_bytes = SegwitBech32Decoder.Decode(hrp, addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            # Validate length
-            AddrDecUtils.ValidateLength(addr_dec_bytes, Secp256k1PublicKey.CompressedLength() - 1)
-            # Check witness version
-            if wit_ver_got != P2TRConst.WITNESS_VER:
-                raise ValueError(f"Invalid witness version (expected {P2TRConst.WITNESS_VER}, got {wit_ver_got})")
-            return addr_dec_bytes
+
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec_bytes, Secp256k1PublicKey.CompressedLength() - 1)
+        # Check witness version
+        if wit_ver_got != P2TRConst.WITNESS_VER:
+            raise ValueError(f"Invalid witness version (expected {P2TRConst.WITNESS_VER}, got {wit_ver_got})")
+        return addr_dec_bytes
 
 
 class P2TRAddrEncoder(IAddrEncoder):

@@ -62,10 +62,10 @@ class AtomAddrDecoder(IAddrDecoder):
             addr_dec_bytes = Bech32Decoder.Decode(hrp, addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        Hash160.DigestSize())
-            return addr_dec_bytes
+
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    Hash160.DigestSize())
+        return addr_dec_bytes
 
 
 class AtomAddrEncoder(IAddrEncoder):

@@ -61,17 +61,18 @@ class TrxAddrDecoder(IAddrDecoder):
             addr_dec = Base58Decoder.CheckDecode(addr)
         except Base58ChecksumError as ex:
             raise ValueError("Invalid base58 checksum") from ex
-        else:
-            # Validate length
-            AddrDecUtils.ValidateLength(addr_dec,
-                                        (EthAddrConst.ADDR_LEN // 2) + len(CoinsConf.Tron.ParamByKey("addr_prefix")))
-            # Validate and remove prefix
-            addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
-                                                                  CoinsConf.Tron.ParamByKey("addr_prefix"))
 
-            return EthAddrDecoder.DecodeAddr(CoinsConf.Ethereum.ParamByKey("addr_prefix")
-                                             + BytesUtils.ToHexString(addr_no_prefix),
-                                             skip_chksum_enc=True)
+        # Validate length
+        AddrDecUtils.ValidateLength(addr_dec,
+                                    (EthAddrConst.ADDR_LEN // 2) + len(CoinsConf.Tron.ParamByKey("addr_prefix")))
+        # Validate and remove prefix
+        addr_no_prefix = AddrDecUtils.ValidateAndRemovePrefix(addr_dec,
+                                                              CoinsConf.Tron.ParamByKey("addr_prefix"))
+
+        return EthAddrDecoder.DecodeAddr(
+            CoinsConf.Ethereum.ParamByKey("addr_prefix") + BytesUtils.ToHexString(addr_no_prefix),
+            skip_chksum_enc=True
+        )
 
 
 class TrxAddrEncoder(IAddrEncoder):

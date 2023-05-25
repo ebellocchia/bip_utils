@@ -60,12 +60,12 @@ class EgldAddrDecoder(IAddrDecoder):
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            AddrDecUtils.ValidateLength(addr_dec_bytes,
-                                        Ed25519PublicKey.CompressedLength() - 1)
-            AddrDecUtils.ValidatePubKey(addr_dec_bytes, Ed25519PublicKey)
 
-            return addr_dec_bytes
+        AddrDecUtils.ValidateLength(addr_dec_bytes,
+                                    Ed25519PublicKey.CompressedLength() - 1)
+        AddrDecUtils.ValidatePubKey(addr_dec_bytes, Ed25519PublicKey)
+
+        return addr_dec_bytes
 
 
 class EgldAddrEncoder(IAddrEncoder):

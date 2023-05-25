@@ -67,9 +67,9 @@ class ZilAddrDecoder(IAddrDecoder):
                                                   addr)
         except Bech32ChecksumError as ex:
             raise ValueError("Invalid bech32 checksum") from ex
-        else:
-            AddrDecUtils.ValidateLength(addr_dec_bytes, ZilAddrConst.SHA256_BYTE_LEN)
-            return addr_dec_bytes
+
+        AddrDecUtils.ValidateLength(addr_dec_bytes, ZilAddrConst.SHA256_BYTE_LEN)
+        return addr_dec_bytes
 
 
 class ZilAddrEncoder(IAddrEncoder):
