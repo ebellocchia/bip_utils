@@ -85,8 +85,11 @@ class _P2TRUtils:
         """
 
         # Use the pre-computed SHA256 of "TapTweak" for speeding up
-        return _P2TRUtils.TaggedHash(P2TRConst.TAP_TWEAK_SHA256,
-                                     IntegerUtils.ToBytes(pub_key.Point().X()))
+        return _P2TRUtils.TaggedHash(
+            P2TRConst.TAP_TWEAK_SHA256,
+            IntegerUtils.ToBytes(pub_key.Point().X(),
+                                 bytes_num=Secp256k1Point.CoordinateLength())
+        )
 
     @staticmethod
     def LiftX(pub_key: IPublicKey) -> IPoint:
@@ -127,7 +130,8 @@ class _P2TRUtils:
         """
         h = _P2TRUtils.HashTapTweak(pub_key)
         out_point = _P2TRUtils.LiftX(pub_key) + (BytesUtils.ToInteger(h) * Secp256k1.Generator())
-        return IntegerUtils.ToBytes(out_point.X())
+        return IntegerUtils.ToBytes(out_point.X(),
+                                    bytes_num=Secp256k1Point.CoordinateLength())
 
 
 class P2TRAddrDecoder(IAddrDecoder):
