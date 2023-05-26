@@ -1,3 +1,7 @@
+# 2.7.1
+
+- Fix bug in Bitcoin Taproot address encoding, when the tweaked public key had leading zeros
+
 # 2.7.0
 
 - Add support for Icon
