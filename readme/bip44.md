@@ -51,6 +51,7 @@ Supported coins enumerative for BIP-0044:
 |Harmony One (Metamask address)|`Bip44Coins.HARMONY_ONE_METAMASK`|-|
 |Huobi Chain|`Bip44Coins.HUOBI_CHAIN`|-|
 |Icon|`Bip44Coins.ICON`|-|
+|Injective|`Bip44Coins.INJECTIVE`|-|
 |IRIS Network|`Bip44Coins.IRIS_NET`|-|
 |Kava|`Bip44Coins.KAVA`|-|
 |Kusama (ed25519 SLIP-0010)|`Bip44Coins.KUSAMA_ED25519_SLIP`|-|

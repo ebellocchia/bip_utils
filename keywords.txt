@@ -65,6 +65,7 @@ filecoin
 harmony one
 huobi chain
 icon
+injective
 iris
 irisnet
 kava

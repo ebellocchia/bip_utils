@@ -903,6 +903,30 @@ TEST_VECT = [
             "hxd32d06bb68e91a82a3fe39f76e55f2e09b68f021",
         ],
     },
+    # Injective
+    {
+        "coin": Bip44Coins.INJECTIVE,
+        "names": ("Injective", "INJ"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DCoCpSuQZB2jawqnGMEPS63ePKWkwWPH4TU45Q7LPXWuNd8TMtVxRrgjtEshuqpK3mdhaWHPFsBngh5GFZaM6si3yZdUsT8ddYM3PwnATt",
+            "ex_priv": "xprv9zDSoJv1aBcjX6sNgEpE2J9K6MV2MUnXuqXsFgzVn3zY2aHyupaFQdYCtdCbNMkvcTdx9FeN49sgXw6mjrhrFLRSzJVnRYPfSCCgjeg4GxY",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EF8jXqFeFEW5bwMU7RpQtHkzE4KJxcqJtvkCjJumzW8CPpacXkb92ek4WzLQXjL93HycJwTPUAcuNxCqFPKKU5m5Z2Vq4nCyh5CyPeBFFr",
+            "ex_priv": "xprvA1FnL2JMosgCs7rtN5tp3kM2SCDpuVtywg19QLuJDey9KbVS4zSLbELGDFdugxESvYxCU1wEJhDmMXvHKwmpCLd8QSoUJCHmVHCGvpFPxiw",
+        },
+        "addresses": [
+            "inj1npvwllfr9dqr8erajqqr6s0vxnk2ak55re90dz",
+            "inj1d7ky6xxfzg6rh7r05uzfxexafepy4wwqp4z8h8",
+            "inj1keckja4ra05d8xkwkpph9u30lrngqtt6vv34da",
+            "inj1706syy7p6t39te9jht2rp79r3mhc6uvw8kpayy",
+            "inj1289gl703cz5elz8gdwq3963jxl64xax2uspu98",
+        ],
+    },
     # IRIS Network
     {
         "coin": Bip44Coins.IRIS_NET,
@@ -2141,6 +2165,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.ICON,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "hx8e825d342f8dd76af9dba2f53464c9781833d39f",
+    },
+    # Injective
+    {
+        "coin": Bip44Coins.INJECTIVE,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "inj1npvwllfr9dqr8erajqqr6s0vxnk2ak55re90dz",
     },
     # IRIS Network
     {

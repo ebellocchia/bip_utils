@@ -462,6 +462,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Injective
+    Injective: CoinConf = CoinConf(
+        coin_name=CoinNames("Injective", "INJ"),
+        params={
+            "addr_hrp": Slip173.INJECTIVE,
+        },
+    )
+
     # Configuration for IRISnet
     IrisNet: CoinConf = CoinConf(
         coin_name=CoinNames("IRIS Network", "IRIS"),
