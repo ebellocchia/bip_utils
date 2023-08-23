@@ -23,6 +23,7 @@
 # Imports
 import os
 import secrets
+import math
 
 from bip_utils.utils.misc import IntegerUtils
 
@@ -52,6 +53,10 @@ class EntropyGenerator:
         Returns:
             bytes: Generated entropy bytes
         """
-        return (os.urandom(self.m_bit_len // 8)
-                if self.m_bit_len % 8 == 0
-                else IntegerUtils.ToBytes(secrets.randbits(self.m_bit_len)))
+        bpw = int(math.log(2048, 2))
+        num_bits = int(math.ceil(self.m_bit_len / bpw) * bpw)
+        entropy = 1
+        while entropy < pow(2, num_bits - bpw):
+            # try again if seed would not contain enough words
+            entropy = secrets.randbits(self.m_bit_len)
+        return IntegerUtils.ToBytes(entropy)
