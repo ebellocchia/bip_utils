@@ -1,3 +1,8 @@
+# 2.8.0
+
+- Fix coincurve version
+- Add support for Injective
+
 # 2.7.1
 
 - Fix bug in Bitcoin Taproot address encoding, when the tweaked public key had leading zeros
@@ -10,7 +15,7 @@
 # 2.6.1
 
 - Fix CIP1852 Cardano Icarus/Ledger extended key prefix
-- Fix `Bip32ChainCode.Length` and `Bip32FingerPrint.Length` methods that were conflicting with the base class method 
+- Fix `Bip32ChainCode.Length` and `Bip32FingerPrint.Length` methods that were conflicting with the base class method
 - Reformat files with `isort`
 
 # 2.6.0
