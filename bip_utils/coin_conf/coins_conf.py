@@ -78,6 +78,12 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Arbitrum
+    Arbitrum: CoinConf = CoinConf(
+        coin_name=CoinNames("Arbitrum", "ARB"),
+        params={},
+    )
+
     # Configuration for Avax C-Chain
     AvaxCChain: CoinConf = CoinConf(
         coin_name=CoinNames("Avax C-Chain", "AVAX"),
@@ -618,6 +624,12 @@ class CoinsConf:
         params={
             "addr_ver": b"\x17",
         },
+    )
+
+    # Configuration for Optimism
+    Optimism: CoinConf = CoinConf(
+        coin_name=CoinNames("Optimism", "OP"),
+        params={},
     )
 
     # Configuration for Osmosis

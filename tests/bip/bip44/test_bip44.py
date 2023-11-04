@@ -105,6 +105,30 @@ TEST_VECT = [
             "0x598979bade27730c0a3de3ee38d644c7a85040209929c40fcf72527a50c2d9",
         ],
     },
+    # Arbitrum
+    {
+        "coin": Bip44Coins.ARBITRUM,
+        "names": ("Arbitrum", "ARB"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DCoCpSuQZB2jawqnGMEPS63ePKWkwWPH4TU45Q7LPXWuNd8TMtVxRrgjtEshuqpK3mdhaWHPFsBngh5GFZaM6si3yZdUsT8ddYM3PwnATt",
+            "ex_priv": "xprv9zDSoJv1aBcjX6sNgEpE2J9K6MV2MUnXuqXsFgzVn3zY2aHyupaFQdYCtdCbNMkvcTdx9FeN49sgXw6mjrhrFLRSzJVnRYPfSCCgjeg4GxY",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EF8jXqFeFEW5bwMU7RpQtHkzE4KJxcqJtvkCjJumzW8CPpacXkb92ek4WzLQXjL93HycJwTPUAcuNxCqFPKKU5m5Z2Vq4nCyh5CyPeBFFr",
+            "ex_priv": "xprvA1FnL2JMosgCs7rtN5tp3kM2SCDpuVtywg19QLuJDey9KbVS4zSLbELGDFdugxESvYxCU1wEJhDmMXvHKwmpCLd8QSoUJCHmVHCGvpFPxiw",
+        },
+        "addresses": [
+            "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
+            "0x6Fac4D18c912343BF86fa7049364Dd4E424Ab9C0",
+            "0xb6716976A3ebe8D39aCEB04372f22Ff8e6802D7A",
+            "0xF3f50213C1d2e255e4B2bAD430F8A38EEF8D718E",
+            "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
+        ],
+    },
     # Avax C-Chain
     {
         "coin": Bip44Coins.AVAX_C_CHAIN,
@@ -1255,6 +1279,30 @@ TEST_VECT = [
             "AWn55fzAcAKfDxkgzqLov3a5KieZXyzDJW",
         ],
     },
+    # Optimism
+    {
+        "coin": Bip44Coins.OPTIMISM,
+        "names": ("Optimism", "OP"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DCoCpSuQZB2jawqnGMEPS63ePKWkwWPH4TU45Q7LPXWuNd8TMtVxRrgjtEshuqpK3mdhaWHPFsBngh5GFZaM6si3yZdUsT8ddYM3PwnATt",
+            "ex_priv": "xprv9zDSoJv1aBcjX6sNgEpE2J9K6MV2MUnXuqXsFgzVn3zY2aHyupaFQdYCtdCbNMkvcTdx9FeN49sgXw6mjrhrFLRSzJVnRYPfSCCgjeg4GxY",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EF8jXqFeFEW5bwMU7RpQtHkzE4KJxcqJtvkCjJumzW8CPpacXkb92ek4WzLQXjL93HycJwTPUAcuNxCqFPKKU5m5Z2Vq4nCyh5CyPeBFFr",
+            "ex_priv": "xprvA1FnL2JMosgCs7rtN5tp3kM2SCDpuVtywg19QLuJDey9KbVS4zSLbELGDFdugxESvYxCU1wEJhDmMXvHKwmpCLd8QSoUJCHmVHCGvpFPxiw",
+        },
+        "addresses": [
+            "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
+            "0x6Fac4D18c912343BF86fa7049364Dd4E424Ab9C0",
+            "0xb6716976A3ebe8D39aCEB04372f22Ff8e6802D7A",
+            "0xF3f50213C1d2e255e4B2bAD430F8A38EEF8D718E",
+            "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
+        ],
+    },
     # Osmosis
     {
         "coin": Bip44Coins.OSMOSIS,
@@ -1974,6 +2022,12 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "0xeb663b681209e7087d681c5d3eed12aaa8e1915e7c87794542c3f96e94b3d3bf",
     },
+    # Arbitrum
+    {
+        "coin": Bip44Coins.ARBITRUM,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
+    },
     # Avax C-Chain
     {
         "coin": Bip44Coins.AVAX_C_CHAIN,
@@ -2249,6 +2303,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.ONTOLOGY,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "AZMgu1jizeCvwKx89qtKq3Rd92iPXHJQ9W",
+    },
+    # Optimism
+    {
+        "coin": Bip44Coins.OPTIMISM,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
     },
     # Osmosis
     {

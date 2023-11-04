@@ -19,6 +19,7 @@ Supported coins enumerative for BIP-0044:
 |Akash Network|`Bip44Coins.AKASH_NETWORK`|-|
 |Algorand|`Bip44Coins.ALGORAND`|-|
 |Aptos|`Bip44Coins.APTOS`|-|
+|Arbitrum|`Bip44Coins.ARBITRUM`|-|
 |Avalanche C-Chain|`Bip44Coins.AVAX_C_CHAIN`|-|
 |Avalanche P-Chain|`Bip44Coins.AVAX_P_CHAIN`|-|
 |Avalanche X-Chain|`Bip44Coins.AVAX_X_CHAIN`|-|
@@ -65,6 +66,7 @@ Supported coins enumerative for BIP-0044:
 |OKEx Chain (Ethereum address)|`Bip44Coins.OKEX_CHAIN_ETH`|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|`Bip44Coins.OKEX_CHAIN_ATOM_OLD`|-|
 |Ontology|`Bip44Coins.ONTOLOGY`|-|
+|Optimism|`Bip44Coins.OPTIMISM`|-|
 |Osmosis|`Bip44Coins.OSMOSIS`|-|
 |Pi Network|`Bip44Coins.PI_NETWORK`|-|
 |Polkadot (ed25519 SLIP-0010)|`Bip44Coins.POLKADOT_ED25519_SLIP`|-|
@@ -170,13 +172,13 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
 
     import binascii
     from bip_utils import Bip32KeyData, Bip44Coins, Bip44, Secp256k1PrivateKey
-    
+
     # Construct from private key bytes
     priv_key_bytes = binascii.unhexlify(b"e8f32e723decf4051aefac8e2c93c9c5b214313817cdb01a1494b917c8436b35")
     bip44_mst_ctx = Bip44.FromPrivateKey(priv_key_bytes, Bip44Coins.BITCOIN)
     # Or key object directly (the key type shall match the curve used by the coin, otherwise Bip32KeyError will be raised)
     bip44_mst_ctx = Bip44.FromPrivateKey(Secp256k1PrivateKey.FromBytes(priv_key_bytes), Bip44Coins.BITCOIN)
-    
+
     # Construct by specifying derivation data
     chain_code_bytes = binascii.unhexlify(b"873dff81c02f525623fd1fe5167eac3a55a049de3d314bb42ee227ffed37d508")
     bip44_mst_ctx = Bip44.FromPrivateKey(
@@ -200,13 +202,13 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
 
     import binascii
     from bip_utils import Bip32KeyData, Bip44Coins, Bip44, Secp256k1PublicKey
-    
+
     # Construct from public key bytes
     pub_key_bytes = binascii.unhexlify(b"02e8445082a72f29b75ca48748a914df60622a609cacfce8ed0e35804560741d29")
     bip44_mst_ctx = Bip44.FromPublicKey(pub_key_bytes, Bip44Coins.BITCOIN)
     # Or key object directly (the key type shall match the curve used by the coin, otherwise Bip32KeyError will be raised)
     bip44_mst_ctx = Bip44.FromPublicKey(Secp256k1PublicKey.FromBytes(pub_key_bytes), Bip44Coins.BITCOIN)
-    
+
     # Construct by specifying derivation data
     chain_code_bytes = binascii.unhexlify(b"873dff81c02f525623fd1fe5167eac3a55a049de3d314bb42ee227ffed37d508")
     bip44_mst_ctx = Bip44.FromPublicKey(
@@ -238,31 +240,31 @@ The private and public extended keys can be printed at any level.
 
     import binascii
     from bip_utils import Bip44Changes, Bip44Coins, Bip44Levels, Bip44
-    
+
     # Seed bytes
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4")
     # Create from seed
     bip44_mst_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.BITCOIN)
-    
+
     # Print master key in extended format
     print(bip44_mst_ctx.PrivateKey().ToExtended())
     # Print master key in hex format
     print(bip44_mst_ctx.PrivateKey().Raw().ToHex())
     # Print the master key in WIF
     print(bip44_mst_ctx.PrivateKey().ToWif())
-    
+
     # Print public key in extended format
     print(bip44_mst_ctx.PublicKey().ToExtended())
     # Print public key in raw uncompressed format
     print(bip44_mst_ctx.PublicKey().RawUncompressed().ToHex())
     # Print public key in raw compressed format
     print(bip44_mst_ctx.PublicKey().RawCompressed().ToHex())
-    
+
     # Print level
     print(bip44_mst_ctx.Level())
     # Check level
     print(bip44_mst_ctx.IsLevel(Bip44Levels.MASTER))
-    
+
     # Derive account 0 for Bitcoin: m/44'/0'/0'
     bip44_acc_ctx = bip44_mst_ctx.Purpose().Coin().Account(0)
     # Print keys in extended format
@@ -270,7 +272,7 @@ The private and public extended keys can be printed at any level.
     print(bip44_acc_ctx.PublicKey().ToExtended())
     # Address of account level
     print(bip44_acc_ctx.PublicKey().ToAddress())
-    
+
     # Derive the external chain: m/44'/0'/0'/0
     bip44_chg_ctx = bip44_acc_ctx.Change(Bip44Changes.CHAIN_EXT)
     # Print again keys in extended format
@@ -278,11 +280,11 @@ The private and public extended keys can be printed at any level.
     print(bip44_chg_ctx.PublicKey().ToExtended())
     # Address of change level
     print(bip44_chg_ctx.PublicKey().ToAddress())
-    
+
     # Derive the first 20 addresses of the external chain: m/44'/0'/0'/0/i
     for i in range(20):
         bip44_addr_ctx = bip44_chg_ctx.AddressIndex(i)
-    
+
         # Print extended keys and address
         print(bip44_addr_ctx.PrivateKey().ToExtended())
         print(bip44_addr_ctx.PublicKey().ToExtended())
