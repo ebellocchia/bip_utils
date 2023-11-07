@@ -109,7 +109,7 @@ class NeoAddrEncoder(IAddrEncoder):
 
         Raises:
             ValueError: If the public key is not valid
-            TypeError: If the public key is not ed25519
+            TypeError: If the public key is not nist256p1
         """
         ver_bytes = kwargs["ver"]
 
