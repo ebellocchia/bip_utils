@@ -100,6 +100,6 @@ Therefore, private and public keys can be use exactly like the `Bip44` class.
         BrainwalletAlgos.SHA256
     )
 
-    print(brainwallet_sha256.PrivateKey().Raw().ToHex())
-    print(brainwallet_sha256.PublicKey().ToExtended())
-    print(brainwallet_sha256.PublicKey().ToAddress())
+    print(brainwallet_btc.PrivateKey().Raw().ToHex())
+    print(brainwallet_btc.PublicKey().ToExtended())
+    print(brainwallet_btc.PublicKey().ToAddress())
