@@ -28,7 +28,7 @@ from typing import Any, Union
 
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
-from bip_utils.addr.eth_addr import EthAddrEncoder, EthAddrConst
+from bip_utils.addr.eth_addr import EthAddrConst, EthAddrEncoder
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.bech32 import Bech32ChecksumError, Bech32Decoder, Bech32Encoder
