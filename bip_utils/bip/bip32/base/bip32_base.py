@@ -455,7 +455,7 @@ class Bip32Base(ABC):
 
         # Hardened index is not supported for public derivation
         if index.IsHardened():
-            raise Bip32KeyError("Public child derivation cannot be used to create an hardened child key")
+            raise Bip32KeyError("Public child derivation cannot be used to create a hardened child key")
 
         return self.__CkdPub(index)
 
