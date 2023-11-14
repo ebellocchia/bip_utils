@@ -30,6 +30,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
 - Mnemonic and seed generation for Algorand (Algorand 25-word mnemonic)
 - Mnemonic and seed generation like Electrum wallet (v1 and v2)
 - Keys derivation like Electrum wallet (v1 and v2)
+- Generation of keys from a passphrase chosen by the user
 
 Other implemented functionalities:
 - Parse BIP-0032 derivation paths
@@ -61,6 +62,7 @@ Supported BIP coins:
 - Akash Network
 - Algorand
 - Aptos
+- Arbitrum
 - Avalanche (all the 3 chains)
 - Axelar
 - Band Protocol
@@ -96,6 +98,7 @@ Supported BIP coins:
 - NEO
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology
+- Optimism
 - Osmosis
 - Pi Network
 - Polkadot (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
@@ -191,6 +194,7 @@ For quick test:
 - [BIP-0038](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip38.md)
 - [BIP-0032](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md)
 - [BIP-0044](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip44.md)
+- [Brainwallet](https://github.com/ebellocchia/bip_utils/tree/master/readme/brainwallet.md)
 - [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)
 - [Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md)
 - [Monero](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md)

@@ -20,6 +20,7 @@ bip84
 bip86
 bip173
 bip350
+brainwallet
 base58
 ss58
 bech32

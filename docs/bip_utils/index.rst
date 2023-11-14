@@ -8,6 +8,7 @@ bip_utils
    base58/index.rst
    bech32/index.rst
    bip/index.rst
+   brainwallet/index.rst
    cardano/index.rst
    coin_conf/index.rst
    ecc/index.rst

@@ -74,6 +74,9 @@ from bip_utils.bip.conf.bip49 import Bip49Coins, Bip49Conf, Bip49ConfGetter
 from bip_utils.bip.conf.bip84 import Bip84Coins, Bip84Conf, Bip84ConfGetter
 from bip_utils.bip.conf.bip86 import Bip86Coins, Bip86Conf, Bip86ConfGetter
 
+# Brainwallet
+from bip_utils.brainwallet import Brainwallet, BrainwalletAlgos, BrainwalletCoins, IBrainwalletAlgo
+
 # Cardano
 from bip_utils.cardano.bip32 import CardanoByronLegacyBip32, CardanoIcarusBip32
 from bip_utils.cardano.byron import CardanoByronLegacy
