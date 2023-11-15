@@ -92,6 +92,7 @@ class Bip44Coins(BipCoins):
     SECRET_NETWORK_NEW = auto()
     SOLANA = auto()
     STELLAR = auto()
+    SUI = auto()
     TERRA = auto()
     TEZOS = auto()
     THETA = auto()

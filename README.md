@@ -107,6 +107,7 @@ Supported BIP coins:
 - Secret Network
 - Solana
 - Stellar
+- Sui (only ed25519)
 - Terra
 - Tezos
 - Theta Network

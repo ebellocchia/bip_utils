@@ -89,6 +89,7 @@ secret
 solana
 stellar
 substrate
+sui
 terra
 tezos
 theta

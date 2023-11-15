@@ -19,10 +19,10 @@ from bip_utils.addr import (
     P2PKHPubKeyModes, P2SHAddr, P2SHAddrDecoder, P2SHAddrEncoder, P2TRAddr, P2TRAddrDecoder, P2TRAddrEncoder,
     P2WPKHAddr, P2WPKHAddrDecoder, P2WPKHAddrEncoder, SolAddr, SolAddrDecoder, SolAddrEncoder, SubstrateEd25519Addr,
     SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateSr25519Addr, SubstrateSr25519AddrDecoder,
-    SubstrateSr25519AddrEncoder, TrxAddr, TrxAddrDecoder, TrxAddrEncoder, XlmAddr, XlmAddrDecoder, XlmAddrEncoder,
-    XlmAddrTypes, XmrAddr, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddr, XmrIntegratedAddrDecoder,
-    XmrIntegratedAddrEncoder, XrpAddr, XrpAddrDecoder, XrpAddrEncoder, XtzAddr, XtzAddrDecoder, XtzAddrEncoder,
-    XtzAddrPrefixes, ZilAddr, ZilAddrDecoder, ZilAddrEncoder
+    SubstrateSr25519AddrEncoder, SuiAddr, SuiAddrDecoder, SuiAddrEncoder, TrxAddr, TrxAddrDecoder, TrxAddrEncoder,
+    XlmAddr, XlmAddrDecoder, XlmAddrEncoder, XlmAddrTypes, XmrAddr, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddr,
+    XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XrpAddr, XrpAddrDecoder, XrpAddrEncoder, XtzAddr,
+    XtzAddrDecoder, XtzAddrEncoder, XtzAddrPrefixes, ZilAddr, ZilAddrDecoder, ZilAddrEncoder
 )
 
 # Algorand mnemonic

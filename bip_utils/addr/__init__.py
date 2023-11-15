@@ -42,6 +42,7 @@ from bip_utils.addr.substrate_addr import (
     SubstrateEd25519Addr, SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateSr25519Addr,
     SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder
 )
+from bip_utils.addr.sui_addr import SuiAddr, SuiAddrDecoder, SuiAddrEncoder
 from bip_utils.addr.trx_addr import TrxAddr, TrxAddrDecoder, TrxAddrEncoder
 from bip_utils.addr.xlm_addr import XlmAddr, XlmAddrDecoder, XlmAddrEncoder, XlmAddrTypes
 from bip_utils.addr.xmr_addr import (

@@ -67,6 +67,7 @@ class Slip44:
     NINE_CHRONICLES: int = 567
     APTOS: int = 637
     BINANCE_CHAIN: int = 714
+    SUI: int = 784
     VECHAIN: int = 818
     NEO: int = 888
     OKEX_CHAIN: int = 996

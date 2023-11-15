@@ -720,6 +720,14 @@ class CoinsConf:
         params={},
     )
 
+    # Configuration for Sui
+    Sui: CoinConf = CoinConf(
+        coin_name=CoinNames("Sui", "SUI"),
+        params={
+            "addr_prefix": "0x",
+        },
+    )
+
     # Configuration for Terra
     Terra: CoinConf = CoinConf(
         coin_name=CoinNames("Terra", "LUNA"),

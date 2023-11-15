@@ -26,8 +26,8 @@ from bip_utils.addr import (
     AvaxXChainAddrEncoder, BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, ErgoNetworkTypes, ErgoP2PKHAddrEncoder,
     EthAddrEncoder, FilSecp256k1AddrEncoder, IcxAddrEncoder, InjAddrEncoder, NanoAddrEncoder, NearAddrEncoder,
     NeoAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder, SubstrateEd25519AddrEncoder,
-    TrxAddrEncoder, XlmAddrEncoder, XlmAddrTypes, XmrAddrEncoder, XrpAddrEncoder, XtzAddrEncoder, XtzAddrPrefixes,
-    ZilAddrEncoder
+    SuiAddrEncoder, TrxAddrEncoder, XlmAddrEncoder, XlmAddrTypes, XmrAddrEncoder, XrpAddrEncoder, XtzAddrEncoder,
+    XtzAddrPrefixes, ZilAddrEncoder
 )
 from bip_utils.bip.bip32 import (
     Bip32Const, Bip32KeyNetVersions, Bip32KholawEd25519, Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b,
@@ -1066,6 +1066,19 @@ class Bip44Conf:
         bip32_cls=Bip32Slip10Ed25519,
         addr_cls=XlmAddrEncoder,
         addr_params={"addr_type": XlmAddrTypes.PUB_KEY},
+    )
+
+    # Configuration for Sui
+    Sui: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Sui.CoinNames(),
+        coin_idx=Slip44.SUI,
+        is_testnet=False,
+        def_path=DER_PATH_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Ed25519,
+        addr_cls=SuiAddrEncoder,
+        addr_params={},
     )
 
     # Configuration for Terra
