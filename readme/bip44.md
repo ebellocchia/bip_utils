@@ -46,6 +46,8 @@ Supported coins enumerative for BIP-0044:
 |Ethereum|`Bip44Coins.ETHEREUM`|-|
 |Ethereum Classic|`Bip44Coins.ETHEREUM_CLASSIC`|-|
 |Fantom Opera|`Bip44Coins.FANTOM_OPERA`|-|
+|Fetch.ai|`Bip44Coins.FETCH_AI`|-|
+|Fetch.ai (Ethereum coin type)|`Bip44Coins.FETCH_AI_ETH`|-|
 |Filecoin|`Bip44Coins.FILECOIN`|-|
 |Harmony One (Cosmos address)|`Bip44Coins.HARMONY_ONE_ATOM`|-|
 |Harmony One (Ethereum address)|`Bip44Coins.HARMONY_ONE_ETH`|-|

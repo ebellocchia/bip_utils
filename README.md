@@ -86,6 +86,7 @@ Supported BIP coins:
 - Ethereum Classic
 - Fantom Opera
 - Filecoin
+- Fetch.ai
 - Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
 - IRIS Network

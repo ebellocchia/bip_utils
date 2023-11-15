@@ -430,6 +430,14 @@ class CoinsConf:
         params={},
     )
 
+    # Configuration for Fetch.ai
+    FetchAi: CoinConf = CoinConf(
+        coin_name=CoinNames("Fetch.ai", "FET"),
+        params={
+            "addr_hrp": Slip173.FETCH_AI,
+        },
+    )
+
     # Configuration for Filecoin
     Filecoin: CoinConf = CoinConf(
         coin_name=CoinNames("Filecoin", "FIL"),

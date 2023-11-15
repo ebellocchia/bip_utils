@@ -41,6 +41,7 @@ class Slip173:
     CHIHUAHUA: str = "chihuahua"
     COSMOS: str = "cosmos"
     ELROND: str = "erd"
+    FETCH_AI: str = "fetch"
     HARMONY_ONE: str = "one"
     INJECTIVE: str = "inj"
     IRIS_NETWORK: str = "iaa"

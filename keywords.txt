@@ -63,6 +63,7 @@ eos
 ethereum
 ethereum classic
 fantom opera
+fetch.ai
 filecoin
 harmony one
 huobi chain
