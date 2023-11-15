@@ -79,7 +79,7 @@ Supported BIP coins:
 - Dash (and related test net)
 - Dogecoin (and related test net)
 - eCash (and related test net)
-- Elrond
+- Elrond (MultiversX)
 - EOS
 - Ergo (and related test net)
 - Ethereum
