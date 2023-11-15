@@ -75,6 +75,7 @@ kava
 litecoin
 matic
 monero
+multiversx
 okex chain
 ontology
 optimism
