@@ -18,10 +18,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
+import unittest
+
 # Imports
 from typing import Any
-
-import unittest
 
 from bip_utils import Blake2b256, Brainwallet, BrainwalletAlgos, BrainwalletCoins, IBrainwalletAlgo, Kekkak256
 
