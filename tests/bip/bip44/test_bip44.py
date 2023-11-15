@@ -642,7 +642,7 @@ TEST_VECT = [
     # Elrond
     {
         "coin": Bip44Coins.ELROND,
-        "names": ("Elrond eGold", "eGLD"),
+        "names": ("MultiversX", "EGLD"),
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
@@ -1157,6 +1157,30 @@ TEST_VECT = [
             "43saSi9Dks9YV8YyacmZQQJdMBKY9nbEsRvaK3roJB4LPgJUNviVCoH1WBYLCuoxBsFJjsrPf5h4GHCdhVVVbWCJQdscKeN",
             "4ATV7ushExTh5jmdJcAUEo8WS7BcpZp93WG4mGebJgfscE4WCizMCFWSad27gXmAyJGTXdwnyPQ2URHuo9UrTuV4SxFoLtA",
             "45owUkS3J6B5mYs6knc7ZBBG4fCiiX672BgrK2AA75zEAMryFmKnz7s63eHA96fo8aVAUigtmRj7Z4V9bK4fkAab23QGme3",
+        ],
+    },
+    # MultiversX
+    {
+        "coin": Bip44Coins.MULTIVERSX,
+        "names": ("MultiversX", "EGLD"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CMUiCFDobygrAj2LiiiBuMMmrzW2pAEPtn73C7QAsLSPMZCWBqjceGoRHXj4msYnuTbi2a2qPviifLL5fmpsS46BMpRbmADwBFmDUD5EZr",
+            "ex_priv": "xprv9yN8JgiKyERPdgeZEhBhpmQdDqA1dMSP2frWEohncXoTWZE3xeXV4qxKa6s4owr4xL8Cb69LMCapEcnw7TZbuvg6YNbBn4nptjERCKdoZwq",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6FBJfKWjsnDV6eDQZtzqRppmZd2cZxEXwzVNqVSba66Z7NvvQoZ85A92A3TgGmPw9a3apuTUc42bc38PfjiyfS9kCta68oVhRyM4mDtJMZD",
+            "ex_priv": "xprvA2BxFoyr3QfBtA8wTsTq4gt31bC8AVWgamZn372z1kZaEabmsGEsXMpYJspWB4ZyMGjMHTMAzcrap1T71LKMX6aJeGLJ6tiigN7NuD9vK8V",
+        },
+        "addresses": [
+            "erd1sqhjrtmsn5yjk6w85099p8v0ly0g8z9pxeqe5dvu5rlf2n7vq3vqytny9g",
+            "erd1xkrttq324elvla4kk83r6wns35cjyqw7vg5tmdfn7qmrc2drd7qswlwt6z",
+            "erd19assuvyq236dmr4th5wjy59c75cn98zjusd3m74kv5y9ylerl0esenuv3m",
+            "erd1hhwwsj0837t6dkjy53waxtgp3aqws863rrvx6lj2v9t3jfxmhq5qgp0dj0",
+            "erd1yvj6es98ecj0axw399a8juekwvc4a3f4rvxpy8vudfvy4v6p088qexz52j",
         ],
     },
     # Nano
@@ -2369,6 +2393,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.MONERO_SECP256K1,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "49vDbkSo7eve3J41sBdjvjaBUyz8qHohsQcGtRf63qEUTMBvmA45fpp5pSacMdSg7A3b71RejLzB8EkGbfjp5PELVF2N4Zn",
+    },
+    # MultiversX
+    {
+        "coin": Bip44Coins.MULTIVERSX,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "erd1sqhjrtmsn5yjk6w85099p8v0ly0g8z9pxeqe5dvu5rlf2n7vq3vqytny9g",
     },
     # Nano
     {
