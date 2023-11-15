@@ -13,6 +13,7 @@ sdist/
 *.egg-info/
 *.egg
 bip_utils-*/
+.pypirc
 
 # Unit test / Coverage reports
 htmlcov
