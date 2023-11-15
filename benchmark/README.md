@@ -10,9 +10,9 @@ So, for me the purpose of this benchmark is only to have an idea of performance 
 
 # Running the benchmark
 
-First of all, install *codetimimg* if not yet installed (minimum required version: 1.2):
+First of all, install the requirements from the `requirements.txt` file in this folder:
 
-    pip install codetiming~=1.2
+    pip install -r requirements.txt
 
 And *bip_utils* itself.\
 Then, set the benchmark variables by editing the *TestsConf* class at the beginning of *benchmark.py* and run the file from this folder:
