@@ -16,16 +16,16 @@ A brainwallet can be generated using a built-in algorithm. The supported algorit
 
 In case of `BrainwalletAlgos.PBKDF2_HMAC_SHA512`, these additional parameters can be optionally specified:
 
-- Salt (default value: empty string)
-- Number of iteration (default value: 2097152)
+- `salt`: salt for PBKDF2 algorithm (default: empty string)
+- `itr_num`: number of iteration for PBKDF2 algorithm (default: 2097152)
 
 In case of `BrainwalletAlgos.SCRYPT`, these additional parameters can be optionally specified:
 
-- Salt (default value: empty string)
-- N (default value: 131072)
-- R (default value: 8)
-- P (default value: 8)
-
+- `salt`: salt for Scrypt algorithm (default: empty string)
+- `n`: CPU/Memory cost parameter for Scrypt algorithm (default: 131072)
+- `r`: block size parameter for Scrypt algorithm (default: 8)
+- `p`: parallelization parameter for Scrypt algorithm (default: 8)
+:
 ### Coins
 
 A brainwallet can be generated for all coins supported by `Bip44`.
@@ -60,7 +60,8 @@ A wallet can be generated using a built-in algorithm with the `Generate` method,
 ### Generation using custom algorithms
 
 A wallet can be generated using a custom algorithm with the `GenerateWithCustomAlgo` method, by specifying the algorithm class and coin type.\
-In order to create a custom algorithm, a class inheriting the `IBrainwalletAlgo` interface and implementing the `ComputePrivateKey` method shall be defined.
+In order to create a custom algorithm, a class inheriting the `IBrainwalletAlgo` interface and implementing the `ComputePrivateKey` method shall be defined.\
+The output length of the `ComputePrivateKey` method shall be the length of the private key of the specific coin, usually 32-byte long.
 
 **Code example**
 
