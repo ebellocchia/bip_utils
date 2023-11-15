@@ -9,6 +9,8 @@ matrix:
     dist: focal
   - python: "3.10"
     dist: focal
+  - python: "3.11"
+    dist: jammy
 
 before_install:
  - pip install coverage
