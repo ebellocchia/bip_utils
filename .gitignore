@@ -16,6 +16,7 @@ bip_utils-*/
 .pypirc
 
 # Unit test / Coverage reports
+coverage.xml
 htmlcov
 .coverage
 .coverage.*
