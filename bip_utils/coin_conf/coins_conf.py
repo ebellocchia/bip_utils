@@ -718,6 +718,7 @@ class CoinsConf:
     Stafi: CoinConf = CoinConf(
         coin_name=CoinNames("Stafi", "FIS"),
         params={
+            "addr_hrp": Slip173.STAFI,
             "addr_ss58_format": 20,
         },
     )

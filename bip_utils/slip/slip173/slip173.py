@@ -51,5 +51,6 @@ class Slip173:
     OKEX_CHAIN: str = "ex"
     OSMOSIS: str = "osmo"
     SECRET_NETWORK: str = "secret"
+    STAFI: str = "stafi"
     TERRA: str = "terra"
     ZILLIQA: str = "zil"

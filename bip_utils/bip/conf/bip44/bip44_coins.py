@@ -93,6 +93,7 @@ class Bip44Coins(BipCoins):
     SECRET_NETWORK_OLD = auto()
     SECRET_NETWORK_NEW = auto()
     SOLANA = auto()
+    STAFI = auto()
     STELLAR = auto()
     SUI = auto()
     TERRA = auto()

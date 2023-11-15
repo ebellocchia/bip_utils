@@ -107,6 +107,7 @@ Supported BIP coins:
 - Ripple
 - Secret Network
 - Solana
+- Stafi (Cosmos)
 - Stellar
 - Sui (only ed25519)
 - Terra
