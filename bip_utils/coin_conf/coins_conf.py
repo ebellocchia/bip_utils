@@ -384,7 +384,7 @@ class CoinsConf:
 
     # Configuration for Elrond
     Elrond: CoinConf = CoinConf(
-        coin_name=CoinNames("Elrond eGold", "eGLD"),
+        coin_name=CoinNames("MultiversX", "EGLD"),
         params={
             "addr_hrp": Slip173.ELROND,
         },
