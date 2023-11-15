@@ -783,6 +783,54 @@ TEST_VECT = [
             "0x51cA8ff9f1C0a99f88E86B8112eA3237F55374cA",
         ],
     },
+    # Fetch.ai
+    {
+        "coin": Bip44Coins.FETCH_AI,
+        "names": ("Fetch.ai", "FET"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DGzViq8bmgMLYdVZ3xnLVEdKwzBnGdzzJZ4suG8kVb9TTLAbrwv8YdKBb8FWKdBNinaHKmBv7JpQvqBYx4rxch7WnHzNFzSVrMf8hQepTP",
+            "ex_priv": "xprv9zHe6DJEmQ8484Z2T2RmyMHtmv9hNov9d5dU5WrXCA4Aaf124KdfakJqLGnVYwvBvMP4ttqm7QL5vuPTepiJiEJREiJnhswKmj6zLttwCMu",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EbeQ8h8S7mEGxYTn34gKedwvsmytMW61v51RAc8e6VzgMMLFkkNMN6sYtqvtZQ8TjBKswbxUTzxzj3nZfwr4pzFB7rySMaBUUCJnCuxu33",
+            "ex_priv": "xprvA1cHzdAEbkCw4UTzg1XfxWhDNqwVUtnEeh9QcnCX5ky1oZ2BiDS7oZnPhdgFNqWwGtB3BNebior1tS26wAtbQzCTe5Pty1BhkcwT8QfWQSP",
+        },
+        "addresses": [
+            "fetch19rl4cm2hmr8afy4kldpxz3fka4jguq0a0ayeaz",
+            "fetch1jrkmdcwgq94uaamx6zax2luewlhf7u4k090454",
+            "fetch1kng7tv83qesgvv2ze7hxlw4urfrjk8vqnwgy0u",
+            "fetch1zuvk68xw4y9swp06796rx8zarjvvkrt6u86zfg",
+            "fetch12ecyuddg4wlnhztusgju5zxxjgznkz7fr5a65h",
+        ],
+    },
+    # Fetch.ai (ETH)
+    {
+        "coin": Bip44Coins.FETCH_AI_ETH,
+        "names": ("Fetch.ai", "FET"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DCoCpSuQZB2jawqnGMEPS63ePKWkwWPH4TU45Q7LPXWuNd8TMtVxRrgjtEshuqpK3mdhaWHPFsBngh5GFZaM6si3yZdUsT8ddYM3PwnATt",
+            "ex_priv": "xprv9zDSoJv1aBcjX6sNgEpE2J9K6MV2MUnXuqXsFgzVn3zY2aHyupaFQdYCtdCbNMkvcTdx9FeN49sgXw6mjrhrFLRSzJVnRYPfSCCgjeg4GxY",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EF8jXqFeFEW5bwMU7RpQtHkzE4KJxcqJtvkCjJumzW8CPpacXkb92ek4WzLQXjL93HycJwTPUAcuNxCqFPKKU5m5Z2Vq4nCyh5CyPeBFFr",
+            "ex_priv": "xprvA1FnL2JMosgCs7rtN5tp3kM2SCDpuVtywg19QLuJDey9KbVS4zSLbELGDFdugxESvYxCU1wEJhDmMXvHKwmpCLd8QSoUJCHmVHCGvpFPxiw",
+        },
+        "addresses": [
+            "fetch1gsvdpdxec8hsu57lhxg5xem7refr233z0vufcr",
+            "fetch1kffs9e9jzdlnmpk025zgklzd0kpcapzaxrnpse",
+            "fetch16th9ljgj7mky4t3a2m9t5g4als6njw2etclyr2",
+            "fetch1vgf56ae7lhgxq307m9v3p7pc47uxyhaju3nhwy",
+            "fetch1myakvm3nhf2w4w2v7a2apdjdnumvnjl96fwlfl",
+        ],
+    },
     # Filecoin
     {
         "coin": Bip44Coins.FILECOIN,
@@ -1495,6 +1543,30 @@ TEST_VECT = [
             "5VCDybrepFCgPprUHUo9MByZpS7zsTkrBwQryKC8zakF",
         ],
     },
+    # Stafi
+    {
+        "coin": Bip44Coins.STAFI,
+        "names": ("Stafi", "FIS"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DGzViq8bmgMLYdVZ3xnLVEdKwzBnGdzzJZ4suG8kVb9TTLAbrwv8YdKBb8FWKdBNinaHKmBv7JpQvqBYx4rxch7WnHzNFzSVrMf8hQepTP",
+            "ex_priv": "xprv9zHe6DJEmQ8484Z2T2RmyMHtmv9hNov9d5dU5WrXCA4Aaf124KdfakJqLGnVYwvBvMP4ttqm7QL5vuPTepiJiEJREiJnhswKmj6zLttwCMu",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EbeQ8h8S7mEGxYTn34gKedwvsmytMW61v51RAc8e6VzgMMLFkkNMN6sYtqvtZQ8TjBKswbxUTzxzj3nZfwr4pzFB7rySMaBUUCJnCuxu33",
+            "ex_priv": "xprvA1cHzdAEbkCw4UTzg1XfxWhDNqwVUtnEeh9QcnCX5ky1oZ2BiDS7oZnPhdgFNqWwGtB3BNebior1tS26wAtbQzCTe5Pty1BhkcwT8QfWQSP",
+        },
+        "addresses": [
+            "stafi19rl4cm2hmr8afy4kldpxz3fka4jguq0a8tahtd",
+            "stafi1jrkmdcwgq94uaamx6zax2luewlhf7u4k8nkmz6",
+            "stafi1kng7tv83qesgvv2ze7hxlw4urfrjk8vqmc32en",
+            "stafi1zuvk68xw4y9swp06796rx8zarjvvkrt653rvl8",
+            "stafi12ecyuddg4wlnhztusgju5zxxjgznkz7ftzy5zc",
+        ],
+    },
     # Stellar
     {
         "coin": Bip44Coins.STELLAR,
@@ -1517,6 +1589,30 @@ TEST_VECT = [
             "GB5MODTP6KD7W3GPWCNYFZV5TGML5VPJEQPPOFQVQARTTSZHDAQ64ZNO",
             "GAPNUERN7U4RSH252QTI2BHFUFEVPN7GLFSJZ6UZ3SQW4FFO33QTWDKS",
             "GDRRNY7FDCTOXXZPAOOBUU6TFAPFKAA57XOVAURWRQBYZQZDWQMNU457",
+        ],
+    },
+    # Sui
+    {
+        "coin": Bip44Coins.SUI,
+        "names": ("Sui", "SUI"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6Bo2ZsxE2xZGHKEYQs8t65Ff3Eyn7awv1P25wMT73fXAVGqs6xKVSSfasQ95gFqknTG4bJfZPa47ZcscEaaj1GBQZcq5tiPzfQhr4jap2Ak",
+            "ex_priv": "xprv9xogANRLCazy4qA5JqbsiwJvVD9Hi8E4eA6V8y3VVKzBcUWiZR1EteM72D1tLbxoAudzNJ2YpKq2UuCUXPthzsXp5UgDahNBQBt8mw8e5xt",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6Dzf7QniyWybUfHMFjVUZmf7AFhoDjmCu6ujjoV5aTnmaZZQ33riUQwasw3G3xATic62naehbGZ5VNXZ7XvKjux8u2Dah57zS1QSan7SYyQ",
+            "ex_priv": "xprvA11JhuFq99RJGBCt9hxUCdiNcDsJpH3MXsz8wR5U28FnhmEFVWYTvcd72ipk6jsToZfxrhBSgXd6FU3RHihPeLtLGFc4JZswr8iFn2S2xnN",
+        },
+        "addresses": [
+            "0x5e93a736d04fbb25737aa40bee40171ef79f65fae833749e3c089fe7cc2161f1",
+            "0xf7c7a39996ac7f1c307b96c96d65cce0855dcc7ccd021c453964f2f62f98e71f",
+            "0xd67b0f1c352cb1f3318ef464b04c8fa29aca0eb0574f8c7a4b8a5ea77f9ba455",
+            "0xd32b7dcf1309a6a172b5da34819dbf27ef0864afdca3625333f84193b006e10b",
+            "0x169395c29469499da25cd8f10567cded8b8aed1352d1bb6674f5221c4c434701",
         ],
     },
     # Terra
@@ -2184,6 +2280,18 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "0x9858EfFD232B4033E47d90003D41EC34EcaEda94",
     },
+    # Fetch.ai
+    {
+        "coin": Bip44Coins.FETCH_AI,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "fetch19rl4cm2hmr8afy4kldpxz3fka4jguq0a0ayeaz",
+    },
+    # Fetch.ai (ETH)
+    {
+        "coin": Bip44Coins.FETCH_AI_ETH,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "fetch1gsvdpdxec8hsu57lhxg5xem7refr233z0vufcr",
+    },
     # Filecoin
     {
         "coin": Bip44Coins.FILECOIN,
@@ -2358,11 +2466,23 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "GjJyeC1r2RgkuoCWMyPYkCWSGSGLcz266EaAkLA27AhL",
     },
+    # Stafi
+    {
+        "coin": Bip44Coins.STAFI,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "stafi19rl4cm2hmr8afy4kldpxz3fka4jguq0a8tahtd",
+    },
     # Stellar
     {
         "coin": Bip44Coins.STELLAR,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "GB3JDWCQJCWMJ3IILWIGDTQJJC5567PGVEVXSCVPEQOTDN64VJBDQBYX",
+    },
+    # Sui
+    {
+        "coin": Bip44Coins.SUI,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "0x5e93a736d04fbb25737aa40bee40171ef79f65fae833749e3c089fe7cc2161f1",
     },
     # Terra
     {
