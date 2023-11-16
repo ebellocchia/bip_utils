@@ -11,6 +11,7 @@ ignore-paths:
   - examples
   - readme
   - tests
+  - my_tests
 
 ignore-patterns:
   - setup.py
