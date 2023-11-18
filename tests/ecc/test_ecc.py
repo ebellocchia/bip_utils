@@ -621,7 +621,7 @@ class EccTests(unittest.TestCase):
         self.assertTrue(Sr25519.PrivateKeyClass() is Sr25519PrivateKey)
 
         # Public key
-        self.assertTrue(Sr25519PublicKey.FromPoint(Sr25519Point.FromCoordinates(0, 0)) is None)
+        self.assertRaises(RuntimeError, Sr25519PublicKey.FromPoint, Sr25519Point.FromCoordinates(0, 0))
         self.assertEqual(Sr25519PublicKey.CurveType(), EllipticCurveTypes.SR25519)
         self.assertEqual(Sr25519PublicKey.CompressedLength(), 32)
         self.assertEqual(Sr25519PublicKey.UncompressedLength(), 32)
@@ -630,8 +630,8 @@ class EccTests(unittest.TestCase):
         pub_key = Sr25519PublicKey.FromBytes(TEST_SR25519_COMPR_PUB_KEY_BYTES)
         self.assertTrue(isinstance(pub_key.RawCompressed(), DataBytes))
         self.assertTrue(isinstance(pub_key.RawUncompressed(), DataBytes))
-        self.assertTrue(pub_key.Point() is None)
         self.assertTrue(isinstance(pub_key.UnderlyingObject(), bytes))
+        self.assertRaises(RuntimeError, pub_key.Point)
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_SR25519_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_SR25519_UNCOMPR_PUB_KEY_BYTES)
 
@@ -651,7 +651,7 @@ class EccTests(unittest.TestCase):
         self.assertEqual(priv_key.PublicKey().RawCompressed().ToBytes(), TEST_SR25519_COMPR_PUB_KEY_BYTES)
 
         # Point
-        self.__test_dummy_point(Sr25519Point)
+        self.__test_dummy_point(Sr25519Point, EllipticCurveTypes.SR25519)
 
     # Test invalid public keys
     def test_invalid_pub_keys(self):
@@ -704,21 +704,45 @@ class EccTests(unittest.TestCase):
             self.assertFalse(Sr25519PrivateKey.IsValidBytes(binascii.unhexlify(test)))
 
     # Test for DummyPoint
-    def __test_dummy_point(self, point_cls):
+    def __test_dummy_point(self, point_cls, curve_type):
+        TEST_X = 1
+        TEST_Y = 2
+        TEST_RAW = IntegerUtils.ToBytes(TEST_X, bytes_num=32) + IntegerUtils.ToBytes(TEST_Y, bytes_num=32)
+
         self.assertEqual(point_cls.CoordinateLength(), 32)
-        
         self.assertRaises(TypeError, point_cls, 0)
-        self.assertTrue(point_cls.FromBytes(b"") is None)
-        self.assertTrue(point_cls.CurveType() is None)
+
+
+        point = point_cls.FromBytes(TEST_RAW)
+        self.assertTrue(isinstance(point.Raw(), DataBytes))
+        self.assertTrue(isinstance(point.RawDecoded(), DataBytes))
+        self.assertTrue(isinstance(point.RawEncoded(), DataBytes))
+        self.assertTrue(point.UnderlyingObject() is None)
+        self.assertTrue(point.CurveType() is curve_type)
+        self.assertEqual(point.X(), TEST_X)
+        self.assertEqual(point.Y(), TEST_Y)
+        self.assertEqual(point.Raw().ToBytes(), TEST_RAW)
+        self.assertEqual(point.RawDecoded().ToBytes(), TEST_RAW)
+        self.assertEqual(point.RawEncoded().ToBytes(), TEST_RAW)
 
         point = point_cls.FromCoordinates(1, 2)
+        self.assertEqual(point.X(), TEST_X)
+        self.assertEqual(point.Y(), TEST_Y)
+        self.assertEqual(point.Raw().ToBytes(), TEST_RAW)
+        self.assertEqual(point.RawDecoded().ToBytes(), TEST_RAW)
+        self.assertEqual(point.RawEncoded().ToBytes(), TEST_RAW)
 
-        self.assertTrue(point.UnderlyingObject() is None)
-        self.assertEqual(point.X(), 1)
-        self.assertEqual(point.Y(), 2)
-        self.assertTrue(point.Raw() is None)
-        self.assertTrue(point.RawDecoded() is None)
-        self.assertTrue(point.RawEncoded() is None)
-        self.assertTrue((point + point) is None)
-        self.assertTrue((point * 1) is None)
-        self.assertTrue((1 * point) is None)
+        # Addition
+        point_add = point + point
+        self.assertEqual(point_add.X(), TEST_X + TEST_X)
+        self.assertEqual(point_add.Y(), TEST_Y + TEST_Y)
+
+        # Multiplication
+        point_mul = point * 2
+        self.assertEqual(point_mul.X(), TEST_X * 2)
+        self.assertEqual(point_mul.Y(), TEST_Y * 2)
+
+        # Reverse multiplication
+        point_mul = 2 * point
+        self.assertEqual(point_mul.X(), TEST_X * 2)
+        self.assertEqual(point_mul.Y(), TEST_Y * 2)

@@ -22,7 +22,18 @@
 
 # Imports
 from bip_utils.ecc.common.dummy_point import DummyPoint
+from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 
 
 class Sr25519Point(DummyPoint):
     """Sr25519 point class. Dummy class since not needed."""
+
+    @staticmethod
+    def CurveType() -> EllipticCurveTypes:
+        """
+        Get the elliptic curve type.
+
+        Returns:
+           EllipticCurveTypes: Elliptic curve type
+        """
+        return EllipticCurveTypes.SR25519

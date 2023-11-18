@@ -77,6 +77,7 @@ class Sr25519PublicKey(IPublicKey):
         Raises:
             ValueError: If key point is not valid
         """
+        raise RuntimeError("Constrution from point not supported")
 
     def __init__(self,
                  key_bytes: bytes) -> None:
@@ -159,6 +160,7 @@ class Sr25519PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
+        raise RuntimeError("Getting point from public key not supported")
 
 
 class Sr25519PrivateKey(IPrivateKey):

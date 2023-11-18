@@ -30,6 +30,7 @@ References:
 from typing import Tuple, Union
 
 from bip_utils.bip.bip32.base import IBip32KeyDerivator
+from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
 from bip_utils.ecc import IPoint
@@ -168,6 +169,8 @@ class Bip32Slip10Ed25519Derivator(IBip32KeyDerivator):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
+        if not index.IsHardened():
+            raise Bip32KeyError("Private child derivation with not-hardened index is not supported")
 
         # Data for HMAC
         data_bytes = (Bip32Slip10DerivatorConst.PRIV_KEY_PREFIX
@@ -194,4 +197,4 @@ class Bip32Slip10Ed25519Derivator(IBip32KeyDerivator):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-        # Not supported
+        raise Bip32KeyError("Public child derivation is not supported")

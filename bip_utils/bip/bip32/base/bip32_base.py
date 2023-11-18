@@ -427,11 +427,6 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-
-        # Check if supported
-        if not index.IsHardened() and not self.IsPublicDerivationSupported():
-            raise Bip32KeyError("Private child derivation with not-hardened index is not supported")
-
         return self.__CkdPriv(index)
 
     def __ValidateAndCkdPub(self,
@@ -448,10 +443,6 @@ class Bip32Base(ABC):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
-
-        # Check if supported
-        if not self.IsPublicDerivationSupported():
-            raise Bip32KeyError("Public child derivation is not supported")
 
         # Hardened index is not supported for public derivation
         if index.IsHardened():

@@ -21,11 +21,11 @@
 """Module with helper class for representing a dummy point."""
 
 # Imports
+from abc import ABC
 from typing import Any
 
 from bip_utils.ecc.common.ipoint import IPoint
-from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
-from bip_utils.utils.misc import DataBytes
+from bip_utils.utils.misc import BytesUtils, DataBytes, IntegerUtils
 
 
 class DummyPointConst:
@@ -35,7 +35,7 @@ class DummyPointConst:
     POINT_COORD_BYTE_LEN: int = 32
 
 
-class DummyPoint(IPoint):
+class DummyPoint(IPoint, ABC):
     """Dummy point class."""
 
     m_x: int
@@ -53,6 +53,12 @@ class DummyPoint(IPoint):
         Returns:
             IPoint: IPoint object
         """
+        return cls(
+            (
+                BytesUtils.ToInteger(point_bytes[:DummyPointConst.POINT_COORD_BYTE_LEN]),
+                BytesUtils.ToInteger(point_bytes[DummyPointConst.POINT_COORD_BYTE_LEN:])
+            )
+        )
 
     @classmethod
     def FromCoordinates(cls,
@@ -90,15 +96,6 @@ class DummyPoint(IPoint):
         self.m_y = point_obj[1]
 
     @staticmethod
-    def CurveType() -> EllipticCurveTypes:
-        """
-        Get the elliptic curve type.
-
-        Returns:
-           EllipticCurveTypes: Elliptic curve type
-        """
-
-    @staticmethod
     def CoordinateLength() -> int:
         """
         Get the coordinate length.
@@ -115,6 +112,7 @@ class DummyPoint(IPoint):
         Returns:
            Any: Underlying object
         """
+        return None
 
     def X(self) -> int:
         """
@@ -141,6 +139,10 @@ class DummyPoint(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
+        x_bytes = IntegerUtils.ToBytes(self.m_x, bytes_num=DummyPointConst.POINT_COORD_BYTE_LEN)
+        y_bytes = IntegerUtils.ToBytes(self.m_y, bytes_num=DummyPointConst.POINT_COORD_BYTE_LEN)
+
+        return DataBytes(x_bytes + y_bytes)
 
     def RawEncoded(self) -> DataBytes:
         """
@@ -149,6 +151,7 @@ class DummyPoint(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
+        return self.Raw()
 
     def RawDecoded(self) -> DataBytes:
         """
@@ -157,6 +160,7 @@ class DummyPoint(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
+        return self.Raw()
 
     def __add__(self,
                 point: IPoint) -> IPoint:
@@ -169,6 +173,9 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
+        return self.__class__(
+            (self.m_x + point.X(), self.m_y + point.Y())
+        )
 
     def __radd__(self,
                  point: IPoint) -> IPoint:
@@ -181,6 +188,7 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
+        return self.__add__(point)
 
     def __mul__(self,
                 scalar: int) -> IPoint:
@@ -193,6 +201,9 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
+        return self.__class__(
+            (self.m_x * scalar, self.m_y * scalar)
+        )
 
     def __rmul__(self,
                  scalar: int) -> IPoint:
@@ -205,3 +216,4 @@ class DummyPoint(IPoint):
         Returns:
             IPoint object: IPoint object
         """
+        return self.__mul__(scalar)
