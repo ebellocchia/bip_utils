@@ -140,8 +140,8 @@ class _AdaByronAddrAttrs(NamedTuple):
                 or (len(attrs_dict) != 0 and 1 not in attrs_dict and 2 not in attrs_dict)):
             raise ValueError("Invalid address attributes")
         return cls(
-            cbor2.loads(attrs_dict[1]) if 1 in attrs_dict else None,
-            cbor2.loads(attrs_dict[2]) if 2 in attrs_dict else None
+            cbor2.loads(attrs_dict[1]) if 1 in attrs_dict else None,    # type: ignore [arg-type]
+            cbor2.loads(attrs_dict[2]) if 2 in attrs_dict else None     # type: ignore [arg-type]
         )
 
     def ToDict(self) -> Dict[int, bytes]:
@@ -218,7 +218,7 @@ class _AdaByronAddrPayload(NamedTuple):
         Raises:
             ValueError: If the serialization is not valid
         """
-        addr_payload: Tuple[bytes, Dict[int, bytes], int] = cbor2.loads(ser_payload_bytes)
+        addr_payload: Tuple[bytes, Dict[int, bytes], int] = cbor2.loads(ser_payload_bytes)  # type: ignore [assignment]
         if (len(addr_payload) != 3
                 or not isinstance(addr_payload[0], bytes)
                 or not isinstance(addr_payload[1], dict)
@@ -294,7 +294,7 @@ class _AdaByronAddr(NamedTuple):
         Raises:
             ValueError: If the serialization is not valid
         """
-        addr_bytes: Tuple[cbor2.CBORTag, int] = cbor2.loads(ser_addr_bytes)
+        addr_bytes: Tuple[cbor2.CBORTag, int] = cbor2.loads(ser_addr_bytes)     # type: ignore [assignment]
         if (len(addr_bytes) != 2
                 or not isinstance(addr_bytes[0], cbor2.CBORTag)
                 or not isinstance(addr_bytes[1], int)):

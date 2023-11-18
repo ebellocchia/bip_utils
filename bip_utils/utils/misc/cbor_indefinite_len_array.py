@@ -105,7 +105,7 @@ class CborIndefiniteLenArrayDecoder:
             # Move forward
             i += curr_len
 
-        return int_elems
+        return int_elems    # type: ignore [return-value]
 
 
 class CborIndefiniteLenArrayEncoder:
