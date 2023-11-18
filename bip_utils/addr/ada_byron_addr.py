@@ -218,7 +218,7 @@ class _AdaByronAddrPayload(NamedTuple):
         Raises:
             ValueError: If the serialization is not valid
         """
-        addr_payload = cbor2.loads(ser_payload_bytes)
+        addr_payload: Tuple[bytes, Dict[int, bytes], int] = cbor2.loads(ser_payload_bytes)
         if (len(addr_payload) != 3
                 or not isinstance(addr_payload[0], bytes)
                 or not isinstance(addr_payload[1], dict)
@@ -294,7 +294,7 @@ class _AdaByronAddr(NamedTuple):
         Raises:
             ValueError: If the serialization is not valid
         """
-        addr_bytes = cbor2.loads(ser_addr_bytes)
+        addr_bytes: Tuple[cbor2.CBORTag, int] = cbor2.loads(ser_addr_bytes)
         if (len(addr_bytes) != 2
                 or not isinstance(addr_bytes[0], cbor2.CBORTag)
                 or not isinstance(addr_bytes[1], int)):
