@@ -1,4 +1,4 @@
-# This workflow will install Python dependencies, run tests with coverage and upload it to Codecov
+# This workflow will install Python dependencies, run tests with code coverage and upload the results to Codecov
 
 name: Code Coverage
 
