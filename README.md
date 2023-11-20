@@ -171,22 +171,22 @@ To install the package:
 - if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0
 - in case of problems when building the *ed25519_blake2b* library, you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels)
 
+## Test and Coverage
+
+Install develop dependencies:
+
+    pip install -r requirements-dev.txt
+
 To run tests:
 
     python -m unittest discover
 
-Or you can install *tox*:
+To run tests with coverage:
 
-    pip install tox
+    coverage run -m unittest discover
+    coverage report
 
-And then simply run it:
-
-    tox
-
-This will run code coverage with different Python versions and perform style and code analysis.\
-For quick test:
-
-    tox -e unittest
+To run code analysis, just execute the `analyze_code` script.
 
 ## Modules description
 
