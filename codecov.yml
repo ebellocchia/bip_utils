@@ -1,0 +1,11 @@
+coverage:
+  precision: 2
+  round: down
+  range: 60..90
+  status:
+    patch:
+      default:
+        target: 95%
+    project:
+      default:
+        threshold: 1%
