@@ -1,6 +1,6 @@
 # This workflow will install Python dependencies and run tests with different Python versions
 
-name: Testing
+name: Build & Test
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
       matrix:
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
@@ -26,6 +26,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -r requirements-dev.txt
-    - name: Code testing
+    - name: Run tests
       run: |
         pytest
