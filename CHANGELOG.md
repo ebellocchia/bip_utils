@@ -1,3 +1,19 @@
+# 2.9.0
+
+- Add support for the following coins:
+
+|Coin | Main net enum | Test net enum|
+|---|---|---|
+|Arbitrum|`Bip44Coins.ARBITRUM`|-|
+|Fetch.ai|`Bip44Coins.FETCH_AI`|-|
+|Fetch.ai (Ethereum coin type)|`Bip44Coins.FETCH_AI_ETH`|-|
+|Metis|`Bip44Coins.METIS`|-|
+|Optimism|`Bip44Coins.OPTIMISM`|-|
+|Sui|`Bip44Coins.SUI`|-|
+|Stafi (Cosmos)|`Bip44Coins.STAFI`|-|
+
+- Add `Brainwallet` module to create brainwallets with different algorithms (wallets whose passphrase is chosen by the user)
+
 # 2.8.0
 
 - Fix coincurve version
@@ -96,16 +112,16 @@
 
 # 2.2.0
 
-- Add support for the following coins: Akash Network, Certik, Near Protocol, Osmosis, Secret Network:
+- Add support for the following coins:
 
-|Coin | Main net enum | Test net enum|
+|Coin|Main net enum|Test net enum|
 |---|---|---|
-|Akash Network | `Bip44Coins.AKASH_NETWORK` | - |
-|Certik | `Bip44Coins.CERTIK` | - |
-|Near Protocol | `Bip44Coins.NEAR_PROTOCOL` | - |
-|Osmosis | `Bip44Coins.OSMOSIS` | - |
-|Secret Network (old path)|`Bip44Coins.SECRET_NETWORK_OLD`|- |
-|Secret Network (new path)|`Bip44Coins.SECRET_NETWORK_NEW`|- |
+|Akash Network |`Bip44Coins.AKASH_NETWORK`|-|
+|Certik |`Bip44Coins.CERTIK`|-|
+|Near Protocol |`Bip44Coins.NEAR_PROTOCOL`|-|
+|Osmosis |`Bip44Coins.OSMOSIS`|-|
+|Secret Network (old path)|`Bip44Coins.SECRET_NETWORK_OLD`|-|
+|Secret Network (new path)|`Bip44Coins.SECRET_NETWORK_NEW`|-|
 
 - Add possibility to decode and validate addresses. The old address classes are split into decoder/encoder classes to maintain the same design of the other decoding/encoding modules (e.g. `AlgoAddrDecoder`, `AlgoAddrEncoder`). The old address classes are kept for compatibility but they are just aliases for the correspondent encoder class (e.g. `AlgoAddr` -> `AlgoAddrEncoder`) .
 - Add support to [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki) (with and without EC multiplication)
