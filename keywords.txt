@@ -74,6 +74,7 @@ irisnet
 kava
 litecoin
 matic
+metis
 monero
 multiversx
 okex chain

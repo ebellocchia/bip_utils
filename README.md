@@ -92,6 +92,7 @@ Supported BIP coins:
 - Kava
 - Kusama (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
 - Litecoin (and related test net)
+- Metis
 - Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses of the official wallets, but it supports subaddresses generation)
 - Nano
 - Near Protocol

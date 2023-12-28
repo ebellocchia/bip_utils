@@ -85,6 +85,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.KUSAMA_ED25519_SLIP: Bip44Conf.KusamaEd25519Slip,
         Bip44Coins.LITECOIN: Bip44Conf.LitecoinMainNet,
         Bip44Coins.LITECOIN_TESTNET: Bip44Conf.LitecoinTestNet,
+        Bip44Coins.METIS: Bip44Conf.Metis,
         Bip44Coins.MONERO_ED25519_SLIP: Bip44Conf.MoneroEd25519Slip,
         Bip44Coins.MONERO_SECP256K1: Bip44Conf.MoneroSecp256k1,
         Bip44Coins.MULTIVERSX: Bip44Conf.Elrond,

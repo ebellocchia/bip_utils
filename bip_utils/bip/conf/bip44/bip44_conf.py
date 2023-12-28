@@ -827,6 +827,19 @@ class Bip44Conf:
         },
     )
 
+    # Configuration for Metis
+    Metis: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Metis.CoinNames(),
+        coin_idx=Slip44.ETHEREUM,
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=EthAddrEncoder,
+        addr_params={},
+    )
+
     # Configuration for Monero (ed25519 SLIP-0010)
     MoneroEd25519Slip: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.MoneroMainNet.CoinNames(),

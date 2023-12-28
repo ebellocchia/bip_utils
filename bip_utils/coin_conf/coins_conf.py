@@ -544,6 +544,12 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Metis
+    Metis: CoinConf = CoinConf(
+        coin_name=CoinNames("Metis", "METIS"),
+        params={},
+    )
+
     # Configuration for Monero main net
     MoneroMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("Monero", "XMR"),
