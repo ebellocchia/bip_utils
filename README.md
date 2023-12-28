@@ -29,7 +29,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
 - Mnemonic and seed generation for Algorand (Algorand 25-word mnemonic)
 - Mnemonic and seed generation like Electrum wallet (v1 and v2)
 - Keys derivation like Electrum wallet (v1 and v2)
-- Generation of keys from a passphrase chosen by the user
+- Generation of keys from a passphrase chosen by the user ("brainwallet")
 
 Other implemented functionalities:
 - Parse BIP-0032 derivation paths
