@@ -2,7 +2,6 @@
 [![PyPI version](https://badge.fury.io/py/bip-utils.svg)](https://badge.fury.io/py/bip-utils)
 [![Code Analysis](https://github.com/ebellocchia/bip_utils/actions/workflows/code-analysis.yml/badge.svg)](https://github.com/ebellocchia/bip_utils/actions/workflows/code-analysis.yml)
 [![Build & Test](https://github.com/ebellocchia/bip_utils/actions/workflows/test.yml/badge.svg)](https://github.com/ebellocchia/bip_utils/actions/workflows/test.yml)
-[![Documentation Status](https://readthedocs.org/projects/bip-utils/badge/?version=latest)](https://bip-utils.readthedocs.io/en/latest/?badge=latest)
 [![codecov](https://codecov.io/gh/ebellocchia/bip_utils/branch/master/graph/badge.svg)](https://codecov.io/gh/ebellocchia/bip_utils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9a0c9c6a3d6444fab91f58fe8ec9e35c)](https://app.codacy.com/gh/ebellocchia/bip_utils/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![CodeFactor](https://www.codefactor.io/repository/github/ebellocchia/bip_utils/badge)](https://www.codefactor.io/repository/github/ebellocchia/bip_utils)
