@@ -1,7 +1,7 @@
 cbor2~=5.1
 coincurve>=15.0.1,<20.0.0
 crcmod~=1.7
-ecdsa~=0.15
+ecdsa~=0.16
 ed25519-blake2b>=1.4.1,<2.0.0
 pycryptodome~=3.6
 pynacl~=1.4
