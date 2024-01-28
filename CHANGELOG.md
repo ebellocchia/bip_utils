@@ -1,3 +1,7 @@
+# 2.9.1
+
+- Update dependencies for Python 3.12
+
 # 2.9.0
 
 - Add support for the following coins:
