@@ -122,9 +122,6 @@ setuptools.setup(
     },
     install_requires=load_requirements("requirements.txt"),
     extras_require={
-        ":python_version == '3.7'": [
-            "typing_extensions",
-        ],
         "develop": load_requirements("requirements-dev.txt"),
     },
     packages=setuptools.find_packages(exclude=["*tests*"]),
