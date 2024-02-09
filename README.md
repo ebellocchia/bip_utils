@@ -1,11 +1,11 @@
 # BIP Utility Library
 
-||
-|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| |
+|---|
 | [![PyPI - Version](https://img.shields.io/pypi/v/bip_utils.svg?logo=pypi&label=PyPI&logoColor=gold)](https://pypi.org/project/bip_utils/) [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/bip_utils.svg?logo=python&label=Python&logoColor=gold)](https://pypi.org/project/bip_utils/) [![GitHub License](https://img.shields.io/github/license/ebellocchia/bip_utils?label=License)](https://github.com/ebellocchia/bip_utils?tab=MIT-1-ov-file) |
 | [![Code Coverage](https://github.com/ebellocchia/bip_utils/actions/workflows/code-coverage.yml/badge.svg)](https://github.com/ebellocchia/bip_utils/actions/workflows/code-coverage.yml) [![Code Analysis](https://github.com/ebellocchia/bip_utils/actions/workflows/code-analysis.yml/badge.svg)](https://github.com/ebellocchia/bip_utils/actions/workflows/code-analysis.yml) [![Build & Test](https://github.com/ebellocchia/bip_utils/actions/workflows/test.yml/badge.svg)](https://github.com/ebellocchia/bip_utils/actions/workflows/test.yml) [![Test Requirements](https://github.com/ebellocchia/bip_utils/actions/workflows/test_min_reqs.yml/badge.svg)](https://github.com/ebellocchia/bip_utils/actions/workflows/test_min_reqs.yml) |
-| [![Codecov](https://img.shields.io/codecov/c/github/ebellocchia/bip_utils?label=Code%20Coverage)](https://codecov.io/gh/ebellocchia/bip_utils) [![Codacy grade](https://img.shields.io/codacy/grade/9a0c9c6a3d6444fab91f58fe8ec9e35c?label=Codacy%20Grade)](https://app.codacy.com/gh/ebellocchia/bip_utils/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/ebellocchia/bip_utils?label=CodeFactor%20Grade)](https://www.codefactor.io/repository/github/ebellocchia/bip_utils) ![Read the Docs](https://img.shields.io/readthedocs/bip_utils?label=Docs) |
-||
+| [![Codecov](https://img.shields.io/codecov/c/github/ebellocchia/bip_utils?label=Code%20Coverage)](https://codecov.io/gh/ebellocchia/bip_utils) [![Codacy grade](https://img.shields.io/codacy/grade/9a0c9c6a3d6444fab91f58fe8ec9e35c?label=Codacy%20Grade)](https://app.codacy.com/gh/ebellocchia/bip_utils/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/ebellocchia/bip_utils?label=CodeFactor%20Grade)](https://www.codefactor.io/repository/github/ebellocchia/bip_utils) |
+| |
 
 ## Introduction
 
