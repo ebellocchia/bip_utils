@@ -7,6 +7,12 @@
 | [![Codecov](https://img.shields.io/codecov/c/github/ebellocchia/bip_utils?label=Code%20Coverage)](https://codecov.io/gh/ebellocchia/bip_utils) [![Codacy grade](https://img.shields.io/codacy/grade/9a0c9c6a3d6444fab91f58fe8ec9e35c?label=Codacy%20Grade)](https://app.codacy.com/gh/ebellocchia/bip_utils/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade) [![CodeFactor Grade](https://img.shields.io/codefactor/grade/github/ebellocchia/bip_utils?label=CodeFactor%20Grade)](https://www.codefactor.io/repository/github/ebellocchia/bip_utils) |
 | |
 
+## ⚠️ Warning ⚠️
+
+⚠️ ⚠️ Please be aware that Python 3.12 doesn't currently work since `coincurve v19.0.0` was yanked, waiting for an update. ⚠️ ⚠️
+
+You can still make it work on Linux or MacOS with Python 3.12 by forcing the installation of `coincurve v19.0.0` (you have to explicitly specify `coincurve==19.0.0` since `pip` skips yanked versions by default).
+
 ## Introduction
 
 This package allows generating mnemonics, seeds, private/public keys and addresses for different types of cryptocurrencies. In particular:
