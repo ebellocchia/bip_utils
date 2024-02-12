@@ -12,6 +12,7 @@ ignore-paths:
   - readme
   - tests
   - my_tests
+  - venv
 
 ignore-patterns:
   - setup.py
