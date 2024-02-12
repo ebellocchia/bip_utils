@@ -9,7 +9,7 @@
 
 ## ⚠️ Warning ⚠️
 
-⚠️ ⚠️ Please be aware that Python 3.12 doesn't currently work since `coincurve v19.0.0` was yanked, waiting for an update. ⚠️ ⚠️
+Please be aware that Python 3.12 doesn't currently work since `coincurve v19.0.0` was yanked, waiting for an update.
 
 You can still make it work on Linux or MacOS with Python 3.12 by forcing the installation of `coincurve v19.0.0` (you have to explicitly specify `coincurve==19.0.0` since `pip` skips yanked versions by default).
 
