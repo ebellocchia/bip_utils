@@ -4,6 +4,7 @@ doc-warnings: true
 member-warnings: true
 
 ignore-paths:
+  - .eggs
   - .tox
   - benchmark
   - build
