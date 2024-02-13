@@ -90,8 +90,8 @@ class MnemonicUtils:
 
         if IntegerUtils.GetBytesNumber(int_chunk) > 3:
             return IntegerUtils.ToBytes(int_chunk, endianness=endianness)
-        else:
-            return IntegerUtils.ToBytes(int_chunk, bytes_num=4, endianness=endianness)
+        # The chunk shall be at least 4-byte long
+        return IntegerUtils.ToBytes(int_chunk, bytes_num=4, endianness=endianness)
 
 
 class MnemonicWordsList:
