@@ -31,6 +31,19 @@ class IntegerUtils:
     """Class container for integer utility functions."""
 
     @staticmethod
+    def GetBytesNumber(data_int: int) -> int:
+        """
+        Get the number of bytes of the specified integer.
+
+        Args:
+            data_int (int): Data integer
+
+        Returns:
+            int: Number of bytes
+        """
+        return ((data_int.bit_length() if data_int > 0 else 1) + 7) // 8
+
+    @staticmethod
     def ToBytes(data_int: int,
                 bytes_num: Optional[int] = None,
                 endianness: Literal["little", "big"] = "big",
@@ -52,7 +65,7 @@ class IntegerUtils:
         if data_int.__class__.__name__ == "mpz":
             data_int = int(data_int)
 
-        bytes_num = bytes_num or ((data_int.bit_length() if data_int > 0 else 1) + 7) // 8
+        bytes_num = bytes_num or IntegerUtils.GetBytesNumber(data_int)
         return data_int.to_bytes(bytes_num, byteorder=endianness, signed=signed)
 
     @staticmethod
