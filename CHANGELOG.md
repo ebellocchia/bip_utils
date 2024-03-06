@@ -1,3 +1,8 @@
+# 2.9.2
+
+- Fix dependencies depending on the Python version
+- Fix dependencies for Python 3.12
+
 # 2.9.1
 
 - Update dependencies for Python 3.12
