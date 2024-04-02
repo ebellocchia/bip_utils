@@ -102,7 +102,7 @@ TEST_VECT = [
             "0x1e3357e64ae4dfb82e5cac3ee77aee1648e526a2ab84476bda8bf9e1c4f10231",
             "0x87428b0462b8174f951c4e11cdeb780656dab808b989cb0ee62c9bac423dabbb",
             "0xb49e3dd5212cfed1762c09001e2a8b4aab6c4cda2956e60e13b826deddb1e4a4",
-            "0x598979bade27730c0a3de3ee38d644c7a85040209929c40fcf72527a50c2d9",
+            "0x00598979bade27730c0a3de3ee38d644c7a85040209929c40fcf72527a50c2d9",
         ],
     },
     # Arbitrum

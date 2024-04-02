@@ -37,7 +37,7 @@ TEST_VECT = [
         "pub_key": b"0065091c6b34cf557caa07ed9d65887e59a07fd75f4670dd9baf7920c520da3804",
         "address_dec": b"03aa1ceed625af8407d25e5894a165272b5d196dcdb8dc66456d2ac039bcf198",
         "address_params": {},
-        "address": "0x3aa1ceed625af8407d25e5894a165272b5d196dcdb8dc66456d2ac039bcf198",
+        "address": "0x03aa1ceed625af8407d25e5894a165272b5d196dcdb8dc66456d2ac039bcf198",
     },
     {
         "pub_key": b"0018c3ffaf12ab774572e875b24316991b673c20297d52951970ed7b853e48ce44",
@@ -49,12 +49,20 @@ TEST_VECT = [
         "pub_key": b"1d86e698067245ec022bc3405bfeeeb9a0444388bc1a325486ff2ae0a39df61b",
         "address_dec": b"0e8d7c29f28f4d72da95d1d8784d53c4240768ec916cc7ce60ef3c80d6509f07",
         "address_params": {},
-        "address": "0xe8d7c29f28f4d72da95d1d8784d53c4240768ec916cc7ce60ef3c80d6509f07",
+        "address": "0x0e8d7c29f28f4d72da95d1d8784d53c4240768ec916cc7ce60ef3c80d6509f07",
     },
     {
         "pub_key": b"e2db08dab9943141b6456d39c4506be647de9eedd912192dfd60bc9c9277cffe",
         "address_dec": b"071e1d7330597e99001aad667d6deea321e95771d6975dd66bfb185f5cfd7d58",
         "address_params": {},
+        "address": "0x071e1d7330597e99001aad667d6deea321e95771d6975dd66bfb185f5cfd7d58",
+    },
+    {
+        "pub_key": b"e2db08dab9943141b6456d39c4506be647de9eedd912192dfd60bc9c9277cffe",
+        "address_dec": b"071e1d7330597e99001aad667d6deea321e95771d6975dd66bfb185f5cfd7d58",
+        "address_params": {
+            "trim_zeroes": True,
+        },
         "address": "0x71e1d7330597e99001aad667d6deea321e95771d6975dd66bfb185f5cfd7d58",
     },
 ]

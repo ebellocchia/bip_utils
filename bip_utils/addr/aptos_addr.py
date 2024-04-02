@@ -91,7 +91,9 @@ class AptosAddrEncoder(IAddrEncoder):
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
-            **kwargs                     : Not used
+
+        Other Parameters:
+            trim_zeroes (bool, optional): True to trim left zeroes from the address string, false otherwise (default)
 
         Returns:
             str: Address string
@@ -100,12 +102,14 @@ class AptosAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
+        trim_zeroes = kwargs.get("trim_zeroes", False)
+
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
 
         payload_bytes = pub_key_obj.RawCompressed().ToBytes()[1:] + AptosAddrConst.SINGLE_SIG_SUFFIX_BYTE
-        key_hash_bytes = Sha3_256.QuickDigest(payload_bytes)
+        key_hash_str = BytesUtils.ToHexString(Sha3_256.QuickDigest(payload_bytes))
 
-        return CoinsConf.Aptos.ParamByKey("addr_prefix") + BytesUtils.ToHexString(key_hash_bytes).lstrip("0")
+        return CoinsConf.Aptos.ParamByKey("addr_prefix") + (key_hash_str.lstrip("0") if trim_zeroes else key_hash_str)
 
 
 # Deprecated: only for compatibility, Encoder class shall be used instead
