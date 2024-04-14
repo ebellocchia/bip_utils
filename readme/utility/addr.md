@@ -7,13 +7,13 @@ The address library allows encoding/decoding addresses for all the supported coi
 
     import binascii
     from bip_utils import *
-    
+
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
     pub_key = Secp256k1PublicKey.FromBytes(
         binascii.unhexlify(b"022f469a1b5498da2bc2f1e978d1e4af2ce21dd10ae5de64e4081e062f6fc6dca2")
     )
-    
+
     # P2PKH address with parameters from generic configuration
     addr = P2PKHAddrEncoder.EncodeKey(pub_key,
                                       net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"))
@@ -26,8 +26,8 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Same as before for decoding
     pub_key_hash = P2PKHAddrDecoder.DecodeAddr(addr,
                                                net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"))
-    
-    # Same for P2SH 
+
+    # Same for P2SH
     addr = P2SHAddrEncoder.EncodeKey(pub_key,
                                      net_ver=CoinsConf.BitcoinMainNet.ParamByKey("p2sh_net_ver"))
     addr = P2SHAddrEncoder.EncodeKey(pub_key,
@@ -54,7 +54,7 @@ The address library allows encoding/decoding addresses for all the supported coi
                                      **Bip86Conf.BitcoinMainNet.AddrParams())
     pub_key_hash = P2TRAddrDecoder.DecodeAddr(addr,
                                               hrp=CoinsConf.BitcoinMainNet.ParamByKey("p2tr_hrp"))
-    
+
     # P2PKH address in Bitcoin Cash format with parameters from generic configuration
     addr = BchP2PKHAddrEncoder.EncodeKey(pub_key,
                                          hrp=CoinsConf.BitcoinCashMainNet.ParamByKey("p2pkh_std_hrp"),
@@ -82,7 +82,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key_hash = BchP2SHAddrDecoder.DecodeAddr(addr,
                                                  hrp=CoinsConf.BitcoinCashMainNet.ParamByKey("p2sh_std_hrp"),
                                                  net_ver=CoinsConf.BitcoinCashMainNet.ParamByKey("p2sh_std_net_ver"))
-    
+
     # Ethereum address
     # Checksum encoding can be skipped to get a lower case address
     addr = EthAddrEncoder.EncodeKey(pub_key)
@@ -113,7 +113,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Same as before for decoding
     pub_key_hash = AtomAddrDecoder.DecodeAddr(addr,
                                               hrp=CoinsConf.Kava.ParamByKey("addr_hrp"))
-    
+
     # Filecoin address
     addr = FilSecp256k1AddrEncoder.EncodeKey(pub_key)
     pub_key_hash = FilSecp256k1AddrDecoder.DecodeAddr(addr)
@@ -134,26 +134,27 @@ The address library allows encoding/decoding addresses for all the supported coi
 
     import binascii
     from bip_utils import *
-    
+
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     pub_key = Ed25519PublicKey.FromBytes(
         binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
-    
+
     # Algorand address
     addr = AlgoAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = AlgoAddrDecoder.DecodeAddr(addr)
     # Aptos address
     addr = AptosAddrEncoder.EncodeKey(pub_key)
+    addr = AptosAddrEncoder.EncodeKey(pub_key, trim_zeroes=True)
     pub_key_hash = AptosAddrDecoder.DecodeAddr(addr)
     # Elrond address
     addr = EgldAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = EgldAddrDecoder.DecodeAddr(addr)
-    
+
     # Solana address
     addr = SolAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = SolAddrDecoder.DecodeAddr(addr)
-    
+
     # Stellar address with custom parameters
     addr = XlmAddrEncoder.EncodeKey(pub_key,
                                     addr_type=XlmAddrTypes.PUB_KEY)
@@ -163,14 +164,14 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Same as before for decoding
     pub_key_bytes = XlmAddrDecoder.DecodeAddr(addr,
                                               addr_type=XlmAddrTypes.PUB_KEY)
-    
+
     # Substrate address with parameters from generic configuration
     addr = SubstrateEd25519AddrEncoder.EncodeKey(pub_key,
                                                  ss58_format=CoinsConf.Polkadot.ParamByKey("addr_ss58_format"))
     # Or with custom parameters
     addr = SubstrateEd25519AddrEncoder.EncodeKey(pub_key,
                                                  ss58_format=5)
-    
+
     # Or with the default parameters from BIP/Substrate:
     addr = SubstrateEd25519AddrEncoder.EncodeKey(pub_key,
                                                  **Bip44Conf.PolkadotEd25519Slip.AddrParams())
@@ -179,7 +180,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Same as before for decoding
     pub_key_bytes = SubstrateEd25519AddrDecoder.DecodeAddr(addr,
                                                            ss58_format=CoinsConf.Polkadot.ParamByKey("addr_ss58_format"))
-    
+
     # Tezos address with custom parameters
     addr = XtzAddrEncoder.EncodeKey(pub_key,
                                     prefix=XtzAddrPrefixes.TZ1)
@@ -191,7 +192,7 @@ The address library allows encoding/decoding addresses for all the supported coi
                                              prefix=XtzAddrPrefixes.TZ1)
 
 **Code example (coins based on the ed25519-blake2b curve)**
-    
+
     import binascii
     from bip_utils import *
 
@@ -200,7 +201,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key = Ed25519Blake2bPublicKey.FromBytes(
         binascii.unhexlify(b"00dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     )
-    
+
     # Nano address
     addr = NanoAddrEncoder.EncodeKey(pub_key)
     pub_key_bytes = NanoAddrDecoder.DecodeAddr(addr)
@@ -219,7 +220,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_vkey = Ed25519MoneroPublicKey.FromBytes(
         binascii.unhexlify(b"dc2a1b478b8cc0ee655324fb8299c8904f121ab113e4216fbad6fe6d000758f5")
     )
-    
+
     # Monero address
     addr = XmrAddrEncoder.EncodeKey(pub_skey,
                                     pub_vkey=pub_vkey,
@@ -231,7 +232,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Decoding
     pub_key_bytes = XmrAddrDecoder.DecodeAddr(addr,
                                               net_ver=CoinsConf.MoneroMainNet.ParamByKey("addr_net_ver"))
-    
+
     # Monero integrated address
     addr = XmrIntegratedAddrEncoder.EncodeKey(pub_skey,
                                               pub_vkey=pub_vkey,
@@ -251,31 +252,31 @@ The address library allows encoding/decoding addresses for all the supported coi
 
     import binascii
     from bip_utils import *
-    
+
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"01f9256746c79ad5ba163ae677e3e3477471f0c3f8e1b5012c7a09f862e3972d")
     pub_key = Ed25519KholawPublicKey.FromBytes(
         binascii.unhexlify(b"0072629d389eabb6a4a6e35c9b0cab50b546b4a49a20d1d831956bd06098ba3370")
     )
-    
+
     # ADA Byron Icarus address (a chain code is also required)
     chain_code = binascii.unhexlify(b"fa8397359cea983fe2195214e96b4d9f9bc31941d973a77d2d98ac77ea186db8")
-    
+
     addr = AdaByronIcarusAddrEncoder.EncodeKey(pub_key, chain_code=chain_code)
     pub_key_hash = AdaByronAddrDecoder.DecodeAddr(addr)
-    
+
     # ADA Byron legacy address (chain code and HD data are also required)
     hd_path_key = binascii.unhexlify(b"c582f8e7cf7aeb6e5f3e96e939a92ae1642360a51d45150f34e70132a152203f")
-    
+
     addr = AdaByronLegacyAddrEncoder.EncodeKey(pub_key,
                                                chain_code=chain_code,
                                                hd_path="m/0'/0'",
                                                hd_path_key=hd_path_key)
     pub_key_hash = AdaByronAddrDecoder.DecodeAddr(addr)
-    
+
     # ADA Shelley address (a staking key is also required)
     pub_skey = binascii.unhexlify(b"7680c767b8096daa3299dc282068327c79976f346e55b72d0ffd751295a45913")
-    
+
     addr = AdaShelleyAddrEncoder.EncodeKey(pub_key,
                                            pub_skey=pub_skey,
                                            net_tag=AdaShelleyAddrNetworkTags.MAINNET)
@@ -290,7 +291,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
     pub_key = Nist256p1PublicKey.FromBytes(
         binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
-    
+
     # NEO address with parameters from generic configuration
     addr = NeoAddrEncoder.EncodeKey(pub_key,
                                     ver=CoinsConf.Neo.ParamByKey("addr_ver"))
@@ -313,7 +314,7 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key = binascii.unhexlify(b"dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832")
     pub_key = Sr25519PublicKey.FromBytes(
         binascii.unhexlify(b"dff41688eadfb8574c8fbfeb8707e07ecf571e96e929c395cc506839cc3ef832"))
-    
+
     # Substrate address (like before)
     addr = SubstrateSr25519AddrEncoder.EncodeKey(pub_key,
                                                  ss58_format=CoinsConf.Kusama.ParamByKey("addr_ss58_format"))
