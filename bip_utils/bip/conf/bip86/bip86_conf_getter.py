@@ -34,6 +34,7 @@ class Bip86ConfGetterConst:
     # Map from Bip86Coins to configuration classes
     COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
         Bip86Coins.BITCOIN: Bip86Conf.BitcoinMainNet,
+        Bip86Coins.BITCOIN_REGTEST: Bip86Conf.BitcoinRegTest,
         Bip86Coins.BITCOIN_TESTNET: Bip86Conf.BitcoinTestNet,
     }
 

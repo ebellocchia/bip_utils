@@ -43,6 +43,14 @@ _BTC_P2WPKH_WIT_VER_TN: int = 0
 _BTC_P2TR_HRP_TN: str = Slip173.BITCOIN_TESTNET
 _BTC_P2TR_WIT_VER_TN: int = 1
 _BTC_WIF_NET_VER_TN: bytes = b"\xef"
+# Regtest
+_BTC_P2PKH_NET_VER_RT: bytes =_BTC_P2PKH_NET_VER_TN
+_BTC_P2SH_NET_VER_RT: bytes = _BTC_P2SH_NET_VER_TN
+_BTC_P2WPKH_HRP_RT: str = Slip173.BITCOIN_REGTEST
+_BTC_P2WPKH_WIT_VER_RT: int = _BTC_P2TR_WIT_VER_TN
+_BTC_P2TR_HRP_RT: str = Slip173.BITCOIN_REGTEST
+_BTC_P2TR_WIT_VER_RT: int = _BTC_P2TR_WIT_VER_TN
+_BTC_WIF_NET_VER_RT: bytes = _BTC_WIF_NET_VER_TN
 
 
 class CoinsConf:
@@ -169,8 +177,22 @@ class CoinsConf:
             "p2wpkh_hrp": _BTC_P2WPKH_HRP_TN,
             "p2wpkh_wit_ver": _BTC_P2WPKH_WIT_VER_TN,
             "p2tr_hrp": _BTC_P2TR_HRP_TN,
-            "p2tr_wit_ver": _BTC_P2TR_WIT_VER_MN,
+            "p2tr_wit_ver": _BTC_P2TR_WIT_VER_TN,
             "wif_net_ver": _BTC_WIF_NET_VER_TN,
+        },
+    )
+
+    # Configuration for Bitcoin regtest
+    BitcoinRegTest: CoinConf = CoinConf(
+        coin_name=CoinNames("Bitcoin RegTest", "BTC"),
+        params={
+            "p2pkh_net_ver": _BTC_P2PKH_NET_VER_RT,
+            "p2sh_net_ver": _BTC_P2SH_NET_VER_RT,
+            "p2wpkh_hrp": _BTC_P2WPKH_HRP_RT,
+            "p2wpkh_wit_ver": _BTC_P2WPKH_WIT_VER_RT,
+            "p2tr_hrp": _BTC_P2TR_HRP_RT,
+            "p2tr_wit_ver": _BTC_P2TR_WIT_VER_RT,
+            "wif_net_ver": _BTC_WIF_NET_VER_RT,
         },
     )
 

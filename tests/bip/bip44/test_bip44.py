@@ -1860,6 +1860,30 @@ TEST_VECT = [
     # Test nets
     #
 
+    # Bitcoin regtest
+    {
+        "coin": Bip44Coins.BITCOIN_REGTEST,
+        "names": ("Bitcoin RegTest", "BTC"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
+        "wif_master": "cNPn53CWHSMt3MMr3HrymFzxaeDwZrZF2yAEZJ7knzAFD3GTTi2x",
+        "account": {
+            "ex_pub": "tpubDC5FSnBiZDMmhiuCmWAYsLwgLYrrT9rAqvTySfuCCrgsWz8wxMXUS9Tb9iVMvcRbvFcAHGkMD5Kx8koh4GquNGNTfohfk7pgjhaPCdXpoba",
+            "ex_priv": "tprv8fPDJN9UQqg6pFsQsrVxTwHZmXLvHpfGGcsCA9rtnatUgVtBKxhtFeqiyaYKSWydunKpjhvgJf6PwTwgirwuCbFq8YKgpQiaVJf3JCrNmkR",
+        },
+        "chain_ext": {
+            "ex_pub": "tpubDEQBfiy13hMZzGT4NWqNnaSWwVqYQ58kuu2pDYjkrf8F6DLKAprm8c65Pyh7PrzodXHtJuEXFu5yf6JbvYaL8rz7v28zapwbuzZzr7z4UvR",
+            "ex_priv": "tprv8hi9XJvkuKfu6oRGUsAnPAnQNUKcEjwrLbS2w2hTSPKrFj5YYS3Ax7UDDrZZHd4PSnPLW5whNxAXTW5bBrSNiSD1LUeg9n4j5sdGRJsZZwP",
+        },
+        "addresses": [
+            "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
+            "mzpbWabUQm1w8ijuJnAof5eiSTep27deVH",
+            "mnTkxhNkgx7TsZrEdRcPti564yQTzynGJp",
+            "mpW3iVi2Td1vqDK8Nfie29ddZXf9spmZkX",
+            "n2BMo5arHDyAK2CM8c56eoEd18uEkKnRLC",
+        ],
+    },
     # Bitcoin test net
     {
         "coin": Bip44Coins.BITCOIN_TESTNET,
@@ -2597,6 +2621,12 @@ TEST_VECT_DEFAULT_PATH = [
     # Test nets
     #
 
+    # Bitcoin regtest
+    {
+        "coin": Bip44Coins.BITCOIN_REGTEST,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "mkpZhYtJu2r87Js3pDiWJDmPte2NRZ8bJV",
+    },
     # Bitcoin test net
     {
         "coin": Bip44Coins.BITCOIN_TESTNET,

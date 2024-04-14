@@ -36,6 +36,7 @@ class Slip173:
     BAND_PROTOCOL: str = "band"
     BINANCE_CHAIN: str = "bnb"
     BITCOIN_MAINNET: str = "bc"
+    BITCOIN_REGTEST: str = "bcrt"
     BITCOIN_TESTNET: str = "tb"
     CERTIK: str = "certik"
     CHIHUAHUA: str = "chihuahua"

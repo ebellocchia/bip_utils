@@ -213,6 +213,21 @@ class Bip44Conf:
             "net_ver": CoinsConf.BitcoinMainNet.ParamByKey("p2pkh_net_ver"),
         },
     )
+    # Configuration for Bitcoin regtest
+    BitcoinRegTest: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.BitcoinRegTest.CoinNames(),
+        coin_idx=Slip44.TESTNET,
+        is_testnet=True,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_TEST,
+        wif_net_ver=CoinsConf.BitcoinRegTest.ParamByKey("wif_net_ver"),
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=P2PKHAddrEncoder,
+        addr_params={
+            "net_ver": CoinsConf.BitcoinRegTest.ParamByKey("p2pkh_net_ver"),
+        },
+    )
+
     # Configuration for Bitcoin test net
     BitcoinTestNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.BitcoinTestNet.CoinNames(),

@@ -45,6 +45,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.BINANCE_CHAIN: Bip44Conf.BinanceChain,
         Bip44Coins.BINANCE_SMART_CHAIN: Bip44Conf.BinanceSmartChain,
         Bip44Coins.BITCOIN: Bip44Conf.BitcoinMainNet,
+        Bip44Coins.BITCOIN_REGTEST: Bip44Conf.BitcoinRegTest,
         Bip44Coins.BITCOIN_TESTNET: Bip44Conf.BitcoinTestNet,
         Bip44Coins.BITCOIN_CASH: Bip44Conf.BitcoinCashMainNet,
         Bip44Coins.BITCOIN_CASH_TESTNET: Bip44Conf.BitcoinCashTestNet,

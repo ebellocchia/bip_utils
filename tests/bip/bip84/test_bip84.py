@@ -77,6 +77,30 @@ TEST_VECT = [
         ],
     },
 
+    # Bitcoin regtest
+    {
+        "coin": Bip84Coins.BITCOIN_REGTEST,
+        "names": ("Bitcoin RegTest", "BTC"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "vprv9DMUxX4ShgxMLfvb8sFY4xFFKyTibwTfoydH3beVutr1L3bWHhRn3f2SqSo3vdUacd6QuuUxmN8BYoGhX2J4okpwCMh4nwdq9EqbdGgioRF",
+        "wif_master": "cNPn53CWHSMt3MMr3HrymFzxaeDwZrZF2yAEZJ7knzAFD3GTTi2x",
+        "account": {
+            "ex_pub": "vpub5Y6cjg78GGuNLsaPhmYsiw4gYX3HoQiRBiSwDaBXKUafCt9bNwWQiitDk5VZ5BVxYnQdwoTyXSs2JHRPAgjAvtbBrf8ZhDYe2jWAqvZVnsc",
+            "ex_priv": "vprv9K7GLAaERuM58PVvbk1sMo7wzVCoPwzZpVXLRBmum93gL5pSqQCAAvZjtmz93nnnYMr9i2FwG2fqrwYLRgJmDDwFjGiamGsbRMJ5Y6siJ8H",
+        },
+        "chain_ext": {
+            "ex_pub": "vpub5baxyhXRwCQ1N4KuQfdVSfnYahk6HDRCqDhQJjgSbxo8SzP5ghgHugxZuQ9TpfGC2oTBYdVi8thxMGhqjcVbNPMBNRKMX9x1PZW4LXNyq7q",
+            "ex_priv": "vprv9NbcaBzY6pqi9aFSJe6V5Xqp2fubskhMTzmoWMGq3dG9aC3w9AN3Mte646s59AnZaiAgg2rAgxPYusyEMm2YADoaa5nRaGoExuVVZGc7HCC",
+        },
+        "addresses": [
+            "bcrt1q6rz28mcfaxtmd6v789l9rrlrusdprr9pz3cppk",
+            "bcrt1qd7spv5q28348xl4myc8zmh983w5jx32cs707jh",
+            "bcrt1qxdyjf6h5d6qxap4n2dap97q4j5ps6ua8jkxz0z",
+            "bcrt1qynpgs6wap6h9uvy7j0xlesew2w82qn039tzepj",
+            "bcrt1q677973lw0w796gttpy52f296jqaaksz0kadvlr",
+        ],
+    },
     # Bitcoin test net
     {
         "coin": Bip84Coins.BITCOIN_TESTNET,
@@ -142,6 +166,12 @@ TEST_VECT_DEFAULT_PATH = [
         "default_address": "ltc1qjmxnz78nmc8nq77wuxh25n2es7rzm5c2rkk4wh",
     },
 
+    # Bitcoin regtest
+    {
+        "coin": Bip84Coins.BITCOIN_REGTEST,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "bcrt1q6rz28mcfaxtmd6v789l9rrlrusdprr9pz3cppk",
+    },
     # Bitcoin test net
     {
         "coin": Bip84Coins.BITCOIN_TESTNET,

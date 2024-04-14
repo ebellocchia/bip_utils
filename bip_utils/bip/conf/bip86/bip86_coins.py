@@ -33,4 +33,5 @@ class Bip86Coins(BipCoins):
     # Main nets
     BITCOIN = auto()
     # Test nets
+    BITCOIN_REGTEST = auto()
     BITCOIN_TESTNET = auto()

@@ -293,6 +293,30 @@ TEST_VECT = [
         ],
     },
 
+    # Bitcoin regtest
+    {
+        "coin": Bip49Coins.BITCOIN_REGTEST,
+        "names": ("Bitcoin RegTest", "BTC"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "uprv8tXDerPXZ1QsVNjUJWTurs9kA1KGfKUAts74GCkcXtU8GwnH33GDRbNJpEqTvipfCyycARtQJhmdfWf8oKt41X9LL1zeD2pLsWmxEk3VAwd",
+        "wif_master": "cNPn53CWHSMt3MMr3HrymFzxaeDwZrZF2yAEZJ7knzAFD3GTTi2x",
+        "account": {
+            "ex_pub": "upub5EFU65HtV5TeiSHmZZm7FUffBGy8UKeqp7vw43jYbvZPpoVsgU93oac7Wk3u6moKegAEWtGNF8DehrnHtv21XXEMYRUocHqguyjknFHYfgY",
+            "ex_priv": "uprv91G7gZkzehuMVxDJTYE6tLivdF8e4rvzSu1LFfKw3b2Qx1Aj8vpoFnHdfUZ3hmi9jsvPifmZ24RTN2KhwB8BfMLTVqaBReibyaFFcTP1s9n",
+        },
+        "chain_ext": {
+            "ex_pub": "upub5F7X3ZAt1HsUyFLTFU9vhKeGULy77aDoJFhscvGBV91tm2mzQ5egFGpeP4nGskwERwbU48g14qREqXJ388X8XBiaLm7PWwk3S45Fe3WAvdK",
+            "ex_priv": "uprv928Ae3dzAvKBkmFz9ScvLBhXvK8ci7Vww2nGpXrZvoUutESqrYLRhUWAXpK5acXh517npKuCpJ7NXaoWnLs1dLB9w3MHe3KNUm7hPENqMzt",
+        },
+        "addresses": [
+            "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+            "2N55m54k8vr95ggehfUcNkdbUuQvaqG2GxK",
+            "2N9LKph9TKtv1WLDfaUJp4D8EKwsyASYnGX",
+            "2MyVXDzGJgATSdkhKHWvStpBoGEZb1fwjha",
+            "2MuKeQzUHhUQWUZgx5AuNWoQ7YWx6vsXxrv",
+        ],
+    },
     # Bitcoin test net
     {
         "coin": Bip49Coins.BITCOIN_TESTNET,
@@ -608,6 +632,12 @@ TEST_VECT_DEFAULT_PATH = [
         "default_address": "t3WrebyH3US8WvEdS9yNEWJZGApy3beYdeL",
     },
 
+    # Bitcoin regtest
+    {
+        "coin": Bip49Coins.BITCOIN_REGTEST,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "2Mww8dCYPUpKHofjgcXcBCEGmniw9CoaiD2",
+    },
     # Bitcoin test net
     {
         "coin": Bip49Coins.BITCOIN_TESTNET,

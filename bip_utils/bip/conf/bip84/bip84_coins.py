@@ -34,5 +34,6 @@ class Bip84Coins(BipCoins):
     BITCOIN = auto()
     LITECOIN = auto()
     # Test nets
+    BITCOIN_REGTEST = auto()
     BITCOIN_TESTNET = auto()
     LITECOIN_TESTNET = auto()

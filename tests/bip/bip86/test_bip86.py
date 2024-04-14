@@ -51,6 +51,30 @@ TEST_VECT = [
             "bc1pjpp8nwqvhkx6kdna6vpujdqglvz2304twfd308ve5ppyxpmcjufs7k6xyr",
         ],
     },
+    # Bitcoin regtest
+    {
+        "coin": Bip86Coins.BITCOIN_REGTEST,
+        "names": ("Bitcoin RegTest", "BTC"),
+        "is_testnet": True,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "tprv8ZgxMBicQKsPe5YMU9gHen4Ez3ApihUfykaqUorj9t6FDqy3nP6eoXiAo2ssvpAjoLroQxHqr3R5nE3a5dU3DHTjTgJDd7zrbniJr6nrCzd",
+        "wif_master": "cNPn53CWHSMt3MMr3HrymFzxaeDwZrZF2yAEZJ7knzAFD3GTTi2x",
+        "account": {
+            "ex_pub": "tpubDDfvzhdVV4unsoKt5aE6dcsNsfeWbTgmLZPi8LQDYU2xixrYemMfWJ3BaVneH3u7DBQePdTwhpybaKRU95pi6PMUtLPBJLVQRpzEnjfjZzX",
+            "ex_priv": "tprv8gytrHbFLhE7zLJ6BvZWEDDGJe8aS8VrmFnvqpMv8CEZtUbn2NY5KoRKQNpkcL1yniyCBRi7dAPy4kUxHkcSvd9jzLmLMEG96TPwant2jbX",
+        },
+        "chain_ext": {
+            "ex_pub": "tpubDEKGYxthPqkmJWqUP5A7g9oWxbKhXqjmQ8zdmJKSnSoRfFjcWsCUNt1Co2CcWUmz1Yw6dc4U5K5PXhyPWXo4vFsJ6Apm3wiUzHdbWQQKuAd",
+            "ex_priv": "tprv8hdEQYrTFU56R3ogVRVXGk9QPZomNWYrpqPrUnH9NB12pmUqtUNtCPPLctHC6CY9L3JdLBTxLHsLYqThhVLWg1eqfpoggDBeaoMqvEoSfXV",
+        },
+        "addresses": [
+            "bcrt1p8wpt9v4frpf3tkn0srd97pksgsxc5hs52lafxwru9kgeephvs7rqjeprhg",
+            "bcrt1p90h6z3p36n9hrzy7580h5l429uwchyg8uc9sz4jwzhdtuhqdl5eqkcyx0f",
+            "bcrt1p40qqa84kpphe5vtcwd8zv7v6w7p62cmupf6f60mf8pxdkcv2455qgtw98j",
+            "bcrt1p5z45vylh6vue39806mze8wl7z360ynn0uhxd8cnr5p4swe6n5gts4pf74z",
+            "bcrt1p759ss4nwlk93nmljrpp24mqdtcc5e4f6u3nyteq2577m68ryas0qzc3amn",
+        ],
+    },
     # Bitcoin test net
     {
         "coin": Bip86Coins.BITCOIN_TESTNET,
@@ -84,6 +108,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip86Coins.BITCOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "bc1p5cyxnuxmeuwuvkwfem96lqzszd02n6xdcjrs20cac6yqjjwudpxqkedrcr",
+    },
+    # Bitcoin regtest
+    {
+        "coin": Bip86Coins.BITCOIN_REGTEST,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "bcrt1p8wpt9v4frpf3tkn0srd97pksgsxc5hs52lafxwru9kgeephvs7rqjeprhg",
     },
     # Bitcoin test net
     {

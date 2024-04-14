@@ -44,6 +44,7 @@ class Bip49Coins(BipCoins):
     BITCOIN_CASH_TESTNET = auto()
     BITCOIN_CASH_SLP_TESTNET = auto()
     BITCOIN_SV_TESTNET = auto()
+    BITCOIN_REGTEST = auto()
     BITCOIN_TESTNET = auto()
     DASH_TESTNET = auto()
     DOGECOIN_TESTNET = auto()
