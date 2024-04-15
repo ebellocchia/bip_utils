@@ -1,3 +1,8 @@
+# 2.9.3
+
+- Add support for Bitcoin RegTest for all BIPs: `Bip44Coins.BITCOIN_REGTEST`, `Bip49Coins.BITCOIN_REGTEST`, `Bip84Coins.BITCOIN_REGTEST`, `Bip86Coins.BITCOIN_REGTEST`
+- Keep leading zeroes in Aptos addresses by default
+
 # 2.9.2
 
 - Fix dependencies depending on the Python version
