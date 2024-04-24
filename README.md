@@ -160,13 +160,9 @@ To install the package:
 
             python setup.py install --coincurve=0
 
-    - Using *pip*, from this directory (local):
+    - Edit the file *bip_utils/ecc/conf.py* by setting `USE_COINCURVE` to `False`, then install with *pip*:
 
-            pip install . --install-option="--coincurve=0"
-
-    - Using *pip*, from PyPI:
-
-            pip install bip_utils --install-option="--coincurve=0"
+            pip install .
 
 **NOTES:**
 - if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0
