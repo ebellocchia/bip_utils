@@ -56,7 +56,7 @@ class _FilAddrUtils:
     def ComputeChecksum(pub_key_hash: bytes,
                         addr_type: FillAddrTypes) -> bytes:
         """
-        Compute checksum in EOS format.
+        Compute checksum in Filecoin format.
 
         Args:
             pub_key_hash (bytes)     : Public key hash
