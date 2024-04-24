@@ -81,6 +81,7 @@ class Bip44Coins(BipCoins):
     NANO = auto()
     NEAR_PROTOCOL = auto()
     NEO = auto()
+    NIMIQ = auto()
     NINE_CHRONICLES_GOLD = auto()
     OKEX_CHAIN_ATOM = auto()
     OKEX_CHAIN_ATOM_OLD = auto()

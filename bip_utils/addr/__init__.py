@@ -26,6 +26,7 @@ from bip_utils.addr.inj_addr import InjAddr, InjAddrDecoder, InjAddrEncoder
 from bip_utils.addr.nano_addr import NanoAddr, NanoAddrDecoder, NanoAddrEncoder
 from bip_utils.addr.near_addr import NearAddr, NearAddrDecoder, NearAddrEncoder
 from bip_utils.addr.neo_addr import NeoAddr, NeoAddrDecoder, NeoAddrEncoder
+from bip_utils.addr.nim_addr import NimAddr, NimAddrDecoder, NimAddrEncoder
 from bip_utils.addr.okex_addr import OkexAddr, OkexAddrDecoder, OkexAddrEncoder
 from bip_utils.addr.one_addr import OneAddr, OneAddrDecoder, OneAddrEncoder
 from bip_utils.addr.P2PKH_addr import (

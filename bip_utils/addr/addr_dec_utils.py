@@ -21,6 +21,7 @@
 """Module with utility functions for address decoding."""
 
 # Imports
+from enum import Enum, auto, unique
 from typing import Callable, Tuple, Type, TypeVar, Union
 
 from bip_utils.ecc import IPublicKey
@@ -28,6 +29,14 @@ from bip_utils.utils.misc import BytesUtils
 
 
 BytesOrStr = TypeVar("BytesOrStr", bytes, str)
+
+
+@unique
+class ChecksumPositions(Enum):
+    """Enumerative for checksum positions."""
+
+    BEGINNING = auto()
+    END = auto()
 
 
 class AddrDecUtils:
@@ -61,8 +70,8 @@ class AddrDecUtils:
         Validate address length.
 
         Args:
-            addr (str)   : Address string or bytes
-            len_exp (int): Expected address length
+            addr (bytes or str): Address string or bytes
+            len_exp (int)      : Expected address length
 
         Raises:
             ValueError: If the length is not valid
@@ -84,42 +93,45 @@ class AddrDecUtils:
             ValueError: If the public key is not valid
         """
         if not pub_key_cls.IsValidBytes(pub_key_bytes):
-            raise ValueError(f"Invalid {pub_key_cls.CurveType()} "
-                             f"public key {BytesUtils.ToHexString(pub_key_bytes)}")
+            raise ValueError(f"Invalid {pub_key_cls.CurveType()} public key {BytesUtils.ToHexString(pub_key_bytes)}")
 
     @staticmethod
-    def ValidateChecksum(payload_bytes: bytes,
-                         checksum_bytes_exp: bytes,
-                         checksum_fct: Callable[[bytes], bytes]) -> None:
+    def ValidateChecksum(payload: BytesOrStr,
+                         checksum_exp: BytesOrStr,
+                         checksum_fct: Callable[[BytesOrStr], BytesOrStr]) -> None:
         """
         Validate address checksum.
 
         Args:
-            payload_bytes (bytes)     : Payload bytes
-            checksum_bytes_exp (bytes): Expected checksum bytes
-            checksum_fct (function)   : Function for computing checksum
+            payload (bytes or str)     : Payload string or bytes
+            checksum_exp (bytes or str): Expected checksum string or bytes
+            checksum_fct (function)    : Function for computing checksum
 
         Raises:
-            ValueError: If the computed checksum is not equal tot he specified one
+            ValueError: If the computed checksum is not equal to the specified one
         """
-        checksum_bytes_got = checksum_fct(payload_bytes)
-        if checksum_bytes_exp != checksum_bytes_got:
-            raise ValueError(f"Invalid checksum (expected {BytesUtils.ToHexString(checksum_bytes_exp)}, "
-                             f"got {BytesUtils.ToHexString(checksum_bytes_got)})")
+        checksum_got = checksum_fct(payload)
+        if checksum_exp != checksum_got:
+            if isinstance(checksum_exp, bytes) and isinstance(checksum_got, bytes):
+                raise ValueError(f"Invalid checksum (expected {BytesUtils.ToHexString(checksum_exp)}, "
+                                 f"got {BytesUtils.ToHexString(checksum_got)})")
+            raise ValueError(f"Invalid checksum (expected {checksum_exp}, got {checksum_got})")
 
     @staticmethod
-    def SplitPartsByChecksum(addr_bytes: bytes,
-                             checksum_len: int) -> Tuple[bytes, bytes]:
+    def SplitPartsByChecksum(addr: BytesOrStr,
+                             checksum_len: int,
+                             checksum_pos: ChecksumPositions = ChecksumPositions.END) -> Tuple[BytesOrStr, BytesOrStr]:
         """
-        Split address in two parts, considering the checksum at the end of it.
+        Split address in two parts, payload and checksum.
 
         Args:
-            addr_bytes (bytes): Address bytes
-            checksum_len (int): Checksum length
+            addr (bytes or str)       : Address string or bytes
+            checksum_len (int)        : Checksum length
+            checksum_pos (bool): True if checksum is at the end of the address, false if it is at the beginning
 
         Returns:
-            tuple[bytes, bytes]: Payload bytes (index 0) and checksum bytes (index 1)
+            tuple[bytes or str, bytes or str]: Payload (index 0) and checksum (index 1)
         """
-        checksum_bytes = addr_bytes[-1 * checksum_len:]
-        payload_bytes = addr_bytes[:-1 * checksum_len]
-        return payload_bytes, checksum_bytes
+        checksum = addr[-1 * checksum_len:] if checksum_pos == ChecksumPositions.END else addr[:checksum_len]
+        payload = addr[:-1 * checksum_len] if checksum_pos == ChecksumPositions.END else addr[checksum_len:]
+        return payload, checksum

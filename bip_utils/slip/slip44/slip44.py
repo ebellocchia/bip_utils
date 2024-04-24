@@ -50,6 +50,7 @@ class Slip44:
     EOS: int = 194
     TRON: int = 195
     BITCOIN_SV: int = 236
+    NIMIQ: int = 242
     ALGORAND: int = 283
     ZILLIQA: int = 313
     TERRA: int = 330

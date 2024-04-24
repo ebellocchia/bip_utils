@@ -22,6 +22,8 @@
 
 # Hardened default path (full)
 DER_PATH_HARDENED_FULL: str = "0'/0'/0'"
+# Hardened default path (mid)
+DER_PATH_HARDENED_MID: str = "0'/0'"
 # Hardened default path (short)
 DER_PATH_HARDENED_SHORT: str = "0'"
 # Non-hardened default path (full)

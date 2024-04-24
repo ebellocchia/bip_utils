@@ -640,6 +640,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Nimiq
+    Nimiq: CoinConf = CoinConf(
+        coin_name=CoinNames("Nimiq", "NIM"),
+        params={
+            "addr_prefix": "NQ"
+        },
+    )
+
     # Configuration for Nine Chronicles Gold
     NineChroniclesGold: CoinConf = CoinConf(
         coin_name=CoinNames("NineChroniclesGold", "NCG"),

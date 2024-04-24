@@ -85,6 +85,7 @@ nano
 near
 near protocol
 neo
+nimiq
 pi network
 polygon
 ripple
