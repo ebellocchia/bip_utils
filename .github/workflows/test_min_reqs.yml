@@ -9,7 +9,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build_test_py37:
+  test_min_reqs_py37:
     strategy:
       fail-fast: false
       matrix:
@@ -41,14 +41,14 @@ jobs:
       run: |
         pytest
 
-  build_test_py38_39:
+  test_min_reqs_py38_39:
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.8", "3.9"]   # Same minimum requirements
         os:
           - ubuntu-latest
-          - macOS-latest
+          - macOS-13
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -73,13 +73,13 @@ jobs:
       run: |
         pytest
 
-  build_test_py310:
+  test_min_reqs_py310:
     strategy:
       fail-fast: false
       matrix:
         os:
           - ubuntu-latest
-          - macOS-latest
+          - macOS-13
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -104,7 +104,7 @@ jobs:
       run: |
         pytest
 
-  build_test_py311:
+  test_min_reqs_py311:
     strategy:
       fail-fast: false
       matrix:
@@ -135,7 +135,7 @@ jobs:
       run: |
         pytest
 
-  build_test_py312:
+  test_min_reqs_py312:
     strategy:
       fail-fast: false
       matrix:
