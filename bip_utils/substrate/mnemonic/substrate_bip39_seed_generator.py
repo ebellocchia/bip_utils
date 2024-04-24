@@ -51,8 +51,6 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        super().__init__(mnemonic, lang)
-
         self.m_entropy_bytes = Bip39MnemonicDecoder(lang).Decode(mnemonic)
 
     def Generate(self,

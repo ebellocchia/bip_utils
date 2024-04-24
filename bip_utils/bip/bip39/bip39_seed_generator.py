@@ -64,7 +64,6 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        super().__init__(mnemonic, lang)
 
         # Make sure that the given mnemonic is valid
         Bip39MnemonicValidator(lang).Validate(mnemonic)
