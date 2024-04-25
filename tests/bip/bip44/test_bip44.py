@@ -1279,6 +1279,30 @@ TEST_VECT = [
             "ARgD7zaeX578LqTyHagyx4W8CgbWfcUeCk",
         ],
     },
+    # Nimiq
+    {
+        "coin": Bip44Coins.NIMIQ,
+        "names": ("Nimiq", "NIM"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6C7fXqBqMMkjD6QiMfpkK5QTBvceyy7C55MouLtRytAyb4eRbgwMRzTU8ZWhCZN4KyF6RN1wVbPsX4DQ12MWWZb5jszc6RpiyUC1GJz3wUX",
+            "ex_priv": "xprv9y8K8KewWzCRzcLFFeHjwwTidtnAaWPLhrSD6xUpRYdziGKH49d6tC8zHPpTbxeUvEoEi4QS4H7G6yzpH3C3Bs4BfizWUd729Z2wGPvpe9K",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EYeYsnqxmbu46yZp2ozMkK63os1zTUo2cfz3AwuvA6EsRyvn4ndCaKKfcA7uRWPNhJxzTA1aZqxCnnLMXZ4jh5gx8RWiPbufykJJ6K5uxG",
+            "ex_priv": "xprvA1ZJ9NFx8Q3bqcu6i1GyzcNMVn2XazkwfPkPEnYJMpZFzdenEXUNemzqpQtK7VA4WZvTbeg62BjMWN425NS7gimY8D45tDodMifBLVAP3pc",
+        },
+        "addresses": [
+            "NQ77 P3M5 2RF1 K4XS 46G3 4L8M DCE8 CQ7E M9YG",
+            "NQ67 G2PV LFMD 6M0J BEXS VB2R NER9 1JN7 446A",
+            "NQ60 S4UJ QV6L F46G M3L0 864P 9S31 XJAD L3YJ",
+            "NQ79 FN81 9PQQ J5Y1 986M D1FF 9VUE HANP EPUQ",
+            "NQ46 Y9QA C47K CF78 M356 7VC4 CSBP X9Q1 AMCQ",
+        ],
+    },
     # OKEx Chain (Atom address)
     {
         "coin": Bip44Coins.OKEX_CHAIN_ATOM,
@@ -2471,6 +2495,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.NEO,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "AJHeWQn2qKKqD4nBE82etebgT3GEM9HDRH",
+    },
+    # Nimiq
+    {
+        "coin": Bip44Coins.NIMIQ,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "NQ45 1KUT 73F7 ADV4 UCT8 TX64 2DE4 CHBP SJBF",
     },
     # OKEx Chain (Atom address)
     {
