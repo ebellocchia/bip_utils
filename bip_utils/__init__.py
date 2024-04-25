@@ -161,7 +161,9 @@ from bip_utils.utils.crypto import (
     DoubleSha256, Hash160, HmacSha256, HmacSha512, Kekkak256, Pbkdf2HmacSha512, Ripemd160, Scrypt, Sha3_256, Sha256,
     Sha512, Sha512_256, XModemCrc
 )
-from bip_utils.utils.misc import AlgoUtils, BitUtils, BytesUtils, DataBytes, IntegerUtils, StringUtils
+from bip_utils.utils.misc import (
+    AlgoUtils, Base32Decoder, Base32Encoder, BitUtils, BytesUtils, DataBytes, IntegerUtils, StringUtils
+)
 from bip_utils.utils.mnemonic import MnemonicChecksumError
 
 # WIF
