@@ -1262,7 +1262,7 @@ TEST_VECT = [
         "is_testnet": False,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "ex_master": "xprv9s21ZrQH143K43eeN7bb2E9YrDJsa6fYcbWK67iu4N397GNE1hoJP4SaeLz1g4QzPEokQD7XmzWszVPDB7zDmyrtwrHFPYxHasf2GmhCJE5",
-        "wif_master": "",
+        "wif_master": "L1zf8jFGLk5iEE3uLGWQAAdEPfYhhsQBfcoL5dCj5AumEsixdqPh",
         "account": {
             "ex_pub": "xpub6C14EL78ogJs6aQEpzMdPa6oUdo7dUFdScW7ckC6MXxUAN7zDiEP6pGQphtcjS2cv4Nusp4i9CVJPmtuGmp1RKN3pCvUPWkDFcoMHCHERTA",
             "ex_priv": "xprv9y1hppaEyJkZt6Kmixpd2SA4vbxdE1Xn5PaWpMnUoCRVHZnqgAv8Z1wvyRpyPivKfJ2CtiT5mts6j4agm3SmdZA8ASftK1nPMuhzn4nWTMq",

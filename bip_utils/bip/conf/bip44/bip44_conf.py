@@ -25,7 +25,7 @@ from bip_utils.addr import (
     AdaByronIcarusAddrEncoder, AlgoAddrEncoder, AptosAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder,
     AvaxXChainAddrEncoder, BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, ErgoNetworkTypes, ErgoP2PKHAddrEncoder,
     EthAddrEncoder, FilSecp256k1AddrEncoder, IcxAddrEncoder, InjAddrEncoder, NanoAddrEncoder, NearAddrEncoder,
-    NeoAddrEncoder, NimAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
+    NeoLegacyAddrEncoder, NimAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
     SubstrateEd25519AddrEncoder, SuiAddrEncoder, TrxAddrEncoder, XlmAddrEncoder, XlmAddrTypes, XmrAddrEncoder,
     XrpAddrEncoder, XtzAddrEncoder, XtzAddrPrefixes, ZilAddrEncoder
 )
@@ -914,9 +914,9 @@ class Bip44Conf:
         is_testnet=False,
         def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
-        wif_net_ver=None,
+        wif_net_ver=CoinsConf.Neo.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Slip10Nist256p1,
-        addr_cls=NeoAddrEncoder,
+        addr_cls=NeoLegacyAddrEncoder,
         addr_params={
             "ver": CoinsConf.Neo.ParamByKey("addr_ver"),
         },
@@ -996,7 +996,7 @@ class Bip44Conf:
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Slip10Nist256p1,
-        addr_cls=NeoAddrEncoder,
+        addr_cls=NeoLegacyAddrEncoder,
         addr_params={
             "ver": CoinsConf.Ontology.ParamByKey("addr_ver"),
         },

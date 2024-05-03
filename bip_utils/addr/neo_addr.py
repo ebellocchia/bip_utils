@@ -33,15 +33,6 @@ from bip_utils.utils.crypto import Hash160
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
 
-class NeoAddrConst:
-    """Class container for NEO address constants."""
-
-    # Address prefix byte
-    PREFIX_BYTE: bytes = b"\x21"
-    # Address suffix byte
-    SUFFIX_BYTE: bytes = b"\xac"
-
-
 class NeoAddrDecoder(IAddrDecoder):
     """
     Neo address decoder class.
@@ -102,7 +93,9 @@ class NeoAddrEncoder(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            ver (bytes): Version
+            ver (bytes)   : Version
+            prefix (bytes): Prefix
+            suffix (bytes): Suffix
 
         Returns:
             str: Address string
@@ -112,13 +105,13 @@ class NeoAddrEncoder(IAddrEncoder):
             TypeError: If the public key is not nist256p1
         """
         ver_bytes = kwargs["ver"]
+        prefix_bytes = kwargs["prefix"]
+        suffix_bytes = kwargs["suffix"]
 
         pub_key_obj = AddrKeyValidator.ValidateAndGetNist256p1Key(pub_key)
 
         # Get payload
-        payload_bytes = (NeoAddrConst.PREFIX_BYTE
-                         + pub_key_obj.RawCompressed().ToBytes()
-                         + NeoAddrConst.SUFFIX_BYTE)
+        payload_bytes = prefix_bytes + pub_key_obj.RawCompressed().ToBytes() + suffix_bytes
         # Encode to base58
         return Base58Encoder.CheckEncode(ver_bytes + Hash160.QuickDigest(payload_bytes))
 

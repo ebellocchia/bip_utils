@@ -637,6 +637,20 @@ class CoinsConf:
         coin_name=CoinNames("NEO", "NEO"),
         params={
             "addr_ver": b"\x17",
+            "addr_prefix": b"\x21",
+            "addr_suffix": b"\xac",
+            "wif_net_ver": _BTC_WIF_NET_VER_MN,
+        },
+    )
+
+    # Configuration for Neo N3
+    NeoN3: CoinConf = CoinConf(
+        coin_name=CoinNames("NEO", "NEO"),
+        params={
+            "addr_ver": b"\x35",
+            "addr_prefix": b"\x0c\x21",
+            "addr_suffix": b"\x41\x56\xe7\xb3\x27",
+            "wif_net_ver": _BTC_WIF_NET_VER_MN,
         },
     )
 

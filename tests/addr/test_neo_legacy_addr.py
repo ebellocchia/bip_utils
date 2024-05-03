@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 # Imports
-from bip_utils import CoinsConf, NeoAddr, NeoAddrDecoder, NeoAddrEncoder
+from bip_utils import CoinsConf, NeoLegacyAddr, NeoLegacyAddrDecoder, NeoLegacyAddrEncoder
 from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_NIST256P1_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import TEST_VECT_NIST256P1_PUB_KEY_INVALID, Nist256p1PublicKey
@@ -84,19 +84,19 @@ TEST_VECT_DEC_INVALID = [
 #
 # Tests
 #
-class NeoAddrTests(AddrBaseTests):
+class NeoLegacyAddrTests(AddrBaseTests):
     # Test encode key
     def test_encode_key(self):
-        self._test_encode_key(NeoAddrEncoder, Nist256p1PublicKey, TEST_VECT)
+        self._test_encode_key(NeoLegacyAddrEncoder, Nist256p1PublicKey, TEST_VECT)
 
     # Test decode address
     def test_decode_addr(self):
-        self._test_decode_addr(NeoAddrDecoder, TEST_VECT)
+        self._test_decode_addr(NeoLegacyAddrDecoder, TEST_VECT)
 
     # Test invalid decoding
     def test_invalid_dec(self):
         self._test_invalid_dec(
-            NeoAddrDecoder,
+            NeoLegacyAddrDecoder,
             {
                 "ver": CoinsConf.Neo.ParamByKey("addr_ver"),
             },
@@ -106,7 +106,7 @@ class NeoAddrTests(AddrBaseTests):
     # Test invalid keys
     def test_invalid_keys(self):
         self._test_invalid_keys(
-            NeoAddrEncoder,
+            NeoLegacyAddrEncoder,
             {"ver": b"\x00"},
             TEST_NIST256P1_ADDR_INVALID_KEY_TYPES,
             TEST_VECT_NIST256P1_PUB_KEY_INVALID
@@ -114,4 +114,4 @@ class NeoAddrTests(AddrBaseTests):
 
     # Test old address class
     def test_old_addr_cls(self):
-        self.assertTrue(NeoAddr is NeoAddrEncoder)
+        self.assertTrue(NeoLegacyAddr is NeoLegacyAddrEncoder)

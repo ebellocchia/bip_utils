@@ -83,7 +83,7 @@ TEST_PRIV_KEYS = [
     {
         "key": TEST_NIST256P1_PRIV_KEY,
         "conf": Bip44Conf.Neo,
-        "wif": "",
+        "wif": "L4sVXJVi2Kb921oM8uAc5XzYwYWdUDKFyGZpvFLggfkBsb6YHZEb",
     },
     {
         "key": TEST_SECP256K1_PRIV_KEY,

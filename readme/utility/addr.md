@@ -290,20 +290,40 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Public key bytes or a public key object can be used
     pub_key = binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
     pub_key = Nist256p1PublicKey.FromBytes(
-        binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b"))
+        binascii.unhexlify(b"038ea003d38b3f2043e681f06f56b3864d28d73b4f243aee90ed04a28dbc058c5b")
+    )
 
-    # NEO address with parameters from generic configuration
+    # NEO generic address
     addr = NeoAddrEncoder.EncodeKey(pub_key,
-                                    ver=CoinsConf.Neo.ParamByKey("addr_ver"))
-    # Or with custom parameters
-    addr = NeoAddrEncoder.EncodeKey(pub_key,
-                                    ver=b"\x10")
-    # Or with the default parameters from BIP configuration:
-    addr = NeoAddrEncoder.EncodeKey(pub_key,
-                                    **Bip44Conf.Neo.AddrParams())
-    # Same as before for decoding
+                                    ver=b"\x17",
+                                    prefix=b"\x21",
+                                    suffix=b"\xac")
     pub_key_hash = NeoAddrDecoder.DecodeAddr(addr,
-                                             ver=CoinsConf.Neo.ParamByKey("addr_ver"))
+                                             ver=b"\x17")
+
+    # NEO legacy address with parameters from generic configuration
+    addr = NeoLegacyAddrEncoder.EncodeKey(pub_key,
+                                          ver=CoinsConf.Neo.ParamByKey("addr_ver"))
+    # Or with custom parameters
+    addr = NeoLegacyAddrEncoder.EncodeKey(pub_key,
+                                          ver=b"\x17")
+    # Or with the default parameters from BIP configuration:
+    addr = NeoLegacyAddrEncoder.EncodeKey(pub_key,
+                                          **Bip44Conf.Neo.AddrParams())
+    # Same of NeoAddrDecoder
+    pub_key_hash = NeoLegacyAddrDecoder.DecodeAddr(addr,
+                                                   ver=CoinsConf.Neo.ParamByKey("addr_ver"))
+
+    # NEO N3 address with parameters from generic configuration
+    addr = NeoN3AddrEncoder.EncodeKey(pub_key,
+                                      ver=CoinsConf.NeoN3.ParamByKey("addr_ver"))
+    # Or with custom parameters
+    addr = NeoN3AddrEncoder.EncodeKey(pub_key,
+                                      ver=b"\x35")
+    # Same of NeoAddrDecoder
+    pub_key_hash = NeoN3AddrDecoder.DecodeAddr(addr,
+                                               ver=CoinsConf.NeoN3.ParamByKey("addr_ver"))
+
 
 **Code example (coins based on the sr25519 curve)**
 

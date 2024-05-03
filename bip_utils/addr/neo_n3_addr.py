@@ -1,0 +1,70 @@
+# Copyright (c) 2021 Emanuele Bellocchia
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
+"""Module for Neo N3 address encoding/decoding."""
+
+# Imports
+from typing import Any, Union
+
+from bip_utils.addr.iaddr_encoder import IAddrEncoder
+from bip_utils.addr.neo_addr import NeoAddrDecoder, NeoAddrEncoder
+from bip_utils.coin_conf.coins_conf import CoinsConf
+from bip_utils.ecc.common.ikeys import IPublicKey
+
+
+# Same as NeoAddrDecoder
+NeoN3AddrDecoder = NeoAddrDecoder
+
+
+class NeoN3AddrEncoder(IAddrEncoder):
+    """
+    Neo N3 address encoder class.
+    It allows the Neo N3 address encoding.
+    """
+
+    @staticmethod
+    def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                  **kwargs: Any) -> str:
+        """
+        Encode a public key to Neo N3 address.
+
+        Args:
+            pub_key (bytes or IPublicKey): Public key bytes or object
+
+        Other Parameters:
+            ver (bytes): Version
+
+        Returns:
+            str: Address string
+
+        Raises:
+            ValueError: If the public key is not valid
+            TypeError: If the public key is not nist256p1
+        """
+        return NeoAddrEncoder.EncodeKey(
+            pub_key,
+            ver=kwargs["ver"],
+            prefix=CoinsConf.NeoN3.ParamByKey("addr_prefix"),
+            suffix=CoinsConf.NeoN3.ParamByKey("addr_suffix")
+        )
+
+
+# Deprecated: only for compatibility, Encoder class shall be used instead
+NeoN3Addr = NeoN3AddrEncoder
