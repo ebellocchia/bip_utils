@@ -1255,7 +1255,7 @@ TEST_VECT = [
             "21e15d74f7e2a0f8a855a11626e1b1b67df8fadb125e209e212e765406033db1",
         ],
     },
-    # NEO
+    # NEO legacy
     {
         "coin": Bip44Coins.NEO,
         "names": ("NEO", "NEO"),
@@ -1277,6 +1277,53 @@ TEST_VECT = [
             "AW2ZSp5jCFoTAawyQHiDX5jzBHXzw8ydjZ",
             "Aae1tmeie6ExyAG8RD3mTLYKfk6yx6SSmq",
             "ARgD7zaeX578LqTyHagyx4W8CgbWfcUeCk",
+        ],
+    },
+    {
+        "coin": Bip44Coins.NEO_LEGACY,
+        "names": ("NEO", "NEO"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K43eeN7bb2E9YrDJsa6fYcbWK67iu4N397GNE1hoJP4SaeLz1g4QzPEokQD7XmzWszVPDB7zDmyrtwrHFPYxHasf2GmhCJE5",
+        "wif_master": "L1zf8jFGLk5iEE3uLGWQAAdEPfYhhsQBfcoL5dCj5AumEsixdqPh",
+        "account": {
+            "ex_pub": "xpub6C14EL78ogJs6aQEpzMdPa6oUdo7dUFdScW7ckC6MXxUAN7zDiEP6pGQphtcjS2cv4Nusp4i9CVJPmtuGmp1RKN3pCvUPWkDFcoMHCHERTA",
+            "ex_priv": "xprv9y1hppaEyJkZt6Kmixpd2SA4vbxdE1Xn5PaWpMnUoCRVHZnqgAv8Z1wvyRpyPivKfJ2CtiT5mts6j4agm3SmdZA8ASftK1nPMuhzn4nWTMq",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EUcJ14d2zGWuzv59LbpBkM3Qe23rk6fAgnQpDgLgfT9zYXxCwcFHpWgRaDQPeCaqE7AMf9uAyrDRmj4ymcd19EbVxQrPhDz3SfjNnspxvf",
+            "ex_priv": "xprvA1VFtVXjCciDhWqc3K4opcQJrcBZTHNooTrp1qGj8KvB7kCofQHzk2CCaKVEfZdby56TRFWWdYjkgbhDyut9HdF66Ah2sucDTmKW6UYLFQN",
+        },
+        "addresses": [
+            "AJHeWQn2qKKqD4nBE82etebgT3GEM9HDRH",
+            "AYrG8CHdxTMiWiKDT1cZWvLh6WENaQZsRg",
+            "AW2ZSp5jCFoTAawyQHiDX5jzBHXzw8ydjZ",
+            "Aae1tmeie6ExyAG8RD3mTLYKfk6yx6SSmq",
+            "ARgD7zaeX578LqTyHagyx4W8CgbWfcUeCk",
+        ],
+    },
+    # NEO N3
+    {
+        "coin": Bip44Coins.NEO_N3,
+        "names": ("NEO", "NEO"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K43eeN7bb2E9YrDJsa6fYcbWK67iu4N397GNE1hoJP4SaeLz1g4QzPEokQD7XmzWszVPDB7zDmyrtwrHFPYxHasf2GmhCJE5",
+        "wif_master": "L1zf8jFGLk5iEE3uLGWQAAdEPfYhhsQBfcoL5dCj5AumEsixdqPh",
+        "account": {
+            "ex_pub": "xpub6C14EL78ogJs6aQEpzMdPa6oUdo7dUFdScW7ckC6MXxUAN7zDiEP6pGQphtcjS2cv4Nusp4i9CVJPmtuGmp1RKN3pCvUPWkDFcoMHCHERTA",
+            "ex_priv": "xprv9y1hppaEyJkZt6Kmixpd2SA4vbxdE1Xn5PaWpMnUoCRVHZnqgAv8Z1wvyRpyPivKfJ2CtiT5mts6j4agm3SmdZA8ASftK1nPMuhzn4nWTMq",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EUcJ14d2zGWuzv59LbpBkM3Qe23rk6fAgnQpDgLgfT9zYXxCwcFHpWgRaDQPeCaqE7AMf9uAyrDRmj4ymcd19EbVxQrPhDz3SfjNnspxvf",
+            "ex_priv": "xprvA1VFtVXjCciDhWqc3K4opcQJrcBZTHNooTrp1qGj8KvB7kCofQHzk2CCaKVEfZdby56TRFWWdYjkgbhDyut9HdF66Ah2sucDTmKW6UYLFQN",
+        },
+        "addresses": [
+            "NYqCjmV8g8PFCYpyD3K4kSCkQxZff1UNMV",
+            "Nij7Ef7uf8E5Vj9UfN9YiUkBUpRFTn4aP2",
+            "NcqWAkoTAyaH3oxAe1yLwxY4mcdtgErhKh",
+            "NcKJa5Jyrw87z9pGWv84UBj2t2cUvMJJH5",
+            "NbKAkUBrsZ29ffNkU7Lb8SHdtRdENhc26h",
         ],
     },
     # Nimiq
@@ -2490,11 +2537,22 @@ TEST_VECT_DEFAULT_PATH = [
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "5510e2b44cae6eb807e3e0e45d579dda058c274abcba15e5cb84636f5d1ee412",
     },
-    # NEO
+    # NEO legacy
     {
         "coin": Bip44Coins.NEO,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "AJHeWQn2qKKqD4nBE82etebgT3GEM9HDRH",
+    },
+    {
+        "coin": Bip44Coins.NEO_LEGACY,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "AJHeWQn2qKKqD4nBE82etebgT3GEM9HDRH",
+    },
+    # NEO N3
+    {
+        "coin": Bip44Coins.NEO_N3,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "NYqCjmV8g8PFCYpyD3K4kSCkQxZff1UNMV",
     },
     # Nimiq
     {

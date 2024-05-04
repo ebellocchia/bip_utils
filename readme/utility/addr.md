@@ -303,16 +303,16 @@ The address library allows encoding/decoding addresses for all the supported coi
 
     # NEO legacy address with parameters from generic configuration
     addr = NeoLegacyAddrEncoder.EncodeKey(pub_key,
-                                          ver=CoinsConf.Neo.ParamByKey("addr_ver"))
+                                          ver=CoinsConf.NeoLegacy.ParamByKey("addr_ver"))
     # Or with custom parameters
     addr = NeoLegacyAddrEncoder.EncodeKey(pub_key,
                                           ver=b"\x17")
     # Or with the default parameters from BIP configuration:
     addr = NeoLegacyAddrEncoder.EncodeKey(pub_key,
-                                          **Bip44Conf.Neo.AddrParams())
+                                          **Bip44Conf.NeoLegacy.AddrParams())
     # Same of NeoAddrDecoder
     pub_key_hash = NeoLegacyAddrDecoder.DecodeAddr(addr,
-                                                   ver=CoinsConf.Neo.ParamByKey("addr_ver"))
+                                                   ver=CoinsConf.NeoLegacy.ParamByKey("addr_ver"))
 
     # NEO N3 address with parameters from generic configuration
     addr = NeoN3AddrEncoder.EncodeKey(pub_key,

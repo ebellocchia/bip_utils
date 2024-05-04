@@ -97,7 +97,7 @@ Supported BIP coins:
 - Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses of the official wallets, but it supports subaddresses generation)
 - Nano
 - Near Protocol
-- NEO
+- NEO (legacy and N3)
 - Nimiq
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology

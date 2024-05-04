@@ -53,7 +53,7 @@ TEST_PUB_KEYS = [
     },
     {
         "key": TEST_NIST256P1_PUB_KEY,
-        "conf": Bip44Conf.Neo,
+        "conf": Bip44Conf.NeoLegacy,
         "address": "AMBkJJRc9CsdSLdxqX3FPK6aQe7cTuAVjo",
     },
     {
@@ -82,7 +82,7 @@ TEST_PRIV_KEYS = [
     },
     {
         "key": TEST_NIST256P1_PRIV_KEY,
-        "conf": Bip44Conf.Neo,
+        "conf": Bip44Conf.NeoLegacy,
         "wif": "L4sVXJVi2Kb921oM8uAc5XzYwYWdUDKFyGZpvFLggfkBsb6YHZEb",
     },
     {
@@ -127,8 +127,8 @@ class Bip44KeyDataTests(unittest.TestCase):
     # Test invalid params
     def test_invalid_params(self):
         # Different elliptic curve between BIP32 key and coin configuration
-        self.assertRaises(ValueError, Bip44PublicKey, TEST_BIP32_PUB_KEY, Bip44Conf.Neo)
-        self.assertRaises(ValueError, Bip44PrivateKey, TEST_BIP32_PRIV_KEY, Bip44Conf.Neo)
+        self.assertRaises(ValueError, Bip44PublicKey, TEST_BIP32_PUB_KEY, Bip44Conf.NeoLegacy)
+        self.assertRaises(ValueError, Bip44PrivateKey, TEST_BIP32_PRIV_KEY, Bip44Conf.NeoLegacy)
 
     # Test forbidden address classes
     def test_forbidden_addr_cls(self):

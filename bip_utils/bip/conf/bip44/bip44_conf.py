@@ -25,9 +25,9 @@ from bip_utils.addr import (
     AdaByronIcarusAddrEncoder, AlgoAddrEncoder, AptosAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder,
     AvaxXChainAddrEncoder, BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, ErgoNetworkTypes, ErgoP2PKHAddrEncoder,
     EthAddrEncoder, FilSecp256k1AddrEncoder, IcxAddrEncoder, InjAddrEncoder, NanoAddrEncoder, NearAddrEncoder,
-    NeoLegacyAddrEncoder, NimAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder,
-    SubstrateEd25519AddrEncoder, SuiAddrEncoder, TrxAddrEncoder, XlmAddrEncoder, XlmAddrTypes, XmrAddrEncoder,
-    XrpAddrEncoder, XtzAddrEncoder, XtzAddrPrefixes, ZilAddrEncoder
+    NeoLegacyAddrEncoder, NeoN3AddrEncoder, NimAddrEncoder, OkexAddrEncoder, OneAddrEncoder, P2PKHAddrEncoder,
+    SolAddrEncoder, SubstrateEd25519AddrEncoder, SuiAddrEncoder, TrxAddrEncoder, XlmAddrEncoder, XlmAddrTypes,
+    XmrAddrEncoder, XrpAddrEncoder, XtzAddrEncoder, XtzAddrPrefixes, ZilAddrEncoder
 )
 from bip_utils.bip.bip32 import (
     Bip32Const, Bip32KeyNetVersions, Bip32KholawEd25519, Bip32Slip10Ed25519, Bip32Slip10Ed25519Blake2b,
@@ -907,18 +907,36 @@ class Bip44Conf:
         addr_params={},
     )
 
-    # Configuration for Neo
-    Neo: BipCoinConf = BipCoinConf(
-        coin_names=CoinsConf.Neo.CoinNames(),
+    # For compatibility, later assigned to NeoLegacy
+    Neo: BipCoinConf
+
+    # Configuration for Neo legacy
+    NeoLegacy: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.NeoLegacy.CoinNames(),
         coin_idx=Slip44.NEO,
         is_testnet=False,
         def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
-        wif_net_ver=CoinsConf.Neo.ParamByKey("wif_net_ver"),
+        wif_net_ver=CoinsConf.NeoLegacy.ParamByKey("wif_net_ver"),
         bip32_cls=Bip32Slip10Nist256p1,
         addr_cls=NeoLegacyAddrEncoder,
         addr_params={
-            "ver": CoinsConf.Neo.ParamByKey("addr_ver"),
+            "ver": CoinsConf.NeoLegacy.ParamByKey("addr_ver"),
+        },
+    )
+
+    # Configuration for Neo N3
+    NeoN3: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.NeoN3.CoinNames(),
+        coin_idx=Slip44.NEO,
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=CoinsConf.NeoN3.ParamByKey("wif_net_ver"),
+        bip32_cls=Bip32Slip10Nist256p1,
+        addr_cls=NeoN3AddrEncoder,
+        addr_params={
+            "ver": CoinsConf.NeoN3.ParamByKey("addr_ver"),
         },
     )
 
@@ -1290,3 +1308,7 @@ class Bip44Conf:
         addr_cls=ZilAddrEncoder,
         addr_params={},
     )
+
+
+# For compatibility
+Bip44Conf.Neo = Bip44Conf.NeoLegacy

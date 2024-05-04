@@ -61,8 +61,8 @@ class NeoLegacyAddrEncoder(IAddrEncoder):
         return NeoAddrEncoder.EncodeKey(
             pub_key,
             ver=kwargs["ver"],
-            prefix=CoinsConf.Neo.ParamByKey("addr_prefix"),
-            suffix=CoinsConf.Neo.ParamByKey("addr_suffix")
+            prefix=CoinsConf.NeoLegacy.ParamByKey("addr_prefix"),
+            suffix=CoinsConf.NeoLegacy.ParamByKey("addr_suffix")
         )
 
 

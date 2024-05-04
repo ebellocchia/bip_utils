@@ -64,7 +64,8 @@ Supported coins enumerative for BIP-0044:
 |Monero (secp256k1, please see the Monero paragraph below)|`Bip44Coins.MONERO_SECP256K1`|-|
 |Nano|`Bip44Coins.NANO`|-|
 |Near Protocol|`Bip44Coins.NEAR_PROTOCOL`|-|
-|NEO|`Bip44Coins.NEO`|-|
+|NEO|`Bip44Coins.NEO_LEGACY` (or `Bip44Coins.NEO`)|-|
+|NEO N3|`Bip44Coins.NEO_N3`|-|
 |Nimiq|`Bip44Coins.NIMIQ`|-|
 |OKEx Chain (Cosmos address)|`Bip44Coins.OKEX_CHAIN_ATOM`|-|
 |OKEx Chain (Ethereum address)|`Bip44Coins.OKEX_CHAIN_ETH`|-|

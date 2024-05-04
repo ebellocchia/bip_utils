@@ -632,8 +632,11 @@ class CoinsConf:
         params={},
     )
 
-    # Configuration for Neo
-    Neo: CoinConf = CoinConf(
+    # For compatibility, later assigned to NeoLegacy
+    Neo: CoinConf
+
+    # Configuration for Neo legacy
+    NeoLegacy: CoinConf = CoinConf(
         coin_name=CoinNames("NEO", "NEO"),
         params={
             "addr_ver": b"\x17",
@@ -857,3 +860,7 @@ class CoinsConf:
             "addr_hrp": Slip173.ZILLIQA,
         },
     )
+
+
+# For compatibility
+CoinsConf.Neo = CoinsConf.NeoLegacy
