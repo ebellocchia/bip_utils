@@ -1,5 +1,5 @@
 """
-Example of keys derivation for ed25519 or nist256p1 based coins in the same way of Exodus wallet.
+Example of keys derivation for ed25519 or nist256p1 based coins like Exodus wallet.
 
 Basically, Exodus always uses the secp256k1 curve to derive the BIP44 path, even even for coins that are not based on secp256k1.
 Then, for coins based on other curves (e.g. Algorand, Solana, Stellar, Neo ...), it uses the last derived private key as a master key to compute the public key and address.
