@@ -1,3 +1,5 @@
+"""Example of keys computation using brainwallet module with a custom algorithm."""
+
 from typing import Any
 
 from bip_utils import Brainwallet, BrainwalletCoins, IBrainwalletAlgo, Sha512_256

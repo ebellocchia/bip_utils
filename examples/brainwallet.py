@@ -1,3 +1,5 @@
+"""Example of keys computation using brainwallet module with default algorithms."""
+
 from bip_utils import Brainwallet, BrainwalletAlgos, BrainwalletCoins
 
 
