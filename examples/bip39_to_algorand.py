@@ -6,12 +6,11 @@ It replicates the functionalities of:
     https://algorand.oortnet.com/
 """
 
-import binascii
 from enum import Enum, auto, unique
 
 from bip_utils import (
     AlgorandMnemonicGenerator, Bip32KholawEd25519, Bip32Slip10Ed25519, Bip32Slip10Secp256k1, Bip39SeedGenerator,
-    Ed25519PrivateKey
+    BytesUtils, Ed25519PrivateKey
 )
 
 
@@ -45,7 +44,7 @@ def convert_seed(bip39_seed_bytes: bytes,
 
     # Print result
     print(f"Derivation method: {der_method}")
-    print(f"  Algorand private key: {binascii.hexlify(priv_key_bytes)}")
+    print(f"  Algorand private key: {BytesUtils.ToHexString(priv_key_bytes)}")
     print(f"  Algorand mnemonic: {algorand_mnemonic}")
     print("")
 
@@ -57,7 +56,7 @@ mnemonic = "all all all all all all all all all all all all all all all all all 
 seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 # Print
 print(f"BIP39 mnemonic: {mnemonic}")
-print(f"BIP39 seed: {binascii.hexlify(seed_bytes)}")
+print(f"BIP39 seed: {BytesUtils.ToHexString(seed_bytes)}")
 print("")
 
 # Convert with all possible methods

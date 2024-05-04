@@ -1,9 +1,7 @@
 """Example of mnemonic generation and keys derivation like the Electrum wallet."""
 
-import binascii
-
 from bip_utils import (
-    CoinsConf, ElectrumV1, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator, ElectrumV1WordsNum,
+    BytesUtils, CoinsConf, ElectrumV1, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator, ElectrumV1WordsNum,
     ElectrumV2MnemonicGenerator, ElectrumV2MnemonicTypes, ElectrumV2SeedGenerator, ElectrumV2Segwit, ElectrumV2Standard,
     ElectrumV2WordsNum, IPrivateKey, WifEncoder, WifPubKeyModes
 )
@@ -25,7 +23,7 @@ print("V1 Wallet")
 v1_mnemonic = ElectrumV1MnemonicGenerator().FromWordsNumber(ElectrumV1WordsNum.WORDS_NUM_12)
 print(f"Mnemonic: {v1_mnemonic}")
 v1_seed_bytes = ElectrumV1SeedGenerator(v1_mnemonic).Generate()
-print(f"Seed: {binascii.hexlify(v1_seed_bytes)}")
+print(f"Seed: {BytesUtils.ToHexString(v1_seed_bytes)}")
 # Construct from seed
 electrum_v1 = ElectrumV1.FromSeed(v1_seed_bytes)
 # Print master key
@@ -43,7 +41,7 @@ v2_standard_mnemonic = ElectrumV2MnemonicGenerator(ElectrumV2MnemonicTypes.STAND
 print(f"Mnemonic: {v2_standard_mnemonic}")
 # Generate seed from mnemonic
 v2_standard_seed_bytes = ElectrumV2SeedGenerator(v2_standard_mnemonic).Generate()
-print(f"Seed: {binascii.hexlify(v2_standard_seed_bytes)}")
+print(f"Seed: {BytesUtils.ToHexString(v2_standard_seed_bytes)}")
 # Construct from seed
 electrum_v2_standard = ElectrumV2Standard.FromSeed(v2_standard_seed_bytes)
 # Print master key
@@ -61,7 +59,7 @@ v2_segwit_mnemonic = ElectrumV2MnemonicGenerator(ElectrumV2MnemonicTypes.SEGWIT)
 print(f"Mnemonic: {v2_segwit_mnemonic}")
 # Generate seed from mnemonic
 v2_segwit_seed_bytes = ElectrumV2SeedGenerator(v2_segwit_mnemonic).Generate()
-print(f"Seed: {binascii.hexlify(v2_segwit_seed_bytes)}")
+print(f"Seed: {BytesUtils.ToHexString(v2_segwit_seed_bytes)}")
 # Construct from seed
 electrum_v2_segwit = ElectrumV2Segwit.FromSeed(v2_segwit_seed_bytes)
 # Print master key

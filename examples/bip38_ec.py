@@ -1,8 +1,6 @@
 """Example of private key encryption/decryption with EC multiplication using BIP38."""
 
-import binascii
-
-from bip_utils import Bip38Decrypter, Bip38EcKeysGenerator, Bip38Encrypter, Bip38PubKeyModes, WifEncoder
+from bip_utils import Bip38Decrypter, Bip38EcKeysGenerator, Bip38Encrypter, Bip38PubKeyModes, BytesUtils, WifEncoder
 
 
 # BIP38 passphrase
@@ -16,7 +14,7 @@ priv_key_enc = Bip38EcKeysGenerator.GeneratePrivateKey(int_pass, Bip38PubKeyMode
 print(f"Encrypted private key (no lot/sequence): {priv_key_enc}")
 # Decrypt
 priv_key_dec, pub_key_mode = Bip38Decrypter.DecryptEc(priv_key_enc, passphrase)
-print(f"Decrypted private key (bytes): {binascii.hexlify(priv_key_dec)}")
+print(f"Decrypted private key (bytes): {BytesUtils.ToHexString(priv_key_dec)}")
 print(f"Decrypted private key (WIF): {WifEncoder.Encode(priv_key_dec, pub_key_mode=pub_key_mode)}")
 
 
@@ -30,7 +28,7 @@ priv_key_enc = Bip38EcKeysGenerator.GeneratePrivateKey(int_pass, Bip38PubKeyMode
 print(f"Encrypted private key (with lot/sequence): {priv_key_enc}")
 # Decrypt
 priv_key_dec, pub_key_mode = Bip38Decrypter.DecryptEc(priv_key_enc, passphrase)
-print(f"Decrypted private key (bytes): {binascii.hexlify(priv_key_dec)}")
+print(f"Decrypted private key (bytes): {BytesUtils.ToHexString(priv_key_dec)}")
 print(f"Decrypted private key (WIF): {WifEncoder.Encode(priv_key_dec, pub_key_mode=pub_key_mode)}")
 
 
@@ -42,5 +40,5 @@ priv_key_enc = Bip38Encrypter.GeneratePrivateKeyEc(passphrase,
 print(f"Encrypted private key (with Bip38Encrypter): {priv_key_enc}")
 # Decrypt
 priv_key_dec, pub_key_mode = Bip38Decrypter.DecryptEc(priv_key_enc, passphrase)
-print(f"Decrypted private key (bytes): {binascii.hexlify(priv_key_dec)}")
+print(f"Decrypted private key (bytes): {BytesUtils.ToHexString(priv_key_dec)}")
 print(f"Decrypted private key (WIF): {WifEncoder.Encode(priv_key_dec, pub_key_mode=pub_key_mode)}")

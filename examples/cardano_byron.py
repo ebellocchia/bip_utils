@@ -1,10 +1,8 @@
 """Example of key derivation for Cardano (Byron addresses)."""
 
-import binascii
-
 from bip_utils import (
-    Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip44, Bip44Changes, Bip44Coins, CardanoByronLegacy,
-    CardanoByronLegacySeedGenerator, CardanoIcarusSeedGenerator
+    Bip39MnemonicGenerator, Bip39SeedGenerator, Bip39WordsNum, Bip44, Bip44Changes, Bip44Coins, BytesUtils,
+    CardanoByronLegacy, CardanoByronLegacySeedGenerator, CardanoIcarusSeedGenerator
 )
 
 
@@ -27,7 +25,7 @@ seed_bytes = CardanoByronLegacySeedGenerator(mnemonic).Generate()
 # Construct from seed
 byron_legacy = CardanoByronLegacy.FromSeed(seed_bytes)
 # Print HD path key
-print(f"HD path key (bytes): {binascii.hexlify(byron_legacy.HdPathKey())}")
+print(f"HD path key (bytes): {BytesUtils.ToHexString(byron_legacy.HdPathKey())}")
 # Print master key
 print(f"Master chain code (bytes): {byron_legacy.MasterPrivateKey().ChainCode().ToHex()}")
 print(f"Master private key (bytes): {byron_legacy.MasterPrivateKey().Raw().ToHex()}")

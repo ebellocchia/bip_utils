@@ -1,8 +1,6 @@
 """Example of private key encryption/decryption without EC multiplication using BIP38."""
 
-import binascii
-
-from bip_utils import Bip38Decrypter, Bip38Encrypter, WifDecoder, WifEncoder
+from bip_utils import Bip38Decrypter, Bip38Encrypter, BytesUtils, WifDecoder, WifEncoder
 
 
 # BIP38 passphrase
@@ -21,7 +19,7 @@ print(f"Encrypted private key (compressed public key): {priv_key_enc}")
 
 # Decrypt
 priv_key_dec, pub_key_mode = Bip38Decrypter.DecryptNoEc(priv_key_enc, passphrase)
-print(f"Decrypted private key (bytes): {binascii.hexlify(priv_key_dec)}")
+print(f"Decrypted private key (bytes): {BytesUtils.ToHexString(priv_key_dec)}")
 print(f"Decrypted private key (WIF): {WifEncoder.Encode(priv_key_dec, pub_key_mode=pub_key_mode)}")
 
 # WIF private key correspondent to an uncompressed public key
@@ -36,5 +34,5 @@ print(f"Encrypted private key (uncompressed public key): {priv_key_enc}")
 
 # Decrypt
 priv_key_dec, pub_key_mode = Bip38Decrypter.DecryptNoEc(priv_key_enc, passphrase)
-print(f"Decrypted private key (bytes): {binascii.hexlify(priv_key_dec)}")
+print(f"Decrypted private key (bytes): {BytesUtils.ToHexString(priv_key_dec)}")
 print(f"Decrypted private key (WIF): {WifEncoder.Encode(priv_key_dec, pub_key_mode=pub_key_mode)}")

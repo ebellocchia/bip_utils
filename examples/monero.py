@@ -1,8 +1,6 @@
 """Example of keys derivation for Monero (same addresses of official wallet)."""
 
-import binascii
-
-from bip_utils import Monero, MoneroMnemonicGenerator, MoneroSeedGenerator, MoneroWordsNum
+from bip_utils import BytesUtils, Monero, MoneroMnemonicGenerator, MoneroSeedGenerator, MoneroWordsNum
 
 
 # Generate random mnemonic
@@ -23,7 +21,7 @@ print(f"Monero public view key: {monero.PublicViewKey().RawCompressed().ToHex()}
 # Print primary address
 print(f"Monero primary address: {monero.PrimaryAddress()}")
 # Print integrated address
-payment_id = binascii.unhexlify(b"d6f093554c0daa94")
+payment_id = BytesUtils.FromHexString("d6f093554c0daa94")
 print(f"Monero integrated address: {monero.IntegratedAddress(payment_id)}")
 # Print the first 5 subaddresses for account 0 and 1
 for acc_idx in range(2):
