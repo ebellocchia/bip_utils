@@ -52,6 +52,7 @@ bnb
 cardano
 cardano-byron
 cardano-shelley
+celestia
 celo
 certik
 cosmos

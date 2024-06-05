@@ -290,6 +290,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Celestia
+    Celestia: CoinConf = CoinConf(
+        coin_name=CoinNames("Celestia", "TIA"),
+        params={
+            "addr_hrp": Slip173.CELESTIA,
+        },
+    )
+
     # Configuration for Celo
     Celo: CoinConf = CoinConf(
         coin_name=CoinNames("Celo", "CELO"),

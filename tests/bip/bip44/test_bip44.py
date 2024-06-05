@@ -461,6 +461,30 @@ TEST_VECT = [
             "Ae2tdPwUPEYyH3w9G87544iteBxm7iqjMdkEav9K3t5G8GkZJga9nrYL2HX",
         ],
     },
+    # Celestia
+    {
+        "coin": Bip44Coins.CELESTIA,
+        "names": ("Celestia", "TIA"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K3GJpoapnV8SFfukcVBSfeCficPSGfubmSFDxo1kuHnLisriDvSnRRuL2Qrg5ggqHKNVpxR86QEC8w35uxmGoggxtQTPvfUu",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6DGzViq8bmgMLYdVZ3xnLVEdKwzBnGdzzJZ4suG8kVb9TTLAbrwv8YdKBb8FWKdBNinaHKmBv7JpQvqBYx4rxch7WnHzNFzSVrMf8hQepTP",
+            "ex_priv": "xprv9zHe6DJEmQ8484Z2T2RmyMHtmv9hNov9d5dU5WrXCA4Aaf124KdfakJqLGnVYwvBvMP4ttqm7QL5vuPTepiJiEJREiJnhswKmj6zLttwCMu",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EbeQ8h8S7mEGxYTn34gKedwvsmytMW61v51RAc8e6VzgMMLFkkNMN6sYtqvtZQ8TjBKswbxUTzxzj3nZfwr4pzFB7rySMaBUUCJnCuxu33",
+            "ex_priv": "xprvA1cHzdAEbkCw4UTzg1XfxWhDNqwVUtnEeh9QcnCX5ky1oZ2BiDS7oZnPhdgFNqWwGtB3BNebior1tS26wAtbQzCTe5Pty1BhkcwT8QfWQSP",
+        },
+        "addresses": [
+            "celestia19rl4cm2hmr8afy4kldpxz3fka4jguq0ad2ud9c",
+            "celestia1jrkmdcwgq94uaamx6zax2luewlhf7u4kdjhpv0",
+            "celestia1kng7tv83qesgvv2ze7hxlw4urfrjk8vq3esshx",
+            "celestia1zuvk68xw4y9swp06796rx8zarjvvkrt67szk3j",
+            "celestia12ecyuddg4wlnhztusgju5zxxjgznkz7fpr9wvd",
+        ],
+    },
     # Celo
     {
         "coin": Bip44Coins.CELO,
@@ -2344,6 +2368,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.CARDANO_BYRON_LEDGER,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "Ae2tdPwUPEZF4a8fNdkUt8HSyyWgsq2DqP2AKGFKiF3SLsXNDuu6wYp15Dp",
+    },
+    # Celestia
+    {
+        "coin": Bip44Coins.CELESTIA,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "celestia19rl4cm2hmr8afy4kldpxz3fka4jguq0ad2ud9c",
     },
     # Celo
     {

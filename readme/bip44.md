@@ -33,6 +33,7 @@ Supported coins enumerative for BIP-0044:
 |BitcoinSV|`Bip44Coins.BITCOIN_SV`|`Bip44Coins.BITCOIN_SV_TESTNET`|
 |Cardano Byron (Icarus)|`Bip44Coins.CARDANO_BYRON_ICARUS`, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
 |Cardano Byron (Ledger)|`Bip44Coins.CARDANO_BYRON_LEDGER`, see [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)|-|
+|Celestia|`Bip44Coins.CELESTIA`|-|
 |Celo|`Bip44Coins.CELO`|-|
 |Certik|`Bip44Coins.CERTIK`|-|
 |Chihuahua|`Bip44Coins.CHIHUAHUA`|-|

@@ -55,6 +55,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.BITCOIN_SV_TESTNET: Bip44Conf.BitcoinSvTestNet,
         Bip44Coins.CARDANO_BYRON_ICARUS: Bip44Conf.CardanoByronIcarus,
         Bip44Coins.CARDANO_BYRON_LEDGER: Bip44Conf.CardanoByronLedger,
+        Bip44Coins.CELESTIA: Bip44Conf.Celestia,
         Bip44Coins.CELO: Bip44Conf.Celo,
         Bip44Coins.CERTIK: Bip44Conf.Certik,
         Bip44Coins.CHIHUAHUA: Bip44Conf.Chihuahua,

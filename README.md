@@ -73,6 +73,7 @@ Supported BIP coins:
 - Bitcoin Cash Simple Ledger Protocol (and related test net)
 - BitcoinSV (and related test net)
 - Cardano (Byron-Legacy, Byron-Icarus and Shelley)
+- Celestia
 - Celo
 - Certik
 - Cosmos

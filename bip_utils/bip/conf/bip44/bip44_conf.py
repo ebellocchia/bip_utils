@@ -387,6 +387,21 @@ class Bip44Conf:
         },
     )
 
+    # Configuration for Celestia
+    Celestia: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Celestia.CoinNames(),
+        coin_idx=Slip44.ATOM,
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=AtomAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.Celestia.ParamByKey("addr_hrp"),
+        },
+    )
+
     # Configuration for Celo
     Celo: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.Celo.CoinNames(),

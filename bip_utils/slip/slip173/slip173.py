@@ -40,6 +40,7 @@ class Slip173:
     BITCOIN_TESTNET: str = "tb"
     CERTIK: str = "certik"
     CHIHUAHUA: str = "chihuahua"
+    CELESTIA: str = "celestia"
     COSMOS: str = "cosmos"
     ELROND: str = "erd"
     FETCH_AI: str = "fetch"
