@@ -97,6 +97,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.NEO: Bip44Conf.NeoLegacy,
         Bip44Coins.NEO_LEGACY: Bip44Conf.NeoLegacy,
         Bip44Coins.NEO_N3: Bip44Conf.NeoN3,
+        Bip44Coins.NEUTRON: Bip44Conf.Neutron,
         Bip44Coins.NIMIQ: Bip44Conf.Nimiq,
         Bip44Coins.NINE_CHRONICLES_GOLD: Bip44Conf.NineChroniclesGold,
         Bip44Coins.OKEX_CHAIN_ATOM: Bip44Conf.OkexChainAtom,

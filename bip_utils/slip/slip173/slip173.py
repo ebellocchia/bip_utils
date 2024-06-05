@@ -51,6 +51,7 @@ class Slip173:
     KAVA: str = "kava"
     LITECOIN_MAINNET: str = "ltc"
     LITECOIN_TESTNET: str = "tltc"
+    NEUTRON: str = "neutron"
     OKEX_CHAIN: str = "ex"
     OSMOSIS: str = "osmo"
     SECRET_NETWORK: str = "secret"

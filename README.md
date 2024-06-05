@@ -100,6 +100,7 @@ Supported BIP coins:
 - Nano
 - Near Protocol
 - NEO (legacy and N3)
+- Neutron
 - Nimiq
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology

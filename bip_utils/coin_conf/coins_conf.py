@@ -673,6 +673,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Neutron
+    Neutron: CoinConf = CoinConf(
+        coin_name=CoinNames("Neutron", "NTRN"),
+        params={
+            "addr_hrp": Slip173.NEUTRON,
+        },
+    )
+
     # Configuration for Nimiq
     Nimiq: CoinConf = CoinConf(
         coin_name=CoinNames("Nimiq", "NIM"),

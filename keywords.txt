@@ -79,15 +79,16 @@ matic
 metis
 monero
 multiversx
-okex chain
-ontology
-optimism
-osmosis
 nano
 near
 near protocol
 neo
+neutron
 nimiq
+okex chain
+ontology
+optimism
+osmosis
 pi network
 polygon
 ripple
