@@ -42,6 +42,7 @@ class Slip173:
     CHIHUAHUA: str = "chihuahua"
     CELESTIA: str = "celestia"
     COSMOS: str = "cosmos"
+    DYDX: str = "dydx"
     ELROND: str = "erd"
     FETCH_AI: str = "fetch"
     HARMONY_ONE: str = "one"

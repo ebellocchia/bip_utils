@@ -376,6 +376,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for dYdX
+    DYDX: CoinConf = CoinConf(
+        coin_name=CoinNames("dYdX", "DYDX"),
+        params={
+            "addr_hrp": Slip173.DYDX,
+        },
+    )
+
     # Configuration for eCash main net
     EcashMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("eCash", "XEC"),

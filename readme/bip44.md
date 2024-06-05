@@ -40,6 +40,7 @@ Supported coins enumerative for BIP-0044:
 |Cosmos|`Bip44Coins.COSMOS`|-|
 |Dash|`Bip44Coins.DASH`|`Bip44Coins.DASH_TESTNET`|
 |Dogecoin|`Bip44Coins.DOGECOIN`|`Bip44Coins.DOGECOIN_TESTNET`|
+|dYdX|`Bip44Coins.DYDX`|-|
 |eCash|`Bip44Coins.ECASH`|`Bip44Coins.ECASH_TESTNET`|
 |Elrond (MultiversX)|`Bip44Coins.ELROND` or `Bip44Coins.MULTIVERSX`|-|
 |EOS|`Bip44Coins.EOS`|-|

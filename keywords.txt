@@ -58,6 +58,7 @@ certik
 cosmos
 dash
 dogecoin
+dydx
 ecash
 elrond
 eos

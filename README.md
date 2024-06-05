@@ -79,6 +79,7 @@ Supported BIP coins:
 - Cosmos
 - Dash (and related test net)
 - Dogecoin (and related test net)
+- dYdX
 - eCash (and related test net)
 - Elrond (MultiversX)
 - EOS
