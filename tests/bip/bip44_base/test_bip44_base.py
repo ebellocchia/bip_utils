@@ -174,7 +174,6 @@ class Bip44BaseTests(unittest.TestCase):
                 self.assertEqual(bip_ex_ctx.PrivateKey().Raw().ToHex(), bip_ctx.PrivateKey().Raw().ToHex())
                 self.assertEqual(ZERO_CHAIN_CODE, bip_ctx.Bip32Object().ChainCode().ToBytes())
                 self.assertEqual(Bip44Levels.MASTER, bip_ctx.Level())
-                self.assertEqual(Bip44Levels.MASTER, bip_ctx.Level())
                 self.assertTrue(bip_ctx.Bip32Object().ParentFingerPrint().IsMasterKey())
 
                 # Create from private key with derivation data
