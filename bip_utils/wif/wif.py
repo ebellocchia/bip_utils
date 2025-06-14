@@ -119,7 +119,7 @@ class WifDecoder:
         # Check net version
         if priv_key_bytes[0] != ord(net_ver):
             raise ValueError(
-                f"Invalid net version (expected 0x{ord(net_ver):02X}, got 0x{priv_key_bytes[0]:02X})"
+                f"Invalid net version (expected 0x{ord(net_ver):02X}, got 0x{priv_key_bytes[0]:02X})"   # noqa: E231
             )
 
         # Remove net version
@@ -130,8 +130,9 @@ class WifDecoder:
             # Check the compressed public key suffix
             if priv_key_bytes[-1] != ord(WifConst.COMPR_PUB_KEY_SUFFIX):
                 raise ValueError(
-                    f"Invalid compressed public key suffix (expected 0x{ord(WifConst.COMPR_PUB_KEY_SUFFIX):02X}, "
-                    f"got 0x{priv_key_bytes[-1]:02X})"
+                    f"Invalid compressed public key suffix "
+                    f"(expected 0x{ord(WifConst.COMPR_PUB_KEY_SUFFIX):02X}, "  # noqa: E231
+                    f"got 0x{priv_key_bytes[-1]:02X})"                         # noqa: E231
                 )
             # Remove it
             priv_key_bytes = priv_key_bytes[:-1]

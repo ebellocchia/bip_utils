@@ -198,7 +198,7 @@ class MnemonicWordsListGetterBase(ABC):
     # Global instance
     __instance: Optional[MnemonicWordsListGetterBase] = None
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Construct class."""
         self.m_words_lists = {}
 

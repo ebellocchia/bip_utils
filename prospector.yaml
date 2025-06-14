@@ -25,6 +25,7 @@ pylint:
     - invalid-name
     - missing-module-docstring
     - too-many-lines
+    - too-many-positional-arguments
     - ungrouped-imports
   options:
     max-line-length: 120

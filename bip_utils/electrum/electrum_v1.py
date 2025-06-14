@@ -285,7 +285,8 @@ class ElectrumV1:
             bytes: Sequence bytes
         """
         return DoubleSha256.QuickDigest(
-            AlgoUtils.Encode(f"{addr_idx}:{change_idx}:") + self.MasterPublicKey().RawUncompressed().ToBytes()[1:]
+            AlgoUtils.Encode(f"{addr_idx}:{change_idx}:") +         # noqa: E231
+            self.MasterPublicKey().RawUncompressed().ToBytes()[1:]
         )
 
     @staticmethod
