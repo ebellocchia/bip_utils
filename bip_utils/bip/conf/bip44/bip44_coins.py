@@ -76,6 +76,7 @@ class Bip44Coins(BipCoins):
     KAVA = auto()
     KUSAMA_ED25519_SLIP = auto()
     LITECOIN = auto()
+    MAVRYK = auto()
     METIS = auto()
     MONERO_ED25519_SLIP = auto()
     MONERO_SECP256K1 = auto()

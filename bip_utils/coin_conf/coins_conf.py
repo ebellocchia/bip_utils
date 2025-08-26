@@ -582,6 +582,12 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Mavryk
+    Mavryk: CoinConf = CoinConf(
+        coin_name=CoinNames("Mavryk", "MVRK"),
+        params={},
+    )
+
     # Configuration for Metis
     Metis: CoinConf = CoinConf(
         coin_name=CoinNames("Metis", "METIS"),

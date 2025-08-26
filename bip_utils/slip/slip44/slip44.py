@@ -75,6 +75,7 @@ class Slip44:
     HARMONY_ONE: int = 1023
     ONTOLOGY: int = 1024
     TEZOS: int = 1729
+    MAVRYK: int = 1969
     CARDANO: int = 1815
     AVALANCHE: int = 9000
     CELO: int = 52752
