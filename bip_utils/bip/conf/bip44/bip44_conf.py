@@ -489,6 +489,22 @@ class Bip44Conf:
         },
     )
 
+    # Configuration for Digibyte main net
+    DigibyteMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.DigibyteMainNet.CoinNames(),
+        coin_idx=Slip44.DIGIBYTE, 
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=Bip32KeyNetVersions(b"\x04\x88\xb2\x1e",  # DGB xpub
+                                        b"\x04\x88\xad\xe4"),  # DGB xprv
+        wif_net_ver=CoinsConf.DigibyteMainNet.ParamByKey("wif_net_ver"),
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=P2PKHAddrEncoder,
+        addr_params={
+            "net_ver": CoinsConf.DigibyteMainNet.ParamByKey("p2pkh_net_ver"),
+        },
+    )
+
     # Configuration for Dogecoin main net
     DogecoinMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.DogecoinMainNet.CoinNames(),

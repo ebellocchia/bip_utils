@@ -54,6 +54,7 @@ class Bip44Coins(BipCoins):
     CHIHUAHUA = auto()
     COSMOS = auto()
     DASH = auto()
+    DIGIBYTE = auto()
     DOGECOIN = auto()
     DYDX = auto()
     ECASH = auto()
