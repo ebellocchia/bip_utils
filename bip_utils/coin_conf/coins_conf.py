@@ -356,6 +356,16 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Digibyte main net
+    DigibyteMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Digibyte", "DGB"),
+        params={
+            "p2pkh_net_ver": b"\x1e",
+            "p2sh_net_ver": b"\x16",
+            "wif_net_ver": b"\x9e",
+        },
+    )
+
     # Configuration for Dogecoin main net
     DogecoinMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("Dogecoin", "DOGE"),
