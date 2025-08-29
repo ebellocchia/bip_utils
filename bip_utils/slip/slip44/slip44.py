@@ -36,6 +36,7 @@ class Slip44:
     LITECOIN: int = 2
     DOGECOIN: int = 3
     DASH: int = 5
+    DIGIBYTE: int = 20
     ETHEREUM: int = 60
     ETHEREUM_CLASSIC: int = 61
     ICON: int = 74
