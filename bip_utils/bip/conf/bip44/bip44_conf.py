@@ -492,7 +492,7 @@ class Bip44Conf:
     # Configuration for Digibyte main net
     DigibyteMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.DigibyteMainNet.CoinNames(),
-        coin_idx=Slip44.DIGIBYTE, 
+        coin_idx=Slip44.DIGIBYTE,
         is_testnet=False,
         def_path=DER_PATH_NON_HARDENED_FULL,
         key_net_ver=Bip32KeyNetVersions(b"\x04\x88\xb2\x1e",  # DGB xpub
