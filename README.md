@@ -78,6 +78,7 @@ Supported BIP coins:
 - Certik
 - Cosmos
 - Dash (and related test net)
+- Digibyte
 - Dogecoin (and related test net)
 - dYdX
 - eCash (and related test net)
