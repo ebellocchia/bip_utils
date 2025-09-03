@@ -191,6 +191,16 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key_hash = XtzAddrDecoder.DecodeAddr(addr,
                                              prefix=XtzAddrPrefixes.TZ1)
 
+    # Mavryk address with custom parameters
+    addr = MvrkAddrEncoder.EncodeKey(pub_key,
+                                    prefix=MvrkAddrPrefixes.MV1)
+    # Or with the default parameters from BIP configuration:
+    addr = MvrkAddrEncoder.EncodeKey(pub_key,
+                                    **Bip44Conf.Tezos.AddrParams())
+    # Same as before for decoding
+    pub_key_hash = MvrkAddrDecoder.DecodeAddr(addr,
+                                             prefix=MvrkAddrPrefixes.MV1)
+
 **Code example (coins based on the ed25519-blake2b curve)**
 
     import binascii

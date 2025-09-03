@@ -23,6 +23,7 @@ from bip_utils.addr.fil_addr import FilSecp256k1Addr, FilSecp256k1AddrDecoder, F
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.icx_addr import IcxAddr, IcxAddrDecoder, IcxAddrEncoder
 from bip_utils.addr.inj_addr import InjAddr, InjAddrDecoder, InjAddrEncoder
+from bip_utils.addr.mvrk_addr import MvrkAddr, MvrkAddrDecoder, MvrkAddrEncoder, MvrkAddrPrefixes
 from bip_utils.addr.nano_addr import NanoAddr, NanoAddrDecoder, NanoAddrEncoder
 from bip_utils.addr.near_addr import NearAddr, NearAddrDecoder, NearAddrEncoder
 from bip_utils.addr.neo_addr import NeoAddr, NeoAddrDecoder, NeoAddrEncoder

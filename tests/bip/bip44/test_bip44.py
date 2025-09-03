@@ -1159,6 +1159,30 @@ TEST_VECT = [
             "LiNDwbwBhX9djY7tb3gWvrXjuWQNerLjnP",
         ],
     },
+    # Mavryk
+    {
+        "coin": Bip44Coins.MAVRYK,
+        "names": ("Mavryk", "MVRK"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CQh9N3fCxYTywL3aS8khkGJMPbA3LbtL7nnNQDu3VQ3XbEbhLEpYAkNooeSh4pM77JeJJaUXkTpmvaqGtTUM2UkeB9a9pdQDLqVZJ43XzV",
+            "ex_priv": "xprv9yRLjrWmNazAmTFaUQbkLcKZoMkfdst2xtsBa1pHV9s4enuT9nvZzNRtxcWQjmvcCQGnxuvxKJyG5PvCMNPFkEdjtNcm5UhJnMwqEewAx2K",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6Dx7NrD17GsNTme6iLQLz1inLVBEmSpKAETzWTzVNQ9dmajonxDR9CV8GiJAjfD7AHRnM5SgKNeFA7y2P2E3osS3rPxunL4aGG7TFipT2Ze",
+            "ex_priv": "xprv9zxkyLg7GuK5FHZdcJsLcsn3nTLkMz6To1YPi5asp4cetnQfFQuAbQAeRXbojDLHTuXtZm3vkGHd7Ln7tGSK62GvhRpQZVBKHq9pKqDwdp2",
+        },
+        "addresses": [
+            "mv1EMtWTYSU8XyBztq6BqkdjmdN5UUxQm34f",
+            "mv1AnVueMYyziMQz8fgdq8QbpXnu64hsqfJ4",
+            "mv1TvJPjppcbnoAMNK9B7xR7FZLstn8diuJ5",
+            "mv1Rjh7dcnUURWxoRGcS9fhYfWR7eJRqKZGK",
+            "mv1TiM6BP6uD8ifdrqqaKSvgwDtR3YG54jco",
+        ],
+    },
     # Metis
     {
         "coin": Bip44Coins.METIS,
@@ -2584,6 +2608,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.LITECOIN,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "LUWPbpM43E2p7ZSh8cyTBEkvpHmr3cB8Ez",
+    },
+    # Mavryk
+    {
+        "coin": Bip44Coins.MAVRYK,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "mv1La6UqZ5WR6rcWFcQTe5zwvRratctEr2di",
     },
     # Metis
     {
