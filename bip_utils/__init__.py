@@ -13,17 +13,21 @@ from bip_utils.addr import (
     BchP2SHAddrEncoder, EgldAddr, EgldAddrDecoder, EgldAddrEncoder, EosAddr, EosAddrDecoder, EosAddrEncoder,
     ErgoNetworkTypes, ErgoP2PKHAddr, ErgoP2PKHAddrDecoder, ErgoP2PKHAddrEncoder, EthAddr, EthAddrDecoder,
     EthAddrEncoder, FilSecp256k1Addr, FilSecp256k1AddrDecoder, FilSecp256k1AddrEncoder, IcxAddr, IcxAddrDecoder,
-    IcxAddrEncoder, InjAddr, InjAddrDecoder, InjAddrEncoder, MvrkAddr, MvrkAddrDecoder, MvrkAddrEncoder, MvrkAddrPrefixes,
-    NanoAddr, NanoAddrDecoder, NanoAddrEncoder, NearAddr, NearAddrDecoder, NearAddrEncoder, NeoAddr, NeoAddrDecoder,
-    NeoAddrEncoder, NeoLegacyAddr, NeoLegacyAddrDecoder, NeoLegacyAddrEncoder, NeoN3Addr, NeoN3AddrDecoder, NeoN3AddrEncoder,
+    IcxAddrEncoder, InjAddr, InjAddrDecoder, InjAddrEncoder, MvrkAddr, MvrkAddrDecoder,
+    MvrkAddrEncoder, MvrkAddrPrefixes, NanoAddr, NanoAddrDecoder, NanoAddrEncoder, NearAddr,
+    NearAddrDecoder, NearAddrEncoder, NeoAddr, NeoAddrDecoder, NeoAddrEncoder, NeoLegacyAddr,
+    NeoLegacyAddrDecoder, NeoLegacyAddrEncoder, NeoN3Addr, NeoN3AddrDecoder, NeoN3AddrEncoder,
     NimAddr, NimAddrDecoder, NimAddrEncoder, OkexAddr, OkexAddrDecoder, OkexAddrEncoder, OneAddr, OneAddrDecoder,
     OneAddrEncoder, P2PKHAddr, P2PKHAddrDecoder, P2PKHAddrEncoder, P2PKHPubKeyModes, P2SHAddr, P2SHAddrDecoder,
-    P2SHAddrEncoder, P2TRAddr, P2TRAddrDecoder, P2TRAddrEncoder, P2WPKHAddr, P2WPKHAddrDecoder, P2WPKHAddrEncoder,
-    SolAddr, SolAddrDecoder, SolAddrEncoder, SubstrateEd25519Addr, SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder,
-    SubstrateSr25519Addr, SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SuiAddr, SuiAddrDecoder, SuiAddrEncoder,
-    TrxAddr, TrxAddrDecoder, TrxAddrEncoder, XlmAddr, XlmAddrDecoder, XlmAddrEncoder, XlmAddrTypes, XmrAddr, XmrAddrDecoder,
-    XmrAddrEncoder, XmrIntegratedAddr, XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder, XrpAddr, XrpAddrDecoder,
-    XrpAddrEncoder, XtzAddr, XtzAddrDecoder, XtzAddrEncoder, XtzAddrPrefixes, ZilAddr, ZilAddrDecoder, ZilAddrEncoder
+    P2SHAddrEncoder, P2TRAddr, P2TRAddrDecoder, P2TRAddrEncoder, P2WPKHAddr, P2WPKHAddrDecoder,
+    P2WPKHAddrEncoder, SolAddr, SolAddrDecoder, SolAddrEncoder, SubstrateEd25519Addr,
+    SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateSr25519Addr,
+    SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder, SuiAddr, SuiAddrDecoder,
+    SuiAddrEncoder, TrxAddr, TrxAddrDecoder, TrxAddrEncoder, XlmAddr, XlmAddrDecoder,
+    XlmAddrEncoder, XlmAddrTypes, XmrAddr, XmrAddrDecoder,
+    XmrAddrEncoder, XmrIntegratedAddr, XmrIntegratedAddrDecoder, XmrIntegratedAddrEncoder,
+    XrpAddr, XrpAddrDecoder, XrpAddrEncoder, XtzAddr, XtzAddrDecoder, XtzAddrEncoder,
+    XtzAddrPrefixes, ZilAddr, ZilAddrDecoder, ZilAddrEncoder
 )
 
 # Algorand mnemonic

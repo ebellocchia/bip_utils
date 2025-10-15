@@ -41,6 +41,7 @@ class MvrkAddrPrefixes(Enum):
     MV2 = b"\x05\xBA\xC7"
     MV3 = b"\x05\xBA\xC9"
 
+
 class MvrkAddrDecoder(IAddrDecoder):
     """
     Mavryk address decoder class.
