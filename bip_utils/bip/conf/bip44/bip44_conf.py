@@ -24,9 +24,9 @@
 from bip_utils.addr import (
     AdaByronIcarusAddrEncoder, AlgoAddrEncoder, AptosAddrEncoder, AtomAddrEncoder, AvaxPChainAddrEncoder,
     AvaxXChainAddrEncoder, BchP2PKHAddrEncoder, EgldAddrEncoder, EosAddrEncoder, ErgoNetworkTypes, ErgoP2PKHAddrEncoder,
-    EthAddrEncoder, FilSecp256k1AddrEncoder, IcxAddrEncoder, InjAddrEncoder, MvrkAddrEncoder, MvrkAddrPrefixes, 
-    NanoAddrEncoder, NearAddrEncoder, NeoLegacyAddrEncoder, NeoN3AddrEncoder, NimAddrEncoder, OkexAddrEncoder, 
-    OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder, SubstrateEd25519AddrEncoder, SuiAddrEncoder, TrxAddrEncoder, 
+    EthAddrEncoder, FilSecp256k1AddrEncoder, IcxAddrEncoder, InjAddrEncoder, MvrkAddrEncoder, MvrkAddrPrefixes,
+    NanoAddrEncoder, NearAddrEncoder, NeoLegacyAddrEncoder, NeoN3AddrEncoder, NimAddrEncoder, OkexAddrEncoder,
+    OneAddrEncoder, P2PKHAddrEncoder, SolAddrEncoder, SubstrateEd25519AddrEncoder, SuiAddrEncoder, TrxAddrEncoder,
     XlmAddrEncoder, XlmAddrTypes, XmrAddrEncoder, XrpAddrEncoder, XtzAddrEncoder, XtzAddrPrefixes, ZilAddrEncoder
 )
 from bip_utils.bip.bip32 import (
