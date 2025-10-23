@@ -139,6 +139,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        python-version: ["3.12", "3.13"]
         os:
           - ubuntu-latest
           - macOS-latest
@@ -146,10 +147,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.12 - 3.13
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
-        python-version: ["3.12", "3.13"]
+        python-version: ${{ matrix.python-version }}
     - name: Install minimum dependencies
       run: |
         python -m pip install --upgrade pip
