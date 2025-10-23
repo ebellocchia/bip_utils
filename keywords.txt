@@ -76,6 +76,7 @@ irisnet
 kava
 litecoin
 matic
+mavryk
 metis
 monero
 multiversx
