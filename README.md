@@ -161,14 +161,9 @@ To install the package:
 
             pip install bip_utils
 
-- Alternative installation (*ecdsa* will be used for secp256k1)
-    - Using *setuptools*:
+The library uses *secp256k1* by default, but it also supports *ecdsa*.
 
-            python setup.py install --coincurve=0
-
-    - Edit the file *bip_utils/ecc/conf.py* by setting `USE_COINCURVE` to `False`, then install with *pip*:
-
-            pip install .
+To enable *ecdsa*, edit the file *bip_utils/ecc/conf.py* and set `USE_COINCURVE` to `False`. Then install with *pip*: `pip install .`
 
 **NOTES:**
 - if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0
