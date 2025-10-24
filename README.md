@@ -152,18 +152,24 @@ For the secp256k1 curve, it's possible to use either the *coincurve* or the *ecd
 By default *coincurve* will be used, but it's possible to disable it when installing.
 
 To install the package:
-- Default installation (*coincurve* will be used for secp256k1)
-    - Using *pip*, from this directory (local):
+- Using *pip*, from this directory (local):
 
-            pip install .
+        pip install .
 
-    - Using *pip*, from PyPI:
+- Using *pip*, from PyPI:
 
-            pip install bip_utils
+        pip install bip_utils
 
-The library uses *secp256k1* by default, but it also supports *ecdsa*.
+**NOTE:** the library works fine with Python 3.7 and 3.8, but it requires Python 3.9 or higher because `pyproject.toml` is not compatible with old versions of *setuptools* and will trigger an error during installation.\
+So, for Python 3.7 and 3.8, the `pyproject_legacy.toml` file is provided. Just rename it to `pyproject.toml`, overwriting the existent one, and install the package with *pip* from the local folder:
 
-To enable *ecdsa*, edit the file *bip_utils/ecc/conf.py* and set `USE_COINCURVE` to `False`. Then install with *pip*:
+    pip install .
+
+### Alternative secp256k1 library
+
+For *secp256k1*, the library uses *coincurve* by default (much faster). However, it also supports *ecdsa*, which is a pure Python implementation (i.e. slower).
+
+To use *ecdsa* for *secp256k1*, edit the file *bip_utils/ecc/conf.py* and set `USE_COINCURVE` to `False`. Then install with *pip*:
 
     pip install .
 
