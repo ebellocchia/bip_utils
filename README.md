@@ -160,7 +160,9 @@ To install the package:
 
         pip install bip_utils
 
-**NOTE:** the library works fine with Python 3.7 and 3.8, but it requires Python 3.9 or higher because `pyproject.toml` is not compatible with old versions of *setuptools* and will trigger an error during installation.\
+### Python 3.7 and 3.8 support
+
+The library works fine with Python 3.7 and 3.8, but it requires Python 3.9 or higher because `pyproject.toml` is not compatible with old versions of *setuptools* and will trigger an error during installation.\
 So, for Python 3.7 and 3.8, the `pyproject_legacy.toml` file is provided. Just rename it to `pyproject.toml`, overwriting the existent one, and install the package with *pip* from the local folder:
 
     pip install .
