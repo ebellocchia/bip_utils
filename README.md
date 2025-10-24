@@ -152,13 +152,8 @@ For the secp256k1 curve, it's possible to use either the *coincurve* or the *ecd
 By default *coincurve* will be used, but it's possible to disable it when installing.
 
 To install the package:
-- Using *pip*, from this directory (local):
 
-        pip install .
-
-- Using *pip*, from PyPI:
-
-        pip install bip_utils
+    pip install bip_utils
 
 ### Python 3.7 and 3.8 support
 
