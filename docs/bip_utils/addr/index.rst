@@ -25,9 +25,13 @@ addr
    iaddr_encoder
    icx_addr
    inj_addr
+   mvrk_addr
    nano_addr
    near_addr
    neo_addr
+   neo_legacy_addr
+   neo_n3_addr
+   nim_addr
    okex_addr
    one_addr
    sol_addr
