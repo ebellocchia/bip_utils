@@ -152,6 +152,8 @@ The package can be simply installed via *pip*:
 
     pip install bip_utils
 
+**NOTE:** if you have problems building the *ed25519_blake2b* library (especially on Windows), you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels).
+
 ### Python 3.7 and 3.8 support
 
 The package works fine with Python 3.7 and 3.8, but it requires Python 3.9 or higher because `pyproject.toml` is not compatible with old versions of *setuptools* and will trigger an error during installation.\
@@ -166,10 +168,6 @@ For *secp256k1* curve, the package uses *coincurve* by default (much faster). Ho
 To use *ecdsa* for *secp256k1*, edit the file *bip_utils/ecc/conf.py* and set `USE_COINCURVE` to `False`. Then install with *pip*:
 
     pip install .
-
-**NOTES:**
-- if you are using an Apple M1, please make sure to update *coincurve* to version 17.0.0
-- in case of problems when building the *ed25519_blake2b* library, you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels)
 
 ## Test and Coverage
 
