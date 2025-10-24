@@ -5,8 +5,22 @@ name: Test Minimum Requirements
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - README.md
+      - 'benchmark/**'
+      - 'docs/**'
+      - 'examples/**'
+      - 'libs_wheels/**'
+      - 'readme/**'
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - README.md
+      - 'benchmark/**'
+      - 'docs/**'
+      - 'examples/**'
+      - 'libs_wheels/**'
+      - 'readme/**'
 
 jobs:
   test_min_reqs_py37:

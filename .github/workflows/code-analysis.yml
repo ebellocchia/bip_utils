@@ -5,8 +5,22 @@ name: Code Analysis
 on:
   push:
     branches: [ "master" ]
+    paths-ignore:
+      - README.md
+      - 'benchmark/**'
+      - 'docs/**'
+      - 'examples/**'
+      - 'libs_wheels/**'
+      - 'readme/**'
   pull_request:
     branches: [ "master" ]
+    paths-ignore:
+      - README.md
+      - 'benchmark/**'
+      - 'docs/**'
+      - 'examples/**'
+      - 'libs_wheels/**'
+      - 'readme/**'
 
 jobs:
   code_analysis:
