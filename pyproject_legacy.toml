@@ -1,6 +1,9 @@
 #
 # pyproject.toml with the old license syntax, compatible with older versions of setuptools
-# Use this for Python 3.7 and 3.8
+# Use this to install the package from the archive or repo for Python 3.7 and 3.8
+# Just rename this file to `pyproject.toml`, overwriting the existent one, and install as usual with pip:
+#
+#     pip install .
 #
 [build-system]
 requires = ["setuptools>=61", "wheel"]

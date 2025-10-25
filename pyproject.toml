@@ -17,7 +17,7 @@ license = "MIT"
 license-files = [
     "LICENSE",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.7"
 keywords = [
     "python",
     "cryptography",
@@ -140,6 +140,8 @@ keywords = [
     "polkadot",
 ]
 classifiers = [
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -152,7 +154,9 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/ebellocchia/bip_utils"
+Repository = "https://github.com/ebellocchia/bip_utils"
 Download = "https://github.com/ebellocchia/bip_utils/archive/v{version}.tar.gz"
+Documentation = "https://bip-utils.readthedocs.io"
 
 [tool.setuptools]
 packages = {find = {exclude = ["*tests*"]}}
