@@ -152,14 +152,7 @@ The package can be simply installed via *pip*:
 
     pip install bip_utils
 
-**NOTE:** if you have problems building the *ed25519_blake2b* library (especially on Windows), you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels).
-
-### Python 3.7 and 3.8 support
-
-The package works fine with Python 3.7 and 3.8, but it requires Python 3.9 or higher because `pyproject.toml` is not compatible with old versions of *setuptools* and will trigger an error during installation.\
-Therefore, for Python 3.7 and 3.8, the `pyproject_legacy.toml` file is provided. Just rename it to `pyproject.toml`, overwriting the existent one, and install the package with *pip* from the local folder:
-
-    pip install .
+**NOTE:** if you have problems building the *ed25519_blake2b* library (it usually happens on Windows), you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels).
 
 ### Alternative secp256k1 library
 
