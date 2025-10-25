@@ -1,3 +1,7 @@
 include pyproject_legacy.toml
-include readme/*
-include readme/utility/*
+include docs/*
+include examples/*
+recursive-include readme *.md
+recursive-include tests *.py
+prune benchmark
+prune my_tests

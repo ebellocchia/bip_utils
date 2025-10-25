@@ -154,12 +154,13 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/ebellocchia/bip_utils"
+Changelog = "https://github.com/ebellocchia/bip_utils/blob/master/CHANGELOG.md"
 Repository = "https://github.com/ebellocchia/bip_utils"
 Download = "https://github.com/ebellocchia/bip_utils/archive/v{version}.tar.gz"
 Documentation = "https://bip-utils.readthedocs.io"
 
 [tool.setuptools]
-packages = {find = {exclude = ["*tests*"]}}
+packages = {find = {exclude =  ["benchmark*", "docs", "examples", "readme*", "tests*"]}}
 
 [tool.setuptools.package-data]
 bip_utils = [
