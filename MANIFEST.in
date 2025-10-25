@@ -1,2 +1,3 @@
+include pyproject_legacy.toml
 include readme/*
 include readme/utility/*
