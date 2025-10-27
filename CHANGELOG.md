@@ -1,3 +1,34 @@
+# 2.10.0
+
+- Update dependencies for Python 3.13
+- Add support for the following coins:
+
+|Coin | Main net enum | Test net enum |
+|---|---|---|
+|Celestia|`Bip44Coins.CELESTIA`|-|
+|dYdX|`Bip44Coins.DYDX`|-|
+|NEO N3|`Bip44Coins.NEO_N3`|-|
+|Neutron|`Bip44Coins.NEUTRON`|-|
+|Nimiq|`Bip44Coins.NIMIQ`|-|
+|Mavryk Chain|`Bip44Coins.MAVRYK`|-|
+|Digibyte|`Bip44Coins.DIGIBYTE`|-|
+
+- Add WIF configuration for Neo and Neo N3
+- **Breaking:** `NeoAddrEncoder` renamed to `NeoLegacyAddrEncoder`.\
+  From an algorithmic point of view, the new `NeoAddrEncoder` works the same as before. The only difference is that the prefix/suffix bytes are passed as parameters instead of being read from the configuration.\
+  Therefore, `NeoLegacyAddrEncoder` is simply defined as follows:
+
+      class NeoLegacyAddrEncoder(IAddrEncoder):
+          @staticmethod
+          def EncodeKey(pub_key: Union[bytes, IPublicKey],
+                        **kwargs: Any) -> str:
+              return NeoAddrEncoder.EncodeKey(
+                  pub_key,
+                  ver=kwargs["ver"],
+                  prefix=CoinsConf.NeoLegacy.ParamByKey("addr_prefix"),
+                  suffix=CoinsConf.NeoLegacy.ParamByKey("addr_suffix")
+              )
+
 # 2.9.3
 
 - Add support for Bitcoin RegTest for all BIPs: `Bip44Coins.BITCOIN_REGTEST`, `Bip49Coins.BITCOIN_REGTEST`, `Bip84Coins.BITCOIN_REGTEST`, `Bip86Coins.BITCOIN_REGTEST`
