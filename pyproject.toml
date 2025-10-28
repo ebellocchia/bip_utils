@@ -173,3 +173,7 @@ bip_utils = [
 version = {attr = "bip_utils._version.__version__"}
 dependencies = {file = ["requirements.txt"]}
 optional-dependencies.develop = {file = ["requirements-dev.txt"]}
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = "(?x)(\\.github|\\.eggs|\\.tox|benchmark|build|docs|examples|readme|tests|my_tests|venv)"
