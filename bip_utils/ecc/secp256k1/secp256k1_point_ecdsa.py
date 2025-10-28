@@ -29,7 +29,7 @@ from ecdsa.ecdsa import curve_secp256k1
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
-from bip_utils.utils.misc import BytesUtils, DataBytes, IntegerUtils
+from bip_utils.utils.misc import DataBytes, IntegerUtils
 
 
 class Secp256k1PointEcdsa(IPoint):
@@ -54,12 +54,6 @@ class Secp256k1PointEcdsa(IPoint):
                                                             point_bytes))
         except keys.MalformedPointError as ex:
             raise ValueError("Invalid point key bytes") from ex
-        # ECDSA < 0.17 doesn't have from_bytes method for PointJacobi
-        except AttributeError:
-            return cls.FromCoordinates(
-                BytesUtils.ToInteger(point_bytes[:EcdsaKeysConst.POINT_COORD_BYTE_LEN]),
-                BytesUtils.ToInteger(point_bytes[EcdsaKeysConst.POINT_COORD_BYTE_LEN:])
-            )
 
     @classmethod
     def FromCoordinates(cls,
@@ -154,16 +148,7 @@ class Secp256k1PointEcdsa(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        try:
-            return DataBytes(self.m_point.to_bytes("compressed"))
-        # ECDSA < 0.17 doesn't have to_bytes method for PointJacobi
-        except AttributeError:
-            x_bytes = IntegerUtils.ToBytes(self.m_point.x(), EcdsaKeysConst.POINT_COORD_BYTE_LEN)
-            if self.m_point.y() & 1:
-                enc_bytes = b"\x03" + x_bytes
-            else:
-                enc_bytes = b"\x02" + x_bytes
-            return DataBytes(enc_bytes)
+        return DataBytes(self.m_point.to_bytes("compressed"))
 
     def RawDecoded(self) -> DataBytes:
         """

@@ -185,4 +185,16 @@ optional-dependencies.develop = {file = ["requirements-dev.txt"]}
 
 [tool.mypy]
 ignore_missing_imports = true
-exclude = "(?x)(\\.github|\\.eggs|\\.tox|benchmark|build|docs|examples|readme|tests|my_tests|venv)"
+exclude = [
+    ".github",
+    ".eggs",
+    ".tox",
+    "benchmark",
+    "build",
+    "docs",
+    "examples",
+    "readme",
+    "my_tests",
+    "tests",
+    "venv",
+]
