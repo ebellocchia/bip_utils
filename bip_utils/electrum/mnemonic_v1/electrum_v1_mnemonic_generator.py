@@ -24,10 +24,13 @@
 from typing import Dict, Union
 
 from bip_utils.electrum.mnemonic_v1.electrum_v1_entropy_generator import (
-    ElectrumV1EntropyBitLen, ElectrumV1EntropyGenerator
+    ElectrumV1EntropyBitLen,
+    ElectrumV1EntropyGenerator,
 )
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import (
-    ElectrumV1Languages, ElectrumV1MnemonicConst, ElectrumV1WordsNum
+    ElectrumV1Languages,
+    ElectrumV1MnemonicConst,
+    ElectrumV1WordsNum,
 )
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_encoder import ElectrumV1MnemonicEncoder
 from bip_utils.utils.mnemonic import Mnemonic

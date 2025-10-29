@@ -26,7 +26,11 @@ from typing import Tuple
 
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39MnemonicConst
 from bip_utils.utils.mnemonic import (
-    Mnemonic, MnemonicLanguages, MnemonicWordsList, MnemonicWordsListFinderBase, MnemonicWordsListGetterBase
+    Mnemonic,
+    MnemonicLanguages,
+    MnemonicWordsList,
+    MnemonicWordsListFinderBase,
+    MnemonicWordsListGetterBase,
 )
 
 

@@ -26,7 +26,9 @@ from typing import Optional, Tuple, Type, Union
 
 from bip_utils.utils.mnemonic.mnemonic import Mnemonic, MnemonicLanguages
 from bip_utils.utils.mnemonic.mnemonic_utils import (
-    MnemonicWordsList, MnemonicWordsListFinderBase, MnemonicWordsListGetterBase
+    MnemonicWordsList,
+    MnemonicWordsListFinderBase,
+    MnemonicWordsListGetterBase,
 )
 
 

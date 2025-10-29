@@ -178,7 +178,7 @@ class MnemonicWordsListFileReader:
         """
 
         # Read file
-        with open(file_path, "r", encoding="utf-8") as fin:
+        with open(file_path, encoding="utf-8") as fin:
             words_list = [word.strip()
                           for word in fin.readlines()
                           if word.strip() != "" and not word.startswith("#")]

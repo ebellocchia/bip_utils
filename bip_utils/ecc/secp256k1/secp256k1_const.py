@@ -38,7 +38,9 @@ _GENERATOR: IPoint
 # Use classes from coincurve version
 if EccConf.USE_COINCURVE:
     from bip_utils.ecc.secp256k1.secp256k1_keys_coincurve import (
-        Secp256k1PointCoincurve, Secp256k1PrivateKeyCoincurve, Secp256k1PublicKeyCoincurve
+        Secp256k1PointCoincurve,
+        Secp256k1PrivateKeyCoincurve,
+        Secp256k1PublicKeyCoincurve,
     )
 
     Secp256k1Point = Secp256k1PointCoincurve
@@ -54,7 +56,9 @@ else:
     from ecdsa.ecdsa import generator_secp256k1
 
     from bip_utils.ecc.secp256k1.secp256k1_keys_ecdsa import (
-        Secp256k1PointEcdsa, Secp256k1PrivateKeyEcdsa, Secp256k1PublicKeyEcdsa
+        Secp256k1PointEcdsa,
+        Secp256k1PrivateKeyEcdsa,
+        Secp256k1PublicKeyEcdsa,
     )
 
     Secp256k1Point = Secp256k1PointEcdsa

@@ -34,5 +34,8 @@ venv/
 # mypy
 .mypy_cache/
 
+# Ruff
+.ruff_cache/
+
 # Additional folder
 my_tests/

@@ -24,8 +24,11 @@
 from typing import Dict, Type
 
 from bip_utils.brainwallet.brainwallet_algo import (
-    BrainwalletAlgoDoubleSha256, BrainwalletAlgoPbkdf2HmacSha512, BrainwalletAlgos, BrainwalletAlgoScrypt,
-    BrainwalletAlgoSha256
+    BrainwalletAlgoDoubleSha256,
+    BrainwalletAlgoPbkdf2HmacSha512,
+    BrainwalletAlgos,
+    BrainwalletAlgoScrypt,
+    BrainwalletAlgoSha256,
 )
 from bip_utils.brainwallet.ibrainwallet_algo import IBrainwalletAlgo
 

@@ -28,7 +28,9 @@ from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
 # Imports
 from bip_utils.electrum.mnemonic_v2.electrum_v2_entropy_generator import ElectrumV2EntropyGenerator
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
-    ElectrumV2Languages, ElectrumV2Mnemonic, ElectrumV2MnemonicTypes
+    ElectrumV2Languages,
+    ElectrumV2Mnemonic,
+    ElectrumV2MnemonicTypes,
 )
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic_utils import ElectrumV2MnemonicUtils
 from bip_utils.utils.misc import BytesUtils

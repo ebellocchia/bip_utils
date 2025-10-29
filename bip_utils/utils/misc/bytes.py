@@ -168,7 +168,7 @@ class BytesUtils:
         Args:
             data (str or bytes): Data bytes
 
-        Returns
+        Returns:
             bytes: Hex string converted to bytes
         """
         return binascii.unhexlify(AlgoUtils.Encode(data))

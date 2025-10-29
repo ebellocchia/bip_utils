@@ -183,8 +183,90 @@ version = {attr = "bip_utils._version.__version__"}
 dependencies = {file = ["requirements.txt"]}
 optional-dependencies.develop = {file = ["requirements-dev.txt"]}
 
+#
+# Tools configuration
+#
+
+[tool.ruff]
+target-version = "py37"
+line-length = 120
+exclude = [
+    ".eggs",
+    ".egg-info",
+    ".tox",
+    "benchmark",
+    "build",
+    "docs",
+    "examples",
+    "readme",
+    "tests",
+    "my_tests",
+    "venv",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "I",      # pyflakes
+    "N",      # pep8-naming
+    "D",      # pydocstyle
+    "UP",     # pyupgrade
+    "C90",    # mccabe complexity
+    "PL",     # pylint
+]
+ignore = [
+    "N802",     # Function name should be lowercase
+    "E231",     # Missing whitespace after ':'
+    "F821",     # Undefined name (Literal import for Python 3.7 compatibility)
+    "UP006",    # Use `type` instead of `Type` for type annotation (Python <3.9 compatibility)
+    "UP007",    # Use `X | Y` for type annotations (Python <3.10 compatibility)
+    "UP037",    # Remove quotes from type annotation (Literal import for Python 3.7 compatibility)
+    "UP045",    #  Use `X | None` for type annotations (Python <3.10 compatibility)
+    # pydocstyle ignores from prospector
+    "D104",     # Missing docstring in public package
+    "D202",     # No blank lines allowed after function docstring
+    "D203",     # 1 blank line required before class docstring
+    "D205",     # 1 blank line required between summary line and description
+    "D212",     # Multi-line docstring summary should start at the first line
+    "D406",     # Section name should end with a newline
+    "D407",     # Missing dashed underline after section
+    "D413",     # Missing blank line after last section
+    "D415",     # First line should end with a period, question mark, or exclamation point
+    "D417",     # Missing argument description in the docstring: **kwargs
+    # pylint ignores from prospector
+    "PLR0911",  # Too many return statements
+    "PLR0912",  # Too many branches
+    "PLR0913",  # Too many arguments
+    "PLR0915",  # Too many statements
+    "PLR2004",  # Magic value used in comparison
+]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "D104"]        # Imported but unused, missing docstring
+"**/P2*.py" = ["N999"]                  # Invalid module name
+"**/BIP*.py" = ["N999"]                 # Invalid module name
+"**/typing.py" = ["F401", "F821"]       # Literal import for Python 3.7 compatibility
+"**/bip32_key_data.py" = ["PLW1641"]    # Object does not implement `__hash__` method
+"**/data_bytes.py" = ["PLW1641"]        # Object does not implement `__hash__` method
+
+[tool.ruff.lint.isort]
+known-first-party = []
+lines-after-imports = 2
+combine-as-imports = false
+force-single-line = false
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
 [tool.mypy]
+python_version = "3.7"
 ignore_missing_imports = true
+follow_imports = "skip"
 exclude = [
     "\\.github",
     "\\.eggs",
@@ -198,4 +280,21 @@ exclude = [
     "my_tests",
     "tests",
     "venv",
+]
+
+[tool.coverage.run]
+omit = [
+    "bip_utils/ecc/ed25519/lib/ed25519_lib.py",
+    ".tox/*",
+    "benchmark/*",
+    "tests/*",
+    "venv/*",
+    "my_tests/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "@abstract",
+    "@overload",
 ]

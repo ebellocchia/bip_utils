@@ -107,7 +107,7 @@ class BipCoinConf:  # pylint: disable=too-many-instance-attributes
         self.m_bip32_cls = bip32_cls
         self.m_addr_params = addr_params
         self.m_any_addr_params_fct_call = any(
-            (isinstance(param_val, BipCoinFctCallsConf) for param_val in addr_params.values())
+            isinstance(param_val, BipCoinFctCallsConf) for param_val in addr_params.values()
         )
         self.m_addr_cls = addr_cls
 

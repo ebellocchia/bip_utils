@@ -148,7 +148,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
         wit_ver = data[0]
         if wit_ver > SegwitBech32Const.WITNESS_VER_MAX_VAL:
             raise ValueError(f"Invalid format (witness version not valid: {wit_ver})")
-        if wit_ver == 0 and not len(conv_data) in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
+        if wit_ver == 0 and len(conv_data) not in SegwitBech32Const.WITNESS_VER_ZERO_DATA_BYTE_LEN:
             raise ValueError(f"Invalid format (length not valid: {len(conv_data)})")
 
         return wit_ver, BytesUtils.FromList(conv_data)

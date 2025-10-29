@@ -25,10 +25,16 @@ from typing import List, Optional, Union
 
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicConst
 from bip_utils.monero.mnemonic.monero_mnemonic_utils import (
-    MoneroMnemonicUtils, MoneroWordsListFinder, MoneroWordsListGetter
+    MoneroMnemonicUtils,
+    MoneroWordsListFinder,
+    MoneroWordsListGetter,
 )
 from bip_utils.utils.mnemonic import (
-    Mnemonic, MnemonicChecksumError, MnemonicDecoderBase, MnemonicLanguages, MnemonicUtils
+    Mnemonic,
+    MnemonicChecksumError,
+    MnemonicDecoderBase,
+    MnemonicLanguages,
+    MnemonicUtils,
 )
 
 

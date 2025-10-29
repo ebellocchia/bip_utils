@@ -24,9 +24,10 @@ from enum import Enum, auto, unique
 from typing import Dict, Type
 
 from bip_utils import Bip39SeedGenerator
-from tests import (BenchmarkTestsBase, Ed25519Blake2bTests, Ed25519KholawTests,
-                   Ed25519Tests, MoneroTests, Nist256p1Tests, Secp256k1Tests,
-                   SubstrateTests)
+from tests import (
+    BenchmarkTestsBase, Ed25519Blake2bTests, Ed25519KholawTests, Ed25519Tests, MoneroTests, Nist256p1Tests,
+    Secp256k1Tests, SubstrateTests
+)
 
 
 # Test types
