@@ -175,9 +175,14 @@ To run tests:
 To run tests with coverage:
 
     coverage run -m unittest discover
-    coverage report
+    coverage report -m
 
-To run code analysis, just execute the `analyze_code` script.
+To run code analysis:
+
+    mypy .
+    ruff check .
+
+`tox` can also be used for testing and code analysis (check `tox.ini` for the environments).
 
 ## Modules description
 
