@@ -16,7 +16,7 @@ ignore-paths:
   - venv
 
 ignore-patterns:
-  - setup.py
+  - .egg-info
   - _version.py
 
 # pylint configuration
