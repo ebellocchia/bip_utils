@@ -29,7 +29,6 @@ jobs:
       matrix:
         os:
           - ubuntu-22.04
-          - macOS-13
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -62,7 +61,7 @@ jobs:
         python-version: ["3.8", "3.9"]   # Same minimum requirements
         os:
           - ubuntu-latest
-          - macOS-13
+          - macOS-14
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -93,7 +92,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macOS-13
+          - macOS-14
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
