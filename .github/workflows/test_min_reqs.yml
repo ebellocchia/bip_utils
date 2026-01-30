@@ -75,11 +75,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
         pip install cbor2==5.1.2
-        if [ "${{ runner.os }}" == "macOS" ]; then
-          pip install coincurve==18.0.0
-        else
-          pip install coincurve==15.0.1
-        fi
+        pip install coincurve==${{ runner.os == 'macOS' && '18.0.0' || '15.0.1' }}
         pip install crcmod==1.7
         pip install ecdsa==0.17
         pip install ed25519-blake2b==1.4
@@ -110,11 +106,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
         pip install cbor2==5.1.2
-        if [ "${{ runner.os }}" == "macOS" ]; then
-          pip install coincurve==18.0.0
-        else
-          pip install coincurve==16.0.0
-        fi
+        pip install coincurve==${{ runner.os == 'macOS' && '18.0.0' || '16.0.0' }}
         pip install crcmod==1.7
         pip install ecdsa==0.17
         pip install ed25519-blake2b==1.4
