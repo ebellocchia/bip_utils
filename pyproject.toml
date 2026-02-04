@@ -161,7 +161,7 @@ Download = "https://github.com/ebellocchia/bip_utils/archive/v{version}.tar.gz"
 Documentation = "https://bip-utils.readthedocs.io"
 
 [tool.setuptools]
-packages = {find = {exclude =  ["benchmark*", "docs*", "examples*", "readme*", "tests*"]}}
+packages = {find = {exclude =  ["benchmark*", "build*", "dist*", "docs*", "examples*", "readme*", "venv*", "tests*"]}}
 
 [tool.setuptools.package-data]
 bip_utils = [
