@@ -17,9 +17,9 @@ seed = TonSeedGenerator(mnemonic).Generate()
 addr = Ton().FromSeed(seed).GetAddress()
 print(f"V5R1 Address: {addr}")
 
-# Generate v4r1 address
+# Generate v4 address
 addr_v4 = Ton().FromSeed(seed).GetAddress("v4")
-print(f"V4R1 Address: {addr_v4}")
+print(f"V4 Address: {addr_v4}")
 
 
 # Generate addresses based on bip44 such as Trustwallet or Ledger
@@ -59,4 +59,4 @@ bip44_ctx = Bip44.FromPrivateKey(priv_key_bytes, coin_type)
 
 addr = bip44_ctx.PublicKey().ToAddress()
 
-print(f"Address for Ledger: {addr}")
+print(f"Address using Ledger derivation path: {addr}")
