@@ -78,7 +78,7 @@ class Ton:
             str: Generated address
         """
         
-        public_key = self.ToPublicKey()
+        public_key = self.GetPublicKey()
 
         address = TonAddressEncoder(public_key, version=version, is_bounceable=is_bounceable).encode()
         return address
