@@ -21,17 +21,14 @@
 """Module for Algorand mnemonic generation."""
 
 # Imports
-from typing import Dict, Optional, Union
-
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages
-
-from bip_utils.ton.mnemonic.ton_mnemonic import TonWordsNum
-from bip_utils.utils.mnemonic import Mnemonic
 import secrets
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst
-from bip_utils.ton.mnemonic.ton_mnemonic_validator import TonMnemonicValidator
-from bip_utils.ton.mnemonic.ton_mnemonic import TonMnemonicConst
+from typing import Optional, Union
+
+from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39MnemonicConst
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
+from bip_utils.ton.mnemonic.ton_mnemonic import TonMnemonicConst, TonWordsNum
+from bip_utils.ton.mnemonic.ton_mnemonic_validator import TonMnemonicValidator
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class TonMnemonicGenerator:
@@ -45,7 +42,7 @@ class TonMnemonicGenerator:
         """
         Construct class.
         """
-        
+
 
     def FromWordsNumber(self,
                         words_num: Optional[Union[int, TonWordsNum]] = 24, passphrase: Optional[str] = "") -> Mnemonic:
@@ -75,18 +72,18 @@ class TonMnemonicGenerator:
 
 
             # Generate mnemonic
-        
+
             mnemonic_array = []
 
             for i in range(words_num):
                 idx = secrets.randbelow(Bip39MnemonicConst.WORDS_LIST_NUM)
                 mnemonic_array.append(words_list.GetWordAtIdx(idx))
-            
+
             mnemonic = " ".join(mnemonic_array)
-        
+
             # If derived mnemonic is not valid continue loop and generate another one, otherwise break loop and return it
             if not ton_mnemonic_validator.IsValid(mnemonic, passphrase):
-                continue  
+                continue
             break
 
         return mnemonic

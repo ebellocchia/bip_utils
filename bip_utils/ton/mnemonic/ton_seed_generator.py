@@ -21,12 +21,11 @@
 """Module for Algorand mnemonic seed generation."""
 
 # Imports
-from symtable import Class
 from typing import Optional, Union
 
-from bip_utils.utils.mnemonic import Mnemonic
 from bip_utils.utils.crypto.hmac import HmacSha512
 from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha512
+from bip_utils.utils.mnemonic import Mnemonic
 
 
 class TonSeedGenerator:
@@ -50,7 +49,7 @@ class TonSeedGenerator:
             ValueError: If the mnemonic is not valid
         """
         self.mnemonic = mnemonic if isinstance(mnemonic, str) else mnemonic.ToStr()
-      
+
 
 
     def Generate(self, passphrase: Optional[str] = "") -> bytes:
@@ -61,10 +60,9 @@ class TonSeedGenerator:
         Returns:
             bytes: Generated seed
         """
-        self.entropy_bytes = HmacSha512().QuickDigest(self.mnemonic, passphrase)    
+        self.entropy_bytes = HmacSha512().QuickDigest(self.mnemonic, passphrase)
 
         seed = Pbkdf2HmacSha512().DeriveKey(self.entropy_bytes, "TON default seed",   100000, 64)
 
         return seed
 
-    

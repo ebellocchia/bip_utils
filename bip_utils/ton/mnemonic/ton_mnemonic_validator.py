@@ -23,11 +23,11 @@
 # Imports
 from typing import Optional
 
-
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages
+from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
 from bip_utils.utils.crypto.hmac import HmacSha512
 from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha512
-from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
+
 
 class TonMnemonicValidator:
     """
@@ -49,7 +49,7 @@ class TonMnemonicValidator:
         for word in mnemonic_array:
             try:
                 words_list.GetWordIdx(word)
-            except ValueError:      
+            except ValueError:
                 return False
         if passphrase != "":
             seed = Pbkdf2HmacSha512().DeriveKey(entropy, "TON fast seed version", 1, 64)
@@ -57,9 +57,8 @@ class TonMnemonicValidator:
         else:
             seed = Pbkdf2HmacSha512().DeriveKey(entropy, "TON seed version", 390, 64)
             return seed[0] == 0
-    
-       
 
-         
 
-       
+
+
+

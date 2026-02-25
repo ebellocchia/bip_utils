@@ -25,12 +25,10 @@ from typing import Any, Union
 
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
-
 from bip_utils.ecc import IPublicKey
-
+from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst
 from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
 from bip_utils.utils.misc import BytesUtils
-from bip_utils.ecc.ed25519.ed25519_keys import Ed25519KeysConst
 
 
 class TonAddrEncoder(IAddrEncoder):
@@ -63,7 +61,7 @@ class TonAddrEncoder(IAddrEncoder):
                 and pub_key_bytes[0] == BytesUtils.ToInteger(Ed25519KeysConst.PUB_KEY_PREFIX)):
             pub_key_bytes = pub_key_bytes[1:]
 
-        # Get and check address version. Default is v4, which is what is current employed in trust and ledger. 
+        # Get and check address version. Default is v4, which is what is current employed in trust and ledger.
         version = kwargs.get("version", "v4")
 
         # Version check is done in TonAddressEncoder, which will raise a ValueError if the version is not valid. We can skip it here to avoid code duplication.

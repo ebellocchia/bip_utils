@@ -24,13 +24,13 @@
 from __future__ import annotations
 
 from typing import Optional
- 
 
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey
 from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
 
+
 class Ton:
-    
+
 
     def __init__(self):
         """
@@ -49,8 +49,8 @@ class Ton:
         """
         self.private_key = Ed25519PrivateKey.FromBytes(seed_bytes[:32]).UnderlyingObject()
         return self
-    
-     
+
+
 
     def GetPublicKey(self) -> bytes:
         """
@@ -60,7 +60,7 @@ class Ton:
             Ed25519PublicKey: Generated public key
         """
         return self.private_key.verify_key.encode()
-    
+
     def GetPrivateKey(self) -> bytes:
         """
         Get private key from seed.
@@ -69,7 +69,7 @@ class Ton:
             Ed25519PrivateKey: Generated private key
         """
         return self.private_key.encode()
-    
+
     def GetAddress(self, version: Optional[str] = "v5r1", is_bounceable: Optional[bool] = False) -> str:
         """
         Get address
@@ -77,7 +77,7 @@ class Ton:
         Returns:
             str: Generated address
         """
-        
+
         public_key = self.GetPublicKey()
 
         address = TonAddressEncoder(public_key, version=version, is_bounceable=is_bounceable).encode()
