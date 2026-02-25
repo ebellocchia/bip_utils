@@ -109,6 +109,7 @@ class Bip44Coins(BipCoins):
     TERRA = auto()
     TEZOS = auto()
     THETA = auto()
+    TON = auto()
     TRON = auto()
     VECHAIN = auto()
     VERGE = auto()

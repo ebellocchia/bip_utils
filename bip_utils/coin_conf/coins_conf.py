@@ -851,6 +851,15 @@ class CoinsConf:
     )
 
     # Configuration for Tron
+    Ton: CoinConf = CoinConf(
+        coin_name=CoinNames("The Open Network", "TON"),
+        params={
+            "version": "v4",
+            "is_bounceable": False,
+        },
+    )
+
+    # Configuration for Tron
     Tron: CoinConf = CoinConf(
         coin_name=CoinNames("Tron", "TRX"),
         params={

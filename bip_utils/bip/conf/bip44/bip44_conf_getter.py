@@ -121,6 +121,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.TERRA: Bip44Conf.Terra,
         Bip44Coins.TEZOS: Bip44Conf.Tezos,
         Bip44Coins.THETA: Bip44Conf.Theta,
+        Bip44Coins.TON: Bip44Conf.Ton,
         Bip44Coins.TRON: Bip44Conf.Tron,
         Bip44Coins.VECHAIN: Bip44Conf.VeChain,
         Bip44Coins.VERGE: Bip44Conf.Verge,
