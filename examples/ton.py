@@ -34,8 +34,6 @@ seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
 
 coin_type = Bip44Coins.TON
 
-seed_bytes = Bip39SeedGenerator(mnemonic).Generate()
-
 # Get address using the Trustwallet derivation path
 bip44_mst= Bip44.FromSeed(seed_bytes, coin_type)
 bip44_acc= bip44_mst.Purpose().Coin().Account(0)
