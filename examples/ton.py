@@ -47,8 +47,7 @@ coin_idx = Bip44ConfGetter.GetConfig(coin_type).CoinIndex()
 # Account index
 account_idx = 0
 derivation_path  = f"m/44'/{coin_idx}'/0'/0'/{account_idx}'/0'"
-print(derivation_path)
-# Derive the standard BIP44 path using secp256k1
+
 bip32_ctx = Bip32Ed25519Slip.FromSeed(seed_bytes).DerivePath(derivation_path)
 priv_key_bytes = bip32_ctx.PrivateKey().Raw().ToBytes()
 
