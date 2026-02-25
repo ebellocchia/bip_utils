@@ -45,7 +45,7 @@ class Ton:
             seed_bytes (bytes): Seed bytes
 
         Returns:
-            ElectrumV2Base object: ElectrumV2Base object
+            Private key
         """
         self.private_key = Ed25519PrivateKey.FromBytes(seed_bytes[:32]).UnderlyingObject()
         return self
@@ -54,7 +54,7 @@ class Ton:
 
     def GetPublicKey(self) -> bytes:
         """
-        Get public key from seed. The public key is the last 32 bytes of the seed.
+        Get public key from seed. 
 
         Returns:
             Ed25519PublicKey: Generated public key
