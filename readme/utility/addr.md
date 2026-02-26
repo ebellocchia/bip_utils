@@ -201,6 +201,15 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key_hash = MvrkAddrDecoder.DecodeAddr(addr,
                                              prefix=MvrkAddrPrefixes.MV1)
 
+    # Ton address with custom parameters
+    addr = TonAddrEncoder.EncodeKey(pub_key,
+                                    version=TonAddrVersions.V4)
+    # Or with the default parameters from BIP configuration:
+    addr = TonAddrEncoder.EncodeKey(pub_key,
+                                    **Bip44Conf.Ton.AddrParams())
+    # NOTE: TonAddrDecoder is not currently implemented
+
+
 **Code example (coins based on the ed25519-blake2b curve)**
 
     import binascii
