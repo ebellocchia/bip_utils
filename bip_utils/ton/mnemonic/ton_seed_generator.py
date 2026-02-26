@@ -24,12 +24,21 @@ Reference: https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemon
 """
 
 # Imports
+from enum import Enum, auto, unique
 from typing import Union
 
 from bip_utils.ton.mnemonic.ton_mnemonic import TonLanguages
 from bip_utils.ton.mnemonic.ton_mnemonic_validator import TonMnemonicValidator
 from bip_utils.ton.mnemonic.ton_seed_utils import TonSeedUtils
 from bip_utils.utils.mnemonic import Mnemonic
+
+
+@unique
+class TonSeedTypes(Enum):
+    """Enumerative for TON seed types."""
+
+    HD_KEY = auto()
+    PRIVATE_KEY = auto()
 
 
 class TonSeedGenerator:
@@ -59,15 +68,19 @@ class TonSeedGenerator:
         self.m_mnemonic = mnemonic_str
 
     def Generate(self,
-                 passphrase: str = "") -> bytes:
+                 passphrase: str = "",
+                 seed_type: TonSeedTypes = TonSeedTypes.PRIVATE_KEY) -> bytes:
         """
-        Generate seed. The seed is the PBKDF2-HMAC-SHA512 of the entropy bytes.
+        Generate seed.
 
         Args:
             passphrase (str, optional): Passphrase (empty by default)
+            seed_type (TonSeedTypes, optional): Seed type (PRIVATE_KEY by default)
 
         Returns:
             bytes: Generated seed
         """
         entropy_bytes = TonSeedUtils.GetEntropyBytes(self.m_mnemonic, passphrase)
-        return TonSeedUtils.GetDefaultSeed(entropy_bytes)
+        if seed_type == TonSeedTypes.PRIVATE_KEY:
+            return TonSeedUtils.GetPrivateKeySeed(entropy_bytes)
+        return TonSeedUtils.GetHdKeySeed(entropy_bytes)

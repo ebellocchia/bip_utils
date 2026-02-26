@@ -37,9 +37,12 @@ class TonSeedUtilsConst:
     # Basic seed
     BASIC_SEED_SALT_MOD: str = "TON seed version"
     BASIC_SEED_PBKDF2_ROUNDS: int = 100000 // 256
-    # Default seed
-    DEF_SEED_SALT_MOD: str = "TON default seed"
-    DEF_SEED_PBKDF2_ROUNDS: int = 100000
+    # Private key seed
+    PRIV_KEY_SEED_SALT_MOD: str = "TON default seed"
+    PRIV_KEY_SEED_PBKDF2_ROUNDS: int = 100000
+    # HD key seed
+    HD_KEY_SEED_SALT_MOD: str = "TON HD Keys seed"
+    HD_KEY_SEED_PBKDF2_ROUNDS: int = 100000
     # Seed length in bytes
     SEED_LEN_BYTES: int = 64
 
@@ -64,38 +67,6 @@ class TonSeedUtils:
             bytes: Entropy bytes
         """
         return HmacSha512().QuickDigest(mnemonic, passphrase)
-
-    @classmethod
-    def IsPasswordNeeded(cls,
-                         mnemonic: str) -> bool:
-        """
-        Get if the mnemonic needs a password.
-
-        Args:
-            mnemonic (str): Mnemonic to check
-
-        Returns:
-            bool: True if the mnemonic needs a password, False otherwise
-        """
-        # Use entropy bytes without passphrase in according to Ton source code
-        entropy_bytes = cls.GetEntropyBytes(mnemonic)
-        return cls.IsPasswordSeed(entropy_bytes) and not cls.IsBasicSeed(entropy_bytes)
-
-    @staticmethod
-    def GetDefaultSeed(entropy_bytes: bytes) -> bytes:
-        """
-        Get the default seed from entropy bytes.
-
-        Args:
-            entropy_bytes (bytes): Entropy bytes
-
-        Returns:
-            bytes: Default seed bytes
-        """
-        return Pbkdf2HmacSha512().DeriveKey(entropy_bytes,
-                                            TonSeedUtilsConst.DEF_SEED_SALT_MOD,
-                                            TonSeedUtilsConst.DEF_SEED_PBKDF2_ROUNDS,
-                                            TonSeedUtilsConst.SEED_LEN_BYTES)
 
     @staticmethod
     def IsBasicSeed(entropy_bytes: bytes) -> bool:
@@ -130,3 +101,51 @@ class TonSeedUtils:
                                                   TonSeedUtilsConst.PASSWORD_SEED_PBKDF2_ROUNDS,
                                                   TonSeedUtilsConst.SEED_LEN_BYTES)
         return seed_bytes[0] == 1
+
+    @classmethod
+    def IsPasswordNeeded(cls,
+                         mnemonic: str) -> bool:
+        """
+        Get if the mnemonic needs a password.
+
+        Args:
+            mnemonic (str): Mnemonic to check
+
+        Returns:
+            bool: True if the mnemonic needs a password, False otherwise
+        """
+        # Use entropy bytes without passphrase in according to Ton source code
+        entropy_bytes = cls.GetEntropyBytes(mnemonic)
+        return cls.IsPasswordSeed(entropy_bytes) and not cls.IsBasicSeed(entropy_bytes)
+
+    @staticmethod
+    def GetPrivateKeySeed(entropy_bytes: bytes) -> bytes:
+        """
+        Get the private key seed from entropy bytes.
+
+        Args:
+            entropy_bytes (bytes): Entropy bytes
+
+        Returns:
+            bytes: Private key seed bytes
+        """
+        return Pbkdf2HmacSha512().DeriveKey(entropy_bytes,
+                                            TonSeedUtilsConst.PRIV_KEY_SEED_SALT_MOD,
+                                            TonSeedUtilsConst.PRIV_KEY_SEED_PBKDF2_ROUNDS,
+                                            TonSeedUtilsConst.SEED_LEN_BYTES)
+
+    @staticmethod
+    def GetHdKeySeed(entropy_bytes: bytes) -> bytes:
+        """
+        Get the HD key seed from entropy bytes.
+
+        Args:
+            entropy_bytes (bytes): Entropy bytes
+
+        Returns:
+            bytes: HD key seed bytes
+        """
+        return Pbkdf2HmacSha512().DeriveKey(entropy_bytes,
+                                            TonSeedUtilsConst.HD_KEY_SEED_SALT_MOD,
+                                            TonSeedUtilsConst.HD_KEY_SEED_PBKDF2_ROUNDS,
+                                            TonSeedUtilsConst.SEED_LEN_BYTES)
