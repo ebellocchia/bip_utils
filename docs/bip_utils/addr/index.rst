@@ -37,6 +37,7 @@ addr
    sol_addr
    substrate_addr
    sui_addr
+   ton_addr
    trx_addr
    xlm_addr
    xmr_addr

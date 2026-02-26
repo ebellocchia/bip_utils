@@ -5,6 +5,7 @@ misc
 
    algo
    base32
+   base64
    bit
    bytes
    cbor_indefinite_len_array

@@ -18,5 +18,6 @@ bip_utils
    solana/index.rst
    ss58/index.rst
    substrate/index.rst
+   ton/index.rst
    utils/index.rst
    wif/index.rst
