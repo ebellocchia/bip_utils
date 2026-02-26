@@ -1346,7 +1346,7 @@ class Bip44Conf:
         coin_names=CoinsConf.Ton.CoinNames(),
         coin_idx=Slip44.TON,
         is_testnet=False,
-        def_path=DER_PATH_HARDENED_FULL,
+        def_path=DER_PATH_HARDENED_SHORT,
         key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
         wif_net_ver=None,
         bip32_cls=Bip32Slip10Ed25519,
