@@ -10,7 +10,40 @@ from bip_utils import (
     Bip44ConfGetter,
     TonAddrEncoder,
     TonAddrVersions,
+    TonMnemonicGenerator,
+    TonMnemonicValidator,
+    TonSeedGenerator,
+    TonSeedTypes,
+    TonWordsNum,
+    Ton,
 )
+
+#
+# Generation like ton-crypto
+#
+
+# Generate random mnemonic
+mnemonic = TonMnemonicGenerator().FromWordsNumber(TonWordsNum.WORDS_NUM_24)
+print(f"Mnemonic: {mnemonic}")
+
+# Validate mnemonic
+is_valid = TonMnemonicValidator().IsValid(mnemonic)
+print(f"Mnemonic valid: {is_valid}")
+
+# Generate seed for HD keys
+seed_bytes = TonSeedGenerator(mnemonic).Generate(seed_type=TonSeedTypes.HD_KEY)
+print(f"Seed for HD keys: {seed_bytes.hex()}")
+
+# Generate seed for keypair
+seed_bytes = TonSeedGenerator(mnemonic).Generate(seed_type=TonSeedTypes.PRIVATE_KEY)
+print(f"Seed for keypair: {seed_bytes.hex()}")
+
+# Generate keypair and address
+ton = Ton.FromSeed(seed_bytes)
+print(f"Public key: {ton.PublicKey().RawCompressed().ToHex()}")
+print(f"Private key: {ton.PrivateKey().Raw().ToHex()}")
+print(f"Address: {ton.GetAddress()}")
+
 
 
 #
