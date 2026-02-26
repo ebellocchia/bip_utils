@@ -107,7 +107,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
-        pip install cbor2==5.4.0
+        pip install cbor2==5.5.0
         pip install coincurve==${{ runner.os == 'macOS' && '18.0.0' || '15.0.1' }}
         pip install crcmod==1.7
         pip install ecdsa==0.17
@@ -139,7 +139,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
-        pip install cbor2==5.4.0
+        pip install cbor2==5.5.0
         pip install coincurve==${{ runner.os == 'macOS' && '18.0.0' || '16.0.0' }}
         pip install crcmod==1.7
         pip install ecdsa==0.17
@@ -170,7 +170,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
-        pip install cbor2==5.4.0
+        pip install cbor2==5.5.0
         pip install coincurve==18.0.0
         pip install crcmod==1.7
         pip install ecdsa==0.17
@@ -201,7 +201,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
-        pip install cbor2==5.4.0
+        pip install cbor2==5.5.0
         pip install coincurve==19.0.1
         pip install crcmod==1.7
         pip install ecdsa==0.17
@@ -232,7 +232,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-dev.txt
-        pip install cbor2==5.4.0
+        pip install cbor2==5.5.0
         pip install coincurve==21.0.0
         pip install crcmod==1.7
         pip install ecdsa==0.17
