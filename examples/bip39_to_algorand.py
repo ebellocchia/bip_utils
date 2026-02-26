@@ -9,8 +9,13 @@ It replicates the functionalities of:
 from enum import Enum, auto, unique
 
 from bip_utils import (
-    AlgorandMnemonicGenerator, Bip32KholawEd25519, Bip32Slip10Ed25519, Bip32Slip10Secp256k1, Bip39SeedGenerator,
-    BytesUtils, Ed25519PrivateKey
+    AlgorandMnemonicGenerator,
+    Bip32KholawEd25519,
+    Bip32Slip10Ed25519,
+    Bip32Slip10Secp256k1,
+    Bip39SeedGenerator,
+    BytesUtils,
+    Ed25519PrivateKey,
 )
 
 

@@ -1,9 +1,21 @@
 """Example of mnemonic generation and keys derivation like the Electrum wallet."""
 
 from bip_utils import (
-    BytesUtils, CoinsConf, ElectrumV1, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator, ElectrumV1WordsNum,
-    ElectrumV2MnemonicGenerator, ElectrumV2MnemonicTypes, ElectrumV2SeedGenerator, ElectrumV2Segwit, ElectrumV2Standard,
-    ElectrumV2WordsNum, IPrivateKey, WifEncoder, WifPubKeyModes
+    BytesUtils,
+    CoinsConf,
+    ElectrumV1,
+    ElectrumV1MnemonicGenerator,
+    ElectrumV1SeedGenerator,
+    ElectrumV1WordsNum,
+    ElectrumV2MnemonicGenerator,
+    ElectrumV2MnemonicTypes,
+    ElectrumV2SeedGenerator,
+    ElectrumV2Segwit,
+    ElectrumV2Standard,
+    ElectrumV2WordsNum,
+    IPrivateKey,
+    WifEncoder,
+    WifPubKeyModes,
 )
 
 
