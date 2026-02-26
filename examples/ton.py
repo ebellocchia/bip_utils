@@ -2,7 +2,7 @@
 
 from bip_utils import (
     Bip32Ed25519Slip, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44ConfGetter,
-    TonSeedGenerator, TonMnemonicGenerator, TonMnemonicValidator, Ton
+    TonSeedGenerator, TonMnemonicGenerator, TonMnemonicValidator
 )
 
 # Generate mnemonic for Ton wallets (e.g. Tonkeeper)
