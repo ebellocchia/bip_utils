@@ -383,6 +383,7 @@ from bip_utils.substrate.scale import (
     SubstrateScaleU128Encoder,
     SubstrateScaleU256Encoder,
 )
+from bip_utils.ton import Ton
 from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
 
 # TON
