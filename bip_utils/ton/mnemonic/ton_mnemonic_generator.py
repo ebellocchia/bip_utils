@@ -18,15 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Algorand mnemonic generation."""
+"""
+Module for TON mnemonic generation.
+Reference: https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemonic.ts
+"""
 
 # Imports
 import secrets
-from typing import Optional, Union
+from typing import Union
 
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39MnemonicConst
+from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
-from bip_utils.ton.mnemonic.ton_mnemonic import TonMnemonicConst, TonWordsNum
+from bip_utils.ton.mnemonic.ton_mnemonic import TonLanguages, TonMnemonic, TonMnemonicConst, TonWordsNum
 from bip_utils.ton.mnemonic.ton_mnemonic_validator import TonMnemonicValidator
 from bip_utils.utils.mnemonic import Mnemonic
 
@@ -37,22 +40,33 @@ class TonMnemonicGenerator:
     It generates 12 or 24-words mnemonic in according to TON wallets.
     """
 
+    m_lang: TonLanguages
 
-    def __init__(self) -> None:
+    def __init__(self,
+                 lang: TonLanguages = TonLanguages.ENGLISH) -> None:
         """
         Construct class.
-        """
-
-
-    def FromWordsNumber(self,
-                        words_num: Optional[Union[int, TonWordsNum]] = 24, passphrase: Optional[str] = "") -> Mnemonic:
-        """
-        Generate mnemonic with the specified words.
-        See https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemonic.ts
 
         Args:
-            words_num (int or TonWordsNum): Number of words (12 or 24)
-            passphrase (str, optional): Passphrase. Default is empty string.
+            lang (TonLanguages, optional): Language (default: English)
+
+        Raises:
+            TypeError: If the language is not a TonLanguages enum
+            ValueError: If language words list is not valid
+        """
+        if not isinstance(lang, TonLanguages):
+            raise TypeError("Language is not an enumerative of TonLanguages")
+        self.m_lang = lang
+
+    def FromWordsNumber(self,
+                        words_num: Union[int, TonWordsNum] = TonWordsNum.WORDS_NUM_24,
+                        passphrase: str = "") -> Mnemonic:
+        """
+        Generate mnemonic with the specified words.
+
+        Args:
+            words_num (int or TonWordsNum, optional): Number of words (12 or 24 by default)
+            passphrase (str, optional): Passphrase (empty by default)
 
         Returns:
             Mnemonic object: Generated mnemonic
@@ -60,31 +74,22 @@ class TonMnemonicGenerator:
         Raises:
             ValueError: If words number is not valid
         """
-        ton_mnemonic_validator = TonMnemonicValidator()
+        # Check words number
+        if words_num not in TonMnemonicConst. MNEMONIC_WORD_NUM:
+            raise ValueError(f"Words number for mnemonic ({words_num}) is not valid")
+
+        mnemonic_validator = TonMnemonicValidator(self.m_lang)
+        words_list = Bip39WordsListGetter().GetByLanguage(self.m_lang.value)
         while True:
-
-            # Check words number
-            if words_num not in TonMnemonicConst. MNEMONIC_WORD_NUM:
-                raise ValueError(f"Words number for mnemonic ({words_num}) is not valid")
-
-            # Get word list
-            words_list = Bip39WordsListGetter().GetByLanguage(Bip39Languages.ENGLISH)
-
-
             # Generate mnemonic
-
             mnemonic_array = []
-
-            for i in range(words_num):
+            for _ in range(words_num):
                 idx = secrets.randbelow(Bip39MnemonicConst.WORDS_LIST_NUM)
                 mnemonic_array.append(words_list.GetWordAtIdx(idx))
-
             mnemonic = " ".join(mnemonic_array)
 
-            # If derived mnemonic is not valid continue loop and generate another one, otherwise break loop and return it
-            if not ton_mnemonic_validator.IsValid(mnemonic, passphrase):
-                continue
-            break
+            # Stop if generated mnemonic is valid
+            if mnemonic_validator.IsValid(mnemonic, passphrase):
+                break
 
-        return mnemonic
-
+        return TonMnemonic(mnemonic_array)

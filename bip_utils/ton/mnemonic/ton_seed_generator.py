@@ -18,25 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for TON mnemonic seed generation."""
+"""
+Module for TON mnemonic seed generation.
+Reference: https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemonic.ts
+"""
 
 # Imports
-from typing import Optional, Union
+from typing import Union
 
-from bip_utils.utils.crypto.hmac import HmacSha512
-from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha512
+from bip_utils.ton.mnemonic.ton_mnemonic import TonLanguages
+from bip_utils.ton.mnemonic.ton_mnemonic_validator import TonMnemonicValidator
+from bip_utils.ton.mnemonic.ton_seed_utils import TonSeedUtils
 from bip_utils.utils.mnemonic import Mnemonic
-
-
-class TonSeedGeneratorConst:
-    """Class container for TON seed generator constants."""
-
-    # Salt modifier for seed generation
-    SEED_SALT_MOD: str = "TON default seed"
-    # Seed length in bytes
-    SEED_LEN_BYTES: int = 64
-    # PBKDF2 round for seed generation
-    SEED_PBKDF2_ROUNDS: int = 100000
 
 
 class TonSeedGenerator:
@@ -45,26 +38,30 @@ class TonSeedGenerator:
     It generates the seed from a mnemonic.
     """
 
-    m_mnemonic: Union[str, Mnemonic]
+    m_mnemonic: str
 
     def __init__(self,
-                 mnemonic: Union[str, Mnemonic]) -> None:
+                 mnemonic: Union[str, Mnemonic],
+                 lang: TonLanguages = TonLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
             mnemonic (str or Mnemonic object) : Mnemonic
+            lang (TonLanguages, optional): Language (default: English)
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
-        self.m_mnemonic = mnemonic if isinstance(mnemonic, str) else mnemonic.ToStr()
+        mnemonic_str = mnemonic if isinstance(mnemonic, str) else mnemonic.ToStr()
+        if not TonMnemonicValidator(lang).IsValid(mnemonic_str):
+            raise ValueError(f"Invalid mnemonic {mnemonic_str}")
+        self.m_mnemonic = mnemonic_str
 
     def Generate(self,
-                 passphrase: Optional[str] = "") -> bytes:
+                 passphrase: str = "") -> bytes:
         """
         Generate seed. The seed is the PBKDF2-HMAC-SHA512 of the entropy bytes.
-        See https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemonic.ts
 
         Args:
             passphrase (str, optional): Passphrase (empty by default)
@@ -72,8 +69,5 @@ class TonSeedGenerator:
         Returns:
             bytes: Generated seed
         """
-        entropy_bytes = HmacSha512().QuickDigest(self.m_mnemonic, passphrase)
-        return Pbkdf2HmacSha512().DeriveKey(entropy_bytes,
-                                            TonSeedGeneratorConst.SEED_SALT_MOD,
-                                            TonSeedGeneratorConst.SEED_PBKDF2_ROUNDS,
-                                            TonSeedGeneratorConst.SEED_LEN_BYTES)
+        entropy_bytes = TonSeedUtils.GetEntropyBytes(self.m_mnemonic, passphrase)
+        return TonSeedUtils.GetDefaultSeed(entropy_bytes)

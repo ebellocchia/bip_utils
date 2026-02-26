@@ -18,47 +18,69 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Algorand mnemonic validation."""
+"""
+Module for TON mnemonic validation.
+Reference: https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemonic.ts
+"""
 
 # Imports
-from typing import Optional
+from typing import Union
 
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
-from bip_utils.utils.crypto.hmac import HmacSha512
-from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha512
+from bip_utils.ton.mnemonic.ton_mnemonic import TonLanguages, TonMnemonic
+from bip_utils.ton.mnemonic.ton_seed_utils import TonSeedUtils
+from bip_utils.utils.mnemonic.mnemonic import Mnemonic
 
 
 class TonMnemonicValidator:
     """
     TON mnemonic validator class.
     It validates a mnemonic phrase.
-    See https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemonic.ts
     """
 
-    def __init__(self):
+    m_lang: TonLanguages
+
+    def __init__(self,
+                 lang: TonLanguages = TonLanguages.ENGLISH) -> None:
         """
         Construct class.
+
+        Args:
+            lang (TonLanguages, optional): Language (default: English)
+
+        Raises:
+            TypeError: If the language is not a TonLanguages enum
+            ValueError: If language words list is not valid
         """
+        if not isinstance(lang, TonLanguages):
+            raise TypeError("Language is not an enumerative of TonLanguages")
+        self.m_lang = lang
 
+    def IsValid(self,
+                mnemonic: Union[str, Mnemonic],
+                passphrase: str = "") -> bool:
+        """
+        Get if the specified mnemonic is valid.
 
-    def IsValid(self, mnemonic: str, passphrase: Optional[str] = "") -> bool:
-        entropy =  HmacSha512().QuickDigest(mnemonic, passphrase)
-        mnemonic_array =  mnemonic.split(" ")
-        words_list = Bip39WordsListGetter().GetByLanguage(Bip39Languages.ENGLISH)
-        for word in mnemonic_array:
+        Args:
+            mnemonic (str or Mnemonic object): Mnemonic
+            passphrase (str, optional): Passphrase (empty by default)
+
+        Returns:
+            bool: True if valid, False otherwise
+        """
+        mnemonic_obj = TonMnemonic.FromString(mnemonic) if isinstance(mnemonic, str) else mnemonic
+
+        # Check words
+        words_list = Bip39WordsListGetter().GetByLanguage(self.m_lang.value)
+        mnemonic_list = mnemonic_obj.ToList()
+        for word in mnemonic_list:
             try:
                 words_list.GetWordIdx(word)
             except ValueError:
                 return False
+        # Check seed
+        entropy_bytes = TonSeedUtils.GetEntropyBytes(mnemonic_obj.ToStr(), passphrase)
         if passphrase != "":
-            seed = Pbkdf2HmacSha512().DeriveKey(entropy, "TON fast seed version", 1, 64)
-            return seed[0] == 1
-        else:
-            seed = Pbkdf2HmacSha512().DeriveKey(entropy, "TON seed version", 390, 64)
-            return seed[0] == 0
-
-
-
-
-
+            return TonSeedUtils.IsPasswordSeed(entropy_bytes)
+        return TonSeedUtils.IsBasicSeed(entropy_bytes)
