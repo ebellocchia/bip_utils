@@ -33,6 +33,13 @@ from bip_utils.ton.mnemonic.ton_mnemonic_validator import TonMnemonicValidator
 from bip_utils.utils.mnemonic import Mnemonic
 
 
+class TonMnemonicGeneratorConst:
+    """Class container for TON mnemonic generator constants."""
+
+    # Max attempts to generate a valid mnemonic
+    MAX_ATTEMPTS: int = 10**6
+
+
 class TonMnemonicGenerator:
     """
     TON mnemonic generator class.
@@ -71,7 +78,7 @@ class TonMnemonicGenerator:
             Mnemonic object: Generated mnemonic
 
         Raises:
-            ValueError: If words number is not valid
+            ValueError: If words number is not valid or if unable to generate a valid mnemonic
         """
         # Check words number
         if words_num not in TonMnemonicConst. MNEMONIC_WORD_NUM:
@@ -79,7 +86,7 @@ class TonMnemonicGenerator:
 
         mnemonic_validator = TonMnemonicValidator(self.m_lang)
         words_list = Bip39WordsListGetter().GetByLanguage(self.m_lang.value)
-        while True:
+        for _ in range(TonMnemonicGeneratorConst.MAX_ATTEMPTS):
             # Generate mnemonic
             mnemonic_array = []
             for _ in range(words_num):
@@ -89,6 +96,6 @@ class TonMnemonicGenerator:
 
             # Stop if generated mnemonic is valid
             if mnemonic_validator.IsValid(mnemonic, passphrase):
-                break
+                return TonMnemonic(mnemonic_array)
 
-        return TonMnemonic(mnemonic_array)
+        raise ValueError("Unable to generate a valid mnemonic")
