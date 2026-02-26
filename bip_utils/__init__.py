@@ -408,6 +408,8 @@ from bip_utils.ton.mnemonic import (
     TonMnemonicGenerator,
     TonMnemonicValidator,
     TonSeedGenerator,
+    TonSeedTypes,
+    TonWordsNum,
 )
 
 # Utils
