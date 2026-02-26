@@ -25,9 +25,9 @@ from __future__ import annotations
 
 from typing import Union
 
-from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
-from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey
+from bip_utils.ecc.common.ikeys import IPrivateKey
 from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
+from bip_utils.ton.ton_keys import TonPrivateKey, TonPublicKey
 
 
 class Ton:
@@ -37,8 +37,8 @@ class Ton:
     It also allows to generate addresses based on bip44 such as Trustwallet or Ledger.
     """
 
-    m_priv_key: IPrivateKey
-    m_pub_key: IPublicKey
+    m_priv_key: TonPrivateKey
+    m_pub_key: TonPublicKey
 
     @classmethod
     def FromSeed(cls,
@@ -53,9 +53,9 @@ class Ton:
             Ton object: Ton object
 
         Raises:
-            ValueError: If key bytes are not valid
+            TonKeyError: If the key constructed from the bytes is not valid
         """
-        return cls(Ed25519PrivateKey.FromBytes(seed_bytes[:32]))
+        return cls(seed_bytes[:32])
 
     def __init__(self,
                  priv_key: Union[bytes, IPrivateKey]) -> None:
@@ -66,32 +66,26 @@ class Ton:
             priv_key (Union[bytes, IPrivateKey]): Private key bytes or object
 
         Raises:
-            ValueError: If key bytes are not valid
-            TypeError: If private key is not an Ed25519PrivateKey objec
+            TonKeyError: If the key constructed from the bytes is not valid
         """
-        if isinstance(priv_key, bytes):
-            priv_key = Ed25519PrivateKey.FromBytes(priv_key)
-        if not isinstance(priv_key, Ed25519PrivateKey):
-            raise TypeError("Private key is not an Ed25519PrivateKey object or bytes")
+        self.m_priv_key = TonPrivateKey.FromBytesOrKeyObject(priv_key)
+        self.m_pub_key = self.m_priv_key.PublicKey()
 
-        self.m_priv_key = priv_key
-        self.m_pub_key = priv_key.PublicKey()
-
-    def PublicKey(self) -> IPublicKey:
+    def PublicKey(self) -> TonPublicKey:
         """
         Return public key object.
 
         Returns:
-            IPublicKey object: IPublicKey object
+            TonPublicKey object: TonPublicKey object
         """
         return self.m_pub_key
 
-    def PrivateKey(self) -> IPrivateKey:
+    def PrivateKey(self) -> TonPrivateKey:
         """
         Return private key object.
 
         Returns:
-            IPrivateKey object: IPrivateKey object
+            TonPrivateKey object: TonPrivateKey object
         """
         return self.m_priv_key
 

@@ -116,6 +116,8 @@ from bip_utils.addr import (
     SuiAddr,
     SuiAddrDecoder,
     SuiAddrEncoder,
+    TonAddr,
+    TonAddrEncoder,
     TrxAddr,
     TrxAddrDecoder,
     TrxAddrEncoder,
@@ -383,8 +385,12 @@ from bip_utils.substrate.scale import (
     SubstrateScaleU128Encoder,
     SubstrateScaleU256Encoder,
 )
-from bip_utils.ton import Ton
-from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
+from bip_utils.ton import (
+    Ton,
+    TonKeyError,
+    TonPrivateKey,
+    TonPublicKey,
+)
 
 # TON
 from bip_utils.ton.mnemonic import (
