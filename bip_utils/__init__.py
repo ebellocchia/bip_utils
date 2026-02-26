@@ -385,14 +385,23 @@ from bip_utils.substrate.scale import (
     SubstrateScaleU128Encoder,
     SubstrateScaleU256Encoder,
 )
+
+# TON
 from bip_utils.ton import (
     Ton,
     TonKeyError,
+)
+from bip_utils.ton.addr import (
+    TonAddrVersions,
+    TonV3R1AddrEncoder,
+    TonV3R2AddrEncoder,
+    TonV4AddrEncoder,
+    TonV5R1AddrEncoder,
+)
+from bip_utils.ton.keys import (
     TonPrivateKey,
     TonPublicKey,
 )
-
-# TON
 from bip_utils.ton.mnemonic import (
     TonLanguages,
     TonMnemonic,
@@ -429,6 +438,8 @@ from bip_utils.utils.misc import (
     AlgoUtils,
     Base32Decoder,
     Base32Encoder,
+    Base64Decoder,
+    Base64Encoder,
     BitUtils,
     BytesUtils,
     DataBytes,

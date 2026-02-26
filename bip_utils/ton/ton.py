@@ -25,9 +25,10 @@ from __future__ import annotations
 
 from typing import Union
 
+from bip_utils.addr.ton_addr import TonAddrEncoder
 from bip_utils.ecc.common.ikeys import IPrivateKey
-from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
-from bip_utils.ton.ton_keys import TonPrivateKey, TonPublicKey
+from bip_utils.ton.addr import TonAddrVersions
+from bip_utils.ton.keys import TonPrivateKey, TonPublicKey
 
 
 class Ton:
@@ -90,18 +91,16 @@ class Ton:
         return self.m_priv_key
 
     def GetAddress(self,
-                   version: str = "v5r1",
+                   version: TonAddrVersions = TonAddrVersions.V5R1,
                    is_bounceable: bool = False) -> str:
         """
         Get address from public key.
 
         Args:
-            version (str, optional): Address version (default: v5r1)
-            is_bounceable (bool, optional): Whether the address is bounceable (default: False)
+            version (TonAddrVersions, optional): Address version (default: v5r1)
+            is_bounceable (bool, optional)     : Whether the address is bounceable (default: False)
 
         Returns:
-            str: Generated address
+            str: Address string
         """
-        return TonAddressEncoder(self.m_pub_key.RawUncompressed().ToBytes()[1:],
-                                 version,
-                                 is_bounceable).encode()
+        return TonAddrEncoder.EncodeKey(self.m_pub_key.KeyObject(), version=version, is_bounceable=is_bounceable)

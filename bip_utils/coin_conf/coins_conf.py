@@ -23,6 +23,7 @@
 # Imports
 from bip_utils.coin_conf.coin_conf import CoinConf
 from bip_utils.slip.slip173 import Slip173
+from bip_utils.ton.addr.ton_addr_versions import TonAddrVersions
 from bip_utils.utils.conf import CoinNames
 
 
@@ -854,7 +855,7 @@ class CoinsConf:
     Ton: CoinConf = CoinConf(
         coin_name=CoinNames("The Open Network", "TON"),
         params={
-            "version": "v4",
+            "version": TonAddrVersions.V4,
             "is_bounceable": False,
         },
     )

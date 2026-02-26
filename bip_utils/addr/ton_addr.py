@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Tron address encoding following the rest of the modules."""
+"""Module for TON address encoding."""
 
 # Imports
 from typing import Any, Union
@@ -26,7 +26,14 @@ from typing import Any, Union
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.ecc import IPublicKey
-from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
+from bip_utils.ton.addr import (
+    TonAddrVersions,
+    TonV3R1AddrEncoder,
+    TonV3R2AddrEncoder,
+    TonV4AddrEncoder,
+    TonV5R1AddrEncoder,
+)
+from bip_utils.ton.keys import TonPublicKey
 
 
 class TonAddrEncoder(IAddrEncoder):
@@ -45,8 +52,8 @@ class TonAddrEncoder(IAddrEncoder):
             pub_key (bytes or IPublicKey): Public key bytes or object
 
         Other Parameters:
-            version (str, optional): Address version (default: v4)
-            is_bounceable (bool, optional): Whether the address is bounceable (default: False)
+            version (TonAddrVersions, optional): Address version (default: v4)
+            is_bounceable (bool, optional)     : Whether the address is bounceable (default: False)
 
         Returns:
             str: Address string
@@ -56,12 +63,22 @@ class TonAddrEncoder(IAddrEncoder):
             TypeError: If the public key is not ed25519
         """
         pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
-        pub_key_bytes = pub_key_obj.RawCompressed().ToBytes()[1:]
+        ton_pub_key_obj = TonPublicKey.FromBytesOrKeyObject(pub_key_obj)
 
-        version = kwargs.get("version", "v4")
+        version = kwargs.get("version", TonAddrVersions.V4)
+        if not isinstance(version, TonAddrVersions):
+            raise TypeError("Version is not an enumerative of TonAddrVersions")
+
         is_bounceable = kwargs.get("is_bounceable", False)
 
-        return TonAddressEncoder(pub_key_bytes, version, is_bounceable).encode()
+        if version == TonAddrVersions.V5R1:
+            return TonV5R1AddrEncoder(ton_pub_key_obj).Encode(is_bounceable)
+        elif version == TonAddrVersions.V4:
+            return TonV4AddrEncoder(ton_pub_key_obj).Encode(is_bounceable)
+        elif version == TonAddrVersions.V3R2:
+            return TonV3R2AddrEncoder(ton_pub_key_obj).Encode(is_bounceable)
+        else:
+            return TonV3R1AddrEncoder(ton_pub_key_obj).Encode(is_bounceable)
 
 
 # Deprecated: only for compatibility, Encoder class shall be used instead

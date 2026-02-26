@@ -1351,7 +1351,10 @@ class Bip44Conf:
         wif_net_ver=None,
         bip32_cls=Bip32Slip10Ed25519,
         addr_cls=TonAddrEncoder,
-        addr_params={"version": CoinsConf.Ton.ParamByKey("version"), "is_bounceable": CoinsConf.Ton.ParamByKey("is_bounceable")},
+        addr_params={
+            "version": CoinsConf.Ton.ParamByKey("version"),
+            "is_bounceable": CoinsConf.Ton.ParamByKey("is_bounceable"),
+        },
     )
 
     # Configuration for Tron

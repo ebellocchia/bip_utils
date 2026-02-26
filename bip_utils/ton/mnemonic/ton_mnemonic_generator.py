@@ -72,7 +72,7 @@ class TonMnemonicGenerator:
 
         Args:
             words_num (int or TonWordsNum, optional): Number of words (12 or 24 by default)
-            passphrase (str, optional): Passphrase (empty by default)
+            passphrase (str, optional)              : Passphrase (empty by default)
 
         Returns:
             Mnemonic object: Generated mnemonic

@@ -56,8 +56,8 @@ class TonSeedGenerator:
         Construct class.
 
         Args:
-            mnemonic (str or Mnemonic object) : Mnemonic
-            lang (TonLanguages, optional): Language (default: English)
+            mnemonic (str or Mnemonic object): Mnemonic
+            lang (TonLanguages, optional)    : Language (default: English)
 
         Raises:
             ValueError: If the mnemonic is not valid
@@ -74,7 +74,7 @@ class TonSeedGenerator:
         Generate seed.
 
         Args:
-            passphrase (str, optional): Passphrase (empty by default)
+            passphrase (str, optional)        : Passphrase (empty by default)
             seed_type (TonSeedTypes, optional): Seed type (PRIVATE_KEY by default)
 
         Returns:

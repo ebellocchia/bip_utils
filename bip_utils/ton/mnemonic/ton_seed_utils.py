@@ -61,7 +61,7 @@ class TonSeedUtils:
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
-            passphrase (str, optional): Passphrase (empty by default)
+            passphrase (str, optional)       : Passphrase (empty by default)
 
         Returns:
             bytes: Entropy bytes

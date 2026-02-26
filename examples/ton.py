@@ -2,7 +2,7 @@
 
 from bip_utils import (
     Bip32Ed25519Slip, Bip39SeedGenerator, Bip44, Bip44Coins, Bip44ConfGetter,
-    TonSeedGenerator, TonMnemonicGenerator, TonMnemonicValidator, Ton
+    TonSeedGenerator, TonMnemonicGenerator, TonMnemonicValidator, Ton, TonAddrVersions
 )
 
 # Generate mnemonic for Ton wallets (e.g. Tonkeeper)
@@ -16,12 +16,12 @@ print(f"Is the mnemonic valid? {is_valid}")
 # Generate seed and address from memonic
 seed_bytes = TonSeedGenerator(mnemonic).Generate()
 
-# Default address type is v5r1
-addr = Ton.FromSeed(seed_bytes).GetAddress()
+# Generate v5r1 address
+addr = Ton.FromSeed(seed_bytes).GetAddress(TonAddrVersions.V5R1)
 print(f"V5R1 Address: {addr}")
 
 # Generate v4 address
-addr_v4 = Ton.FromSeed(seed_bytes).GetAddress("v4")
+addr_v4 = Ton.FromSeed(seed_bytes).GetAddress(TonAddrVersions.V4)
 print(f"V4 Address: {addr_v4}")
 
 
