@@ -393,7 +393,6 @@ from bip_utils.ton.mnemonic import (
     TonMnemonicValidator,
     TonSeedGenerator,
 )
-from bip_utils.ton.ton import Ton
 
 # Utils
 from bip_utils.utils.crypto import (
@@ -433,5 +432,3 @@ from bip_utils.utils.mnemonic import MnemonicChecksumError
 
 # WIF
 from bip_utils.wif import WifDecoder, WifEncoder, WifPubKeyModes
-
-
