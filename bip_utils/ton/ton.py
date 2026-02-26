@@ -26,7 +26,7 @@ from __future__ import annotations
 from typing import Union
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
-from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey, Ed25519PublicKey
+from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey
 from bip_utils.ton.address.ton_address_encoder import TonAddressEncoder
 
 
