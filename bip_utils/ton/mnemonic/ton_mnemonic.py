@@ -25,6 +25,7 @@ from enum import IntEnum, unique
 from typing import List
 
 from bip_utils.bip.bip39 import Bip39Languages, Bip39Mnemonic
+from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst
 from bip_utils.utils.mnemonic import MnemonicLanguages
 
 
@@ -51,6 +52,8 @@ class TonMnemonicConst:
         TonWordsNum.WORDS_NUM_12,
         TonWordsNum.WORDS_NUM_24,
     ]
+    # Total number of words
+    WORDS_LIST_NUM: int = Bip39MnemonicConst.WORDS_LIST_NUM
 
 
 class TonMnemonic(Bip39Mnemonic):

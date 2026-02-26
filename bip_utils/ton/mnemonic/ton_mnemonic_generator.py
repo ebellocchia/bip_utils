@@ -27,7 +27,6 @@ Reference: https://github.com/ton-org/ton-crypto/blob/master/src/mnemonic/mnemon
 import secrets
 from typing import Union
 
-from bip_utils.bip.bip39.bip39_mnemonic import Bip39MnemonicConst
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
 from bip_utils.ton.mnemonic.ton_mnemonic import TonLanguages, TonMnemonic, TonMnemonicConst, TonWordsNum
 from bip_utils.ton.mnemonic.ton_mnemonic_validator import TonMnemonicValidator
@@ -84,7 +83,7 @@ class TonMnemonicGenerator:
             # Generate mnemonic
             mnemonic_array = []
             for _ in range(words_num):
-                idx = secrets.randbelow(Bip39MnemonicConst.WORDS_LIST_NUM)
+                idx = secrets.randbelow(TonMnemonicConst.WORDS_LIST_NUM)
                 mnemonic_array.append(words_list.GetWordAtIdx(idx))
             mnemonic = " ".join(mnemonic_array)
 
