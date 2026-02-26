@@ -76,7 +76,7 @@ from bip_utils.addr.substrate_addr import (
     SubstrateSr25519AddrEncoder,
 )
 from bip_utils.addr.sui_addr import SuiAddr, SuiAddrDecoder, SuiAddrEncoder
-from bip_utils.addr.ton_addr import TonAddrEncoder
+from bip_utils.addr.ton_addr import TonAddr, TonAddrEncoder
 from bip_utils.addr.trx_addr import TrxAddr, TrxAddrDecoder, TrxAddrEncoder
 from bip_utils.addr.xlm_addr import XlmAddr, XlmAddrDecoder, XlmAddrEncoder, XlmAddrTypes
 from bip_utils.addr.xmr_addr import (
