@@ -65,6 +65,22 @@ class TonSeedUtils:
         """
         return HmacSha512().QuickDigest(mnemonic, passphrase)
 
+    @classmethod
+    def IsPasswordNeeded(cls,
+                         mnemonic: str) -> bool:
+        """
+        Get if the mnemonic needs a password.
+
+        Args:
+            mnemonic (str): Mnemonic to check
+
+        Returns:
+            bool: True if the mnemonic needs a password, False otherwise
+        """
+        # Use entropy bytes without passphrase in according to Ton source code
+        entropy_bytes = cls.GetEntropyBytes(mnemonic)
+        return cls.IsPasswordSeed(entropy_bytes) and not cls.IsBasicSeed(entropy_bytes)
+
     @staticmethod
     def GetDefaultSeed(entropy_bytes: bytes) -> bytes:
         """

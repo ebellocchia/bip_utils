@@ -80,7 +80,6 @@ class TonMnemonicValidator:
             except ValueError:
                 return False
         # Check seed
-        entropy_bytes = TonSeedUtils.GetEntropyBytes(mnemonic_obj.ToStr(), passphrase)
         if passphrase != "":
-            return TonSeedUtils.IsPasswordSeed(entropy_bytes)
-        return TonSeedUtils.IsBasicSeed(entropy_bytes)
+            return TonSeedUtils.IsPasswordNeeded(mnemonic_obj.ToStr())
+        return TonSeedUtils.IsBasicSeed(TonSeedUtils.GetEntropyBytes(mnemonic_obj.ToStr(), passphrase))
