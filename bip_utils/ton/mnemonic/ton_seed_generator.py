@@ -79,7 +79,13 @@ class TonSeedGenerator:
 
         Returns:
             bytes: Generated seed
+
+        Raises:
+            TypeError: If the seed type is not a TonSeedTypes enum
         """
+        if not isinstance(seed_type, TonSeedTypes):
+            raise TypeError("Seed type is not an enumerative of TonSeedTypes")
+
         entropy_bytes = TonSeedUtils.GetEntropyBytes(self.m_mnemonic, passphrase)
         if seed_type == TonSeedTypes.PRIVATE_KEY:
             return TonSeedUtils.GetPrivateKeySeed(entropy_bytes)
