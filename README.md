@@ -121,6 +121,7 @@ Supported BIP coins:
 - Terra
 - Tezos
 - Theta Network
+- Ton
 - Tron
 - VeChain
 - Verge
