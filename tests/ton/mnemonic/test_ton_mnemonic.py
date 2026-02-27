@@ -108,6 +108,9 @@ class TonMnemonicTests(unittest.TestCase):
             seed_priv = TonSeedGenerator(mnemonic, passphrase, lang).Generate(TonSeedTypes.PRIVATE_KEY)
             self.assertEqual(test["seed_priv"], binascii.hexlify(seed_priv))
 
+            seed_priv = TonSeedGenerator(mnemonic, passphrase, lang).Generate()
+            self.assertEqual(test["seed_priv"], binascii.hexlify(seed_priv))
+
     # Test mnemonic generator
     def test_generator(self):
         for lang in TonLanguages:

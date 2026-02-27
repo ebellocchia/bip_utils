@@ -56,6 +56,11 @@ TEST_VECT = [
         "address": "UQD3dn7-3QdJT_36TEL16JYWDz0tWqkNbuEKyOEjy0-1NbfG",
     },
     {
+        "pub_key": b"1af97d53283a3c57f47db2b97263e86c93acc38853ca2246db5daa32cb7a1037",
+        "address_params": {},   # Default: V4
+        "address": "UQD3dn7-3QdJT_36TEL16JYWDz0tWqkNbuEKyOEjy0-1NbfG",
+    },
+    {
         "pub_key": b"ad724aba20a7591624efee55eae11ec1f765d483544a9bf42ff7467d0f88a113",
         "address_params": {
             "version": TonAddrVersions.V5R1,
