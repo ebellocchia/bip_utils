@@ -188,20 +188,20 @@ To run code analysis:
 
 ## Modules description
 
-- [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md)
-- [Algorand mnemonic](https://github.com/ebellocchia/bip_utils/tree/master/readme/algorand_mnemonic.md)
-- [Electrum mnemonic](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum_mnemonic.md)
-- [Monero mnemonic](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero_mnemonic.md)
-- [BIP-0038](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip38.md)
-- [BIP-0032](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md)
-- [BIP-0044](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip44.md)
-- [Brainwallet](https://github.com/ebellocchia/bip_utils/tree/master/readme/brainwallet.md)
-- [Cardano](https://github.com/ebellocchia/bip_utils/tree/master/readme/cardano.md)
-- [Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md)
-- [Monero](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md)
-- [Substrate](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)
-- [Ton](https://github.com/ebellocchia/bip_utils/tree/master/readme/ton.md)
-- [Utility libraries](https://github.com/ebellocchia/bip_utils/tree/master/readme/utility_libs.md)
+- [BIP-0039](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip39.md)
+- [Algorand mnemonic](https://github.com/ebellocchia/bip_utils/blob/master/readme/algorand_mnemonic.md)
+- [Electrum mnemonic](https://github.com/ebellocchia/bip_utils/blob/master/readme/electrum_mnemonic.md)
+- [Monero mnemonic](https://github.com/ebellocchia/bip_utils/blob/master/readme/monero_mnemonic.md)
+- [BIP-0038](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip38.md)
+- [BIP-0032](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip32.md)
+- [BIP-0044](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip44.md)
+- [Brainwallet](https://github.com/ebellocchia/bip_utils/blob/master/readme/brainwallet.md)
+- [Cardano](https://github.com/ebellocchia/bip_utils/blob/master/readme/cardano.md)
+- [Electrum](https://github.com/ebellocchia/bip_utils/blob/master/readme/electrum.md)
+- [Monero](https://github.com/ebellocchia/bip_utils/blob/master/readme/monero.md)
+- [Substrate](https://github.com/ebellocchia/bip_utils/blob/master/readme/substrate.md)
+- [Ton](https://github.com/ebellocchia/bip_utils/blob/master/readme/ton.md)
+- [Utility libraries](https://github.com/ebellocchia/bip_utils/blob/master/readme/utility_libs.md)
 
 ## Documentation
 
