@@ -60,7 +60,7 @@ class TonMnemonicValidator:
                 mnemonic: Union[str, Mnemonic],
                 passphrase: str = "") -> bool:
         """
-       Get if the specified mnemonic is valid.
+        Get if the specified mnemonic is valid.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic

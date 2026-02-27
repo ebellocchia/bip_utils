@@ -387,6 +387,12 @@ from bip_utils.substrate.scale import (
 )
 
 # TON
+from bip_utils.ton import (
+    Ton,
+    TonKeyError,
+    TonPrivateKey,
+    TonPublicKey,
+)
 from bip_utils.ton.addr import (
     TonAddrVersions,
     TonV3R1AddrEncoder,
@@ -402,12 +408,6 @@ from bip_utils.ton.mnemonic import (
     TonSeedGenerator,
     TonSeedTypes,
     TonWordsNum,
-)
-from bip_utils.ton import (
-    Ton,
-    TonKeyError,
-    TonPrivateKey,
-    TonPublicKey,
 )
 
 # Utils
