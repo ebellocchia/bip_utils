@@ -62,14 +62,13 @@ class TonAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not ed25519
         """
-        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
-        ton_pub_key_obj = TonPublicKey.FromBytesOrKeyObject(pub_key_obj)
-
         version = kwargs.get("version", TonAddrVersions.V4)
         if not isinstance(version, TonAddrVersions):
             raise TypeError("Version is not an enumerative of TonAddrVersions")
-
         is_bounceable = kwargs.get("is_bounceable", False)
+
+        pub_key_obj = AddrKeyValidator.ValidateAndGetEd25519Key(pub_key)
+        ton_pub_key_obj = TonPublicKey.FromBytesOrKeyObject(pub_key_obj)
 
         if version == TonAddrVersions.V5R1:
             return TonV5R1AddrEncoder(ton_pub_key_obj).Encode(is_bounceable)
