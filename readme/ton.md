@@ -10,7 +10,7 @@ Supported words number:
 
 |Words number|Enum|
 |---|---|
-|25|`TonWordsNum.WORDS_NUM_24`|
+|24|`TonWordsNum.WORDS_NUM_24`|
 
 Supported languages:
 
