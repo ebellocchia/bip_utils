@@ -365,9 +365,11 @@ class Bip39Tests(unittest.TestCase):
             # Test mnemonic validator (language specified)
             mnemonic_validator = Bip39MnemonicValidator(lang)
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
             # Test mnemonic validator (automatic language detection)
             mnemonic_validator = Bip39MnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
 
             # Test decoder (language specified)
             entropy = Bip39MnemonicDecoder(lang).Decode(mnemonic)

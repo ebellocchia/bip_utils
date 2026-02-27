@@ -149,9 +149,11 @@ class AlgorandMnemonicTests(unittest.TestCase):
             # Test mnemonic validator (language specified)
             mnemonic_validator = AlgorandMnemonicValidator(lang)
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
             # Test mnemonic validator (automatic language detection)
             mnemonic_validator = AlgorandMnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
 
             # Test decoder (language specified)
             entropy = AlgorandMnemonicDecoder(lang).Decode(mnemonic)

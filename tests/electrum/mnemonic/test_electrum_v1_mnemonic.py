@@ -155,9 +155,11 @@ class ElectrumV1MnemonicTests(unittest.TestCase):
             # Test mnemonic validator (language specified)
             mnemonic_validator = ElectrumV1MnemonicValidator(lang)
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
             # Test mnemonic validator (automatic language detection)
             mnemonic_validator = ElectrumV1MnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
 
             # Test decoder (language specified)
             entropy = ElectrumV1MnemonicDecoder(lang).Decode(mnemonic)
