@@ -25,10 +25,15 @@ from __future__ import annotations
 
 from typing import Union
 
-from bip_utils.addr.ton_addr import TonAddrEncoder
 from bip_utils.ecc.common.ikeys import IPrivateKey
-from bip_utils.ton.addr import TonAddrVersions
-from bip_utils.ton.keys import TonPrivateKey, TonPublicKey
+from bip_utils.ton.addr import (
+    TonAddrVersions,
+    TonV3R1AddrEncoder,
+    TonV3R2AddrEncoder,
+    TonV4AddrEncoder,
+    TonV5R1AddrEncoder,
+)
+from bip_utils.ton.ton_keys import TonPrivateKey, TonPublicKey
 
 
 class Ton:
@@ -103,4 +108,11 @@ class Ton:
         Returns:
             str: Address string
         """
-        return TonAddrEncoder.EncodeKey(self.m_pub_key.KeyObject(), version=version, is_bounceable=is_bounceable)
+        if version == TonAddrVersions.V5R1:
+            return TonV5R1AddrEncoder(self.m_pub_key).Encode(is_bounceable)
+        elif version == TonAddrVersions.V4:
+            return TonV4AddrEncoder(self.m_pub_key).Encode(is_bounceable)
+        elif version == TonAddrVersions.V3R2:
+            return TonV3R2AddrEncoder(self.m_pub_key).Encode(is_bounceable)
+        else:
+            return TonV3R1AddrEncoder(self.m_pub_key).Encode(is_bounceable)

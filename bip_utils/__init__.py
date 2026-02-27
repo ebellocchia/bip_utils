@@ -394,11 +394,6 @@ from bip_utils.ton.addr import (
     TonV4AddrEncoder,
     TonV5R1AddrEncoder,
 )
-from bip_utils.ton.keys import (
-    TonKeyError,
-    TonPrivateKey,
-    TonPublicKey,
-)
 from bip_utils.ton.mnemonic import (
     TonLanguages,
     TonMnemonic,
@@ -408,8 +403,11 @@ from bip_utils.ton.mnemonic import (
     TonSeedTypes,
     TonWordsNum,
 )
-from bip_utils.ton.ton import (
+from bip_utils.ton import (
     Ton,
+    TonKeyError,
+    TonPrivateKey,
+    TonPublicKey,
 )
 
 # Utils

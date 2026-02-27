@@ -27,7 +27,7 @@ Reference: https://github.com/ton-org/ton/blob/main/src/wallets/v5r1/WalletContr
 # Imports
 from pytoniq_core import Address, Cell, begin_cell
 
-from bip_utils.ton.keys import TonPublicKey
+from bip_utils.ton.ton_keys import TonPublicKey
 
 
 class TonV5R1AddrEncoderConst:

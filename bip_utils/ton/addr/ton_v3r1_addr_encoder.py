@@ -27,7 +27,7 @@ Reference: https://github.com/ton-org/ton/blob/main/src/wallets/v3/r1.ts
 # Imports
 from pytoniq_core import Address, Cell, begin_cell
 
-from bip_utils.ton.keys import TonPublicKey
+from bip_utils.ton.ton_keys import TonPublicKey
 from bip_utils.utils.misc import Base64Decoder
 
 

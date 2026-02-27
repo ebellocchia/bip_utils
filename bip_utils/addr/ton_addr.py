@@ -33,7 +33,7 @@ from bip_utils.ton.addr import (
     TonV4AddrEncoder,
     TonV5R1AddrEncoder,
 )
-from bip_utils.ton.keys import TonPublicKey
+from bip_utils.ton.ton_keys import TonPublicKey
 
 
 class TonAddrEncoder(IAddrEncoder):
