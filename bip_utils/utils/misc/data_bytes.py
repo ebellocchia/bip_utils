@@ -23,8 +23,9 @@
 # Imports
 from typing import Iterator
 
+from typing_extensions import Literal
+
 from bip_utils.utils.misc.bytes import BytesUtils
-from bip_utils.utils.typing import Literal
 
 
 class DataBytes:

@@ -23,8 +23,9 @@
 # Imports
 from typing import Optional, Union
 
+from typing_extensions import Literal
+
 from bip_utils.utils.misc.algo import AlgoUtils
-from bip_utils.utils.typing import Literal
 
 
 class IntegerUtils:
