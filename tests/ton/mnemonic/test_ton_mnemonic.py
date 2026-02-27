@@ -97,9 +97,11 @@ class TonMnemonicTests(unittest.TestCase):
             # Test mnemonic validator (language specified)
             mnemonic_validator = TonMnemonicValidator(lang)
             self.assertTrue(mnemonic_validator.IsValid(mnemonic, passphrase))
+            mnemonic_validator.Validate(mnemonic, passphrase)
             # Test mnemonic validator (automatic language detection)
             mnemonic_validator = TonMnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic, passphrase))
+            mnemonic_validator.Validate(mnemonic, passphrase)
 
             # Test seed generator
             seed_hd = TonSeedGenerator(mnemonic, passphrase, lang).Generate(TonSeedTypes.HD_KEY)
@@ -141,6 +143,7 @@ class TonMnemonicTests(unittest.TestCase):
             lang = test["lang"] if "lang" in test else TonLanguages.ENGLISH
 
             self.assertFalse(TonMnemonicValidator(lang).IsValid(test["mnemonic"]))
+            self.assertRaises(test["exception"], TonMnemonicValidator(lang).Validate, test["mnemonic"])
             self.assertRaises(test["exception"], TonSeedGenerator, test["mnemonic"], "", lang)
 
     # Tests invalid parameters

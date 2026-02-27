@@ -60,7 +60,7 @@ class TonMnemonicValidator:
                 mnemonic: Union[str, Mnemonic],
                 passphrase: str = "") -> bool:
         """
-        Get if the specified mnemonic is valid.
+       Get if the specified mnemonic is valid.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -83,3 +83,19 @@ class TonMnemonicValidator:
         if passphrase != "":
             return TonSeedUtils.IsPasswordNeeded(mnemonic_obj.ToStr())
         return TonSeedUtils.IsBasicSeed(TonSeedUtils.GetEntropyBytes(mnemonic_obj.ToStr(), passphrase))
+
+    def Validate(self,
+                mnemonic: Union[str, Mnemonic],
+                passphrase: str = "") -> None:
+        """
+        Validate the specified mnemonic.
+
+        Args:
+            mnemonic (str or Mnemonic object): Mnemonic
+            passphrase (str, optional)       : Passphrase (empty by default)
+
+        Raises:
+            ValueError: If the mnemonic is not valid
+        """
+        if not self.IsValid(mnemonic, passphrase):
+            raise ValueError("Invalid mnemonic")
