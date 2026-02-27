@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with helper class for Base32."""
+"""Module with helper class for Base64."""
 
 # Imports
 import base64

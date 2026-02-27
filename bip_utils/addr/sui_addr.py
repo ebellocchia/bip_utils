@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Solana address encoding/decoding."""
+"""Module for Sui address encoding/decoding."""
 
 # Imports
 from typing import Any, Union

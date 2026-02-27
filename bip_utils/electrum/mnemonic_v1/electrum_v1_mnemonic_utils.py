@@ -56,11 +56,11 @@ class ElectrumV1WordsListGetter(MnemonicWordsListGetterBase):
             MnemonicWordsList object: MnemonicWordsList object
 
         Raises:
-            TypeError: If the language is not a Bip39Languages enum
+            TypeError: If the language is not a ElectrumV1Languages enum
             ValueError: If loaded words list is not valid
         """
         if not isinstance(lang, ElectrumV1Languages):
-            raise TypeError("Language is not an enumerative of Bip39Languages")
+            raise TypeError("Language is not an enumerative of ElectrumV1Languages")
 
         return self._LoadWordsList(lang,
                                    self.__GetLanguageFile(lang),
@@ -72,7 +72,7 @@ class ElectrumV1WordsListGetter(MnemonicWordsListGetterBase):
         Get the specified language file name.
 
         Args:
-            lang (Bip39Languages): Language
+            lang (ElectrumV1Languages): Language
 
         Returns:
             str: Language file name

@@ -175,9 +175,6 @@ class Slip32DeserializedKey:
             path (Bip32Path object)           : BIP32 path
             chain_code (Bip32ChainCode object): Chain code
             is_public (bool)                  : True if the key is public, false otherwise
-
-        Returns:
-            str: Serialized public key
         """
         self.m_key_bytes = key_bytes
         self.m_path = path

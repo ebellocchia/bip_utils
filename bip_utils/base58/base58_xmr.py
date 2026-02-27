@@ -99,7 +99,7 @@ class Base58XmrEncoder:
 class Base58XmrDecoder:
     """
     Base58 Monero decoder class.
-    It provides methods for decoding Base58 format with Monero variation (encoding by blocks of 8-byte).
+    It provides methods for decoding Base58 format with Monero variation (decoding by blocks of 8-byte).
     """
 
     @staticmethod
@@ -150,6 +150,6 @@ class Base58XmrDecoder:
             unpad_len (int): Unpad length
 
         Returns:
-            bytes: Unpadded string
+            bytes: Unpadded bytes
         """
         return dec_bytes[len(dec_bytes) - unpad_len:len(dec_bytes)]

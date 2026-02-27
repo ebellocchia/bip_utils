@@ -50,7 +50,7 @@ class MnemonicDecoderBase(ABC):
         Construct class.
 
         Args:
-            lang (MoneroLanguages, optional)                   : Language, None for automatic detection
+            lang (MnemonicLanguages, optional)                 : Language, None for automatic detection
             words_list_finder_cls (MnemonicWordsListFinderBase): Words list finder class type
             words_list_getter_cls (MnemonicWordsListGetterBase): Words list getter class type
 

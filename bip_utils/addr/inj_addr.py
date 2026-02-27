@@ -49,7 +49,7 @@ class InjAddrDecoder(IAddrDecoder):
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
         """
-        Decode an Algorand address to bytes.
+        Decode an Injective address to bytes.
 
         Args:
             addr (str): Address string

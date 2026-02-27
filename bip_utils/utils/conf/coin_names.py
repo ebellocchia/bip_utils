@@ -44,7 +44,7 @@ class CoinNames:
         """
         Get name.
 
-        Returns :
+        Returns:
             str: Name
         """
         return self.m_name

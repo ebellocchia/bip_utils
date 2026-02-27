@@ -48,7 +48,7 @@ class BrainwalletAlgoGetterConst:
 class BrainwalletAlgoGetter:
     """
     Brainwallet algorithm getter class.
-    It allows to get the a specific brainwallet algorithm.
+    It allows to get a specific brainwallet algorithm.
     """
 
     @staticmethod

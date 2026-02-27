@@ -181,7 +181,7 @@ class FilSecp256k1AddrEncoder(IAddrEncoder):
         Returns:
             str: Address string
 
-        Raised:
+        Raises:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1 or the address type is not valid
         """

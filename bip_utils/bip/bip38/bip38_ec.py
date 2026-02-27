@@ -194,7 +194,7 @@ class _Bip38EcUtils:
                         address_hash: bytes,
                         owner_entropy: bytes) -> Tuple[bytes, bytes]:
         """
-        Compute the scrypt as specified in BIP38 (without EC multiplication)and derive the two key halves.
+        Compute the scrypt as specified in BIP38 (without EC multiplication) and derive the two key halves.
 
         Args:
             passpoint (bytes)    : Passpoint

@@ -85,7 +85,7 @@ class MoneroPublicKey:
             MoneroPublicKey object: MoneroPublicKey object
 
         Raises:
-            Bip32KeyError: If the key constructed from the bytes is not valid
+            MoneroKeyError: If the key constructed from the bytes is not valid
         """
         return cls(cls.__KeyFromPoint(key_point))
 

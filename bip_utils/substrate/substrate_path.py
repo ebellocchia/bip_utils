@@ -181,7 +181,7 @@ class SubstratePathElem:
     @staticmethod
     def __IsElemValid(elem: str) -> bool:
         """
-        Get a path element is valid.
+        Check if a path element is valid.
 
         Args:
             elem (str): Path element
@@ -268,7 +268,7 @@ class SubstratePath:
         Get the path as a string.
 
         Returns:
-            str: Path as a list of integers
+            str: Path as a string
         """
         return self.ToStr()
 

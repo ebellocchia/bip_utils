@@ -33,7 +33,7 @@ from bip_utils.utils.misc import DataBytes
 
 
 class Sr25519KeysConst:
-    """Class container for ed25519 keys constants."""
+    """Class container for sr25519 keys constants."""
 
     # Public key length in bytes
     PUB_KEY_BYTE_LEN: int = 32

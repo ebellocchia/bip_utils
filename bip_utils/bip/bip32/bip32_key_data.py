@@ -61,7 +61,7 @@ class Bip32ChainCode(DataBytes):
         Construct class.
 
         Args:
-            chaincode (bytes, optional): Fingerprint bytes (default: zero)
+            chaincode (bytes, optional): Chaincode bytes (default: zero)
 
         Raises:
             ValueError: If the chain code length is not valid

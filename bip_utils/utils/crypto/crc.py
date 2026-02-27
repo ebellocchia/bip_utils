@@ -61,7 +61,7 @@ class Crc32:
             data (str or bytes): Data
 
         Returns:
-            bytes: Computed digest
+            int: Computed digest
         """
         return binascii.crc32(AlgoUtils.Encode(data))   # Much faster than crcmod
 

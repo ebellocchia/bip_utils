@@ -145,7 +145,7 @@ class CardanoShelley:
         Derive a child key from the specified change type and return a new CardanoShelley object.
 
         Args:
-            change_type (Bip44Changes): Change type, must a Bip44Changes enum
+            change_type (Bip44Changes): Change type, must be a Bip44Changes enum
 
         Returns:
             CardanoShelley object: CardanoShelley object

@@ -29,7 +29,7 @@ from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha512
 
 
 class TonSeedUtilsConst:
-    """Class container for TON mnemonic validator constants."""
+    """Class container for TON seed utilities constants."""
 
     # Password seed
     PASSWORD_SEED_SALT_MOD: str = "TON fast seed version"

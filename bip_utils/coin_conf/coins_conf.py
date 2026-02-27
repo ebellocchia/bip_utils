@@ -851,7 +851,7 @@ class CoinsConf:
         params={},
     )
 
-    # Configuration for Tron
+    # Configuration for TON
     Ton: CoinConf = CoinConf(
         coin_name=CoinNames("The Open Network", "TON"),
         params={

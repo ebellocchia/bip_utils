@@ -118,7 +118,7 @@ class DataBytes:
         Get data bytes as integer.
 
         Returns:
-            bytes: Data bytes as integer
+            int: Data bytes as integer
         """
         return self.ToInt()
 

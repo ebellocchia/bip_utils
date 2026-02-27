@@ -91,8 +91,8 @@ class WifEncoder:
 
 class WifDecoder:
     """
-    WIF encoder class.
-    It provides methods for encoding to WIF format.
+    WIF decoder class.
+    It provides methods for decoding from WIF format.
     """
 
     @staticmethod

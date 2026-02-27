@@ -76,7 +76,7 @@ class BytesUtils:
             data_bytes_2 (bytes): Data bytes 2
 
         Returns:
-            bytes: XORed bytes
+            bytes: Added bytes (no carry)
         """
         return bytes(
             [(b1 + b2) & 0xFF for b1, b2 in zip(data_bytes_1, data_bytes_2)]
@@ -93,7 +93,7 @@ class BytesUtils:
             scalar (int)      : Scalar
 
         Returns:
-            bytes: XORed bytes
+            bytes: Multiplied bytes (no carry)
         """
         return bytes(
             [(b * scalar) & 0xFF for b in data_bytes]

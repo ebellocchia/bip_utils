@@ -52,7 +52,7 @@ class AlgorandMnemonicUtils:
             data_bytes (bytes): Data bytes
 
         Returns:
-            str: Computed checksum word index
+            int: Computed checksum word index
         """
 
         # Compute checksum and convert it to 11-bit

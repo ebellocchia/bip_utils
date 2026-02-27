@@ -44,7 +44,7 @@ class IAddrEncoder(ABC):
         Returns:
             str: Address string
 
-        Raised:
+        Raises:
             ValueError: If the public key is not valid
             TypeError: If the public key is not of the correct type (it depends on the address type)
         """

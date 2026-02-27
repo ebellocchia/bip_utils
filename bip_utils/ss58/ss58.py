@@ -124,7 +124,7 @@ class SS58Decoder:
         Decode bytes from a SS58 string.
 
         Args:
-            data_str (string): Data string
+            data_str (str): Data string
 
         Returns:
             tuple[int, bytes]: SS58 format and data bytes

@@ -161,7 +161,7 @@ class CardanoByronLegacy:
             second_idx (int or Bip32KeyIndex object): Second index
 
         Returns:
-            IPrivateKey object: IPrivateKey object
+            Bip32PrivateKey object: Bip32PrivateKey object
 
         Raises:
             Bip32KeyError: If the derivation results in an invalid key
@@ -177,13 +177,12 @@ class CardanoByronLegacy:
         Derivation path: m/first_idx'/second_idx'
         The indexes will be automatically hardened if not (e.g. 0, 1' -> 0', 1').
 
-
         Args:
             first_idx (int or Bip32KeyIndex object) : First index
             second_idx (int or Bip32KeyIndex object): Second index
 
         Returns:
-            IPublicKey object: IPublicKey object
+            Bip32PublicKey object: Bip32PublicKey object
 
         Raises:
             Bip32KeyError: If the derivation results in an invalid key

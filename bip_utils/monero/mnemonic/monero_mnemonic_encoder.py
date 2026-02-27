@@ -49,7 +49,7 @@ class MoneroMnemonicEncoderBase(MnemonicEncoderBase, ABC):
             lang (MoneroLanguages, optional): Language (default: English)
 
         Raises:
-            TypeError: If the language is not a Bip39Languages enum
+            TypeError: If the language is not a MoneroLanguages enum
             ValueError: If loaded words list is not valid
         """
         super().__init__(lang, MoneroWordsListGetter)

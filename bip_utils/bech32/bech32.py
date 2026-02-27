@@ -187,7 +187,7 @@ class Bech32Encoder(Bech32EncoderBase):
 class Bech32Decoder(Bech32DecoderBase):
     """
     Bech32 decoder class.
-    It provides methods for decoding  Bech32 format.
+    It provides methods for decoding Bech32 format.
     """
 
     @classmethod

@@ -123,7 +123,7 @@ class EosAddrEncoder(IAddrEncoder):
         Returns:
             str: Address string
 
-        Raised:
+        Raises:
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """

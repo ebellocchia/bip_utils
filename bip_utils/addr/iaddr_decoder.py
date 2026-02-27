@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module with interface for address encoding classes."""
+"""Module with interface for address decoding classes."""
 
 # Imports
 from abc import ABC, abstractmethod

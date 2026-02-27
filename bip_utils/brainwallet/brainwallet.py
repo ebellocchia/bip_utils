@@ -62,7 +62,7 @@ class Brainwallet:
             **algo_params               : Algorithm parameters, if any
 
         Returns:
-            Brainwallet object: Algorithm class
+            Brainwallet object: Generated Brainwallet object
 
         Raises:
             TypeError: If algorithm type is not of a BrainwalletAlgos enumerative
@@ -91,7 +91,7 @@ class Brainwallet:
             **algo_params                    : Algorithm parameters, if any
 
         Returns:
-            Brainwallet object: Algorithm class
+            Brainwallet object: Generated Brainwallet object
 
         Raises:
             TypeError: If algorithm type is not of a BrainwalletAlgos enumerative

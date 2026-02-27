@@ -119,7 +119,7 @@ class SubstrateEd25519AddrEncoder(IAddrEncoder):
         Returns:
             str: Address string
 
-        Raised:
+        Raises:
             ValueError: If the public key is not valid
         """
         ss58_format = kwargs["ss58_format"]
@@ -178,7 +178,7 @@ class SubstrateSr25519AddrEncoder(IAddrEncoder):
         Returns:
             str: Address string
 
-        Raised:
+        Raises:
             ValueError: If the public key is not valid
         """
         ss58_format = kwargs["ss58_format"]

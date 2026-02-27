@@ -35,7 +35,7 @@ from bip_utils.ecc import EllipticCurveTypes
 
 class Bip32Slip10Secp256k1(Bip32Base):
     """
-    BIP32 SLIP-0010 secp256k1 v.
+    BIP32 SLIP-0010 secp256k1 class.
     It allows master keys generation and keys derivation using secp256k1 curve.
     """
 

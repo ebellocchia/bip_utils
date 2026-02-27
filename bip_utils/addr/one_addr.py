@@ -44,7 +44,7 @@ class OneAddrDecoder(IAddrDecoder):
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
         """
-        Decode a OKEx Chain address to bytes.
+        Decode a Harmony One address to bytes.
 
         Args:
             addr (str): Address string

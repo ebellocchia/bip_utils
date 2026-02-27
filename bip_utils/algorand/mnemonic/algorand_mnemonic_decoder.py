@@ -110,7 +110,7 @@ class AlgorandMnemonicDecoder(MnemonicDecoderBase):
         Validate a mnemonic checksum.
 
         Args:
-            entropy_bytes (list)          : Entropy bytes
+            entropy_bytes (bytes)         : Entropy bytes
             chksum_word_idx_exp (int)     : Expected checksum word index
             words_list (MnemonicWordsList): Words list
 

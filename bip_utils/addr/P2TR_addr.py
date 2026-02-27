@@ -138,8 +138,8 @@ class _P2TRUtils:
 
 class P2TRAddrDecoder(IAddrDecoder):
     """
-    P2WPKH address decoder class.
-    It allows the Pay-to-Witness-Public-Key-Hash address decoding.
+    P2TR address decoder class.
+    It allows the Pay-to-Taproot address decoding.
     """
 
     @staticmethod

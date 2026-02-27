@@ -164,7 +164,7 @@ class Bip44PrivateKey:
         Return the BIP32 key object.
 
         Returns:
-            Bip32PublicKey object: BIP32 key object
+            Bip32PrivateKey object: BIP32 key object
         """
         return self.m_priv_key
 
@@ -188,7 +188,7 @@ class Bip44PrivateKey:
 
     def Raw(self) -> DataBytes:
         """
-        Return raw compressed public key.
+        Return raw private key.
 
         Returns:
             DataBytes object: DataBytes object
