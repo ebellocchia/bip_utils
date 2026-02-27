@@ -40,10 +40,9 @@ print(f"Seed for keypair: {seed_bytes.hex()}")
 
 # Generate keypair and address
 ton = Ton.FromSeed(seed_bytes)
-print(f"Public key: {ton.PublicKey().RawCompressed().ToHex()}")
-print(f"Private key: {ton.PrivateKey().Raw().ToHex()}")
-print(f"Address: {ton.GetAddress()}")
-
+print(f"Ton public key (ton-crypto): {ton.PublicKey().RawCompressed().ToHex()}")
+print(f"Ton private key (ton-crypto): {ton.PrivateKey().Raw().ToHex()}")
+print(f"Ton address (ton-crypto, V5R1): {ton.GetAddress(version=TonAddrVersions.V5R1)}")
 
 
 #
