@@ -182,6 +182,7 @@ jobs:
         pip install pycryptodome==3.15
         pip install pynacl==1.5
         pip install py-sr25519-bindings==0.2.0
+        pip install pytoniq-core-fork==0.1.47
     - name: Run tests
       run: |
         pytest
