@@ -24,6 +24,8 @@
 from abc import ABC
 from typing import List
 
+from typing_extensions import override
+
 from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic
 from bip_utils.monero.mnemonic.monero_mnemonic_utils import MoneroMnemonicUtils, MoneroWordsListGetter
@@ -87,6 +89,7 @@ class MoneroMnemonicNoChecksumEncoder(MoneroMnemonicEncoderBase):
     It encodes bytes to the mnemonic phrase without checksum.
     """
 
+    @override
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
         """
@@ -110,6 +113,7 @@ class MoneroMnemonicWithChecksumEncoder(MoneroMnemonicEncoderBase):
     It encodes bytes to the mnemonic phrase with checksum.
     """
 
+    @override
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
         """

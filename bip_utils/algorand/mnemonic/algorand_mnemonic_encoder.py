@@ -26,6 +26,8 @@ Reference: https://github.com/algorand/py-algorand-sdk
 # Imports
 from typing import List
 
+from typing_extensions import override
+
 from bip_utils.algorand.mnemonic.algorand_entropy_generator import AlgorandEntropyGenerator
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages, AlgorandMnemonic
 from bip_utils.algorand.mnemonic.algorand_mnemonic_utils import AlgorandMnemonicUtils
@@ -55,6 +57,7 @@ class AlgorandMnemonicEncoder(MnemonicEncoderBase):
             raise TypeError("Language is not an enumerative of AlgorandLanguages")
         super().__init__(lang.value, Bip39WordsListGetter)
 
+    @override
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
         """

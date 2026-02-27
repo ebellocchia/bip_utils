@@ -23,6 +23,8 @@
 # Imports
 from typing import Any
 
+from typing_extensions import override
+
 from bip_utils.substrate.scale.substrate_scale_enc_base import SubstrateScaleEncoderBase
 from bip_utils.utils.misc import IntegerUtils
 
@@ -40,6 +42,7 @@ class SubstrateScaleCUintEncoderConst:
 class SubstrateScaleCUintEncoder(SubstrateScaleEncoderBase):
     """Substrate SCALE encoding for compact unsigned integers."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:

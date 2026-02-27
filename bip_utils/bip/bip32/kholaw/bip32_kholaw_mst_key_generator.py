@@ -26,6 +26,8 @@ Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20
 # Imports
 from typing import Tuple
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32.base import IBip32MstKeyGenerator
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from bip_utils.utils.crypto import HmacSha256, HmacSha512
@@ -47,6 +49,7 @@ class Bip32KholawEd25519MstKeyGenerator(IBip32MstKeyGenerator):
     It allows master keys generation in according to BIP32 Khovratovich/Law for ed25519 curve.
     """
 
+    @override
     @classmethod
     def GenerateFromSeed(cls,
                          seed_bytes: bytes) -> Tuple[bytes, bytes]:

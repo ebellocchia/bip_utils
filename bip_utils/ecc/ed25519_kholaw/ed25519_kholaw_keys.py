@@ -28,6 +28,7 @@ right 32-byte extension part).
 from typing import Any
 
 from nacl import signing
+from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
@@ -48,6 +49,7 @@ class Ed25519KholawKeysConst:
 class Ed25519KholawPublicKey(Ed25519PublicKey):
     """Ed25519-Kholaw public key class."""
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -58,6 +60,7 @@ class Ed25519KholawPublicKey(Ed25519PublicKey):
         """
         return EllipticCurveTypes.ED25519_KHOLAW
 
+    @override
     def Point(self) -> IPoint:
         """
         Get public key point.
@@ -74,6 +77,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
     m_sign_key: Ed25519PrivateKey
     m_ext_key: bytes
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -114,6 +118,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         self.m_sign_key = key_obj
         self.m_ext_key = key_ex_bytes
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -124,6 +129,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         """
         return EllipticCurveTypes.ED25519_KHOLAW
 
+    @override
     @staticmethod
     def Length() -> int:
         """
@@ -134,6 +140,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         """
         return Ed25519KholawKeysConst.PRIV_KEY_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -143,6 +150,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         """
         return self.m_sign_key.UnderlyingObject()
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return raw private key.
@@ -152,6 +160,7 @@ class Ed25519KholawPrivateKey(IPrivateKey):
         """
         return DataBytes(self.m_sign_key.Raw().ToBytes() + self.m_ext_key)
 
+    @override
     def PublicKey(self) -> IPublicKey:
         """
         Get the public key correspondent to the private one.

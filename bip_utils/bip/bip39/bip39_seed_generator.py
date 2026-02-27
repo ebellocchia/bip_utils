@@ -26,6 +26,8 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 # Imports
 from typing import Optional, Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic
 from bip_utils.bip.bip39.bip39_mnemonic_validator import Bip39MnemonicValidator
 from bip_utils.bip.bip39.ibip39_seed_generator import IBip39SeedGenerator
@@ -51,6 +53,7 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
 
     m_mnemonic: Mnemonic
 
+    @override
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
@@ -72,6 +75,7 @@ class Bip39SeedGenerator(IBip39SeedGenerator):
                            if isinstance(mnemonic, str)
                            else mnemonic)
 
+    @override
     def Generate(self,
                  passphrase: str = "") -> bytes:
         """

@@ -27,6 +27,8 @@ References:
 """
 
 # Imports
+from typing_extensions import override
+
 from bip_utils.bip.bip32 import Bip32KeyIndex, Bip32KholawEd25519KeyDerivatorBase, Bip32PublicKey
 from bip_utils.ecc import EllipticCurve, IPoint
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
@@ -39,6 +41,7 @@ class CardanoByronLegacyKeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
     Derivation based on BIP32 ed25519 Khovratovich/Law with some differences on keys computation.
     """
 
+    @override
     @staticmethod
     def _SerializeIndex(index: Bip32KeyIndex) -> bytes:
         """
@@ -52,6 +55,7 @@ class CardanoByronLegacyKeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
         """
         return index.ToBytes(endianness="big")
 
+    @override
     @staticmethod
     def _NewPrivateKeyLeftPart(zl_bytes: bytes,
                                kl_bytes: bytes,
@@ -74,6 +78,7 @@ class CardanoByronLegacyKeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
 
         return IntegerUtils.ToBytes((zl8_int + kl_int) % curve.Order(), bytes_num=32, endianness="little")
 
+    @override
     @staticmethod
     def _NewPrivateKeyRightPart(zr_bytes: bytes,
                                 kr_bytes: bytes) -> bytes:
@@ -89,6 +94,7 @@ class CardanoByronLegacyKeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
         """
         return BytesUtils.AddNoCarry(zr_bytes, kr_bytes)
 
+    @override
     @staticmethod
     def _NewPublicKeyPoint(pub_key: Bip32PublicKey,
                            zl_bytes: bytes) -> IPoint:

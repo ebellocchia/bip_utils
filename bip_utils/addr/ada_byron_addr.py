@@ -33,6 +33,7 @@ from enum import IntEnum, unique
 from typing import Any, Dict, NamedTuple, Optional, Tuple, Union
 
 import cbor2
+from typing_extensions import override
 
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
@@ -395,6 +396,7 @@ class AdaByronAddrDecoder(IAddrDecoder):
         return (dec_bytes[:Blake2b224.DigestSize()],
                 dec_bytes[Blake2b224.DigestSize():])
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -439,6 +441,7 @@ class AdaByronIcarusAddrEncoder(IAddrEncoder):
     It allows the Cardano Byron Icarus address encoding (i.e. without the encrypted derivation path, format Ae2...).
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -479,6 +482,7 @@ class AdaByronLegacyAddrEncoder(IAddrEncoder):
     It allows the Cardano Byron legacy address encoding (i.e. containing the encrypted derivation path, format Ddz...).
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

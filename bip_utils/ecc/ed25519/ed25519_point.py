@@ -23,6 +23,8 @@
 # Imports
 from typing import Any, Optional
 
+from typing_extensions import override
+
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.lib import ed25519_lib
@@ -44,6 +46,7 @@ class Ed25519Point(IPoint):
     m_x: Optional[int]
     m_y: Optional[int]
 
+    @override
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
@@ -64,6 +67,7 @@ class Ed25519Point(IPoint):
             )
         return cls(point_bytes)
 
+    @override
     @classmethod
     def FromCoordinates(cls,
                         x: int,
@@ -97,6 +101,7 @@ class Ed25519Point(IPoint):
         self.m_is_generator = ed25519_lib.point_is_generator(point_bytes)
         self.m_x, self.m_y = None, None
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -107,6 +112,7 @@ class Ed25519Point(IPoint):
         """
         return EllipticCurveTypes.ED25519
 
+    @override
     @staticmethod
     def CoordinateLength() -> int:
         """
@@ -117,6 +123,7 @@ class Ed25519Point(IPoint):
         """
         return Ed25519PointConst.POINT_COORD_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -126,6 +133,7 @@ class Ed25519Point(IPoint):
         """
         return self.m_enc_bytes
 
+    @override
     def X(self) -> int:
         """
         Get point X coordinate.
@@ -137,6 +145,7 @@ class Ed25519Point(IPoint):
             self.m_x, self.m_y = ed25519_lib.point_bytes_to_coord(self.m_enc_bytes)
         return self.m_x
 
+    @override
     def Y(self) -> int:
         """
         Get point Y coordinate.
@@ -148,6 +157,7 @@ class Ed25519Point(IPoint):
             self.m_x, self.m_y = ed25519_lib.point_bytes_to_coord(self.m_enc_bytes)
         return self.m_y
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return the point encoded to raw bytes.
@@ -157,6 +167,7 @@ class Ed25519Point(IPoint):
         """
         return self.RawDecoded()
 
+    @override
     def RawEncoded(self) -> DataBytes:
         """
         Return the encoded point raw bytes.
@@ -166,6 +177,7 @@ class Ed25519Point(IPoint):
         """
         return DataBytes(self.m_enc_bytes)
 
+    @override
     def RawDecoded(self) -> DataBytes:
         """
         Return the decoded point raw bytes.
@@ -175,6 +187,7 @@ class Ed25519Point(IPoint):
         """
         return DataBytes(ed25519_lib.int_encode(self.X()) + ed25519_lib.int_encode(self.Y()))
 
+    @override
     def __add__(self,
                 point: IPoint) -> IPoint:
         """
@@ -190,6 +203,7 @@ class Ed25519Point(IPoint):
             ed25519_lib.point_add(self.m_enc_bytes, point.UnderlyingObject())
         )
 
+    @override
     def __radd__(self,
                  point: IPoint) -> IPoint:
         """
@@ -203,6 +217,7 @@ class Ed25519Point(IPoint):
         """
         return self + point
 
+    @override
     def __mul__(self,
                 scalar: int) -> IPoint:
         """
@@ -222,6 +237,7 @@ class Ed25519Point(IPoint):
             ed25519_lib.point_scalar_mul(scalar, self.m_enc_bytes)
         )
 
+    @override
     def __rmul__(self,
                  scalar: int) -> IPoint:
         """

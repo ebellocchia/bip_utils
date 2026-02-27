@@ -23,6 +23,8 @@
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.eth_addr import EthAddrConst, EthAddrDecoder, EthAddrEncoder
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
@@ -39,6 +41,7 @@ class TrxAddrDecoder(IAddrDecoder):
     It allows the Tron address decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -81,6 +84,7 @@ class TrxAddrEncoder(IAddrEncoder):
     It allows the Tron address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

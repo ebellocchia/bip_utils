@@ -24,6 +24,8 @@
 from abc import ABC
 from typing import Any
 
+from typing_extensions import override
+
 from bip_utils.substrate.scale.substrate_scale_enc_base import SubstrateScaleEncoderBase
 from bip_utils.utils.misc import IntegerUtils
 
@@ -56,6 +58,7 @@ class SubstrateScaleUintEncoder(SubstrateScaleEncoderBase, ABC):
 class SubstrateScaleU8Encoder(SubstrateScaleUintEncoder):
     """Substrate SCALE encoding class for 8-bit unsigned integers."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:
@@ -74,6 +77,7 @@ class SubstrateScaleU8Encoder(SubstrateScaleUintEncoder):
 class SubstrateScaleU16Encoder(SubstrateScaleUintEncoder):
     """Substrate SCALE encoding class for 16-bit unsigned integers."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:
@@ -92,6 +96,7 @@ class SubstrateScaleU16Encoder(SubstrateScaleUintEncoder):
 class SubstrateScaleU32Encoder(SubstrateScaleUintEncoder):
     """Substrate SCALE encoding class for 32-bit unsigned integers."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:
@@ -110,6 +115,7 @@ class SubstrateScaleU32Encoder(SubstrateScaleUintEncoder):
 class SubstrateScaleU64Encoder(SubstrateScaleUintEncoder):
     """Substrate SCALE encoding class for 64-bit unsigned integers."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:
@@ -128,6 +134,7 @@ class SubstrateScaleU64Encoder(SubstrateScaleUintEncoder):
 class SubstrateScaleU128Encoder(SubstrateScaleUintEncoder):
     """Substrate SCALE encoding class for 128-bit unsigned integers."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:
@@ -146,6 +153,7 @@ class SubstrateScaleU128Encoder(SubstrateScaleUintEncoder):
 class SubstrateScaleU256Encoder(SubstrateScaleUintEncoder):
     """Substrate SCALE encoding class for 256-bit unsigned integers."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:

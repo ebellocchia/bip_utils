@@ -24,6 +24,8 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 """
 
 # Imports
+from typing_extensions import override
+
 from bip_utils.bip.bip39.bip39_entropy_generator import Bip39EntropyGenerator
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicConst
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
@@ -52,6 +54,7 @@ class Bip39MnemonicEncoder(MnemonicEncoderBase):
         """
         super().__init__(lang, Bip39WordsListGetter)
 
+    @override
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
         """

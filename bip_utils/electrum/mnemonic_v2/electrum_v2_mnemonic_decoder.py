@@ -26,6 +26,8 @@ Reference: https://github.com/electrum/py-electrum-sdk
 # Imports
 from typing import Optional, Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
     ElectrumV2Languages,
@@ -69,6 +71,7 @@ class ElectrumV2MnemonicDecoder(MnemonicDecoderBase):
                          Bip39WordsListGetter)
         self.m_mnemonic_type = mnemonic_type
 
+    @override
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
         """

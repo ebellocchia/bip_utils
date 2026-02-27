@@ -27,6 +27,8 @@ from abc import ABC, abstractmethod
 from functools import lru_cache
 from typing import Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import Bip32ChainCode, Bip32FingerPrint, Bip32KeyData
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
@@ -266,6 +268,7 @@ class Bip32PublicKey(_Bip32KeyBase):
         """
         return Hash160.QuickDigest(self.m_pub_key.RawCompressed().ToBytes())
 
+    @override
     @lru_cache()
     def ToExtended(self) -> str:
         """
@@ -422,6 +425,7 @@ class Bip32PrivateKey(_Bip32KeyBase):
                               self.m_key_data,
                               self.m_key_net_ver)
 
+    @override
     @lru_cache()
     def ToExtended(self) -> str:
         """

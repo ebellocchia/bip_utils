@@ -24,6 +24,8 @@
 from enum import IntEnum, unique
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
@@ -139,6 +141,7 @@ class FilSecp256k1AddrDecoder(IAddrDecoder):
     It allows the Filecoin address decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -164,6 +167,7 @@ class FilSecp256k1AddrEncoder(IAddrEncoder):
     It allows the Filecoin address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

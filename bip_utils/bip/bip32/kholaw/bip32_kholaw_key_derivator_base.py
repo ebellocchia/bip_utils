@@ -27,6 +27,8 @@ Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20
 from abc import ABC, abstractmethod
 from typing import Tuple, Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32.base import IBip32KeyDerivator
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
@@ -42,6 +44,7 @@ class Bip32KholawEd25519KeyDerivatorBase(IBip32KeyDerivator, ABC):
     It shall be inherited by child classes to customize the derivation algorithm.
     """
 
+    @override
     @staticmethod
     def IsPublicDerivationSupported() -> bool:
         """
@@ -52,6 +55,7 @@ class Bip32KholawEd25519KeyDerivatorBase(IBip32KeyDerivator, ABC):
         """
         return True
 
+    @override
     @classmethod
     def CkdPriv(cls,
                 priv_key: Bip32PrivateKey,
@@ -100,6 +104,7 @@ class Bip32KholawEd25519KeyDerivatorBase(IBip32KeyDerivator, ABC):
 
         return kl_bytes + kr_bytes, chain_code_bytes
 
+    @override
     @classmethod
     def CkdPub(cls,
                pub_key: Bip32PublicKey,

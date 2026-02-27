@@ -23,6 +23,8 @@
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.neo_addr import NeoAddrDecoder, NeoAddrEncoder
 from bip_utils.coin_conf.coins_conf import CoinsConf
@@ -39,6 +41,7 @@ class NeoLegacyAddrEncoder(IAddrEncoder):
     It allows the Neo legacy address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

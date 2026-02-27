@@ -23,6 +23,8 @@
 # Imports
 from typing import Type
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32 import Bip32KholawEd25519, IBip32MstKeyGenerator
 from bip_utils.cardano.bip32.cardano_icarus_mst_key_generator import CardanoIcarusMstKeyGenerator
 
@@ -34,6 +36,7 @@ class CardanoIcarusBip32(Bip32KholawEd25519):
     Derivation based on BIP32 ed25519 Khovratovich/Law with a different algorithm for master key generation.
     """
 
+    @override
     @staticmethod
     def _MasterKeyGenerator() -> Type[IBip32MstKeyGenerator]:
         """

@@ -22,6 +22,7 @@
 
 # Imports
 from nacl import signing
+from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
@@ -35,6 +36,7 @@ from bip_utils.utils.misc import DataBytes
 class Ed25519MoneroPublicKey(Ed25519PublicKey):
     """Ed25519-Monero public key class."""
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -45,6 +47,7 @@ class Ed25519MoneroPublicKey(Ed25519PublicKey):
         """
         return EllipticCurveTypes.ED25519_MONERO
 
+    @override
     @staticmethod
     def CompressedLength() -> int:
         """
@@ -55,6 +58,7 @@ class Ed25519MoneroPublicKey(Ed25519PublicKey):
         """
         return Ed25519KeysConst.PUB_KEY_BYTE_LEN
 
+    @override
     @staticmethod
     def UncompressedLength() -> int:
         """
@@ -65,6 +69,7 @@ class Ed25519MoneroPublicKey(Ed25519PublicKey):
         """
         return Ed25519MoneroPublicKey.CompressedLength()
 
+    @override
     def RawCompressed(self) -> DataBytes:
         """
         Return raw compressed public key.
@@ -74,6 +79,7 @@ class Ed25519MoneroPublicKey(Ed25519PublicKey):
         """
         return DataBytes(bytes(self.m_ver_key))
 
+    @override
     def Point(self) -> IPoint:
         """
         Get public key point.
@@ -87,6 +93,7 @@ class Ed25519MoneroPublicKey(Ed25519PublicKey):
 class Ed25519MoneroPrivateKey(Ed25519PrivateKey):
     """Ed25519-Monero private key class."""
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -106,6 +113,7 @@ class Ed25519MoneroPrivateKey(Ed25519PrivateKey):
             raise ValueError("Invalid private key bytes")
         return super().FromBytes(key_bytes)
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -116,6 +124,7 @@ class Ed25519MoneroPrivateKey(Ed25519PrivateKey):
         """
         return EllipticCurveTypes.ED25519_MONERO
 
+    @override
     def PublicKey(self) -> IPublicKey:
         """
         Get the public key correspondent to the private one.

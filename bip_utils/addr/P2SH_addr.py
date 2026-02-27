@@ -23,6 +23,8 @@
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -69,6 +71,7 @@ class P2SHAddrDecoder(IAddrDecoder):
     It allows the Pay-to-Script-Hash address decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -98,6 +101,7 @@ class P2SHAddrEncoder(IAddrEncoder):
     It allows the Pay-to-Script-Hash address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -129,6 +133,7 @@ class BchP2SHAddrDecoder(IAddrDecoder):
     It allows the Bitcoin Cash P2SH decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -159,6 +164,7 @@ class BchP2SHAddrEncoder(IAddrEncoder):
     It allows the Bitcoin Cash P2SH encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

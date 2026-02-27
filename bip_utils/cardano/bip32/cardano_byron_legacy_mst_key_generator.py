@@ -30,6 +30,7 @@ References:
 from typing import Tuple
 
 import cbor2
+from typing_extensions import override
 
 from bip_utils.bip.bip32 import IBip32MstKeyGenerator
 from bip_utils.utils.crypto import HmacSha512, Sha512
@@ -51,6 +52,7 @@ class CardanoByronLegacyMstKeyGenerator(IBip32MstKeyGenerator):
     It allows master keys generation in according to Cardano Byron (legacy, used by old versions of Daedalus).
     """
 
+    @override
     @classmethod
     def GenerateFromSeed(cls,
                          seed_bytes: bytes) -> Tuple[bytes, bytes]:
