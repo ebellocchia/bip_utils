@@ -28,7 +28,7 @@ from typing import Union
 
 from bip_utils.ecc import IPrivateKey, IPublicKey
 from bip_utils.ecc.ed25519.ed25519_keys import Ed25519PrivateKey, Ed25519PublicKey
-from bip_utils.ton.ton_ex import TonKeyError
+from bip_utils.ton.keys.ton_keys_ex import TonKeyError
 from bip_utils.utils.misc import DataBytes
 
 
