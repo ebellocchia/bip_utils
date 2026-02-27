@@ -20,8 +20,14 @@
 
 # Imports
 from bip_utils import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyData, Bip32KeyError, Bip32KeyIndex, Bip32PrivateKey,
-    Bip32PublicKey
+    Bip32ChainCode,
+    Bip32Depth,
+    Bip32FingerPrint,
+    Bip32KeyData,
+    Bip32KeyError,
+    Bip32KeyIndex,
+    Bip32PrivateKey,
+    Bip32PublicKey,
 )
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.ecc.test_ecc import *

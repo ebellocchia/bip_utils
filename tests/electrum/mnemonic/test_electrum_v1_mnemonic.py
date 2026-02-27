@@ -23,8 +23,15 @@ import binascii
 import unittest
 
 from bip_utils import (
-    ElectrumV1, ElectrumV1EntropyBitLen, ElectrumV1EntropyGenerator, ElectrumV1Languages, ElectrumV1MnemonicDecoder,
-    ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator, ElectrumV1WordsNum
+    ElectrumV1,
+    ElectrumV1EntropyBitLen,
+    ElectrumV1EntropyGenerator,
+    ElectrumV1Languages,
+    ElectrumV1MnemonicDecoder,
+    ElectrumV1MnemonicGenerator,
+    ElectrumV1MnemonicValidator,
+    ElectrumV1SeedGenerator,
+    ElectrumV1WordsNum,
 )
 
 

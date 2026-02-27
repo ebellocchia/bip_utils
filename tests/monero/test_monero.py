@@ -23,8 +23,13 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey, Monero, MoneroCoins, MoneroKeyError, MoneroPrivateKey,
-    MoneroPublicKey
+    Ed25519MoneroPrivateKey,
+    Ed25519MoneroPublicKey,
+    Monero,
+    MoneroCoins,
+    MoneroKeyError,
+    MoneroPrivateKey,
+    MoneroPublicKey,
 )
 from bip_utils.monero.conf import MoneroCoinConf
 from bip_utils.monero.monero_subaddr import MoneroSubaddressConst

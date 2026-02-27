@@ -23,9 +23,17 @@ import binascii
 import unittest
 
 from bip_utils import (
-    AlgorandEntropyBitLen, AlgorandEntropyGenerator, AlgorandLanguages, AlgorandMnemonicDecoder,
-    AlgorandMnemonicGenerator, AlgorandMnemonicValidator, AlgorandSeedGenerator, AlgorandWordsNum, Bip44, Bip44Coins,
-    MnemonicChecksumError
+    AlgorandEntropyBitLen,
+    AlgorandEntropyGenerator,
+    AlgorandLanguages,
+    AlgorandMnemonicDecoder,
+    AlgorandMnemonicGenerator,
+    AlgorandMnemonicValidator,
+    AlgorandSeedGenerator,
+    AlgorandWordsNum,
+    Bip44,
+    Bip44Coins,
+    MnemonicChecksumError,
 )
 
 

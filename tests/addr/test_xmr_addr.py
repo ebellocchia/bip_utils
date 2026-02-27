@@ -22,8 +22,13 @@
 import binascii
 
 from bip_utils import (
-    CoinsConf, XmrAddr, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddr, XmrIntegratedAddrDecoder,
-    XmrIntegratedAddrEncoder
+    CoinsConf,
+    XmrAddr,
+    XmrAddrDecoder,
+    XmrAddrEncoder,
+    XmrIntegratedAddr,
+    XmrIntegratedAddrDecoder,
+    XmrIntegratedAddrEncoder,
 )
 from bip_utils.addr.xmr_addr import XmrAddrConst
 from tests.addr.test_addr_base import AddrBaseTests

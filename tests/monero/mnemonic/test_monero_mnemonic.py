@@ -23,8 +23,16 @@ import binascii
 import unittest
 
 from bip_utils import (
-    MnemonicChecksumError, Monero, MoneroEntropyBitLen, MoneroEntropyGenerator, MoneroLanguages, MoneroMnemonicDecoder,
-    MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroSeedGenerator, MoneroWordsNum
+    MnemonicChecksumError,
+    Monero,
+    MoneroEntropyBitLen,
+    MoneroEntropyGenerator,
+    MoneroLanguages,
+    MoneroMnemonicDecoder,
+    MoneroMnemonicGenerator,
+    MoneroMnemonicValidator,
+    MoneroSeedGenerator,
+    MoneroWordsNum,
 )
 
 

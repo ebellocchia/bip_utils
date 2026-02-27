@@ -23,8 +23,14 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Bip44, Bip44Changes, Bip44Coins, CardanoShelley, CardanoShelleyPrivateKeys, CardanoShelleyPublicKeys, Cip1852,
-    Cip1852Coins
+    Bip44,
+    Bip44Changes,
+    Bip44Coins,
+    CardanoShelley,
+    CardanoShelleyPrivateKeys,
+    CardanoShelleyPublicKeys,
+    Cip1852,
+    Cip1852Coins,
 )
 
 
