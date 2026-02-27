@@ -119,6 +119,9 @@ class TonMnemonicTests(unittest.TestCase):
                     self.assertEqual(words_num, mnemonic.WordsCount())
                     self.assertTrue(TonMnemonicValidator(lang).IsValid(mnemonic, passphrase))
 
+                    self.assertRaises(ValueError, TonMnemonicGenerator(lang).FromWordsNumber, words_num - 1)
+                    self.assertRaises(ValueError, TonMnemonicGenerator(lang).FromWordsNumber, words_num + 1)
+
     # Test validation of a mnemonic with/without a passphrase
     def test_passphrase_validation(self):
         mnemonic = TonMnemonicGenerator().FromWordsNumber(TonWordsNum.WORDS_NUM_24)
