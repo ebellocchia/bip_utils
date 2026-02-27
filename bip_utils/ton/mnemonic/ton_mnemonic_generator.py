@@ -81,7 +81,7 @@ class TonMnemonicGenerator:
             ValueError: If words number is not valid or if unable to generate a valid mnemonic
         """
         # Check words number
-        if words_num not in TonMnemonicConst. MNEMONIC_WORD_NUM:
+        if words_num not in TonMnemonicConst.MNEMONIC_WORD_NUM:
             raise ValueError(f"Words number for mnemonic ({words_num}) is not valid")
 
         words_list = Bip39WordsListGetter().GetByLanguage(self.m_lang.value)
