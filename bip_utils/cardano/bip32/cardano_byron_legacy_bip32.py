@@ -23,6 +23,8 @@
 # Imports
 from typing import Type
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32 import Bip32Base, Bip32Const, Bip32KeyNetVersions, IBip32KeyDerivator, IBip32MstKeyGenerator
 from bip_utils.cardano.bip32.cardano_byron_legacy_key_derivator import CardanoByronLegacyKeyDerivator
 from bip_utils.cardano.bip32.cardano_byron_legacy_mst_key_generator import CardanoByronLegacyMstKeyGenerator
@@ -37,6 +39,7 @@ class CardanoByronLegacyBip32(Bip32Base):
     keys derivation.
     """
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -47,6 +50,7 @@ class CardanoByronLegacyBip32(Bip32Base):
         """
         return EllipticCurveTypes.ED25519_KHOLAW
 
+    @override
     @staticmethod
     def _DefaultKeyNetVersion() -> Bip32KeyNetVersions:
         """
@@ -57,6 +61,7 @@ class CardanoByronLegacyBip32(Bip32Base):
         """
         return Bip32Const.KHOLAW_KEY_NET_VERSIONS
 
+    @override
     @staticmethod
     def _KeyDerivator() -> Type[IBip32KeyDerivator]:
         """
@@ -67,6 +72,7 @@ class CardanoByronLegacyBip32(Bip32Base):
         """
         return CardanoByronLegacyKeyDerivator
 
+    @override
     @staticmethod
     def _MasterKeyGenerator() -> Type[IBip32MstKeyGenerator]:
         """

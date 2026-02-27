@@ -77,7 +77,7 @@ print(f"Ton address (V5R1): {TonAddrEncoder.EncodeKey(pub_key_obj, version=TonAd
 # Get coin index from configuration
 coin_idx = Bip44ConfGetter.GetConfig(Bip44Coins.TON).CoinIndex()
 # Derive
-derivation_path  = f"m/44'/{coin_idx}'/0'/0'/0'/0'"
+derivation_path = f"m/44'/{coin_idx}'/0'/0'/0'/0'"
 bip32_ctx = Bip32Ed25519Slip.FromSeed(seed_bytes).DerivePath(derivation_path)
 
 # Construct BIP44 object from private key

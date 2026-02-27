@@ -23,6 +23,8 @@
 # Imports
 from typing import Type
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32.base import Bip32Base, IBip32KeyDerivator, IBip32MstKeyGenerator
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from bip_utils.bip.bip32.bip32_key_net_ver import Bip32KeyNetVersions
@@ -37,6 +39,7 @@ class Bip32Slip10Ed25519(Bip32Base):
     It allows master keys generation and keys derivation using ed25519 curve.
     """
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -47,6 +50,7 @@ class Bip32Slip10Ed25519(Bip32Base):
         """
         return EllipticCurveTypes.ED25519
 
+    @override
     @staticmethod
     def _DefaultKeyNetVersion() -> Bip32KeyNetVersions:
         """
@@ -57,6 +61,7 @@ class Bip32Slip10Ed25519(Bip32Base):
         """
         return Bip32Const.MAIN_NET_KEY_NET_VERSIONS
 
+    @override
     @staticmethod
     def _KeyDerivator() -> Type[IBip32KeyDerivator]:
         """
@@ -67,6 +72,7 @@ class Bip32Slip10Ed25519(Bip32Base):
         """
         return Bip32Slip10Ed25519Derivator
 
+    @override
     @staticmethod
     def _MasterKeyGenerator() -> Type[IBip32MstKeyGenerator]:
         """

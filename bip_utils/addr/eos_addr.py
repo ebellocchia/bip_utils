@@ -23,6 +23,8 @@
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
@@ -63,6 +65,7 @@ class EosAddrDecoder(IAddrDecoder):
     It allows the EOS address decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -106,6 +109,7 @@ class EosAddrEncoder(IAddrEncoder):
     It allows the EOS address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

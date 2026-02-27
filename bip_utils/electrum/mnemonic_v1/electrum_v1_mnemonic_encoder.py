@@ -24,6 +24,8 @@ Reference: https://github.com/spesmilo/electrum
 """
 
 # Imports
+from typing_extensions import override
+
 from bip_utils.electrum.mnemonic_v1.electrum_v1_entropy_generator import ElectrumV1EntropyGenerator
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages, ElectrumV1Mnemonic
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic_utils import ElectrumV1WordsListGetter
@@ -50,6 +52,7 @@ class ElectrumV1MnemonicEncoder(MnemonicEncoderBase):
         """
         super().__init__(lang, ElectrumV1WordsListGetter)
 
+    @override
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
         """

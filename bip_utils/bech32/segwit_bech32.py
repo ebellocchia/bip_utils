@@ -29,6 +29,8 @@ References:
 # Imports
 from typing import List, Tuple
 
+from typing_extensions import override
+
 from bip_utils.bech32.bech32 import Bech32Const, Bech32Encodings, Bech32Utils
 from bip_utils.bech32.bech32_base import Bech32BaseUtils, Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.utils.misc import BytesUtils
@@ -82,6 +84,7 @@ class SegwitBech32Encoder(Bech32EncoderBase):
                                  [wit_ver] + Bech32BaseUtils.ConvertToBase32(wit_prog),
                                  SegwitBech32Const.SEPARATOR)
 
+    @override
     @staticmethod
     def _ComputeChecksum(hrp: str,
                          data: List[int]) -> List[int]:
@@ -153,6 +156,7 @@ class SegwitBech32Decoder(Bech32DecoderBase):
 
         return wit_ver, BytesUtils.FromList(conv_data)
 
+    @override
     @staticmethod
     def _VerifyChecksum(hrp: str,
                         data: List[int]) -> bool:

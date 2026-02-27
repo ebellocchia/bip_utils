@@ -29,6 +29,8 @@ References:
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
@@ -179,6 +181,7 @@ class P2TRAddrEncoder(IAddrEncoder):
     It allows the Pay-to-Taproot address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

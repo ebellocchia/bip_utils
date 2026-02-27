@@ -24,6 +24,7 @@
 from typing import Any
 
 import coincurve
+from typing_extensions import override
 
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
@@ -40,6 +41,7 @@ class Secp256k1PointCoincurve(IPoint):
 
     m_pub_key: coincurve.PublicKey
 
+    @override
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
@@ -58,6 +60,7 @@ class Secp256k1PointCoincurve(IPoint):
             return cls(coincurve.PublicKey(point_bytes))
         raise ValueError("Invalid point bytes")
 
+    @override
     @classmethod
     def FromCoordinates(cls,
                         x: int,
@@ -87,6 +90,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         self.m_pub_key = point_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -97,6 +101,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return EllipticCurveTypes.SECP256K1
 
+    @override
     @staticmethod
     def CoordinateLength() -> int:
         """
@@ -107,6 +112,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return EcdsaKeysConst.POINT_COORD_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -116,6 +122,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return self.m_pub_key
 
+    @override
     def X(self) -> int:
         """
         Get point X coordinate.
@@ -125,6 +132,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return self.m_pub_key.point()[0]
 
+    @override
     def Y(self) -> int:
         """
         Get point Y coordinate.
@@ -134,6 +142,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return self.m_pub_key.point()[1]
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return the point raw bytes.
@@ -143,6 +152,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return self.RawDecoded()
 
+    @override
     def RawEncoded(self) -> DataBytes:
         """
         Return the encoded point raw bytes.
@@ -152,6 +162,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return DataBytes(self.m_pub_key.format(True))
 
+    @override
     def RawDecoded(self) -> DataBytes:
         """
         Return the decoded point raw bytes.
@@ -161,6 +172,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return DataBytes(self.m_pub_key.format(False)[1:])
 
+    @override
     def __add__(self,
                 point: IPoint) -> IPoint:
         """
@@ -174,6 +186,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return self.__class__(self.m_pub_key.combine([point.UnderlyingObject()]))
 
+    @override
     def __radd__(self,
                  point: IPoint) -> IPoint:
         """
@@ -187,6 +200,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return self + point
 
+    @override
     def __mul__(self,
                 scalar: int) -> IPoint:
         """
@@ -200,6 +214,7 @@ class Secp256k1PointCoincurve(IPoint):
         """
         return self.__class__(self.m_pub_key.multiply(IntegerUtils.ToBytes(scalar)))
 
+    @override
     def __rmul__(self,
                  scalar: int) -> IPoint:
         """

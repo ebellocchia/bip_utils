@@ -23,6 +23,8 @@
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.eth_addr import EthAddrDecoder, EthAddrEncoder
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
@@ -72,6 +74,7 @@ class OneAddrEncoder(IAddrEncoder):
     It allows the Harmony One address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

@@ -27,6 +27,8 @@ from abc import ABC, abstractmethod
 from functools import lru_cache
 from typing import Union
 
+from typing_extensions import override
+
 from bip_utils.addr import P2PKHAddr, P2WPKHAddr
 from bip_utils.bip.bip32 import Bip32Base, Bip32KeyIndex, Bip32PrivateKey, Bip32PublicKey, Bip32Slip10Secp256k1
 from bip_utils.coin_conf import CoinsConf
@@ -169,6 +171,7 @@ class ElectrumV2Standard(ElectrumV2Base):
     It derives keys like the Electrum wallet with standard mnemonic.
     """
 
+    @override
     def GetPrivateKey(self,
                       change_idx: Union[int, Bip32KeyIndex],
                       addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PrivateKey:
@@ -189,6 +192,7 @@ class ElectrumV2Standard(ElectrumV2Base):
         """
         return self.__DeriveKey(change_idx, addr_idx).PrivateKey()
 
+    @override
     def GetPublicKey(self,
                      change_idx: Union[int, Bip32KeyIndex],
                      addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PublicKey:
@@ -209,6 +213,7 @@ class ElectrumV2Standard(ElectrumV2Base):
         """
         return self.__DeriveKey(change_idx, addr_idx).PublicKey()
 
+    @override
     @lru_cache()
     def GetAddress(self,
                    change_idx: Union[int, Bip32KeyIndex],
@@ -272,6 +277,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
         super().__init__(bip32)
         self.m_bip32_acc = bip32.DerivePath("m/0'")
 
+    @override
     def GetPrivateKey(self,
                       change_idx: Union[int, Bip32KeyIndex],
                       addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PrivateKey:
@@ -292,6 +298,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
         """
         return self.__DeriveKey(change_idx, addr_idx).PrivateKey()
 
+    @override
     def GetPublicKey(self,
                      change_idx: Union[int, Bip32KeyIndex],
                      addr_idx: Union[int, Bip32KeyIndex]) -> Bip32PublicKey:
@@ -312,6 +319,7 @@ class ElectrumV2Segwit(ElectrumV2Base):
         """
         return self.__DeriveKey(change_idx, addr_idx).PublicKey()
 
+    @override
     @lru_cache()
     def GetAddress(self,
                    change_idx: Union[int, Bip32KeyIndex],

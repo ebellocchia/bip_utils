@@ -29,6 +29,8 @@ References:
 # Imports
 from typing import Tuple
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32 import IBip32MstKeyGenerator
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
 from bip_utils.ecc import Ed25519KholawPrivateKey
@@ -53,6 +55,7 @@ class CardanoIcarusMstKeyGenerator(IBip32MstKeyGenerator):
     It allows master keys generation in according to Cardano Icarus.
     """
 
+    @override
     @classmethod
     def GenerateFromSeed(cls,
                          seed_bytes: bytes) -> Tuple[bytes, bytes]:

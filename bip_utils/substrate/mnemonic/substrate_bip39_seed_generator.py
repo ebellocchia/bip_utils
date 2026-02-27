@@ -23,6 +23,8 @@
 # Imports
 from typing import Optional, Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip39 import Bip39Languages, Bip39MnemonicDecoder, IBip39SeedGenerator
 from bip_utils.bip.bip39.bip39_seed_generator import Bip39SeedGeneratorConst
 from bip_utils.utils.crypto import Pbkdf2HmacSha512
@@ -38,6 +40,7 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
 
     m_entropy_bytes: bytes
 
+    @override
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
                  lang: Optional[Bip39Languages] = None) -> None:
@@ -53,6 +56,7 @@ class SubstrateBip39SeedGenerator(IBip39SeedGenerator):
         """
         self.m_entropy_bytes = Bip39MnemonicDecoder(lang).Decode(mnemonic)
 
+    @override
     def Generate(self,
                  passphrase: str = "") -> bytes:
         """

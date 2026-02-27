@@ -17,4 +17,4 @@ py-sr25519-bindings>=0.1.4,<2.0.0; python_version == '3.10'
 py-sr25519-bindings>=0.2.0,<2.0.0; python_version >= '3.11'
 py-sr25519-bindings>=0.2.2,<2.0.0; python_version >= '3.13'
 pytoniq-core-fork>=0.1.47,<0.2.0
-typing_extensions; python_version == '3.7'
+typing_extensions

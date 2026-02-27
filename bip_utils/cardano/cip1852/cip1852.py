@@ -26,6 +26,8 @@ Reference: https://cips.cardano.org/cips/cip1852
 # Imports
 from typing import Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32 import Bip32KeyData, Bip32KeyIndex
 from bip_utils.bip.bip44_base import Bip44Base, Bip44Changes, Bip44Levels
 from bip_utils.bip.conf.common import BipCoins
@@ -52,6 +54,7 @@ class Cip1852(Bip44Base):
     # Class methods for construction
     #
 
+    @override
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
@@ -74,6 +77,7 @@ class Cip1852(Bip44Base):
         return cls._FromSeed(seed_bytes,
                              Cip1852ConfGetter.GetConfig(coin_type))
 
+    @override
     @classmethod
     def FromExtendedKey(cls,
                         ex_key_str: str,
@@ -94,6 +98,7 @@ class Cip1852(Bip44Base):
         """
         return cls._FromExtendedKey(ex_key_str, Cip1852ConfGetter.GetConfig(coin_type))
 
+    @override
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
@@ -120,6 +125,7 @@ class Cip1852(Bip44Base):
                                    Cip1852ConfGetter.GetConfig(coin_type),
                                    key_data)
 
+    @override
     @classmethod
     def FromPublicKey(cls,
                       pub_key: Union[bytes, IPublicKey],
@@ -150,6 +156,7 @@ class Cip1852(Bip44Base):
     # Overridden abstract methods
     #
 
+    @override
     def Purpose(self) -> Bip44Base:
         """
         Derive a child key from the purpose and return a new Bip44Base object.
@@ -163,6 +170,7 @@ class Cip1852(Bip44Base):
         """
         return self._PurposeGeneric(Cip1852Const.PURPOSE)
 
+    @override
     def Coin(self) -> Bip44Base:
         """
         Derive a child key from the coin type specified at construction and return a new Bip44Base object.
@@ -176,6 +184,7 @@ class Cip1852(Bip44Base):
         """
         return self._CoinGeneric()
 
+    @override
     def Account(self,
                 acc_idx: int) -> Bip44Base:
         """
@@ -193,6 +202,7 @@ class Cip1852(Bip44Base):
         """
         return self._AccountGeneric(acc_idx)
 
+    @override
     def Change(self,
                change_type: Bip44Changes) -> Bip44Base:
         """
@@ -211,6 +221,7 @@ class Cip1852(Bip44Base):
         """
         return self._ChangeGeneric(change_type)
 
+    @override
     def AddressIndex(self,
                      addr_idx: int) -> Bip44Base:
         """
@@ -228,6 +239,7 @@ class Cip1852(Bip44Base):
         """
         return self._AddressIndexGeneric(addr_idx)
 
+    @override
     @staticmethod
     def SpecName() -> str:
         """

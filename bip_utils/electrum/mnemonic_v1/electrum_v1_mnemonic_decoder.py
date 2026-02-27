@@ -26,6 +26,8 @@ Reference: https://github.com/spesmilo/electrum
 # Imports
 from typing import Optional, Union
 
+from typing_extensions import override
+
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import (
     ElectrumV1Languages,
     ElectrumV1Mnemonic,
@@ -60,6 +62,7 @@ class ElectrumV1MnemonicDecoder(MnemonicDecoderBase):
         """
         super().__init__(lang, ElectrumV1WordsListFinder, ElectrumV1WordsListGetter)
 
+    @override
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
         """

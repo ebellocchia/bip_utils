@@ -26,6 +26,8 @@ Reference: https://github.com/satoshilabs/slips/blob/master/slip-0010.md
 # Imports
 from typing import Tuple
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32.base import IBip32MstKeyGenerator
 from bip_utils.ecc import EllipticCurveGetter, EllipticCurveTypes
 from bip_utils.utils.crypto import HmacSha512
@@ -93,6 +95,7 @@ class Bip32Slip10Ed2519MstKeyGenerator(IBip32MstKeyGenerator):
     It allows master keys generation in according to BIP32 SLIP-0010 for ed25519 curve.
     """
 
+    @override
     @classmethod
     def GenerateFromSeed(cls,
                          seed_bytes: bytes) -> Tuple[bytes, bytes]:
@@ -120,6 +123,7 @@ class Bip32Slip10Nist256p1MstKeyGenerator(IBip32MstKeyGenerator):
     It allows master keys generation in according to BIP32 SLIP-0010 for nist256p1 curve.
     """
 
+    @override
     @classmethod
     def GenerateFromSeed(cls,
                          seed_bytes: bytes) -> Tuple[bytes, bytes]:
@@ -147,6 +151,7 @@ class Bip32Slip10Secp256k1MstKeyGenerator(IBip32MstKeyGenerator):
     It allows master keys generation in according to BIP32 SLIP-0010 for secp256k1 curve.
     """
 
+    @override
     @classmethod
     def GenerateFromSeed(cls,
                          seed_bytes: bytes) -> Tuple[bytes, bytes]:

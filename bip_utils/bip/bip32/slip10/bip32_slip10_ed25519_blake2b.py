@@ -21,6 +21,8 @@
 """Module for derivation scheme based on ed25519-blake2b curve as defined by BIP32 SLIP-0010."""
 
 # Imports
+from typing_extensions import override
+
 from bip_utils.bip.bip32.slip10.bip32_slip10_ed25519 import Bip32Slip10Ed25519
 from bip_utils.ecc import EllipticCurveTypes
 
@@ -31,6 +33,7 @@ class Bip32Slip10Ed25519Blake2b(Bip32Slip10Ed25519):
     It allows master keys generation and keys derivation using ed25519-blake2b curve.
     """
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """

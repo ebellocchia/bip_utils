@@ -27,6 +27,8 @@ Reference: https://cips.cardano.org/cips/cip19
 from enum import IntEnum, unique
 from typing import Any, Dict, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
@@ -107,6 +109,7 @@ class AdaShelleyAddrDecoder(IAddrDecoder):
     It allows the Cardano Shelley address decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -152,6 +155,7 @@ class AdaShelleyAddrEncoder(IAddrEncoder):
     It allows the Cardano Shelley address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:
@@ -198,6 +202,7 @@ class AdaShelleyStakingAddrDecoder(IAddrDecoder):
     It allows the Cardano Shelley staking address decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -243,6 +248,7 @@ class AdaShelleyStakingAddrEncoder(IAddrEncoder):
     It allows the Cardano Shelley staking address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

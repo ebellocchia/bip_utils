@@ -24,6 +24,7 @@
 from typing import Any
 
 import ed25519_blake2b
+from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
@@ -39,6 +40,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
 
     m_ver_key: ed25519_blake2b.VerifyingKey
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -69,6 +71,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
 
         return cls(ed25519_blake2b.VerifyingKey(key_bytes))
 
+    @override
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
@@ -96,6 +99,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         """
         self.m_ver_key = key_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -106,6 +110,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         """
         return EllipticCurveTypes.ED25519_BLAKE2B
 
+    @override
     @staticmethod
     def CompressedLength() -> int:
         """
@@ -116,6 +121,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         """
         return Ed25519PublicKey.CompressedLength()
 
+    @override
     @staticmethod
     def UncompressedLength() -> int:
         """
@@ -126,6 +132,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         """
         return Ed25519PublicKey.UncompressedLength()
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -135,6 +142,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         """
         return self.m_ver_key
 
+    @override
     def RawCompressed(self) -> DataBytes:
         """
         Return raw compressed public key.
@@ -144,6 +152,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         """
         return DataBytes(Ed25519KeysConst.PUB_KEY_PREFIX + self.m_ver_key.to_bytes())
 
+    @override
     def RawUncompressed(self) -> DataBytes:
         """
         Return raw uncompressed public key.
@@ -155,6 +164,7 @@ class Ed25519Blake2bPublicKey(IPublicKey):
         # Same as compressed
         return self.RawCompressed()
 
+    @override
     def Point(self) -> IPoint:
         """
         Get public key point.
@@ -170,6 +180,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
 
     m_sign_key: ed25519_blake2b.SigningKey
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -200,6 +211,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         """
         self.m_sign_key = key_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -210,6 +222,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         """
         return EllipticCurveTypes.ED25519_BLAKE2B
 
+    @override
     @staticmethod
     def Length() -> int:
         """
@@ -220,6 +233,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         """
         return Ed25519KeysConst.PRIV_KEY_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -229,6 +243,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         """
         return self.m_sign_key
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return raw private key.
@@ -238,6 +253,7 @@ class Ed25519Blake2bPrivateKey(IPrivateKey):
         """
         return DataBytes(self.m_sign_key.to_bytes())
 
+    @override
     def PublicKey(self) -> IPublicKey:
         """
         Get the public key correspondent to the private one.

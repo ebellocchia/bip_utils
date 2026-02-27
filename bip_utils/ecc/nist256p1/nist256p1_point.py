@@ -25,6 +25,7 @@ from typing import Any
 
 from ecdsa import ellipticcurve, keys
 from ecdsa.ecdsa import curve_256
+from typing_extensions import override
 
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
@@ -37,6 +38,7 @@ class Nist256p1Point(IPoint):
 
     m_point: ellipticcurve.PointJacobi
 
+    @override
     @classmethod
     def FromBytes(cls,
                   point_bytes: bytes) -> IPoint:
@@ -61,6 +63,7 @@ class Nist256p1Point(IPoint):
                 BytesUtils.ToInteger(point_bytes[EcdsaKeysConst.POINT_COORD_BYTE_LEN:])
             )
 
+    @override
     @classmethod
     def FromCoordinates(cls,
                         x: int,
@@ -91,6 +94,7 @@ class Nist256p1Point(IPoint):
         """
         self.m_point = point_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -101,6 +105,7 @@ class Nist256p1Point(IPoint):
         """
         return EllipticCurveTypes.NIST256P1
 
+    @override
     @staticmethod
     def CoordinateLength() -> int:
         """
@@ -111,6 +116,7 @@ class Nist256p1Point(IPoint):
         """
         return EcdsaKeysConst.POINT_COORD_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -120,6 +126,7 @@ class Nist256p1Point(IPoint):
         """
         return self.m_point
 
+    @override
     def X(self) -> int:
         """
         Get point X coordinate.
@@ -129,6 +136,7 @@ class Nist256p1Point(IPoint):
         """
         return self.m_point.x()
 
+    @override
     def Y(self) -> int:
         """
         Get point Y coordinate.
@@ -138,6 +146,7 @@ class Nist256p1Point(IPoint):
         """
         return self.m_point.y()
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return the point raw bytes.
@@ -147,6 +156,7 @@ class Nist256p1Point(IPoint):
         """
         return self.RawDecoded()
 
+    @override
     def RawEncoded(self) -> DataBytes:
         """
         Return the encoded point raw bytes.
@@ -165,6 +175,7 @@ class Nist256p1Point(IPoint):
                 enc_bytes = b"\x02" + x_bytes
             return DataBytes(enc_bytes)
 
+    @override
     def RawDecoded(self) -> DataBytes:
         """
         Return the decoded point raw bytes.
@@ -181,6 +192,7 @@ class Nist256p1Point(IPoint):
 
             return DataBytes(x_bytes + y_bytes)
 
+    @override
     def __add__(self,
                 point: IPoint) -> IPoint:
         """
@@ -194,6 +206,7 @@ class Nist256p1Point(IPoint):
         """
         return self.__class__(self.m_point + point.UnderlyingObject())
 
+    @override
     def __radd__(self,
                  point: IPoint) -> IPoint:
         """
@@ -207,6 +220,7 @@ class Nist256p1Point(IPoint):
         """
         return self + point
 
+    @override
     def __mul__(self,
                 scalar: int) -> IPoint:
         """
@@ -220,6 +234,7 @@ class Nist256p1Point(IPoint):
         """
         return self.__class__(self.m_point * scalar)
 
+    @override
     def __rmul__(self,
                  scalar: int) -> IPoint:
         """

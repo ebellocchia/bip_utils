@@ -29,6 +29,8 @@ References:
 # Imports
 from typing import Tuple, Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32.base import IBip32KeyDerivator
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
@@ -51,6 +53,7 @@ class Bip32Slip10EcdsaDerivator(IBip32KeyDerivator):
     It allows keys derivation for ECDSA curves in according to BIP32 SLIP-0010.
     """
 
+    @override
     @staticmethod
     def IsPublicDerivationSupported() -> bool:
         """
@@ -61,6 +64,7 @@ class Bip32Slip10EcdsaDerivator(IBip32KeyDerivator):
         """
         return True
 
+    @override
     @classmethod
     def CkdPriv(cls,
                 priv_key: Bip32PrivateKey,
@@ -103,6 +107,7 @@ class Bip32Slip10EcdsaDerivator(IBip32KeyDerivator):
 
         return new_priv_key_bytes, ir_bytes
 
+    @override
     @classmethod
     def CkdPub(cls,
                pub_key: Bip32PublicKey,
@@ -140,6 +145,7 @@ class Bip32Slip10Ed25519Derivator(IBip32KeyDerivator):
     It allows keys derivation for ed25519 curves in according to BIP32 SLIP-0010.
     """
 
+    @override
     @staticmethod
     def IsPublicDerivationSupported() -> bool:
         """
@@ -150,6 +156,7 @@ class Bip32Slip10Ed25519Derivator(IBip32KeyDerivator):
         """
         return False
 
+    @override
     @classmethod
     def CkdPriv(cls,
                 priv_key: Bip32PrivateKey,
@@ -180,6 +187,7 @@ class Bip32Slip10Ed25519Derivator(IBip32KeyDerivator):
         return HmacSha512.QuickDigestHalves(priv_key.ChainCode().ToBytes(),
                                             data_bytes)
 
+    @override
     @classmethod
     def CkdPub(cls,
                pub_key: Bip32PublicKey,

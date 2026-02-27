@@ -25,8 +25,9 @@ from __future__ import annotations
 
 from typing import Union
 
+from typing_extensions import Literal
+
 from bip_utils.utils.misc import BitUtils, BytesUtils, DataBytes, IntegerUtils
-from bip_utils.utils.typing import Literal
 
 
 class Bip32KeyDataConst:

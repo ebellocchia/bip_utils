@@ -24,6 +24,8 @@
 from enum import Enum, auto, unique
 from typing import Any
 
+from typing_extensions import override
+
 from bip_utils.brainwallet.ibrainwallet_algo import IBrainwalletAlgo
 from bip_utils.utils.crypto import DoubleSha256, Pbkdf2HmacSha512, Scrypt, Sha256
 
@@ -52,6 +54,7 @@ class BrainwalletAlgoConst:
 class BrainwalletAlgoSha256(IBrainwalletAlgo):
     """Compute the private key from passphrase using SHA256 algorithm."""
 
+    @override
     @staticmethod
     def ComputePrivateKey(passphrase: str,
                           **kwargs: Any) -> bytes:
@@ -71,6 +74,7 @@ class BrainwalletAlgoSha256(IBrainwalletAlgo):
 class BrainwalletAlgoDoubleSha256(IBrainwalletAlgo):
     """Compute the private key from passphrase using double SHA256 algorithm."""
 
+    @override
     @staticmethod
     def ComputePrivateKey(passphrase: str,
                           **kwargs: Any) -> bytes:
@@ -90,6 +94,7 @@ class BrainwalletAlgoDoubleSha256(IBrainwalletAlgo):
 class BrainwalletAlgoPbkdf2HmacSha512(IBrainwalletAlgo):
     """Compute the private key from passphrase using PBKDF2 HMAC-SHA512 algorithm."""
 
+    @override
     @staticmethod
     def ComputePrivateKey(passphrase: str,
                           **kwargs: Any) -> bytes:
@@ -120,6 +125,7 @@ class BrainwalletAlgoPbkdf2HmacSha512(IBrainwalletAlgo):
 class BrainwalletAlgoScrypt(IBrainwalletAlgo):
     """Compute the private key from passphrase using Scrypt algorithm."""
 
+    @override
     @staticmethod
     def ComputePrivateKey(passphrase: str,
                           **kwargs: Any) -> bytes:

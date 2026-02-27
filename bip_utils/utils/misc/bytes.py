@@ -24,9 +24,10 @@
 import binascii
 from typing import List, Union
 
+from typing_extensions import Literal
+
 from bip_utils.utils.misc.algo import AlgoUtils
 from bip_utils.utils.misc.integer import IntegerUtils
-from bip_utils.utils.typing import Literal
 
 
 class BytesUtils:

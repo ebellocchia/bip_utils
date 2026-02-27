@@ -21,6 +21,8 @@
 """Module for sr25519 point."""
 
 # Imports
+from typing_extensions import override
+
 from bip_utils.ecc.common.dummy_point import DummyPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 
@@ -28,6 +30,7 @@ from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 class Sr25519Point(DummyPoint):
     """Sr25519 point class. Dummy class since not needed."""
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """

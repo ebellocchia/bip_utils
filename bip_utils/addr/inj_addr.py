@@ -26,6 +26,8 @@ Reference: https://docs.injective.network/learn/basic-concepts/accounts
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.addr_dec_utils import AddrDecUtils
 from bip_utils.addr.addr_key_validator import AddrKeyValidator
 from bip_utils.addr.eth_addr import EthAddrConst, EthAddrEncoder
@@ -77,6 +79,7 @@ class InjAddrEncoder(IAddrEncoder):
     It allows the Injective address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

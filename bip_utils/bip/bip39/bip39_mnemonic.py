@@ -24,6 +24,8 @@
 from enum import IntEnum, auto, unique
 from typing import Dict, List, Union
 
+from typing_extensions import override
+
 from bip_utils.utils.misc import StringUtils
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicLanguages
 
@@ -91,6 +93,7 @@ class Bip39Mnemonic(Mnemonic):
     It adds NFKD normalization to mnemonic.
     """
 
+    @override
     @staticmethod
     def _Normalize(mnemonic: Union[str, List[str]]) -> List[str]:
         """

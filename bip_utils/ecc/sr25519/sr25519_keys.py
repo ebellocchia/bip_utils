@@ -24,6 +24,7 @@
 from typing import Any
 
 import sr25519
+from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
@@ -45,6 +46,7 @@ class Sr25519PublicKey(IPublicKey):
 
     m_ver_key: bytes
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -62,6 +64,7 @@ class Sr25519PublicKey(IPublicKey):
         """
         return cls(key_bytes)
 
+    @override
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
@@ -94,6 +97,7 @@ class Sr25519PublicKey(IPublicKey):
             raise ValueError("Invalid public key")
         self.m_ver_key = key_bytes
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -104,6 +108,7 @@ class Sr25519PublicKey(IPublicKey):
         """
         return EllipticCurveTypes.SR25519
 
+    @override
     @staticmethod
     def CompressedLength() -> int:
         """
@@ -114,6 +119,7 @@ class Sr25519PublicKey(IPublicKey):
         """
         return Sr25519KeysConst.PUB_KEY_BYTE_LEN
 
+    @override
     @staticmethod
     def UncompressedLength() -> int:
         """
@@ -124,6 +130,7 @@ class Sr25519PublicKey(IPublicKey):
         """
         return Sr25519PublicKey.CompressedLength()
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -133,6 +140,7 @@ class Sr25519PublicKey(IPublicKey):
         """
         return self.m_ver_key
 
+    @override
     def RawCompressed(self) -> DataBytes:
         """
         Return raw compressed public key.
@@ -142,6 +150,7 @@ class Sr25519PublicKey(IPublicKey):
         """
         return DataBytes(self.m_ver_key)
 
+    @override
     def RawUncompressed(self) -> DataBytes:
         """
         Return raw uncompressed public key.
@@ -153,6 +162,7 @@ class Sr25519PublicKey(IPublicKey):
         # Same as compressed
         return self.RawCompressed()
 
+    @override
     def Point(self) -> IPoint:
         """
         Get public key point.
@@ -168,6 +178,7 @@ class Sr25519PrivateKey(IPrivateKey):
 
     m_sign_key: bytes
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -200,6 +211,7 @@ class Sr25519PrivateKey(IPrivateKey):
             raise ValueError("Invalid private key")
         self.m_sign_key = key_bytes
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -210,6 +222,7 @@ class Sr25519PrivateKey(IPrivateKey):
         """
         return EllipticCurveTypes.SR25519
 
+    @override
     @staticmethod
     def Length() -> int:
         """
@@ -220,6 +233,7 @@ class Sr25519PrivateKey(IPrivateKey):
         """
         return Sr25519KeysConst.PRIV_KEY_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -229,6 +243,7 @@ class Sr25519PrivateKey(IPrivateKey):
         """
         return self.m_sign_key
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return raw private key.
@@ -238,6 +253,7 @@ class Sr25519PrivateKey(IPrivateKey):
         """
         return DataBytes(self.m_sign_key)
 
+    @override
     def PublicKey(self) -> IPublicKey:
         """
         Get the public key correspondent to the private one.

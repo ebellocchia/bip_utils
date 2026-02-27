@@ -26,6 +26,8 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki
 # Imports
 from typing import Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip32 import Bip32KeyData, Bip32KeyIndex
 from bip_utils.bip.bip44_base import Bip44Base, Bip44Changes, Bip44Levels
 from bip_utils.bip.conf.bip44 import Bip44ConfGetter
@@ -52,6 +54,7 @@ class Bip44(Bip44Base):
     # Class methods for construction
     #
 
+    @override
     @classmethod
     def FromSeed(cls,
                  seed_bytes: bytes,
@@ -76,6 +79,7 @@ class Bip44(Bip44Base):
         return cls._FromSeed(seed_bytes,
                              Bip44ConfGetter.GetConfig(coin_type))
 
+    @override
     @classmethod
     def FromExtendedKey(cls,
                         ex_key_str: str,
@@ -98,6 +102,7 @@ class Bip44(Bip44Base):
         # Bip44ConfGetter already checks the enum type
         return cls._FromExtendedKey(ex_key_str, Bip44ConfGetter.GetConfig(coin_type))
 
+    @override
     @classmethod
     def FromPrivateKey(cls,
                        priv_key: Union[bytes, IPrivateKey],
@@ -126,6 +131,7 @@ class Bip44(Bip44Base):
                                    Bip44ConfGetter.GetConfig(coin_type),
                                    key_data)
 
+    @override
     @classmethod
     def FromPublicKey(cls,
                       pub_key: Union[bytes, IPublicKey],
@@ -158,6 +164,7 @@ class Bip44(Bip44Base):
     # Overridden abstract methods
     #
 
+    @override
     def Purpose(self) -> Bip44Base:
         """
         Derive a child key from the purpose and return a new Bip44Base object.
@@ -171,6 +178,7 @@ class Bip44(Bip44Base):
         """
         return self._PurposeGeneric(Bip44Const.PURPOSE)
 
+    @override
     def Coin(self) -> Bip44Base:
         """
         Derive a child key from the coin type specified at construction and return a new Bip44Base object.
@@ -184,6 +192,7 @@ class Bip44(Bip44Base):
         """
         return self._CoinGeneric()
 
+    @override
     def Account(self,
                 acc_idx: int) -> Bip44Base:
         """
@@ -201,6 +210,7 @@ class Bip44(Bip44Base):
         """
         return self._AccountGeneric(acc_idx)
 
+    @override
     def Change(self,
                change_type: Bip44Changes) -> Bip44Base:
         """
@@ -219,6 +229,7 @@ class Bip44(Bip44Base):
         """
         return self._ChangeGeneric(change_type)
 
+    @override
     def AddressIndex(self,
                      addr_idx: int) -> Bip44Base:
         """
@@ -236,6 +247,7 @@ class Bip44(Bip44Base):
         """
         return self._AddressIndexGeneric(addr_idx)
 
+    @override
     @staticmethod
     def SpecName() -> str:
         """

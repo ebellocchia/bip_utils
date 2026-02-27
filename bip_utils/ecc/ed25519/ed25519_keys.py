@@ -24,6 +24,7 @@
 from typing import Any
 
 from nacl import exceptions, signing
+from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
@@ -49,6 +50,7 @@ class Ed25519PublicKey(IPublicKey):
 
     m_ver_key: signing.VerifyKey
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -79,6 +81,7 @@ class Ed25519PublicKey(IPublicKey):
         except (exceptions.RuntimeError, exceptions.ValueError) as ex:
             raise ValueError("Invalid public key bytes") from ex
 
+    @override
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
@@ -106,6 +109,7 @@ class Ed25519PublicKey(IPublicKey):
         """
         self.m_ver_key = key_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -116,6 +120,7 @@ class Ed25519PublicKey(IPublicKey):
         """
         return EllipticCurveTypes.ED25519
 
+    @override
     @staticmethod
     def CompressedLength() -> int:
         """
@@ -126,6 +131,7 @@ class Ed25519PublicKey(IPublicKey):
         """
         return Ed25519KeysConst.PUB_KEY_BYTE_LEN + len(Ed25519KeysConst.PUB_KEY_PREFIX)
 
+    @override
     @staticmethod
     def UncompressedLength() -> int:
         """
@@ -136,6 +142,7 @@ class Ed25519PublicKey(IPublicKey):
         """
         return Ed25519PublicKey.CompressedLength()
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -145,6 +152,7 @@ class Ed25519PublicKey(IPublicKey):
         """
         return self.m_ver_key
 
+    @override
     def RawCompressed(self) -> DataBytes:
         """
         Return raw compressed public key.
@@ -154,6 +162,7 @@ class Ed25519PublicKey(IPublicKey):
         """
         return DataBytes(Ed25519KeysConst.PUB_KEY_PREFIX + bytes(self.m_ver_key))
 
+    @override
     def RawUncompressed(self) -> DataBytes:
         """
         Return raw uncompressed public key.
@@ -165,6 +174,7 @@ class Ed25519PublicKey(IPublicKey):
         # Same as compressed
         return self.RawCompressed()
 
+    @override
     def Point(self) -> IPoint:
         """
         Get public key point.
@@ -180,6 +190,7 @@ class Ed25519PrivateKey(IPrivateKey):
 
     m_sign_key: signing.SigningKey
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -210,6 +221,7 @@ class Ed25519PrivateKey(IPrivateKey):
         """
         self.m_sign_key = key_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -220,6 +232,7 @@ class Ed25519PrivateKey(IPrivateKey):
         """
         return EllipticCurveTypes.ED25519
 
+    @override
     @staticmethod
     def Length() -> int:
         """
@@ -230,6 +243,7 @@ class Ed25519PrivateKey(IPrivateKey):
         """
         return Ed25519KeysConst.PRIV_KEY_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -239,6 +253,7 @@ class Ed25519PrivateKey(IPrivateKey):
         """
         return self.m_sign_key
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return raw private key.
@@ -248,6 +263,7 @@ class Ed25519PrivateKey(IPrivateKey):
         """
         return DataBytes(bytes(self.m_sign_key))
 
+    @override
     def PublicKey(self) -> IPublicKey:
         """
         Get the public key correspondent to the private one.

@@ -31,6 +31,8 @@ References:
 from enum import Enum, auto, unique
 from typing import Dict, List
 
+from typing_extensions import override
+
 from bip_utils.bech32.bech32_base import Bech32BaseUtils, Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.utils.misc import BytesUtils
 
@@ -163,6 +165,7 @@ class Bech32Encoder(Bech32EncoderBase):
                                  Bech32BaseUtils.ConvertToBase32(data),
                                  Bech32Const.SEPARATOR)
 
+    @override
     @staticmethod
     def _ComputeChecksum(hrp: str,
                          data: List[int]) -> List[int]:
@@ -219,6 +222,7 @@ class Bech32Decoder(Bech32DecoderBase):
             Bech32BaseUtils.ConvertFromBase32(data)
         )
 
+    @override
     @staticmethod
     def _VerifyChecksum(hrp: str,
                         data: List[int]) -> bool:

@@ -24,6 +24,8 @@
 import os
 from typing import Tuple
 
+from typing_extensions import override
+
 from bip_utils.electrum.mnemonic_v1.electrum_v1_mnemonic import ElectrumV1Languages, ElectrumV1MnemonicConst
 from bip_utils.utils.mnemonic import (
     Mnemonic,
@@ -40,6 +42,7 @@ class ElectrumV1WordsListGetter(MnemonicWordsListGetterBase):
     It allows to get words list by language so that they are loaded from file only once per language.
     """
 
+    @override
     def GetByLanguage(self,
                       lang: MnemonicLanguages) -> MnemonicWordsList:
         """
@@ -84,6 +87,7 @@ class ElectrumV1WordsListFinder(MnemonicWordsListFinderBase):
     It automatically finds the correct words list from a mnemonic.
     """
 
+    @override
     @classmethod
     def FindLanguage(cls,
                      mnemonic: Mnemonic) -> Tuple[MnemonicWordsList, MnemonicLanguages]:

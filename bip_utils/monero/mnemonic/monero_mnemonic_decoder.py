@@ -23,6 +23,8 @@
 # Imports
 from typing import List, Optional, Union
 
+from typing_extensions import override
+
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicConst
 from bip_utils.monero.mnemonic.monero_mnemonic_utils import (
     MoneroMnemonicUtils,
@@ -62,6 +64,7 @@ class MoneroMnemonicDecoder(MnemonicDecoderBase):
         """
         super().__init__(lang, MoneroWordsListFinder, MoneroWordsListGetter)
 
+    @override
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
         """

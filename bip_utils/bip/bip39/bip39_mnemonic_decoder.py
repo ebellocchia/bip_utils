@@ -26,6 +26,8 @@ Reference: https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki
 # Imports
 from typing import Optional, Union
 
+from typing_extensions import override
+
 from bip_utils.bip.bip39.bip39_mnemonic import Bip39Languages, Bip39Mnemonic, Bip39MnemonicConst
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
 from bip_utils.utils.crypto import Sha256
@@ -53,6 +55,7 @@ class Bip39MnemonicDecoder(MnemonicDecoderBase):
         """
         super().__init__(lang, Bip39WordsListFinder, Bip39WordsListGetter)
 
+    @override
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
         """

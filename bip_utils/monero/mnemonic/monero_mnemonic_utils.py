@@ -24,6 +24,8 @@
 import os
 from typing import List, Tuple
 
+from typing_extensions import override
+
 from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicConst
 from bip_utils.utils.crypto import Crc32
 from bip_utils.utils.mnemonic import (
@@ -41,6 +43,7 @@ class MoneroWordsListGetter(MnemonicWordsListGetterBase):
     It allows to get words list by language so that they are loaded from file only once per language.
     """
 
+    @override
     def GetByLanguage(self,
                       lang: MnemonicLanguages) -> MnemonicWordsList:
         """
@@ -85,6 +88,7 @@ class MoneroWordsListFinder(MnemonicWordsListFinderBase):
     It automatically finds the correct words list from a mnemonic.
     """
 
+    @override
     @classmethod
     def FindLanguage(cls,
                      mnemonic: Mnemonic) -> Tuple[MnemonicWordsList, MnemonicLanguages]:

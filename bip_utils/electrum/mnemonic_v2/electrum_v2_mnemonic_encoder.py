@@ -23,9 +23,10 @@ Module for Electrum v2 mnemonic encoding.
 Reference: https://github.com/spesmilo/electrum
 """
 
-from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
-
 # Imports
+from typing_extensions import override
+
+from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
 from bip_utils.electrum.mnemonic_v2.electrum_v2_entropy_generator import ElectrumV2EntropyGenerator
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import (
     ElectrumV2Languages,
@@ -67,6 +68,7 @@ class ElectrumV2MnemonicEncoder(MnemonicEncoderBase):
         super().__init__(lang.value, Bip39WordsListGetter)
         self.m_mnemonic_type = mnemonic_type
 
+    @override
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
         """

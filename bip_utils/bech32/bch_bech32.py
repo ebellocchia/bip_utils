@@ -26,6 +26,8 @@ Reference: https://github.com/bitcoincashorg/bitcoincash.org/blob/master/spec/ca
 # Imports
 from typing import List, Tuple
 
+from typing_extensions import override
+
 from bip_utils.bech32.bech32_base import Bech32BaseUtils, Bech32DecoderBase, Bech32EncoderBase
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
@@ -149,6 +151,7 @@ class BchBech32Encoder(Bech32EncoderBase):
                                  Bech32BaseUtils.ConvertToBase32(net_ver + data),
                                  BchBech32Const.SEPARATOR)
 
+    @override
     @staticmethod
     def _ComputeChecksum(hrp: str,
                          data: List[int]) -> List[int]:
@@ -204,6 +207,7 @@ class BchBech32Decoder(Bech32DecoderBase):
 
         return IntegerUtils.ToBytes(conv_data[0]), BytesUtils.FromList(conv_data[1:])
 
+    @override
     @staticmethod
     def _VerifyChecksum(hrp: str,
                         data: List[int]) -> bool:

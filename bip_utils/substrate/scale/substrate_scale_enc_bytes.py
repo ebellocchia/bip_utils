@@ -23,6 +23,8 @@
 # Imports
 from typing import Any
 
+from typing_extensions import override
+
 from bip_utils.substrate.scale.substrate_scale_enc_base import SubstrateScaleEncoderBase
 from bip_utils.substrate.scale.substrate_scale_enc_cuint import SubstrateScaleCUintEncoder
 from bip_utils.utils.misc import AlgoUtils
@@ -31,6 +33,7 @@ from bip_utils.utils.misc import AlgoUtils
 class SubstrateScaleBytesEncoder(SubstrateScaleEncoderBase):
     """Substrate SCALE encoding class for bytes."""
 
+    @override
     @classmethod
     def Encode(cls,
                value: Any) -> bytes:

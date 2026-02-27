@@ -24,6 +24,7 @@
 from typing import Any
 
 import coincurve
+from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
@@ -38,6 +39,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
 
     m_ver_key: coincurve.PublicKey
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPublicKey:
@@ -58,6 +60,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         except ValueError as ex:
             raise ValueError("Invalid public key bytes") from ex
 
+    @override
     @classmethod
     def FromPoint(cls,
                   key_point: IPoint) -> IPublicKey:
@@ -91,6 +94,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         """
         self.m_ver_key = key_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -101,6 +105,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         """
         return EllipticCurveTypes.SECP256K1
 
+    @override
     @staticmethod
     def CompressedLength() -> int:
         """
@@ -111,6 +116,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         """
         return EcdsaKeysConst.PUB_KEY_COMPRESSED_BYTE_LEN
 
+    @override
     @staticmethod
     def UncompressedLength() -> int:
         """
@@ -121,6 +127,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         """
         return EcdsaKeysConst.PUB_KEY_UNCOMPRESSED_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -130,6 +137,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         """
         return self.m_ver_key
 
+    @override
     def RawCompressed(self) -> DataBytes:
         """
         Return raw compressed public key.
@@ -139,6 +147,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         """
         return DataBytes(self.m_ver_key.format(True))
 
+    @override
     def RawUncompressed(self) -> DataBytes:
         """
         Return raw uncompressed public key.
@@ -148,6 +157,7 @@ class Secp256k1PublicKeyCoincurve(IPublicKey):
         """
         return DataBytes(self.m_ver_key.format(False))
 
+    @override
     def Point(self) -> IPoint:
         """
         Get public key point.
@@ -164,6 +174,7 @@ class Secp256k1PrivateKeyCoincurve(IPrivateKey):
 
     m_sign_key: coincurve.PrivateKey
 
+    @override
     @classmethod
     def FromBytes(cls,
                   key_bytes: bytes) -> IPrivateKey:
@@ -198,6 +209,7 @@ class Secp256k1PrivateKeyCoincurve(IPrivateKey):
         """
         self.m_sign_key = key_obj
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """
@@ -208,6 +220,7 @@ class Secp256k1PrivateKeyCoincurve(IPrivateKey):
         """
         return EllipticCurveTypes.SECP256K1
 
+    @override
     @staticmethod
     def Length() -> int:
         """
@@ -218,6 +231,7 @@ class Secp256k1PrivateKeyCoincurve(IPrivateKey):
         """
         return EcdsaKeysConst.PRIV_KEY_BYTE_LEN
 
+    @override
     def UnderlyingObject(self) -> Any:
         """
         Get the underlying object.
@@ -227,6 +241,7 @@ class Secp256k1PrivateKeyCoincurve(IPrivateKey):
         """
         return self.m_sign_key
 
+    @override
     def Raw(self) -> DataBytes:
         """
         Return raw private key.
@@ -236,6 +251,7 @@ class Secp256k1PrivateKeyCoincurve(IPrivateKey):
         """
         return DataBytes(self.m_sign_key.secret)
 
+    @override
     def PublicKey(self) -> IPublicKey:
         """
         Get the public key correspondent to the private one.

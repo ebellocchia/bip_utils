@@ -21,6 +21,8 @@
 """Module for ed25519-kholaw point."""
 
 # Imports
+from typing_extensions import override
+
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
 
@@ -28,6 +30,7 @@ from bip_utils.ecc.ed25519.ed25519_point import Ed25519Point
 class Ed25519KholawPoint(Ed25519Point):
     """Ed25519-Kholaw point class."""
 
+    @override
     @staticmethod
     def CurveType() -> EllipticCurveTypes:
         """

@@ -23,6 +23,8 @@
 # Imports
 from typing import Any, Union
 
+from typing_extensions import override
+
 from bip_utils.addr.iaddr_decoder import IAddrDecoder
 from bip_utils.addr.iaddr_encoder import IAddrEncoder
 from bip_utils.addr.P2PKH_addr import P2PKHAddrDecoder, P2PKHAddrEncoder
@@ -37,6 +39,7 @@ class XrpAddrDecoder(IAddrDecoder):
     It allows the Ripple address decoding.
     """
 
+    @override
     @staticmethod
     def DecodeAddr(addr: str,
                    **kwargs: Any) -> bytes:
@@ -66,6 +69,7 @@ class XrpAddrEncoder(IAddrEncoder):
     It allows the Ripple address encoding.
     """
 
+    @override
     @staticmethod
     def EncodeKey(pub_key: Union[bytes, IPublicKey],
                   **kwargs: Any) -> str:

@@ -24,6 +24,8 @@ Reference: https://github.com/LedgerHQ/orakolo/blob/master/papers/Ed25519_BIP%20
 """
 
 # Imports
+from typing_extensions import override
+
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_keys import Bip32PublicKey
@@ -38,6 +40,7 @@ class Bip32KholawEd25519KeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
     It allows keys derivation for ed25519 curves in according to BIP32 Khovratovich/Law.
     """
 
+    @override
     @staticmethod
     def _SerializeIndex(index: Bip32KeyIndex) -> bytes:
         """
@@ -51,6 +54,7 @@ class Bip32KholawEd25519KeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
         """
         return index.ToBytes(endianness="little")
 
+    @override
     @staticmethod
     def _NewPrivateKeyLeftPart(zl_bytes: bytes,
                                kl_bytes: bytes,
@@ -78,6 +82,7 @@ class Bip32KholawEd25519KeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
                                     bytes_num=Ed25519KholawPrivateKey.Length() // 2,
                                     endianness="little")
 
+    @override
     @staticmethod
     def _NewPrivateKeyRightPart(zr_bytes: bytes,
                                 kr_bytes: bytes) -> bytes:
@@ -99,6 +104,7 @@ class Bip32KholawEd25519KeyDerivator(Bip32KholawEd25519KeyDerivatorBase):
                                     bytes_num=Ed25519KholawPrivateKey.Length() // 2,
                                     endianness="little")
 
+    @override
     @staticmethod
     def _NewPublicKeyPoint(pub_key: Bip32PublicKey,
                            zl_bytes: bytes) -> IPoint:

@@ -26,6 +26,8 @@ Reference: https://github.com/algorand/py-algorand-sdk
 # Imports
 from typing import Optional, Union
 
+from typing_extensions import override
+
 from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages, AlgorandMnemonic, AlgorandMnemonicConst
 from bip_utils.algorand.mnemonic.algorand_mnemonic_utils import AlgorandMnemonicUtils
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
@@ -59,6 +61,7 @@ class AlgorandMnemonicDecoder(MnemonicDecoderBase):
                          Bip39WordsListFinder,
                          Bip39WordsListGetter)
 
+    @override
     def Decode(self,
                mnemonic: Union[str, Mnemonic]) -> bytes:
         """
