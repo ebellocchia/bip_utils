@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,12 @@
 import unittest
 
 from bip_utils import (
-    Bip32PathParser, Bip32Slip10Secp256k1, Bip39SeedGenerator, Slip32KeyDeserializer, Slip32PrivateKeySerializer,
-    Slip32PublicKeySerializer
+    Bip32PathParser,
+    Bip32Slip10Secp256k1,
+    Bip39SeedGenerator,
+    Slip32KeyDeserializer,
+    Slip32PrivateKeySerializer,
+    Slip32PublicKeySerializer,
 )
 
 

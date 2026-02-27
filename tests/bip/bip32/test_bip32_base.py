@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,16 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyData, Bip32KeyError, Bip32KeyIndex, Bip32KeyNetVersions,
-    Bip32PrivateKey, Bip32PublicKey, EllipticCurveGetter
+    Bip32ChainCode,
+    Bip32Depth,
+    Bip32FingerPrint,
+    Bip32KeyData,
+    Bip32KeyError,
+    Bip32KeyIndex,
+    Bip32KeyNetVersions,
+    Bip32PrivateKey,
+    Bip32PublicKey,
+    EllipticCurveGetter,
 )
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst

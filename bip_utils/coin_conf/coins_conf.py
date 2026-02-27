@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 # Imports
 from bip_utils.coin_conf.coin_conf import CoinConf
 from bip_utils.slip.slip173 import Slip173
+from bip_utils.ton.addr.ton_addr_versions import TonAddrVersions
 from bip_utils.utils.conf import CoinNames
 
 
@@ -848,6 +849,15 @@ class CoinsConf:
     Theta: CoinConf = CoinConf(
         coin_name=CoinNames("Theta Network", "THETA"),
         params={},
+    )
+
+    # Configuration for Tron
+    Ton: CoinConf = CoinConf(
+        coin_name=CoinNames("The Open Network", "TON"),
+        params={
+            "version": TonAddrVersions.V4,
+            "is_bounceable": False,
+        },
     )
 
     # Configuration for Tron

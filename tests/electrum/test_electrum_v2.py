@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,14 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Bip32PrivateKey, Bip32PublicKey, Bip32Slip10Ed25519, Bip32Slip10Secp256k1, CoinsConf, ElectrumV2Segwit,
-    ElectrumV2Standard, WifEncoder
+    Bip32PrivateKey,
+    Bip32PublicKey,
+    Bip32Slip10Ed25519,
+    Bip32Slip10Secp256k1,
+    CoinsConf,
+    ElectrumV2Segwit,
+    ElectrumV2Standard,
+    WifEncoder,
 )
 from tests.bip.bip32.test_bip32_base import TEST_SEED
 

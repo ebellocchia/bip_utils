@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -50,6 +50,7 @@ from bip_utils.addr import (
     SolAddrEncoder,
     SubstrateEd25519AddrEncoder,
     SuiAddrEncoder,
+    TonAddrEncoder,
     TrxAddrEncoder,
     XlmAddrEncoder,
     XlmAddrTypes,
@@ -1339,6 +1340,21 @@ class Bip44Conf:
         bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=EthAddrEncoder,
         addr_params={},
+    )
+    # Configuration for Ton
+    Ton: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Ton.CoinNames(),
+        coin_idx=Slip44.TON,
+        is_testnet=False,
+        def_path=DER_PATH_HARDENED_SHORT,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Ed25519,
+        addr_cls=TonAddrEncoder,
+        addr_params={
+            "version": CoinsConf.Ton.ParamByKey("version"),
+            "is_bounceable": CoinsConf.Ton.ParamByKey("is_bounceable"),
+        },
     )
 
     # Configuration for Tron

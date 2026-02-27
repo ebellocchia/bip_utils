@@ -116,6 +116,8 @@ from bip_utils.addr import (
     SuiAddr,
     SuiAddrDecoder,
     SuiAddrEncoder,
+    TonAddr,
+    TonAddrEncoder,
     TrxAddr,
     TrxAddrDecoder,
     TrxAddrEncoder,
@@ -384,6 +386,30 @@ from bip_utils.substrate.scale import (
     SubstrateScaleU256Encoder,
 )
 
+# TON
+from bip_utils.ton import (
+    Ton,
+    TonKeyError,
+    TonPrivateKey,
+    TonPublicKey,
+)
+from bip_utils.ton.addr import (
+    TonAddrVersions,
+    TonV3R1AddrEncoder,
+    TonV3R2AddrEncoder,
+    TonV4AddrEncoder,
+    TonV5R1AddrEncoder,
+)
+from bip_utils.ton.mnemonic import (
+    TonLanguages,
+    TonMnemonic,
+    TonMnemonicGenerator,
+    TonMnemonicValidator,
+    TonSeedGenerator,
+    TonSeedTypes,
+    TonWordsNum,
+)
+
 # Utils
 from bip_utils.utils.crypto import (
     AesEcbDecrypter,
@@ -412,6 +438,8 @@ from bip_utils.utils.misc import (
     AlgoUtils,
     Base32Decoder,
     Base32Encoder,
+    Base64Decoder,
+    Base64Encoder,
     BitUtils,
     BytesUtils,
     DataBytes,

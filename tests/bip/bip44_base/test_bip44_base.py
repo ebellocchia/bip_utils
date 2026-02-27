@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,18 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Bip32KeyData, Bip32KeyError, Bip44Changes, Bip44Coins, Bip44DepthError, Bip44Levels, Bip44PrivateKey,
-    Bip44PublicKey, Bip49Coins, CardanoShelley, Cip1852Coins, Monero
+    Bip32KeyData,
+    Bip32KeyError,
+    Bip44Changes,
+    Bip44Coins,
+    Bip44DepthError,
+    Bip44Levels,
+    Bip44PrivateKey,
+    Bip44PublicKey,
+    Bip49Coins,
+    CardanoShelley,
+    Cip1852Coins,
+    Monero,
 )
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 from bip_utils.bip.conf.common import BipCoinConf

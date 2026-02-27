@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -30,12 +30,37 @@ from ecdsa.ecdsa import generator_256, generator_secp256k1
 from nacl import signing
 
 from bip_utils import (
-    DataBytes, Ed25519, Ed25519Blake2b, Ed25519Blake2bPoint, Ed25519Blake2bPrivateKey, Ed25519Blake2bPublicKey,
-    Ed25519Kholaw, Ed25519KholawPoint, Ed25519KholawPrivateKey, Ed25519KholawPublicKey, Ed25519Monero,
-    Ed25519MoneroPoint, Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey, Ed25519Point, Ed25519PrivateKey,
-    Ed25519PublicKey, EllipticCurveGetter, EllipticCurveTypes, Nist256p1, Nist256p1Point, Nist256p1PrivateKey,
-    Nist256p1PublicKey, Secp256k1, Secp256k1Point, Secp256k1PrivateKey, Secp256k1PublicKey, Sr25519, Sr25519Point,
-    Sr25519PrivateKey, Sr25519PublicKey
+    DataBytes,
+    Ed25519,
+    Ed25519Blake2b,
+    Ed25519Blake2bPoint,
+    Ed25519Blake2bPrivateKey,
+    Ed25519Blake2bPublicKey,
+    Ed25519Kholaw,
+    Ed25519KholawPoint,
+    Ed25519KholawPrivateKey,
+    Ed25519KholawPublicKey,
+    Ed25519Monero,
+    Ed25519MoneroPoint,
+    Ed25519MoneroPrivateKey,
+    Ed25519MoneroPublicKey,
+    Ed25519Point,
+    Ed25519PrivateKey,
+    Ed25519PublicKey,
+    EllipticCurveGetter,
+    EllipticCurveTypes,
+    Nist256p1,
+    Nist256p1Point,
+    Nist256p1PrivateKey,
+    Nist256p1PublicKey,
+    Secp256k1,
+    Secp256k1Point,
+    Secp256k1PrivateKey,
+    Secp256k1PublicKey,
+    Sr25519,
+    Sr25519Point,
+    Sr25519PrivateKey,
+    Sr25519PublicKey,
 )
 from bip_utils.ecc.conf import EccConf
 from bip_utils.utils.misc import IntegerUtils

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -121,6 +121,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.TERRA: Bip44Conf.Terra,
         Bip44Coins.TEZOS: Bip44Conf.Tezos,
         Bip44Coins.THETA: Bip44Conf.Theta,
+        Bip44Coins.TON: Bip44Conf.Ton,
         Bip44Coins.TRON: Bip44Conf.Tron,
         Bip44Coins.VECHAIN: Bip44Conf.VeChain,
         Bip44Coins.VERGE: Bip44Conf.Verge,

@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,8 +24,12 @@ import unittest
 
 from bip_utils import Base58ChecksumError, Bip38Decrypter, Bip38Encrypter, Bip38PubKeyModes
 from tests.ecc.test_ecc import (
-    TEST_ED25519_BLAKE2B_PRIV_KEY, TEST_ED25519_MONERO_PRIV_KEY, TEST_ED25519_PRIV_KEY, TEST_NIST256P1_PRIV_KEY,
-    TEST_SR25519_PRIV_KEY, TEST_VECT_SECP256K1_PRIV_KEY_INVALID
+    TEST_ED25519_BLAKE2B_PRIV_KEY,
+    TEST_ED25519_MONERO_PRIV_KEY,
+    TEST_ED25519_PRIV_KEY,
+    TEST_NIST256P1_PRIV_KEY,
+    TEST_SR25519_PRIV_KEY,
+    TEST_VECT_SECP256K1_PRIV_KEY_INVALID,
 )
 
 

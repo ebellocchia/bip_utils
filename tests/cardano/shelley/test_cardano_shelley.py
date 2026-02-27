@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,14 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Bip44, Bip44Changes, Bip44Coins, CardanoShelley, CardanoShelleyPrivateKeys, CardanoShelleyPublicKeys, Cip1852,
-    Cip1852Coins
+    Bip44,
+    Bip44Changes,
+    Bip44Coins,
+    CardanoShelley,
+    CardanoShelleyPrivateKeys,
+    CardanoShelleyPublicKeys,
+    Cip1852,
+    Cip1852Coins,
 )
 
 

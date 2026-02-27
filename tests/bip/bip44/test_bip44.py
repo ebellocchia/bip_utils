@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -1902,6 +1902,30 @@ TEST_VECT = [
             "0x02f9C86C8dA95C6748d063AA00c6DCD581311C06",
         ],
     },
+    # Ton
+    {
+        "coin": Bip44Coins.TON,
+        "names": ("The Open Network", "TON"),
+        "is_testnet": False,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "ex_master": "xprv9s21ZrQH143K4GYBne6aGFZLHUSCPzQ3amKxfzz6kHpqDLBHk58dvPW7twcRFJeo1oQAvNeiYpZEeUkWCW3YgdvXHUcQQU6xjh8jBo4Y8xG",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CRHWanBuDYomVH6yPdHjzw4mReJ1HRH2i3dqPcNA222SfCimALj1r1FAriJ1rRyw68qMtAgREW62kCMVQCMhR7WBnA7atSHLpiNDUhYjQA",
+            "ex_priv": "xprv9yRw75FJ4qzWZ1CdsN6HNrzLDPoobphRfV8331CkbgV3ZrsaDd2UU3gmKg24hLkDZJU1YoZQrTV2zVe4r8ApqvMRxdi2uMjoxLfrF5YcgQY",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6EYY9ZsAv6251ZQRrgZMu5ApdTegaR2YWd1Yv2UWLczb9EvuYSri5bPZWPeCCyo6LVX3uWQR2HpYa7xbiwJVhXaWXMN9qhf1AtKdJiKXNxq",
+            "ex_priv": "xprvA1ZBk4LH5iTmo5Kxkf2MXwE65RpCAxJh9Q5x7e4tnHTcGSbkzuYTXo55fCbG3jH5JWDrLj31S4PAYyxhN95YQJpzeZn9EfL27m9eG6pZ6dw",
+        },
+        "addresses": [
+            "UQDxAUFadQXDd3EXGa3TLF_EF66gMc9h3_aZ0j0zXNoIYUCc",
+            "UQBHJG1XpSPMRBaS6Ae-xcufra2eXnAKQadJaEPXfTi8xVWR",
+            "UQA-ooQWPu_E8R0PfBC4Urg5RtNaelw538RIKTlMqGhy6dhM",
+            "UQB2G4IoTJnMB9sdRZHKKHuVrsoTZ1fJFlwRI84gsyncBp1c",
+            "UQAPUP6gFteMDnS6iJnKHd5Wx-yK_nk35Pk8SNGOKcCVd_69",
+        ],
+    },
     # Tron
     {
         "coin": Bip44Coins.TRON,
@@ -2793,6 +2817,12 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.THETA,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "0xB16f8D941d7D281aDCEf3e950aBF2147D7AC2D33",
+    },
+    # Ton
+    {
+        "coin": Bip44Coins.TON,
+        "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
+        "default_address": "UQAzWZa6nM5mJev91wGc7VCSfBoIsYRqKJpV78N8Add9-RKY",
     },
     # Tron
     {

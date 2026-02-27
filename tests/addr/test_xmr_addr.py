@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,13 @@
 import binascii
 
 from bip_utils import (
-    CoinsConf, XmrAddr, XmrAddrDecoder, XmrAddrEncoder, XmrIntegratedAddr, XmrIntegratedAddrDecoder,
-    XmrIntegratedAddrEncoder
+    CoinsConf,
+    XmrAddr,
+    XmrAddrDecoder,
+    XmrAddrEncoder,
+    XmrIntegratedAddr,
+    XmrIntegratedAddrDecoder,
+    XmrIntegratedAddrEncoder,
 )
 from bip_utils.addr.xmr_addr import XmrAddrConst
 from tests.addr.test_addr_base import AddrBaseTests

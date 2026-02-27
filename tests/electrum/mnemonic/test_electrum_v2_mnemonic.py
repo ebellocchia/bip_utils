@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,18 @@ import math
 import unittest
 
 from bip_utils import (
-    BytesUtils, ElectrumV2EntropyBitLen, ElectrumV2EntropyGenerator, ElectrumV2Languages, ElectrumV2MnemonicDecoder,
-    ElectrumV2MnemonicGenerator, ElectrumV2MnemonicTypes, ElectrumV2MnemonicValidator, ElectrumV2SeedGenerator,
-    ElectrumV2Segwit, ElectrumV2Standard, ElectrumV2WordsNum
+    BytesUtils,
+    ElectrumV2EntropyBitLen,
+    ElectrumV2EntropyGenerator,
+    ElectrumV2Languages,
+    ElectrumV2MnemonicDecoder,
+    ElectrumV2MnemonicGenerator,
+    ElectrumV2MnemonicTypes,
+    ElectrumV2MnemonicValidator,
+    ElectrumV2SeedGenerator,
+    ElectrumV2Segwit,
+    ElectrumV2Standard,
+    ElectrumV2WordsNum,
 )
 from bip_utils.electrum.mnemonic_v2.electrum_v2_mnemonic import ElectrumV2MnemonicConst
 
@@ -170,12 +179,15 @@ class ElectrumV2MnemonicTests(unittest.TestCase):
             # Test mnemonic validator (language specified, all mnemonic types)
             mnemonic_validator = ElectrumV2MnemonicValidator(lang=lang)
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
             # Test mnemonic validator (automatic language detection, all mnemonic types)
             mnemonic_validator = ElectrumV2MnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
             # Test mnemonic validator (mnemonic type specified)
             mnemonic_validator = ElectrumV2MnemonicValidator(mnemonic_type=test["mnemonic_type"])
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
 
             # Test decoder (language specified, all mnemonic types)
             entropy = ElectrumV2MnemonicDecoder(lang=lang).Decode(mnemonic)

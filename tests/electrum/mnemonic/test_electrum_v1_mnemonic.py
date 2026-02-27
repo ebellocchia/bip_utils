@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,15 @@ import binascii
 import unittest
 
 from bip_utils import (
-    ElectrumV1, ElectrumV1EntropyBitLen, ElectrumV1EntropyGenerator, ElectrumV1Languages, ElectrumV1MnemonicDecoder,
-    ElectrumV1MnemonicGenerator, ElectrumV1MnemonicValidator, ElectrumV1SeedGenerator, ElectrumV1WordsNum
+    ElectrumV1,
+    ElectrumV1EntropyBitLen,
+    ElectrumV1EntropyGenerator,
+    ElectrumV1Languages,
+    ElectrumV1MnemonicDecoder,
+    ElectrumV1MnemonicGenerator,
+    ElectrumV1MnemonicValidator,
+    ElectrumV1SeedGenerator,
+    ElectrumV1WordsNum,
 )
 
 
@@ -148,9 +155,11 @@ class ElectrumV1MnemonicTests(unittest.TestCase):
             # Test mnemonic validator (language specified)
             mnemonic_validator = ElectrumV1MnemonicValidator(lang)
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
             # Test mnemonic validator (automatic language detection)
             mnemonic_validator = ElectrumV1MnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
 
             # Test decoder (language specified)
             entropy = ElectrumV1MnemonicDecoder(lang).Decode(mnemonic)

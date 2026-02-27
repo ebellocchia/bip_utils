@@ -91,6 +91,7 @@ Supported coins enumerative for BIP-0044:
 |Terra|`Bip44Coins.TERRA`|-|
 |Tezos|`Bip44Coins.TEZOS`|-|
 |Theta Network|`Bip44Coins.THETA`|-|
+|Ton|`Bip44Coins.TON`|-|
 |Tron|`Bip44Coins.TRON`|-|
 |VeChain|`Bip44Coins.VECHAIN`|-|
 |Verge|`Bip44Coins.VERGE`|-|

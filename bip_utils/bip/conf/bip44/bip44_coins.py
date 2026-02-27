@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -109,6 +109,7 @@ class Bip44Coins(BipCoins):
     TERRA = auto()
     TEZOS = auto()
     THETA = auto()
+    TON = auto()
     TRON = auto()
     VECHAIN = auto()
     VERGE = auto()

@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,13 @@ import binascii
 import unittest
 
 from bip_utils import (
-    CoinsConf, ElectrumV1, Secp256k1PrivateKey, Secp256k1PublicKey, WifDecoder, WifEncoder, WifPubKeyModes
+    CoinsConf,
+    ElectrumV1,
+    Secp256k1PrivateKey,
+    Secp256k1PublicKey,
+    WifDecoder,
+    WifEncoder,
+    WifPubKeyModes,
 )
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
 from tests.ecc.test_ecc import TEST_ED25519_PRIV_KEY, TEST_ED25519_PUB_KEY

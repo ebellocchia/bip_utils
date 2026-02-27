@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,13 +20,20 @@
 
 # Imports
 from bip_utils import (
-    SubstrateEd25519Addr, SubstrateEd25519AddrDecoder, SubstrateEd25519AddrEncoder, SubstrateSr25519Addr,
-    SubstrateSr25519AddrDecoder, SubstrateSr25519AddrEncoder
+    SubstrateEd25519Addr,
+    SubstrateEd25519AddrDecoder,
+    SubstrateEd25519AddrEncoder,
+    SubstrateSr25519Addr,
+    SubstrateSr25519AddrDecoder,
+    SubstrateSr25519AddrEncoder,
 )
 from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES, TEST_SR25519_ADDR_INVALID_KEY_TYPES
 from tests.ecc.test_ecc import (
-    TEST_VECT_ED25519_PUB_KEY_INVALID, TEST_VECT_SR25519_PUB_KEY_INVALID, Ed25519PublicKey, Sr25519PublicKey
+    TEST_VECT_ED25519_PUB_KEY_INVALID,
+    TEST_VECT_SR25519_PUB_KEY_INVALID,
+    Ed25519PublicKey,
+    Sr25519PublicKey,
 )
 
 

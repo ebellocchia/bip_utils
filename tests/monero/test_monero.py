@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,13 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Ed25519MoneroPrivateKey, Ed25519MoneroPublicKey, Monero, MoneroCoins, MoneroKeyError, MoneroPrivateKey,
-    MoneroPublicKey
+    Ed25519MoneroPrivateKey,
+    Ed25519MoneroPublicKey,
+    Monero,
+    MoneroCoins,
+    MoneroKeyError,
+    MoneroPrivateKey,
+    MoneroPublicKey,
 )
 from bip_utils.monero.conf import MoneroCoinConf
 from bip_utils.monero.monero_subaddr import MoneroSubaddressConst

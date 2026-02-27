@@ -53,6 +53,7 @@ Package dependencies:
 - [ed25519-blake2b](https://pypi.org/project/ed25519-blake2b/) for ed25519-blake2b curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve
+- [pytoniq-core-fork](https://github.com/ebellocchia/pytoniq-core) for TON primitives (my fork to extend compatibility to Python >= 3.7)
 
 Please note that, for the py-sr25519-bindings library, Rust is required to be installed.
 
@@ -120,6 +121,7 @@ Supported BIP coins:
 - Terra
 - Tezos
 - Theta Network
+- Ton
 - Tron
 - VeChain
 - Verge
@@ -198,6 +200,7 @@ To run code analysis:
 - [Electrum](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md)
 - [Monero](https://github.com/ebellocchia/bip_utils/tree/master/readme/monero.md)
 - [Substrate](https://github.com/ebellocchia/bip_utils/tree/master/readme/substrate.md)
+- [Ton](https://github.com/ebellocchia/bip_utils/tree/master/readme/ton.md)
 - [Utility libraries](https://github.com/ebellocchia/bip_utils/tree/master/readme/utility_libs.md)
 
 ## Documentation

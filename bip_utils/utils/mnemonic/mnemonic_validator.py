@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -46,7 +46,7 @@ class MnemonicValidator:
     def Validate(self,
                  mnemonic: Union[str, Mnemonic]) -> None:
         """
-        Validate the mnemonic specified at construction.
+        Validate the specified mnemonic.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
@@ -62,7 +62,7 @@ class MnemonicValidator:
     def IsValid(self,
                 mnemonic: Union[str, Mnemonic]) -> bool:
         """
-        Get if the mnemonic specified at construction is valid.
+        Get if the specified mnemonic is valid.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic

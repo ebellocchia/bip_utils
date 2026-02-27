@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,8 +20,14 @@
 
 # Imports
 from bip_utils import (
-    Bip32ChainCode, Bip32Depth, Bip32FingerPrint, Bip32KeyData, Bip32KeyError, Bip32KeyIndex, Bip32PrivateKey,
-    Bip32PublicKey
+    Bip32ChainCode,
+    Bip32Depth,
+    Bip32FingerPrint,
+    Bip32KeyData,
+    Bip32KeyError,
+    Bip32KeyIndex,
+    Bip32PrivateKey,
+    Bip32PublicKey,
 )
 from bip_utils.bip.bip32.bip32_const import Bip32Const
 from tests.ecc.test_ecc import *

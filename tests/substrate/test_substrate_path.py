@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,12 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Substrate, SubstrateCoins, SubstratePath, SubstratePathElem, SubstratePathError, SubstratePathParser
+    Substrate,
+    SubstrateCoins,
+    SubstratePath,
+    SubstratePathElem,
+    SubstratePathError,
+    SubstratePathParser,
 )
 from tests.substrate.test_substrate import TEST_SEED
 

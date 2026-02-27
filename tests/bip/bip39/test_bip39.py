@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,15 @@ import binascii
 import unittest
 
 from bip_utils import (
-    Bip39EntropyBitLen, Bip39EntropyGenerator, Bip39Languages, Bip39MnemonicDecoder, Bip39MnemonicGenerator,
-    Bip39MnemonicValidator, Bip39SeedGenerator, Bip39WordsNum, MnemonicChecksumError
+    Bip39EntropyBitLen,
+    Bip39EntropyGenerator,
+    Bip39Languages,
+    Bip39MnemonicDecoder,
+    Bip39MnemonicGenerator,
+    Bip39MnemonicValidator,
+    Bip39SeedGenerator,
+    Bip39WordsNum,
+    MnemonicChecksumError,
 )
 
 
@@ -358,9 +365,11 @@ class Bip39Tests(unittest.TestCase):
             # Test mnemonic validator (language specified)
             mnemonic_validator = Bip39MnemonicValidator(lang)
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
             # Test mnemonic validator (automatic language detection)
             mnemonic_validator = Bip39MnemonicValidator()
             self.assertTrue(mnemonic_validator.IsValid(mnemonic))
+            mnemonic_validator.Validate(mnemonic)
 
             # Test decoder (language specified)
             entropy = Bip39MnemonicDecoder(lang).Decode(mnemonic)

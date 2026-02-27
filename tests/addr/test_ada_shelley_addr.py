@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,9 +22,16 @@
 import binascii
 
 from bip_utils import (
-    AdaShelleyAddr, AdaShelleyAddrDecoder, AdaShelleyAddrEncoder, AdaShelleyAddrNetworkTags, AdaShelleyRewardAddr,
-    AdaShelleyRewardAddrDecoder, AdaShelleyRewardAddrEncoder, AdaShelleyStakingAddr, AdaShelleyStakingAddrDecoder,
-    AdaShelleyStakingAddrEncoder
+    AdaShelleyAddr,
+    AdaShelleyAddrDecoder,
+    AdaShelleyAddrEncoder,
+    AdaShelleyAddrNetworkTags,
+    AdaShelleyRewardAddr,
+    AdaShelleyRewardAddrDecoder,
+    AdaShelleyRewardAddrEncoder,
+    AdaShelleyStakingAddr,
+    AdaShelleyStakingAddrDecoder,
+    AdaShelleyStakingAddrEncoder,
 )
 from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_ED25519_ADDR_INVALID_KEY_TYPES

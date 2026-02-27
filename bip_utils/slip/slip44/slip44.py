@@ -1,4 +1,4 @@
-# Copyright (c) 2022 Emanuele Bellocchia
+# Copyright (c) 2026 Emanuele Bellocchia
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -50,6 +50,7 @@ class Slip44:
     NANO: int = 165
     EOS: int = 194
     TRON: int = 195
+    TON: int = 607
     BITCOIN_SV: int = 236
     NIMIQ: int = 242
     ALGORAND: int = 283
