@@ -48,33 +48,35 @@ class TonSeedGenerator:
     """
 
     m_mnemonic: str
+    m_passphrase: str
 
     def __init__(self,
                  mnemonic: Union[str, Mnemonic],
+                 passphrase: str = "",
                  lang: TonLanguages = TonLanguages.ENGLISH) -> None:
         """
         Construct class.
 
         Args:
             mnemonic (str or Mnemonic object): Mnemonic
+            passphrase (str, optional)        : Passphrase (empty by default)
             lang (TonLanguages, optional)    : Language (default: English)
 
         Raises:
             ValueError: If the mnemonic is not valid
         """
         mnemonic_str = mnemonic if isinstance(mnemonic, str) else mnemonic.ToStr()
-        if not TonMnemonicValidator(lang).IsValid(mnemonic_str):
+        if not TonMnemonicValidator(lang).IsValid(mnemonic_str, passphrase):
             raise ValueError(f"Invalid mnemonic {mnemonic_str}")
         self.m_mnemonic = mnemonic_str
+        self.m_passphrase = passphrase
 
     def Generate(self,
-                 passphrase: str = "",
                  seed_type: TonSeedTypes = TonSeedTypes.PRIVATE_KEY) -> bytes:
         """
         Generate seed.
 
         Args:
-            passphrase (str, optional)        : Passphrase (empty by default)
             seed_type (TonSeedTypes, optional): Seed type (PRIVATE_KEY by default)
 
         Returns:
@@ -86,7 +88,7 @@ class TonSeedGenerator:
         if not isinstance(seed_type, TonSeedTypes):
             raise TypeError("Seed type is not an enumerative of TonSeedTypes")
 
-        entropy_bytes = TonSeedUtils.GetEntropyBytes(self.m_mnemonic, passphrase)
+        entropy_bytes = TonSeedUtils.GetEntropyBytes(self.m_mnemonic, self.m_passphrase)
         if seed_type == TonSeedTypes.PRIVATE_KEY:
             return TonSeedUtils.GetPrivateKeySeed(entropy_bytes)
         return TonSeedUtils.GetHdKeySeed(entropy_bytes)
