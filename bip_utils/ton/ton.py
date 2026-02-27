@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module containing utility classes for Ton keys derivation."""
+"""Module containing utility classes for Ton keys derivation (ton-crypto style)."""
 
 # Imports
 from __future__ import annotations
@@ -39,8 +39,7 @@ from bip_utils.ton.ton_keys import TonPrivateKey, TonPublicKey
 class Ton:
     """
     TON class.
-    It allows to generate keys and addresses for TON wallets such as Tonkeeper.
-    It also allows to generate addresses based on bip44 such as Trustwallet or Ledger.
+    It allows to generate keys and addresses for TON wallets like ton-crypto.
     """
 
     m_priv_key: TonPrivateKey
