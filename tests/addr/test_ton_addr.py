@@ -29,7 +29,6 @@ from tests.ecc.test_ecc import TEST_VECT_ED25519_PUB_KEY_INVALID, Ed25519PublicK
 TEST_VECT = [
     {
         "pub_key": b"00c6ba5594e3334ff890d2ab1dcf6757099b3505fd802d9ca1b4fc8b883f89a9de",
-        "address_dec": b"",
         "address_params": {
             "version": TonAddrVersions.V3R1,
         },
@@ -37,7 +36,6 @@ TEST_VECT = [
     },
     {
         "pub_key": b"00961411d8c9e817055fd615ad953cc0f87dad689ec23a1c48fc06e5472efecc55",
-        "address_dec": b"",
         "address_params": {
             "version": TonAddrVersions.V3R2,
         },
@@ -45,7 +43,6 @@ TEST_VECT = [
     },
     {
         "pub_key": b"00479a59b16b5fe57fa99dd763a3de0908cdc05d8a72f1ae1b535545dc6514e2ac",
-        "address_dec": b"",
         "address_params": {
             "version": TonAddrVersions.V4,
         },
@@ -53,7 +50,6 @@ TEST_VECT = [
     },
     {
         "pub_key": b"1af97d53283a3c57f47db2b97263e86c93acc38853ca2246db5daa32cb7a1037",
-        "address_dec": b"",
         "address_params": {
             "version": TonAddrVersions.V4,
         },
@@ -61,7 +57,6 @@ TEST_VECT = [
     },
     {
         "pub_key": b"ad724aba20a7591624efee55eae11ec1f765d483544a9bf42ff7467d0f88a113",
-        "address_dec": b"",
         "address_params": {
             "version": TonAddrVersions.V5R1,
         },
