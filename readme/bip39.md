@@ -1,6 +1,6 @@
 ## BIP-0039 library
 
-The BIP-0039 library allows to:
+The BIP-0039 library allows you to:
 - Generate mnemonics from words number or entropy bytes
 - Validate a mnemonic
 - Get back the entropy bytes from a mnemonic
@@ -83,7 +83,7 @@ Supported languages:
 
 A mnemonic string can be validated by verifying its language and checksum. Moreover, it is also possible to get back the entropy bytes from a mnemonic.\
 When validating, the language can be either specified or automatically detected.\
-Automatic detection takes more time, so if the mnemonic language is known in advance it'll be better to specify it at construction.
+Automatic detection takes more time, so if the mnemonic language is known in advance it's better to specify it at construction.
 
 **Code example**
 

@@ -1,6 +1,6 @@
 ## Monero library
 
-The Monero library allows to generate Monero keys, primary address and subaddresses like the official Monero wallets.
+The Monero library allows generating Monero keys, primary address and subaddresses like the official Monero wallets.
 
 ### Coin types
 
@@ -17,7 +17,7 @@ Coin type is passed to all construction methods. The default type is always Mone
 ### Construction from seed
 
 The class can be constructed from a seed, which is usually computed from the Monero mnemonic phrase.\
-In case of a 24/25 words phrase, the seed corresponds to the private spend key. Otherwise, the private spend key will be the kekkak256 of the seed.
+In case of a 24/25 words phrase, the seed corresponds to the private spend key. Otherwise, the private spend key will be the keccak256 of the seed.
 
 **NOTE:** Monero mnemonic phrase generation is currently not supported
 

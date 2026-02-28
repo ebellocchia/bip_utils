@@ -1,6 +1,6 @@
 ## BIP-0044, BIP-0049, BIP-0084, BIP-0086 libraries
 
-The BIP-0044, BIP-0049, BIP-0084 and BIP-0086 libraries allows deriving a hierarchy of keys as defined by:
+The BIP-0044, BIP-0049, BIP-0084 and BIP-0086 libraries allow deriving a hierarchy of keys as defined by:
 - [BIP-0044](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki)
 - [BIP-0049](https://github.com/bitcoin/bips/blob/master/bip-0049.mediawiki)
 - [BIP-0084](https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki)
@@ -178,7 +178,7 @@ The returned Bip object will be at the same depth of the specified key. If the d
 ### Construction from private key
 
 A Bip class can be constructed directly from a private key, with the possibility to specify the derivation data.\
-Like [`Bip32`](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md), if only the key bytes is specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+Like [`Bip32`](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip32.md), if only the key bytes are specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth and index equal to zero, a zero chain code and parent fingerprint.
 
 **Code example**
@@ -360,7 +360,7 @@ Moreover, it has its own algorithm to generate the so-called "subaddresses", whi
 Therefore, Monero shall be treated separately to get keys and addresses by using the `Monero` module.
 
 Like Polkadot/Kusama in the previous paragraph, Monero doesn't support BIP44 so if you use it through the `Bip44` class you're basically "forcing" Monero to follow it.\
-Since there is no specification that states how to implement Monero using BIP44, I look a little bit around and I created two implementations:
+Since there is no specification that states how to implement Monero using BIP44, I looked a little bit around and I created two implementations:
 - `Bip44Coins.MONERO_ED25519_SLIP` uses the ed25519 curve (like Monero itself) with the SLIP-0010 derivation scheme and the default derivation path is m/44'/128'/0'/0'/0'
 - `Bip44Coins.MONERO_SECP256K1` uses the secp256k1 curve (like Bitcoin) and the default derivation path is m/44'/128'/0'/0/0 (like the Ledger implementation)
 
@@ -380,7 +380,7 @@ Whatever implementation or path you choose, the Monero private spend key is comp
     # Create BIP44 object and derive default path
     bip44_def_ctx = Bip44.FromSeed(seed_bytes, Bip44Coins.MONERO_ED25519_SLIP).DeriveDefaultPath()
 
-    # Create Monero object from the BIP44 private key -> monero_priv_spend_key = sc_reduce(kekkak256(bip44_priv_key))
+    # Create Monero object from the BIP44 private key -> monero_priv_spend_key = sc_reduce(keccak256(bip44_priv_key))
     monero = Monero.FromBip44PrivateKey(bip44_def_ctx.PrivateKey().Raw().ToBytes())
 
     # Print keys
@@ -397,7 +397,7 @@ Whatever implementation or path you choose, the Monero private spend key is comp
     print(monero.Subaddress(0, 1))      # Account 1, Subaddress 0
     print(monero.Subaddress(1, 1))      # Account 1, Subaddress 1
 
-If you prefer not to perform the kekkak256 of the key bytes, you can just use the `Bip44` private key directly as a Monero seed:
+If you prefer not to perform the keccak256 of the key bytes, you can just use the `Bip44` private key directly as a Monero seed:
 
 **Code example**
 

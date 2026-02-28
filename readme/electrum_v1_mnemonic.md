@@ -2,7 +2,7 @@
 
 Electrum V1 mnemonics are the old type of mnemonics used by Electrum (called "old seed" by the wallet).
 Electrum doesn't generate them anymore but they can still be imported.\
-Electrum V1 mnemonics uses its words list with 1626 words and its decoding/encoding algorithm is similar to Moner mnemonics.\
+Electrum V1 mnemonics uses its words list with 1626 words and its decoding/encoding algorithm is similar to Monero mnemonics.\
 The usage of the Electrum V1 mnemonic library is basically equivalent to the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one,
 just replace the `Bip39` prefix with `ElectrumV1`.
 
@@ -93,7 +93,7 @@ Supported languages:
 **Code example (mnemonic seed generation)**
 
 The generated seed can be used to construct a `ElectrumV1` class, see the
-[related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/eletrum.md).
+[related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md).
 
     from bip_utils import ElectrumV1Languages, ElectrumV1WordsNum, ElectrumV1MnemonicGenerator, ElectrumV1SeedGenerator
     

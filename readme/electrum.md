@@ -1,6 +1,6 @@
 ## Electrum library
 
-The Electrum library is a simple module that allows to generate keys and addresses like Electrum wallet, since it uses
+The Electrum library is a simple module that allows generating keys and addresses like Electrum wallet, since it uses
 its own derivation paths and algorithms.
 
 ### Electrum v1

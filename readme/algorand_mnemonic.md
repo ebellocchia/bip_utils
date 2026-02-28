@@ -1,9 +1,9 @@
 ## Algorand mnemonic library
 
-The official Algorand wallet uses a 25-word mnemonic, which is generated with a different algorithm with respect to BIP-0039, 
+The official Algorand wallet uses a 25-word mnemonic, which is generated with a different algorithm compared to BIP-0039,
 even if the words list is the same.
 
-The functionalities of this library are the same of the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one but with Algorand-style mnemonics:
+The functionalities of this library are the same as the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one but with Algorand-style mnemonics:
 - Generate mnemonics from words number or entropy bytes
 - Validate a mnemonic
 - Get back the entropy bytes from a mnemonic

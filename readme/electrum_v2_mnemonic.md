@@ -1,7 +1,7 @@
 ## Electrum V2 mnemonics
 
 Electrum V2 mnemonics are the current mnemonic type used by Electrum.\
-There 4 type of V2 mnemonics (all supported):
+There are 4 types of V2 mnemonics (all supported):
 - Standard
 - Segwit
 - Standard 2FA
@@ -110,7 +110,7 @@ Therefore, `ValueError` will be raised if the entropy bytes are not suitable for
 With respect to BIP-0039, the desired mnemonic type can be specified when validating or encoding a mnemonic.
 If `None`, any valid mnemonic type will be accepted.\
 For `ElectrumV2MnemonicValidator.Validate` and `ElectrumV2MnemonicDecoder`, `ValueError` will be raised in case
-the mnemonic type is not existent of it's different to the specified one,
+the mnemonic type does not exist or it's different from the specified one.
 
 **Code example**
     
@@ -164,8 +164,8 @@ the mnemonic type is not existent of it's different to the specified one,
 
 ### Seed generation
 
-The generated seed can be used to construct a `ElectrumV2` classes, see the
-[related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/eletrum.md).
+The generated seed can be used to construct `ElectrumV2` classes, see the
+[related paragraph](https://github.com/ebellocchia/bip_utils/tree/master/readme/electrum.md).
 
 **Code example**
 

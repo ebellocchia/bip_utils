@@ -1,7 +1,7 @@
 ## Substrate library
 
-The Substrate library allows to [derive keys](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) for coins of the Polkadot ecosystem, since they don't follow BIP44.\
-The module generates the same keys and addresses of Polkadot-JS and uses sr25519 curve for keys derivation.\
+The Substrate library allows [deriving keys](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) for coins of the Polkadot ecosystem, since they don't follow BIP44.\
+The module generates the same keys and addresses as Polkadot-JS and uses sr25519 curve for keys derivation.\
 With respect to BIP-0032, Substrate paths can be also strings (in addition to numbers) and they are identified by a prefix:
 - `/` for not-hardened (soft) derivation (e.g. "/soft")
 - `//` for hardened derivation (e.g. "//hard")
@@ -43,7 +43,7 @@ The class can be constructed from a seed, like `Bip32`. The seed can be specifie
     # Generate from mnemonic
     mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"
     seed_bytes = SubstrateBip39SeedGenerator(mnemonic).Generate()
-    # Specify seed manually. The seed is required to be 32-byte long. If longer, only the first 32-byte will be considered.
+    # Specify seed manually. The seed is required to be 32-byte long. If longer, only the first 32 bytes will be considered.
     seed_bytes = binascii.unhexlify(b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc1")
 
     # Construction from seed

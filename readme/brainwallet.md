@@ -1,7 +1,7 @@
 ## Brainwallet library
 
-The brainwallet library allows to generate wallets where the private key is computed from a passphrase chosen by the user.\
-Beside the fact that this method allows computing only one private key (hence only one address), _it's very insecure_ (humans are not a good source of entropy) and discouraged in favor of random HD wallets, but it could be useful to recover some very old wallets.
+The brainwallet library allows generating wallets where the private key is computed from a passphrase chosen by the user.\
+Besides the fact that this method allows computing only one private key (hence only one address), _it's very insecure_ (humans are not a good source of entropy) and discouraged in favor of random HD wallets, but it could be useful to recover some very old wallets.
 
 ### Built-in algorithms
 
@@ -60,7 +60,7 @@ A wallet can be generated using a built-in algorithm with the `Generate` method,
 ### Generation using custom algorithms
 
 A wallet can be generated using a custom algorithm with the `GenerateWithCustomAlgo` method, by specifying the algorithm class and coin type.\
-In order to create a custom algorithm, a class inheriting the `IBrainwalletAlgo` interface and implementing the `ComputePrivateKey` method shall be defined.\
+In order to create a custom algorithm, a class inheriting from the `IBrainwalletAlgo` interface and implementing the `ComputePrivateKey` method should be defined.\
 The output length of the `ComputePrivateKey` method shall be the length of the private key of the specific coin, usually 32-byte long.
 
 **Code example**

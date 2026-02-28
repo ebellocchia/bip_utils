@@ -79,7 +79,7 @@ The returned object will be at the same depth of the specified key.
 ### Construction from private key
 
 The class can be constructed directly from a private key, with the possibility to specify the derivation data.
-If only the key bytes is specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+If only the key bytes are specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth and index equal to zero, a zero chain code and parent fingerprint.
 
 **Code example**
@@ -120,7 +120,7 @@ Therefore, the returned object will have a depth and index equal to zero, a zero
 ### Construction from public key
 
 The class can be constructed directly from a public key, with the possibility to specify the derivation data.
-If only the key bytes is specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
+If only the key bytes are specified, it will be considered a master key since there is no way to recover the key derivation data from the key bytes.\
 Therefore, the returned object will have a depth and index equal to zero, a zero chain code and parent fingerprint.\
 The constructed class will be a public-only object (see the example in the next paragraph), so it won't support hardened derivation.
 
