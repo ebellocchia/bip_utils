@@ -11,7 +11,6 @@ from bip_utils import (
     MoneroPolyseedSeedGenerator,
     MoneroSeedGenerator,
     MoneroWordsNum,
-    MoneroPolyseedMnemonic,
 )
 from bip_utils.monero.mnemonic_polyseed.monero_polyseed_mnemonic import MoneroPolyseedLanguages
 
