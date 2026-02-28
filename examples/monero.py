@@ -13,6 +13,7 @@ from bip_utils import (
     MoneroWordsNum,
     MoneroPolyseedMnemonic,
 )
+from bip_utils.monero.mnemonic_polyseed.monero_polyseed_mnemonic import MoneroPolyseedLanguages
 
 
 #
@@ -26,6 +27,7 @@ mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25
 print(f"Mnemonic string: {mnemonic}")
 # Generate seed from mnemonic
 seed_bytes = MoneroSeedGenerator(mnemonic).Generate()
+print(f"Seed: {seed_bytes.hex()}")
 
 # Construct from seed
 monero = Monero.FromSeed(seed_bytes)
@@ -53,12 +55,12 @@ for acc_idx in range(2):
 print("\n--- Polyseed mnemonic ---")
 
 # Generate random Polyseed mnemonic (birthday defaults to current time)
-mnemonic = MoneroPolyseedMnemonicGenerator().FromRandom()
-mnemonic = MoneroPolyseedMnemonic.FromString("trouble salon gallery oppose cattle snap citizen swift glory dog just skirt fashion inmate essay arctic")
+mnemonic = MoneroPolyseedMnemonicGenerator(MoneroPolyseedLanguages.ENGLISH).FromRandom()
 print(f"Mnemonic string: {mnemonic}")
 
 # Decode to inspect data
 data = MoneroPolyseedMnemonicDecoder().DecodeWithData(mnemonic)
+print(f"Secret: {data.secret.hex()}")
 print(f"Birthday timestamp: {data.birthday_timestamp}")
 print(f"Is encrypted: {data.is_encrypted}")
 print(f"User features: {data.user_features}")
@@ -91,4 +93,3 @@ enc_data = MoneroPolyseedMnemonicDecoder().DecodeWithData(encrypted_mnemonic)
 decrypted_data = MoneroPolyseedMnemonicEncrypter.Crypt(enc_data, "my_password")
 decrypted_mnemonic = MoneroPolyseedMnemonicEncoder().EncodeData(decrypted_data)
 print(f"Decrypted mnemonic: {decrypted_mnemonic}")
-print(f"Roundtrip match: {decrypted_mnemonic.ToStr() == mnemonic.ToStr()}")
