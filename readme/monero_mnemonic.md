@@ -3,7 +3,7 @@
 If you use the official Monero wallet, you'll probably notice that Monero generates mnemonic in its own way, which is different from BIP-0039.\
 In fact, it uses different words lists (with 1626 words instead of 2048) and a different algorithm for encoding/decoding the mnemonic string.
 
-The functionalities of this library are the same of the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one but with Monero-style mnemonics:
+The functionalities of this library are the same as the [BIP-0039](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip39.md) one but with Monero-style mnemonics:
 - Generate mnemonics from words number or entropy bytes
 - Validate a mnemonic
 - Get back the entropy bytes from a mnemonic
@@ -140,3 +140,132 @@ Supported languages:
     seed_bytes = MoneroSeedGenerator(mnemonic).Generate()
     # Generate specifying the language
     seed_bytes = MoneroSeedGenerator(mnemonic, MoneroLanguages.DUTCH).Generate()
+
+## Monero Polyseed mnemonic library
+
+Polyseed is a newer mnemonic format for Monero that encodes a 150-bit secret, a wallet birthday, and feature flags into a 16-word phrase using the BIP-39 English wordlist (2048 words).
+It includes a Reed-Solomon checksum over GF(2048) for error detection and supports coin domain separation (Monero, Aeon, Wownero) and optional password-based encryption.
+
+Key differences from legacy Monero mnemonics:
+- 16 words (vs 25)
+- Uses BIP-39 English wordlist (vs Monero-specific 1626-word lists)
+- Encodes wallet birthday (creation date) for faster wallet sync
+- Supports encryption of the mnemonic with a password
+- Seed derivation uses PBKDF2-HMAC-SHA256
+
+Supported words number:
+
+|Words number|Enum|
+|---|---|
+|16|`MoneroPolyseedWordsNum.WORDS_NUM_16`|
+
+Supported entropy bits:
+
+|Entropy bits|Enum|
+|---|---|
+|150|`MoneroPolyseedEntropyBitLen.BIT_LEN_150`|
+
+Supported languages:
+
+|Language|Enum|
+|---|---|
+|Chinese (simplified)|`MoneroPolyseedLanguages.CHINESE_SIMPLIFIED`|
+|Chinese (traditional)|`MoneroPolyseedLanguages.CHINESE_TRADITIONAL`|
+|English|`MoneroPolyseedLanguages.ENGLISH`|
+|French|`MoneroPolyseedLanguages.FRENCH`|
+|Italian|`MoneroPolyseedLanguages.ITALIAN`|
+|Korean|`MoneroPolyseedLanguages.KOREAN`|
+|Portuguese|`MoneroPolyseedLanguages.PORTUGUESE`|
+
+Supported coins:
+
+|Coin|Enum|
+|---|---|
+|Monero|`MoneroPolyseedCoins.MONERO`|
+|Aeon|`MoneroPolyseedCoins.AEON`|
+|Wownero|`MoneroPolyseedCoins.WOWNERO`|
+
+**Code example (Polyseed mnemonic generation)**
+
+    import binascii
+    import time
+    from bip_utils import (
+        MoneroPolyseedLanguages, MoneroPolyseedCoins,
+        MoneroPolyseedMnemonicGenerator, MoneroPolyseedMnemonicEncoder,
+        MoneroPolyseedEntropyGenerator
+    )
+
+    # Generate a random Polyseed mnemonic with current time as birthday
+    mnemonic = MoneroPolyseedMnemonicGenerator().FromRandom(int(time.time()))
+    print(mnemonic.ToStr())
+    print(mnemonic.WordsCount())  # 16
+
+    # Generate from specific entropy bytes (19 bytes)
+    entropy = MoneroPolyseedEntropyGenerator().Generate()
+    mnemonic = MoneroPolyseedMnemonicGenerator().FromEntropy(entropy, int(time.time()))
+
+    # Use the encoder directly for more control
+    encoder = MoneroPolyseedMnemonicEncoder(MoneroPolyseedLanguages.ENGLISH)
+    mnemonic = encoder.EncodeWithData(
+        entropy,
+        birthday=int(time.time()),  # Unix timestamp
+        features=0,                 # User feature flags (0-7)
+        coin=MoneroPolyseedCoins.MONERO,
+    )
+
+**Code example (Polyseed mnemonic validation and decoding)**
+
+    from bip_utils import (
+        MnemonicChecksumError, MoneroPolyseedCoins,
+        MoneroPolyseedMnemonicValidator, MoneroPolyseedMnemonicDecoder
+    )
+
+    mnemonic = "raven tail swear infant grief assist regular lamp duck valid someone little harsh puppy airport language"
+
+    # Validate
+    is_valid = MoneroPolyseedMnemonicValidator().IsValid(mnemonic)
+
+    # Decode to get just the secret bytes
+    secret = MoneroPolyseedMnemonicDecoder().Decode(mnemonic)
+
+    # Decode to get full data (secret, birthday, features, checksum)
+    data = MoneroPolyseedMnemonicDecoder().DecodeWithData(mnemonic)
+    print(f"Birthday timestamp: {data.birthday_timestamp}")
+    print(f"Is encrypted: {data.is_encrypted}")
+    print(f"User features: {data.user_features}")
+
+**Code example (Polyseed seed generation)**
+
+    from bip_utils import MoneroPolyseedCoins, MoneroPolyseedSeedGenerator
+
+    mnemonic = "raven tail swear infant grief assist regular lamp duck valid someone little harsh puppy airport language"
+
+    # Generate 32-byte seed via PBKDF2-HMAC-SHA256
+    seed_bytes = MoneroPolyseedSeedGenerator(mnemonic).Generate()
+
+**Code example (Polyseed mnemonic encryption)**
+
+    from bip_utils import (
+        MoneroPolyseedCoins, MoneroPolyseedMnemonicDecoder,
+        MoneroPolyseedMnemonicEncoder, MoneroPolyseedMnemonicEncrypter,
+        MoneroPolyseedLanguages
+    )
+
+    mnemonic = "raven tail swear infant grief assist regular lamp duck valid someone little harsh puppy airport language"
+
+    # Decode the mnemonic
+    decoder = MoneroPolyseedMnemonicDecoder()
+    data = decoder.DecodeWithData(mnemonic)
+
+    # Encrypt with a password
+    encrypted_data = MoneroPolyseedMnemonicEncrypter.Crypt(data, "my_password")
+    print(f"Is encrypted: {encrypted_data.is_encrypted}")  # True
+
+    # Encode the encrypted data back to a mnemonic
+    encoder = MoneroPolyseedMnemonicEncoder(MoneroPolyseedLanguages.ENGLISH)
+    encrypted_mnemonic = encoder.EncodeData(encrypted_data)
+
+    # Decrypt: decode the encrypted mnemonic, then decrypt
+    enc_data = decoder.DecodeWithData(encrypted_mnemonic)
+    decrypted_data = MoneroPolyseedMnemonicEncrypter.Crypt(enc_data, "my_password")
+    print(f"Is encrypted: {decrypted_data.is_encrypted}")  # False

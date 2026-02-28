@@ -25,8 +25,8 @@ from typing import List, Optional, Union
 
 from typing_extensions import override
 
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicConst
-from bip_utils.monero.mnemonic.monero_mnemonic_utils import (
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic import MoneroLanguages, MoneroMnemonic, MoneroMnemonicConst
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic_utils import (
     MoneroMnemonicUtils,
     MoneroWordsListFinder,
     MoneroWordsListGetter,

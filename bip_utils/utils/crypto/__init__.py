@@ -4,7 +4,7 @@ from bip_utils.utils.crypto.chacha20_poly1305 import ChaCha20Poly1305
 from bip_utils.utils.crypto.crc import Crc32, XModemCrc
 from bip_utils.utils.crypto.hash160 import Hash160
 from bip_utils.utils.crypto.hmac import HmacSha256, HmacSha512
-from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha512
+from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha256, Pbkdf2HmacSha512
 from bip_utils.utils.crypto.ripemd import Ripemd160
 from bip_utils.utils.crypto.scrypt import Scrypt
 from bip_utils.utils.crypto.sha2 import DoubleSha256, Sha256, Sha512, Sha512_256

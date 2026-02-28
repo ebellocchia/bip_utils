@@ -327,7 +327,7 @@ from bip_utils.monero import Monero, MoneroKeyError, MoneroPrivateKey, MoneroPub
 from bip_utils.monero.conf import MoneroCoins, MoneroConf
 
 # Monero mnemonic
-from bip_utils.monero.mnemonic import (
+from bip_utils.monero.mnemonic_legacy import (
     MoneroEntropyBitLen,
     MoneroEntropyGenerator,
     MoneroLanguages,
@@ -340,6 +340,23 @@ from bip_utils.monero.mnemonic import (
     MoneroMnemonicWithChecksumEncoder,
     MoneroSeedGenerator,
     MoneroWordsNum,
+)
+
+# Monero Polyseed mnemonic
+from bip_utils.monero.mnemonic_polyseed import (
+    MoneroPolyseedCoins,
+    MoneroPolyseedDecodedData,
+    MoneroPolyseedEntropyBitLen,
+    MoneroPolyseedEntropyGenerator,
+    MoneroPolyseedLanguages,
+    MoneroPolyseedMnemonic,
+    MoneroPolyseedMnemonicDecoder,
+    MoneroPolyseedMnemonicEncoder,
+    MoneroPolyseedMnemonicEncrypter,
+    MoneroPolyseedMnemonicGenerator,
+    MoneroPolyseedMnemonicValidator,
+    MoneroPolyseedSeedGenerator,
+    MoneroPolyseedWordsNum,
 )
 
 # SLIP32

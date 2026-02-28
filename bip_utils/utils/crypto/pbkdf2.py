@@ -24,13 +24,13 @@
 import hashlib
 from typing import Optional, Union
 
-from Crypto.Hash import SHA512
+from Crypto.Hash import SHA256, SHA512
 from Crypto.Protocol.KDF import PBKDF2
 
 from bip_utils.utils.misc import AlgoUtils
 
 
-HASHLIB_USE_PBKDF2_SHA512: bool = hasattr(hashlib, "pbkdf2_hmac")   # For future changes
+HASHLIB_USE_PBKDF2: bool = hasattr(hashlib, "pbkdf2_hmac")   # For future changes
 
 
 class Pbkdf2HmacSha512:
@@ -56,7 +56,7 @@ class Pbkdf2HmacSha512:
         Returns:
             bytes: Computed result
         """
-        if HASHLIB_USE_PBKDF2_SHA512:
+        if HASHLIB_USE_PBKDF2:
             return hashlib.pbkdf2_hmac("sha512", AlgoUtils.Encode(password), AlgoUtils.Encode(salt), itr_num, dklen)
         # Use Cryptodome if not implemented in hashlib
         return PBKDF2(AlgoUtils.Encode(password),  # type: ignore [arg-type]
@@ -64,3 +64,36 @@ class Pbkdf2HmacSha512:
                       dklen or SHA512.digest_size,
                       count=itr_num,
                       hmac_hash_module=SHA512)
+
+
+class Pbkdf2HmacSha256:
+    """
+    PBKDF2 HMAC-SHA256 class.
+    It derives keys using PBKDF2 HMAC-SHA256 algorithm.
+    """
+
+    @staticmethod
+    def DeriveKey(password: Union[bytes, str],
+                  salt: Union[bytes, str],
+                  itr_num: int,
+                  dklen: Optional[int] = None) -> bytes:
+        """
+        Derive a key.
+
+        Args:
+            password (str or bytes): Password
+            salt (str or bytes)    : Salt
+            itr_num (int)          : Iteration number
+            dklen (int, optional)  : Length of the derived key (default: SHA-256 output length)
+
+        Returns:
+            bytes: Computed result
+        """
+        if HASHLIB_USE_PBKDF2:
+            return hashlib.pbkdf2_hmac("sha256", AlgoUtils.Encode(password), AlgoUtils.Encode(salt), itr_num, dklen)
+        # Use Cryptodome if not implemented in hashlib
+        return PBKDF2(AlgoUtils.Encode(password),  # type: ignore [arg-type]
+                      AlgoUtils.Encode(salt),
+                      dklen or SHA256.digest_size,
+                      count=itr_num,
+                      hmac_hash_module=SHA256)

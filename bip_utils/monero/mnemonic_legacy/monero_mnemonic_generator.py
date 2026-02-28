@@ -23,9 +23,9 @@
 # Imports
 from typing import Dict, Union
 
-from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyBitLen, MoneroEntropyGenerator
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicConst, MoneroWordsNum
-from bip_utils.monero.mnemonic.monero_mnemonic_encoder import MoneroMnemonicEncoder
+from bip_utils.monero.mnemonic_legacy.monero_entropy_generator import MoneroEntropyBitLen, MoneroEntropyGenerator
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic import MoneroLanguages, MoneroMnemonicConst, MoneroWordsNum
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic_encoder import MoneroMnemonicEncoder
 from bip_utils.utils.mnemonic import Mnemonic
 
 
