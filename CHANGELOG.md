@@ -1,3 +1,9 @@
+# 2.11.0
+
+- Add support for TON addresses (V3R1, V3R2, V4, V5R1)
+- Add support for TON BIP44 derivation: `Bip44Coins.TON`
+- Add support for TON mnemonics/seed generation and key derivation in according to `ton-crypto`
+
 # 2.10.0
 
 - Update dependencies for Python 3.13
