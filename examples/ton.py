@@ -8,6 +8,7 @@ from bip_utils import (
     Bip44,
     Bip44Coins,
     Bip44ConfGetter,
+    Ton,
     TonAddrEncoder,
     TonAddrVersions,
     TonMnemonicGenerator,
@@ -15,8 +16,8 @@ from bip_utils import (
     TonSeedGenerator,
     TonSeedTypes,
     TonWordsNum,
-    Ton,
 )
+
 
 #
 # Generation like ton-crypto
