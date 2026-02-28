@@ -94,7 +94,7 @@ class TonMnemonicGenerator:
             mnemonic = " ".join(mnemonic_array)
 
             # Stop if generated mnemonic is valid
-            if passphrase != "":
+            if passphrase:
                 if TonSeedUtils.IsPasswordNeeded(mnemonic):
                     return TonMnemonic(mnemonic_array)
             elif TonSeedUtils.IsBasicSeed(TonSeedUtils.GetEntropyBytes(mnemonic, passphrase)):
