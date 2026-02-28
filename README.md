@@ -23,10 +23,10 @@ This package allows generating mnemonics, seeds, private/public keys and address
   - [BIP-0086](https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki) (Bitcoin Taproot)
   - [CIP-1852](https://cips.cardano.org/cips/cip1852)
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
-- Keys derivation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) (Polkadot/Kusama ecosystem, same of Polkadot-JS)
-- Keys and addresses generation for Cardano (Byron-Legacy, Byron-Icarus and Shelley, same of Ledger and AdaLite/Yoroi wallets)
+- Keys derivation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) (Polkadot/Kusama ecosystem, same as Polkadot-JS)
+- Keys and addresses generation for Cardano (Byron-Legacy, Byron-Icarus and Shelley, same as Ledger and AdaLite/Yoroi wallets)
 - Mnemonic and seed generation for Monero
-- Keys and addresses/subaddresses generation for Monero (same of official Monero wallet)
+- Keys and addresses/subaddresses generation for Monero (same as the official Monero wallet)
 - Mnemonic and seed generation for Algorand (Algorand 25-word mnemonic)
 - Mnemonic and seed generation like Electrum wallet (v1 and v2)
 - Keys derivation like Electrum wallet (v1 and v2)
@@ -95,11 +95,11 @@ Supported BIP coins:
 - Huobi Heco Chain
 - IRIS Network
 - Kava
-- Kusama (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
+- Kusama (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses as Polkadot-JS)
 - Litecoin (and related test net)
 - Mavryk
 - Metis
-- Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses of the official wallets, but it supports subaddresses generation)
+- Monero (based on BIP44 and secp256k1 or ed25519 SLIP-0010, it won't generate the same addresses as the official wallets, but it supports subaddresses generation)
 - Nano
 - Near Protocol
 - NEO (legacy and N3)
@@ -110,7 +110,7 @@ Supported BIP coins:
 - Optimism
 - Osmosis
 - Pi Network
-- Polkadot (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses of Polkadot-JS)
+- Polkadot (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses as Polkadot-JS)
 - Polygon
 - Ripple
 - Secret Network
@@ -144,7 +144,7 @@ Supported Substrate coins:
 - Polkadot
 - Generic Substrate coin
 
-For what regards Monero, it's also possible to generate the same addresses of the official wallets without using BIP44 derivation.
+For what regards Monero, it's also possible to generate the same addresses as the official wallets without using BIP44 derivation.
 
 Clearly, for those coins that support Smart Contracts (e.g. Ethereum, Tron, ...), the generated keys and addresses are valid for all the related tokens.
 
@@ -213,7 +213,7 @@ For some complete code examples (from mnemonic to keys generation), refer to the
 
 # Buy me a coffee
 
-You know, I'm italian and I love drinking coffee (especially while coding 😃). So, if you'd like to buy me one:
+You know, I'm Italian and I love drinking coffee (especially while coding 😃). So, if you'd like to buy me one:
 - BTC: `bc1qqxwmzs7qyatpht84hqmavkag0r3gnalyjxqr9d`
 - EVM: `0xbe6Ce1d8fc6e72173f00A63FF493dFdFdb664FbF`
 
