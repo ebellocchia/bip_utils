@@ -60,11 +60,11 @@ Supported languages:
         MoneroEntropyBitLen, MoneroEntropyGenerator, MoneroLanguages, MoneroWordsNum,
         MoneroMnemonicEncoder, MoneroMnemonicGenerator
     )
-    
+
     # Generate a random mnemonic string of 25 words with default language (English)
     # A Mnemonic object will be returned
     mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25)
-    
+
     # Get words count
     print(mnemonic.WordsCount())
     # Get as string
@@ -72,20 +72,20 @@ Supported languages:
     print(str(mnemonic))
     # Get as list of strings
     print(mnemonic.ToList())
-    
+
     # Generate a random mnemonic string of 13 words by specifying the language
     mnemonic = MoneroMnemonicGenerator(MoneroLanguages.ITALIAN).FromWordsNumber(MoneroWordsNum.WORDS_NUM_13)
-    
+
     # Generate the mnemonic string from entropy bytes
     entropy_bytes = binascii.unhexlify(b"00000000000000000000000000000000")
     mnemonic = MoneroMnemonicGenerator().FromEntropyNoChecksum(entropy_bytes)
     mnemonic = MoneroMnemonicGenerator(MoneroLanguages.FRENCH).FromEntropyWithChecksum(entropy_bytes)
-    
+
     # Generate mnemonic from random 256-bit entropy (with and without checksum)
     entropy_bytes = MoneroEntropyGenerator(MoneroEntropyBitLen.BIT_LEN_256).Generate()
     mnemonic = MoneroMnemonicGenerator().FromEntropyNoChecksum(entropy_bytes)
     mnemonic = MoneroMnemonicGenerator().FromEntropyWithChecksum(entropy_bytes)
-    
+
     # Alternatively, the mnemonic can be generated from entropy using the encoder
     mnemonic = MoneroMnemonicEncoder(MoneroLanguages.ENGLISH).EncodeNoChecksum(entropy_bytes)
     mnemonic = MoneroMnemonicEncoder(MoneroLanguages.ENGLISH).EncodeWithChecksum(entropy_bytes)
@@ -98,14 +98,14 @@ Supported languages:
         MnemonicChecksumError, MoneroLanguages, MoneroWordsNum, MoneroMnemonic,
         MoneroMnemonicGenerator, MoneroMnemonicValidator, MoneroMnemonicDecoder
     )
-    
+
     # Mnemonic can be generated with MoneroMnemonicGenerator
     mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25)
     # Or it can be a string
     mnemonic = "vials licks gulp people reorder tulips acquire cool lunar upwards recipe against ambush february shelter textbook annoyed veered getting swagger paradise total dawn duets getting"
     # Or from a list
     mnemonic = MoneroMnemonic.FromList(mnemonic.split())
-    
+
     # Get if a mnemonic is valid with automatic language detection, return bool
     is_valid = MoneroMnemonicValidator().IsValid(mnemonic)
     # Same but specifying the language
@@ -120,7 +120,7 @@ Supported languages:
     except ValueError:
         # Invalid length or language...
         pass
-    
+
     # Use MoneroMnemonicDecoder to get back the entropy bytes from a mnemonic, specifying the language
     entropy_bytes = MoneroMnemonicDecoder(MoneroLanguages.ENGLISH).Decode(mnemonic)
     # Like before with automatic language detection
@@ -129,12 +129,12 @@ Supported languages:
 **Code example (mnemonic seed generation)**
 
     from bip_utils import MoneroLanguages, MoneroWordsNum, MoneroMnemonicGenerator, MoneroSeedGenerator
-    
+
     # Mnemonic can be generated with MoneroMnemonicGenerator
     mnemonic = MoneroMnemonicGenerator().FromWordsNumber(MoneroWordsNum.WORDS_NUM_25)
     # Or it can be a string
     mnemonic = "ockhuizen essing brevet symboliek kart slordig hoeve olifant rodijk altsax creatie kneedbaar vetstaart exotherm laxeerpil lekdicht luikenaar bemiddeld oudachtig josua elburg kieviet escort dimbaar kieviet"
-    
+
     # Generate with automatic language detection
     # Like before, the mnemonic can be a string or a Mnemonic object
     seed_bytes = MoneroSeedGenerator(mnemonic).Generate()
@@ -198,7 +198,7 @@ Supported coins:
     # Generate a random Polyseed mnemonic with current time as birthday
     mnemonic = MoneroPolyseedMnemonicGenerator().FromRandom(int(time.time()))
     print(mnemonic.ToStr())
-    print(mnemonic.WordsCount())  # 16
+    print(mnemonic.WordsCount())
 
     # Generate from specific entropy bytes (19 bytes)
     entropy = MoneroPolyseedEntropyGenerator().Generate()
