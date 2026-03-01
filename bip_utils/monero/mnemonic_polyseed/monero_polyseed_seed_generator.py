@@ -68,7 +68,7 @@ class MoneroPolyseedSeedGenerator:
         Generate 32-byte seed key via PBKDF2-HMAC-SHA256.
 
         The password is the 19-byte secret zero-padded to 32 bytes.
-        The salt is: "POLYSEED key\x00\xff\xff\xff" + coin(4 LE) + birthday(4 LE) + features(4 LE) + zeros(4)
+        The salt is: "POLYSEED key 0x00 0xff 0xff 0xff" + coin(4 LE) + birthday(4 LE) + features(4 LE) + zeros(4)
 
         Returns:
             bytes: Generated 32-byte seed
