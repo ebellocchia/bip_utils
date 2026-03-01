@@ -1,3 +1,7 @@
+# 2.12.0
+
+- Add support for Monero Polyseed mnemonics
+
 # 2.11.0
 
 - Add support for TON addresses (V3R1, V3R2, V4, V5R1)
