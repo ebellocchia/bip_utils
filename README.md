@@ -25,7 +25,7 @@ This package allows generating mnemonics, seeds, private/public keys and address
 - Mnemonic and seed generation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#seed-generation) (Polkadot/Kusama ecosystem)
 - Keys derivation for [Substrate](https://wiki.polkadot.network/docs/learn-accounts#derivation-paths) (Polkadot/Kusama ecosystem, same as Polkadot-JS)
 - Keys and addresses generation for Cardano (Byron-Legacy, Byron-Icarus and Shelley, same as Ledger and AdaLite/Yoroi wallets)
-- Mnemonic and seed generation for Monero
+- Mnemonic and seed generation for Monero (legacy and Polyseed)
 - Keys and addresses/subaddresses generation for Monero (same as the official Monero wallet)
 - Mnemonic and seed generation for Algorand (Algorand 25-word mnemonic)
 - Mnemonic and seed generation like Electrum wallet (v1 and v2)
