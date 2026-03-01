@@ -21,6 +21,8 @@
 """Module for Monero Polyseed mnemonic encoding."""
 
 # Imports
+import time
+
 from typing_extensions import override
 
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListGetter
@@ -67,15 +69,18 @@ class MoneroPolyseedMnemonicEncoder(MnemonicEncoderBase):
     def Encode(self,
                entropy_bytes: bytes) -> Mnemonic:
         """
-        Not used directly for Polyseed. Use EncodeWithData instead.
+        Encode entropy bytes to mnemonic phrase using current time as birthday.
 
         Args:
-            entropy_bytes (bytes): Entropy bytes (not used)
+            entropy_bytes (bytes): Secret bytes (19 bytes)
+
+        Returns:
+            Mnemonic: Encoded mnemonic phrase
 
         Raises:
-            NotImplementedError: Always raised
+            ValueError: If the entropy length is not valid
         """
-        raise NotImplementedError("Use EncodeWithData for Polyseed encoding")
+        return self.EncodeWithData(entropy_bytes, int(time.time()))
 
     def EncodeWithData(self,
                        entropy_bytes: bytes,
