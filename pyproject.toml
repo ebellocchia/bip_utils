@@ -168,7 +168,7 @@ packages = {find = {exclude =  ["benchmark*", "build*", "dist*", "docs*", "examp
 bip_utils = [
     "bip/bip39/wordlist/*.txt",
     "electrum/mnemonic_v1/wordlist/*.txt",
-    "monero/mnemonic/wordlist/*.txt",
+    "monero/mnemonic_legacy/wordlist/*.txt",
 ]
 
 [tool.setuptools.dynamic]

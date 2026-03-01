@@ -26,7 +26,7 @@ from typing import List, Tuple
 
 from typing_extensions import override
 
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonicConst
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic import MoneroLanguages, MoneroMnemonicConst
 from bip_utils.utils.crypto import Crc32
 from bip_utils.utils.mnemonic import (
     Mnemonic,

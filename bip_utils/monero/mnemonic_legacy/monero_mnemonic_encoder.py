@@ -26,9 +26,9 @@ from typing import List
 
 from typing_extensions import override
 
-from bip_utils.monero.mnemonic.monero_entropy_generator import MoneroEntropyGenerator
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages, MoneroMnemonic
-from bip_utils.monero.mnemonic.monero_mnemonic_utils import MoneroMnemonicUtils, MoneroWordsListGetter
+from bip_utils.monero.mnemonic_legacy.monero_entropy_generator import MoneroEntropyGenerator
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic import MoneroLanguages, MoneroMnemonic
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic_utils import MoneroMnemonicUtils, MoneroWordsListGetter
 from bip_utils.utils.mnemonic import Mnemonic, MnemonicEncoderBase, MnemonicUtils
 
 

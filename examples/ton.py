@@ -8,6 +8,7 @@ from bip_utils import (
     Bip44,
     Bip44Coins,
     Bip44ConfGetter,
+    Ton,
     TonAddrEncoder,
     TonAddrVersions,
     TonMnemonicGenerator,
@@ -15,12 +16,14 @@ from bip_utils import (
     TonSeedGenerator,
     TonSeedTypes,
     TonWordsNum,
-    Ton,
 )
+
 
 #
 # Generation like ton-crypto
 #
+
+print("\n--- Ton-Crypto ---")
 
 # Generate random mnemonic
 mnemonic = TonMnemonicGenerator().FromWordsNumber(TonWordsNum.WORDS_NUM_24)
@@ -40,14 +43,16 @@ print(f"Seed for keypair: {seed_bytes.hex()}")
 
 # Generate keypair and address
 ton = Ton.FromSeed(seed_bytes)
-print(f"Ton public key (ton-crypto): {ton.PublicKey().RawCompressed().ToHex()}")
-print(f"Ton private key (ton-crypto): {ton.PrivateKey().Raw().ToHex()}")
-print(f"Ton address (ton-crypto, V5R1): {ton.GetAddress(version=TonAddrVersions.V5R1)}")
+print(f"Ton public key: {ton.PublicKey().RawCompressed().ToHex()}")
+print(f"Ton private key: {ton.PrivateKey().Raw().ToHex()}")
+print(f"Ton address: {ton.GetAddress(version=TonAddrVersions.V5R1)}")
 
 
 #
 # Generation like Tonkeeper, Tonwallet, Trustwallet
 #
+
+print("\n--- Tonkeeper, Tonwallet, Trustwallet ---")
 
 # Generate random mnemonic
 mnemonic = Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_24)
@@ -74,6 +79,8 @@ print(f"Ton address (V5R1): {TonAddrEncoder.EncodeKey(pub_key_obj, version=TonAd
 # Generation like Ledger
 #
 
+print("\n--- Ledger ---")
+
 # Get coin index from configuration
 coin_idx = Bip44ConfGetter.GetConfig(Bip44Coins.TON).CoinIndex()
 # Derive
@@ -84,4 +91,4 @@ bip32_ctx = Bip32Ed25519Slip.FromSeed(seed_bytes).DerivePath(derivation_path)
 priv_key_bytes = bip32_ctx.PrivateKey().Raw().ToBytes()
 bip44_ctx = Bip44.FromPrivateKey(priv_key_bytes, Bip44Coins.TON)
 # Print address
-print(f"Ton address (Ledger, V4): {bip44_ctx.PublicKey().ToAddress()}")
+print(f"Ton address (V4): {bip44_ctx.PublicKey().ToAddress()}")

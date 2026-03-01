@@ -33,6 +33,7 @@ from bip_utils import (
 )
 
 
+# Verified with ton-crypto wallet: https://github.com/ton-org/ton-crypto
 TEST_VECT = [
     {
         "mnemonic": "ask fossil tragic dune session prize own bundle element shift pony trouble hamster topple mammal estate strike impulse post moment club hard step lamp",

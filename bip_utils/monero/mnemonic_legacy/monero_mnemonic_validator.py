@@ -18,47 +18,28 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for Monero seed generation."""
+"""Module for Monero mnemonic validation."""
 
 # Imports
-from typing import Optional, Union
+from typing import Optional
 
-from bip_utils.monero.mnemonic.monero_mnemonic import MoneroLanguages
-from bip_utils.monero.mnemonic.monero_mnemonic_decoder import MoneroMnemonicDecoder
-from bip_utils.utils.mnemonic import Mnemonic
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic import MoneroLanguages
+from bip_utils.monero.mnemonic_legacy.monero_mnemonic_decoder import MoneroMnemonicDecoder
+from bip_utils.utils.mnemonic import MnemonicValidator
 
 
-class MoneroSeedGenerator:
+class MoneroMnemonicValidator(MnemonicValidator):
     """
-    Monero seed generator class.
-    It generates the seed from a mnemonic.
+    Monero mnemonic validator class.
+    It validates a mnemonic phrase.
     """
-
-    m_entropy_bytes: bytes
 
     def __init__(self,
-                 mnemonic: Union[str, Mnemonic],
                  lang: Optional[MoneroLanguages] = None) -> None:
         """
         Construct class.
 
         Args:
-            mnemonic (str or Mnemonic object): Mnemonic
-            lang (MoneroLanguages, optional) : Language, None for automatic detection
-
-        Raises:
-            ValueError: If the mnemonic is not valid
+            lang (MoneroLanguages, optional): Language, None for automatic detection
         """
-        self.m_entropy_bytes = MoneroMnemonicDecoder(lang).Decode(mnemonic)
-
-    def Generate(self) -> bytes:
-        """
-        Generate seed. The seed is simply the entropy bytes in Monero case.
-        There is no really need of this method, since the seed is always the same, but it's
-        kept in this way to have the same usage of Bip39/Substrate seed generator
-        (i.e. MoneroSeedGenerator(mnemonic).Generate() ).
-
-        Returns:
-            bytes: Generated seed
-        """
-        return self.m_entropy_bytes
+        super().__init__(MoneroMnemonicDecoder(lang))
