@@ -1,3 +1,8 @@
+# 2.12.1
+
+- Replace `ed25519-blake2b` dependency with `ed25519-blake2b-fork`.
+  `ed25519-blake2b-fork` is a fork I created to enable automated wheel builds. Since pre-compiled wheels are now included in the PyPI release, Windows users will no longer encounter compilation errors when installing the library.
+
 # 2.12.0
 
 - Add support for Monero Polyseed mnemonics
