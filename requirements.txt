@@ -1,5 +1,5 @@
 cbor2>=5.1.2,<6.0.0; python_version < '3.9'
-cbor2>=5.5.0,<6.0.0; python_version >= '3.9'
+cbor2>=5.5.0,<7.0.0; python_version >= '3.9'
 coincurve>=15.0.1,<19.0.0; python_version == '3.7'
 coincurve>=15.0.1; python_version > '3.7' and python_version < '3.10'
 coincurve>=16.0.0; python_version == '3.10'
