@@ -1,3 +1,10 @@
+# 2.12.2
+
+- Add support for `cbor2` 6.x.
+  `cbor2` 6.x removed `CBORDecodeValueError` and `CBORDecodeError` is not a subclass of `ValueError` anymore.
+  Decoding is now based on `CBORDecodeError`, so an invalid CBOR encoding always results in a `ValueError` as documented, with any supported `cbor2` version.
+- Fix `py-sr25519-bindings` dependency for Python 3.7 and 3.8.
+
 # 2.12.1
 
 - Replace `ed25519-blake2b` dependency with `ed25519-blake2b-fork`.
