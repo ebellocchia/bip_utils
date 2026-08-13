@@ -41,7 +41,7 @@ class EllipticCurve:
     m_pub_key_cls: Type[IPublicKey]
     m_priv_key_cls: Type[IPrivateKey]
 
-    def __init__(self,  # pylint: disable=too-many-arguments
+    def __init__(self,  # noqa: PLR0917
                  name: str,
                  order: int,
                  generator: IPoint,

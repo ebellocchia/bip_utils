@@ -74,7 +74,7 @@ class BipCoinConf:  # pylint: disable=too-many-instance-attributes
     m_addr_cls: Type[IAddrEncoder]
     m_any_addr_params_fct_call: bool
 
-    def __init__(self,  # pylint: disable=too-many-arguments
+    def __init__(self,  # noqa: PLR0917
                  coin_names: UtilsCoinNames,
                  coin_idx: int,
                  is_testnet: bool,
