@@ -94,12 +94,12 @@ class CardanoIcarusMstKeyGenerator(IBip32MstKeyGenerator):
         Returns:
             bytes: Tweaked key bytes
         """
-        key_bytes = bytearray(key_bytes)
+        tweaked_key_bytes = bytearray(key_bytes)
         # Clear the lowest 3 bits of the first byte of kL
-        key_bytes[0] = BitUtils.ResetBits(key_bytes[0], 0x07)
+        tweaked_key_bytes[0] = BitUtils.ResetBits(tweaked_key_bytes[0], 0x07)
         # Clear the highest 3 bits of the last byte of kL (standard kholaw only clears the highest one)
-        key_bytes[31] = BitUtils.ResetBits(key_bytes[31], 0xE0)
+        tweaked_key_bytes[31] = BitUtils.ResetBits(tweaked_key_bytes[31], 0xE0)
         # Set the second-highest bit of the last byte of kL
-        key_bytes[31] = BitUtils.SetBits(key_bytes[31], 0x40)
+        tweaked_key_bytes[31] = BitUtils.SetBits(tweaked_key_bytes[31], 0x40)
 
-        return bytes(key_bytes)
+        return bytes(tweaked_key_bytes)
