@@ -101,7 +101,10 @@ class CborIndefiniteLenArrayDecoder:
             # Get current length (1-byte if ID is not found)
             curr_len = CborIndefiniteLenArrayConst.UINT_IDS_TO_BYTE_LEN.get(curr_val, 1)
             # CBOR-decode the current integer
-            int_elems.append(cbor2.loads(enc_bytes[i:i + curr_len]))
+            try:
+                int_elems.append(cbor2.loads(enc_bytes[i:i + curr_len]))
+            except cbor2.CBORDecodeError as ex:
+                raise ValueError("Invalid CBOR encoding") from ex
             # Move forward
             i += curr_len
 

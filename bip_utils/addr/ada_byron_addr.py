@@ -431,7 +431,7 @@ class AdaByronAddrDecoder(IAddrDecoder):
             return dec_addr.payload.root_hash_bytes + (dec_addr.payload.attrs.hd_path_enc_bytes
                                                        if dec_addr.payload.attrs.hd_path_enc_bytes is not None
                                                        else b"")
-        except cbor2.CBORDecodeValueError as ex:
+        except cbor2.CBORDecodeError as ex:
             raise ValueError("Invalid CBOR encoding") from ex
 
 
