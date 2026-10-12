@@ -46,7 +46,6 @@ Other implemented functionalities:
 
 Package dependencies:
 - [cbor2](https://pypi.org/project/cbor2/) for CBOR encoding/decoding
-- [crcmod](https://pypi.org/project/crcmod/) for CRC computation
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for cryptographic functions
 - [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
 - [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves

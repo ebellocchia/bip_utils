@@ -6,7 +6,6 @@ coincurve>=16.0.0; python_version == '3.10'
 coincurve>=18.0.0; python_version == '3.11'
 coincurve>=19.0.1; python_version >= '3.12'
 coincurve>=21.0.0; python_version >= '3.13'
-crcmod~=1.7
 ecdsa~=0.17
 ed25519-blake2b-fork>=1.4.2,<2.0.0
 pycryptodome~=3.15

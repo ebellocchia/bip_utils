@@ -24,13 +24,7 @@
 import binascii
 from typing import Union
 
-import crcmod.predefined
-
 from bip_utils.utils.misc import AlgoUtils, IntegerUtils
-
-
-# Get the class only once for efficiency
-XMODEM_CRC = crcmod.predefined.Crc("xmodem")
 
 
 class Crc32:
@@ -63,7 +57,7 @@ class Crc32:
         Returns:
             int: Computed digest
         """
-        return binascii.crc32(AlgoUtils.Encode(data))   # Much faster than crcmod
+        return binascii.crc32(AlgoUtils.Encode(data))
 
     @staticmethod
     def DigestSize() -> int:
@@ -93,7 +87,9 @@ class XModemCrc:
         Returns:
             bytes: Computed digest
         """
-        return XMODEM_CRC.new(AlgoUtils.Encode(data)).digest()
+        # CRC-CCITT with initial value zero is the XMODEM variant
+        crc = binascii.crc_hqx(AlgoUtils.Encode(data), 0)
+        return IntegerUtils.ToBytes(crc, bytes_num=XModemCrc.DigestSize())
 
     @staticmethod
     def DigestSize() -> int:
@@ -103,4 +99,4 @@ class XModemCrc:
         Returns:
             int: Digest size in bytes
         """
-        return XMODEM_CRC.digest_size
+        return 2
