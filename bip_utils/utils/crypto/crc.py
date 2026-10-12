@@ -87,7 +87,7 @@ class XModemCrc:
         Returns:
             bytes: Computed digest
         """
-        # CRC-CCITT with initial value zero is the XMODEM variant
+        # crc_hqx is MSB-first with polynomial 0x1021 and no final XOR: with initial value zero, it is XMODEM-CRC
         crc = binascii.crc_hqx(AlgoUtils.Encode(data), 0)
         return IntegerUtils.ToBytes(crc, bytes_num=XModemCrc.DigestSize())
 
