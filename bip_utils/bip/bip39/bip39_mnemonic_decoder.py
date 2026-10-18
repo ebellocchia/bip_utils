@@ -132,9 +132,7 @@ class Bip39MnemonicDecoder(MnemonicDecoderBase):
         checksum_bin_str_got = self.__ComputeChecksumBinaryStr(mnemonic_bin_str)
 
         if checksum_bin_str != checksum_bin_str_got:
-            raise MnemonicChecksumError(
-                f"Invalid checksum (expected {checksum_bin_str}, got {checksum_bin_str_got})"
-            )
+            raise MnemonicChecksumError("Invalid checksum")
 
         return mnemonic_bin_str
 

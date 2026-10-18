@@ -136,10 +136,11 @@ class MnemonicWordsList:
         Raises:
             ValueError: If the word is not found
         """
-        try:
-            return self.m_words_to_idx[word]
-        except KeyError as ex:
-            raise ValueError(f"Unable to find word {word}") from ex
+        word_idx = self.m_words_to_idx.get(word)
+        # Not raised from a KeyError, which would hold the word and stay chained to the ValueError
+        if word_idx is None:
+            raise ValueError("Unable to find word")
+        return word_idx
 
     def GetWordAtIdx(self,
                      word_idx: int) -> str:
@@ -319,4 +320,4 @@ class MnemonicWordsListFinderBase(ABC):
                 continue
 
         # Language not found
-        raise ValueError(f"Invalid language for mnemonic '{mnemonic.ToStr()}'")
+        raise ValueError("Invalid language for mnemonic")

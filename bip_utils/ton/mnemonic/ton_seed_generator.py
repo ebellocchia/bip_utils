@@ -67,7 +67,7 @@ class TonSeedGenerator:
         """
         mnemonic_str = mnemonic if isinstance(mnemonic, str) else mnemonic.ToStr()
         if not TonMnemonicValidator(lang).IsValid(mnemonic_str, passphrase):
-            raise ValueError(f"Invalid mnemonic {mnemonic_str}")
+            raise ValueError("Invalid mnemonic")
         self.m_mnemonic = mnemonic_str
         self.m_passphrase = passphrase
 
