@@ -20,6 +20,7 @@
 
 # Imports
 import binascii
+import re
 import unittest
 
 from bip_utils import (
@@ -361,7 +362,14 @@ class MoneroMnemonicTests(unittest.TestCase):
 
             self.assertFalse(MoneroMnemonicValidator(lang).IsValid(test["mnemonic"]))
             self.assertRaises(test["exception"], MoneroMnemonicValidator(lang).Validate, test["mnemonic"])
-            self.assertRaises(test["exception"], MoneroSeedGenerator, test["mnemonic"], lang)
+            with self.assertRaises(test["exception"]) as ctx:
+                MoneroSeedGenerator(test["mnemonic"], lang)
+            # The mnemonic words shall not be in the exception message, nor in a chained exception
+            self.assertIsNone(ctx.exception.__cause__)
+            self.assertIsNone(ctx.exception.__context__)
+            ex_words = re.findall(r"\w+", str(ctx.exception))
+            for word in test["mnemonic"].split(" "):
+                self.assertNotIn(word, ex_words)
 
     # Tests invalid parameters
     def test_invalid_params(self):

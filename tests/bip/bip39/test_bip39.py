@@ -20,6 +20,7 @@
 
 # Imports
 import binascii
+import re
 import unittest
 
 from bip_utils import (
@@ -433,7 +434,14 @@ class Bip39Tests(unittest.TestCase):
 
             self.assertFalse(Bip39MnemonicValidator(lang).IsValid(test["mnemonic"]))
             self.assertRaises(test["exception"], Bip39MnemonicValidator(lang).Validate, test["mnemonic"])
-            self.assertRaises(test["exception"], Bip39SeedGenerator, test["mnemonic"], lang)
+            with self.assertRaises(test["exception"]) as ctx:
+                Bip39SeedGenerator(test["mnemonic"], lang)
+            # The mnemonic words shall not be in the exception message, nor in a chained exception
+            self.assertIsNone(ctx.exception.__cause__)
+            self.assertIsNone(ctx.exception.__context__)
+            ex_words = re.findall(r"\w+", str(ctx.exception))
+            for word in test["mnemonic"].split(" "):
+                self.assertNotIn(word, ex_words)
 
     # Tests invalid parameters
     def test_invalid_params(self):

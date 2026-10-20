@@ -120,4 +120,4 @@ class MoneroMnemonicDecoder(MnemonicDecoderBase):
         if len(words) in MoneroMnemonicConst.MNEMONIC_WORD_NUM_CHKSUM:
             chksum_word = MoneroMnemonicUtils.ComputeChecksum(words[:-1], lang)
             if words[-1] != chksum_word:
-                raise MnemonicChecksumError(f"Invalid checksum (expected {chksum_word}, got {words[-1]})")
+                raise MnemonicChecksumError("Invalid checksum")

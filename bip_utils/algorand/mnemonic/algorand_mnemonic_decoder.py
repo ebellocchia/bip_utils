@@ -32,7 +32,7 @@ from bip_utils.algorand.mnemonic.algorand_mnemonic import AlgorandLanguages, Alg
 from bip_utils.algorand.mnemonic.algorand_mnemonic_utils import AlgorandMnemonicUtils
 from bip_utils.bip.bip39.bip39_mnemonic_utils import Bip39WordsListFinder, Bip39WordsListGetter
 from bip_utils.utils.misc import BytesUtils
-from bip_utils.utils.mnemonic import Mnemonic, MnemonicChecksumError, MnemonicDecoderBase, MnemonicWordsList
+from bip_utils.utils.mnemonic import Mnemonic, MnemonicChecksumError, MnemonicDecoderBase
 
 
 class AlgorandMnemonicDecoder(MnemonicDecoderBase):
@@ -98,28 +98,23 @@ class AlgorandMnemonicDecoder(MnemonicDecoderBase):
         entropy_bytes = BytesUtils.FromList(entropy_list)[:-1]
 
         # Validate checksum
-        self.__ValidateChecksum(entropy_bytes, word_indexes[-1], words_list)
+        self.__ValidateChecksum(entropy_bytes, word_indexes[-1])
 
         return entropy_bytes
 
     @staticmethod
     def __ValidateChecksum(entropy_bytes: bytes,
-                           chksum_word_idx_exp: int,
-                           words_list: MnemonicWordsList) -> None:
+                           chksum_word_idx_exp: int) -> None:
         """
         Validate a mnemonic checksum.
 
         Args:
-            entropy_bytes (bytes)         : Entropy bytes
-            chksum_word_idx_exp (int)     : Expected checksum word index
-            words_list (MnemonicWordsList): Words list
+            entropy_bytes (bytes)    : Entropy bytes
+            chksum_word_idx_exp (int): Expected checksum word index
 
         Raises:
             MnemonicChecksumError: If checksum is not valid
         """
         chksum_word_idx = AlgorandMnemonicUtils.ComputeChecksumWordIndex(entropy_bytes)
         if chksum_word_idx != chksum_word_idx_exp:
-            raise MnemonicChecksumError(
-                f"Invalid checksum (expected {words_list.GetWordAtIdx(chksum_word_idx)}, "
-                f"got {words_list.GetWordAtIdx(chksum_word_idx_exp)})"
-            )
+            raise MnemonicChecksumError("Invalid checksum")
