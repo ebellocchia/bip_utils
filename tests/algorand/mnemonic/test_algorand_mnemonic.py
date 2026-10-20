@@ -119,11 +119,11 @@ TEST_VECT_MNEMONIC_INVALID = [
     },
     # Not existent word
     {
-        "mnemonic": "abandon abandon notexistent abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon invest",
+        "mnemonic": "abandon abandon notexistent abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon invest",
         "exception": ValueError,
     },
     {
-        "mnemonic": "abandon abandon notexistent abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon invest",
+        "mnemonic": "abandon abandon notexistent abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon invest",
         "lang": None,
         "exception": ValueError,
     },
