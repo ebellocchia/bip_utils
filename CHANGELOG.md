@@ -1,3 +1,9 @@
+# 2.12.3
+
+- Remove `crcmod` dependency.
+  `crcmod` was only used to compute the XMODEM-CRC for Stellar addresses. The XMODEM-CRC is now computed with `binascii.crc_hqx` from the Python standard library, with no change in the results.
+- Keep mnemonic words out of exception messages.
+
 # 2.12.2
 
 - Add support for `cbor2` 6.x.
