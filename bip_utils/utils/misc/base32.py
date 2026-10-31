@@ -100,6 +100,10 @@ class Base32Decoder:
         Raises:
             ValueError: If the Base32 string is not valid
         """
+        # Characters not in the custom alphabet would not be translated
+        if custom_alphabet is not None and not set(data.rstrip(Base32Const.PADDING_CHAR)) <= set(custom_alphabet):
+            raise ValueError("Invalid Base32 string")
+
         try:
             data_dec = _Base32Utils.AddPadding(data)
             if custom_alphabet is not None:
