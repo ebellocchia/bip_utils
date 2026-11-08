@@ -65,6 +65,7 @@ TEST_VECT_DEC_INVALID = [
     "neno_1rxjbioset1bub7nz6879uikeexymxrashe5bts616qs83qmx5tcxoeox6ms",
     # Invalid encoding
     "nano_1rxjbi0set1bub7nz6879uikeexymxrashe5bts616qs83qmx5tcxoeox6ms",
+    "nano_17enqbzgsdf5yeaxcde6qj54o1wrykoeO9b77mcfpyhbauco49rfwgzbact6",
     # Invalid checksum
     "nano_17enqbzgsdf5yeaxcde6qj54o1wrykoeg9b77mcfpyhbauco49rfaiosbhq5",
     # Invalid lengths
