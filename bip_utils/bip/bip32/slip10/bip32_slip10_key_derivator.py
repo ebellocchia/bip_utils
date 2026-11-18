@@ -35,7 +35,7 @@ from bip_utils.bip.bip32.base import IBip32KeyDerivator
 from bip_utils.bip.bip32.bip32_ex import Bip32KeyError
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyIndex
 from bip_utils.bip.bip32.bip32_keys import Bip32PrivateKey, Bip32PublicKey
-from bip_utils.ecc import IPoint
+from bip_utils.ecc import EllipticCurveTypes, IPoint
 from bip_utils.utils.crypto import HmacSha512
 from bip_utils.utils.misc import BytesUtils, IntegerUtils
 
@@ -85,7 +85,10 @@ class Bip32Slip10EcdsaDerivator(IBip32KeyDerivator):
             Bip32KeyError: If the index results in an invalid key
         """
         curve = pub_key.Curve()
+        curve_order = curve.Order()
+        is_nist256p1 = pub_key.CurveType() == EllipticCurveTypes.NIST256P1
         priv_key_bytes = priv_key.Raw().ToBytes()
+        chain_code = priv_key.ChainCode().ToBytes()
 
         # Data for HMAC
         if index.IsHardened():
@@ -95,14 +98,25 @@ class Bip32Slip10EcdsaDerivator(IBip32KeyDerivator):
         else:
             data_bytes = pub_key.RawCompressed().ToBytes() + index.ToBytes()
 
-        # Compute HMAC halves
-        il_bytes, ir_bytes = HmacSha512.QuickDigestHalves(priv_key.ChainCode().ToBytes(),
-                                                          data_bytes)
-
-        # Construct new key secret from iL and current private key
-        il_int = BytesUtils.ToInteger(il_bytes)
         priv_key_int = BytesUtils.ToInteger(priv_key_bytes)
-        new_priv_key_bytes = IntegerUtils.ToBytes((il_int + priv_key_int) % curve.Order(),
+        while True:
+            # Compute HMAC halves
+            il_bytes, ir_bytes = HmacSha512.QuickDigestHalves(chain_code, data_bytes)
+
+            # SLIP-0010 retries invalid NIST P-256 children with the right-half output
+            il_int = BytesUtils.ToInteger(il_bytes)
+            if is_nist256p1 and il_int >= curve_order:
+                data_bytes = b"\x01" + ir_bytes + index.ToBytes()
+                continue
+
+            # Construct new key secret from iL and current private key
+            new_priv_key_int = (il_int + priv_key_int) % curve_order
+            if is_nist256p1 and new_priv_key_int == 0:
+                data_bytes = b"\x01" + ir_bytes + index.ToBytes()
+                continue
+            break
+
+        new_priv_key_bytes = IntegerUtils.ToBytes(new_priv_key_int,
                                                   bytes_num=curve.PrivateKeyClass().Length())
 
         return new_priv_key_bytes, ir_bytes
@@ -125,16 +139,31 @@ class Bip32Slip10EcdsaDerivator(IBip32KeyDerivator):
         Raises:
             Bip32KeyError: If the index results in an invalid key
         """
+        curve = pub_key.Curve()
+        curve_order = curve.Order()
+        is_nist256p1 = pub_key.CurveType() == EllipticCurveTypes.NIST256P1
+        chain_code = pub_key.ChainCode().ToBytes()
+
         # Data for HMAC, same of CkdPriv() for public child key
         data_bytes = pub_key.RawCompressed().ToBytes() + index.ToBytes()
 
-        # Get HMAC of data
-        il_bytes, ir_bytes = HmacSha512.QuickDigestHalves(pub_key.ChainCode().ToBytes(),
-                                                          data_bytes)
-        il_int = BytesUtils.ToInteger(il_bytes)
+        while True:
+            # Get HMAC of data
+            il_bytes, ir_bytes = HmacSha512.QuickDigestHalves(chain_code, data_bytes)
+            il_int = BytesUtils.ToInteger(il_bytes)
+            if is_nist256p1 and il_int >= curve_order:
+                data_bytes = b"\x01" + ir_bytes + index.ToBytes()
+                continue
 
-        # Get a new public key point: pub_key_point + G*iL
-        new_pub_key_point = pub_key.Point() + (pub_key.Curve().Generator() * il_int)
+            # Get a new public key point: pub_key_point + G*iL
+            new_pub_key_point = pub_key.Point() + (curve.Generator() * il_int)
+            if is_nist256p1:
+                try:
+                    curve.PublicKeyClass().FromPoint(new_pub_key_point)
+                except (TypeError, ValueError):
+                    data_bytes = b"\x01" + ir_bytes + index.ToBytes()
+                    continue
+            break
 
         return new_pub_key_point, ir_bytes
 
