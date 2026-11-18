@@ -225,6 +225,16 @@ TEST_RETRY_SEED = {
 }
 
 
+TEST_RETRY_DERIVATION = {
+    "seed": "000102030405060708090a0b0c0d0e0f",
+    "path": "m/28578'/33941",
+    "parent_fprint": "3e2b7bc6",
+    "chain_code": "9e87fe95031f14736774cd82f25fd885065cb7c358c1edf813c72af535e83071",
+    "priv_key": "092154eed4af83e078ff9b84322015aefe5769e31270f62c3f66c33888335f3a",
+    "pub_key": "0235bfee614c0d5b2cae260000bb1d0d84b270099ad790022c1ae0b2e782efe120",
+}
+
+
 #
 # Tests
 #
@@ -285,6 +295,27 @@ class Bip32Slip10Nist256p1Tests(Bip32BaseTests):
         self.assertEqual(TEST_RETRY_SEED["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
         self.assertEqual(TEST_RETRY_SEED["chain_code"], bip32_ctx.ChainCode().ToHex())
         self.assertEqual(TEST_RETRY_SEED["parent_fprint"], bip32_ctx.ParentFingerPrint().ToHex())
+
+    # Test child derivation retry
+    def test_retry_derivation(self):
+        """Test child derivation retry."""
+        test = TEST_RETRY_DERIVATION
+        seed = binascii.unhexlify(test["seed"])
+        bip32_ctx = Bip32Slip10Nist256p1.FromSeed(seed).DerivePath(test["path"])
+
+        self.assertEqual(test["parent_fprint"], bip32_ctx.ParentFingerPrint().ToHex())
+        self.assertEqual(test["chain_code"], bip32_ctx.ChainCode().ToHex())
+        self.assertEqual(test["priv_key"], bip32_ctx.PrivateKey().Raw().ToHex())
+        self.assertEqual(test["pub_key"], bip32_ctx.PublicKey().RawCompressed().ToHex())
+
+        parent_path, child_index = test["path"].rsplit("/", 1)
+        parent_ctx = Bip32Slip10Nist256p1.FromSeed(seed).DerivePath(parent_path)
+        public_ctx = Bip32Slip10Nist256p1.FromExtendedKey(parent_ctx.PublicKey().ToExtended())
+        public_child = public_ctx.ChildKey(int(child_index))
+
+        self.assertEqual(test["parent_fprint"], public_child.ParentFingerPrint().ToHex())
+        self.assertEqual(test["chain_code"], public_child.ChainCode().ToHex())
+        self.assertEqual(test["pub_key"], public_child.PublicKey().RawCompressed().ToHex())
 
     # Test old class
     def test_old_cls(self):
