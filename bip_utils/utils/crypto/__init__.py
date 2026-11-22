@@ -8,4 +8,4 @@ from bip_utils.utils.crypto.pbkdf2 import Pbkdf2HmacSha256, Pbkdf2HmacSha512
 from bip_utils.utils.crypto.ripemd import Ripemd160
 from bip_utils.utils.crypto.scrypt import Scrypt
 from bip_utils.utils.crypto.sha2 import DoubleSha256, Sha256, Sha512, Sha512_256
-from bip_utils.utils.crypto.sha3 import Kekkak256, Sha3_256
+from bip_utils.utils.crypto.sha3 import Kekkak256, Sha3_256, Shake256

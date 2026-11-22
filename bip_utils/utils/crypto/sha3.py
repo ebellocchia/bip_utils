@@ -22,9 +22,9 @@
 
 # Imports
 import hashlib
-from typing import Union
+from typing import Any, Union
 
-from Crypto.Hash import SHA3_256, keccak
+from Crypto.Hash import SHA3_256, SHAKE256, keccak
 
 from bip_utils.utils.misc import AlgoUtils
 
@@ -97,3 +97,65 @@ class Sha3_256:     # noqa: N801
         return (hashlib.new("sha3_256").digest_size
                 if HASHLIB_USE_SHA3_256
                 else SHA3_256.digest_size)
+
+
+class Shake256:
+    """
+    SHAKE256 class.
+    It computes variable-length digests using the SHAKE256 extendable-output function.
+    The output can be read incrementally, like a stream.
+    """
+
+    handle: Any
+
+    def __init__(self,
+                 data: Union[bytes, str] = b"") -> None:
+        """
+        Construct class.
+
+        Args:
+            data (str or bytes, optional): Initial data (default: empty)
+        """
+        self.handle = SHAKE256.new(AlgoUtils.Encode(data))
+
+    def Update(self,
+               data: Union[bytes, str]) -> None:
+        """
+        Update digest.
+        It cannot be called anymore after reading the output.
+
+        Args:
+            data (str or bytes): Data
+
+        Raises:
+            TypeError: If called after reading the output
+        """
+        self.handle.update(AlgoUtils.Encode(data))
+
+    def Read(self,
+             length: int) -> bytes:
+        """
+        Read the next bytes of the output.
+
+        Args:
+            length (int): Number of bytes to read
+
+        Returns:
+            bytes: Output bytes
+        """
+        return self.handle.read(length)
+
+    @staticmethod
+    def QuickDigest(data: Union[bytes, str],
+                    digest_len: int) -> bytes:
+        """
+        Compute the digest (quick version).
+
+        Args:
+            data (str or bytes): Data
+            digest_len (int)   : Digest length in bytes
+
+        Returns:
+            bytes: Computed digest
+        """
+        return SHAKE256.new(AlgoUtils.Encode(data)).read(digest_len)

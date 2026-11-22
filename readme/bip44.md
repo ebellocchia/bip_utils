@@ -118,7 +118,7 @@ These formats are the ones used by the OKEx wallet. `Bip44Coins.OKEX_CHAIN_ETH` 
 ECDSA addresses can be generated with `KasAddrEncoder` by specifying `KasAddrTypes.PUB_KEY_ECDSA`.
 - `Bip44Coins.NOSTR` derives keys as defined by [NIP-06](https://github.com/nostr-protocol/nips/blob/master/06.md), i.e. with the path `m/44'/1237'/<account>'/0/0`, so only the account index shall be changed.
 The address is the public key in *npub* format and the private key can be encoded in *nsec* format with `NostrNsecEncoder` (see [Nostr](https://github.com/ebellocchia/bip_utils/tree/master/readme/utility/nostr.md)).\
-  Please note that NIP-06 is marked as unrecommended by Nostr developers, who suggest using a single *nsec*.
+  Please note that NIP-06 is marked as unrecommended by Nostr developers, who suggest using a single *nsec*. The Nostr application of [BIP-0085](https://github.com/ebellocchia/bip_utils/tree/master/readme/bip85.md) is an alternative way of deriving Nostr keys from a seed.
 
 #### BIP-0049
 

@@ -238,6 +238,11 @@ from bip_utils.bip.bip44 import Bip44
 from bip_utils.bip.bip44_base import Bip44Changes, Bip44DepthError, Bip44Levels, Bip44PrivateKey, Bip44PublicKey
 from bip_utils.bip.bip49 import Bip49
 from bip_utils.bip.bip84 import Bip84
+
+# BIP85
+from bip_utils.bip.bip85 import Bip85, Bip85Drng
+
+# BIP86
 from bip_utils.bip.bip86 import Bip86
 
 # BIP coins configuration
@@ -459,6 +464,7 @@ from bip_utils.utils.crypto import (
     Sha256,
     Sha512,
     Sha512_256,
+    Shake256,
     XModemCrc,
 )
 from bip_utils.utils.misc import (

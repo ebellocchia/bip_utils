@@ -12,6 +12,7 @@
 This package allows generating mnemonics, seeds, private/public keys and addresses for different types of cryptocurrencies. In particular:
 - Mnemonic and seed generation as defined by [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
 - Private key encryption/decryption as defined by [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki)
+- Deterministic entropy derivation (e.g. mnemonics, keys and passwords for other wallets) as defined by [BIP-0085](https://github.com/bitcoin/bips/blob/master/bip-0085.mediawiki)
 - Keys derivation as defined by:
   - [BIP-0032](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
   - [SLIP-0010](https://github.com/satoshilabs/slips/blob/master/slip-0010.md)
@@ -199,6 +200,7 @@ To run code analysis:
 - [BIP-0038](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip38.md)
 - [BIP-0032](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip32.md)
 - [BIP-0044](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip44.md)
+- [BIP-0085](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip85.md)
 - [Brainwallet](https://github.com/ebellocchia/bip_utils/blob/master/readme/brainwallet.md)
 - [Cardano](https://github.com/ebellocchia/bip_utils/blob/master/readme/cardano.md)
 - [Electrum](https://github.com/ebellocchia/bip_utils/blob/master/readme/electrum.md)
