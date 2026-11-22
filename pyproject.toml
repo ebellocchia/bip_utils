@@ -188,6 +188,8 @@ optional-dependencies.develop = {file = ["requirements-dev.txt"]}
 [tool.ruff]
 target-version = "py37"
 line-length = 120
+# Apply exclusions also to files passed explicitly (e.g. Codacy passes requirements.txt as a Python file)
+force-exclude = true
 exclude = [
     ".github",
     ".eggs",
@@ -204,6 +206,7 @@ exclude = [
     "tests",
     "my_tests",
     "venv",
+    "requirements*.txt",
 ]
 
 [tool.ruff.lint]
