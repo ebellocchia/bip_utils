@@ -14,6 +14,7 @@ bip_utils
    ecc/index.rst
    electrum/index.rst
    monero/index.rst
+   nostr/index.rst
    slip/index.rst
    solana/index.rst
    ss58/index.rst

@@ -38,6 +38,7 @@ Other implemented functionalities:
 - Extended key serialization as defined by [SLIP-0032](https://github.com/satoshilabs/slips/blob/master/slip-0032.md)
 - Encode/Decode addresses for all the supported coins
 - Encode/Decode [WIF](https://en.bitcoin.it/wiki/Wallet_import_format)
+- Encode/Decode Nostr keys in *npub*/*nsec* format as defined by [NIP-19](https://github.com/nostr-protocol/nips/blob/master/19.md)
 - Encode/Decode [base58](https://en.bitcoin.it/wiki/Base58Check_encoding#Background) and [base58 monero](https://monerodocs.org/cryptography/base58)
 - Encode/Decode [ss58](https://github.com/paritytech/substrate/wiki/External-Address-Format-(SS58))
 - Encode/Decode [bech32](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) and [bech32m](https://github.com/bitcoin/bips/blob/master/bip-0350.mediawiki)
@@ -106,6 +107,7 @@ Supported BIP coins:
 - NEO (legacy and N3)
 - Neutron
 - Nimiq
+- Nostr (NIP-06)
 - OKEx Chain (Ethereum and Cosmos addresses)
 - Ontology
 - Optimism

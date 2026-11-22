@@ -1494,6 +1494,30 @@ TEST_VECT = [
             "NQ46 Y9QA C47K CF78 M356 7VC4 CSBP X9Q1 AMCQ",
         ],
     },
+    # Nostr (seed of NIP-06 tests, same first address)
+    {
+        "coin": Bip44Coins.NOSTR,
+        "names": ("Nostr", ""),
+        "is_testnet": False,
+        "seed": b"173b9c5f0d165502d08a4d122b2c9bf1e33e27806eac119713600a263c1241101dc55fb7cffb8f48a59b19a5ba65b037904f907bb8d08eb5bff8a17e85c2ee93",
+        "ex_master": "xprv9s21ZrQH143K3e2FkntUKioGqrCiZPy98xTawMoWZersXvujjLQy6xBpS81msv7V1wGkMsQjx6jzmPn3VnjpMHB9FLY2wUxZor5BEbptqve",
+        "wif_master": "",
+        "account": {
+            "ex_pub": "xpub6CmqvYC8JG81UvsUPxVmWAqB5M8mKTjUsgJbCB565t4kMZuooPDH9xuCguRBNYM1vKT3pfBz4Rt71g6974kuaHxaA4nbqnM8J1tnewsJBBd",
+            "ex_priv": "xprv9ynVX2fETtZiGSo1Hvxm92tSXKJGv11dWTNzPnfUXYXmUmafFqu2cAaiqd7BVCb1QWtMAaNHgvdN6eWrPACrt5JTBFnjhHmXQZWma6oTiSP",
+        },
+        "chain_ext": {
+            "ex_pub": "xpub6DjFS1DL5jV1w32aeojfTpFv7LWXG3dmGWjxnRkTacwvhabyPwjNjAnNY66bnS636mGBKvANY5oat13GT3muWzfQ3zejN3aeHYYQvPXB94K",
+            "ex_priv": "xprv9zju2VgSFMviiYx7YnCf6gKBZJg2rauuuHpMz3Lr2HQwpnGprQR8BNTtgpcpKberHtk4trSZtDMxBkzmcNhvzM2r7xRL6mrSyNBBtXWBXYt",
+        },
+        "addresses": [
+            "npub1zutzeysacnf9rru6zqwmxd54mud0k44tst6l70ja5mhv8jjumytsd2x7nu",
+            "npub1hdwtv2cx4cdfqvkt666zavtug88k3qk2849gaxrsfu2kp259rvzsxwhhs8",
+            "npub1jjdk0k0gyx6l92qy54265wjl6a939t27tap98cwrcs6q0297ttjs6ygsky",
+            "npub1p869hlcgne4nh2wkce7p4a7rkq3k7s4lk9pun6cz0gvjfthumnnq3rsw4u",
+            "npub1gcsqyqujfj3qqme8fvc2n7f4ggrk6zy78l5aygraegsv8w967erqwzk5jh",
+        ],
+    },
     # OKEx Chain (Atom address)
     {
         "coin": Bip44Coins.OKEX_CHAIN_ATOM,
@@ -2811,6 +2835,18 @@ TEST_VECT_DEFAULT_PATH = [
         "coin": Bip44Coins.NIMIQ,
         "seed": b"5eb00bbddcf069084889a8ab9155568165f5c453ccb85e70811aaed6f6da5fc19a5ac40b389cd370d086206dec8aa6c43daea6690f20ad3d8d48b2d2ce9e38e4",
         "default_address": "NQ45 1KUT 73F7 ADV4 UCT8 TX64 2DE4 CHBP SJBF",
+    },
+    # Nostr (NIP-06 test vector)
+    {
+        "coin": Bip44Coins.NOSTR,
+        "seed": b"173b9c5f0d165502d08a4d122b2c9bf1e33e27806eac119713600a263c1241101dc55fb7cffb8f48a59b19a5ba65b037904f907bb8d08eb5bff8a17e85c2ee93",
+        "default_address": "npub1zutzeysacnf9rru6zqwmxd54mud0k44tst6l70ja5mhv8jjumytsd2x7nu",
+    },
+    # Nostr (NIP-06 test vector)
+    {
+        "coin": Bip44Coins.NOSTR,
+        "seed": b"5e2bd11b4d371f25098ed95ded029e2b9268cf188e6b764023bafbbd8fe843244fb72ca8f66c9378085d69fcb4d4224e709ffe071acafa7b7d5eb54b2905d553",
+        "default_address": "npub16sdj9zv4f8sl85e45vgq9n7nsgt5qphpvmf7vk8r5hhvmdjxx4es8rq74h",
     },
     # OKEx Chain (Atom address)
     {

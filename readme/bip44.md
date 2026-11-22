@@ -74,6 +74,7 @@ Supported coins enumerative for BIP-0044:
 |NEO N3|`Bip44Coins.NEO_N3`|-|
 |Neutron|`Bip44Coins.NEUTRON`|-|
 |Nimiq|`Bip44Coins.NIMIQ`|-|
+|Nostr ([NIP-06](https://github.com/nostr-protocol/nips/blob/master/06.md))|`Bip44Coins.NOSTR`|-|
 |OKEx Chain (Cosmos address)|`Bip44Coins.OKEX_CHAIN_ATOM`|-|
 |OKEx Chain (Ethereum address)|`Bip44Coins.OKEX_CHAIN_ETH`|-|
 |OKEx Chain (Old Cosmos address before mainnet upgrade)|`Bip44Coins.OKEX_CHAIN_ATOM_OLD`|-|
@@ -115,6 +116,9 @@ These formats are the ones used by the OKEx wallet. `Bip44Coins.OKEX_CHAIN_ETH` 
   This address format was used before the mainnet upgrade (some wallets still use it, e.g. Cosmostation).
 - `Bip44Coins.KASPA` and `Bip44Coins.KASPA_TESTNET` generate the same extended keys (i.e. *kprv*/*kpub* and *ktrv*/*ktub*) and Schnorr addresses of the official Kaspa wallets.
 ECDSA addresses can be generated with `KasAddrEncoder` by specifying `KasAddrTypes.PUB_KEY_ECDSA`.
+- `Bip44Coins.NOSTR` derives keys as defined by [NIP-06](https://github.com/nostr-protocol/nips/blob/master/06.md), i.e. with the path `m/44'/1237'/<account>'/0/0`, so only the account index shall be changed.
+The address is the public key in *npub* format and the private key can be encoded in *nsec* format with `NostrNsecEncoder` (see [Nostr](https://github.com/ebellocchia/bip_utils/tree/master/readme/utility/nostr.md)).\
+  Please note that NIP-06 is marked as unrecommended by Nostr developers, who suggest using a single *nsec*.
 
 #### BIP-0049
 

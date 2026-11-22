@@ -78,6 +78,7 @@ class Slip44:
     OKEX_CHAIN: int = 996
     HARMONY_ONE: int = 1023
     ONTOLOGY: int = 1024
+    NOSTR: int = 1237
     TEZOS: int = 1729
     MAVRYK: int = 1969
     CARDANO: int = 1815

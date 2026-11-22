@@ -92,6 +92,7 @@ class Bip44Coins(BipCoins):
     NEUTRON = auto()
     NIMIQ = auto()
     NINE_CHRONICLES_GOLD = auto()
+    NOSTR = auto()
     OKEX_CHAIN_ATOM = auto()
     OKEX_CHAIN_ATOM_OLD = auto()
     OKEX_CHAIN_ETH = auto()

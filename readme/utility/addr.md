@@ -138,6 +138,9 @@ The address library allows encoding/decoding addresses for all the supported coi
     pub_key_bytes = KasAddrDecoder.DecodeAddr(addr,
                                               hrp=CoinsConf.KaspaMainNet.ParamByKey("addr_hrp"),
                                               addr_type=KasAddrTypes.PUB_KEY)
+    # Nostr address (npub)
+    addr = NostrAddrEncoder.EncodeKey(pub_key)
+    pub_key_bytes = NostrAddrDecoder.DecodeAddr(addr)
     # Ripple address
     addr = XrpAddrEncoder.EncodeKey(pub_key)
     pub_key_hash = XrpAddrDecoder.DecodeAddr(addr)

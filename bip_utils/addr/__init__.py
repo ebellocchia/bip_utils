@@ -46,6 +46,7 @@ from bip_utils.addr.neo_addr import NeoAddr, NeoAddrDecoder, NeoAddrEncoder
 from bip_utils.addr.neo_legacy_addr import NeoLegacyAddr, NeoLegacyAddrDecoder, NeoLegacyAddrEncoder
 from bip_utils.addr.neo_n3_addr import NeoN3Addr, NeoN3AddrDecoder, NeoN3AddrEncoder
 from bip_utils.addr.nim_addr import NimAddr, NimAddrDecoder, NimAddrEncoder
+from bip_utils.addr.nostr_addr import NostrAddr, NostrAddrDecoder, NostrAddrEncoder
 from bip_utils.addr.okex_addr import OkexAddr, OkexAddrDecoder, OkexAddrEncoder
 from bip_utils.addr.one_addr import OneAddr, OneAddrDecoder, OneAddrEncoder
 from bip_utils.addr.P2PKH_addr import (

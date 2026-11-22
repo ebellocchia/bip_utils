@@ -736,6 +736,15 @@ class CoinsConf:
         params={},
     )
 
+    # Configuration for Nostr
+    Nostr: CoinConf = CoinConf(
+        coin_name=CoinNames("Nostr", ""),
+        params={
+            "addr_hrp": "npub",
+            "priv_key_hrp": "nsec",
+        },
+    )
+
     # Configuration for OKEx Chain
     OkexChain: CoinConf = CoinConf(
         coin_name=CoinNames("OKExChain", "OKT"),

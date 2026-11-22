@@ -33,6 +33,7 @@ addr
    neo_legacy_addr
    neo_n3_addr
    nim_addr
+   nostr_addr
    okex_addr
    one_addr
    sol_addr

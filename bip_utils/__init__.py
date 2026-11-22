@@ -89,6 +89,9 @@ from bip_utils.addr import (
     NimAddr,
     NimAddrDecoder,
     NimAddrEncoder,
+    NostrAddr,
+    NostrAddrDecoder,
+    NostrAddrEncoder,
     OkexAddr,
     OkexAddrDecoder,
     OkexAddrEncoder,
@@ -362,6 +365,9 @@ from bip_utils.monero.mnemonic_polyseed import (
     MoneroPolyseedSeedGenerator,
     MoneroPolyseedWordsNum,
 )
+
+# Nostr
+from bip_utils.nostr import NostrNsecDecoder, NostrNsecEncoder
 
 # SLIP32
 from bip_utils.slip.slip32 import (

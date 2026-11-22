@@ -106,6 +106,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.NEUTRON: Bip44Conf.Neutron,
         Bip44Coins.NIMIQ: Bip44Conf.Nimiq,
         Bip44Coins.NINE_CHRONICLES_GOLD: Bip44Conf.NineChroniclesGold,
+        Bip44Coins.NOSTR: Bip44Conf.Nostr,
         Bip44Coins.OKEX_CHAIN_ATOM: Bip44Conf.OkexChainAtom,
         Bip44Coins.OKEX_CHAIN_ATOM_OLD: Bip44Conf.OkexChainAtomOld,
         Bip44Coins.OKEX_CHAIN_ETH: Bip44Conf.OkexChainEth,

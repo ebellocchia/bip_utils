@@ -46,6 +46,7 @@ from bip_utils.addr import (
     NeoLegacyAddrEncoder,
     NeoN3AddrEncoder,
     NimAddrEncoder,
+    NostrAddrEncoder,
     OkexAddrEncoder,
     OneAddrEncoder,
     P2PKHAddrEncoder,
@@ -1129,6 +1130,19 @@ class Bip44Conf:
         wif_net_ver=None,
         bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=EthAddrEncoder,
+        addr_params={},
+    )
+
+    # Configuration for Nostr (NIP-06)
+    Nostr: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Nostr.CoinNames(),
+        coin_idx=Slip44.NOSTR,
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=NostrAddrEncoder,
         addr_params={},
     )
 
