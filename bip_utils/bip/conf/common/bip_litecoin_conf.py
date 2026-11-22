@@ -21,7 +21,7 @@
 """Module with helper class for Litecoin configuration handling."""
 
 # Imports
-from typing import Any, Dict, Type
+from typing import Any, Dict, Mapping, Type
 
 from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions
@@ -109,7 +109,7 @@ class BipLitecoinConf(BipCoinConf):
         """
         return self.m_alt_key_net_ver if self.m_use_alt_key_net_ver else self.m_key_net_ver
 
-    def AddrParams(self) -> Dict[str, Any]:
+    def AddrParams(self) -> Mapping[str, Any]:
         """
         Get the address parameters. It overrides the method in BipCoinConf.
 

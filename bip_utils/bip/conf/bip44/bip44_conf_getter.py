@@ -21,7 +21,8 @@
 """Module for getting BIP44 coins configuration."""
 
 # Imports
-from typing import Dict
+from types import MappingProxyType
+from typing import Mapping
 
 from bip_utils.bip.conf.bip44.bip44_coins import Bip44Coins
 from bip_utils.bip.conf.bip44.bip44_conf import Bip44Conf
@@ -32,7 +33,7 @@ class Bip44ConfGetterConst:
     """Class container for BIP44 configuration getter constants."""
 
     # Map from Bip44Coins to configuration classes
-    COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
+    COIN_TO_CONF: Mapping[BipCoins, BipCoinConf] = MappingProxyType({
         Bip44Coins.AKASH_NETWORK: Bip44Conf.AkashNetwork,
         Bip44Coins.ALGORAND: Bip44Conf.Algorand,
         Bip44Coins.APTOS: Bip44Conf.Aptos,
@@ -128,7 +129,7 @@ class Bip44ConfGetterConst:
         Bip44Coins.ZCASH: Bip44Conf.ZcashMainNet,
         Bip44Coins.ZCASH_TESTNET: Bip44Conf.ZcashTestNet,
         Bip44Coins.ZILLIQA: Bip44Conf.Zilliqa,
-    }
+    })
 
 
 class Bip44ConfGetter:

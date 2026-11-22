@@ -21,7 +21,8 @@
 """Module for getting CIP-1852 coins configuration."""
 
 # Imports
-from typing import Dict
+from types import MappingProxyType
+from typing import Mapping
 
 from bip_utils.bip.conf.common import BipCoinConf, BipCoins
 from bip_utils.cardano.cip1852.conf.cip1852_coins import Cip1852Coins
@@ -32,12 +33,12 @@ class Cip1852ConfGetterConst:
     """Class container for CIP-1852 configuration getter constants."""
 
     # Map from Cip1852Coins to configuration classes
-    COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
+    COIN_TO_CONF: Mapping[BipCoins, BipCoinConf] = MappingProxyType({
         Cip1852Coins.CARDANO_ICARUS: Cip1852Conf.CardanoIcarusMainNet,
         Cip1852Coins.CARDANO_LEDGER: Cip1852Conf.CardanoLedgerMainNet,
         Cip1852Coins.CARDANO_ICARUS_TESTNET: Cip1852Conf.CardanoIcarusTestNet,
         Cip1852Coins.CARDANO_LEDGER_TESTNET: Cip1852Conf.CardanoLedgerTestNet,
-    }
+    })
 
 
 class Cip1852ConfGetter:

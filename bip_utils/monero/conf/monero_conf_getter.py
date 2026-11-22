@@ -21,7 +21,8 @@
 """Module for getting Monero coins configuration."""
 
 # Imports
-from typing import Dict
+from types import MappingProxyType
+from typing import Mapping
 
 from bip_utils.monero.conf.monero_coin_conf import MoneroCoinConf
 from bip_utils.monero.conf.monero_coins import MoneroCoins
@@ -32,11 +33,11 @@ class MoneroConfGetterConst:
     """Class container for Monero configuration getter constants."""
 
     # Map from MoneroCoins to configuration classes
-    COIN_TO_CONF: Dict[MoneroCoins, MoneroCoinConf] = {
+    COIN_TO_CONF: Mapping[MoneroCoins, MoneroCoinConf] = MappingProxyType({
         MoneroCoins.MONERO_MAINNET: MoneroConf.MainNet,
         MoneroCoins.MONERO_STAGENET: MoneroConf.StageNet,
         MoneroCoins.MONERO_TESTNET: MoneroConf.TestNet,
-    }
+    })
 
 
 class MoneroConfGetter:

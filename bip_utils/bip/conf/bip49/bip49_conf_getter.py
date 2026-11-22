@@ -22,7 +22,8 @@
 
 # Imports
 import warnings
-from typing import Dict, FrozenSet
+from types import MappingProxyType
+from typing import FrozenSet, Mapping
 
 from bip_utils.bip.conf.bip49.bip49_coins import Bip49Coins
 from bip_utils.bip.conf.bip49.bip49_conf import Bip49Conf
@@ -33,7 +34,7 @@ class Bip49ConfGetterConst:
     """Class container for BIP49 configuration getter constants."""
 
     # Map from Bip49Coins to configuration classes
-    COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
+    COIN_TO_CONF: Mapping[BipCoins, BipCoinConf] = MappingProxyType({
         Bip49Coins.BITCOIN: Bip49Conf.BitcoinMainNet,
         Bip49Coins.BITCOIN_REGTEST: Bip49Conf.BitcoinRegTest,
         Bip49Coins.BITCOIN_TESTNET: Bip49Conf.BitcoinTestNet,
@@ -53,7 +54,7 @@ class Bip49ConfGetterConst:
         Bip49Coins.LITECOIN_TESTNET: Bip49Conf.LitecoinTestNet,
         Bip49Coins.ZCASH: Bip49Conf.ZcashMainNet,
         Bip49Coins.ZCASH_TESTNET: Bip49Conf.ZcashTestNet,
-    }
+    })
 
     # These coins don't support SegWit, so BIP49 (P2SH-P2WPKH) addresses are not safe for them
     # (see https://github.com/ebellocchia/bip_utils/issues/117)

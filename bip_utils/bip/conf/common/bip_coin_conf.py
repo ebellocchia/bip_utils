@@ -21,7 +21,7 @@
 """Module with helper class for generic BIP coins configuration handling."""
 
 # Imports
-from typing import Any, Dict, Optional, Tuple, Type
+from typing import Any, Dict, Mapping, Optional, Tuple, Type
 
 from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.bip32 import Bip32Base, Bip32KeyNetVersions, Bip32PublicKey
@@ -175,7 +175,7 @@ class BipCoinConf:  # pylint: disable=too-many-instance-attributes
         """
         return self.m_bip32_cls
 
-    def AddrParams(self) -> Dict[str, Any]:
+    def AddrParams(self) -> Mapping[str, Any]:
         """
         Get the address parameters.
 
@@ -185,7 +185,7 @@ class BipCoinConf:  # pylint: disable=too-many-instance-attributes
         return self.m_addr_params
 
     def AddrParamsWithResolvedCalls(self,
-                                    pub_key: Bip32PublicKey) -> Dict[str, Any]:
+                                    pub_key: Bip32PublicKey) -> Mapping[str, Any]:
         """
         Get the address parameters with resolved function calls.
 

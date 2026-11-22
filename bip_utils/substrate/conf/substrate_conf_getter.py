@@ -21,7 +21,8 @@
 """Module for getting Substrate coins configuration."""
 
 # Imports
-from typing import Dict
+from types import MappingProxyType
+from typing import Mapping
 
 from bip_utils.substrate.conf.substrate_coin_conf import SubstrateCoinConf
 from bip_utils.substrate.conf.substrate_coins import SubstrateCoins
@@ -32,7 +33,7 @@ class SubstrateConfGetterConst:
     """Class container for Substrate configuration getter constants."""
 
     # Map from SubstrateCoins to configuration classes
-    COIN_TO_CONF: Dict[SubstrateCoins, SubstrateCoinConf] = {
+    COIN_TO_CONF: Mapping[SubstrateCoins, SubstrateCoinConf] = MappingProxyType({
         SubstrateCoins.ACALA: SubstrateConf.Acala,
         SubstrateCoins.BIFROST: SubstrateConf.Bifrost,
         SubstrateCoins.CHAINX: SubstrateConf.ChainX,
@@ -47,7 +48,7 @@ class SubstrateConfGetterConst:
         SubstrateCoins.POLKADOT: SubstrateConf.Polkadot,
         SubstrateCoins.SORA: SubstrateConf.Sora,
         SubstrateCoins.STAFI: SubstrateConf.Stafi,
-    }
+    })
 
 
 class SubstrateConfGetter:

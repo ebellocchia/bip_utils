@@ -21,7 +21,8 @@
 """Module for getting BIP86 coins configuration."""
 
 # Imports
-from typing import Dict
+from types import MappingProxyType
+from typing import Mapping
 
 from bip_utils.bip.conf.bip86.bip86_coins import Bip86Coins
 from bip_utils.bip.conf.bip86.bip86_conf import Bip86Conf
@@ -32,11 +33,11 @@ class Bip86ConfGetterConst:
     """Class container for BIP86 configuration getter constants."""
 
     # Map from Bip86Coins to configuration classes
-    COIN_TO_CONF: Dict[BipCoins, BipCoinConf] = {
+    COIN_TO_CONF: Mapping[BipCoins, BipCoinConf] = MappingProxyType({
         Bip86Coins.BITCOIN: Bip86Conf.BitcoinMainNet,
         Bip86Coins.BITCOIN_REGTEST: Bip86Conf.BitcoinRegTest,
         Bip86Coins.BITCOIN_TESTNET: Bip86Conf.BitcoinTestNet,
-    }
+    })
 
 
 class Bip86ConfGetter:

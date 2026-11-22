@@ -21,7 +21,7 @@
 """Module with helper class for Bitcoin Cash configuration handling."""
 
 # Imports
-from typing import Any, Dict, Type
+from typing import Any, Dict, Mapping, Type
 
 from bip_utils.addr import IAddrEncoder
 from bip_utils.bip.bip32 import Bip32KeyNetVersions
@@ -96,7 +96,7 @@ class BipBitcoinCashConf(BipCoinConf):
         """
         return self.m_addr_cls_legacy if self.m_use_legacy_addr else self.m_addr_cls
 
-    def AddrParams(self) -> Dict[str, Any]:
+    def AddrParams(self) -> Mapping[str, Any]:
         """
         Get the address parameters. It overrides the method in BipCoinConf.
 
