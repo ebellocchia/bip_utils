@@ -55,11 +55,11 @@ jobs:
       run: |
         pytest
 
-  build_test_py308:
+  build_test_py308_py309:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8"]
+        python-version: ["3.8", "3.9"]
         os:
           - ubuntu-24.04
           - macOS-15
@@ -71,36 +71,11 @@ jobs:
       uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Use legacy pyproject
+      if: matrix.python-version == '3.8'
       shell: bash
       run: |
         mv -f pyproject_legacy.toml pyproject.toml
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install -r requirements-dev.txt
-    - name: Install package
-      run: |
-        pip install .
-    - name: Run tests
-      run: |
-        pytest
-
-  build_test_py309:
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.9"]
-        os:
-          - ubuntu-24.04
-          - macOS-15
-          - windows-latest
-    runs-on: ${{ matrix.os }}
-    steps:
-    - uses: actions/checkout@v7
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v7
-      with:
-        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
