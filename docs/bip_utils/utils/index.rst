@@ -7,4 +7,3 @@ utils
    crypto/index.rst
    misc/index.rst
    mnemonic/index.rst
-   typing/index.rst

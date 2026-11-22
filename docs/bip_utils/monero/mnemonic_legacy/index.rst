@@ -1,5 +1,5 @@
-mnemonic
-========
+mnemonic_legacy
+===============
 .. toctree::
    :maxdepth: 10
 
