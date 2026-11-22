@@ -1,3 +1,20 @@
+# 2.13.0
+
+- Print a `FutureWarning` for BIP-0049 coins without SegWit support
+
+|Coin | Main net enum | Test net enum |
+|---|---|---|
+|Bitcoin Cash|`Bip49Coins.BITCOIN_CASH`|`Bip49Coins.BITCOIN_CASH_TESTNET`|
+|Bitcoin Cash SLP|`Bip49Coins.BITCOIN_CASH_SLP`|`Bip49Coins.BITCOIN_CASH_SLP_TESTNET`|
+|BitcoinSV|`Bip49Coins.BITCOIN_SV`|`Bip49Coins.BITCOIN_SV_TESTNET`|
+|Dash|`Bip49Coins.DASH`|`Bip49Coins.DASH_TESTNET`|
+|Dogecoin|`Bip49Coins.DOGECOIN`|`Bip49Coins.DOGECOIN_TESTNET`|
+|eCash|`Bip49Coins.ECASH`|`Bip49Coins.ECASH_TESTNET`|
+|Zcash|`Bip49Coins.ZCASH`|`Bip49Coins.ZCASH_TESTNET`|
+- Fix SLIP-0010 child key derivation when the resulting key is invalid, for both `Bip32Slip10Nist256p1` and `Bip32Slip10Secp256k1`.
+  The derivation is now retried as specified by SLIP-0010, for both private and public derivation.
+- Add support for `pycryptodome` 4.x.
+
 # 2.12.3
 
 - Remove `crcmod` dependency.
