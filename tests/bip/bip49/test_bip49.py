@@ -19,6 +19,9 @@
 # THE SOFTWARE.
 
 # Imports
+import os
+import warnings
+
 from bip_utils import Bip44Coins, Bip49, Bip49Coins, Bip49Conf, Bip84Coins, Bip86Coins, Cip1852Coins
 from tests.bip.bip44.test_bip44 import TEST_SEED
 from tests.bip.bip44_base.test_bip44_base import Bip44BaseTests
@@ -721,11 +724,52 @@ TEST_VECT_EX_KEY_DEPTHS = {
     "ex_pub_6": "ypub6dxq9iSppQWHxYhwwGWQcfaoRWUj9fAe9CveBZNTvk6qgeguHiFPXHtfTi5oPFEiVe7vH7mUdUrjeQpAbxPxZ1nXhDDvx4xQw5kREC9vNE1",
 }
 
+# BIP49 warning coins (no SegWit support)
+TEST_BIP49_WARN_COINS = [
+    Bip49Coins.BITCOIN_CASH,
+    Bip49Coins.BITCOIN_CASH_TESTNET,
+    Bip49Coins.BITCOIN_CASH_SLP,
+    Bip49Coins.BITCOIN_CASH_SLP_TESTNET,
+    Bip49Coins.BITCOIN_SV,
+    Bip49Coins.BITCOIN_SV_TESTNET,
+    Bip49Coins.DASH,
+    Bip49Coins.DASH_TESTNET,
+    Bip49Coins.DOGECOIN,
+    Bip49Coins.DOGECOIN_TESTNET,
+    Bip49Coins.ECASH,
+    Bip49Coins.ECASH_TESTNET,
+    Bip49Coins.ZCASH,
+    Bip49Coins.ZCASH_TESTNET,
+]
+
 
 #
 # Tests
 #
 class Bip49Tests(Bip44BaseTests):
+    # All coins are tested, so ignore their FutureWarning (test_bip49_warn_coins checks it)
+    def setUp(self):
+        warn_ctx = warnings.catch_warnings()
+        warn_ctx.__enter__()
+        self.addCleanup(warn_ctx.__exit__, None, None, None)
+        warnings.simplefilter("ignore", FutureWarning)
+
+    # Test that a FutureWarning is issued only for specific coins
+    def test_bip49_warn_coins(self):
+        for coin in Bip49Coins:
+            with warnings.catch_warnings(record=True) as warns:
+                warnings.simplefilter("always")
+                Bip49.FromSeed(TEST_SEED, coin)
+
+            fut_warns = [w for w in warns if issubclass(w.category, FutureWarning)]
+            if coin in TEST_BIP49_WARN_COINS:
+                self.assertEqual(len(fut_warns), 1, coin)
+                self.assertIn(coin.name, str(fut_warns[0].message))
+                # The warning shall point to the caller of Bip49.FromSeed
+                self.assertEqual(os.path.basename(fut_warns[0].filename), os.path.basename(__file__))
+            else:
+                self.assertEqual(len(fut_warns), 0, coin)
+
     # Test specification name
     def test_spec_name(self):
         self.assertEqual(Bip49.SpecName(), "BIP-0049")

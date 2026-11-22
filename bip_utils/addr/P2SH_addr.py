@@ -21,6 +21,7 @@
 """Module for P2SH address encoding/decoding."""
 
 # Imports
+import warnings
 from typing import Any, Union
 
 from typing_extensions import override
@@ -99,6 +100,8 @@ class P2SHAddrEncoder(IAddrEncoder):
     """
     P2SH address encoder class.
     It allows the Pay-to-Script-Hash address encoding.
+    The script is always P2WPKH (i.e. P2SH-P2WPKH address, as defined by BIP-0049), so the address is safe
+    only for coins supporting SegWit.
     """
 
     @override
@@ -107,6 +110,8 @@ class P2SHAddrEncoder(IAddrEncoder):
                   **kwargs: Any) -> str:
         """
         Encode a public key to P2SH address.
+        The script is always P2WPKH (i.e. P2SH-P2WPKH address), so the address is safe only for coins
+        supporting SegWit.
 
         Args:
             pub_key (bytes or IPublicKey) : Public key bytes or object
@@ -162,6 +167,10 @@ class BchP2SHAddrEncoder(IAddrEncoder):
     """
     Bitcoin Cash P2SH address encoder class.
     It allows the Bitcoin Cash P2SH encoding.
+
+    BchP2SHAddrEncoder should not be used.
+    It always encodes a P2SH-P2WPKH (SegWit) script, which is not safe for receiving funds on Bitcoin Cash
+    (see https://github.com/ebellocchia/bip_utils/issues/117).
     """
 
     @override
@@ -170,6 +179,8 @@ class BchP2SHAddrEncoder(IAddrEncoder):
                   **kwargs: Any) -> str:
         """
         Encode a public key to Bitcoin Cash P2SH address.
+        BchP2SHAddrEncoder should not be used.
+        It always encodes a P2SH-P2WPKH (SegWit) script, which is not safe for receiving funds on Bitcoin Cash.
 
         Args:
             pub_key (bytes or IPublicKey): Public key bytes or object
@@ -185,6 +196,13 @@ class BchP2SHAddrEncoder(IAddrEncoder):
             ValueError: If the public key is not valid
             TypeError: If the public key is not secp256k1
         """
+        warnings.warn(
+            "BchP2SHAddrEncoder should not be used. "
+            "It always encodes a P2SH-P2WPKH (SegWit) script, which is not safe for receiving funds on Bitcoin Cash.",
+            FutureWarning,
+            stacklevel=2,
+        )
+
         hrp = kwargs["hrp"]
         net_ver_bytes = kwargs["net_ver"]
 

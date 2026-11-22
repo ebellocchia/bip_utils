@@ -71,9 +71,10 @@ The address library allows encoding/decoding addresses for all the supported coi
                                                   hrp=CoinsConf.BitcoinCashMainNet.ParamByKey("p2pkh_std_hrp"),
                                                   net_ver=CoinsConf.BitcoinCashMainNet.ParamByKey("p2pkh_std_net_ver"))
     # Same for P2SH
+    # NOTE: BchP2SHAddrEncoder always encodes a P2SH-P2WPKH (SegWit) script, which is not safe on Bitcoin Cash, so it issues a FutureWarning
     addr = BchP2SHAddrEncoder.EncodeKey(pub_key,
-                                        hrp=CoinsConf.BitcoinCashMainNet.ParamByKey("p2pkh_std_hrp"),
-                                        net_ver=CoinsConf.BitcoinCashMainNet.ParamByKey("p2pkh_std_net_ver"))
+                                        hrp=CoinsConf.BitcoinCashMainNet.ParamByKey("p2sh_std_hrp"),
+                                        net_ver=CoinsConf.BitcoinCashMainNet.ParamByKey("p2sh_std_net_ver"))
     addr = BchP2SHAddrEncoder.EncodeKey(pub_key,
                                         hrp="hrp",
                                         net_ver=b"\x01")

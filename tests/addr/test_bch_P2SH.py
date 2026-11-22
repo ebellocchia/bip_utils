@@ -19,6 +19,10 @@
 # THE SOFTWARE.
 
 # Imports
+import binascii
+import os
+import warnings
+
 from bip_utils import BchP2SHAddr, BchP2SHAddrDecoder, BchP2SHAddrEncoder, CoinsConf
 from tests.addr.test_addr_base import AddrBaseTests
 from tests.addr.test_addr_const import TEST_SECP256K1_ADDR_INVALID_KEY_TYPES
@@ -74,6 +78,30 @@ TEST_VECT_DEC_INVALID = [
 # Tests
 #
 class BchP2SHTests(AddrBaseTests):
+    # The encoder is still tested, so ignore its FutureWarning (test_bip49_warn_coins checks it)
+    def setUp(self):
+        warn_ctx = warnings.catch_warnings()
+        warn_ctx.__enter__()
+        self.addCleanup(warn_ctx.__exit__, None, None, None)
+        warnings.simplefilter("ignore", FutureWarning)
+
+    # Test that the encoder issues a FutureWarning and the decoder doesn't
+    def test_bip49_warn_coins(self):
+        test = TEST_VECT[0]
+
+        with warnings.catch_warnings(record=True) as warns:
+            warnings.simplefilter("always")
+            BchP2SHAddrEncoder.EncodeKey(binascii.unhexlify(test["pub_key"]), **test["address_params"])
+        fut_warns = [w for w in warns if issubclass(w.category, FutureWarning)]
+        self.assertEqual(len(fut_warns), 1)
+        # The warning shall point to the caller of EncodeKey
+        self.assertEqual(os.path.basename(fut_warns[0].filename), os.path.basename(__file__))
+
+        with warnings.catch_warnings(record=True) as warns:
+            warnings.simplefilter("always")
+            BchP2SHAddrDecoder.DecodeAddr(test["address"], **test["address_params"])
+        self.assertEqual(len([w for w in warns if issubclass(w.category, FutureWarning)]), 0)
+
     # Test encode key
     def test_encode_key(self):
         self._test_encode_key(BchP2SHAddrEncoder, Secp256k1PublicKey, TEST_VECT)

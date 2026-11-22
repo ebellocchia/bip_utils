@@ -118,14 +118,18 @@ Supported coins enumerative for BIP-0049:
 |Coin|Main net enum|Test net enum|
 |---|---|---|
 |Bitcoin|`Bip49Coins.BITCOIN`|`Bip49Coins.BITCOIN_TESTNET`|
-|Bitcoin Cash|`Bip49Coins.BITCOIN_CASH`|`Bip49Coins.BITCOIN_CASH_TESTNET`|
-|[Bitcoin Cash SLP](https://reference.cash/protocol/slp)|`Bip49Coins.BITCOIN_CASH_SLP`|`Bip49Coins.BITCOIN_CASH_SLP_TESTNET`|
-|BitcoinSV|`Bip49Coins.BITCOIN_SV`|`Bip49Coins.BITCOIN_SV_TESTNET`|
-|Dash|`Bip49Coins.DASH`|`Bip49Coins.DASH_TESTNET`|
-|Dogecoin|`Bip49Coins.DOGECOIN`|`Bip49Coins.DOGECOIN_TESTNET`|
-|eCash|`Bip49Coins.ECASH`|`Bip49Coins.ECASH_TESTNET`|
+|Bitcoin Cash (__see note__)|`Bip49Coins.BITCOIN_CASH`|`Bip49Coins.BITCOIN_CASH_TESTNET`|
+|[Bitcoin Cash SLP](https://reference.cash/protocol/slp) (__see note__)|`Bip49Coins.BITCOIN_CASH_SLP`|`Bip49Coins.BITCOIN_CASH_SLP_TESTNET`|
+|BitcoinSV (__see note__)|`Bip49Coins.BITCOIN_SV`|`Bip49Coins.BITCOIN_SV_TESTNET`|
+|Dash (__see note__)|`Bip49Coins.DASH`|`Bip49Coins.DASH_TESTNET`|
+|Dogecoin (__see note__)|`Bip49Coins.DOGECOIN`|`Bip49Coins.DOGECOIN_TESTNET`|
+|eCash (__see note__)|`Bip49Coins.ECASH`|`Bip49Coins.ECASH_TESTNET`|
 |Litecoin|`Bip49Coins.LITECOIN`|`Bip49Coins.LITECOIN_TESTNET`|
-|Zcash|`Bip49Coins.ZCASH`|`Bip49Coins.ZCASH_TESTNET`|
+|Zcash (__see note__)|`Bip49Coins.ZCASH`|`Bip49Coins.ZCASH_TESTNET`|
+
+**NOTE:** BIP-0049 addresses are P2SH-P2WPKH (i.e. SegWit nested in P2SH), so they are only safe for coins supporting SegWit (i.e. Bitcoin and Litecoin).\
+The other coins don't support SegWit: funds sent to their BIP-0049 addresses cannot be spent normally by the owner, and the address script doesn't check any signature (see [issue #117](https://github.com/ebellocchia/bip_utils/issues/117)).
+Therefore, using them issues a `FutureWarning`.
 
 #### BIP-0084
 
