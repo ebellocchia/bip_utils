@@ -63,7 +63,7 @@ jobs:
       matrix:
         os:
           - ubuntu-24.04
-          - macOS-14
+          - macOS-15
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -95,7 +95,7 @@ jobs:
       matrix:
         os:
           - ubuntu-24.04
-          - macOS-14
+          - macOS-15
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
@@ -128,7 +128,7 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macOS-14
+          - macOS-15
           - windows-latest
     runs-on: ${{ matrix.os }}
     steps:
