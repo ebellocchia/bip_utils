@@ -204,7 +204,7 @@ To run code analysis:
 
 ## Documentation
 
-The library documentation is available at [bip-utils.readthedocs.io](https://bip-utils.readthedocs.io).
+The library documentation is available at [ebellocchia.github.io/bip_utils](https://ebellocchia.github.io/bip_utils/).
 
 ## Code examples
 

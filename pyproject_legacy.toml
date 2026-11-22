@@ -167,7 +167,7 @@ Homepage = "https://github.com/ebellocchia/bip_utils"
 Changelog = "https://github.com/ebellocchia/bip_utils/blob/master/CHANGELOG.md"
 Repository = "https://github.com/ebellocchia/bip_utils"
 Download = "https://github.com/ebellocchia/bip_utils/archive/v{version}.tar.gz"
-Documentation = "https://bip-utils.readthedocs.io"
+Documentation = "https://ebellocchia.github.io/bip_utils/"
 
 [tool.setuptools]
 packages = {find = {exclude =  ["benchmark*", "build*", "dist*", "docs*", "examples*", "readme*", "venv*", "tests*"]}}
