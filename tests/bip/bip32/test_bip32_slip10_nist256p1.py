@@ -317,6 +317,10 @@ class Bip32Slip10Nist256p1Tests(Bip32BaseTests):
         self.assertEqual(test["chain_code"], public_child.ChainCode().ToHex())
         self.assertEqual(test["pub_key"], public_child.PublicKey().RawCompressed().ToHex())
 
+    # Test derivation retry with forced invalid keys
+    def test_forced_retry_derivation(self):
+        self._test_forced_retry_derivation(Bip32Slip10Nist256p1)
+
     # Test old class
     def test_old_cls(self):
         self.assertTrue(Bip32Nist256p1 is Bip32Slip10Nist256p1)

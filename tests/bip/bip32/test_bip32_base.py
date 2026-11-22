@@ -20,7 +20,10 @@
 
 # Imports
 import binascii
+import hashlib
+import hmac
 import unittest
+from unittest import mock
 
 from bip_utils import (
     Bip32ChainCode,
@@ -35,13 +38,17 @@ from bip_utils import (
     EllipticCurveGetter,
 )
 from bip_utils.bip.bip32.bip32_key_data import Bip32KeyDataConst
+from bip_utils.bip.bip32.slip10 import bip32_slip10_key_derivator
 from bip_utils.bip.bip32.slip10.bip32_slip10_mst_key_generator import Bip32Slip10MstKeyGeneratorConst
+from bip_utils.utils.misc import BytesUtils
 
 
 # Generic seed for testing
 TEST_SEED = b"\x00" * Bip32Slip10MstKeyGeneratorConst.SEED_MIN_BYTE_LEN
 # Zero chain code
 ZERO_CHAIN_CODE = b"\x00" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN
+# Right half of the forced HMAC output for testing derivation retry
+FORCED_IR_BYTES = b"\x11" * Bip32KeyDataConst.CHAINCODE_BYTE_LEN
 
 
 #
@@ -173,6 +180,70 @@ class Bip32BaseTests(unittest.TestCase):
     # Test invalid seed
     def _test_invalid_seed(self, bip32_class, err_seed_bytes):
         self.assertRaises(ValueError, bip32_class.FromSeed, err_seed_bytes)
+
+    # Test SLIP-0010 derivation retry when the resulting key is invalid
+    # Since such keys are practically impossible to find (especially for secp256k1), the first HMAC output is forced
+    def _test_forced_retry_derivation(self, bip32_class):
+        parent_ctx = bip32_class.FromSeed(TEST_SEED)
+        parent_pub_ctx = bip32_class.FromSeed(TEST_SEED)
+        parent_pub_ctx.ConvertToPublic()
+
+        curve_order = parent_ctx.Curve().Order()
+        parent_priv_key_int = BytesUtils.ToInteger(parent_ctx.PrivateKey().Raw().ToBytes())
+        parent_chain_code = parent_ctx.ChainCode().ToBytes()
+
+        # Forced IL values and whether they shall be retried
+        forced_il_ints = (
+            (curve_order, True),                        # Equal to the curve order
+            ((1 << 256) - 1, True),                     # Greater than the curve order
+            (curve_order - parent_priv_key_int, True),  # Zero private key (point at infinity for public derivation)
+            (0, False),                                 # Valid, child key equal to parent key
+        )
+
+        for il_int, is_retried in forced_il_ints:
+            for index in (Bip32KeyIndex(1), Bip32KeyIndex(Bip32KeyIndex.HardenIndex(1))):
+                with self.subTest(il_int=il_int, index=index.ToInt()):
+                    retry_data = b"\x01" + FORCED_IR_BYTES + index.ToBytes()
+                    retry_hmac = hmac.new(parent_chain_code, retry_data, hashlib.sha512).digest()
+                    hmac_outputs = [
+                        (il_int.to_bytes(32, "big"), FORCED_IR_BYTES),
+                        (retry_hmac[:32], retry_hmac[32:]),
+                    ]
+
+                    # Expected child key, computed as specified by SLIP-0010
+                    if is_retried:
+                        exp_il_int = BytesUtils.ToInteger(retry_hmac[:32])
+                        exp_chain_code = retry_hmac[32:]
+                    else:
+                        exp_il_int = il_int
+                        exp_chain_code = FORCED_IR_BYTES
+                    exp_priv_key_int = (exp_il_int + parent_priv_key_int) % curve_order
+                    exp_hmac_call_count = 2 if is_retried else 1
+
+                    # Private derivation
+                    child_ctx, hmac_mock = self.__derive_with_forced_hmac(parent_ctx, index, hmac_outputs)
+                    self.assertEqual(exp_hmac_call_count, hmac_mock.call_count)
+                    if is_retried:
+                        self.assertEqual(mock.call(parent_chain_code, retry_data), hmac_mock.call_args)
+                    self.assertEqual(exp_priv_key_int, BytesUtils.ToInteger(child_ctx.PrivateKey().Raw().ToBytes()))
+                    self.assertEqual(exp_chain_code, child_ctx.ChainCode().ToBytes())
+
+                    # Public derivation (not-hardened only), shall result in the same public key
+                    if not index.IsHardened():
+                        child_pub_ctx, hmac_mock = self.__derive_with_forced_hmac(parent_pub_ctx, index, hmac_outputs)
+                        self.assertEqual(exp_hmac_call_count, hmac_mock.call_count)
+                        if is_retried:
+                            self.assertEqual(mock.call(parent_chain_code, retry_data), hmac_mock.call_args)
+                        self.assertEqual(child_ctx.PublicKey().RawCompressed().ToBytes(),
+                                         child_pub_ctx.PublicKey().RawCompressed().ToBytes())
+                        self.assertEqual(exp_chain_code, child_pub_ctx.ChainCode().ToBytes())
+
+    # Derive a child key by forcing the HMAC outputs in the SLIP-0010 key derivator
+    @staticmethod
+    def __derive_with_forced_hmac(bip32_ctx, index, hmac_outputs):
+        with mock.patch.object(bip32_slip10_key_derivator, "HmacSha512") as hmac_cls_mock:
+            hmac_cls_mock.QuickDigestHalves.side_effect = hmac_outputs
+            return bip32_ctx.ChildKey(index), hmac_cls_mock.QuickDigestHalves
 
     # Test from private key
     def __test_from_priv_key(self, bip32_class, test, priv_key):

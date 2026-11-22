@@ -313,6 +313,10 @@ class Bip32Slip10Secp256k1Tests(Bip32BaseTests):
     def test_invalid_seed(self):
         self._test_invalid_seed(Bip32Slip10Secp256k1, b"\x00" * (Bip32Slip10MstKeyGeneratorConst.SEED_MIN_BYTE_LEN - 1))
 
+    # Test derivation retry with forced invalid keys
+    def test_forced_retry_derivation(self):
+        self._test_forced_retry_derivation(Bip32Slip10Secp256k1)
+
     # Test old class
     def test_old_cls(self):
         self.assertTrue(Bip32Secp256k1 is Bip32Slip10Secp256k1)

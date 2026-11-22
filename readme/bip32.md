@@ -8,7 +8,7 @@ The library currently supports the following elliptic curves for key derivation,
 - Ed25519-Blake2b (based on SLIP-0010): `Bip32Slip10Ed25519Blake2b` class
 - BIP32-Ed25519 (Khovratovich/Law): `Bip32KholawEd25519` class
 - Nist256p1 (based on SLIP-0010): `Bip32Slip10Nist256p1` class
-- Secp256k1: `Bip32Slip10Secp256k1` class
+- Secp256k1 (based on BIP-0032 and SLIP-0010): `Bip32Slip10Secp256k1` class
 
 They all inherit from the generic `Bip32Base` class, which can be extended to implement new elliptic curves derivation.\
 The curve depends on the specific coin and it's automatically selected if you use the `Bip44` library.
@@ -170,6 +170,9 @@ The constructed class will be a public-only object (see the example in the next 
 
 Each time a key is derived, a new instance of the class is returned. This allows to chain the methods call or save a specific key pair for future derivation.\
 The `Bip32KeyIndex.HardenIndex` method can be used to make an index hardened.
+
+**NOTE**: For the `Bip32Slip10Nist256p1` and `Bip32Slip10Secp256k1` classes, if a derived key is invalid, the derivation is retried as specified by SLIP-0010 (BIP-0032 would instead consider the index invalid and skip to the next one).\
+The probability of an invalid key is about 2^-32 for nist256p1 and lower than 2^-127 for secp256k1, so `Bip32Slip10Secp256k1` results in the same keys as BIP-0032 in practice.
 
 **Code example**
 
