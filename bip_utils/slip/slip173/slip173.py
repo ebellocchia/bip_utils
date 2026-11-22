@@ -42,6 +42,7 @@ class Slip173:
     CHIHUAHUA: str = "chihuahua"
     CELESTIA: str = "celestia"
     COSMOS: str = "cosmos"
+    CRONOS_POS: str = "cro"
     DYDX: str = "dydx"
     ELROND: str = "erd"
     FETCH_AI: str = "fetch"
@@ -57,4 +58,5 @@ class Slip173:
     SECRET_NETWORK: str = "secret"
     STAFI: str = "stafi"
     TERRA: str = "terra"
+    THORCHAIN: str = "thor"
     ZILLIQA: str = "zil"

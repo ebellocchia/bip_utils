@@ -124,6 +124,20 @@ The address library allows encoding/decoding addresses for all the supported coi
     # Harmony One address
     addr = OneAddrEncoder.EncodeKey(pub_key)
     pub_key_hash = OneAddrDecoder.DecodeAddr(addr)
+    # Kaspa address with parameters from generic configuration (Schnorr public key by default)
+    addr = KasAddrEncoder.EncodeKey(pub_key,
+                                    hrp=CoinsConf.KaspaMainNet.ParamByKey("addr_hrp"))
+    # Or with ECDSA public key
+    addr = KasAddrEncoder.EncodeKey(pub_key,
+                                    hrp=CoinsConf.KaspaMainNet.ParamByKey("addr_hrp"),
+                                    addr_type=KasAddrTypes.PUB_KEY_ECDSA)
+    # Or with the default parameters from BIP configuration:
+    addr = KasAddrEncoder.EncodeKey(pub_key,
+                                    **Bip44Conf.KaspaMainNet.AddrParams())
+    # Same as before for decoding (the address type shall match)
+    pub_key_bytes = KasAddrDecoder.DecodeAddr(addr,
+                                              hrp=CoinsConf.KaspaMainNet.ParamByKey("addr_hrp"),
+                                              addr_type=KasAddrTypes.PUB_KEY)
     # Ripple address
     addr = XrpAddrEncoder.EncodeKey(pub_key)
     pub_key_hash = XrpAddrDecoder.DecodeAddr(addr)

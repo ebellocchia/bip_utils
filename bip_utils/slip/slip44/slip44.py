@@ -57,6 +57,7 @@ class Slip44:
     ZILLIQA: int = 313
     TERRA: int = 330
     POLKADOT: int = 354
+    CRONOS_POS: int = 394
     NEAR_PROTOCOL: int = 397
     ERGO: int = 429
     KUSAMA: int = 434
@@ -73,6 +74,7 @@ class Slip44:
     SUI: int = 784
     VECHAIN: int = 818
     NEO: int = 888
+    THORCHAIN: int = 931
     OKEX_CHAIN: int = 996
     HARMONY_ONE: int = 1023
     ONTOLOGY: int = 1024
@@ -81,4 +83,5 @@ class Slip44:
     CARDANO: int = 1815
     AVALANCHE: int = 9000
     CELO: int = 52752
+    KASPA: int = 111111
     PI_NETWORK: int = 314159

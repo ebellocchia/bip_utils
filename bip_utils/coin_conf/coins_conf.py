@@ -337,6 +337,14 @@ class CoinsConf:
         },
     )
 
+    # Configuration for Cronos POS (formerly Crypto.org Chain)
+    CronosPos: CoinConf = CoinConf(
+        coin_name=CoinNames("Cronos POS", "CRO"),
+        params={
+            "addr_hrp": Slip173.CRONOS_POS,
+        },
+    )
+
     # Configuration for Dash main net
     DashMainNet: CoinConf = CoinConf(
         coin_name=CoinNames("Dash", "DASH"),
@@ -546,6 +554,22 @@ class CoinsConf:
         coin_name=CoinNames("Karura", "KAR"),
         params={
             "addr_ss58_format": 8,
+        },
+    )
+
+    # Configuration for Kaspa main net
+    KaspaMainNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Kaspa", "KAS"),
+        params={
+            "addr_hrp": "kaspa",
+        },
+    )
+
+    # Configuration for Kaspa test net
+    KaspaTestNet: CoinConf = CoinConf(
+        coin_name=CoinNames("Kaspa TestNet", "KAS"),
+        params={
+            "addr_hrp": "kaspatest",
         },
     )
 
@@ -849,6 +873,14 @@ class CoinsConf:
     Theta: CoinConf = CoinConf(
         coin_name=CoinNames("Theta Network", "THETA"),
         params={},
+    )
+
+    # Configuration for THORChain
+    Thorchain: CoinConf = CoinConf(
+        coin_name=CoinNames("THORChain", "RUNE"),
+        params={
+            "addr_hrp": Slip173.THORCHAIN,
+        },
     )
 
     # Configuration for TON

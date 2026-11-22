@@ -37,6 +37,8 @@ from bip_utils.addr import (
     FilSecp256k1AddrEncoder,
     IcxAddrEncoder,
     InjAddrEncoder,
+    KasAddrEncoder,
+    KasAddrTypes,
     MvrkAddrEncoder,
     MvrkAddrPrefixes,
     NanoAddrEncoder,
@@ -502,6 +504,21 @@ class Bip44Conf:
         },
     )
 
+    # Configuration for Cronos POS
+    CronosPos: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.CronosPos.CoinNames(),
+        coin_idx=Slip44.CRONOS_POS,
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=AtomAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.CronosPos.ParamByKey("addr_hrp"),
+        },
+    )
+
     # Configuration for Dash main net
     DashMainNet: BipCoinConf = BipCoinConf(
         coin_names=CoinsConf.DashMainNet.CoinNames(),
@@ -861,6 +878,39 @@ class Bip44Conf:
         addr_cls=AtomAddrEncoder,
         addr_params={
             "hrp": CoinsConf.IrisNet.ParamByKey("addr_hrp"),
+        },
+    )
+
+    # Configuration for Kaspa main net
+    KaspaMainNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.KaspaMainNet.CoinNames(),
+        coin_idx=Slip44.KASPA,
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=Bip32KeyNetVersions(b"\x03\x8f\x33\x2e",
+                                        b"\x03\x8f\x2e\xf4"),   # kpub / kprv
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=KasAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.KaspaMainNet.ParamByKey("addr_hrp"),
+            "addr_type": KasAddrTypes.PUB_KEY,
+        },
+    )
+    # Configuration for Kaspa test net
+    KaspaTestNet: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.KaspaTestNet.CoinNames(),
+        coin_idx=Slip44.KASPA,
+        is_testnet=True,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=Bip32KeyNetVersions(b"\x03\x90\xa2\x41",
+                                        b"\x03\x90\x9e\x07"),   # ktub / ktrv
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=KasAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.KaspaTestNet.ParamByKey("addr_hrp"),
+            "addr_type": KasAddrTypes.PUB_KEY,
         },
     )
 
@@ -1340,6 +1390,21 @@ class Bip44Conf:
         bip32_cls=Bip32Slip10Secp256k1,
         addr_cls=EthAddrEncoder,
         addr_params={},
+    )
+
+    # Configuration for THORChain
+    Thorchain: BipCoinConf = BipCoinConf(
+        coin_names=CoinsConf.Thorchain.CoinNames(),
+        coin_idx=Slip44.THORCHAIN,
+        is_testnet=False,
+        def_path=DER_PATH_NON_HARDENED_FULL,
+        key_net_ver=_BIP44_BTC_KEY_NET_VER_MAIN,
+        wif_net_ver=None,
+        bip32_cls=Bip32Slip10Secp256k1,
+        addr_cls=AtomAddrEncoder,
+        addr_params={
+            "hrp": CoinsConf.Thorchain.ParamByKey("addr_hrp"),
+        },
     )
     # Configuration for Ton
     Ton: BipCoinConf = BipCoinConf(

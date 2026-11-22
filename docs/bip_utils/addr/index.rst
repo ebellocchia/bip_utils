@@ -25,6 +25,7 @@ addr
    iaddr_encoder
    icx_addr
    inj_addr
+   kas_addr
    mvrk_addr
    nano_addr
    near_addr

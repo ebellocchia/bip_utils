@@ -38,6 +38,7 @@ Supported coins enumerative for BIP-0044:
 |Certik|`Bip44Coins.CERTIK`|-|
 |Chihuahua|`Bip44Coins.CHIHUAHUA`|-|
 |Cosmos|`Bip44Coins.COSMOS`|-|
+|Cronos POS (formerly Crypto.org Chain)|`Bip44Coins.CRONOS_POS`|-|
 |Dash|`Bip44Coins.DASH`|`Bip44Coins.DASH_TESTNET`|
 |Digibyte|`Bip44Coins.DIGIBYTE`|-|
 |Dogecoin|`Bip44Coins.DOGECOIN`|`Bip44Coins.DOGECOIN_TESTNET`|
@@ -59,6 +60,7 @@ Supported coins enumerative for BIP-0044:
 |Icon|`Bip44Coins.ICON`|-|
 |Injective|`Bip44Coins.INJECTIVE`|-|
 |IRIS Network|`Bip44Coins.IRIS_NET`|-|
+|Kaspa|`Bip44Coins.KASPA`|`Bip44Coins.KASPA_TESTNET`|
 |Kava|`Bip44Coins.KAVA`|-|
 |Kusama (ed25519 SLIP-0010)|`Bip44Coins.KUSAMA_ED25519_SLIP`|-|
 |Litecoin|`Bip44Coins.LITECOIN`|`Bip44Coins.LITECOIN_TESTNET`|
@@ -91,6 +93,7 @@ Supported coins enumerative for BIP-0044:
 |Terra|`Bip44Coins.TERRA`|-|
 |Tezos|`Bip44Coins.TEZOS`|-|
 |Theta Network|`Bip44Coins.THETA`|-|
+|THORChain|`Bip44Coins.THORCHAIN`|-|
 |Ton|`Bip44Coins.TON`|-|
 |Tron|`Bip44Coins.TRON`|-|
 |VeChain|`Bip44Coins.VECHAIN`|-|
@@ -110,6 +113,8 @@ Therefore, if you need to generate the Harmony One address for Metamask, use `Bi
 These formats are the ones used by the OKEx wallet. `Bip44Coins.OKEX_CHAIN_ETH` is compatible with Metamask.\
 `Bip44Coins.OKEX_CHAIN_ATOM_OLD` generates the address using the OKEx Chain coin index (i.e. *996*).
   This address format was used before the mainnet upgrade (some wallets still use it, e.g. Cosmostation).
+- `Bip44Coins.KASPA` and `Bip44Coins.KASPA_TESTNET` generate the same extended keys (i.e. *kprv*/*kpub* and *ktrv*/*ktub*) and Schnorr addresses of the official Kaspa wallets.
+ECDSA addresses can be generated with `KasAddrEncoder` by specifying `KasAddrTypes.PUB_KEY_ECDSA`.
 
 #### BIP-0049
 

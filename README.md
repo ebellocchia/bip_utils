@@ -77,6 +77,7 @@ Supported BIP coins:
 - Celo
 - Certik
 - Cosmos
+- Cronos POS (formerly Crypto.org Chain)
 - Dash (and related test net)
 - Digibyte
 - Dogecoin (and related test net)
@@ -93,6 +94,7 @@ Supported BIP coins:
 - Harmony One (Ethereum and Cosmos addresses)
 - Huobi Heco Chain
 - IRIS Network
+- Kaspa (and related test net)
 - Kava
 - Kusama (based on BIP44 and ed25519 SLIP-0010, like TrustWallet, it won't generate the same addresses as Polkadot-JS)
 - Litecoin (and related test net)
@@ -120,6 +122,7 @@ Supported BIP coins:
 - Terra
 - Tezos
 - Theta Network
+- THORChain
 - Ton
 - Tron
 - VeChain
