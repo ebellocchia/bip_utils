@@ -38,6 +38,7 @@ keywords = [
     "hd-wallet",
     "slip10",
     "slip32",
+    "slip39",
     "bip38",
     "bip39",
     "bip39-substrate",
@@ -182,6 +183,7 @@ bip_utils = [
     "bip/bip39/wordlist/*.txt",
     "electrum/mnemonic_v1/wordlist/*.txt",
     "monero/mnemonic_legacy/wordlist/*.txt",
+    "slip/slip39/wordlist/*.txt",
 ]
 
 [tool.setuptools.dynamic]

@@ -11,6 +11,7 @@
 
 This package allows generating mnemonics, seeds, private/public keys and addresses for different types of cryptocurrencies. In particular:
 - Mnemonic and seed generation as defined by [BIP-0039](https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki)
+- Shamir's secret sharing of the seed into mnemonic shares as defined by [SLIP-0039](https://github.com/satoshilabs/slips/blob/master/slip-0039.md)
 - Private key encryption/decryption as defined by [BIP-0038](https://github.com/bitcoin/bips/blob/master/bip-0038.mediawiki)
 - Deterministic entropy derivation (e.g. mnemonics, keys and passwords for other wallets) as defined by [BIP-0085](https://github.com/bitcoin/bips/blob/master/bip-0085.mediawiki)
 - Keys derivation as defined by:
@@ -189,6 +190,7 @@ To run code analysis:
 - [Algorand mnemonic](https://github.com/ebellocchia/bip_utils/blob/master/readme/algorand_mnemonic.md)
 - [Electrum mnemonic](https://github.com/ebellocchia/bip_utils/blob/master/readme/electrum_mnemonic.md)
 - [Monero mnemonic](https://github.com/ebellocchia/bip_utils/blob/master/readme/monero_mnemonic.md)
+- [SLIP-0039](https://github.com/ebellocchia/bip_utils/blob/master/readme/slip39.md)
 - [BIP-0038](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip38.md)
 - [BIP-0032](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip32.md)
 - [BIP-0044](https://github.com/ebellocchia/bip_utils/blob/master/readme/bip44.md)

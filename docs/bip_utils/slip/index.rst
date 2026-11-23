@@ -5,4 +5,5 @@ slip
 
    slip173/index.rst
    slip32/index.rst
+   slip39/index.rst
    slip44/index.rst

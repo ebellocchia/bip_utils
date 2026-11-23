@@ -382,6 +382,19 @@ from bip_utils.slip.slip32 import (
     Slip32PublicKeySerializer,
 )
 
+# SLIP39
+from bip_utils.slip.slip39 import (
+    Slip39Languages,
+    Slip39Mnemonic,
+    Slip39MnemonicDecoder,
+    Slip39MnemonicEncoder,
+    Slip39MnemonicGenerator,
+    Slip39MnemonicValidator,
+    Slip39SeedGenerator,
+    Slip39Share,
+    Slip39WordsNum,
+)
+
 # Solana
 from bip_utils.solana import SplToken
 
