@@ -23,23 +23,23 @@
 # Imports
 from typing import Any
 
-import ecdsa
-from ecdsa import curves, ellipticcurve, keys
-from ecdsa.ecdsa import curve_256
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
+from bip_utils.ecc.nist256p1.lib import nist256p1_lib
 from bip_utils.ecc.nist256p1.nist256p1_point import Nist256p1Point
-from bip_utils.utils.misc import DataBytes
+from bip_utils.utils.misc import BytesUtils, DataBytes, IntegerUtils
 
 
 class Nist256p1PublicKey(IPublicKey):
     """Nist256p1 public key class."""
 
-    m_ver_key: ecdsa.VerifyingKey
+    m_ver_key: ec.EllipticCurvePublicKey
 
     @override
     @classmethod
@@ -58,9 +58,8 @@ class Nist256p1PublicKey(IPublicKey):
             ValueError: If key bytes are not valid
         """
         try:
-            return cls(ecdsa.VerifyingKey.from_string(key_bytes,
-                                                      curve=curves.NIST256p))
-        except keys.MalformedPointError as ex:
+            return cls(nist256p1_lib.point_from_bytes(key_bytes))
+        except ValueError as ex:
             raise ValueError("Invalid public key bytes") from ex
 
     @override
@@ -80,24 +79,17 @@ class Nist256p1PublicKey(IPublicKey):
             ValueError: If key point is not valid
         """
         try:
-            return cls(
-                ecdsa.VerifyingKey.from_public_point(
-                    ellipticcurve.Point(curve_256,
-                                        key_point.X(),
-                                        key_point.Y()),
-                    curve=curves.NIST256p
-                )
-            )
-        except keys.MalformedPointError as ex:
+            return cls(nist256p1_lib.point_from_coord((key_point.X(), key_point.Y())))
+        except ValueError as ex:
             raise ValueError("Invalid public key point") from ex
 
     def __init__(self,
-                 key_obj: ecdsa.VerifyingKey) -> None:
+                 key_obj: ec.EllipticCurvePublicKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (ecdsa.VerifyingKey): Key object
+            key_obj (ec.EllipticCurvePublicKey): Key object
         """
         self.m_ver_key = key_obj
 
@@ -152,7 +144,7 @@ class Nist256p1PublicKey(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_ver_key.to_string("compressed"))
+        return DataBytes(self.m_ver_key.public_bytes(Encoding.X962, PublicFormat.CompressedPoint))
 
     @override
     def RawUncompressed(self) -> DataBytes:
@@ -162,7 +154,7 @@ class Nist256p1PublicKey(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_ver_key.to_string("uncompressed"))
+        return DataBytes(self.m_ver_key.public_bytes(Encoding.X962, PublicFormat.UncompressedPoint))
 
     @override
     def Point(self) -> IPoint:
@@ -172,13 +164,13 @@ class Nist256p1PublicKey(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Nist256p1Point(self.m_ver_key.pubkey.point)
+        return Nist256p1Point(self.m_ver_key)
 
 
 class Nist256p1PrivateKey(IPrivateKey):
     """Nist256p1 private key class."""
 
-    m_sign_key: ecdsa.SigningKey
+    m_sign_key: ec.EllipticCurvePrivateKey
 
     @override
     @classmethod
@@ -196,19 +188,21 @@ class Nist256p1PrivateKey(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
+        # Check here because the library takes the key as an integer
+        if len(key_bytes) != cls.Length():
+            raise ValueError("Invalid private key bytes")
         try:
-            return cls(ecdsa.SigningKey.from_string(key_bytes,
-                                                    curve=curves.NIST256p))
-        except keys.MalformedPointError as ex:
+            return cls(nist256p1_lib.priv_key_from_int(BytesUtils.ToInteger(key_bytes)))
+        except ValueError as ex:
             raise ValueError("Invalid private key bytes") from ex
 
     def __init__(self,
-                 key_obj: ecdsa.SigningKey) -> None:
+                 key_obj: ec.EllipticCurvePrivateKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (ecdsa.SigningKey): Key object
+            key_obj (ec.EllipticCurvePrivateKey): Key object
         """
         self.m_sign_key = key_obj
 
@@ -252,7 +246,9 @@ class Nist256p1PrivateKey(IPrivateKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_sign_key.to_string())
+        return DataBytes(
+            IntegerUtils.ToBytes(self.m_sign_key.private_numbers().private_value, bytes_num=self.Length())
+        )
 
     @override
     def PublicKey(self) -> IPublicKey:
@@ -262,4 +258,4 @@ class Nist256p1PrivateKey(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Nist256p1PublicKey(self.m_sign_key.get_verifying_key())
+        return Nist256p1PublicKey(self.m_sign_key.public_key())

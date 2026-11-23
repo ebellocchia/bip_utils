@@ -34,7 +34,9 @@ from bip_utils.ecc.nist256p1.nist256p1_keys import Nist256p1PrivateKey, Nist256p
 from bip_utils.ecc.nist256p1.nist256p1_point import Nist256p1Point
 
 # secp256k1
-from bip_utils.ecc.secp256k1.secp256k1 import Secp256k1, Secp256k1Point, Secp256k1PrivateKey, Secp256k1PublicKey
+from bip_utils.ecc.secp256k1.secp256k1 import Secp256k1
+from bip_utils.ecc.secp256k1.secp256k1_keys import Secp256k1PrivateKey, Secp256k1PublicKey
+from bip_utils.ecc.secp256k1.secp256k1_point import Secp256k1Point
 
 # sr25519
 from bip_utils.ecc.sr25519.sr25519 import Sr25519

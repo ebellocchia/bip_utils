@@ -21,8 +21,6 @@
 """Module with nist256p1 constants."""
 
 # Imports
-from ecdsa.ecdsa import generator_256
-
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.nist256p1.nist256p1_point import Nist256p1Point
 
@@ -33,6 +31,9 @@ class Nist256p1Const:
     # Curve name
     NAME: str = "Nist256p1"
     # Curve order
-    CURVE_ORDER: int = generator_256.order()
+    CURVE_ORDER: int = 0xFFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551
     # Curve generator point
-    GENERATOR: IPoint = Nist256p1Point(generator_256)
+    GENERATOR: IPoint = Nist256p1Point.FromCoordinates(
+        0x6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296,
+        0x4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5
+    )

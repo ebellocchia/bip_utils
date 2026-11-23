@@ -50,7 +50,7 @@ Package dependencies:
 - [cbor2](https://pypi.org/project/cbor2/) for CBOR encoding/decoding
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for cryptographic functions
 - [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
-- [ecdsa](https://pypi.org/project/ecdsa/) for nist256p1 and secp256k1 curves
+- [cryptography](https://pypi.org/project/cryptography/) for nist256p1 curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve
 - [ed25519-blake2b-fork](https://github.com/ebellocchia/python-ed25519-blake2b/) for ed25519-blake2b curve (my fork to automatically build wheels)
@@ -160,14 +160,6 @@ The package can be simply installed via *pip*:
     pip install bip_utils
 
 **NOTE:** if you have problems building the *ed25519_blake2b* library (it usually happens on Windows), you can try one of the prebuilt wheels [here](https://github.com/ebellocchia/bip_utils/tree/master/libs_wheels).
-
-### Alternative secp256k1 library
-
-For *secp256k1* curve, the package uses *coincurve* by default (much faster). However, it also supports *ecdsa*, which is a pure Python implementation (i.e. slower).
-
-To use *ecdsa* for *secp256k1*, edit the file *bip_utils/ecc/conf.py* and set `USE_COINCURVE` to `False`. Then install with *pip*:
-
-    pip install .
 
 ## Test and Coverage
 

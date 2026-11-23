@@ -18,28 +18,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for secp256k1 keys based on ecdsa library."""
+"""Module for secp256k1 keys."""
 
 # Imports
 from typing import Any
 
-import ecdsa
-from ecdsa import curves, ellipticcurve, keys
-from ecdsa.ecdsa import curve_secp256k1
+import coincurve
 from typing_extensions import override
 
 from bip_utils.ecc.common.ikeys import IPrivateKey, IPublicKey
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
-from bip_utils.ecc.secp256k1.secp256k1_point_ecdsa import Secp256k1PointEcdsa
+from bip_utils.ecc.secp256k1.secp256k1_point import Secp256k1Point
 from bip_utils.utils.misc import DataBytes
 
 
-class Secp256k1PublicKeyEcdsa(IPublicKey):
+class Secp256k1PublicKey(IPublicKey):
     """Secp256k1 public key class."""
 
-    m_ver_key: ecdsa.VerifyingKey
+    m_ver_key: coincurve.PublicKey
 
     @override
     @classmethod
@@ -58,9 +56,8 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
             ValueError: If key bytes are not valid
         """
         try:
-            return cls(ecdsa.VerifyingKey.from_string(key_bytes,
-                                                      curve=curves.SECP256k1))
-        except keys.MalformedPointError as ex:
+            return cls(coincurve.PublicKey(key_bytes))
+        except ValueError as ex:
             raise ValueError("Invalid public key bytes") from ex
 
     @override
@@ -81,23 +78,19 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         """
         try:
             return cls(
-                ecdsa.VerifyingKey.from_public_point(
-                    ellipticcurve.Point(curve_secp256k1,
-                                        key_point.X(),
-                                        key_point.Y()),
-                    curve=curves.SECP256k1
-                )
+                coincurve.PublicKey.from_point(key_point.X(),
+                                               key_point.Y())
             )
-        except keys.MalformedPointError as ex:
+        except ValueError as ex:
             raise ValueError("Invalid public key point") from ex
 
     def __init__(self,
-                 key_obj: ecdsa.VerifyingKey) -> None:
+                 key_obj: coincurve.PublicKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (ecdsa.VerifyingKey): Key object
+            key_obj (coincurve.PublicKey): Key object
         """
         self.m_ver_key = key_obj
 
@@ -152,7 +145,7 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_ver_key.to_string("compressed"))
+        return DataBytes(self.m_ver_key.format(True))
 
     @override
     def RawUncompressed(self) -> DataBytes:
@@ -162,7 +155,7 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_ver_key.to_string("uncompressed"))
+        return DataBytes(self.m_ver_key.format(False))
 
     @override
     def Point(self) -> IPoint:
@@ -172,13 +165,14 @@ class Secp256k1PublicKeyEcdsa(IPublicKey):
         Returns:
             IPoint object: IPoint object
         """
-        return Secp256k1PointEcdsa(self.m_ver_key.pubkey.point)
+        point = self.m_ver_key.point()
+        return Secp256k1Point.FromCoordinates(point[0], point[1])
 
 
-class Secp256k1PrivateKeyEcdsa(IPrivateKey):
+class Secp256k1PrivateKey(IPrivateKey):
     """Secp256k1 private key class."""
 
-    m_sign_key = ecdsa.SigningKey
+    m_sign_key: coincurve.PrivateKey
 
     @override
     @classmethod
@@ -196,19 +190,22 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
         Raises:
             ValueError: If key bytes are not valid
         """
+        # Check here because the library does not raise any exception
+        if len(key_bytes) != cls.Length():
+            raise ValueError("Invalid private key bytes")
+
         try:
-            return cls(ecdsa.SigningKey.from_string(key_bytes,
-                                                    curve=curves.SECP256k1))
-        except keys.MalformedPointError as ex:
+            return cls(coincurve.PrivateKey(key_bytes))
+        except ValueError as ex:
             raise ValueError("Invalid private key bytes") from ex
 
     def __init__(self,
-                 key_obj: ecdsa.SigningKey) -> None:
+                 key_obj: coincurve.PrivateKey) -> None:
         """
         Construct class from key object.
 
         Args:
-            key_obj (ecdsa.SigningKey): Key object
+            key_obj (coincurve.PrivateKey): Key object
         """
         self.m_sign_key = key_obj
 
@@ -252,7 +249,7 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
         Returns:
             DataBytes object: DataBytes object
         """
-        return DataBytes(self.m_sign_key.to_string())
+        return DataBytes(self.m_sign_key.secret)
 
     @override
     def PublicKey(self) -> IPublicKey:
@@ -262,4 +259,4 @@ class Secp256k1PrivateKeyEcdsa(IPrivateKey):
         Returns:
             IPublicKey object: IPublicKey object
         """
-        return Secp256k1PublicKeyEcdsa(self.m_sign_key.get_verifying_key())
+        return Secp256k1PublicKey(self.m_sign_key.public_key)

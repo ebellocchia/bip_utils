@@ -23,20 +23,26 @@
 # Imports
 from typing import Any
 
-from ecdsa import ellipticcurve, keys
-from ecdsa.ecdsa import curve_256
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
 from typing_extensions import override
 
 from bip_utils.ecc.common.ipoint import IPoint
 from bip_utils.ecc.curve.elliptic_curve_types import EllipticCurveTypes
 from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
-from bip_utils.utils.misc import BytesUtils, DataBytes, IntegerUtils
+from bip_utils.ecc.nist256p1.lib import nist256p1_lib
+from bip_utils.utils.misc import DataBytes
 
 
 class Nist256p1Point(IPoint):
-    """Nist256p1 point class."""
+    """
+    Nist256p1 point class.
+    In cryptography library, points are represented by public keys and there are no point functions
+    (e.g. add, multiply). For this reason, a public key is used as underlying object and the point
+    functions are implemented by nist256p1_lib.
+    """
 
-    m_point: ellipticcurve.PointJacobi
+    m_point: ec.EllipticCurvePublicKey
 
     @override
     @classmethod
@@ -52,16 +58,9 @@ class Nist256p1Point(IPoint):
             IPoint: IPoint object
         """
         try:
-            return cls(ellipticcurve.PointJacobi.from_bytes(curve_256,
-                                                            point_bytes))
-        except keys.MalformedPointError as ex:
-            raise ValueError("Invalid point key bytes") from ex
-        # ECDSA < 0.17 doesn't have from_bytes method for PointJacobi
-        except AttributeError:
-            return cls.FromCoordinates(
-                BytesUtils.ToInteger(point_bytes[:EcdsaKeysConst.POINT_COORD_BYTE_LEN]),
-                BytesUtils.ToInteger(point_bytes[EcdsaKeysConst.POINT_COORD_BYTE_LEN:])
-            )
+            return cls(nist256p1_lib.point_from_bytes(point_bytes))
+        except ValueError as ex:
+            raise ValueError("Invalid point bytes") from ex
 
     @override
     @classmethod
@@ -78,19 +77,18 @@ class Nist256p1Point(IPoint):
         Returns:
             IPoint: IPoint object
         """
-        return cls(
-            ellipticcurve.PointJacobi.from_affine(
-                ellipticcurve.Point(curve_256, x, y)
-            )
-        )
+        try:
+            return cls(nist256p1_lib.point_from_coord((x, y)))
+        except ValueError as ex:
+            raise ValueError("Invalid point coordinates") from ex
 
     def __init__(self,
-                 point_obj: ellipticcurve.PointJacobi) -> None:
+                 point_obj: ec.EllipticCurvePublicKey) -> None:
         """
         Construct class from point object.
 
         Args:
-            point_obj (ellipticcurve.PointJacobi): Point object
+            point_obj (ec.EllipticCurvePublicKey): Point object
         """
         self.m_point = point_obj
 
@@ -134,7 +132,7 @@ class Nist256p1Point(IPoint):
         Returns:
            int: Point X coordinate
         """
-        return self.m_point.x()
+        return nist256p1_lib.point_to_coord(self.m_point)[0]
 
     @override
     def Y(self) -> int:
@@ -144,7 +142,7 @@ class Nist256p1Point(IPoint):
         Returns:
            int: Point Y coordinate
         """
-        return self.m_point.y()
+        return nist256p1_lib.point_to_coord(self.m_point)[1]
 
     @override
     def Raw(self) -> DataBytes:
@@ -164,16 +162,7 @@ class Nist256p1Point(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        try:
-            return DataBytes(self.m_point.to_bytes("compressed"))
-        # ECDSA < 0.17 doesn't have to_bytes method for PointJacobi
-        except AttributeError:
-            x_bytes = IntegerUtils.ToBytes(self.m_point.x(), EcdsaKeysConst.POINT_COORD_BYTE_LEN)
-            if self.m_point.y() & 1:
-                enc_bytes = b"\x03" + x_bytes
-            else:
-                enc_bytes = b"\x02" + x_bytes
-            return DataBytes(enc_bytes)
+        return DataBytes(self.m_point.public_bytes(Encoding.X962, PublicFormat.CompressedPoint))
 
     @override
     def RawDecoded(self) -> DataBytes:
@@ -183,14 +172,7 @@ class Nist256p1Point(IPoint):
         Returns:
             DataBytes object: DataBytes object
         """
-        try:
-            return DataBytes(self.m_point.to_bytes())
-        # ECDSA < 0.17 doesn't have to_bytes method for PointJacobi
-        except AttributeError:
-            x_bytes = IntegerUtils.ToBytes(self.m_point.x(), EcdsaKeysConst.POINT_COORD_BYTE_LEN)
-            y_bytes = IntegerUtils.ToBytes(self.m_point.y(), EcdsaKeysConst.POINT_COORD_BYTE_LEN)
-
-            return DataBytes(x_bytes + y_bytes)
+        return DataBytes(self.m_point.public_bytes(Encoding.X962, PublicFormat.UncompressedPoint)[1:])
 
     @override
     def __add__(self,
@@ -203,8 +185,11 @@ class Nist256p1Point(IPoint):
 
         Returns:
             IPoint object: IPoint object
+
+        Raises:
+            ValueError: If the result is the point at infinity
         """
-        return self.__class__(self.m_point + point.UnderlyingObject())
+        return self.__class__(nist256p1_lib.point_add(self.m_point, point.UnderlyingObject()))
 
     @override
     def __radd__(self,
@@ -217,6 +202,9 @@ class Nist256p1Point(IPoint):
 
         Returns:
             IPoint object: IPoint object
+
+        Raises:
+            ValueError: If the result is the point at infinity
         """
         return self + point
 
@@ -231,8 +219,13 @@ class Nist256p1Point(IPoint):
 
         Returns:
             IPoint object: IPoint object
+
+        Raises:
+            ValueError: If the result is the point at infinity
         """
-        return self.__class__(self.m_point * scalar)
+        if nist256p1_lib.point_is_generator(self.m_point):
+            return self.__class__(nist256p1_lib.point_scalar_mul_base(scalar))
+        return self.__class__(nist256p1_lib.point_scalar_mul(scalar, self.m_point))
 
     @override
     def __rmul__(self,
@@ -245,5 +238,8 @@ class Nist256p1Point(IPoint):
 
         Returns:
             IPoint object: IPoint object
+
+        Raises:
+            ValueError: If the result is the point at infinity
         """
         return self * scalar
