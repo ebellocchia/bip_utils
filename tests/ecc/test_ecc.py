@@ -510,6 +510,8 @@ class EccTests(unittest.TestCase):
                                                                               TEST_NIST256P1_POINT_COORD["y"]))
         self.assertEqual(pub_key.RawCompressed().ToBytes(), TEST_NIST256P1_COMPR_PUB_KEY_BYTES)
         self.assertEqual(pub_key.RawUncompressed().ToBytes(), TEST_NIST256P1_UNCOMPR_PUB_KEY_BYTES)
+        # From point not lying on the curve
+        self.assertRaises(ValueError, Nist256p1PublicKey.FromPoint, Secp256k1.Generator())
 
         #
         # Private key
@@ -603,6 +605,8 @@ class EccTests(unittest.TestCase):
                           TEST_NIST256P1_POINT_COORD["x"], TEST_NIST256P1_POINT_COORD["y"] + 1)
         self.assertRaises(ValueError, Nist256p1Point.FromCoordinates,
                           NIST256P1_GENERATOR_X + NIST256P1_FIELD_PRIME, NIST256P1_GENERATOR_Y)
+        # Invalid bytes (uncompressed point with wrong prefix)
+        self.assertRaises(ValueError, Nist256p1Point.FromBytes, b"\x05" + TEST_NIST256P1_POINT_DEC_BYTES)
 
     # Test Secp256k1 class
     def test_secp256k1(self):
