@@ -46,7 +46,7 @@ jobs:
         pip install -r requirements-dev.txt
         pip install cbor2==5.1.2
         pip install coincurve==15.0.1
-        pip install ecdsa==0.17
+        pip install cryptography==3.4.6
         pip install ed25519-blake2b-fork==1.4.2
         pip install pycryptodome==3.15
         pip install pynacl==1.5
@@ -78,7 +78,7 @@ jobs:
         pip install -r requirements-dev.txt
         pip install cbor2==5.1.2
         pip install coincurve==${{ runner.os == 'macOS' && '18.0.0' || '15.0.1' }}
-        pip install ecdsa==0.17
+        pip install cryptography==3.4.6
         pip install ed25519-blake2b-fork==1.4.2
         pip install pycryptodome==3.15
         pip install pynacl==1.5
@@ -110,7 +110,7 @@ jobs:
         pip install -r requirements-dev.txt
         pip install cbor2==5.5.0
         pip install coincurve==${{ runner.os == 'macOS' && '18.0.0' || '15.0.1' }}
-        pip install ecdsa==0.17
+        pip install cryptography==3.4.6
         pip install ed25519-blake2b-fork==1.4.2
         pip install pycryptodome==3.15
         pip install pynacl==1.5
@@ -143,7 +143,7 @@ jobs:
         pip install -r requirements-dev.txt
         pip install cbor2==5.5.0
         pip install coincurve==${{ runner.os == 'macOS' && '18.0.0' || '16.0.0' }}
-        pip install ecdsa==0.17
+        pip install cryptography==3.4.6
         pip install ed25519-blake2b-fork==1.4.2
         pip install pycryptodome==3.15
         pip install pynacl==1.5
@@ -175,7 +175,7 @@ jobs:
         pip install -r requirements-dev.txt
         pip install cbor2==5.5.0
         pip install coincurve==18.0.0
-        pip install ecdsa==0.17
+        pip install cryptography==3.4.6
         pip install ed25519-blake2b-fork==1.4.2
         pip install pycryptodome==3.15
         pip install pynacl==1.5
@@ -207,7 +207,7 @@ jobs:
         pip install -r requirements-dev.txt
         pip install cbor2==5.5.0
         pip install coincurve==19.0.1
-        pip install ecdsa==0.17
+        pip install cryptography==3.4.6
         pip install ed25519-blake2b-fork==1.4.2
         pip install pycryptodome==3.15
         pip install pynacl==1.5
@@ -239,7 +239,7 @@ jobs:
         pip install -r requirements-dev.txt
         pip install cbor2==5.5.0
         pip install coincurve==21.0.0
-        pip install ecdsa==0.17
+        pip install cryptography==3.4.6
         pip install ed25519-blake2b-fork==1.4.2
         pip install pycryptodome==3.15
         pip install pynacl==1.5

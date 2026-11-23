@@ -4,7 +4,6 @@ ecc
    :maxdepth: 10
 
    common/index.rst
-   conf
    curve/index.rst
    ecdsa/index.rst
    ed25519/index.rst

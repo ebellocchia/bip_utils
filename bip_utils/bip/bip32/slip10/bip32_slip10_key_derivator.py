@@ -154,7 +154,7 @@ class Bip32Slip10EcdsaDerivator(IBip32KeyDerivator):
             # Get a new public key point: pub_key_point + G*iL, if valid
             if il_int < curve_order:
                 try:
-                    # G*0 is the point at infinity, which coincurve cannot represent
+                    # G*0 is the point at infinity, which the point classes cannot represent
                     new_pub_key_point = (pub_key.Point() + (curve.Generator() * il_int)
                                          if il_int != 0
                                          else pub_key.Point())

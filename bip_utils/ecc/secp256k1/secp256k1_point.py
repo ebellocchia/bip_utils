@@ -18,7 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-"""Module for secp256k1 point based on coincurve library."""
+"""Module for secp256k1 point."""
 
 # Imports
 from typing import Any
@@ -32,7 +32,7 @@ from bip_utils.ecc.ecdsa.ecdsa_keys import EcdsaKeysConst
 from bip_utils.utils.misc import DataBytes, IntegerUtils
 
 
-class Secp256k1PointCoincurve(IPoint):
+class Secp256k1Point(IPoint):
     """
     Secp256k1 point class.
     In coincurve library, all the point functions (e.g. add, multiply) are coded inside the
