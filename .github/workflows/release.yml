@@ -1,0 +1,62 @@
+# This workflow will build the package and publish it to PyPI when a GitHub release is published
+# Running it manually only builds and checks the package, without publishing it
+
+name: Release
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up Python 3.13
+      uses: actions/setup-python@v7
+      with:
+        python-version: "3.13"
+    - name: Check release tag
+      if: github.event_name == 'release'
+      run: |
+        VERSION=$(python -c "exec(open('bip_utils/_version.py').read()); print(__version__)")
+        if [ "${GITHUB_REF_NAME}" != "v${VERSION}" ]; then
+          echo "Release tag ${GITHUB_REF_NAME} does not match package version ${VERSION}"
+          exit 1
+        fi
+    - name: Build package
+      run: |
+        python -m pip install --upgrade pip
+        pip install build twine
+        python -m build
+        twine check --strict dist/*
+    - name: Test installed package
+      run: |
+        pip install dist/*.whl
+        # Run outside the repository, so that the installed package is imported
+        cd "${RUNNER_TEMP}"
+        python -c "import bip_utils; print(bip_utils.__version__, bip_utils.__file__)"
+        python -c "from bip_utils import Bip39MnemonicGenerator, Bip39WordsNum; print(Bip39MnemonicGenerator().FromWordsNumber(Bip39WordsNum.WORDS_NUM_12))"
+    - uses: actions/upload-artifact@v7
+      with:
+        name: dist
+        path: dist/
+
+  publish:
+    needs: build
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+    - uses: actions/download-artifact@v8
+      with:
+        name: dist
+        path: dist/
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@v1.14.0
