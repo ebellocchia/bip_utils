@@ -97,6 +97,9 @@ class NanoAddrDecoder(IAddrDecoder):
         AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     Ed25519Blake2bPublicKey.CompressedLength() + Blake2b40.DigestSize()
                                     + len(NanoAddrConst.PAYLOAD_PAD_DEC) - 1)
+        # Validate padding
+        if addr_dec_bytes[:len(NanoAddrConst.PAYLOAD_PAD_DEC)] != NanoAddrConst.PAYLOAD_PAD_DEC:
+            raise ValueError("Invalid address padding")
 
         # Get back checksum and public key bytes
         pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(
