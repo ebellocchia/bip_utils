@@ -87,6 +87,9 @@ class AlgoAddrDecoder(IAddrDecoder):
         # Validate length
         AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     Ed25519PublicKey.CompressedLength() + AlgoAddrConst.CHECKSUM_BYTE_LEN - 1)
+        # Validate encoding (unused bits of the last character shall be zero)
+        if Base32Encoder.EncodeNoPadding(addr_dec_bytes) != addr:
+            raise ValueError("Invalid address encoding")
         # Get back checksum and public key bytes
         pub_key_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,
                                                                           AlgoAddrConst.CHECKSUM_BYTE_LEN)

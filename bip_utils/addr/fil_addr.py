@@ -98,6 +98,9 @@ class _FilAddrUtils:
         # Validate length
         AddrDecUtils.ValidateLength(addr_dec_bytes,
                                     Blake2b160.DigestSize() + Blake2b32.DigestSize())
+        # Validate encoding (unused bits of the last character shall be zero)
+        if Base32Encoder.EncodeNoPadding(addr_dec_bytes, FilAddrConst.BASE32_ALPHABET) != addr_no_prefix[1:]:
+            raise ValueError("Invalid address encoding")
 
         # Get back checksum and public key bytes
         pub_key_hash_bytes, checksum_bytes = AddrDecUtils.SplitPartsByChecksum(addr_dec_bytes,

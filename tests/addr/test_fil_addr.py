@@ -68,6 +68,8 @@ TEST_VECT_DEC_INVALID = [
     # Invalid encoding
     "f1hqdqidehi276cscqehffoyr7qzxn2f0umjpq5zq",
     "f1M24KGTTZCFHDBRWY7FXLJBUHRL6DTDCQHY4XNLA",
+    "f1hqdqidehi276cscqehffoyr7qzxn2foumjpq5zr",
+    "f1hqdqidehi276cscqehffoyr7qzxn2foumjpq5zq=",
     # Invalid checksum
     "f1y7pzdgdbeuuhazhrreys26a22fcv4ycjpi6hrxa",
     # Invalid lengths
