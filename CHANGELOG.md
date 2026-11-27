@@ -1,3 +1,28 @@
+# 2.14.0
+
+- Add support for BIP-0085 deterministic entropy (`Bip85` class), including the BIP85-DRNG-SHAKE256 generator (`Bip85Drng` class).
+  All the BIP-0085 applications are supported except RSA and RSA GPG, since they require RSA key generation.
+- Add support for Nostr keys: NIP-06 derivation (`Bip44Coins.NOSTR`), *npub* addresses (`NostrAddrEncoder`/`NostrAddrDecoder`) and *nsec* private keys (`NostrNsecEncoder`/`NostrNsecDecoder`).
+- Add support for SLIP-0039 Shamir's secret sharing of the seed into mnemonic shares, with two-level (groups/members) schemes, passphrase and extendable backup flag.
+  Shares are generated with `Slip39MnemonicGenerator` and combined with `Slip39SeedGenerator`, single shares can be validated (`Slip39MnemonicValidator`) and encoded/decoded (`Slip39MnemonicEncoder`/`Slip39MnemonicDecoder`).
+  Extendable backups can be extended with a new set of shares, without the passphrase (`Slip39MnemonicGenerator.FromMnemonics`).
+- Add support for Kaspa addresses, both Schnorr and ECDSA (`KasAddrEncoder`/`KasAddrDecoder`).
+- Add `Shake256` class.
+- Add support for the following coins:
+
+|Coin | Main net enum | Test net enum |
+|---|---|---|
+|Cronos POS|`Bip44Coins.CRONOS_POS`|-|
+|Kaspa|`Bip44Coins.KASPA`|`Bip44Coins.KASPA_TESTNET`|
+|Nostr|`Bip44Coins.NOSTR`|-|
+|THORChain|`Bip44Coins.THORCHAIN`|-|
+- Replace `ecdsa` dependency with `cryptography` for the _nist256p1_ curve, so scalar multiplications are performed by OpenSSL in constant time (and much faster).
+  `UnderlyingObject` of `Nist256p1PublicKey`, `Nist256p1PrivateKey` and `Nist256p1Point` now returns *cryptography* objects.
+- Remove the *ecdsa* implementation of the secp256k1 curve, together with the `USE_COINCURVE` option in *bip_utils/ecc/conf.py*: *coincurve* is always used.
+  The `Secp256k1PublicKeyCoincurve`, `Secp256k1PrivateKeyCoincurve` and `Secp256k1PointCoincurve` classes are renamed to `Secp256k1PublicKey`, `Secp256k1PrivateKey` and `Secp256k1Point`, which were already their exported names.
+- Fix `NanoAddrDecoder` accepting addresses with nonzero padding bits (i.e. first character after the prefix different from `1` or `3`), which were decoded to the same public key of the valid address.
+- Fix `AlgoAddrDecoder` and `FilSecp256k1AddrDecoder` accepting addresses with nonzero unused bits in the last character, or with Base32 padding, which were decoded to the same bytes of the valid address.
+
 # 2.13.0
 
 - Print a `FutureWarning` for BIP-0049 coins without SegWit support
