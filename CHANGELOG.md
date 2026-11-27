@@ -1,3 +1,9 @@
+# 2.14.1
+
+- Update dependencies for Python 3.14.
+  Since *coincurve* has no release for Python 3.14 yet, [coincurve-fork](https://pypi.org/project/coincurve-fork/) is used instead for Python 3.14 (same `coincurve` import name).
+  The dependency will be switched back to *coincurve* once version 22.0.0 is released.
+
 # 2.14.0
 
 - Add support for BIP-0085 deterministic entropy (`Bip85` class), including the BIP85-DRNG-SHAKE256 generator (`Bip85Drng` class).
