@@ -249,3 +249,35 @@ jobs:
     - name: Run tests
       run: |
         pytest
+
+  test_min_reqs_py314:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v7
+    - name: Set up Python 3.14
+      uses: actions/setup-python@v7
+      with:
+        python-version: "3.14"
+    - name: Install minimum dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements-dev.txt
+        pip install cbor2==5.5.0
+        pip install coincurve-fork==22.0.0
+        pip install cryptography==3.4.6
+        pip install ed25519-blake2b-fork==1.4.2
+        pip install pycryptodome==3.15
+        pip install pynacl==1.5
+        pip install py-sr25519-bindings==0.2.3
+        pip install pytoniq-core-fork==0.1.47
+        pip install typing_extensions
+    - name: Run tests
+      run: |
+        pytest

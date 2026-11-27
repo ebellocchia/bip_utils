@@ -50,7 +50,7 @@ Other implemented functionalities:
 Package dependencies:
 - [cbor2](https://pypi.org/project/cbor2/) for CBOR encoding/decoding
 - [pycryptodome](https://pypi.org/project/pycryptodome/) for cryptographic functions
-- [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve
+- [coincurve](https://pypi.org/project/coincurve/) for secp256k1 curve ([coincurve-fork](https://github.com/ebellocchia/coincurve-fork) for Python >= 3.14, my fork to build wheels for Python 3.14)
 - [cryptography](https://pypi.org/project/cryptography/) for nist256p1 curve
 - [pynacl](https://pypi.org/project/PyNaCl/) for ed25519 curve
 - [py-sr25519-bindings](https://pypi.org/project/py-sr25519-bindings/) for sr25519 curve
