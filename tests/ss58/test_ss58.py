@@ -62,6 +62,15 @@ TEST_VECT = [
 
 # Tests for SS58 decode with invalid strings
 TEST_VECT_DEC_INVALID = [
+    # Too short to read the format
+    {
+        "enc": "",
+        "ex": ValueError,
+    },
+    {
+        "enc": "27",
+        "ex": ValueError,
+    },
     # Invalid data length
     {
         "enc": "111111111111111111111111111111117dG",

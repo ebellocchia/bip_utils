@@ -139,6 +139,10 @@ class SS58Decoder:
         # Decode string
         dec_bytes = Base58Decoder.Decode(data_str)
 
+        # Check length, at least 2 bytes are needed to read the format
+        if len(dec_bytes) < 2:
+            raise ValueError(f"Invalid length ({len(dec_bytes)})")
+
         # First byte values from 128 to 255 are reserved
         if dec_bytes[0] > SS58Const.FORMAT_FIRST_BYTE_MAX_VAL:
             raise ValueError(f"Invalid SS58 first byte ({dec_bytes[0]})")
