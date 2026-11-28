@@ -80,6 +80,15 @@ TEST_VECT_DEC_INVALID = [
         "enc": "5jKVmh6ydjYFA6psFUoNQMUW1CEmbjWs28UGsJkSvATQrTLc",
         "ex": ValueError,
     },
+    # Reserved first byte (128..255)
+    {
+        "enc": "DmmSPMUTg9izXpPpLyCxJFuC9gCFTp5xmMzKM2bRGWYqnQ2g",
+        "ex": ValueError,
+    },
+    {
+        "enc": "2TZUxkakHGHZ1sUYT7pKUPRVxgrnp39dMAPbFA8ifBknVy28hN",
+        "ex": ValueError,
+    },
     # Invalid checksum
     {
         "enc": "111111111111111111111111111111111D1n",

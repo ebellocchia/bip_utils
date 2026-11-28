@@ -39,6 +39,8 @@ class SS58Const:
     SIMPLE_ACCOUNT_FORMAT_MAX_VAL: int = 63
     # Format maximum value
     FORMAT_MAX_VAL: int = 16383
+    # First byte maximum value
+    FORMAT_FIRST_BYTE_MAX_VAL: int = 127
     # Reserved formats
     RESERVED_FORMATS: Tuple[int, int] = (46, 47)
 
@@ -136,6 +138,10 @@ class SS58Decoder:
 
         # Decode string
         dec_bytes = Base58Decoder.Decode(data_str)
+
+        # First byte values from 128 to 255 are reserved
+        if dec_bytes[0] > SS58Const.FORMAT_FIRST_BYTE_MAX_VAL:
+            raise ValueError(f"Invalid SS58 first byte ({dec_bytes[0]})")
 
         # Full address
         if dec_bytes[0] & 0x40:
